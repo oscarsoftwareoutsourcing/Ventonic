@@ -1,4 +1,4 @@
-# Web y panel de Ventonmic #
+# Web y panel de Ventonic #
 
 ##
 - PHP >= 7.3
@@ -80,7 +80,8 @@ PUSHER_APP_CLUSTER=mt1
 PUSHER_APP_TLS=true
 
 WEBSOCKETS_HOST=127.0.0.1(para pruebas en producción debes colocar la ip o dominio del servidor)
-WEBSOCKETS_PORT=6001(este puerto debe estar disponible en el servidor de producción o cualquier otro que quieras especificar aquí)
+WEBSOCKETS_PORT=6001(este puerto debe estar disponible en el servidor de producción 
+o cualquier otro que quieras especificar aquí)
 ```
 
 - Importante en la variable  WEBSOCKETS_HOST puede generar en algunas instalaciones error, por lo cual se debe modifcar el archivo  resourses/js/bootstrap.js la variable wsHost y colocar wsHost: window.location.hostname, por defecto para usar la variable de .env debe estar wsHost: process.env.MIX_WEBSOCKETS_HOST,
