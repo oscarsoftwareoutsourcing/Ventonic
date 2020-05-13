@@ -1,0 +1,69 @@
+.conten-img {
+    background-image: url("../images/bg/registro.jpg"); 
+    background-size: cover; 
+    background-position: center center;
+}
+.conten-img-access {
+    background-image: url("../images/bg/accesso-vendedor.jpg"); 
+    background-size: cover; 
+    background-position: center center;
+
+}
+
+.conten-img-recover {
+    background-image: url("../images/bg/recover.jpg"); 
+    background-size: cover; 
+    background-position: center center;
+
+}
+
+.conten-img-empresa {
+    background-image: url("../images/bg/registro-empresa.jpg"); 
+    background-size: cover; 
+    background-position: center center;
+}
+
+.conten-img-acceso-empresa {
+    background-image: url("../images/bg/acceso-empresa.jpg"); 
+    background-size: cover; 
+    background-position: center center;
+}
+
+.conten-img-recover-empresa {
+    background-image: url("../images/bg/recover-empresa.jpg"); 
+    background-size: cover; 
+    background-position: center center;
+}
+
+.border-top {
+    border-top: 1px solid #e2e5e6;
+    margin: 0;
+}
+
+.inner-empresa {
+    padding-bottom: 0;
+}
+
+.error {
+    border-bottom-color: red ;
+    border-bottom-style: solid ;
+}
+
+.error-span {
+    display: none;
+}
+.error-info, .success-info {
+    margin-top: 4px;
+    color: #d82626;
+    font-size: 12px;
+    line-height: 110%;
+}
+/*
+input:valid, textarea:valid {
+    background:green;
+  }
+input:invalid, textarea:invalid {
+    background:red;
+    border-bottom-color: red ;
+    border-bottom-style: solid ;
+}*/

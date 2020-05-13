@@ -1,0 +1,20 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Custom styles
+@import 'custom';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Flags
+@import '~flag-icon-css/sass/flag-icon.scss';
+
+// Fontawesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/regular';
