@@ -23,7 +23,7 @@ Clonar el repositorio y accede a el
     cp .env.example env.
 ```
 
-- Modificar el archivo .env en al siguientes lÃ­neas
+- Modificar el archivo .env en al siguientes li­neas - dejar en blanco estas variables no estan en uso actualmente
 ```text
 APP_DEBUG=              para producuion cambiar a false
 APP_ORDER_PAGINATE=     numero de ordenes por pagina
