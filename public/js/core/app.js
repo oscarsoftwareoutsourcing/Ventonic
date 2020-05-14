@@ -46,9 +46,11 @@
     });
 
     // Tooltip Initialization
+    /*
     $('[data-toggle="tooltip"]').tooltip({
       container: "body"
-    });
+    });*/
+
 
     // Top Navbars - Hide on Scroll
     if ($(".navbar-hide-on-scroll").length > 0) {
@@ -416,11 +418,11 @@
     .find("li")
     .has("ul")
     .addClass("has-sub");
-
+/*
   $(".carousel").carousel({
     interval: 2000
   });
-
+*/
   // Page full screen
   $(".nav-link-expand").on("click", function (e) {
     if (typeof screenfull != "undefined") {
