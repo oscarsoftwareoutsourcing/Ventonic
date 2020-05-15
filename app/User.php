@@ -92,6 +92,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Message::class);
     }
 
+    public function oportunity()
+    {
+        return $this->hasMany('App\Oportunity');
+    }
+
     public function getPhotoAttribute()
     {
         return ($this->sellerProfile!==null)

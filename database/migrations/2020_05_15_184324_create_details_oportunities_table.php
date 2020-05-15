@@ -27,9 +27,11 @@ class CreateDetailsOportunitiesTable extends Migration
             $table->foreign('ubication_oportunity_id')->references('id')->on('ubications_oportunities')->onDelete('restrict')->onUpdate('restrict');
             $table->unsignedBigInteger('time_zone_id');
             $table->foreign('time_zone_id')->references('id')->on('time_zone_oportunities')->onDelete('restrict')->onUpdate('restrict');
+            $table->string('title', 255)->nullable();
             $table->string('experience', 255)->nullable();
             $table->string('image', 255)->nullable();
             $table->timestamps();
+
         });
     }
 
