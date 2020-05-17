@@ -10,11 +10,16 @@ class Oportunity extends Model
 
     public function detailOportunity()
     {
-        return $this->hasOne('App\DetailOportunity');
+        return $this->hasOne('App\DetailOportunity','oportunity_id');
     }
     
-    public function aplicant()
-    {
-        return $this->hasMany('App\Aplicant');
-    }
+    // public function companyProfile()
+    // {
+    //     return $this->hasMany('App\CompanyProfile', 'oportunity_id');
+    // }
+
+    // public function aplicant()
+    // {
+    //     return $this->hasMany('App\Aplicant', 'oportunity_id');
+    // }
 }

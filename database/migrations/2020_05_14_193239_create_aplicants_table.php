@@ -17,6 +17,8 @@ class CreateAplicantsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('profesion_id');
             $table->foreign('profesion_id')->references('id')->on('profesions')->onDelete('restrict')->onUpdate('restrict');
+            $table->unsignedBigInteger('oportunity_id');
+            $table->foreign('oportunity_id')->references('id')->on('oportunities')->onDelete('restrict')->onUpdate('restrict');
             $table->string('name', 255);
             $table->timestamps();
         });

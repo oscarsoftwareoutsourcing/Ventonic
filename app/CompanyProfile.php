@@ -17,4 +17,9 @@ class CompanyProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function oportunity()
+    {
+        return $this->hasMany('App\Oportunity', 'company_id');
+    }
 }

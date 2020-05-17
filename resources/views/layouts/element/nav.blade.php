@@ -22,10 +22,16 @@
                             <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Email"><i class="ficon feather icon-mail"></i></a>
                         </li>
                         
-                        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="calender" data-toggle="tooltip" data-placement="top" title="Calendario"><i class="ficon feather icon-calendar"></i></a></li>
+                        <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link" href="calender" data-toggle="tooltip" data-placement="top" title="Calendario"><i class="ficon feather icon-calendar"></i></a></li>
+                        
+                        <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link" href="{{ route('oportunity') }}" data-toggle="tooltip" data-placement="top" title="Oportunidades"><i class="ficon feather icon-star warning"></i></a>
+                        </li>
+
                     </ul>
 
-                    <ul class="nav navbar-nav">
+                    {{-- <ul class="nav navbar-nav">
                         <li class="nav-item d-none d-lg-block"><a class="nav-link bookmark-star"><i class="ficon feather icon-star warning"></i></a>
                             <div class="bookmark-input search-input">
                                 <div class="bookmark-input-icon"><i class="feather icon-search primary"></i></div>
@@ -38,7 +44,7 @@
                             <!--   option todo-->
                             <!--   option Calendar-->
                         </li>
-                    </ul>
+                    </ul> --}}
                 </div>
                 <ul class="nav navbar-nav float-right">
 

@@ -79,3 +79,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         return $response;
     });
 });
+
+/* Routas para oportunidades */
+Route::get('oportunidades', 'OportunyController@index')->name('oportunity');
+Route::get('crear', 'OportunyController@showRegistrationOportunity')->name('oportunityForm');
+
+
