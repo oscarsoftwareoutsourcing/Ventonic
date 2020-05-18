@@ -16,7 +16,6 @@
                         <div class="card-body">
                             <div class="col-lg-12 justify-vh-100">
                                 <a type="submit" href="{{ route('oportunityForm') }}" class="btn btn-primary mr-auto mb-1 waves-effect waves-light align-self-center" style="margin:auto;">PUBLICA UNA OPORTUNIDAD</a>
-
                             </div>
                         </div>
                     </div>

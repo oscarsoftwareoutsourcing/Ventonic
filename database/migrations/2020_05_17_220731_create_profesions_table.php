@@ -16,7 +16,7 @@ class CreateProfesionsTable extends Migration
         Schema::create('profesions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('sector_id');
-            $table->foreign('sector_id')->references('id')->on('sectors_oportunities')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('sector_id')->references('id')->on('sector_oportunitys')->onDelete('restrict')->onUpdate('restrict');
             $table->string('description', 255);
             $table->timestamps();            
         });

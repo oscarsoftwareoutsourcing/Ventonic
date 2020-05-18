@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUbicationsOportunitiesTable extends Migration
+class CreateUbicationOportunitysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUbicationsOportunitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ubications_oportunities', function (Blueprint $table) {
+        Schema::create('ubication_oportunitys', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('description',255);
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateUbicationsOportunitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ubications_oportunities');
+        Schema::dropIfExists('ubication_oportunitys');
     }
 }

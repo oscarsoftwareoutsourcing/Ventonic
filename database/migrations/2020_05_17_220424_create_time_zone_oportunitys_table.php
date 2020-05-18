@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSectorsOportunitiesTable extends Migration
+class CreateTimeZoneOportunitysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateSectorsOportunitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sectors_oportunities', function (Blueprint $table) {
+        Schema::create('time_zone_oportunitys', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('description', 255);
+            $table->string('details', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateSectorsOportunitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sectors_oportunities');
+        Schema::dropIfExists('time_zone_oportunitys');
     }
 }

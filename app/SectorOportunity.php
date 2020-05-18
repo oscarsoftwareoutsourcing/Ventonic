@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SectorOportunity extends Model
 {
-    protected $table = 'sectors_oportunities';
+    protected $table = 'sector_oportunitys';
     protected $fillable = ['description'];
 
     public function profesion()

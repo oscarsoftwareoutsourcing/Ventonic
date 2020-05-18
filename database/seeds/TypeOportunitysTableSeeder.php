@@ -3,13 +3,14 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class TypeOportunitiesTableSeeder extends Seeder
+class TypeOportunitysTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
      */
+
     public function run()
     {
         $types=[
@@ -18,7 +19,7 @@ class TypeOportunitiesTableSeeder extends Seeder
             'Comparte un enlace que encontraste (Fuera de Torre).'
         ];
         foreach($types as $type){
-            DB::table('types_oportunitys')->insert([
+            DB::table('type_oportunitys')->insert([
                 'description' => $type
             ]);
         }

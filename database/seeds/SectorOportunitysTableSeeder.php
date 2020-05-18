@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class SectorsOportunitiesTableSeeder extends Seeder
+class SectorOportunitysTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -38,7 +38,7 @@ class SectorsOportunitiesTableSeeder extends Seeder
             'SECTOR TRANSPORTE Y LOGÍSTICA',
         ];
         foreach($sectors as $sector){
-            DB::table('sectors_oportunities')->insert([
+            DB::table('sector_oportunitys')->insert([
                 'description' => $sector
             ]);
         }

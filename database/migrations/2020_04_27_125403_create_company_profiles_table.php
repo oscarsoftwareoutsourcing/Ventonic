@@ -20,8 +20,6 @@ class CreateCompanyProfilesTable extends Migration
             $table->float('status')->default(0)->comment('Estatus completado');
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-            $table->bigInteger('oportunity_id')->unsigned()->nullable();
-            $table->foreign('oportunity_id')->references('id')->on('oportunities')->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
         });
     }

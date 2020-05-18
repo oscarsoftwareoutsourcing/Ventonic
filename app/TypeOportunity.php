@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class TypeOportunity extends Model
 {
-    protected $table = 'types_oportunitys';
+    protected $table = 'type_oportunitys';
 }

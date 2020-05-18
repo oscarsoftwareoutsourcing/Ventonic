@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class TimeZoneOportunitiesTableSeeder extends Seeder
+class TimeZoneOportunitysTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,7 +17,7 @@ class TimeZoneOportunitiesTableSeeder extends Seeder
             'Zona horaria especificada'
         ];
         foreach($timeZones as $timeZone){
-            DB::table('time_zone_oportunities')->insert([
+            DB::table('time_zone_oportunitys')->insert([
                 'description' => $timeZone
             ]);
         }

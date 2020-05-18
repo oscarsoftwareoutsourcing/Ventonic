@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UbicationsOportunitiesTableSeeder extends Seeder
+class UbicationOportunitysTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +18,7 @@ class UbicationsOportunitiesTableSeeder extends Seeder
             'Ubicacion fisica/oficina'
         ];
         foreach($ubications as $ubication){
-            DB::table('ubications_oportunities')->insert([
+            DB::table('ubication_oportunitys')->insert([
                 'description' => $ubication
             ]);
         }

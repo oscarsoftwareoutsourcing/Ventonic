@@ -9,3 +9,28 @@ NOTE:
 ------
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+/* Estilos Personalizados Modulo de Oportunidades
+   Autor: RuthReyes
+*/
+.senForm-step1{
+	background:#262C49;
+	border-radius:4px; 
+	padding:20px;
+	margin-left: 0px;
+    margin-right: 0px;
+}
+
+.card-oportunity{
+   margin-bottom:0px;
+}
+
+.content-btn-save-oportunity{
+   display:flex;
+   flex-flow: row wrap;
+   align-items: center;
+   justify-content: center;
+}
+/* Fin Estilos Personalizados Modulo de Oportunidades
+   Autor: RuthReyes
+*/

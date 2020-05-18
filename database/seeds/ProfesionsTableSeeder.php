@@ -167,6 +167,18 @@ class ProfesionsTableSeeder extends Seeder
                 'description'=>'Ing. Telecomunicaciones'
             ],
             [
+                'sector_id'=> 21,
+                'description'=>'Ingeniero de software de ordenador'
+            ],
+            [
+                'sector_id'=> 21,
+                'description'=>'Ingeniero de software de ordenador'
+            ],
+            [
+                'sector_id'=> 21,
+                'description'=>'Especialista en ciberseguridad'
+            ],
+            [
                 'sector_id'=> 22,
                 'description'=>'Diseñadora de pieles e interiores'
             ],
@@ -177,7 +189,12 @@ class ProfesionsTableSeeder extends Seeder
             [
                 'sector_id'=> 23,
                 'description'=>'Transportista'
+            ],
+            [
+                'sector_id'=> 23,
+                'description'=>'Conductor'
             ]
+
         ];
         foreach($profesions as $profesion){
             DB::table('profesions')->insert([
