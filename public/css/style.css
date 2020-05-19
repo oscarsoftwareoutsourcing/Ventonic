@@ -14,7 +14,15 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
    Autor: RuthReyes
 */
 .senForm-step1{
-	background:#262C49;
+	background:#262C49!important;
+	border-radius:4px; 
+	padding:20px;
+	margin-left: 0px;
+    margin-right: 0px;
+}
+
+.adicionales{
+	background:#262C49!important;
 	border-radius:4px; 
 	padding:20px;
 	margin-left: 0px;
@@ -30,6 +38,21 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
    flex-flow: row wrap;
    align-items: center;
    justify-content: center;
+}
+
+.transparent{
+   background:#262C49!important;
+}
+
+.container-image-oportunity{
+	width:100%;
+	height:250px;
+	margin-bottom:20px;
+	margin-top:20px;
+}
+
+.container-image-oportunity{
+	width:100%;
 }
 /* Fin Estilos Personalizados Modulo de Oportunidades
    Autor: RuthReyes

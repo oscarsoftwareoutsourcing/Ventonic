@@ -48,7 +48,7 @@
                                                 <fieldset class="form-group">
                                                 <select class="form-control @error('profesion') is-invalid @enderror" name="profesion" id="basicSelect" >
                                                         @foreach($profesions as $profesion)
-                                                            <option value="{{$profesion->sector_id}}">{{$profesion->description}}</option>
+                                                            <option value="{{$profesion->id}}">{{$profesion->description}}</option>
                                                         @endforeach 
                                                     </select>
                                                 </fieldset>

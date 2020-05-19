@@ -18,10 +18,5 @@ class CompanyAnsweredSurvey extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function profesion()
-    {
-        return $this->hasMany('App\Profesion', 'sector_id');
-    }
-
 
 }

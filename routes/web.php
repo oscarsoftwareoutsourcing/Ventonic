@@ -84,6 +84,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::get('oportunidades', 'OportunyController@index')->name('oportunity');
 Route::get('crear', 'OportunyController@showRegistrationOportunity')->name('oportunityForm');
 Route::post('save', 'OportunyController@store')->name('previusOportunity');
-Route::get('draft/{oportunityDraft}', 'OportunyController@draftOportunity')->name('oportunityDraft');
+Route::post('publish', 'OportunyController@save')->name('oportunitySave');
+Route::get('oportunity/image/{filename}', 'OportunyController@getImage')->name('oportunityImage');
 
 
