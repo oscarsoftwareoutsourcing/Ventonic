@@ -52,7 +52,113 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 
 .container-image-oportunity{
-	width:100%;
+	width:100%!important;
+	height: 250px;
+}
+.container-image-oportunity>img{
+	width:100%!important;
+	height: 100%;
+}
+
+.titleOportunity{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: column wrap;
+	margin-bottom: 20px;
+}
+
+.titleOportunity>h4{
+   font-size:18px;
+}
+
+.habilidades_cargo_title{
+	text-align: left;
+	font-size:14px;
+}
+
+.feather {
+	color: #0087FF;
+	font-size:16px;
+}
+
+.body-oportunitys{
+	padding-left:5%;
+	font-size:14px;
+}
+
+.container-habilidades{
+	display:flex;
+	flex-flow: row wrap;
+	width: 100%;
+	margin-left:20px;
+}
+
+.description_oportunitys{
+	width: 100%;
+	text-align: center;
+	margin-top:0px;
+	font-size: 14px;;
+}
+
+.description_oportunitys>p{
+	text-align: center;
+}
+
+.oportunity-description{
+    margin-left:20px;
+}
+
+.skill, .ubication-text{
+	display: block;
+    height: 28px;
+    background: #262C49;
+    color: #fff;
+    padding: 4px;
+    border-radius: 9px;
+    margin-left: 8px;
+    margin-right: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+	font-size: 12px;
+	margin-bottom: 10px;
+	
+}
+.ubication-text{
+	display: flex;
+    height: 28px;
+    background: #262C49;
+    color: #fff;
+    padding: 4px;
+    border-radius: 9px;
+    margin-left: 8px;
+    margin-right: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+	font-size: 12px;
+	margin-bottom: 10px;
+	
+}
+
+.experience_oportunity{
+	margin-left:20px;
+}
+
+.empresa_oportunity{
+	margin-top:0px;
+}
+
+.imagen-empresa {
+    border: 1px solid #fff;
+    border-radius: 99px;
+    height: 40px;
+    width: 40px;
+    margin-left: 26px;
+    margin-right: 10px;
+}
+
+.ubication-oportunity{
+	margin-left:20px;
 }
 /* Fin Estilos Personalizados Modulo de Oportunidades
    Autor: RuthReyes

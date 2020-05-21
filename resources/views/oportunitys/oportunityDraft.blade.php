@@ -52,7 +52,7 @@
                                                 <fieldset class="form-group">
                                                 <select class="form-control @error('profesion') is-invalid @enderror" name="profesion" id="basicSelect" >
                                                         @foreach($profesions as $profesion)
-                                                            <option value="{{$profesion->id}}" {{ $profesion->id == $oportunityDraft->profesion->id ? 'selected' : ''}}>{{$oportunityDraft->profesion->description}}</option>
+                                                            <option value="{{$profesion->id}}" {{ $profesion->id == $oportunityDraft->profesion->id ? 'selected' : ''}}>{{$profesion->description}}</option>
                                                         @endforeach 
                                                     </select>
                                                 </fieldset>
@@ -162,7 +162,7 @@
 
                                                         <fieldset class="form-group">
                                                             <label for="basicInput">Descripcion</label>
-                                                            <textarea class="form-control" id="description" rows="3" name="description" placeholder="Descripcion de la oportunidad" value="{{ $oportunityDraft->description ? $oportunityDraft->description : ''}}" @error('description') is-invalid @enderror></textarea>
+                                                            <textarea class="form-control" id="description" rows="3" name="description" placeholder="Descripcion de la oportunidad" value="{{ $oportunityDraft->description ? $oportunityDraft->description : ''}}" @error('description') is-invalid @enderror>{{ $oportunityDraft->description ? $oportunityDraft->description : ''}}</textarea>
                                                             @error('description')
                                                                 <div class="alert alert-danger">{{ $message }}</div>
                                                             @enderror
@@ -183,22 +183,37 @@
                                                                 <div class="alert alert-danger">{{ $message }}</div>
                                                             @enderror
                                                         </fieldset>
-
+                                                        
                                                         <fieldset class="form-group">
-                                                            <label for="basicInput">Habilidades requeridas</label>
-                                                            <input type="text" class="form-control" id="skills" name="skills" placeholder="Habilidades requeridas"  @error('skills') is-invalid @enderror>
-                                                            @error('skills')
-                                                                <div class="alert alert-danger">{{ $message }}</div>
-                                                            @enderror
+                                                            <label for="basicInput mb-2s">Habilidades requeridas</label>
+                                                                    @foreach($oportunityDraft->profesion->skill as $skill)
+                                                                        <div class="vs-checkbox-con vs-checkbox-info">
+                                                                            <input type="checkbox" value="{{$skill->id}}" name="skills[]" id="skills{{$skill->id}}">
+                                                                            <span class="vs-checkbox">
+                                                                            <span class="vs-checkbox--check">
+                                                                                <i class="vs-icon feather icon-check"></i>
+                                                                            </span>
+                                                                            </span>
+                                                                            <span class="">{{$skill->description}}</span>
+                                                                        </div>
+                                                                    @endforeach
                                                         </fieldset>
 
                                                         <fieldset class="form-group">
                                                             <label for="basicInput">Años de experiencia</label>
-                                                            <input type="number" class="form-control" id="experiencie" name="experience" placeholder="Años de experiencia" value="{{ $oportunityDraft->experience ? $oportunityDraft->experience : ''}}" @error('experiencie') is-invalid @enderror>
+                                                            <input type="number" min=0 class="form-control" id="experiencie" name="experience" placeholder="Años de experiencia" value="{{ $oportunityDraft->experience ? $oportunityDraft->experience : ''}}" @error('experiencie') is-invalid @enderror>
                                                             @error('experiencie')
                                                                 <div class="alert alert-danger">{{ $message }}</div>
                                                             @enderror
                                                         </fieldset>
+
+                                                        @if($oportunityDraft->ubicationOportunity->id !== 1)
+                                                        <fieldset class="form-group">
+                                                            <label for="basicInput">Ubicacion</label>
+                                                            <input type="text" class="form-control" id="ubication" name="ubication" placeholder="Describa la ubicacion de la oportunidad" value="{{ $oportunityDraft->ubication ? $oportunityDraft->ubication : ''}}" @error('title') is-invalid @enderror>
+                                                        </fieldset>
+                                                        @endif
+
 
                                                         </div>
                                                       </div>
@@ -221,7 +236,9 @@
                                                 </div> 
                                             </div>
                                             <div class="col-6 justify-content-center content-btn-save-oportunity">
+                                                {{-- @if(!isset($oportunityDraft)) --}}
                                                 <button type="submit" class="btn btn-primary waves-effect waves-light mx-auto mt-1" name="guardada" value="guardada">GUARDAR</button>
+                                                {{-- @endif --}}
                                                 <button type="submit" class="btn btn-primary waves-effect waves-light mx-auto mt-1" name="previa" value="previa">VISTA PREVIA</button>
                                                 <button type="submit" class="btn btn-primary waves-effect waves-light mx-auto mt-1" name="borrador" value="borrador">BORRADOR</button>
 

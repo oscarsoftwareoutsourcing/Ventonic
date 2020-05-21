@@ -1,8 +1,10 @@
 <?php
 
 namespace App;
+use App\Skill;
 
 use Illuminate\Database\Eloquent\Model;
+
 
 class Oportunity extends Model
 {
@@ -37,4 +39,15 @@ class Oportunity extends Model
     {
         return $this->belongsTo('App\Profesion', 'profesion_id');
     }
+
+    public function skill()
+    {
+        return $this->belongsToMany('App\Skill');
+    }
+
+    public static function verifySkill($skill_id){
+        $skill_name=Skill::where('id',$skill_id)->value('description');
+        return $skill_name;
+    }
+
 }

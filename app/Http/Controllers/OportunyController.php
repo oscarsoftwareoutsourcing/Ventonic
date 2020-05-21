@@ -17,6 +17,8 @@ use App\UbicationOportunity;
 use App\CompanyAnsweredSurvey;
 use App\Oportunity;
 use App\Profesion;
+use App\Skill;
+use App\SkillOportunity;
 
 class OportunyController extends Controller
 {
@@ -29,6 +31,12 @@ class OportunyController extends Controller
     public function index(){
 
         return view('oportunitys.oportunity');
+    }
+
+    public function show(){
+        $user_id=\Auth::user()->id;
+        $oportunitys=Oportunity::where('user_id',$user_id)->orderByDesc('id')->get();
+        return view('oportunitys.oportunitySaved',['oportunitys', $oportunitys]);
     }
 
     public function showRegistrationOportunity(){
@@ -115,7 +123,8 @@ class OportunyController extends Controller
         else if ($request->has('publicada'))
         {
 
-            die();
+            $oportunitys=Oportunity::where('user_id',$user_id)->orderByDesc('id')->get();
+            return view('oportunitys.oportunitySaved',['oportunitys'=> $oportunitys]);
     
         }
         
@@ -131,6 +140,9 @@ class OportunyController extends Controller
             'profesion' => 'required',
             'ubicationOportunity' => 'required',
             'timeZoneOportunity' => 'required',
+            // Falta validar la imagen
+            // Falta enviar mensajes con sessions a las vistas
+            // Falta hacer vista de message.blade.php
 
         ]);
 
@@ -147,8 +159,11 @@ class OportunyController extends Controller
         $skills=$request->input('skills');
         $experience=$request->input('experience');
         $image=$request->file('image');
-            
+        $ubication=$request->input('ubication');
 
+        // var_dump($skills); die();
+
+            
         if ($request->has('guardada'))
         {
             $estatus='guardada';
@@ -175,7 +190,7 @@ class OportunyController extends Controller
         $oportunityDraft->estatus = $estatus;
         $oportunityDraft->title = $title;
         $oportunityDraft->description = $description;
-        $oportunityDraft->skill_id = $skills;
+        $oportunityDraft->ubication = $ubication;
         $oportunityDraft->experience = $experience;
 
         if($image){
@@ -185,34 +200,32 @@ class OportunyController extends Controller
         }
 
         $oportunityDraft->update();
-                
-        if ($oportunityDraft->estatus=='guardada')
-        {
-            // Envio todos los campos a la vista para continuar la construccion de la oportunidad
-            $typeOportunitys = TypeOportunity::all();
-            $timeZoneOportunitys = TimeZoneOportunity::all();
-            $jobTypes = JobType::all();
-            $ubicationOportunitys = UbicationOportunity::all();
-            $user = \Auth::user();
-            $sectorOportunity = CompanyAnsweredSurvey::where('user_id', $user->id)->value('option_index');
-            $profesions = Profesion::where('sector_id', $sectorOportunity)->get();
+        
+        // Agregar habilidades
+            if(!empty($skills)){
+                foreach($skills as $skill){
+                    $exists=SkillOportunity::where('oportunity_id',$oportunityDraft->id)->where('skill_id', (int)$skill)->first();
+                    if(!isset($exists->id)){
+                        $skillOportunity = new SkillOportunity; 
+                        $skillOportunity->oportunity_id=$oportunityDraft->id;
+                        $skillOportunity->skill_id=(int)$skill;
+                        $skillOportunity->save();
+                        // var_dump($skillOportunity); die();
+                    }
+                }
+            }
+
+        // Redireccionar para publicar
+        if ($oportunityDraft->estatus=='guardada' || $oportunityDraft->estatus=='borrador'){   
+            $oportunitys=Oportunity::where('user_id',$user_id)->orderByDesc('id')->get();
+            return view('oportunitys.oportunitySaved',['oportunitys'=> $oportunitys]);
             
-            return view('oportunitys.oportunityDraft', [
+        }else if ($oportunityDraft->estatus=='previa'){
+            $skillSelecteds= SkillOportunity::where('oportunity_id', (int)$oportunityDraft->id)->get();
+            return view('oportunitys.previusView',[
                 'oportunityDraft'=>$oportunityDraft,
-                'typeOportunitys'=>$typeOportunitys,
-                'timeZoneOportunitys'=>$timeZoneOportunitys,
-                'jobTypes'=>$jobTypes,
-                'ubicationOportunitys'=>$ubicationOportunitys, 
-                'profesions'=> $profesions
-                ])->with(['message' => 'Borrador creado exitosamente']);
-        }
-        else if ($oportunityDraft->estatus=='previa')
-        {
-            $estatus='previa';
-        }
-        else
-        {
-            $estatus='borrador';
+                'skillSelecteds' => $skillSelecteds])
+                ->with(['message' => 'Borrador creado exitosamente']);       
         }
   
     }
@@ -221,5 +234,4 @@ class OportunyController extends Controller
         $file=Storage::disk('oportunitys')->get($filename);
         return new Response($file, 200);
     }
-
 }

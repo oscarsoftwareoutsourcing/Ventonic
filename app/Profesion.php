@@ -9,13 +9,14 @@ class Profesion extends Model
     protected $table = 'profesions';
     protected $fillable = ['description'];
     
-    // public function aplicant()
-    // {
-    //     return $this->hasMany('App\Aplicant');
-    // }
+    public function skill()
+    {
+        return $this->hasMany('App\Skill', 'profesion_id');
+    }
 
-    // public function sectorOportunity()
-    // {
-    //     return $this->hasOne('App\SectorOportunity');
-    // }
+    public static function getProfesion($id){
+        $profesion=Profesion::where('id', (int)$id)->value('description');
+        return $profesion;
+    }
+
 }
