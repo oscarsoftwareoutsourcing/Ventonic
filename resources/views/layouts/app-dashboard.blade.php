@@ -66,7 +66,7 @@
         @include('layouts.element.footer') 
 
     <!-- Scripts -->
-    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+    <script src="{{ asset('js/app.js') }}" defer></script>
     
     <!-- BEGIN: Vendor JS-->
     <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>
