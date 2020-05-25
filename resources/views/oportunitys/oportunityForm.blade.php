@@ -132,7 +132,7 @@
                                         {{-- <input type="text" class="form-control" name="skills" value="{{$oportunity->skills ?? ''}}"> --}}
                                         <select class="select2 form-control @error('skills') is-invalid @enderror" name="skills[]" multiple="multiple">
                                           <option value="empatia">Empatia</option>
-                                          <option value="Responsabilidad">Responsabilidad</option>
+                                          <option value="Responsabilidad" selected>Responsabilidad</option>
                                           <option value="Puntualidad">Puntualidad</option>
                                           <option value="Trabajo bajo presion">Trabajo bajo presion</option>
                                           <option value="Disponibilidad Inmediata">Disponibilidad Inmediata</option>
