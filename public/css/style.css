@@ -160,6 +160,124 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .ubication-oportunity{
 	margin-left:20px;
 }
+
+.btn_right_new{
+	border-bottom-left-radius: .25rem!important;
+	border-top-left-radius: .25rem!important;
+}
+
+.search-oportunity>i{
+	color:#fff!important;
+}
+
+.obligatorio{
+	color:#0087FF!important;
+}
+
+.publicada{
+	border:1px solid green;
+	border-radius:2px!important;
+	margin-top:2px!important;;
+}
+
+.cancelada{
+	border:1px solid red;
+	border-radius:2px!important;
+	margin-top:2px!important;;
+}
+
+.cerrada{
+	border:1px solid grey;
+	border-radius:2px!important;
+	margin-top:2px!important;;
+}
+
+.borrador{
+	border:1px solid blue;
+	background: #414561;
+	/* opacity:0.5; */
+	border-radius:2px!important;
+	margin-top:2px!important;;
+}
+
+#oportunitys thead tr th{
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.oportunity-row{
+	cursor:pointer;
+}
+
+.ocultar{
+	display:none!important;
+}
+
+table tr th {
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+  }
+
+  table tr{
+	  margin-top:2px;
+  }
+  
+  .sorting {
+	background-color: #D4D4D4;
+  }
+  
+  .asc:after {
+	content: ' ↑';
+  }
+  
+  .desc:after {
+	content: " ↓";
+  }
+
+  /* #cke_description{
+	  opacity:0.5!important;
+  } */
+  iframe{
+	  background: transparent;
+	  color:#fff;
+  }
+
+  #cke_description{
+	background-color: #414561!important;
+	color:#fff!important;
+  }
+
+  .cke_wysiwyg_frame, .cke_wysiwyg_div {
+	background-color: #414561!important;
+	color:#fff;
+}
+
+.cke_bottom {
+    padding: 6px 8px 2px;
+    position: relative;
+    border: 1px solid #10163A;
+	background: #10163A!important;
+	color:#fff!important;
+}
+.cke_wysiwyg_frame, .cke_wysiwyg_div {
+    background-color: #414561!important;
+}
+.cke_top {
+    border-bottom: 1px solid #10163A;
+    /* background: #414561!important; */
+    padding: 6px 8px 2px;
+    white-space: normal;
+    color: #fff!important;
+}
+
+.cke_chrome {
+    display: block;
+    border: 1px solid #10163A;
+    padding: 0;
+}
 /* Fin Estilos Personalizados Modulo de Oportunidades
    Autor: RuthReyes
 */

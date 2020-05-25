@@ -63,7 +63,7 @@
       </div>
     </section>  
     
-    <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script>
+    {{-- <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script> --}}
     <script src="{{ asset('web/js/popper/popper.min.js') }}"></script>
     <script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}"></script>
 

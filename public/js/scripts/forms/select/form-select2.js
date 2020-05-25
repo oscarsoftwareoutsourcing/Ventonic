@@ -7,6 +7,7 @@
     Author: Pixinvent
     Author URL: hhttp://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
+
 (function(window, document, $) {
 	'use strict';
 

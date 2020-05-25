@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TimeZoneOportunitysTableSeeder::class);
         $this->call(TypeOportunitysTableSeeder::class);
         $this->call(ProfesionsTableSeeder::class);
+        $this->call(StatusOportunitySeeder::class);
         // $this->call(AplicantsTableSeeder::class);
     }
 

@@ -34,6 +34,9 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('web/images/favicon.ico') }}"/>
 
+    {{-- MultiSelects Table --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
     
     @yield('extra-css')
 </head>
@@ -266,7 +269,7 @@
     Javascript -->
 
     <!-- JS Global Compulsory (Do not remove) -->
-    <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script>
+    {{-- <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script> --}}
     <script src="{{ asset('web/js/popper/popper.min.js') }}"></script>
     <script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}"></script>
 
@@ -277,10 +280,13 @@
     <script src="{{ asset('web/js/swiper/swiper.min.js') }}"></script>
     <script src="{{ asset('web/js/swiperanimation/SwiperAnimation.min.js') }}"></script>
     <script src="{{ asset('web/js/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
+    
+    {{-- Select Multiple --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
     <!-- Template Scripts (Do not remove) -->
     <script src="{{ asset('web/js/custom.js') }}"></script>
-
+    
     @yield('extra-js')
 </body>
 </html>

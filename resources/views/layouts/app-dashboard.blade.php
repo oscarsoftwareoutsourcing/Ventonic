@@ -18,6 +18,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/vendors.min.css') }}">
     <!-- END: Vendor CSS-->
 
+    {{-- BEGIN: Select2 --}}    
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/forms/select/select2.min.css') }}">
+    <!-- END: Page Select2-->
+    
+
+
     <!-- BEGIN: Theme CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-extended.css') }}">
@@ -25,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/themes/semi-dark-layout.css') }}">
+    
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/core/menu/menu-types/vertical-menu.css') }}">
@@ -59,14 +66,13 @@
         @include('layouts.element.footer') 
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
     
     <!-- BEGIN: Vendor JS-->
     <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>
-    <!-- BEGIN Vendor JS-->
+    <script src="{{ asset('vendors/js/forms/select/select2.full.min.js') }}"></script>
+    <!-- END Vendor JS-->
 
-    <!-- BEGIN: Page Vendor JS-->
-    <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('js/core/app-menu.js') }}"></script>
@@ -74,12 +80,29 @@
     <script src="{{ asset('js/scripts/components.js') }}"></script>
     <!-- END: Theme JS-->
 
+
+
     <!-- BEGIN: Page JS-->
     <script src="{{ asset('js/scripts/pages/app-user.js') }}"></script>
     <!-- END: Page JS-->
 
+    {{--BEGIN:oportuniys scripts --}}
+    <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
+    {{--END:oportunitys scripts --}}
+
+    {{-- BEGIN:ckeditor --}}
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    {{-- END:ckeditor --}}
+
+    {{--BEGIN:Select2 --}}
+    <script src="{{ asset('js/scripts/forms/select/form-select2.min.js') }}"></script>
+    {{--END:select2 --}}
+    
+    <script>
+        $('.select2').select2();
+    </script>
     @yield('extra-js')
-     
+
 </body>
 <!-- END: Body-->
 

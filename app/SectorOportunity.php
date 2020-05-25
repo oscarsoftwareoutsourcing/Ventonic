@@ -13,4 +13,9 @@ class SectorOportunity extends Model
     {
         return $this->hasMany('App\Profesion');
     }
+
+    public static function getSector($id){
+        $sector=SectorOportunity::where('id', (int)$id)->value('description');
+        return $sector;
+    }
 }

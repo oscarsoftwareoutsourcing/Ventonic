@@ -1,4 +1,9 @@
 
+ {{-- <script>
+     <script src="{{ asset('js/jquery/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/scripts/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/scripts/datatables/dataTables.bootstrap4.min.js') }}"></script>
+ </script> --}}
  <div class="sidenav-overlay"></div>
  <div class="drag-target"></div>
  
