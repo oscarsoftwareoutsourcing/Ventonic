@@ -82,8 +82,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 /* Routas para oportunidades */
 Route::get('oportunitys', 'OportunyController@index')->name('oportunity.saved')->middleware('verified');
+Route::get('list/oportunitys', 'OportunyController@showAll')->name('oportunity.list')->middleware('verified');
 Route::get('create/{oportunity?}', 'OportunyController@showRegistrationOportunity')->name('oportunity.form')->middleware('verified');
 Route::post('save', 'OportunyController@store')->name('oportunity.save')->middleware('verified');
 Route::get('oportunity/image/{filename}', 'OportunyController@getImage')->name('oportunityImage')->middleware('verified');
+Route::get('oportunity/{id}', 'OportunyController@showOportunity')->name('oportunity')->middleware('verified');
 
 

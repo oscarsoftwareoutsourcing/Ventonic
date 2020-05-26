@@ -3453,10 +3453,10 @@ input[type='date'].form-control, input[type='time'].form-control, input[type='da
   box-shadow : 0 3px 10px 0 rgba(0, 0, 0, 0.15) !important;
 }
 .select2-container--classic .select2-selection--multiple .select2-selection__choice, .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background-color : #0087FF !important;
-  border-color : #4839EB !important;
-  color : #FFFFFF;
-  padding : 5px;
+    background-color: #c0c0c0!important;
+    border-color: #10163A!important;
+    color: #10163A;
+    padding: 5px;
 }
 .select2-container--classic .select2-selection--multiple .select2-selection__rendered li .select2-search__field, .select2-container--default .select2-selection--multiple .select2-selection__rendered li .select2-search__field {
   margin-top : 10px;

@@ -26,7 +26,7 @@
                             <a class="nav-link" href="calender" data-toggle="tooltip" data-placement="top" title="Calendario"><i class="ficon feather icon-calendar"></i></a></li>
                         
                         <li class="nav-item d-none d-lg-block">
-                            <a class="nav-link" href="{{ route('oportunity.saved') }}" data-toggle="tooltip" data-placement="top" title="Oportunidades"><i class="ficon feather icon-star warning"></i></a>
+                            <a class="nav-link" href="{{ route('oportunity.list') }}" data-toggle="tooltip" data-placement="top" title="Oportunidades"><i class="ficon feather icon-star warning"></i></a>
                         </li>
 
                     </ul>

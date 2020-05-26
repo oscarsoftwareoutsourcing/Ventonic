@@ -24,7 +24,7 @@ body.dark-layout a:hover {
   color : #0087FF;
 }
 body.dark-layout p, body.dark-layout small, body.dark-layout span, body.dark-layout label {
-  color : #C2C6DC;
+  color: #fff!important;
 }
 body.dark-layout hr {
   border-color : #414561;
@@ -637,7 +637,7 @@ body.dark-layout input.form-control:focus ~ .form-control-position i, body.dark-
   color : #0087FF;
 }
 body.dark-layout input.form-control:disabled, body.dark-layout input.form-control[readonly='readonly'], body.dark-layout .custom-file-label:disabled, body.dark-layout .custom-file-label[readonly='readonly'], body.dark-layout textarea.form-control:disabled, body.dark-layout textarea.form-control[readonly='readonly'] {
-  opacity : 0.5;
+  opacity : 1;
 }
 body.dark-layout .char-textarea.active {
   color : #C2C6DC !important;

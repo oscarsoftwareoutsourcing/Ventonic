@@ -25,8 +25,8 @@ class CreateOportunitysTable extends Migration
             $table->foreign('ubication_oportunity_id')->references('id')->on('ubication_oportunitys')->onDelete('restrict')->onUpdate('restrict');
             // $table->unsignedBigInteger('time_zone_id');
             // $table->foreign('time_zone_id')->references('id')->on('time_zone_oportunitys')->onDelete('restrict')->onUpdate('restrict');
-            $table->unsignedBigInteger('sector_id');
-            $table->foreign('sector_id')->references('id')->on('sector_oportunitys')->onDelete('restrict')->onUpdate('restrict');
+            // $table->unsignedBigInteger('sector_id');
+            // $table->foreign('sector_id')->references('id')->on('sector_oportunitys')->onDelete('restrict')->onUpdate('restrict');
             $table->unsignedBigInteger('status_id')->nullable();;
             $table->foreign('status_id')->references('id')->on('status_oportunitys')->onDelete('restrict')->onUpdate('restrict');
             $table->longText('description');

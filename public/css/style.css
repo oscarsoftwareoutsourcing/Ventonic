@@ -174,28 +174,28 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	color:#0087FF!important;
 }
 
-.publicada{
-	border:1px solid green;
+body.dark-layout .table tbody tr:not([class*='table-']) td .publicada{
+	color:#24A866!important;
 	border-radius:2px!important;
 	margin-top:2px!important;;
 }
 
 .cancelada{
-	border:1px solid red;
+	color:#D6434A!important;
 	border-radius:2px!important;
-	margin-top:2px!important;;
+	margin-top:2px!important;
 }
 
 .cerrada{
-	border:1px solid grey;
+	color:#B9C2DB!important;
+	/* border:1px solid grey; */
 	border-radius:2px!important;
 	margin-top:2px!important;;
 }
 
 .borrador{
-	border:1px solid blue;
-	background: #414561;
 	/* opacity:0.5; */
+	color:#B9C2DB!important;
 	border-radius:2px!important;
 	margin-top:2px!important;;
 }
@@ -278,6 +278,28 @@ table tr th {
     border: 1px solid #10163A;
     padding: 0;
 }
+
+#oportunityTable tr{
+	cursor:pointer;
+}
+
+#botonera{
+	display:flex;
+	flex-flow:row wrap;
+	align-items: center;
+	justify-content: center;
+}
+
+.actions{
+	margin-left: 10px!important;
+    display: flex!important;
+    flex-direction: column!important;
+}
+
+@media(){
+
+}
+
 /* Fin Estilos Personalizados Modulo de Oportunidades
    Autor: RuthReyes
 */

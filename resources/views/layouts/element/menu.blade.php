@@ -27,13 +27,13 @@
             <li class=" nav-item"><a href="#"><i class="feather icon-mail"></i><span class="menu-title" data-i18n="Email">Email</span></a>
             </li>
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-star"></i><span class="menu-title" data-i18n="Oportunidades">Oportunidades</span></a>
+            <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-star"></i><span class="menu-title" data-i18n="Oportunidades">Oportunidades</span></a>
+                @if(\Auth::user()->type=="E")
                 <ul class="menu-content">
                     <li><a href="{{ route('oportunity.saved') }}"><i class="feather icon-list"></i><span class="menu-item" data-i18n="Mis Oportunidades">Mis oportunidades</span></a>
                     </li>
                 </ul>
-
-            
+                @endif
             </li>
            
             <li class=" nav-item"><a href="app-todo.html"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo">Todo</span></a>

@@ -1,9 +1,8 @@
 <?php
 
 namespace App;
-use App\Skill;
 use App\SectorOportunity;
-use App\Profesion;
+use App\Aptitud;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +11,7 @@ class Oportunity extends Model
 {
     protected $table = 'oportunitys';
     protected $fillable = ['user_id', 'job_type_id', 'ubication_oportunity_id', 
-                           'sector_id', 'status_id', 'description', 'cargo','sectors', 
+                           'status_id', 'description', 'cargo','sectors', 
                            'skills', 'functions', 'antiguedad', 'ubication',
                             'image', 'email_contact', 'web'];
 
@@ -53,12 +52,6 @@ class Oportunity extends Model
 
     //functions estatics
 
-    public static function verifySkill($skill_id){
-        $skill_name=Skill::where('id',$skill_id)->value('description');
-        return $skill_name;
-    }
-
-
     public static function getstatus($id){
         $status=Oportunity::where('id', (int)$id)->value('status_id');
         $class='';
@@ -66,13 +59,29 @@ class Oportunity extends Model
         if($status==2){
             $class='publicada alert alert-success mt-3';
         }else if($status==3){
-            $class='cancelada alert alert-danger mt-3';
+            $class='cancelada text-danger alert alert-danger mt-3';
         }else if($status==4){
-            $class='cerrada alert alert-secondary mt-3';
+            $class='cerrada text-secondary alert alert-secondary mt-3';
         }else if($status==1){
-            $class='cerrada borrador mt-3';
+            $class='cerrada text-secondary borrador mt-3';
         }
         return $class;
+    }
+
+    public static function getStyle($id){
+        $status=Oportunity::where('id', (int)$id)->value('status_id');
+        $style='';
+
+        if($status==2){
+            $style='color:#24A866!important;';
+        }else if($status==3){
+            $style='color:#D6434A!important;';
+        }else if($status==4){
+            $style='color:grey!important;';
+        }else if($status==1){
+            $style='color:#fff!important;background:2A304A!important';
+        }
+        return $style;
     }
 
     public static function getSector($sector, $id){
@@ -88,11 +97,11 @@ class Oportunity extends Model
     }
 
 
-    public static function getFunctions($function, $id){
-        $functionArray=explode(",", $function);
+    public static function getAptitudes($aptitudes, $id){
+        $AptidudesArray=explode(",", $aptitudes);
         $selected='';
-        foreach($functionArray as $i){
-            $arrayid=Profesion::where('id',$i)->value('id');
+        foreach($AptidudesArray as $i){
+            $arrayid=Aptitud::where('id',$i)->value('id');
             if($arrayid == $id){
                 $selected='selected';
             }
@@ -100,6 +109,16 @@ class Oportunity extends Model
         return $selected;
     }
 
+    public static function listSectors($sector){
+        $sectorsArray=explode(",", $sector);
+        $sectors='';
+        foreach($sectorsArray as $i){
+            $description=SectorOportunity::where('id',$i)->value('description');
+                $sectors.=" $description ".'/';
+        }
+        $nameSectores=rtrim($sectors,'/');
+        return $nameSectores;
+    }
 
     // Scopes
     public function scopeCargos($query, $cargo){

@@ -1,5 +1,6 @@
 // Buscador tabla de oportunidades guardadas
 $(document).ready(function(){
+
     $("#textSearch").on('keyup', function(){
         _this = this;
         // Muestra los tr que concuerdan con la busqueda, y oculta los demás.
@@ -47,5 +48,22 @@ $(document).ready(function(){
         if (asc) element.addClass("asc");
         else element.addClass("desc");
       }
+
+      // Fonts colors
 });
+
+// Validacion de select2 para que no admita mas de 3 opciones
+
+$("#sectors").on('change', function(e) {
+  if (Object.keys($(this).val()).length > 2) {
+      $('option[value="' + $(this).val().toString().split(',')[3] + '"]').prop('selected', false);
+  }
+});
+
+$('tr').on("click", function() { 
+  if($(this).attr('href') !== undefined){ 
+    document.location = $(this).attr('href'); 
+  } 
+});
+
 

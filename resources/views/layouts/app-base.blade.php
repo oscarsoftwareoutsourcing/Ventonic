@@ -70,8 +70,11 @@
     <script src="{{ asset('js/scripts/pages/app-user.js') }}"></script>
     <!-- END: Page JS-->
 
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
+
     {{-- BEGIN: Oportunitys --}}
-    <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
+    {{-- <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script> --}}
     {{-- END: Oportunitys --}}
 </body>
 <!-- END: Body-->

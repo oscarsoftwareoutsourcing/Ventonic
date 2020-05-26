@@ -21,14 +21,7 @@
                                         Nueva
                                     </a>
                                 </div>
-                                {{-- <form action="{{ route('oportunity.form') }}" style="display:block;width:100%;"> --}}
                                 <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar oportunidad..." style="border:1px solid #0087ff;">
-                                {{-- <div class="input-group-append">
-                                    <button class="btn btn-primary search-oportunity" id="btnSearch" type="button">
-                                        <i class="feather icon-search"></i>
-                                    </button>
-                                </div> --}}
-                                {{-- </form> --}}
                             </div>
                         </div>
                     </div>
@@ -36,28 +29,28 @@
                         <table id="oportunityTable" class="table table-hover mb-0 ">
                             <thead>
                                 <tr>
+                                    <th>Titulo</th>
                                     <th>Empresa</th>
-                                    <th>Vendedor</th>
                                     <th>Cargo</th>
                                     <th>Ubicacion</th>
                                     <th>Tipo de Empleo</th>
                                     <th>Sector</th>
-                                    <th></th>
+                                    <th>N° Inscritos</th>
+                                    <th>Candidatos</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @if(isset($oportunitys))
                                     @foreach($oportunitys as $oportunity)
-                                    <tr class="{{App\Oportunity::getstatus((int)$oportunity->id)}}">
-                                        <td>{{\Auth::user()->name}}</td>
-                                        <td></td>
-                                        <td>{{$oportunity->cargo}}</td>
-                                        <td>{{$oportunity->ubication}}</td>
-                                        <td>{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>
-                                        <td>{{App\SectorOportunity::getSector((int)$oportunity->sector_id)}}</td>
-                                    <td>
-                                        <a href="{{route('oportunity.form', ['oportunity'=>$oportunity])}}" data-toggle="tooltip" title="Editar oportunidad" class="btn btn-outline-primary btn-sm"><i class="feather icon-search"></i></a>
-                                    </td>
+                                    <tr href="{{route('oportunity.form', ['oportunity'=>$oportunity])}}" class="{{App\Oportunity::getstatus((int)$oportunity->id)}}">
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}"></td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{\Auth::user()->name}}</td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{$oportunity->cargo}}</td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{$oportunity->ubication}}</td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{App\Oportunity::listSectors($oportunity->sectors)}}</td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}"></td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}"></td>
                                     </tr>
                                     @endforeach
                                 @endif
@@ -76,4 +69,3 @@
     </div>
 </div>
 @endsection
-

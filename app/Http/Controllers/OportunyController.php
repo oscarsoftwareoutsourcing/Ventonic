@@ -9,17 +9,19 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 use App\Http\Controllers\Controller;
-use App\User;
 use App\JobType;
-use App\TimeZoneOportunity;
 use App\TypeOportunity;
 use App\UbicationOportunity;
-use App\CompanyAnsweredSurvey;
 use App\Oportunity;
 use App\SectorOportunity;
-use App\Profesion;
-// use App\Skill;
 use App\StatusOportunity;
+use App\Aptitud;
+
+// use App\User;
+// use App\TimeZoneOportunity;
+// use App\CompanyAnsweredSurvey;
+// use App\Profesion;
+// use App\Skill;
 
 class OportunyController extends Controller
 {
@@ -32,7 +34,12 @@ class OportunyController extends Controller
     public function index(){
         $user_id=\Auth::user()->id;
         $oportunitys=Oportunity::where('user_id',$user_id)->orderByDesc('updated_at')->paginate(10);
-        return view('oportunitys.oportunitySaved',['oportunitys'=> $oportunitys]);
+        return view('oportunitys.myOportunitys',['oportunitys'=> $oportunitys]);
+    }
+
+    public function showAll(){
+        $oportunitys=Oportunity::where('status_id',2)->orderByDesc('updated_at')->paginate(25);
+        return view('oportunitys.oportunitys',['oportunitys'=> $oportunitys]);
     }
 
     public function showRegistrationOportunity($oportunity = null){
@@ -42,57 +49,43 @@ class OportunyController extends Controller
         $ubicationOportunitys = UbicationOportunity::all();
         $statusOportunity=StatusOportunity::all();
         $user=\Auth::user();
-        $sectorOportunity=CompanyAnsweredSurvey::where('user_id',$user->id)->value('option_index');
-        $sectorName=SectorOportunity::where('id',$sectorOportunity)->value('description');
-        $sectorsAll=SectorOportunity::all(); /*Por definir como funcionará*/
-        $profesionsAll=Profesion::all(); /*Por definir como funcionará*/
-        $profesions=Profesion::where('sector_id',$sectorOportunity )->get();
+        $sectorsAll=SectorOportunity::all(); 
         $oportunity=isset($oportunity) ? Oportunity::find((int)$oportunity) : '';
+        $aptitudes=Aptitud::all();
         
-        // var_dump($oportunity); die();
 
         return view('oportunitys.oportunityForm',[
             'typeOportunitys'=>$typeOportunitys,
             'jobTypes'=>$jobTypes,
-            'ubicationOportunitys'=>$ubicationOportunitys, 
-            'sectorOportunity'=> $sectorOportunity,
-            'profesions'=> $profesions,
-            'sectorName'=> $sectorName,
-            'oportunity'=> $oportunity,
+            'ubicationOportunitys'=>$ubicationOportunitys,
             'statusOportunity'=> $statusOportunity,
             'sectorsAll'=>$sectorsAll,
-            'profesionAll'=>$profesionsAll
+            'oportunity'=> $oportunity,
+            'aptitudes'=>$aptitudes
+
         ]);
     }
 
     public function store(Request $request){
         
         $request->validate([
-            'profesion' => 'required|string|max:255',
+            'cargo' => 'required|string|max:255',
             'ubication' => 'required|string|max:255',
-            'functions' => 'required|string|max:255',
+            'functions' => 'required|string',
             'jobType' => 'required',
             'ubicationOportunity' => 'required',
             'description' => 'required|string',
+            'skills' => 'required',
             'sectors' => 'required',
-            'functions'=>'required',
-            'skills'=>'required'
 
         ]);
 
-        //Sectores
-            // $sectors = [];
-
         $sectors=implode(',', $request->input('sectors'));
-        $functions=implode(',', $request->input('functions'));
         $skills=implode(',', $request->input('skills'));
-        // $sectors=$request->input('sectors');
-            // var_dump($functions); die(); 
-
+        
         if ($request->has('publicar')){
             $estatus=2;
-            // var_dump($estatus); die();
-        }else if ($request->has('borrador')){
+        }else if ($request->has('borrador') || $request->has('previa')){
             $estatus=1;
         }else if($request->has('newstatus')){
             $estatus=$request->input('statusOportunity');
@@ -103,21 +96,51 @@ class OportunyController extends Controller
              'user_id' => auth()->user()->id],
             ['job_type_id' =>  $request->jobType,
              'ubication_oportunity_id' => $request->ubicationOportunity,
-             'sector_id' =>   $request->sector_id,
              'status_id' => (int)$estatus,
              'description' =>   $request->description,
-             'cargo' =>  $request->profesion,
+             'cargo' =>  $request->cargo,
              'sectors' =>   $sectors,
              'skills' =>   $skills,
-             'functions' =>   $functions,
+             'functions' =>   $request->functions,
              'ubication' =>  $request->ubication,
              'email_contact' =>   $request->email_contact,
              'web' =>   $request->web,
              
             ]
         );
-        return redirect()->route('oportunity.saved');
+
+        if($request->has('previa')){
+            $id=$oportunity->id;
+            return redirect()->route('oportunity', ['id' => $id]);
+        }
+        else{
+            return redirect()->route('oportunity.saved');
+        }
         
+    }
+
+    public function showOportunity($id){
+        $oportunity=Oportunity::find($id);
+        $typeOportunitys = TypeOportunity::all();
+        $jobTypes = JobType::all();
+        $ubicationOportunitys = UbicationOportunity::all();
+        $statusOportunity=StatusOportunity::all();
+        $user=\Auth::user();
+        $sectorsAll=SectorOportunity::all(); 
+        $aptitudes=Aptitud::all();
+
+        return view(
+            'oportunitys.oportunity',[
+                'typeOportunitys'=>$typeOportunitys,
+                'jobTypes'=>$jobTypes,
+                'ubicationOportunitys'=>$ubicationOportunitys,
+                'statusOportunity'=> $statusOportunity,
+                'sectorsAll'=>$sectorsAll,
+                'oportunity'=> $oportunity,
+                'aptitudes'=>$aptitudes,
+            ]
+        );
+
     }
 
     public function getImage($filename){
