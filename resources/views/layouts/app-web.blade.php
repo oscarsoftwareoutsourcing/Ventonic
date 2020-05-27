@@ -13,7 +13,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app-web.js') }}" defer></script>
+   
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -265,7 +265,7 @@
     Javascript -->
 
     <!-- JS Global Compulsory (Do not remove) -->
-    {{-- <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script> --}}
+    <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script> 
     <script src="{{ asset('web/js/popper/popper.min.js') }}"></script>
     <script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}"></script>
 
