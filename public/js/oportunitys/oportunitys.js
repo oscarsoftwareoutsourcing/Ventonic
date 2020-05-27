@@ -1,6 +1,5 @@
 // Buscador tabla de oportunidades guardadas
 $(document).ready(function(){
-
     $("#textSearch").on('keyup', function(){
         _this = this;
         // Muestra los tr que concuerdan con la busqueda, y oculta los demás.

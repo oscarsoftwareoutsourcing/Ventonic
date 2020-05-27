@@ -29,6 +29,8 @@ class CreateOportunitysTable extends Migration
             // $table->foreign('sector_id')->references('id')->on('sector_oportunitys')->onDelete('restrict')->onUpdate('restrict');
             $table->unsignedBigInteger('status_id')->nullable();;
             $table->foreign('status_id')->references('id')->on('status_oportunitys')->onDelete('restrict')->onUpdate('restrict');
+            $table->string('ubication', 255);
+            $table->string('title', 255);
             $table->longText('description');
             $table->string('cargo',255);
             $table->longText('skills')->nullable();

@@ -33,6 +33,16 @@
                             <form method="POST" action="{{ route('oportunity.save') }}" enctype="multipart/form-data">
                                 @csrf
                                     <div class="form-row">
+                                      <div class="col-md-12 col-12 mb-3">
+                                        <label for="validationTooltip01">Titulo<span class="obligatorio">*</span></label>
+                                        <input type="text" class="form-control  @error('title') is-invalid @enderror" name="title" placeholder="titulo" value="{{$oportunity->title ?? ''}}" required>
+                                      </div>
+                                      @error('title')
+                                      <div class="alert alert-danger">{{ $message }}</div>
+                                      @enderror 
+                                    </div>
+                                    
+                                    <div class="form-row">
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="validationTooltip01">Empresa<span class="obligatorio">*</span></label>
                                           <input type="text" class="form-control" name="oportunity_id" placeholder="oportunity_id" value="{{$oportunity->id ?? ''}}" hidden>

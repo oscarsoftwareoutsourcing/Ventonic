@@ -15,12 +15,13 @@ class CreateAplicantsTable extends Migration
     {
         Schema::create('aplicants', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('sector_id');
-            $table->foreign('sector_id')->references('id')->on('profesions')->onDelete('restrict')->onUpdate('restrict');
             $table->unsignedBigInteger('seller_profile_id');
             $table->foreign('seller_profile_id')->references('id')->on('seller_profiles')->onDelete('restrict')->onUpdate('restrict');
             $table->unsignedBigInteger('oportunity_id');
             $table->foreign('oportunity_id')->references('id')->on('sector_oportunitys')->onDelete('restrict')->onUpdate('restrict');
+            $table->string('type-message', 255);
+            $table->string('estatus', 255);
+            $table->boolean('favorite')->nullable();
             $table->timestamps();
         });
     }

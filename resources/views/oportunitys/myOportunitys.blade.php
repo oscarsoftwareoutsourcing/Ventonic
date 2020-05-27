@@ -49,7 +49,7 @@
                                 @if(isset($oportunitys))
                                     @foreach($oportunitys as $oportunity)
                                     <tr href="{{route('oportunity.form', ['oportunity'=>$oportunity])}}" class="{{App\Oportunity::getstatus((int)$oportunity->id)}}">
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}"></td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}" width="10%">{{$oportunity->title}}</td>
                                         <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{$oportunity->cargo}}</td>
                                         <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{$oportunity->ubication}}</td>
                                         <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>

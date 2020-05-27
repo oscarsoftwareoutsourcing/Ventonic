@@ -81,8 +81,10 @@
     <script src="{{ asset('js/core/app.js') }}"></script>
     <script src="{{ asset('js/scripts/components.js') }}"></script>
     <!-- END: Theme JS-->
-
-
+    
+    {{--BEGIN:Modal --}}
+    <script src="{{ asset('js/scripts/modal/components-modal.js') }}"></script>
+    {{--END:Modal --}}
 
     <!-- BEGIN: Page JS-->
     <script src="{{ asset('js/scripts/pages/app-user.js') }}"></script>
@@ -99,10 +101,11 @@
     {{--BEGIN:Select2 --}}
     <script src="{{ asset('js/scripts/forms/select/form-select2.min.js') }}"></script>
     {{--END:select2 --}}
-    
+
     <script>
         $('.select2').select2();
     </script>
+
     @yield('extra-js')
 
 </body>

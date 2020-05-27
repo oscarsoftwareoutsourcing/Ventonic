@@ -69,6 +69,7 @@ class OportunyController extends Controller
     public function store(Request $request){
         
         $request->validate([
+            'title' => 'required|string|max:255',
             'cargo' => 'required|string|max:255',
             'ubication' => 'required|string|max:255',
             'functions' => 'required|string',
@@ -94,7 +95,8 @@ class OportunyController extends Controller
         $oportunity = Oportunity::updateOrCreate(
             ['id'=>$request->oportunity_id,
              'user_id' => auth()->user()->id],
-            ['job_type_id' =>  $request->jobType,
+            ['title' =>  $request->title,
+             'job_type_id' =>  $request->jobType,
              'ubication_oportunity_id' => $request->ubicationOportunity,
              'status_id' => (int)$estatus,
              'description' =>   $request->description,
@@ -146,5 +148,9 @@ class OportunyController extends Controller
     public function getImage($filename){
         $file=Storage::disk('oportunitys')->get($filename);
         return new Response($file, 200);
+    }
+
+    public function postulation(){
+        return 'Helou';
     }
 }

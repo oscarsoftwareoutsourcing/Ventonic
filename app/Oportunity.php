@@ -13,7 +13,7 @@ class Oportunity extends Model
     protected $fillable = ['user_id', 'job_type_id', 'ubication_oportunity_id', 
                            'status_id', 'description', 'cargo','sectors', 
                            'skills', 'functions', 'antiguedad', 'ubication',
-                            'image', 'email_contact', 'web'];
+                            'image', 'email_contact', 'web', 'title'];
 
     public function user()
     {
@@ -118,6 +118,11 @@ class Oportunity extends Model
         }
         $nameSectores=rtrim($sectors,'/');
         return $nameSectores;
+    }
+
+    public static function strTags($description){
+        $result=strip_tags($description);
+        return $result;
     }
 
     // Scopes

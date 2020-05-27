@@ -17,11 +17,13 @@
                         <div class="col-12">
                             <div class="input-group">
                                 <div class="input-group-append">
+                                    @if(Auth::user()->type=="E")
                                     <a href="{{ route('oportunity.form') }}" class="btn btn-primary btn_right_new" type="button">
                                         Nueva
                                     </a>
+                                    @endif
                                 </div>
-                                <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar oportunidad..." style="border:1px solid #0087ff;">
+                                <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar oportunidad..." style="border:1px solid #0087ff; border-radius:4px;">
                             </div>
                         </div>
                     </div>
@@ -42,15 +44,15 @@
                             <tbody>
                                 @if(isset($oportunitys))
                                     @foreach($oportunitys as $oportunity)
-                                    <tr href="{{route('oportunity.form', ['oportunity'=>$oportunity])}}" class="{{App\Oportunity::getstatus((int)$oportunity->id)}}">
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}"></td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{\Auth::user()->name}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{$oportunity->cargo}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{$oportunity->ubication}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{App\Oportunity::listSectors($oportunity->sectors)}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}"></td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}"></td>
+                                    <tr href="{{route('oportunity', ['id'=>$oportunity->id])}}">
+                                        <td width="10%">{{$oportunity->title}}</td>
+                                        <td>{{\Auth::user()->name}}</td>
+                                        <td>{{$oportunity->cargo}}</td>
+                                        <td>{{$oportunity->ubication}}</td>
+                                        <td>{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>
+                                        <td>{{App\Oportunity::listSectors($oportunity->sectors)}}</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     @endforeach
                                 @endif

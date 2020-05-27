@@ -55,6 +55,7 @@
 
     <!-- BEGIN: Vendor JS-->
     <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>
+    <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
@@ -72,10 +73,6 @@
 
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-
-    {{-- BEGIN: Oportunitys --}}
-    {{-- <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script> --}}
-    {{-- END: Oportunitys --}}
 </body>
 <!-- END: Body-->
 
