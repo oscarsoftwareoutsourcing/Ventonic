@@ -267,7 +267,7 @@
                   <i class="flaticon-profit"></i>
                 </div>
                 <div class="counter-content">
-                  <span class="timer" data-to="680" data-speed="1000">680K</span><span class="timer2" ></span>
+                  <span class="timer" data-to="680" data-speed="1000">680</span><span class="timer2" >k</span>
                   <label>Comisiones liquidadas</label>
                 </div>
               </div>
