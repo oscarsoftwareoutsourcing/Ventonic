@@ -241,7 +241,7 @@
                   <i class="flaticon-icon-546448"></i>
                 </div>
                 <div class="counter-content">
-                  <span class="timer" data-to="46.2" data-speed="1000">46.2MM</span><span class="timer2" >MM</span>
+                  <span class="timer" data-to="46.2" data-speed="1000">46.2</span><span class="timer2" >MM</span>
                   <label>de ventas cerradas</label>
                 </div>
               </div>
@@ -267,7 +267,7 @@
                   <i class="flaticon-profit"></i>
                 </div>
                 <div class="counter-content">
-                  <span class="timer" data-to="680" data-speed="1000">680K</span><span class="timer2" >K</span>
+                  <span class="timer" data-to="680" data-speed="1000">680K</span><span class="timer2" ></span>
                   <label>Comisiones liquidadas</label>
                 </div>
               </div>
@@ -704,11 +704,37 @@
 @section('extra-css')
     <style>
         .title {
-                font-size: 84px;
+              font-size: 84px; 
         }
 
         .m-b-md {
             margin-bottom: 30px;
         }
+
+        @media (max-width: 760px) {
+        /* Typography */
+        .title {
+            font-size: 30px;
+          }
+
+        h2  .title {
+            font-size: 26px;
+          
+
+        }
+
+        @media (max-width: 479px) {
+        /* Typography */
+        .title {
+            font-size: 26px;
+          }
+
+        h2  .title {
+            font-size: 26px;
+          
+
+        }
+
+        
     </style>
 @endsection
