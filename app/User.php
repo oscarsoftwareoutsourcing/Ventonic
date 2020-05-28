@@ -109,7 +109,6 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @method     getFilterableSellerAttribute
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return     string|array|null    Devuelve nulo si el vendedor no ha llenado la encuesta, de lo contrario
      *                                  devuelve todas las opciones seleccionadas
@@ -126,7 +125,6 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @method     scopeSeller
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param      object           $query    Objeto con la consulta
      *
@@ -142,8 +140,6 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @method     scopeStatusConnected
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-     *
      * @param      object           $query    Objeto con la consulta
      *
      * @return     object           Objeto con la consulta filtrada
@@ -158,7 +154,6 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @method     scopeStatusDisconnected
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param      object           $query    Objeto con la consulta
      *
@@ -174,7 +169,6 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @method     scopeByName
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param      object           $query    Objeto con la consulta
      * @param      string           $text     Texto con el nombre a filtrar
@@ -197,8 +191,6 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @method     scopeByName
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-     *
      * @param      object           $query    Objeto con la consulta
      * @param      string           $text     Texto con el apellido a filtrar
      *
@@ -219,8 +211,6 @@ class User extends Authenticatable implements MustVerifyEmail
      * Filtra la consulta solo para usuarios que contengan en el correo electrónico la condición dada
      *
      * @method     scopeByName
-     *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param      object           $query    Objeto con la consulta
      * @param      string           $text     Texto con el correo electrónico a filtrar
@@ -243,7 +233,6 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @method     scopeByAnswered
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param      object           $query    Objeto con la consulta
      * @param      array            $filters  Arreglo con las opciones a filtrar

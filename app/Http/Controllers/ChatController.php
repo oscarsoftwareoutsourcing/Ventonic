@@ -18,7 +18,6 @@ class ChatController extends Controller
      *
      * @method     index
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param      Request          $request    Objeto con la petición
      *
@@ -34,7 +33,6 @@ class ChatController extends Controller
      *
      * @method     peerToPeer
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param      Request          $request    Objeto con la petición
      *
