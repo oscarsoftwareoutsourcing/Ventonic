@@ -76,6 +76,7 @@
     <script src="{{ asset('vendors/js/forms/select/select2.full.min.js') }}"></script>
     <!-- END Vendor JS-->
 
+    <script src="{{ asset('js/pusher.min.js') }}"></script>
 
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('js/core/app-menu.js') }}"></script>

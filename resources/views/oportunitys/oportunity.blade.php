@@ -145,38 +145,65 @@
                                       <div class="row justify-content-center senForm-step1">
                                           <div class="col-12 justify-content-center">
                                               <div class="divider">
-                                                  <div class="divider-text">{{\Auth::user()->type=="E" ? 'Guardar tu publicacion' : 'Postulate'}}</div>
+                                                @if(\Auth::user()->type !=="V")
+                                                  <div class="divider-text">Guardar tu publicacion</div>
+                                                @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)==null)
+                                                  <div class="divider-text">Postulate</div>
+                                                @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)!=null)
+                                                <div class="divider-text"></div>
+                                                @endif
+
                                               </div> 
                                           </div>
 
                                           <div class="col-4 justify-content-center content-btn-save-oportunity">
-                                            @if(\Auth::user()->type=="E")
-                                              <button type="submit" class="btn btn-primary waves-effect waves-light mx-auto mt-1" name="guardar" value="guardar">GUARDAR</button>
-                                            @else
+                                            @if(\Auth::user()->type !=="V")
+                                              <button type="submit" class="btn btn-primary waves-effect waves-light mx-auto mt-1" name="guardar" value="guardar">
+                                                <a href="{{ route('oportunity.saved') }}" class="text-white">
+                                                GUARDAR
+                                                </a>
+                                              </button>
+                                            
+                                            @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)==null)
                                               <button type="button" class="btn btn-primary waves-effect waves-light mx-auto mt-1" name="candidatura" data-toggle="modal" data-target="#primary" id="postularseBtn" value="candidatura">PRESENTAR MI CANDIDATURA</button>
+                                            
+                                            @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)!=null)
+                                              <span> Ya te has postulado para esta oportunidad</span>
+                                             @endif
                                               {{--BEGIN:Modal--}}
                                                 <div class="modal fade text-left" id="primary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
-                                                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                                  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                                                       <div class="modal-content">
                                                           <div class="modal-header bg-primary white">
-                                                              <h5 class="modal-title" id="myModalLabel160">Primary Modal</h5>
+                                                              <h5 class="modal-title" id="myModalLabel160">Postularme</h5>
                                                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                   <span aria-hidden="true">&times;</span>
                                                               </button>
                                                           </div>
-                                                          <div class="modal-body">
-                                                          Está a punto de enviar su candidatura a la oportunidad <span id="nameOportunity">{{$oportunity->title}}</span>
-                                                          </div>
-                                                          <div class="modal-footer">
-                                                              <a type="button" class="btn btn-secondary text-primary"  data-dismiss="modal">Cancelar</a>
-                                                              <a href="{{ route('oportunity.postulation') }}"type="button" class="btn btn-primary"  data-dismiss="modal">Confirmar</a>
-                                                          </div>
+                                                      
+                                                          <form method="POST" action="{{ route('oportunity.postulation') }}" id="formPostular">
+                                                              @csrf
+                                                            <div class="modal-body">
+                                                            Está a punto de enviar su candidatura a la oportunidad <span id="nameOportunity">{{$oportunity->title}}</span>
+                                                              <div class="form-row">
+                                                                <div class="col-md-12 col-12 mt-1 mb-1">
+                                                                  <label class="mb-1" for="validationTooltip01">Deja un mensaje a la empresa para tu postulacion<span class="obligatorio"></span></label>
+                                                                  <textarea class="form-control" name="message" rows="3"></textarea>
+                                                                  <input type="text" name="oportunity_id" value="{{$oportunity->id}}" hidden>
+                                                                  <input type="text" name="status" value="postulado" hidden>
+                                                                </div>
+                                                              </div>                      
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" name="contact-directo" value="mensaje-directo" class="btn btn-primary">Confirmar</button>
+                                                                <button type="submit" name="sala-chat" value="sala-chat" class="btn btn-success text-white float-right">Confirma y contacta <i class="text-white feather icon-message-circle"></i></button>
+                                                            </div>
+                                                          </form>
                                                       </div>
                                                   </div>
                                                 </div>
 
                                                 {{--END: Modal--}}
-                                            @endif
                                           </div>
                                       </div>
                                   </div>
@@ -201,7 +228,32 @@
   $(document).ready(function(){
     $(".select2").select2();
   });
+</script>
 
-
+<script>
+  // $(document).on('submit', '#formPostular', function(e) {  
+  //           e.preventDefault();
+             
+  //           // $('input+small').text('');
+  //           // $('input').parent().removeClass('has-error');
+             
+  //           $.ajax({
+  //               method: $(this).attr('method'),
+  //               url: $(this).attr('action'),
+  //               data: $(this).serialize(),
+  //               dataType: "json"
+  //           })
+  //           .done(function(data) {
+  //               // $('.alert-success').removeClass('hidden');
+  //               $('#primary').modal('hide');
+  //           })
+  //           .fail(function(data) {
+  //               $.each(data.responseJSON, function (key, value) {
+  //                   // var input = '#formRegister input[name=' + key + ']';
+  //                   // $(input + '+small').text(value);
+  //                   $(input).parent().addClass('has-error');
+  //               });
+  //           });
+  //       });
 </script>
 @endsection

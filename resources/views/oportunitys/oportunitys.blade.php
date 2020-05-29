@@ -37,22 +37,28 @@
                                     <th>Ubicacion</th>
                                     <th>Tipo de Empleo</th>
                                     <th>Sector</th>
-                                    <th>N° Inscritos</th>
-                                    <th>Candidatos</th>
+                                    @if(App\Aplicant::postulationsTrue(\Auth::user()->id)==true)
+                                    <th>Estatus</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
                                 @if(isset($oportunitys))
                                     @foreach($oportunitys as $oportunity)
                                     <tr href="{{route('oportunity', ['id'=>$oportunity->id])}}">
-                                        <td width="10%">{{$oportunity->title}}</td>
-                                        <td>{{\Auth::user()->name}}</td>
+                                        <td>{{$oportunity->title}}</td>
+                                        <td>{{$oportunity->user->name}}</td>
                                         <td>{{$oportunity->cargo}}</td>
                                         <td>{{$oportunity->ubication}}</td>
                                         <td>{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>
                                         <td>{{App\Oportunity::listSectors($oportunity->sectors)}}</td>
-                                        <td></td>
-                                        <td></td>
+                                        @if(App\Aplicant::postulationsTrue(\Auth::user()->id)==true)
+                                            <td style="text-align:center;">
+                                            @if(App\Aplicant::postulationTrue(\Auth::user()->id, $oportunity->id))
+                                                <p>Postulado el <span>{{App\Aplicant::datePostulation(\Auth::user()->id, $oportunity->id)}}</span></p>
+                                            @endif
+                                            </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                 @endif

@@ -54,12 +54,8 @@
                                         <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{$oportunity->ubication}}</td>
                                         <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>
                                         <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{App\Oportunity::listSectors($oportunity->sectors)}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{App\Aplicant::countAplicant($oportunity->sectors)}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">
-                                        @if(App\Aplicant::countAplicant($oportunity->sectors)>0)
-                                        <a  href="{{'route('oportunity.saved')'}}" class="btn btn-primary" type="button">Ver</a>
-                                        @endif
-                                        </td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}"></td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}"></td>
                                     </tr>
                                     @endforeach
                                 @endif
@@ -78,5 +74,3 @@
     </div>
 </div>
 @endsection
-
-

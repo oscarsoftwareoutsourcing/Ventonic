@@ -50,6 +50,12 @@ class Oportunity extends Model
         return $this->belongsToMany('App\Skill');
     }
 
+    public function aplicant()
+    {
+        return $this->hasOne('App\Aplicant');
+    }
+
+
     //functions estatics
 
     public static function getstatus($id){

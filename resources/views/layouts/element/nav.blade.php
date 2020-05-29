@@ -60,7 +60,7 @@
                     </li>
 
 
-
+                    {{-- Notificaciones --}}
                     <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span class="badge badge-pill badge-primary badge-up">5</span></a>
                         <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                             <li class="dropdown-menu-header">
@@ -112,7 +112,7 @@
                             <li class="dropdown-menu-footer"><a class="dropdown-item p-1 text-center" href="javascript:void(0)">View all notifications</a></li>
                         </ul>
                     </li>
-
+                    {{-- Fin notificaciones --}}
 
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                             <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">{{ Auth::user()->name }} </span><span class="user-status">Available</span></div><span><img class="round" src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }} " height="40" width="40"></span>

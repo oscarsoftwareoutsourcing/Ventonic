@@ -65,4 +65,23 @@ $('tr').on("click", function() {
   } 
 });
 
+// Echo.channel('channel-postulation').listen('PostulationOportunity', (e) => {
+// 	console.log(e);
+// });
 
+// Enable pusher logging - don't include this in production
+Pusher.logToConsole = true;
+
+// Initiate the Pusher JS library
+var pusher = new Pusher('API_KEY_HERE', {
+  cluster: 'mt1',
+  encrypted: false
+});
+
+// Subscribe to the channel we specified in our Laravel Event
+var channel = pusher.subscribe('channel-postulation');
+
+// Bind a function to a Event (the full Laravel class)
+channel.bind('App\\Events\\PostulationOportunity', function(data) {
+  console.log(data);
+});

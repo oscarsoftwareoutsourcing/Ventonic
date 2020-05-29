@@ -35,7 +35,7 @@ class CreateOportunitysTable extends Migration
             $table->longText('skills')->nullable();
             $table->longText('functions');
             $table->longText('sectors');
-            $table->integer('antiguedad');
+            $table->integer('antiguedad')->nullable();
             $table->string('ubication', 255);
             $table->string('image', 255)->nullable();
             $table->string('email_contact', 255)->nullable();
