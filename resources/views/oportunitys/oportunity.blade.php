@@ -190,7 +190,7 @@
                                                                   <label class="mb-1" for="validationTooltip01">Deja un mensaje a la empresa para tu postulacion<span class="obligatorio"></span></label>
                                                                   <textarea class="form-control" name="message" rows="3"></textarea>
                                                                   <input type="text" name="oportunity_id" value="{{$oportunity->id}}" hidden>
-                                                                  <input type="text" name="status" value="postulado" hidden>
+                                                                  {{-- <input type="text" name="status" value="1" hidden> --}}
                                                                 </div>
                                                               </div>                      
                                                             </div>

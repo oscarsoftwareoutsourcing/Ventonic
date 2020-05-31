@@ -296,8 +296,9 @@ table tr th {
     flex-direction: column!important;
 }
 
-@media(){
-
+.information-card{
+	height:350px!important;
+	min-height: 340px;
 }
 
 /* Fin Estilos Personalizados Modulo de Oportunidades

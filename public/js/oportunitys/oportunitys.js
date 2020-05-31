@@ -1,4 +1,6 @@
 // Buscador tabla de oportunidades guardadas
+var url=$(location).attr('origin');
+
 $(document).ready(function(){
     $("#textSearch").on('keyup', function(){
         _this = this;
@@ -48,7 +50,6 @@ $(document).ready(function(){
         else element.addClass("desc");
       }
 
-      // Fonts colors
 });
 
 // Validacion de select2 para que no admita mas de 3 opciones
@@ -65,23 +66,41 @@ $('tr').on("click", function() {
   } 
 });
 
-// Echo.channel('channel-postulation').listen('PostulationOportunity', (e) => {
-// 	console.log(e);
-// });
+$('.status_postulation').on("change", function(){
+  var status_id=$('#status_postulation').val();
+  $.ajax({
+    url:url+'/estatus/'+$(this).data('id')+'/'+status_id,
+    type:'GET',
+    success:function(response){
+      $(".alert-success").css("display", "block");
+      setTimeout(function(){ $('.alert-success').hide(); }, 5000);
+
+    }
+  });
+});
+
+$('#dismiss').on("click", function(){
+  $('.alert-success').css('color', 'transparent');
+  $('.alert-success').hide();
+});
+
+
+// // Echo.channel('channel-postulation').listen('PostulationOportunity', (e) => {
+// // 	console.log(e);
+// // });
 
 // Enable pusher logging - don't include this in production
-Pusher.logToConsole = true;
+// Pusher.logToConsole = true;
 
 // Initiate the Pusher JS library
-var pusher = new Pusher('API_KEY_HERE', {
-  cluster: 'mt1',
-  encrypted: false
-});
+// var pusher = new Pusher(f18ead0fa8750c93afd7, {
+//   encrypted: true
+// });
 
-// Subscribe to the channel we specified in our Laravel Event
-var channel = pusher.subscribe('channel-postulation');
+// // Subscribe to the channel we specified in our Laravel Event
+// var channel = pusher.subscribe('channel-postulation');
 
-// Bind a function to a Event (the full Laravel class)
-channel.bind('App\\Events\\PostulationOportunity', function(data) {
-  console.log(data);
-});
+// // Bind a function to a Event (the full Laravel class)
+// channel.bind('App\\Events\\PostulationOportunity', function(data) {
+//   console.log(data);
+// });

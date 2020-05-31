@@ -89,7 +89,14 @@ Route::get('oportunity/image/{filename}', 'OportunyController@getImage')->name('
 Route::get('oportunity/{id}', 'OportunyController@showOportunity')->name('oportunity')->middleware('verified');
 
 /* Routas para postulaciones */
-Route::post('postularme/', 'AplicantController@store')->name('oportunity.postulation')->middleware('verified');
+Route::post('postularme', 'AplicantController@store')->name('oportunity.postulation')->middleware('verified');
+Route::get('postulados/{oportunity_id}', 'AplicantController@myaplicants')->name('oportunity.mispostulados')->middleware('verified');
+Route::get('profile/aplicant/{id}', 'AplicantController@profilePostulant')->name('oportunity.profile')->middleware('verified');
+Route::get('estatus/{id}/{estatus_postulations_id}', 'AplicantController@updateStatus')->name('oportunity.estatusUpdate')->middleware('verified');
 
+// Route::get('test', function () {
+//     event(new App\Events\PostulationOportunity('Someone'));
+//     return "Event has been sent!";
+// });
 
 

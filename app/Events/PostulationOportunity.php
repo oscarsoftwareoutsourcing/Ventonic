@@ -2,13 +2,11 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Broadcasting\PresenceChannel;
 use App\Aplicant;
 
 class PostulationOportunity implements ShouldBroadcast
@@ -25,7 +23,8 @@ class PostulationOportunity implements ShouldBroadcast
 
      public function __construct(Aplicant $aplicant)
     {
-        $this->aplicant=$aplicant;
+        // $this->aplicant=$aplicant;
+        $this->aplicant = $aplicant;
     }
 
     /**
@@ -35,6 +34,8 @@ class PostulationOportunity implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('channel-postulation');
+        // return new Channel('channel-postulation');
+        return new PresenceChannel('channel-postulation');
+
     }
 }

@@ -25,9 +25,11 @@
                         <li class="nav-item d-none d-lg-block">
                             <a class="nav-link" href="calender" data-toggle="tooltip" data-placement="top" title="Calendario"><i class="ficon feather icon-calendar"></i></a></li>
                         
+                        @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
                         <li class="nav-item d-none d-lg-block">
                             <a class="nav-link" href="{{ route('oportunity.list') }}" data-toggle="tooltip" data-placement="top" title="Oportunidades"><i class="ficon feather icon-star warning"></i></a>
                         </li>
+                        @endif
 
                     </ul>
 
@@ -61,7 +63,9 @@
 
 
                     {{-- Notificaciones --}}
-                    <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span class="badge badge-pill badge-primary badge-up">5</span></a>
+                    <li class="dropdown dropdown-notification nav-item">
+                        <a class="nav-link nav-link-label" href="#" data-toggle="dropdown">
+                        <i class="ficon feather icon-bell"></i><span class="badge badge-pill badge-primary badge-up">5</span></a>
                         <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                             <li class="dropdown-menu-header">
                                 <div class="dropdown-header m-0 p-2">

@@ -8,8 +8,11 @@ use App\Notifications\SellerAplicantOportunity;
 use App\Oportunity;
 use App\Aplicant;
 use App\User;
+use App\Question;
+use App\SellerProfile;
+use App\SellerAnsweredSurvey;
 use App\Events\PostulationOportunity;
-
+use App\StatusPostulation;
 
 class AplicantController extends Controller
 {
@@ -18,6 +21,7 @@ class AplicantController extends Controller
         $oportunity=Oportunity::find($id_oportunity);
         $company_id=$oportunity->user_id;
         $seller=auth()->user()->id;
+        $status=1;
         
         // Datos para el email
         $oportunity_title=$oportunity->title;
@@ -38,7 +42,7 @@ class AplicantController extends Controller
              'oportunity_id'=>$request->oportunity_id],
             ['type-message' =>  $type_message,
              'message' =>  $request->message !== null ? $request->message : null,
-             'estatus' => $request->status,
+             'status_postulations_id' => $status,
              'favorite' => false             
             ]
         );
@@ -51,7 +55,54 @@ class AplicantController extends Controller
         $recipient_company->notify(new CompanyAplicantOportunity($postulation, $oportunity_title));
 
         // Notificaciones
+        // event(new PostulationOportunity($postulation));
 
+        // return
         return view('oportunitys.oportunitys', ['oportunitys'=> $oportunitys]);
     }
+
+
+    public function myaplicants($oportunity_id){
+        $aplicants=Aplicant::where('oportunity_id', (int)$oportunity_id)->paginate(25);
+        $status_postulation=StatusPostulation::all();
+        return view('oportunitys.myaplicants', [
+                    'aplicants'=>$aplicants,
+                    'status_postulation'=>$status_postulation
+        ]);
+    }
+
+    public function profilePostulant($id){
+        $seller_profile=SellerProfile::where('user_id',(int)$id)->first();
+        $array_answered=SellerAnsweredSurvey::where('user_id',$id)->get();
+        $questions=Question::all();
+        $answered=null;
+        // // $array_question=explode(",",$questions);
+        // // var_dump($array_question); die();
+        //foreach($questions as $question){
+        //     var_dump($question->options);
+        // }
+        //  die();
+        // foreach($array_answered as $answered){
+
+        // }
+        // var_dump($seller_profile->answered); die();
+        return view('oportunitys.profile',[
+            'seller_profile'=>$seller_profile,
+            'questions'=>$questions
+        ]);
+
+    }
+
+    public function updateStatus($id, $estatus_postulations_id){
+        $aplicant=Aplicant::find($id);
+        $aplicant->status_postulations_id=(int)$estatus_postulations_id;
+        $aplicant->update();
+        if($aplicant->update()){
+            return response()->json(['status'=>'success','message'=>'Estatus modificado exitosamente']); 
+        }
+    }
+
+    // public function filterPostulator($id, $movil=null, $video=null, $likeind=null){
+    //     $postulants=
+    // }
 }

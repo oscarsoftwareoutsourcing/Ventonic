@@ -38,7 +38,7 @@ return [
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => env('PUSHER_APP_TLS', true),
-                //'encrypted' => false,
+                // 'encrypted' => false,
                 'host' => env('WEBSOCKETS_HOST', '127.0.0.1'),
                 'port' => env('WEBSOCKETS_PORT', 6001),
                 'scheme' => env('PUSHER_APP_SCHEME', 'http'),
