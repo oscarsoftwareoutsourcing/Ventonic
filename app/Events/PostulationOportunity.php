@@ -6,7 +6,10 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\Channel;
+
 use App\Aplicant;
 
 class PostulationOportunity implements ShouldBroadcast
@@ -34,8 +37,8 @@ class PostulationOportunity implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        // return new Channel('channel-postulation');
-        return new PresenceChannel('channel-postulation');
+        return new Channel('channel-postulation');
+        // return new PresenceChannel('channel-postulation');
 
     }
 }

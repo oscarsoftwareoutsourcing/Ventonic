@@ -25,15 +25,17 @@
                                         <table>
                                             <tr>
                                                 <td class="font-weight-bold">Nombre</td>
-                                                <td>{{App\Aplicant::getDatos((int)$seller_profile->user_id, 'name')}}</td>
+                                                <td>{{$seller_profile->user->name}}</td>
+
                                             </tr>
                                             <tr>
                                                 <td class="font-weight-bold">Apellido</td>
-                                                <td>{{App\Aplicant::getDatos((int)$seller_profile->user_id, 'surname')}}</td>
+                                                <td>{{$seller_profile->user->last_name}}</td>
+
                                             </tr>
                                             <tr>
                                                 <td class="font-weight-bold">Email</td>
-                                                <td>{{App\Aplicant::getDatos((int)$seller_profile->user_id, 'email')}}</td>
+                                                <td>{{$seller_profile->user->email}}</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -53,7 +55,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="font-weight-bold">Fecha de Registro</td>
-                                                <td>{{App\Aplicant::getDatos((int)$seller_profile->user_id, 'date')}}</td>
+                                                <td>{{App\Aplicant::getDate((int)$seller_profile->user_id)}}</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -88,7 +90,7 @@
                                     </tr>
 
                                     <tr>
-                                        <td class="font-weight-bold">Likeind</td>
+                                        <td class="font-weight-bold">LikeInd</td>
                                         {{-- @if(isset($seller_profile->likeind)) --}}
                                             <td>{{$seller_profile->linkeind}}
                                             </td>

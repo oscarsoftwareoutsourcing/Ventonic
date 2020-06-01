@@ -13,6 +13,7 @@
                     {{-- BEGIND Filtros --}}
                     <div class="card">
                         <div class="card-header">
+                            <h4>Filtros</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -20,7 +21,7 @@
                                     <li class="d-inline-block mr-2">
                                         <fieldset>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck1">
+                                                <input type="checkbox" class="custom-control-input filter-options" name="customCheck" id="customCheck1">
                                                 <label class="custom-control-label" for="customCheck1">Móvil</label>
                                             </div>
                                         </fieldset>
@@ -28,7 +29,7 @@
                                     <li class="d-inline-block mr-2">
                                         <fieldset>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck2">
+                                                <input type="checkbox" class="custom-control-input filter-options" name="customCheck" id="customCheck2">
                                                 <label class="custom-control-label" for="customCheck2">Foto</label>
                                             </div>
                                         </fieldset>
@@ -36,7 +37,7 @@
                                     <li class="d-inline-block mr-2">
                                         <fieldset>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck3">
+                                                <input type="checkbox" class="custom-control-input filter-options" name="customCheck" id="customCheck3">
                                                 <label class="custom-control-label" for="customCheck3">Vídeo</label>
                                             </div>
                                         </fieldset>
@@ -44,7 +45,7 @@
                                     <li class="d-inline-block mr-2">
                                         <fieldset>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck4">
+                                                <input type="checkbox" class="custom-control-input filter-options" name="customCheck" id="customCheck4">
                                                 <label class="custom-control-label" for="customCheck4">LinkedIn</label>
                                             </div>
                                         </fieldset>
@@ -53,7 +54,7 @@
                                     <li class="d-inline-block mr-2">
                                         <fieldset>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck4">
+                                                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck5">
                                                 <label class="custom-control-label" for="customCheck4">Años</label>
                                             </div>
                                         </fieldset>
@@ -61,7 +62,7 @@
                                     <li class="d-inline-block mr-2">
                                         <fieldset>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck4">
+                                                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck6">
                                                 <label class="custom-control-label" for="customCheck4">Experiencia</label>
                                             </div>
                                         </fieldset>
@@ -98,7 +99,7 @@
                         </div>
                     </div>
                     <div class="">
-                        <table id="oportunityTable" class="table table-hover mb-0 ">
+                        <table class="table table-hover mb-0 ">
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
@@ -111,18 +112,26 @@
                             <tbody>
                                 @if(isset($aplicants))
                                     @foreach($aplicants as $aplicant)
-                                    <tr>
-                                        <td style="text-align:center;" width="30%">{{App\Aplicant::getDatos((int)$aplicant->user_id, 'name')}}</td>
-                                        <td style="text-align:center;" width="30%">{{App\Aplicant::getDatos((int)$aplicant->user_id, 'surname')}}</td>
-                                        <td style="text-align:center;" width="15%"><a class="btn btn-outline-primary btn-md text-white" href="{{route('oportunity.profile', ['id'=>$aplicant->user_id])}}">Ver</a></td>
-                                        <td style="text-align:center;" width="15%">
+                                    <tr class="rowTable" id="row{{$aplicant->id}}">
+                                        <td style="text-align:center;">
+                                            {{$aplicant->user->name}}
+                                            <input type="text" class="movil" id="movil{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->phone_mobil ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+                                            <input type="text" class="photo" id="photo{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->photo ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+                                            <input type="text" class="video" id="video{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->video ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+                                            <input type="text" class="likeind" id="likeind{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->likeind ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+                                        </td>
+                                        <td style="text-align:center;">{{$aplicant->user->last_name}}
+                                        </td>
+                                        <td style="text-align:center;"><a class="btn btn-outline-primary btn-md text-white" href="{{route('oportunity.profile', ['id'=>$aplicant->user_id])}}">Ver</a>
+                                        </td>                                       
+                                        <td style="text-align:center;">
                                             <select class="form-control status_postulation" name="estatus_postulation" id="status_postulation" data-id="{{$aplicant->id}}">
                                                 @foreach($status_postulation as $status)
                                             <option value="{{$status->id}}">{{$status->description}}</option>
                                                 @endforeach
                                             </select>
                                         </td>
-                                        <td style="text-align:center;" width="10%">
+                                        <td style="text-align:center;">
                                             @if($aplicant->user->status==1)
                                             <a href="{{ route('chat') }}" class=""><i class="feather icon-message-square" style="foont-size:22px;"></i></a>
                                             @endif

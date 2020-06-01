@@ -27,7 +27,6 @@ class Aplicant extends Model
         return $this->belongsTo('App\StatusPostulation', 'estatus_postulations_id');
     }
 
-
     public static function verifyPostulation($id_seller, $oportunity_id){
         $result=null;
         $verify = Aplicant::where('user_id',$id_seller)->where('oportunity_id',$oportunity_id)->value('id');
@@ -57,7 +56,6 @@ class Aplicant extends Model
         return $result;
     }
 
-
     public static function datePostulation($id, $oportunity_id){
         $postulation=Aplicant::where('user_id',(int)$id)->where('oportunity_id',(int)$oportunity_id)->value('created_at');
         $date=date('d-m-Y', strtotime($postulation));
@@ -71,31 +69,34 @@ class Aplicant extends Model
         return $number;
     }
 
-    public static function getDatos($id, $valor){
-
-        $result='';
-        switch($valor) //donde opción es la variable a comparar
-        {
-            case 'name':
-                $valor=User::where('id',$id)->value('name');
-                $result=$valor;
-            break;
-            case 'surname':
-                $valor=User::where('id',$id)->value('last_name');
-                $result=$valor;
-            break;
-            case 'email':
-                $valor=User::where('id',$id)->value('created_at');
-                $result=date('d-m-Y', strtotime($valor));
-            break;
-            case 'date':
-                $valor=User::where('id',$id)->value('created_at');
-                $result=date('d-m-Y', strtotime($valor));
-            break;
-
-        }
-
+    public static function getDate($id){
+        $valor=User::where('id',$id)->value('created_at');
+        $result=date('d-m-Y', strtotime($valor));
         return $result;
     }
 
+    // Scopes
+    public function scopeMovil($query, $movil){
+        if($movil){
+            return $query->whereNotNull('phone_mobil');
+        }
+    }
+
+    public function scopeFoto($query, $foto){
+        if($foto){
+            return $query->whereNotNull('photo');
+        }
+    }
+
+    public function scopeVideo($query, $video){
+        if($video){
+            return $query->whereNotNull('video');
+        }
+    }
+
+    public function scopeLikeind($query, $likeind){
+        if($likeind){
+            return $query->whereNotNull('likeind');
+        }
+    }
 }

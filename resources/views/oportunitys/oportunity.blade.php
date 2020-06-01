@@ -196,8 +196,10 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="submit" name="contact-directo" value="mensaje-directo" class="btn btn-primary">Confirmar</button>
-                                                                <button type="submit" name="sala-chat" value="sala-chat" class="btn btn-success text-white float-right">Confirma y contacta <i class="text-white feather icon-message-circle"></i></button>
-                                                            </div>
+                                                                @if($oportunity->user->status==1)
+                                                                <button name="sala-chat" value="sala-chat" class="btn btn-success float-right"><a href="{{route('chat')}}"  class="text-white"> Chat <i class="text-white feather icon-message-circle"></i></a></button>
+                                                                @endif
+                                                              </div>
                                                           </form>
                                                       </div>
                                                   </div>

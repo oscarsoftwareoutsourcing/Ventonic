@@ -46,6 +46,8 @@
                     <li><a href="{{ route('perfil.index') }}"><i class="feather icon-user"></i><span class="menu-item" data-i18n="Mi Perfil">Mi Perfil</span></a>
                     </li>
                     @endif
+                    <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item" data-i18n="">Buscar Vendedor</span></a>
+                    </li>
                     <li><a href="{{ route('logout') }}"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-power"></i> <span class="menu-item" data-i18n="{{ __('Salir') }}">{{ __('Salir') }}</span></a>
                     </li>

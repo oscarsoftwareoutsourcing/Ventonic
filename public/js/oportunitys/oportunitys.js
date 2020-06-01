@@ -1,6 +1,7 @@
-// Buscador tabla de oportunidades guardadas
+// Varibales globales
 var url=$(location).attr('origin');
 
+// Buscador tabla de oportunidades guardadas
 $(document).ready(function(){
     $("#textSearch").on('keyup', function(){
         _this = this;
@@ -53,19 +54,20 @@ $(document).ready(function(){
 });
 
 // Validacion de select2 para que no admita mas de 3 opciones
-
 $("#sectors").on('change', function(e) {
   if (Object.keys($(this).val()).length > 2) {
       $('option[value="' + $(this).val().toString().split(',')[3] + '"]').prop('selected', false);
   }
 });
 
+// Filas de tablas como enlaces a pagina
 $('tr').on("click", function() { 
   if($(this).attr('href') !== undefined){ 
     document.location = $(this).attr('href'); 
   } 
 });
 
+// Cambios de estatus postulados
 $('.status_postulation').on("change", function(){
   var status_id=$('#status_postulation').val();
   $.ajax({
@@ -79,12 +81,85 @@ $('.status_postulation').on("change", function(){
   });
 });
 
+// Message flash despues del cambio de estado
 $('#dismiss').on("click", function(){
   $('.alert-success').css('color', 'transparent');
   $('.alert-success').hide();
 });
 
+// Filtros de postulados
 
+$('#customCheck1').on("change", function(){
+  if($(this).prop('checked')){
+    var moviles=$('.movil');
+    $.each(moviles,function(i, item) {
+      var data=$(item).data('id');
+      var existMovil = $(item).val();
+      
+      if(!existMovil){
+        $('#row'+data).hide();
+      }
+    });
+  }else{
+    $('.rowTable').show();
+  }
+})
+
+$('#customCheck2').on("change", function(){
+  if($(this).prop('checked')){
+    var photos=$('.photo');
+    $.each(photos,function(i, item) {
+      var data=$(item).data('id');
+      var existphoto = $(item).val();
+      if(!existphoto){
+        $('#row'+data).hide();
+      }
+      else{
+        $('#row'+data).show();
+      }
+    });
+  }else{
+    $('.rowTable').show();
+  }
+})
+
+$('#customCheck3').on("change", function(){
+  if($(this).prop('checked')){
+    var videos=$('.video');
+    $.each(videos,function(i, item) {
+      var data=$(item).data('id');
+      var existvideo = $(item).val();
+      if(!existvideo){
+        $('#row'+data).hide();
+      }
+      else{
+        $('#row'+data).show();
+      }
+    });
+  }else{
+    $('.rowTable').show();
+  }
+})
+
+$('#customCheck4').on("change", function(){
+  if($(this).prop('checked')){
+    var likeinds=$('.likeind');
+    $.each(likeinds,function(i, item) {
+      var data=$(item).data('id');
+      var existlike = $(item).val();
+      if(!existlike){
+        $('#row'+data).hide();
+      }
+      else{
+        $('#row'+data).show();
+      }
+    });
+  }else{
+    $('.rowTable').show();
+  }
+})
+
+// Notificaciones RealTime
 // // Echo.channel('channel-postulation').listen('PostulationOportunity', (e) => {
 // // 	console.log(e);
 // // });

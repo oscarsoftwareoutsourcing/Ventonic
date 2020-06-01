@@ -301,6 +301,44 @@ table tr th {
 	min-height: 340px;
 }
 
+.menu-dashboard{
+	display:flex;
+	flex-flow:row wrap;
+	min-height: 600px;
+	justify-content: center;
+	align-items: center;
+
+}
+
+.menu-item-principal{
+	width:40%;
+	border:1px solid #C2C6DC;
+	display:flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	border-radius:4px;
+	height: 300px;
+	margin:2%;
+	box-shadow: 10px 10px 4px -9px rgba(0,0,0,0.75);
+	color:#C2C6DC!important;
+}
+
+.menu-item-principal>h2>a{
+	cursor: pointer;
+}
+
+@media(max-width: 767px) {
+	.menu-item-principal>h2{
+		font-size: 1.54rem;
+}
+
+@media(max-width: 600px) {
+	.menu-item-principal{
+		width:90%;  
+	}
+}
+
 /* Fin Estilos Personalizados Modulo de Oportunidades
    Autor: RuthReyes
 */

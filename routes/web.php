@@ -50,8 +50,8 @@ Route::get('correo/verificar/{id}/{hash}', 'Auth\VerificationController@verify')
 Route::post('correo/reenviar', 'Auth\VerificationController@resend')->name('verification.resend');
 
 Route::get('/inicio', 'HomeController@index')->name('home')->middleware('verified');
-Route::get('buscar-vendedores', 'HomeController@index')->name('search.init')->middleware('verified');
-Route::post('buscar-vendedores', 'HomeController@search')->name('search')->middleware('verified');
+Route::get('buscar-vendedores', 'HomeController@searchSeller')->name('search.init')->middleware('verified');
+
 Route::post('filtro', 'HomeController@filterSearch')->name('filter.search')->middleware('verified');
 Route::resource('perfil', 'ProfileController')->middleware('verified');
 //Route::resource('questions', 'QuestionController')->middleware('verified');
@@ -93,6 +93,8 @@ Route::post('postularme', 'AplicantController@store')->name('oportunity.postulat
 Route::get('postulados/{oportunity_id}', 'AplicantController@myaplicants')->name('oportunity.mispostulados')->middleware('verified');
 Route::get('profile/aplicant/{id}', 'AplicantController@profilePostulant')->name('oportunity.profile')->middleware('verified');
 Route::get('estatus/{id}/{estatus_postulations_id}', 'AplicantController@updateStatus')->name('oportunity.estatusUpdate')->middleware('verified');
+
+// Route::get('filtro/postulados/{id}/{movil?}/{foto?}/{}', 'AplicantController@filterPostulator')->name('oportunity.filtros')->middleware('verified');
 
 // Route::get('test', function () {
 //     event(new App\Events\PostulationOportunity('Someone'));

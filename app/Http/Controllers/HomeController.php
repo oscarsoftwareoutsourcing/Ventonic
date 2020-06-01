@@ -29,9 +29,17 @@ class HomeController extends Controller
     {
         if (auth()->user()->type === "E") {
             //$questions = $this->getQuestions();
-            return view('search-result');
+            // return view('search-result');
+            return view('inicio-dashboard');
+
         }
         return view('home');
+    }
+
+    public function searchSeller(){
+        if (auth()->user()->type === "E") {
+            return view('search-result');
+        }
     }
 
     public function search(Request $request)

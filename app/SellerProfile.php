@@ -24,4 +24,8 @@ class SellerProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    //Scopes
+    
+
 }
