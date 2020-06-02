@@ -28,7 +28,7 @@
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="validationTooltip01">Empresa<span class="obligatorio">*</span></label>
                                           <input type="text" class="form-control" name="oportunity_id" placeholder="oportunity_id" value="{{$oportunity->id ?? ''}}" hidden>
-                                          <input type="text" class="form-control" name="empresa" placeholder="Empresa" value="{{\Auth::user()->name}}" required disabled>
+                                          <input type="text" class="form-control" name="empresa" placeholder="Empresa" value="{{$oportunity->user->name}}" required disabled>
                                         </div>
 
                                         <div class="col-md-4 col-12 mb-3">
