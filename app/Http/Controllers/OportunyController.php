@@ -150,8 +150,4 @@ class OportunyController extends Controller
         return new Response($file, 200);
     }
 
-    public function postulation(Request $request){
-
-
-    }
 }

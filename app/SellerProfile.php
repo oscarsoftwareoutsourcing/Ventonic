@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SellerProfile extends Model
 {
+    protected $table = 'seller_profiles';
+
     protected $fillable = [
         'phone_mobil_country', 'phone_mobil', 'phone_home_country', 'phone_home',
         'photo', 'video', 'linkedin', 'status', 'user_id', 'answered'

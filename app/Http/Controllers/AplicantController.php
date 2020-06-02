@@ -102,29 +102,4 @@ class AplicantController extends Controller
         }
     }
 
-    // public function filterPostulator($oportunity_id, $movil=null, $foto=null, $video=null, $linkedIn=null, $anios=null, $experiencia=null){
-    //     $movil=$movil;
-    //     $foto=$foto;
-    //     $video=$video;
-    //     $linkedIn=$linkedIn;
-    //     $anios=$anios;
-    //     $experiencia=$experiencia;
-    //     $postulants=Aplicant::where('oportunity_id', (int)$oportunity_id)->get();
-
-    //     $vendedores=array();
-
-    //     $html='';
-    //     foreach($postulants as $postulant){
-    //        $postulado=SellerProfile::where('user_id', $postulant->id)
-    //                                 ->movil($movil)
-    //                                 ->foto($foto)
-    //                                 ->video($video)
-    //                                 ->linkedIn($linkedIn)
-    //                                 ->get();
-    //         $vendedores[]=$postulado;
-    //     }
-
-    //     var_dump($vendedores);
-    //     die();
-    // }
 }

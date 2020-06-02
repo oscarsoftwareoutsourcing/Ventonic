@@ -26,7 +26,7 @@
 
             <li class=" nav-item"><a href="#"><i class="feather icon-mail"></i><span class="menu-title" data-i18n="Email">Email</span></a>
             </li>
-
+            {{-- Oportunidades --}}
             @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
             <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-star"></i><span class="menu-title" data-i18n="Oportunidades">Oportunidades</span></a>
                 @if(\Auth::user()->type=="E")
@@ -37,6 +37,16 @@
                 @endif
             </li>
            @endif
+            {{-- Negociaciones Company --}}
+           @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
+           <li class=" nav-item"><a href="{{route('negociationCompany.index')}}"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Negociaciones">Negociaciones</span></a>
+                <ul class="menu-content">
+                    <li><a href="{{route('negociationCompany.index')}}"><i class="feather icon-users"></i><span class="menu-item" data-i18n="Negociaciones">Negociaciones</span></a>
+                    </li>
+                </ul>
+            </li>
+            @endif
+
             <li class=" nav-item"><a href="app-todo.html"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo">Todo</span></a>
             </li>
 
@@ -46,13 +56,17 @@
                     <li><a href="{{ route('perfil.index') }}"><i class="feather icon-user"></i><span class="menu-item" data-i18n="Mi Perfil">Mi Perfil</span></a>
                     </li>
                     @endif
+                    @if (\Auth::user()->type=="E")
                     <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item" data-i18n="">Buscar Vendedor</span></a>
                     </li>
+                    @endif
                     <li><a href="{{ route('logout') }}"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-power"></i> <span class="menu-item" data-i18n="{{ __('Salir') }}">{{ __('Salir') }}</span></a>
                     </li>
                 </ul>
             </li>
+
+
 
         </ul>
     </div>

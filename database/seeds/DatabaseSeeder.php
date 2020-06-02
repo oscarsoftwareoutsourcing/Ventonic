@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StatusOportunitySeeder::class);
         $this->call(AptitudSeeder::class);
         $this->call(StatusAplicantsSeeder::class);
-
+        $this->call(StatusNegociationsSeeder::class);
         // $this->call(AplicantsTableSeeder::class);
     }
 

@@ -17,7 +17,7 @@
                         <h4><a class="text-white" href="{{route('oportunity.list')}}">Oportunidades</a></h4>
                         </div>
                         <div class="menu-item-principal">
-                            <h4>Negociaciones</h4>
+                            <h4><a class="text-white" href="{{route('negociationCompany.index')}}">Negociaciones</a></h4>
                         </div>
                         <div class="menu-item-principal">
                             <h4>Contacto</h4>

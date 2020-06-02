@@ -159,6 +159,114 @@ $('#customCheck4').on("change", function(){
   }
 })
 
+//Guardar negociacion empresa
+$('#saveNegociation').on("click", function(){
+  
+  if(!$('#seller_profile_id').val()){
+    $('#seller_profile_id').addClass('is-invalid');
+    $('#validation-seller').css('display', 'block');
+    return false;
+  }else{
+    $('#seller_profile_id').removeClass('is-invalid');
+    $('#validation-seller').css('display', 'none');
+    var seller_profile_id=$('#seller_profile_id').val();
+  }
+
+  if(!$('#status_negociations_id').val()){
+    $('#status_negociations_id').addClass('is-invalid');
+    $('#validation-status').css('display', 'block');
+    return false;
+  }else{
+    $('#status_negociations_id').removeClass('is-invalid');
+    $('#validation-status').css('display', 'none');
+    var status_negociations_id=$('#status_negociations_id').val();
+  }
+
+  if(!$('#producto').val()){
+    $('#producto').addClass('is-invalid');
+    $('#validation-producto').css('display', 'block');
+  }else{
+    $('#producto').removeClass('is-invalid');
+    $('#validation-producto').css('display', 'none');
+    var producto=$('#producto').val();
+
+  }
+
+  if(!$('#responsable').val()){
+    $('#responsable').addClass('is-invalid');
+    $('#validation-responsable').css('display', 'block');
+  }else{
+    $('#responsable').removeClass('is-invalid');
+    $('#validation-responsable').css('display', 'none');
+    var responsable=$('#responsable').val();
+
+  }
+
+  if(!$('#importe').val()){
+    $('#importe').addClass('is-invalid');
+    $('#validation-importe').css('display', 'block');
+  }else{
+    $('#importe').removeClass('is-invalid');
+    $('#validation-importe').css('display', 'none');
+    var estimado=parseFloat($('#importe').val());
+  }
+
+  console.log(typeof(estimado));
+  $.ajax({
+    url:url+'/negociacion/save/'+seller_profile_id+'/'+status_negociations_id+'/'+producto+'/'+responsable+'/'+estimado,
+    type:'GET',
+    success:function(response){
+      // $('.add-new-data-sidebar').fadeOut();
+      $(".alert-success").css("display", "block");
+      setTimeout(function(){ $('.alert-success').hide(); }, 5000);
+      var producto='';
+      var status_negociations_id='';
+      var seller_profile_id='';
+      var responsable='';
+      var estimado='';
+      location.reload();
+    }
+  });
+
+});
+
+//Guardar negociacion empresa
+// $('#saveNegociation').on("click", function(){
+//   var seller_profile_id=$('#seller_profile_id').val();
+//   var status_negociations_id=$('#status_negociations_id').val();
+//   var producto=$('#producto').val();
+
+//   $.ajax({
+//     url:url+'/negociacionempresa/'+seller_profile_id+status_negociations_id+producto,
+//     type:'GET',
+//     success:function(response){
+//       $(".alert-success").css("display", "block");
+//       setTimeout(function(){ $('.alert-success').hide(); }, 5000);
+//     }
+//   });
+
+  // var negociacion={
+  //   'seller_profile_id': seller_profile_id,
+  //   'status_negociations_id' : status_negociations_id,
+  //   'producto' : producto
+  // }
+
+  // $.ajax({
+  //   type:'POST',
+  //   url:url+'/negociaciones/empresa/guardar',
+  //   data:negociacion,
+  //   beforeSend:function(){
+
+  //   },
+  //   success:function(response){
+  //     console.log('Guardado correctamente');
+  //   },
+  //   error:function(){
+  //     console.log('A ocurrido un error')
+  //   }
+  // });
+// });
+
 // Notificaciones RealTime
 // // Echo.channel('channel-postulation').listen('PostulationOportunity', (e) => {
 // // 	console.log(e);
