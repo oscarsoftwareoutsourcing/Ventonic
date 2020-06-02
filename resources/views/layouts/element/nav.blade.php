@@ -31,6 +31,12 @@
                         </li>
                         @endif
 
+                        @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
+                        <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link" href="{{ route('negociationCompany.index') }}" data-toggle="tooltip" data-placement="top" title="Negociaciones"><i class="ficon feather icon-users"></i></a>
+                        </li>
+                        @endif
+
                     </ul>
 
                     {{-- <ul class="nav navbar-nav">
