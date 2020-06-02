@@ -47,6 +47,20 @@
             </li>
             @endif
 
+            {{-- Contactos --}}
+           @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
+           <li class=" nav-item"><a href="#"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Negociaciones">Contacto</span></a>
+                <ul class="menu-content">
+                    <li>
+                        <a href="{{route('contact.create')}}"><i class="feather icon-users"></i><span class="menu-item" data-i18n="Contacto">Crear nuevo contacto</span></a>
+                    </li>
+                    <li>
+                        <a href="{{route('negociationCompany.index')}}"><i class="feather icon-users"></i><span class="menu-item" data-i18n="Contacto">Buscar contacto</span></a>
+                    </li>
+                </ul>
+            </li>
+            @endif
+
             <li class=" nav-item"><a href="app-todo.html"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo">Todo</span></a>
             </li>
 

@@ -14,7 +14,7 @@ class AddFieldAnsweredToSellerProfiles extends Migration
     public function up()
     {
         Schema::table('seller_profiles', function (Blueprint $table) {
-            $table->json('answered')->nullable();
+            $table->longText('answered')->nullable();
         });
     }
 

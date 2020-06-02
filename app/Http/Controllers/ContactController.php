@@ -15,7 +15,8 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        
+        
     }
 
     /**
@@ -25,7 +26,7 @@ class ContactController extends Controller
      */
     public function create()
     {
-        //
+        return view('contact.form');
     }
 
     /**
@@ -48,6 +49,7 @@ class ContactController extends Controller
     public function show(contact $contact)
     {
         //
+
     }
 
     /**

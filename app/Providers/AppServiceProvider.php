@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 use App\Aplicant;
 use App\Observers\AplicantObserver;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // Aplicant::observe(AplicantObserver::class);
+        Schema::defaultStringLength(191);
     }
 }

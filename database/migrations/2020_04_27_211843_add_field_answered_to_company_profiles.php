@@ -14,7 +14,7 @@ class AddFieldAnsweredToCompanyProfiles extends Migration
     public function up()
     {
         Schema::table('company_profiles', function (Blueprint $table) {
-            $table->json('answered')->nullable();
+            $table->longText('answered')->nullable();
         });
     }
 
