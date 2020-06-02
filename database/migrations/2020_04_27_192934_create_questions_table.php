@@ -19,7 +19,7 @@ class CreateQuestionsTable extends Migration
             $table->enum('selection_type', ['U', 'M'])->comment('(U)nica, (M)ultiple');
             $table->integer('priority');
             $table->string('name');
-            $table->json('options');
+            $table->longText('options');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

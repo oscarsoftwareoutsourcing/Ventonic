@@ -145,7 +145,7 @@
                                       <div class="row justify-content-center senForm-step1">
                                           <div class="col-12 justify-content-center">
                                               <div class="divider">
-                                                @if(\Auth::user()->type !=="V")
+                                                @if(\Auth::user()->type !=="V" && $oportunity->user_id==\Auth::user()->id)
                                                   <div class="divider-text">Guardar tu publicacion</div>
                                                 @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)==null)
                                                   <div class="divider-text">Postulate</div>
@@ -157,7 +157,7 @@
                                           </div>
 
                                           <div class="col-4 justify-content-center content-btn-save-oportunity">
-                                            @if(\Auth::user()->type !=="V")
+                                            @if(\Auth::user()->type !=="V" && $oportunity->user_id ==\Auth::user()->id)
                                               <button type="submit" class="btn btn-primary waves-effect waves-light mx-auto mt-1" name="guardar" value="guardar">
                                                 <a href="{{ route('oportunity.saved') }}" class="text-white">
                                                 GUARDAR
