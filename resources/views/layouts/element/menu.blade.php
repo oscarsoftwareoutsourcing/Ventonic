@@ -37,6 +37,9 @@
                 @endif
             </li>
            @endif
+
+        
+            
             {{-- Negociaciones Company --}}
            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
            <li class=" nav-item"><a href="{{route('negociationCompany.index')}}"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Negociaciones">Negociaciones</span></a>
@@ -63,6 +66,11 @@
 
             <li class=" nav-item"><a href="app-todo.html"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo">Todo</span></a>
             </li>
+
+            @if (\Auth::user()->type=="E")
+            <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item" data-i18n="">Buscar Vendedor</span></a>
+            </li>
+            @endif
 
             <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title" data-i18n="User">{{ Auth::user()->name }}</span></a>
                 <ul class="menu-content">
