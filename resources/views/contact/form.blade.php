@@ -153,7 +153,7 @@
                                                 @enderror 
                                             </div>
 
-                                            @if(!isset($contact))
+                                            @if(empty($contact))
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
                                                     <select class="form-control" id="pais-column @error('etiquetas') is-invalid @enderror" name="etiquetas" {{$contact ? 'disabled' : ''}}>
