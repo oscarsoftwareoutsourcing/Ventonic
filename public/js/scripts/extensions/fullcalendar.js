@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         plugins: ["dayGrid", "timeGrid", "interaction"],
         customButtons: {
             addNew: {
-                text: ' Add',
+                text: ' Nuevo',
                 click: function() {
                     var calDate = new Date,
                         todaysDate = calDate.toISOString().slice(0, 10);

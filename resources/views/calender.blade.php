@@ -31,19 +31,19 @@
                                             <div class="bullets-group-1 mt-2">
                                                 <div class="category-business mr-1">
                                                     <span class="bullet bullet-success bullet-sm mr-25"></span>
-                                                    Business
+                                                    Eventos
                                                 </div>
                                                 <div class="category-work mr-1">
                                                     <span class="bullet bullet-warning bullet-sm mr-25"></span>
-                                                    Work
+                                                    Recordatorios
                                                 </div>
                                                 <div class="category-personal mr-1">
                                                     <span class="bullet bullet-danger bullet-sm mr-25"></span>
-                                                    Personal
+                                                    Tareas
                                                 </div>
                                                 <div class="category-others">
                                                     <span class="bullet bullet-primary bullet-sm mr-25"></span>
-                                                    Others
+                                                    Otros
                                                 </div>
                                             </div>
                                         </div>
@@ -61,7 +61,7 @@
                              role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title text-text-bold-600" id="cal-modal">Add Event</h4>
+                                    <h4 class="modal-title text-text-bold-600" id="cal-modal">Crear un Evento</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">×</span>
                                     </button>
@@ -77,27 +77,27 @@
                                                      aria-labelledby="cal-event-category">
                                                     <span class="dropdown-item business" data-color="success">
                                                         <span class="bullet bullet-success bullet-sm mr-25"></span>
-                                                        Business
+                                                        Eventos
                                                     </span>
                                                     <span class="dropdown-item work" data-color="warning">
                                                         <span class="bullet bullet-warning bullet-sm mr-25"></span>
-                                                        Work
+                                                        Recordatorio
                                                     </span>
                                                     <span class="dropdown-item personal" data-color="danger">
                                                         <span class="bullet bullet-danger bullet-sm mr-25"></span>
-                                                        Personal
+                                                        Tareas
                                                     </span>
                                                     <span class="dropdown-item others" data-color="primary">
                                                         <span class="bullet bullet-primary bullet-sm mr-25"></span>
-                                                        Others
+                                                        Otros
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <fieldset class="form-label-group">
                                             <input type="text" class="form-control" id="cal-event-title"
-                                                   placeholder="Event Title">
-                                            <label for="cal-event-title">Event Title</label>
+                                                   placeholder="Añade un título">
+                                            <label for="cal-event-title">Titulo</label>
                                         </fieldset>
                                         <fieldset class="form-label-group">
                                             <input type="date" class="form-control pickadate" id="cal-start-date"
@@ -111,24 +111,24 @@
                                         </fieldset>
                                         <fieldset class="form-label-group">
                                             <textarea class="form-control" id="cal-description" rows="5"
-                                                      placeholder="Description"></textarea>
-                                            <label for="cal-description">Description</label>
+                                                      placeholder="Añade una descripción"></textarea>
+                                            <label for="cal-description">Descripción</label>
                                         </fieldset>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button"
                                                 class="btn btn-primary cal-add-event waves-effect waves-light">
-                                            Add Event
+                                            Agregar
                                         </button>
                                         <button type="button"
                                                 class="btn btn-primary d-none cal-submit-event waves-effect waves-light"
                                                 disabled>
-                                            submit
+                                            Enviar
                                         </button>
                                         <button type="button"
                                                 class="btn btn-flat-danger cancel-event waves-effect waves-light"
                                                 data-dismiss="modal">
-                                            Cancel
+                                            Cancelar
                                         </button>
                                         <button type="button"
                                                 class="btn btn-flat-danger remove-event d-none waves-effect waves-light"
