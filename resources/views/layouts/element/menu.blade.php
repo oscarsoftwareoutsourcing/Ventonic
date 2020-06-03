@@ -64,7 +64,7 @@
             </li>
             @endif
 
-            <li class=" nav-item"><a href="app-todo.html"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo">Todo</span></a>
+            <li class=" nav-item"><a href="#"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo">Todo</span></a>
             </li>
 
             @if (\Auth::user()->type=="E")

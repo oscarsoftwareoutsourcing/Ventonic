@@ -23,7 +23,7 @@
                             <h4><a class="text-white" href="{{route('contact.list')}}">Contacto</a></h4>
                         </div>
                         <div class="menu-item-principal">
-                            <h4>Calendario</h4>
+                            <h4><a href="calender">Calendario</a></h4>
                         </div>
                      </div>
                 </div>

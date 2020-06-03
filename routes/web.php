@@ -79,6 +79,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         return $response;
     });
+    Route::resource('events', 'EventController');
 });
 
 /* Routas para oportunidades */
@@ -111,3 +112,4 @@ Route::get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{produ
 Route::get('contacto/listado', 'ContactController@index')->name('contact.list')->middleware('verified');
 Route::get('contacto/crear/{contact?}', 'ContactController@create')->name('contact.create')->middleware('verified');
 Route::post('contacto/save', 'ContactController@store')->name('contact.save')->middleware('verified');
+

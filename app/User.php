@@ -101,6 +101,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Message::class);
     }
 
+    /**
+     * User has many Events.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+
     public function oportunity()
     {
         return $this->hasMany('App\Oportunity');
