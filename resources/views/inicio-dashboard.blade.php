@@ -20,7 +20,7 @@
                             <h4><a class="text-white" href="{{route('negociationCompany.index')}}">Negociaciones</a></h4>
                         </div>
                         <div class="menu-item-principal">
-                            <h4>Contacto</h4>
+                            <h4><a class="text-white" href="{{route('contact.list')}}">Contacto</a></h4>
                         </div>
                         <div class="menu-item-principal">
                             <h4>Calendario</h4>
