@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\contact;
+use App\Contact;
 use Illuminate\Http\Request;
 use App\User;
+use App\Country;
 
 class ContactController extends Controller
 {
@@ -15,7 +16,8 @@ class ContactController extends Controller
      */
     public function index()
     {
-        
+        $contacts=Contact::where('user_id', auth()->user()->id)->orderByDesc('favorite')->paginate(10);
+        return view('contact.list-contact', ['contacts'=>$contacts]);
         
     }
 
@@ -24,9 +26,12 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($contact  = null)
     {
-        return view('contact.form');
+        
+        $countrys=Country::all();
+        $contact=isset($contact) ? Contact::find((int)$contact) : '';
+        return view('contact.form', ['countrys'=>$countrys, 'contact'=>$contact]);
     }
 
     /**
@@ -37,7 +42,51 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation= $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'string|max:255',
+            'email' => 'email',
+            'web' => 'string',
+            'empresa' => 'string',
+            'direccion_empresa' => 'string',
+            'cargo_empresa'=>'string',
+            'ciudad-empresa' => 'string',
+            'provincia' => 'string',
+            'empresa' => 'string',
+            'direccion_empresa' => 'string',
+            'ciudad_empresa' => 'string',
+            'provincia' => 'string',
+            'codigo-postal' => 'numeric',
+            'pais' => 'numeric',
+            'sector' => 'string',
+            'etiquetas' => 'string',
+
+        ]);
+
+        $contact = Contact::updateOrCreate(
+            ['name' =>  $request->nombre,
+             'last_name' => $request->apellido ?? null,
+             'email' =>  $request->email ?? null,
+             'web' =>  $request->web ?? null,
+             'phone' => $request->telefono ?? null,
+             'company' => $request->empresa ?? null,
+             'address' =>  $request->direccion_empresa ?? null,
+             'city' => $request->ciudad_empresa ?? null,
+             'province' => $request->provincia ?? null,
+             'postal_code' =>  $request->codigo_postal ?? null,
+             'sector' =>  $request->sector ?? null,
+             'notes' =>  $request->anotaciones ?? null,
+             'share' =>  null,
+             'type' =>  $request->etiquetas ?? null,
+             'country_id' =>  $request->pais ?? null,
+             'favorite' =>  $request->favorito ? 1 : 0,
+             'cargo' =>  $request->cargo_empresa ?? null,
+             'user_id' =>  auth()->user()->id
+             
+            ]
+        );
+
+        return redirect()->route('contact.list');
     }
 
     /**

@@ -72,6 +72,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(SellerAnsweredSurvey::class);
     }
 
+    /* User has many Contacts.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function contact()
+    {
+        return $this->hasMany(Contact::class);
+    }
+
     /**
      * User has many CompanyAnsweredSurveys.
      *

@@ -18,7 +18,7 @@
                             <div class="input-group">
                                 <div class="input-group-append">
                                     @if(Auth::user()->type=="E")
-                                    <a href="{{ route('oportunity.form') }}" class="btn btn-primary btn_right_new" type="button">
+                                    <a href="{{ route('oportunity.create') }}" class="btn btn-primary btn_right_new" type="button">
                                         Nueva
                                     </a>
                                     @endif

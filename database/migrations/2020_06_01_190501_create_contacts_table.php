@@ -18,6 +18,7 @@ class CreateContactsTable extends Migration
             $table->string('name');
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
+            $table->string('web')->nullable();
             $table->string('phone')->nullable();
             $table->string('company')->nullable();
             $table->string('address')->nullable();
@@ -27,13 +28,14 @@ class CreateContactsTable extends Migration
             $table->string('sector')->nullable();
             $table->longText('notes')->nullable();
             $table->boolean('share')->nullable();
-            $table->enum('type', ['CLI', 'PRO','COL', 'OTR'])->default('OTR')->nullable();
+            $table->string('type', 255)->nullable();
             $table->bigInteger('country_id')->unsigned()->nullable();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('restrict')->onUpdate('cascade');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-          
-            
+            $table->boolean('favorite')->nullable();
+            $table->string('cargo', 255)->nullable();
+
             $table->timestamps();
         });
     }

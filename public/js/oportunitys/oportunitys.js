@@ -87,6 +87,24 @@ $('#dismiss').on("click", function(){
   $('.alert-success').hide();
 });
 
+// Filtros busqueda contactos por type
+
+$('#type-contact').on("change", function(){
+  var select=$('#type-contact').val();
+  var tipo=$('.tipoContacto');
+    $.each(tipo,function(i, item) {
+      var data=$(item).data('id');
+      var existTipo = $(item).val();
+      if(existTipo!==select){
+        console.log('Son iguales');
+        $('#fila'+data).hide();
+      }
+      if(select=="Busqueda por tipo de cliente"){
+        $('.fila').show();
+      }
+    });
+});
+
 // Filtros de postulados
 
 $('#customCheck1').on("change", function(){
