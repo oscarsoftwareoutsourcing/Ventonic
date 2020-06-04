@@ -20,10 +20,11 @@
                             <h4><a class="text-white" href="{{route('negociationCompany.index')}}">Negociaciones</a></h4>
                         </div>
                         <div class="menu-item-principal">
-                            <h4><a class="text-white" href="{{route('contact.list')}}">Contacto</a></h4>
+                            <h4><a class="text-white" href="{{route('contact.list')}}">Contactos</a></h4>
+                            {{-- @include('includes.widget-contact') --}}
                         </div>
                         <div class="menu-item-principal">
-                            <h4><a href="calender">Calendario</a></h4>
+                            <h4><a class="text-white" href="calender">Calendario</a></h4>
                         </div>
                      </div>
                 </div>

@@ -95,9 +95,10 @@ class ContactController extends Controller
      * @param  \App\contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function show(contact $contact)
+    public function show()
     {
-        //
+        $contacts=Contact::where('user_id', auth()->user()->id)->orderByDesc('favorite')->paginate(10);
+        return view('inicio-dashboard', ['contacts'=>$contacts]);
 
     }
 

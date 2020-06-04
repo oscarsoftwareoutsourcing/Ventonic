@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Question;
+use App\Contact;
 
 //use App\SellerProfile;
 
@@ -30,7 +31,8 @@ class HomeController extends Controller
         if (auth()->user()->type === "E") {
             //$questions = $this->getQuestions();
             // return view('search-result');
-            return view('inicio-dashboard');
+            $contacts=Contact::where('user_id', auth()->user()->id)->orderByDesc('favorite')->paginate(10);
+            return view('inicio-dashboard', ['contacts'=>$contacts]);
 
         }
         return view('home');

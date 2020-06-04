@@ -16,10 +16,11 @@ class CompanyAplicantOportunity extends Notification
      *
      * @return void
      */
-    public function __construct($postulation, $oportunity_title)
+    public function __construct($postulation, $oportunity_title, $seller_name)
     {
         $this->postulation =$postulation;
         $this->oportunity_title =$oportunity_title;
+        $this->seller_name =$seller_name;
     }
 
     /**
@@ -30,7 +31,7 @@ class CompanyAplicantOportunity extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -61,6 +62,21 @@ class CompanyAplicantOportunity extends Notification
     {
         return [
             //
+        ];
+    }
+
+     /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'aplicantName'=>$notifiable->name,
+            'oportunityName'=>$this->oportunity_title,
+            'sellerName'=>$this->seller_name
         ];
     }
 }

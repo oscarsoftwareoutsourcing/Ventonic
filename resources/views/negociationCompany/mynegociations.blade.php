@@ -51,26 +51,26 @@
 
                                 <!-- DataTable starts -->
                                 <div class="table-responsive">
-                                    <table class="table data-list-view">
+                                    <table class="table data-list-view table-responsive">
                                         <thead>
                                             <tr>
                                                 <th></th>
                                                 @if(\Auth::user()->type=='V')
-                                                <th style="text-align:center;">EMPRESA</th>
+                                                <th style="text-align:center;" width="15%">EMPRESA</th>
                                                 @endif
 
                                                 @if(\Auth::user()->type=='E')
-                                                <th style="text-align:center;">VENDEDOR</th>
-                                                <th style="text-align:center;">PRODUCTO</th>
+                                                <th style="text-align:center;"  width="15%">VENDEDOR</th>
+                                                <th style="text-align:center;"  width="20%">PRODUCTO</th>
                                                 @endif
                                                 @if(\Auth::user()->type=='V')
-                                                <th style="text-align:center;">RESPONSABLE</th>
+                                                <th style="text-align:center;" width="15%">RESPONSABLE</th>
                                                 @endif
 
-                                                <th style="text-align:center;">FECHA</th>
-                                                <th style="text-align:center;">STATUS</th>
+                                                <th style="text-align:center;" width="15%">FECHA</th>
+                                                <th style="text-align:center;" width="15%">STATUS</th>
                                                 @if(\Auth::user()->type=='V')
-                                                <th style="text-align:center;">IMPORTE ESTIMADO</th>
+                                                <th style="text-align:center;" width="5%">IMPORTE ESTIMADO</th>
                                                 @endif
 
                                             </tr>

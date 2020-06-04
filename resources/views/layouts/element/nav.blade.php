@@ -7,6 +7,7 @@
                         <li class="nav-item mobile-menu d-xl-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon feather icon-menu"></i></a></li>
                     </ul>
                     <ul class="nav navbar-nav bookmark-icons">
+                        
                         <!-- li.nav-item.mobile-menu.d-xl-none.mr-auto-->
                         <!--   a.nav-link.nav-menu-main.menu-toggle.hidden-xs(href='#')-->
                         <!--     i.ficon.feather.icon-menu-->
@@ -75,7 +76,7 @@
                         <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                             <li class="dropdown-menu-header">
                                 <div class="dropdown-header m-0 p-2">
-                                    <h3 class="white">5 New</h3><span class="notification-title">App Notifications</span>
+                                    <h3 class="white">22 New</h3><span class="notification-title">App Notifications</span>
                                 </div>
                             </li>
                             <li class="scrollable-container media-list"><a class="d-flex justify-content-between" href="javascript:void(0)">
@@ -128,15 +129,16 @@
                             <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">{{ Auth::user()->name }} </span><span class="user-status">Available</span></div><span><img class="round" src="/{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }} " height="40" width="40"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            @if (auth()->user()->email_verified_at !== null)
+                            {{-- @if (auth()->user()->email_verified_at !== null) --}}
                             <a class="dropdown-item" href="{{ route('perfil.index') }}"><i class="feather icon-user"></i> Mi Perfil</a>
 
                             <a class="dropdown-item" href="{{ route('chat') }}"><i class="feather icon-message-square"></i> Chats</a>
-
-                            <a class="dropdown-item" href="#"><i class="feather icon-mail"></i> My Inbox</a>
-                            <a class="dropdown-item" href="#"><i class="feather icon-check-square"></i> Task</a>
-                    
-                            @endif
+                            <a class="dropdown-item" href="calender"><i class="feather icon-calendar"></i> Calendario</a>
+                            <a class="dropdown-item" href="#"><i class="feather icon-mail"></i> Email</a>
+                            <a class="dropdown-item" href="{{ route('oportunity.list') }}"><i class="feather icon-check-square"></i> Oportunidades</a>
+                            <a class="dropdown-item" href="{{ route('negociationCompany.index') }}"><i class="feather icon-users"></i> Negociaciones</a>
+                            <a class="dropdown-item" href="{{ route('perfil.index') }}"><i class="feather icon-users"></i> Contacto</a>
+                            {{-- @endif --}}
                             <div class="dropdown-divider"></div>
 
                             <a class="dropdown-item" href="{{ route('logout') }}"

@@ -25,6 +25,7 @@ class AplicantController extends Controller
         
         // Datos para el email
         $oportunity_title=$oportunity->title;
+        $seller_name=auth()->user()->name;
 
         // Datos para la vista
         $oportunitys=Oportunity::where('status_id', 2)->orderByDesc('updated_at')->paginate(25);
@@ -52,7 +53,7 @@ class AplicantController extends Controller
         $recipient_company=User::find($company_id);
 
         $recipient_seller->notify(new SellerAplicantOportunity($postulation, $oportunity_title));
-        $recipient_company->notify(new CompanyAplicantOportunity($postulation, $oportunity_title));
+        $recipient_company->notify(new CompanyAplicantOportunity($postulation, $oportunity_title, $seller_name));
 
         // Notificaciones
         // event(new PostulationOportunity($postulation));
