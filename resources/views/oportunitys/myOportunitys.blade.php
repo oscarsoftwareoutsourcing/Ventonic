@@ -33,29 +33,29 @@
                         </div>
                     </div>
                     <div class="">
-                        <table id="oportunityTable" class="table table-hover mb-0 ">
+                        <table id="oportunityTable" class="table table-hover mb-0 table-responsive">
                             <thead>
                                 <tr>
-                                    <th>Titulo</th>
-                                    <th>Cargo</th>
-                                    <th>Ubicacion</th>
-                                    <th>Tipo de Empleo</th>
-                                    <th>Sector</th>
-                                    <th>N° Inscritos</th>
-                                    <th>Candidatos</th>
+                                    <th width="20%">Titulo</th>
+                                    <th width="15%">Cargo</th>
+                                    <th width="15%">Ubicacion</th>
+                                    <th width="10%">Tipo de Empleo</th>
+                                    <th width="25%">Sector</th>
+                                    <th width="5%">N° Inscritos</th>
+                                    <th width="10%">Candidatos</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @if(isset($oportunitys))
                                     @foreach($oportunitys as $oportunity)
                                     <tr href="{{route('oportunity.form', ['oportunity'=>$oportunity])}}" class="{{App\Oportunity::getstatus((int)$oportunity->id)}}">
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}" width="10%">{{$oportunity->title}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{$oportunity->cargo}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{$oportunity->ubication}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{App\Oportunity::listSectors($oportunity->sectors)}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">{{App\Aplicant::countAplicant($oportunity->id)}}</td>
-                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}">
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}" width="20%">{{$oportunity->title}}</td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}" width="15%">{{$oportunity->cargo}}</td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}" width="15%">{{$oportunity->ubication}}</td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}" width="10%">{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}" width="25%">{{App\Oportunity::listSectors($oportunity->sectors)}}</td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}}" width="5%">{{App\Aplicant::countAplicant($oportunity->id)}}</td>
+                                        <td style="{{App\Oportunity::getStyle((int)$oportunity->id)}} text-align:center;" width="10%">
                                         @if(App\Aplicant::countAplicant($oportunity->id)>0)
                                         <a href="{{route('oportunity.mispostulados', ['oportunity_id'=>$oportunity->id])}}" class="btn btn-outline-primary btn-md text-white" type="button">Ver</a>
                                         @endif

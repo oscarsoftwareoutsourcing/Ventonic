@@ -6,7 +6,8 @@ Vue.use(VueChatScroll);
 
 Vue.component('search-sellers', () => import('./components/SearchSellersComponent.vue'));
 Vue.component('chat', () => import('./components/ChatComponent.vue'));
-
+Vue.component('notification', () => import('./components/NotificationComponent.vue'));
+Vue.component('notification-item', () => import('./components/NotificationItemComponent.vue'));
 const app = new Vue({
     el: '#app',
 });

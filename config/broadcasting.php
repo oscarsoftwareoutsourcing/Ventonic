@@ -38,14 +38,18 @@ return [
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => env('PUSHER_APP_TLS', true),
-                // 'encrypted' => false,
-                'host' => env('WEBSOCKETS_HOST', '127.0.0.1'),
-                'port' => env('WEBSOCKETS_PORT', 6001),
-                'scheme' => env('PUSHER_APP_SCHEME', 'http'),
-                'curl_options' => [
-                    CURLOPT_SSL_VERIFYHOST => 0,
-                    CURLOPT_SSL_VERIFYPEER => 0,
-                ]
+                'encrypted' => true,
+                'host' =>'127.0.0.1',
+                'port' => 6001,
+                'scheme' => 'http'
+
+                // 'host' => env('WEBSOCKETS_HOST', '127.0.0.1'),
+                // 'port' => env('WEBSOCKETS_PORT', 6001),
+                // 'scheme' => env('PUSHER_APP_SCHEME', 'http'),
+                // 'curl_options' => [
+                //     CURLOPT_SSL_VERIFYHOST => 0,
+                //     CURLOPT_SSL_VERIFYPEER => 0,
+                // ]
             ],
         ],
 

@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="">
-                        <table id="oportunityTable" class="table table-hover mb-0 ">
+                        <table id="oportunityTable" class="table table-hover mb-0 table-responsive">
                             <thead>
                                 <tr>
                                     <th>Titulo</th>
@@ -76,4 +76,7 @@
         </div>
     </div>
 </div>
+@endsection
+@section('extra-js')
+<script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
 @endsection

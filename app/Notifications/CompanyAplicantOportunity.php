@@ -5,6 +5,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
 class CompanyAplicantOportunity extends Notification
@@ -31,7 +32,7 @@ class CompanyAplicantOportunity extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -79,4 +80,20 @@ class CompanyAplicantOportunity extends Notification
             'sellerName'=>$this->seller_name
         ];
     }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'aplicantName'=>$notifiable->name,
+            'oportunityName'=>$this->oportunity_title,
+            'sellerName'=>$this->seller_name
+        ]);
+    }
+
 }

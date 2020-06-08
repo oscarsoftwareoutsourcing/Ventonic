@@ -97,13 +97,18 @@ Route::get('profile/aplicant/{id}', 'AplicantController@profilePostulant')->name
 Route::get('estatus/{id}/{estatus_postulations_id}', 'AplicantController@updateStatus')->name('oportunity.estatusUpdate')->middleware('verified');
 
 
+/*Notificaciones */
+Route::get('markAsRead', function(){
+    auth()->user()->unreadNotifications->markAsRead();
+});
+
 // Route::get('test', function () {
 //     event(new App\Events\PostulationOportunity('Someone'));
 //     return "Event has been sent!";
 // });
 
 
-// Rutas para negociations Company
+// Rutas para negociaciones Company
 Route::get('negociaciones/empresa', 'NegociationCompanyController@index')->name('negociationCompany.index')->middleware('verified');
 Route::get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{producto}/{responsable}/{estimado}', 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');
 
