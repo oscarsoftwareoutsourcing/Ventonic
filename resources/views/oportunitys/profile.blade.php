@@ -149,3 +149,7 @@
     </div>
 </div>
 @endsection
+
+@section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+@endsection

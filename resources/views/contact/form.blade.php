@@ -353,3 +353,7 @@ if (status === google.maps.GeocoderStatus.OK) {
 
 </script>
 @endsection
+
+@section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+@endsection
