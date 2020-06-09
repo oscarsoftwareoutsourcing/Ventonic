@@ -70,23 +70,21 @@
 
     <!-- Scripts -->
     @yield('extra-js-app')
-   {{-- <script src="{{ asset('js/app.js') }}" defer></script>
-
-     <script src="{{ asset('js/app.js') }}"></script> --}}
+   {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+   {{--  <script src="{{ asset('js/app.js') }}"></script> --}}
 
     <!-- BEGIN: Vendor JS-->
-    @section('vendor-js')
+
     <script src="{{ asset('vendors/js/vendors.min.js') }}" defer></script>
-    @show
     <script src="{{ asset('vendors/js/forms/select/select2.full.min.js') }}"></script>
     <!-- END Vendor JS-->
 
     <script src="{{ asset('js/pusher.min.js') }}"></script>
 
     <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('js/core/app-menu.js') }}" defer></script>
-    <script src="{{ asset('js/core/app.js') }}" defer></script>
-    <script src="{{ asset('js/scripts/components.js') }}" defer></script>
+    <script src="{{ asset('js/core/app-menu.js') }}" ></script>
+    <script src="{{ asset('js/core/app.js') }}" ></script>
+    <script src="{{ asset('js/scripts/components.js') }}" ></script>
     <!-- END: Theme JS-->
 
     {{--BEGIN:Modal --}}
@@ -94,7 +92,7 @@
     {{--END:Modal --}}
 
     <!-- BEGIN: Page JS-->
-    <script src="{{ asset('js/scripts/pages/app-user.js') }}" defer></script>
+    <script src="{{ asset('js/scripts/pages/app-user.js') }}" ></script>
     <!-- END: Page JS-->
 
     {{--BEGIN:oportuniys scripts --}}
