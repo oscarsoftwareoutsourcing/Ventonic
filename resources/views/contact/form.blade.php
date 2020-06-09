@@ -181,8 +181,8 @@
                                                 <div class="form-label-group">
                                                     <input type="text" id="address-input" class="form-control map-input @error('direccion_empresa') is-invalid @enderror" 
                                                     name="direccion_empresa" placeholder="Direccion empresa" value="{{$contact->address ?? ''}}" {{$contact ? 'disabled' : ''}}>
-                                                    <input type="text" class="form-control" id="address-latitude" value="0" name="altitud" hidden>
-                                                    <input type="text" class="form-control" id="address-longitude" value="0" name="latitud" hidden>
+                                                    <input type="text" class="form-control" id="address-latitude" value="0" name="address_latitude" hidden>
+                                                    <input type="text" class="form-control" id="address-longitude" value="0" name="address_longitude" hidden>
 
                                                     <label for="company-column">Direccion Empresa</label>
                                                 </div>
@@ -204,12 +204,13 @@
                                                 </fieldset>
                                             </div> --}}
 
-                                            {{-- Mapa --}}
+                                            {{-- BEGIN Mapa --}}
                                             <div class="form-group col-12">
                                                 <div id="address-map-container" style="width:100%;height:400px; ">
                                                     <div style="width: 100%; height: 100%" id="address-map"></div>
                                                 </div>
                                             </div>
+                                            {{-- END Mapa --}}
                                             <div class="form-group col-12">
                                                 <fieldset class="checkbox">
                                                     <div class="vs-checkbox-con vs-checkbox-primary">
@@ -242,9 +243,9 @@
 </div>
 @endsection
 @section('extra-js')
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script> --}}
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAup2FlaQp927LHAou-mjVjRCmkD2pexXU&libraries=places&callback=initialize" async defer>
-
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>
+{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAup2FlaQp927LHAou-mjVjRCmkD2pexXU&libraries=places&callback=initialize" async defer> --}}
+<script>
 function initialize() {
 
 $('form').on('keyup keypress', function(e) {
