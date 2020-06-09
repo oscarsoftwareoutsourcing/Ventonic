@@ -61,7 +61,7 @@
                              role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title text-text-bold-600" id="cal-modal">Crear un Evento</h4>
+                                    <h4 class="modal-title text-text-bold-600" id="cal-modal">Agregar evento</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">×</span>
                                     </button>
@@ -81,7 +81,7 @@
                                                     </span>
                                                     <span class="dropdown-item work" data-color="warning">
                                                         <span class="bullet bullet-warning bullet-sm mr-25"></span>
-                                                        Recordatorio
+                                                        Recordatorios
                                                     </span>
                                                     <span class="dropdown-item personal" data-color="danger">
                                                         <span class="bullet bullet-danger bullet-sm mr-25"></span>
@@ -94,36 +94,94 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <fieldset class="form-label-group">
+                                        <div class="form-group">
+                                            <label for="">Evento</label>
                                             <input type="text" class="form-control" id="cal-event-title"
-                                                   placeholder="Añade un título">
-                                            <label for="cal-event-title">Titulo</label>
-                                        </fieldset>
-                                        <fieldset class="form-label-group">
-                                            <input type="date" class="form-control pickadate" id="cal-start-date"
-                                                   placeholder="Start Date">
-                                            <label for="cal-start-date">Start Date</label>
-                                        </fieldset>
-                                        <fieldset class="form-label-group">
-                                            <input type="date" class="form-control pickadate" id="cal-end-date"
-                                                   placeholder="End Date">
-                                            <label for="cal-end-date">End Date</label>
-                                        </fieldset>
-                                        <fieldset class="form-label-group">
+                                                   placeholder="Título del evento">
+                                            <input type="hidden" id="cal-event-id" readonly>
+                                            <span class="invalid-feedback mb-3" role="alert" class="d-none"
+                                                  id="cal_event_title_error">
+                                                <strong></strong>
+                                            </span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Cuándo</label>
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    <label for="">Desde</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="date" class="form-control pickadate"
+                                                           id="cal-start-date" placeholder="yyyy-mm-dd">
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="">a la(s)</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control pickatime" id="cal-start-time"
+                                                           placeholder="00:00">
+                                                </div>
+                                            </div>
+                                            <span class="invalid-feedback mb-3" role="alert" class="d-none"
+                                                  id="cal_event_start_at_error">
+                                                <strong></strong>
+                                            </span>
+                                            <span class="invalid-feedback mb-3" role="alert" class="d-none"
+                                                  id="cal_event_start_time_error">
+                                                <strong></strong>
+                                            </span>
+                                            <div class="row mt-1">
+                                                <div class="col-sm-2">
+                                                    <label for="">al</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="date" class="form-control pickadate" id="cal-end-date"
+                                                           placeholder="yyyy-mm-dd">
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="">a la(s)</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control pickatime" id="cal-end-time"
+                                                           placeholder="00:00">
+                                                </div>
+                                            </div>
+                                            <span class="invalid-feedback mb-3" role="alert" class="d-none"
+                                                  id="cal_event_end_at_error">
+                                                <strong></strong>
+                                            </span>
+                                            <span class="invalid-feedback mb-3" role="alert" class="d-none"
+                                                  id="cal_event_end_time_error">
+                                                <strong></strong>
+                                            </span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Descripción</label>
                                             <textarea class="form-control" id="cal-description" rows="5"
-                                                      placeholder="Añade una descripción"></textarea>
-                                            <label for="cal-description">Descripción</label>
-                                        </fieldset>
+                                                      placeholder="Descripción del evento"></textarea>
+                                            <span class="invalid-feedback mb-3" role="alert" class="d-none"
+                                                  id="cal_event_notes_error">
+                                                <strong></strong>
+                                            </span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Lugar</label>
+                                            <input type="text" class="form-control" id="cal-event-place"
+                                                   placeholder="Lugar del evento">
+                                            <span class="invalid-feedback mb-3" role="alert" class="d-none"
+                                                  id="cal_event_place_error">
+                                                <strong></strong>
+                                            </span>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button"
                                                 class="btn btn-primary cal-add-event waves-effect waves-light">
-                                            Agregar
+                                            Agregar evento
                                         </button>
                                         <button type="button"
-                                                class="btn btn-primary d-none cal-submit-event waves-effect waves-light"
-                                                disabled>
-                                            Enviar
+                                                class="btn btn-primary d-none cal-submit-event waves-effect waves-light">
+                                            Actualizar
                                         </button>
                                         <button type="button"
                                                 class="btn btn-flat-danger cancel-event waves-effect waves-light"
@@ -133,7 +191,7 @@
                                         <button type="button"
                                                 class="btn btn-flat-danger remove-event d-none waves-effect waves-light"
                                                 data-dismiss="modal">
-                                            Remove
+                                            Eliminar
                                         </button>
                                     </div>
                                 </form>
@@ -149,25 +207,23 @@
     {{-- END: Content --}}
 @endsection
 
+@section('vendor-js')
+
+@stop
+
 @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}" defer></script>
 @endsection
 
 @section('extra-js')
-    <script src="{{ asset('vendors/js/extensions/moment.min.js') }}"></script>
-    <script src="{{ asset('vendors/js/calendar/fullcalendar.min.js') }}"></script>
-    <script src="{{ asset('vendors/js/calendar/extensions/daygrid.min.js') }}"></script>
-    <script src="{{ asset('vendors/js/calendar/extensions/timegrid.min.js') }}"></script>
-    <script src="{{ asset('vendors/js/calendar/extensions/interactions.min.js') }}"></script>
-    <script src="{{ asset('vendors/js/pickers/pickadate/picker.js') }}"></script>
-    <script src="{{ asset('vendors/js/pickers/pickadate/picker.date.js') }}"></script>
-    <script src="{{ asset('js/scripts/extensions/fullcalendar.js') }}""></script>
-    <script>
-        /*$(document).ready(function() {
-            $('.cal-add-event').on('click', function() {
-
-            });
-        });*/
-    </script>
+    <script src="{{ asset('vendors/js/extensions/moment.min.js') }}" defer></script>
+    <script src="{{ asset('vendors/js/calendar/fullcalendar.min.js') }}" defer></script>
+    <script src="{{ asset('vendors/js/calendar/extensions/daygrid.min.js') }}" defer></script>
+    <script src="{{ asset('vendors/js/calendar/extensions/timegrid.min.js') }}" defer></script>
+    <script src="{{ asset('vendors/js/calendar/extensions/interactions.min.js') }}" defer></script>
+    <script src="{{ asset('vendors/js/pickers/pickadate/picker.js') }}" defer></script>
+    <script src="{{ asset('vendors/js/pickers/pickadate/picker.date.js') }}" defer></script>
+    <script src="{{ asset('vendors/js/pickers/pickadate/picker.time.js') }}" defer></script>
+    <script src="{{ asset('js/scripts/extensions/fullcalendar.js') }}" defer></script>
 @endsection
 

@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/panel', function () {
-      return view('panel');
+    return view('panel');
 });
 
 //ruta de prueba
@@ -33,7 +33,7 @@ Route::get('calender', function () {
         return view('calender');
     }
     return view('welcome');
-});
+})->name('events.calender');
 
 Route::get('acceso/{type?}', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('acceso', 'Auth\LoginController@login');
@@ -80,6 +80,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         return $response;
     });
     Route::resource('events', 'EventController');
+    Route::get('ultimos-eventos', 'EventController@lastEvents')->name('events.list');
+    Route::post('get-country-flag', 'ProfileController@getCountryFlag')->name('get-country-flag');
 });
 
 /* Routas para oportunidades */
@@ -98,7 +100,7 @@ Route::get('estatus/{id}/{estatus_postulations_id}', 'AplicantController@updateS
 
 
 /*Notificaciones */
-Route::get('markAsRead', function(){
+Route::get('markAsRead', function () {
     auth()->user()->unreadNotifications->markAsRead();
 });
 
@@ -118,4 +120,3 @@ Route::get('contacto/listado', 'ContactController@index')->name('contact.list')-
 Route::get('contacto/crear/{contact?}', 'ContactController@create')->name('contact.create')->middleware('verified');
 Route::post('contacto/save', 'ContactController@store')->name('contact.save')->middleware('verified');
 Route::get('contacto/widget/{contacts?}', 'ContactController@show')->name('contact.show')->middleware('verified');
-

@@ -11,8 +11,10 @@ class Event extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'start_at', 'end_at', 'notes', 'tags', 'private', 'user_id'];
+    protected $fillable = ['title', 'start_at', 'end_at', 'notes', 'category', 'private', 'place', 'user_id'];
     protected $hidden = ['created_at', 'updated_at'];
+    protected $appends = ['category_color', 'category_name', 'category_color_class'];
+    protected $dates = ['start_at', 'end_at'];
 
     /**
      * Event belongs to User.
@@ -22,5 +24,69 @@ class Event extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getCategoryColorAttribute()
+    {
+        $color = '';
+        switch ($this->category) {
+            case 'B':
+                $color = '#28C76F';
+                break;
+            case 'W':
+                $color = '#FF9F43';
+                break;
+            case 'P':
+                $color = '#EA5455';
+                break;
+            default:
+                $color = '#7367F0';
+                break;
+        }
+
+        return $color;
+    }
+
+    public function getCategoryNameAttribute()
+    {
+        $name = '';
+
+        switch ($this->category) {
+            case 'B':
+                $name = 'Eventos';
+                break;
+            case 'W':
+                $name = 'Recordatorios';
+                break;
+            case 'P':
+                $name = 'Tareas';
+                break;
+            default:
+                $name = 'Otros';
+                break;
+        }
+
+        return $name;
+    }
+
+    public function getCategoryColorClassAttribute()
+    {
+        $class = '';
+        switch ($this->category) {
+            case 'B':
+                $class = 'success';
+                break;
+            case 'W':
+                $class = 'warning';
+                break;
+            case 'P':
+                $class = 'danger';
+                break;
+            default:
+                $class = 'primary';
+                break;
+        }
+
+        return $class;
     }
 }

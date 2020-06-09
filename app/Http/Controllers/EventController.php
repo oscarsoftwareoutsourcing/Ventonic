@@ -18,10 +18,15 @@ class EventController extends Controller
         $calendarEvents = [];
         foreach ($events as $event) {
             $calendarEvents[] = [
+                'id' => $event->id,
                 'title' => $event->title,
                 'start' => $event->start_at,
                 'end' => $event->end_at,
-                'notes' => $event->notes
+                'description' => $event->notes,
+                'category' => $event->category ?? 'Otros',
+                'place' => $event->place ?? '',
+                'color' => $event->category_color,
+                'dataEventColor' => $event->category_color_class
             ];
         }
         return response()->json($calendarEvents);
@@ -48,15 +53,27 @@ class EventController extends Controller
         $this->validate($request, [
             'title' => ['required'],
             'start_at' => ['required', 'date'],
+            'start_time' => ['required'],
             'end_at' => ['required', 'date'],
+            'end_time' => ['required'],
             'notes' => ['required']
+        ], [
+            'start_at.required' => 'El campo de fecha inicial es obligatorio',
+            'start_at.date' => 'El campo de fecha inicial no tiene un formato válido',
+            'start_time.required' => 'El campo de hora inicial es obligatorio',
+            'end_at.required' => 'El campo de fecha final es obligatorio',
+            'end_at.date' => 'El campo de fecha final no tiene un formato válido',
+            'end_time.required' => 'El campo de hora final es obligatorio',
+            'notes.required' => 'El campo descripción es obligatorio'
         ]);
 
         Event::create([
+            'category' => $this->setCategory($request->category),
             'title' => $request->title,
-            'start_at' => $request->start_at,
-            'end_at' => $request->end_at,
+            'start_at' => $request->start_at . ' ' . $request->start_time.':00',
+            'end_at' => $request->end_at . ' ' . $request->end_time.':00',
             'notes' => $request->notes,
+            'place' => $request->place ?? null,
             'user_id' => auth()->user()->id
         ]);
 
@@ -94,7 +111,36 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $this->validate($request, [
+            'title' => ['required'],
+            'start_at' => ['required', 'date'],
+            'start_time' => ['required'],
+            'end_at' => ['required', 'date'],
+            'end_time' => ['required'],
+            'notes' => ['required']
+        ], [
+            'start_at.required' => 'El campo de fecha inicial es obligatorio',
+            'start_at.date' => 'El campo de fecha inicial no tiene un formato válido',
+            'start_time.required' => 'El campo de hora inicial es obligatorio',
+            'end_at.required' => 'El campo de fecha final es obligatorio',
+            'end_at.date' => 'El campo de fecha final no tiene un formato válido',
+            'end_time.required' => 'El campo de hora final es obligatorio',
+            'notes.required' => 'El campo descripción es obligatorio'
+        ]);
+
+        $event->title = $request->title;
+        $event->start_at = $request->start_at . ' ' . $request->start_time.':00';
+        $event->end_at = $request->end_at . ' ' . $request->end_time.':00';
+        $event->notes = $request->notes;
+        if ($request->category) {
+            $event->category = $this->setCategory($request->category);
+        }
+        if ($request->place) {
+            $event->place = $request->place;
+        }
+        $event->save();
+
+        return response()->json(['result' => true], 200);
     }
 
     /**
@@ -105,6 +151,35 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        $event->delete();
+
+        return response()->json(['result' => true], 200);
+    }
+
+    public function setCategory($color)
+    {
+        $category = '';
+        switch (strtoupper($color)) {
+            case '#28C76F':
+                $category = 'B';
+                break;
+            case '#FF9F43':
+                $category = 'W';
+                break;
+            case '#EA5455':
+                $category = 'P';
+                break;
+            default:
+                $category = 'O';
+                break;
+        }
+        return $category;
+    }
+
+    public function lastEvents()
+    {
+        $events = Event::orderBy('start_at', 'desc')->get()->take(10);
+
+        return view('events', compact('events'));
     }
 }
