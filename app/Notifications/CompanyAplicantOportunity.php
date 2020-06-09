@@ -17,11 +17,13 @@ class CompanyAplicantOportunity extends Notification
      *
      * @return void
      */
-    public function __construct($postulation, $oportunity_title, $seller_name)
+    public function __construct($postulation, $oportunity_title, $seller_name, $time)
     {
         $this->postulation =$postulation;
         $this->oportunity_title =$oportunity_title;
         $this->seller_name =$seller_name;
+        $this->time =$time;
+
     }
 
     /**
@@ -77,7 +79,8 @@ class CompanyAplicantOportunity extends Notification
         return [
             'aplicantName'=>$notifiable->name,
             'oportunityName'=>$this->oportunity_title,
-            'sellerName'=>$this->seller_name
+            'sellerName'=>$this->seller_name,
+            'time'=>$this->time
         ];
     }
 
@@ -92,7 +95,8 @@ class CompanyAplicantOportunity extends Notification
         return new BroadcastMessage([
             'aplicantName'=>$notifiable->name,
             'oportunityName'=>$this->oportunity_title,
-            'sellerName'=>$this->seller_name
+            'sellerName'=>$this->seller_name,
+            'time'=>$this->time
         ]);
     }
 

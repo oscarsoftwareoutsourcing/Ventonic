@@ -74,7 +74,7 @@
         methods: {
             markNotificationAsRead(){
                 if(this.unreadNotifications.length){
-                    axios.get('/markAsRead')
+                    axios.get('markAsRead')
                 }
             }
         },
@@ -83,7 +83,8 @@
             .notification((notification) => {
                 let newUnreadNotifications = {data:{aplicantName:notification.aplicantName, 
                                                    oportunityName:notification.oportunityName,
-                                                   sellerName:notification.sellerName}};
+                                                   sellerName:notification.sellerName,
+                                                   time:notification.time}};
                 this.unreadNotifications.push(newUnreadNotifications);
             });
         }

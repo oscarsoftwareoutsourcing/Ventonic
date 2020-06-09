@@ -44,6 +44,9 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "file":[
+            "app/Helpers/FormatTime.php"
         ]
     },
     "autoload-dev": {
@@ -51,6 +54,8 @@
             "Tests\\": "tests/"
         }
     },
+    
+    
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
