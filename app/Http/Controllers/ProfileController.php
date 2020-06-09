@@ -65,7 +65,7 @@ class ProfileController extends Controller
             foreach ($request->question as $q) {
                 list($question_id, $option_index) = explode("_", $q);
                 $question_id = (strpos($question_id, '_') !== false)
-                               ? explode("_", $question_id)[0] : $question_id;
+                    ? explode("_", $question_id)[0] : $question_id;
                 array_push($answered, [
                     'question_id' => $question_id,
                     'option_index' => $option_index
@@ -154,8 +154,8 @@ class ProfileController extends Controller
 
         if ($answered) {
             $answeredSurveys = (($this->getType() === 'V'))
-                               ? SellerAnsweredSurvey::where('user_id', auth()->user()->id)->get()
-                               : CompanyAnsweredSurvey::where('user_id', auth()->user()->id)->get();
+                ? SellerAnsweredSurvey::where('user_id', auth()->user()->id)->get()
+                : CompanyAnsweredSurvey::where('user_id', auth()->user()->id)->get();
             if ($answeredSurveys) {
                 foreach ($answeredSurveys as $ans) {
                     $ans->delete();
@@ -165,16 +165,16 @@ class ProfileController extends Controller
                 if ($this->getType() === 'V') {
                     SellerAnsweredSurvey::create(
                         [
-                            'option_index' => (int)$ans['option_index'],
-                            'question_id' => (int)$ans['question_id'],
+                            'option_index' => (int) $ans['option_index'],
+                            'question_id' => (int) $ans['question_id'],
                             'user_id' => auth()->user()->id
                         ]
                     );
                 } else {
                     CompanyAnsweredSurvey::create(
                         [
-                            'option_index' => (int)$ans['option_index'],
-                            'question_id' => (int)$ans['question_id'],
+                            'option_index' => (int) $ans['option_index'],
+                            'question_id' => (int) $ans['question_id'],
                             'user_id' => auth()->user()->id
                         ]
                     );
@@ -264,7 +264,7 @@ class ProfileController extends Controller
     {
         $type = $this->getType();
         $user = User::find(auth()->user()->id);
-        $profile = ($type==='E') ? $user->companyProfile : $user->sellerProfile;
+        $profile = ($type === 'E') ? $user->companyProfile : $user->sellerProfile;
         $status = 0;
 
         if (!is_null($profile)) {
@@ -308,5 +308,29 @@ class ProfileController extends Controller
         $this->profile = $profile;
 
         return $this->status;
+    }
+
+    public function getCountryFlag(Request $request)
+    {
+        $countryFlag = ($request->country_code) ? $this->setCountryFlag($request->country_code) : '';
+        return response()->json(['country_flag' => $countryFlag], 200);
+    }
+
+    public function setCountryFlag($callingCode)
+    {
+        $countries = Cache::rememberForever('countries', function () {
+            return Countries::all();
+        });
+        $flag = false;
+        $callingCode = str_replace("+", "", $callingCode);
+
+        foreach ($countries as $country) {
+            if (isset($country['dialling']['calling_code']) && $country['dialling']['calling_code'] && in_array($callingCode, $country['dialling']['calling_code'])) {
+                $flag = $country->flag->flag_icon;
+                break;
+            }
+        }
+
+        return $flag;
     }
 }

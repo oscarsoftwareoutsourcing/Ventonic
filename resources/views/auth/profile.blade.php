@@ -52,9 +52,15 @@
                                         <div class="col-md-2">
                                             <div class="input-group">
                                                 <div class="input-group-append">
-                                                    <span class="input-group-text">{!! $country_flag !!}</span>
+                                                    <span class="input-group-text">
+                                                        @if (!is_null($profile) && $profile->country_flag)
+                                                            {!! $profile->country_flag !!}
+                                                        @else
+                                                            {!! $country_flag !!}
+                                                        @endif
+                                                    </span>
                                                 </div>
-                                                <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ old('country') ?? '+' . $phone_code }}" required autocomplete="country" autofocus>
+                                                <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ old('country') ?? ((!is_null($profile)) ? $profile->country : '+' . $phone_code) }}" required autocomplete="country" autofocus>
                                             </div>
 
                                             @error('country')
@@ -105,17 +111,23 @@
                                     {{-- Perfil del vendedor --}}
                                     <div class="form-group row">
                                         <label for="phone_mobil" class="col-md-4 col-form-label text-md-right">
-                                            {{ __('Teléfono mobil') }}
+                                            {{ __('Teléfono móvil') }}
                                         </label>
                                         <div class="col-md-4">
                                             <div class="input-group">
                                                 <div class="input-group-append">
-                                                    <span class="input-group-text">{!! $country_flag !!}</span>
+                                                    <span class="input-group-text">
+                                                        @if (!is_null($profile) && $profile->mobil_country_flag)
+                                                            {!! $profile->mobil_country_flag !!}
+                                                        @else
+                                                            {!! $country_flag !!}
+                                                        @endif
+                                                    </span>
                                                 </div>
                                                 <input type="text" class="form-control col-3 @error('phone_mobil_country') is-invalid @enderror"
                                                     name="phone_mobil_country"
-                                                    value="{{ old('phone_mobil_country') ?? '+' . $phone_code }}"
-                                                    required autocomplete="phone_mobil_country" autofocus>
+                                                    value="{{ old('phone_mobil_country') ?? ((!is_null($profile)) ? $profile->phone_mobil_country : '+' . $phone_code) }}"
+                                                    required autocomplete="phone_mobil_country" onblur="getCountryFlag($(this))"  autofocus>
                                                 <input type="text" class="form-control ml-3 @error('phone_mobil') is-invalid @enderror" name="phone_mobil" value="{{ old('phone_mobil') ?? ((!is_null($profile)) ? $profile->phone_mobil : '') }}"
                                                 required autocomplete="phone_mobil" maxlength="9">
                                             </div>
@@ -156,11 +168,17 @@
                                         <div class="col-md-4">
                                             <div class="input-group">
                                                 <div class="input-group-append">
-                                                    <span class="input-group-text">{!! $country_flag !!}</span>
+                                                    <span class="input-group-text">
+                                                        @if (!is_null($profile) && $profile->home_country_flag)
+                                                            {!! $profile->home_country_flag !!}
+                                                        @else
+                                                            {!! $country_flag !!}
+                                                        @endif
+                                                    </span>
                                                 </div>
                                                 <input type="text" class="form-control col-3 @error('phone_home_country') is-invalid @enderror" name="phone_home_country"
-                                                value="{{ old('phone_home_country') ?? '+' . $phone_code }}"
-                                                    autocomplete="phone_home_country" autofocus>
+                                                value="{{ old('phone_home_country') ?? ((!is_null($profile)) ? $profile->phone_home_country : '+' . $phone_code) }}"
+                                                    autocomplete="phone_home_country" onblur="getCountryFlag($(this))" autofocus>
                                                 <input type="text" class="form-control ml-3 @error('phone_home') is-invalid @enderror" name="phone_home" value="{{ old('phone_home') ?? ((!is_null($profile)) ? $profile->phone_home : '') }}"
                                                 autocomplete="phone_home" maxlength="9">
                                             </div>
@@ -300,3 +318,24 @@
 </div>
 @endsection
 
+@section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+@endsection
+
+@section('extra-js')
+    @parent
+    <script>
+        function getCountryFlag(el) {
+            el.val();
+            axios.post('{{ route('get-country-flag') }}', {
+                country_code: el.val()
+            }).then(response => {
+                if (response.data.country_flag) {
+                    el.closest('.input-group').find('span').html(response.data.country_flag);
+                }
+            }).catch(error => {
+                console.error(error);
+            });
+        }
+    </script>
+@endsection

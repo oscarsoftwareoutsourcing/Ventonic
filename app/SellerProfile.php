@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use PragmaRX\Countries\Package\Countries;
+use Illuminate\Support\Facades\Cache;
 
 class SellerProfile extends Model
 {
@@ -17,6 +19,8 @@ class SellerProfile extends Model
         'answered' => 'object',
     ];
 
+    protected $append = ['mobil_country_flag', 'home_country_flag'];
+
     /**
      * SellerProfile belongs to User.
      *
@@ -27,7 +31,31 @@ class SellerProfile extends Model
         return $this->belongsTo(User::class);
     }
 
-    //Scopes
-    
+    public function getMobilCountryFlagAttribute()
+    {
+        return $this->setCountryFlag($this->phone_mobil_country);
+    }
 
+    public function getHomeCountryFlagAttribute()
+    {
+        return ($this->phone_home_country) ? $this->setCountryFlag($this->phone_home_country) : '';
+    }
+
+    public function setCountryFlag($callingCode)
+    {
+        $countries = Cache::rememberForever('countries', function () {
+            return Countries::all();
+        });
+        $flag = false;
+        $callingCode = str_replace("+", "", $callingCode);
+
+        foreach ($countries as $country) {
+            if (isset($country['dialling']['calling_code']) && $country['dialling']['calling_code'] && in_array($callingCode, $country['dialling']['calling_code'])) {
+                $flag = $country->flag->flag_icon;
+                break;
+            }
+        }
+
+        return $flag;
+    }
 }

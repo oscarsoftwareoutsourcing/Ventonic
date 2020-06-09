@@ -43,7 +43,7 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showLoginForm($type = null)
+    public function showLoginForm($type = 'vendedor')
     {
         return view('auth.login', compact('type'));
     }

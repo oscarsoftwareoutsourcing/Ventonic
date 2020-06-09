@@ -1,5 +1,5 @@
 @extends('layouts.app-dashboard')
- 
+
 @section('content')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -23,7 +23,7 @@
                                         <input type="text" class="form-control" name="title" id="title" placeholder="Titulo" value="{{$oportunity->title ?? ''}}" disabled>
                                       </div>
                                     </div>
-                                    
+
                                     <div class="form-row">
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="validationTooltip01">Empresa<span class="obligatorio">*</span></label>
@@ -36,7 +36,7 @@
                                           <input type="text" class="form-control @error('cargo') is-invalid @enderror" name="cargo" value="{{$oportunity->cargo ?? ''}}" placeholder="Cargo" disabled>
                                           @error('cargo')
                                             <div class="alert alert-danger">{{ $message }}</div>
-                                          @enderror 
+                                          @enderror
                                         </div>
 
                                         <div class="col-md-4 col-12 mb-3">
@@ -44,9 +44,9 @@
                                           <input type="text" class="form-control @error('ubication') is-invalid @enderror" name="ubication" placeholder="Ciudad, Provincia, Pais" value="{{$oportunity->ubication ?? ''}}" disabled>
                                           @error('ubication')
                                             <div class="alert alert-danger">{{ $message }}</div>
-                                          @enderror 
+                                          @enderror
                                         </div>
-                                        
+
                                     </div>
 
                                     <div class="form-row">
@@ -55,7 +55,7 @@
                                           <input type="text" class="form-control @error('functions') is-invalid @enderror" name="functions" value="{{$oportunity->functions ?? ''}}" disabled>
                                           @error('functions')
                                             <div class="alert alert-danger">{{ $message }}</div>
-                                          @enderror 
+                                          @enderror
                                         </div>
 
                                         <div class="col-md-4 col-12 mb-3">
@@ -67,10 +67,10 @@
                                           </select>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-row">
                                         <div class="col-md-8 col-12 mb-3">
-                                          <label for="validationTooltip01">Sector de la empresa<span class="obligatorio">*</span></label>                                         
+                                          <label for="validationTooltip01">Sector de la empresa<span class="obligatorio">*</span></label>
                                           <select class="select2 form-control max-length @error('sectors') is-invalid @enderror" name="sectors[]" id="sectors" multiple="multiple" disabled>
                                             @foreach($sectorsAll as $sector)
                                               <option value="{{$sector->id}}" {{$oportunity ? App\Oportunity::getSector($oportunity->sectors, $sector->id) :''}}>{{$sector->description}}</option>
@@ -84,7 +84,7 @@
                                             <option>Selecciona una opcion</option>
                                             @foreach($ubicationOportunitys as $ubicationOportunity)
                                               <option value="{{$ubicationOportunity->id}}" {{$oportunity && $ubicationOportunity->id==$oportunity->ubication_oportunity_id ? 'selected' : ''}}>{{$ubicationOportunity->description}}</option>
-                                            @endforeach   
+                                            @endforeach
                                           </select>
                                         </div>
 
@@ -96,7 +96,7 @@
                                           <textarea class="form-control" name="description" rows="3" disabled>{{App\Oportunity::strTags($oportunity->description)}}</textarea>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-row">
                                       <div class="col-md-12 col-12 mb-3">
                                         <label for="validationTooltip01">Aptitudes requeridas</label>
@@ -107,7 +107,7 @@
                                         </select>
                                       </div>
                                     </div>
-                                
+
                                 @if(isset($oportunity->email_contact))
                                 <div class="form-row">
                                   <div class="col-md-12 col-12 mb-3">
@@ -141,7 +141,7 @@
 
                                 <div class="row">
                                   <div class="col-12">
-                                      
+
                                       <div class="row justify-content-center senForm-step1">
                                           <div class="col-12 justify-content-center">
                                               <div class="divider">
@@ -153,7 +153,7 @@
                                                 <div class="divider-text"></div>
                                                 @endif
 
-                                              </div> 
+                                              </div>
                                           </div>
 
                                           <div class="col-4 justify-content-center content-btn-save-oportunity">
@@ -163,10 +163,10 @@
                                                 GUARDAR
                                                 </a>
                                               </button>
-                                            
+
                                             @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)==null)
                                               <button type="button" class="btn btn-primary waves-effect waves-light mx-auto mt-1" name="candidatura" data-toggle="modal" data-target="#primary" id="postularseBtn" value="candidatura">PRESENTAR MI CANDIDATURA</button>
-                                            
+
                                             @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)!=null)
                                               <span> Ya te has postulado para esta oportunidad</span>
                                              @endif
@@ -180,7 +180,7 @@
                                                                   <span aria-hidden="true">&times;</span>
                                                               </button>
                                                           </div>
-                                                      
+
                                                           <form method="POST" action="{{ route('oportunity.postulation') }}" id="formPostular">
                                                               @csrf
                                                             <div class="modal-body">
@@ -192,7 +192,7 @@
                                                                   <input type="text" name="oportunity_id" value="{{$oportunity->id}}" hidden>
                                                                   {{-- <input type="text" name="status" value="1" hidden> --}}
                                                                 </div>
-                                                              </div>                      
+                                                              </div>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="submit" name="contact-directo" value="mensaje-directo" class="btn btn-primary">Confirmar</button>
@@ -233,12 +233,12 @@
 </script>
 
 <script>
-  // $(document).on('submit', '#formPostular', function(e) {  
+  // $(document).on('submit', '#formPostular', function(e) {
   //           e.preventDefault();
-             
+
   //           // $('input+small').text('');
   //           // $('input').parent().removeClass('has-error');
-             
+
   //           $.ajax({
   //               method: $(this).attr('method'),
   //               url: $(this).attr('action'),

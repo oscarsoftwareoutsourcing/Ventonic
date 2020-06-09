@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // chip text object for different event types
     var categoryText = {
-        primary: "Others",
-        success: "Business",
-        danger: "Personal",
-        warning: "Work"
+        primary: "Otros",
+        success: "Eventos",
+        danger: "Tareas",
+        warning: "Recordatorios"
     };
     var categoryBullets = $(".cal-category-bullets").html(),
         evtColor = "",
@@ -36,13 +36,13 @@ document.addEventListener('DOMContentLoaded', function() {
             url: '/events',
             method: 'GET',
             failure: function() {
-                alert('there was an error while fetching events!');
+                alert('se encontraron errores al cargar los eventos!');
             },
         }],
         plugins: ["dayGrid", "timeGrid", "interaction"],
         customButtons: {
             addNew: {
-                text: ' Nuevo',
+                text: ' Agregar',
                 click: function() {
                     var calDate = new Date,
                         todaysDate = calDate.toISOString().slice(0, 10);
@@ -54,7 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     $(".modal-calendar .add-category .chip").remove();
                     $("#cal-start-date").val(todaysDate);
                     $("#cal-end-date").val(todaysDate);
+                    $("#cal-event-id").val('');
                     $(".modal-calendar #cal-start-date").attr("disabled", false);
+                    $(".modal-calendar .modal-footer .btn").removeAttr("disabled");
                 }
             }
         },
@@ -71,15 +73,21 @@ document.addEventListener('DOMContentLoaded', function() {
             $(".modal-calendar").modal("show");
         },
         dateClick: function(info) {
-            $(".modal-calendar #cal-start-date").val(info.dateStr).attr("disabled", true);
+            $(".modal-calendar #cal-start-date").val(info.dateStr); //.attr("disabled", true);
             $(".modal-calendar #cal-end-date").val(info.dateStr);
         },
         // displays saved event values on click
         eventClick: function(info) {
             $(".modal-calendar").modal("show");
+            info.event._def.hasEnd = true;
+
+            $(".modal-calendar #cal-event-id").val(info.event.id || '');
             $(".modal-calendar #cal-event-title").val(info.event.title);
+            $(".modal-calendar #cal-event-place").val(info.event.place || '');
             $(".modal-calendar #cal-start-date").val(moment(info.event.start).format('YYYY-MM-DD'));
+            $(".modal-calendar #cal-start-time").val(moment(info.event.start).format('HH:mm'));
             $(".modal-calendar #cal-end-date").val(moment(info.event.end).format('YYYY-MM-DD'));
+            $(".modal-calendar #cal-end-time").val(moment(info.event.end).format('HH:mm'));
             $(".modal-calendar #cal-description").val(info.event.extendedProps.description);
             $(".modal-calendar .cal-submit-event").removeClass("d-none");
             $(".modal-calendar .remove-event").removeClass("d-none");
@@ -87,14 +95,15 @@ document.addEventListener('DOMContentLoaded', function() {
             $(".modal-calendar .cancel-event").addClass("d-none");
             $(".calendar-dropdown .dropdown-menu").find(".selected").removeClass("selected");
             var eventCategory = info.event.extendedProps.dataEventColor;
-            var eventText = categoryText[eventCategory]
+            var eventText = categoryText[eventCategory];
+
             $(".modal-calendar .chip-wrapper .chip").remove();
             $(".modal-calendar .chip-wrapper").append($("<div class='chip chip-" + eventCategory + "'>" +
                 "<div class='chip-body'>" +
                 "<span class='chip-text'> " + eventText + " </span>" +
                 "</div>" +
                 "</div>"));
-        },
+        }
     });
 
     // render calendar
@@ -108,13 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
         $(".modal-calendar").modal("hide");
     });
 
-    // Remove Event
-    $(".remove-event").on("click", function() {
-        var removeEvent = calendar.getEventById('newEvent');
-        removeEvent.remove();
-    });
-
-
     // reset input element's value for new event
     if ($("td:not(.fc-event-container)").length > 0) {
         $(".modal-calendar").on('hidden.bs.modal', function(e) {
@@ -123,13 +125,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // remove disabled attr from button after entering info
-    $(".modal-calendar .form-control").on("keyup", function() {
+    /*$(".modal-calendar .form-control").on("keyup", function() {
         if ($(".modal-calendar #cal-event-title").val().length >= 1) {
             $(".modal-calendar .modal-footer .btn").removeAttr("disabled");
         } else {
             $(".modal-calendar .modal-footer .btn").attr("disabled", true);
         }
-    });
+    });*/
 
     // open add event modal on click of day
     $(document).on("click", ".fc-day", function() {
@@ -140,7 +142,8 @@ document.addEventListener('DOMContentLoaded', function() {
         $(".modal-calendar .cal-add-event").removeClass("d-none");
         $(".modal-calendar .cancel-event").removeClass("d-none");
         $(".modal-calendar .add-category .chip").remove();
-        $(".modal-calendar .modal-footer .btn").attr("disabled", true);
+        //$(".modal-calendar .modal-footer .btn").attr("disabled", true);
+        $("#cal-event-id").val('');
         evtColor = colors.primary;
         eventColor = "primary";
     });
@@ -175,36 +178,98 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // calendar add event
     $(".cal-add-event").on("click", function() {
-        $(".modal-calendar").modal("hide");
+        var errors = {};
         axios.post('/events', {
             title: $('#cal-event-title').val(),
             start_at: $('#cal-start-date').val(),
+            start_time: $('#cal-start-time').val(),
             end_at: $('#cal-end-date').val(),
-            notes: $('#cal-description').val()
+            end_time: $('#cal-end-time').val(),
+            notes: $('#cal-description').val(),
+            place: $('#cal-event-place').val(),
+            category: evtColor
         }).then(response => {
-            //recargar el calendario
+            if (response.data.result) {
+                $(".modal-calendar").modal("hide");
+                var eventTitle = $("#cal-event-title").val(),
+                    eventPlace = $("#cal-event-place").val(),
+                    startDate = $("#cal-start-date").val(),
+                    endDate = $("#cal-end-date").val(),
+                    eventDescription = $("#cal-description").val(),
+                    correctEndDate = new Date(endDate);
+                calendar.addEvent({
+                    id: $('#cal-event-id').val() || "newEvent",
+                    title: eventTitle,
+                    start: startDate,
+                    end: correctEndDate,
+                    description: eventDescription,
+                    color: evtColor,
+                    dataEventColor: eventColor,
+                    place: eventPlace,
+                    allDay: true
+                });
+            }
         }).catch(error => {
-            console.error(error);
-        });
-        var eventTitle = $("#cal-event-title").val(),
-            startDate = $("#cal-start-date").val(),
-            endDate = $("#cal-end-date").val(),
-            eventDescription = $("#cal-description").val(),
-            correctEndDate = new Date(endDate);
-        calendar.addEvent({
-            id: "newEvent",
-            title: eventTitle,
-            start: startDate,
-            end: correctEndDate,
-            description: eventDescription,
-            color: evtColor,
-            dataEventColor: eventColor,
-            allDay: true
+            if (typeof(error.response) !="undefined") {
+                for (var index in error.response.data.errors) {
+                    if (error.response.data.errors[index]) {
+                        $(`#cal_event_${index}_error`).find('strong').html(`${error.response.data.errors[index][0]}`);
+                        $(`#cal_event_${index}_error`).show();
+                    }
+                }
+            }
         });
     });
 
+    // calendar update event
+    $(".cal-submit-event").on("click", function() {
+        axios.put('/events/' + $('#cal-event-id').val(), {
+            title: $('#cal-event-title').val(),
+            start_at: $('#cal-start-date').val(),
+            start_time: $('#cal-start-time').val(),
+            end_at: $('#cal-end-date').val(),
+            end_time: $('#cal-end-time').val(),
+            notes: $('#cal-description').val(),
+            place: $('#cal-event-place').val(),
+            category: evtColor
+        }).then(response => {
+            if (response.data.result) {
+                $(".modal-calendar").modal("hide");
+                calendar.refetchEvents();
+            }
+        }).catch(error => {
+            if (typeof(error.response) !="undefined") {
+                for (var index in error.response.data.errors) {
+                    if (error.response.data.errors[index]) {
+                        $(`#cal_event_${index}_error`).find('strong').html(`${error.response.data.errors[index][0]}`);
+                        $(`#cal_event_${index}_error`).show();
+                    }
+                }
+            }
+        });
+    });
+
+    // Remove Event
+    $(".remove-event").on("click", function() {
+        /*var removeEvent = calendar.getEventById('newEvent');
+        removeEvent.remove();*/
+        if ($('#cal-event-id').val()){
+            axios.delete('/events/' + $('#cal-event-id').val()).then(response => {
+                if (response.data.result) {
+                    calendar.refetchEvents();
+                }
+            }).catch(error => {
+                console.error(error);
+            });
+        }
+    });
+
     // date picker
-    /*$(".pickadate").pickadate({
-      format: 'yyyy-mm-dd'
-    });*/
+    $(".pickadate").pickadate({
+        format: 'yyyy-mm-dd'
+    });
+    $(".pickatime").pickatime({
+        format: 'H:i',
+        interval: 15
+    });
 });
