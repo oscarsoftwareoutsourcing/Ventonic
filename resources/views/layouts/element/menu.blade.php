@@ -28,10 +28,10 @@
             </li>
             {{-- Oportunidades --}}
             @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
-            <li class=" nav-item"><a href="{{ route('oportunity.saved') }}"><i class="feather icon-star"></i><span class="menu-title" data-i18n="Oportunidades">Oportunidades</span></a>
+            <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-star"></i><span class="menu-title" data-i18n="Oportunidades">Oportunidades</span></a>
                 @if(\Auth::user()->type=="E")
                 <ul class="menu-content">
-                    <li><a href="{{ route('oportunity.saved') }}"><i class="feather icon-list"></i><span class="menu-item" data-i18n="Mis Oportunidades">Mis oportunidades</span></a>
+                    <li><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item" data-i18n="Mis Oportunidades">Mis oportunidades</span></a>
                     </li>
                 </ul>
                 @endif
