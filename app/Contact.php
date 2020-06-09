@@ -10,7 +10,7 @@ class Contact extends Model
                            'company', 'address', 'city', 'province', 
                            'postal_code', 'sector', 'notes', 'share', 
                            'type', 'country_id','user_id', 'favorite', 
-                            'cargo'];
+                            'cargo', 'address_latitude', 'address_longitude'];
 
 
     public function user(){

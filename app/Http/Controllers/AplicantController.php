@@ -53,19 +53,15 @@ class AplicantController extends Controller
         $recipient_seller=User::find(auth()->user()->id);
         $recipient_company=User::find($company_id);
         $postulation_new=Aplicant::first();
-                // var_dump($postulation); die();
 
         $time=FormatTime::LongTimeFilter($postulation->created_at);
-        // var_dump($time); die();
 
         $recipient_seller->notify(new SellerAplicantOportunity($postulation, $oportunity_title));
         $recipient_company->notify(new CompanyAplicantOportunity($postulation, $oportunity_title, $seller_name, $time));
-        // $recipient_seller->notify(new CompanyAplicantOportunity($postulation, $oportunity_title, $seller_name, $time));
 
         // Notificaciones
         // event(new PostulationOportunity($postulation));
 
-        // return
         return view('oportunitys.oportunitys', ['oportunitys'=> $oportunitys]);
     }
 
