@@ -73,10 +73,11 @@
    {{-- <script src="{{ asset('js/app.js') }}" defer></script>
 
      <script src="{{ asset('js/app.js') }}"></script> --}}
-
     <!-- BEGIN: Vendor JS-->
     @section('vendor-js')
-    <script src="{{ asset('vendors/js/vendors.min.js') }}" defer></script>
+    {{-- <script src="{{ asset('vendors/js/vendors.min.js') }}" defer></script> --}}
+    <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>
+
     @show
     <script src="{{ asset('vendors/js/forms/select/select2.full.min.js') }}"></script>
     <!-- END Vendor JS-->
@@ -84,22 +85,28 @@
     <script src="{{ asset('js/pusher.min.js') }}"></script>
 
     <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('js/core/app-menu.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/core/app-menu.js') }}" defer></script>
     <script src="{{ asset('js/core/app.js') }}" defer></script>
-    <script src="{{ asset('js/scripts/components.js') }}" defer></script>
+    <script src="{{ asset('js/scripts/components.js') }}" defer></script> --}}
+    <script src="{{ asset('js/core/app-menu.js') }}"></script>
+    <script src="{{ asset('js/core/app.js') }}"></script>
+    <script src="{{ asset('js/scripts/components.js') }}"></script>
+
     <!-- END: Theme JS-->
+    
+    {{--BEGIN:oportuniys scripts --}}
+    <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
+    {{--END:oportunitys scripts --}}
 
     {{--BEGIN:Modal --}}
     <script src="{{ asset('js/scripts/modal/components-modal.js') }}"></script>
     {{--END:Modal --}}
 
     <!-- BEGIN: Page JS-->
-    <script src="{{ asset('js/scripts/pages/app-user.js') }}" defer></script>
-    <!-- END: Page JS-->
+    <script src="{{ asset('js/scripts/pages/app-user.js') }}"></script>
+    {{-- <script src="{{ asset('js/scripts/pages/app-user.js') }}" defer></script> --}}
 
-    {{--BEGIN:oportuniys scripts --}}
-    <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
-    {{--END:oportunitys scripts --}}
+    <!-- END: Page JS-->
 
     {{-- BEGIN:ckeditor --}}
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>

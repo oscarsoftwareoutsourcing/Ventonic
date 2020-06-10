@@ -232,34 +232,8 @@
   });
 </script>
 
-<script>
-  // $(document).on('submit', '#formPostular', function(e) {
-  //           e.preventDefault();
-
-  //           // $('input+small').text('');
-  //           // $('input').parent().removeClass('has-error');
-
-  //           $.ajax({
-  //               method: $(this).attr('method'),
-  //               url: $(this).attr('action'),
-  //               data: $(this).serialize(),
-  //               dataType: "json"
-  //           })
-  //           .done(function(data) {
-  //               // $('.alert-success').removeClass('hidden');
-  //               $('#primary').modal('hide');
-  //           })
-  //           .fail(function(data) {
-  //               $.each(data.responseJSON, function (key, value) {
-  //                   // var input = '#formRegister input[name=' + key + ']';
-  //                   // $(input + '+small').text(value);
-  //                   $(input).parent().addClass('has-error');
-  //               });
-  //           });
-  //       });
-</script>
 @endsection
 
-@section('extra-js-app')
+{{-- @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}" defer></script>
-@endsection
+@endsection --}}

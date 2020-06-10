@@ -224,13 +224,14 @@
 @endsection
 
 @section('extra-js')
-<script>
+{{-- <script>
   $(document).ready(function(){
     $(".select2").select2();
   });
-</script>
+</script> --}}
 @endsection
 
 @section('extra-js-app')
-    <script src="{{ asset('js/app.js') }}" defer></script>
+{{-- // <script src="{{ asset('js/app.js') }}"></script> --}}
+
 @endsection

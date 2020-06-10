@@ -18,6 +18,13 @@
                 postulationdUrl:""
             }
         },
+        methods: {
+            markNotificationAsRead(){
+                if(this.unread){
+                    axios.get('markAsRead')
+                }
+            }
+        },
         mounted(){
             this.postulationdUrl="oportunitys";
         }
