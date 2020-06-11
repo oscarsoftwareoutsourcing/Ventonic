@@ -6,6 +6,8 @@ use App\Contact;
 use Illuminate\Http\Request;
 use App\User;
 use App\Country;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ContactController extends Controller
 {
@@ -42,13 +44,21 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
+        $image=$request->file('image');
+        // var_dump($image); die();
         $validation= $request->validate([
             'nombre' => 'required|string|max:255'
         ]);
+        
+        if($image){
+            $image_path_name = time().$image->getClientOriginalName();
+            Storage::disk('oportunitys')->put($image_path_name, File::get($image));
+        }
 
         $contact = Contact::updateOrCreate(
             ['name' =>  $request->nombre,
              'last_name' => $request->apellido ?? null,
+             'image'=>$request->image ? $image_path_name : null,
              'email' =>  $request->email ?? null,
              'web' =>  $request->web ?? null,
              'phone' => $request->telefono ?? null,
@@ -69,6 +79,11 @@ class ContactController extends Controller
         );
 
         return redirect()->route('contact.list');
+    }
+
+    public function getImage($filename){
+        $file=Storage::disk('contacts')->get($filename);
+        return new Response($file, 200);
     }
 
     /**

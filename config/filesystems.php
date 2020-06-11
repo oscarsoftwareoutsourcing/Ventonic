@@ -62,6 +62,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'contacts' => [
+            'driver' => 'local',
+            'root' => storage_path('app/contacts'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
         'files' => [
             'driver' => 'local',
             'root'   => storage_path('files'),

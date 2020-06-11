@@ -16,7 +16,7 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <form action="{{route('contact.save')}}" method="POST" class="form">
+                                <form action="{{route('contact.save')}}" method="POST" class="form" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-body">
                                         <div class="row">
@@ -55,6 +55,16 @@
                                                     <label for="last-name-column">Apellido</label>
                                                 </div>
                                                 @error('apellido')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror 
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-label-group">
+                                                    <input type="file" id="image-column" class="form-control @error('image') is-invalid @enderror" placeholder="Imagen del contacto" 
+                                                    name="image" {{$contact ? 'disabled' : ''}}>
+                                                    <label for="last-name-column">Foto</label>
+                                                </div>
+                                                @error('image')
                                                 <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror 
                                             </div>

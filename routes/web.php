@@ -121,3 +121,4 @@ Route::get('contacto/listado', 'ContactController@index')->name('contact.list')-
 Route::get('contacto/crear/{contact?}', 'ContactController@create')->name('contact.create')->middleware('verified');
 Route::post('contacto/save', 'ContactController@store')->name('contact.save')->middleware('verified');
 Route::get('contacto/widget/{contacts?}', 'ContactController@show')->name('contact.show')->middleware('verified');
+Route::get('contacto/image/{filename}', 'ContactController@getImage')->name('contact.image')->middleware('verified');
