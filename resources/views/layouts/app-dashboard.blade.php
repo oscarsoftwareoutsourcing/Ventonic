@@ -70,7 +70,7 @@
 
     <!-- Scripts -->
     @yield('extra-js-app')
-<<<<<<< HEAD
+
    {{-- <script src="{{ asset('js/app.js') }}" defer></script>
 
      <script src="{{ asset('js/app.js') }}"></script> --}}
@@ -80,7 +80,7 @@
     <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>
 
     @show
-=======
+
 
    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
    {{--  <script src="{{ asset('js/app.js') }}"></script> --}}
@@ -89,7 +89,7 @@
 
     <script src="{{ asset('vendors/js/vendors.min.js') }}" defer></script>
 
->>>>>>> 02fc90ea21376a51fff35b2e1e70368809018461
+
     <script src="{{ asset('vendors/js/forms/select/select2.full.min.js') }}"></script>
     <!-- END Vendor JS-->
 

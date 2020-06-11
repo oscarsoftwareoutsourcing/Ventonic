@@ -43,19 +43,7 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         $validation= $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'string|max:255',
-            'email' => 'email',
-            'web' => 'string',
-            'empresa' => 'string',
-            'direccion_empresa' => 'string',
-            'cargo_empresa'=>'string',
-            'direccion_empresa' => 'string',
-            'ciudad_empresa' => 'string',
-            'codigo-postal' => 'numeric',
-            'sector' => 'string',
-            'etiquetas' => 'string',
-
+            'nombre' => 'required|string|max:255'
         ]);
 
         $contact = Contact::updateOrCreate(
@@ -66,18 +54,15 @@ class ContactController extends Controller
              'phone' => $request->telefono ?? null,
              'company' => $request->empresa ?? null,
              'address' =>  $request->direccion_empresa ?? null,
-            //  'city' => $request->ciudad_empresa ?? null,
-            //  'province' => $request->provincia ?? null,
              'postal_code' =>  $request->codigo_postal ?? null,
              'sector' =>  $request->sector ?? null,
              'notes' =>  $request->anotaciones ?? null,
              'share' =>  null,
              'type' =>  $request->etiquetas ?? null,
-            //  'country_id' =>  $request->pais ?? null,
              'favorite' =>  $request->favorito ? 1 : 0,
              'cargo' =>  $request->cargo_empresa ?? null,
-             'altitud' =>  $request->altitud ?? null,
-             'latitud' =>  $request->latitud ?? null,
+             'address_longitude' =>  $request->altitud ?? null,
+             'address_latitude' =>  $request->latitud ?? null,
              'user_id' =>  auth()->user()->id
              
             ]

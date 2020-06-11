@@ -21,6 +21,24 @@
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-md-6 col-12">
+                                                <div class="users-view-image">
+                                                    <img src="/{{ Auth::user()->photo }}" class="users-avatar-shadow w-100 rounded mb-2 pr-2 ml-1" alt="avatar">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-12">
+                                                <fieldset class="checkbox">
+                                                    <div class="vs-checkbox-con vs-checkbox-primary float-right">
+                                                        <input type="checkbox" name="favorito" id="favorito" {{$contact ? 'checked' : ''}}>
+                                                        <span class="vs-checkbox">
+                                                            <span class="vs-checkbox--check">
+                                                                <i class="vs-icon feather icon-check"></i>
+                                                            </span>
+                                                        </span>
+                                                        <span class="">Favorito</span>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
                                                 <input type="text" id="nombre-column" class="form-control @error('nombre') is-invalid @enderror" 
                                                        placeholder="Nombre" name="nombre" value="{{$contact->name ?? ''}}" required {{$contact ? 'disabled' : ''}}>
@@ -211,19 +229,7 @@
                                                 </div>
                                             </div>
                                             {{-- END Mapa --}}
-                                            <div class="form-group col-12">
-                                                <fieldset class="checkbox">
-                                                    <div class="vs-checkbox-con vs-checkbox-primary">
-                                                        <input type="checkbox" name="favorito" id="favorito" {{$contact ? 'checked' : ''}}>
-                                                        <span class="vs-checkbox">
-                                                            <span class="vs-checkbox--check">
-                                                                <i class="vs-icon feather icon-check"></i>
-                                                            </span>
-                                                        </span>
-                                                        <span class="">Favorito</span>
-                                                    </div>
-                                                </fieldset>
-                                            </div>
+
                                             <div class="col-12">
                                                 @if(!isset($contact->id))
                                                 <button type="submit" class="btn btn-primary mr-1 mb-1">Guardar</button>
@@ -236,15 +242,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>dsf
             </div>
         </div>
     </div>
 </div>
 @endsection
 @section('extra-js')
-<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAup2FlaQp927LHAou-mjVjRCmkD2pexXU&libraries=places&callback=initialize" async defer> --}}
+{{-- <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script> --}}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADg2I72vPVAuD_WW21wThK-uHxkbN81vA&libraries=places&callback=initialize" async defer>
 <script>
 function initialize() {
 

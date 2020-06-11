@@ -10,16 +10,30 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
+                    {{-- BEGIN botones nuevo --}}
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Contactos</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <a href="{{ route('contact.create') }}" type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Persona</a>
+                                <a href="{{ route('contact.create') }}" type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Empresa</a>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- END botones nuevo --}}
                     <div class="card card-oportunity">
                         <div class="card-header">Mis contactos</div>
                      <div class="card-body">
+                    
                     <div class="row">
                         <div class="col-6">
                             <div class="input-group">
                                 <div class="input-group-append">
-                                    <a href="{{ route('contact.create') }}" class="btn btn-primary btn_right_new" type="button">
+                                    {{-- <a href="{{ route('contact.create') }}" class="btn btn-primary btn_right_new" type="button">
                                         Nueva
-                                    </a>
+                                    </a> --}}
                                 </div>
                                 <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar contacto..." style="border:1px solid #0087ff;">
                             </div>
@@ -81,6 +95,9 @@
     </div>
 </div>
 @endsection
-@section('extra-js-app')
-    <script src="{{ asset('js/app.js') }}" defer></script>
+@section('extra-js')
+<script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
 @endsection
+{{-- @section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+@endsection --}}
