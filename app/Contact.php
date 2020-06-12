@@ -25,5 +25,4 @@ class Contact extends Model
     public function contactGroupUser(){
         return $this->belongsTo('App\ContactGroupUser', 'contact_id');
     }
-    }
 }
