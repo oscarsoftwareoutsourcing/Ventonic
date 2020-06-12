@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AptitudSeeder::class);
         $this->call(StatusAplicantsSeeder::class);
         $this->call(StatusNegociationsSeeder::class);
+        $this->call(CountriesSeeder::class);
+        $this->call(GroupSeeder::class);
         // $this->call(AplicantsTableSeeder::class);
     }
 
