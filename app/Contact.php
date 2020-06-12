@@ -21,4 +21,9 @@ class Contact extends Model
     {
         return $this->belongsTo('App\Country', 'country_id');
     }
+
+    public function contactGroupUser(){
+        return $this->belongsTo('App\ContactGroupUser', 'contact_id');
+    }
+    }
 }

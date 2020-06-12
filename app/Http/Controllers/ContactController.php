@@ -52,7 +52,7 @@ class ContactController extends Controller
         
         if($image){
             $image_path_name = time().$image->getClientOriginalName();
-            Storage::disk('oportunitys')->put($image_path_name, File::get($image));
+            Storage::disk('public')->put($image_path_name, File::get($image));
         }
 
         $contact = Contact::updateOrCreate(
