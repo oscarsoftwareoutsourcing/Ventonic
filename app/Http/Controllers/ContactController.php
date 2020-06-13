@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Contact;
 use Illuminate\Http\Request;
-use App\User;
-use App\Country;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-
+use App\User;
+use App\Country;
+use App\Contact;
 class ContactController extends Controller
 {
     /**
@@ -30,9 +30,17 @@ class ContactController extends Controller
      */
     public function create($contact  = null)
     {
-        
+        if(isset($contact) && $contact == 'empresa' || $contact== 'persona'){
+            $contact=$contact;
+        }
+        elseif(isset($contact)){
+            $contact=Contact::find((int)$contact);
+        }else{
+            $contact='';
+        }
+        // var_dump($contact); die();
         $countrys=Country::all();
-        $contact=isset($contact) ? Contact::find((int)$contact) : '';
+        // var_dump($contact); die();
         return view('contact.form', ['countrys'=>$countrys, 'contact'=>$contact]);
     }
 
@@ -54,7 +62,7 @@ class ContactController extends Controller
             $image_path_name = time().$image->getClientOriginalName();
             Storage::disk('public')->put($image_path_name, File::get($image));
         }
-
+        // var_dump($request->type_contact); die();
         $contact = Contact::updateOrCreate(
             ['name' =>  $request->nombre,
              'last_name' => $request->apellido ?? null,
@@ -73,8 +81,8 @@ class ContactController extends Controller
              'cargo' =>  $request->cargo_empresa ?? null,
              'address_longitude' =>  $request->altitud ?? null,
              'address_latitude' =>  $request->latitud ?? null,
-             'user_id' =>  auth()->user()->id
-             
+             'user_id' =>  auth()->user()->id,
+             'type_contact'=> $request->type_contact
             ]
         );
 
@@ -82,7 +90,7 @@ class ContactController extends Controller
     }
 
     public function getImage($filename){
-        $file=Storage::disk('contacts')->get($filename);
+        $file=Storage::disk('public')->get($filename);
         return new Response($file, 200);
     }
 

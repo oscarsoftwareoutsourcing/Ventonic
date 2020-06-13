@@ -17,8 +17,8 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <a href="{{ route('contact.create') }}" type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Persona</a>
-                                <a href="{{ route('contact.create') }}" type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Empresa</a>
+                                <a href="{{ route('contact.create', ['contact'=>'persona']) }}" type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Persona</a>
+                                <a href="{{ route('contact.create', ['contact'=>'empresa']) }}" type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Empresa</a>
                             </div>
                         </div>
                     </div>
@@ -65,12 +65,16 @@
                             </thead>
                             <tbody>
                                 @foreach($contacts as $contact)
-                                    <tr href="{{route('contact.create', ['contact'=>$contact])}}" class="fila" id="fila{{$contact->id}}">
-                                    <td style="text-align:center;" width="20%">{{$contact->name}}</td>
+                                    
+                                <tr href="{{route('contact.create', ['contact'=>$contact])}}" class="fila" id="fila{{$contact->id}}">
+                                    <td style="text-align:left;" width="20%">
+                                        <span><i class="{{App\Contact::getIcon($contact->type_contact)}} text-primary"></i></span>
+                                        <span style="margin-left:10px;color:color: #C2C6DC!important;">{{$contact->name}}</span>                                        
+                                    </td>
                                     <td style="text-align:center;" width="20%">{{$contact->last_name}}</td>
                                     <td style="text-align:center;" width="20%">{{$contact->phone}}</td>
-                                    <td style="text-align:left;" width="20%">{{$contact->email}}</td>
-                                    <td style="text-align:left;" width="20%">{{$contact->company}}
+                                    <td style="text-align:center;" width="20%">{{$contact->email}}</td>
+                                    <td style="text-align:center;" width="20%">{{$contact->company}}
                                     <input type="text" class="tipoContacto" value="{{$contact->type}}" data-id="{{$contact->id}}" hidden>
                                     </td>
                                     <td>
@@ -78,7 +82,7 @@
                                             <i class="ficon feather icon-star warning"></i>
                                         @endif
                                     </td>
-                                    </tr>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>

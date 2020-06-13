@@ -55,9 +55,6 @@
            <li class=" nav-item"><a href="#"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Negociaciones">Contacto</span></a>
                 <ul class="menu-content">
                     <li>
-                        <a href="{{route('contact.create')}}"><i class="feather icon-users"></i><span class="menu-item" data-i18n="Contacto">Crear nuevo contacto</span></a>
-                    </li>
-                    <li>
                         <a href="{{route('contact.list')}}"><i class="feather icon-users"></i><span class="menu-item" data-i18n="Contacto">Buscar contacto</span></a>
                     </li>
                 </ul>
