@@ -1,21 +1,5 @@
 @extends('layouts.app-dashboard')
  
-{{-- @section('estilos-extra')
-<link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/forms/select/select2.min.css') }}">
-@endsection
-
-@section('js-extras')
-<script src="{{ asset('js/vendors/forms/select/select2.full.js') }}"></script>
-<script src="{{ asset('js/vendors/forms/select/select2.full.min.js') }}"></script>
-<script src="{{ asset('js/vendors/forms/select/select2.js') }}"></script>
-<script src="{{ asset('js/vendors/forms/select/select2.min.js') }}"></script>
-<script>
-  $(document).ready(function(){
-    $('#cargos-oportunity').select2();
-  });
-  
-</script>
-@endsection --}}
 @section('content')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -221,17 +205,4 @@
 
     </div>
 </div>
-@endsection
-
-@section('extra-js')
-{{-- <script>
-  $(document).ready(function(){
-    $(".select2").select2();
-  });
-</script> --}}
-@endsection
-
-@section('extra-js-app')
-{{-- // <script src="{{ asset('js/app.js') }}"></script> --}}
-
 @endsection

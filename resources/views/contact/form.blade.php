@@ -171,6 +171,19 @@
                                                 </div>
                                             </div>
                                             @endif
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-label-group">
+                                                {{-- <label for="validationTooltip01">Contacto visible para...</label> --}}
+                                                <select class="select2 form-control" name="grupos[]" multiple="multiple" id="compratir-column" placeholder="Contacto visible para...">
+                                                  <option value="square">Todos los usuarios</option>
+                                                  <option value="rectangle">Solo para mi</option>
+                                                  <option value="rombo">Para mi y el siguiente grupo</option>
+                                                  <option value="romboid">Para mi y los siguientes usuarios</option>                                               
+                                                </select>
+                                                <label for="compartir-id-column">Contacto visible para...</label>
+                                            </div>
+                                          </div>
+
 
                                             <div class="col-md-12 col-12">
                                                 <div class="form-label-group">
@@ -182,6 +195,8 @@
                                                     <label for="email-id-column">Anotaciones</label>
                                                 </div>
                                             </div>
+
+ 
                                             <div class="col-md-12 col-12">
                                                 <div class="form-label-group">
                                                     <input type="text" id="address-input" class="form-control map-input @error('direccion_empresa') is-invalid @enderror" 
@@ -236,7 +251,7 @@
 </div>
 @endsection
 @section('extra-js')
-<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async></script>
 {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADg2I72vPVAuD_WW21wThK-uHxkbN81vA&libraries=places&callback=initialize" async defer> --}}
 <script>
 function initialize() {
@@ -348,5 +363,5 @@ if (status === google.maps.GeocoderStatus.OK) {
 @endsection
 
 @section('extra-js-app')
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 @endsection
