@@ -26,12 +26,13 @@
 
             <li class=" nav-item"><a href="#"><i class="feather icon-mail"></i><span class="menu-title">Email</span></a>
             </li>
+            
             {{-- Oportunidades --}}
             @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
             <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-star"></i><span class="menu-title">Oportunidades</span></a>
                 @if(\Auth::user()->type=="E")
                 <ul class="menu-content">
-                    <li><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Mis oportunidades</span></a>
+                    <li><a href="{{ route('oportunity.saved') }}"><i class="feather icon-list"></i><span class="menu-item">Mis oportunidades</span></a>
                     </li>
                 </ul>
                 @endif
@@ -72,7 +73,7 @@
             <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title">{{ Auth::user()->name }}</span></a>
                 <ul class="menu-content">
                     @if (auth()->user()->email_verified_at !== null)
-                    <li><a href="{{ route('perfil.index') }}"><i class="feather icon-user"></i><span class="menu-item"Perfil">Mi Perfil</span></a>
+                    <li><a href="{{ route('perfil.index') }}"><i class="feather icon-user"></i><span class="menu-item">Mi Perfil</span></a>
                     </li>
                     @endif
                     @if (\Auth::user()->type=="E")
@@ -84,9 +85,6 @@
                     </li>
                 </ul>
             </li>
-
-
-
         </ul>
     </div>
 </div>
