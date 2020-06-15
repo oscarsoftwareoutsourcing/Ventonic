@@ -26,11 +26,11 @@
 
                                 {{-- <form action="{{ route('oportunity.form') }}" style="display:block;width:100%;"> --}}
                                 <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar oportunidad..." style="border:1px solid #0087ff;">
-                                <div class="input-group-append">
+                                {{-- <div class="input-group-append">
                                     <button class="btn btn-primary search-oportunity" id="btnSearch" type="button">
                                         <i class="feather icon-search"></i>
                                     </button>
-                                </div>
+                                </div> --}}
                                 {{-- </form> --}}
                             </div>
                         </div>

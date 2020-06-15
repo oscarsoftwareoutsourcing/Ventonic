@@ -70,6 +70,18 @@
 
     <!-- Scripts -->
     @yield('extra-js-app')
+
+   {{-- <script src="{{ asset('js/app.js') }}" defer></script>
+
+     <script src="{{ asset('js/app.js') }}"></script> --}}
+    <!-- BEGIN: Vendor JS-->
+    @section('vendor-js')
+    {{-- <script src="{{ asset('vendors/js/vendors.min.js') }}" defer></script> --}}
+    <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>
+
+    @show
+
+
    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
    {{--  <script src="{{ asset('js/app.js') }}"></script> --}}
 
@@ -79,6 +91,8 @@
     <!-- BEGIN: Vendor JS-->
 
     <script src="{{ asset('vendors/js/vendors.min.js') }}" defer></script>
+
+
     <script src="{{ asset('vendors/js/forms/select/select2.full.min.js') }}"></script>
     <!-- END Vendor JS-->
 
@@ -88,7 +102,12 @@
     <script src="{{ asset('js/core/app-menu.js') }}" ></script>
     <script src="{{ asset('js/core/app.js') }}" ></script>
     <script src="{{ asset('js/scripts/components.js') }}" ></script>
+
     <!-- END: Theme JS-->
+    
+    {{--BEGIN:oportuniys scripts --}}
+    <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
+    {{--END:oportunitys scripts --}}
 
     {{--BEGIN:Modal --}}
     <script src="{{ asset('js/scripts/modal/components-modal.js') }}"></script>
@@ -98,9 +117,7 @@
     <script src="{{ asset('js/scripts/pages/app-user.js') }}" ></script>
     <!-- END: Page JS-->
 
-    {{--BEGIN:oportuniys scripts --}}
-    <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
-    {{--END:oportunitys scripts --}}
+    <!-- END: Page JS-->
 
     {{-- BEGIN:ckeditor --}}
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>

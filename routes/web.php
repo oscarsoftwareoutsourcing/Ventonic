@@ -92,6 +92,7 @@ Route::post('save', 'OportunyController@store')->name('oportunity.save')->middle
 Route::get('oportunity/image/{filename}', 'OportunyController@getImage')->name('oportunityImage')->middleware('verified');
 Route::get('oportunity/{id}', 'OportunyController@showOportunity')->name('oportunity')->middleware('verified');
 
+
 /* Rutas para postulaciones */
 Route::post('postularme', 'AplicantController@store')->name('oportunity.postulation')->middleware('verified');
 Route::get('postulados/{oportunity_id}', 'AplicantController@myaplicants')->name('oportunity.mispostulados')->middleware('verified');
@@ -120,9 +121,10 @@ Route::get('contacto/listado', 'ContactController@index')->name('contact.list')-
 Route::get('contacto/crear/{contact?}', 'ContactController@create')->name('contact.create')->middleware('verified');
 Route::post('contacto/save', 'ContactController@store')->name('contact.save')->middleware('verified');
 Route::get('contacto/widget/{contacts?}', 'ContactController@show')->name('contact.show')->middleware('verified');
+Route::get('contacto/image/{filename}', 'ContactController@getImage')->name('contact.image')->middleware('verified');
+Route::get('contacto/eliminar/{contact_id}/{user_id}', 'ContactController@destroy')->name('contact.destroy')->middleware('verified');
 
 // Notes module
 $router->group(['middleware' => ['verified']], function() use ($router) {
-
     $router->get('notes', 'NoteController@index')->name('notes');
 });

@@ -31,7 +31,7 @@
             <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-star"></i><span class="menu-title">Oportunidades</span></a>
                 @if(\Auth::user()->type=="E")
                 <ul class="menu-content">
-                    <li><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item"Oportunidades">Mis oportunidades</span></a>
+                    <li><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Mis oportunidades</span></a>
                     </li>
                 </ul>
                 @endif
@@ -55,10 +55,14 @@
            <li class=" nav-item"><a href="#"><i class="feather icon-users"></i><span class="menu-title">Contacto</span></a>
                 <ul class="menu-content">
                     <li>
+<<<<<<< HEAD
                         <a href="{{route('contact.create')}}"><i class="feather icon-users"></i><span class="menu-item">Crear nuevo contacto</span></a>
                     </li>
                     <li>
                         <a href="{{route('contact.list')}}"><i class="feather icon-users"></i><span class="menu-item">Buscar contacto</span></a>
+=======
+                        <a href="{{route('contact.list')}}"><i class="feather icon-users"></i><span class="menu-item" data-i18n="Contacto">Buscar contacto</span></a>
+>>>>>>> b1b2d6395caf8b62e998cba9d03fb54f076b3f3b
                     </li>
                 </ul>
             </li>
