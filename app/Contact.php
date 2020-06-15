@@ -47,4 +47,64 @@ class Contact extends Model
 
         return $icon;
     }
+
+    public static function getUserId($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->value('user_id');
+        return $contact;
+    }
+
+    public static function getUserName($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->value('name');
+        return $contact;
+    }
+
+    public static function getUserLastName($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->value('last_name');
+        return $contact;
+    }
+
+    public static function getUserEmail($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->value('email');
+        return $contact;
+    }
+
+    public static function getUserCompany($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->value('company');
+        return $contact;
+    }
+
+    public static function getUserPrivate($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->value('private');
+        return $contact;
+    }
+
+    public static function getUserType($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->value('type');
+        return $contact;
+    }
+
+    public static function getUserTypeContact($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->value('type_contact');
+        return $contact;
+    }
+
+    public static function getUserPhone($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->value('phone');
+        return $contact;
+    }
+
+    public static function getUserFavorite($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->value('favorite');
+        return $contact;
+    }
 }

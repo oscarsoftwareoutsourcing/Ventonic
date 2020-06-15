@@ -171,19 +171,24 @@
                                                 </div>
                                             </div>
                                             @endif
+
+                                            @if(is_string($contact))
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
                                                 {{-- <label for="validationTooltip01">Contacto visible para...</label> --}}
-                                                <select class="select2 form-control" name="grupos[]" multiple="multiple" id="compratir-column" placeholder="Contacto visible para...">
-                                                  <option value="square">Todos los usuarios</option>
-                                                  <option value="rectangle">Solo para mi</option>
-                                                  <option value="rombo">Para mi y el siguiente grupo</option>
-                                                  <option value="romboid">Para mi y los siguientes usuarios</option>                                               
+                                                <select class="select2 form-control" multiple="multiple" name="private[]">
+                                                    <option class="text-white" value="para mi"><strong>Solo para mi</strong></option>
+                                                    <optgroup label="Para mi y un grupo especifico">
+                                                        @foreach($groups as $group)
+                                                        <option value="{{$group->id}}">{{$group->name}}</option>
+                                                        @endforeach
+                                                    </optgroup>
+                                                    <option class="text-white" value="todos">Para todos los grupos</option>
                                                 </select>
-                                                <label for="compartir-id-column">Contacto visible para...</label>
+                                            <label for="compartir-id-column">Contacto visible para...</label>
                                             </div>
                                           </div>
-
+                                          @endif
 
                                             <div class="col-md-12 col-12">
                                                 <div class="form-label-group">

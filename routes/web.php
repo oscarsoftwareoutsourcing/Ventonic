@@ -122,3 +122,4 @@ Route::get('contacto/crear/{contact?}', 'ContactController@create')->name('conta
 Route::post('contacto/save', 'ContactController@store')->name('contact.save')->middleware('verified');
 Route::get('contacto/widget/{contacts?}', 'ContactController@show')->name('contact.show')->middleware('verified');
 Route::get('contacto/image/{filename}', 'ContactController@getImage')->name('contact.image')->middleware('verified');
+Route::get('contacto/eliminar/{contact_id}/{user_id}', 'ContactController@destroy')->name('contact.destroy')->middleware('verified');
