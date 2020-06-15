@@ -51,8 +51,7 @@
 
     </div>
 
-        @include('layouts.element.footer') 
-
+        @include('layouts.element.footer')
 
     <!-- BEGIN: Vendor JS-->
     <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>

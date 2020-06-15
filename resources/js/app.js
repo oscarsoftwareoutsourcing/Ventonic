@@ -8,6 +8,11 @@ Vue.component('search-sellers', () => import('./components/SearchSellersComponen
 Vue.component('chat', () => import('./components/ChatComponent.vue'));
 Vue.component('notification', () => import('./components/NotificationComponent.vue'));
 Vue.component('notification-item', () => import('./components/NotificationItemComponent.vue'));
+
+// Notes module components
+Vue.component('todo-sidebar', () => import('./components/TodoSideBar.vue'));
+Vue.component('todo-list', () => import('./components/TodoList.vue'));
+Vue.component('todo-form', () => import('./components/TodoForm.vue'));
 const app = new Vue({
     el: '#app',
 });

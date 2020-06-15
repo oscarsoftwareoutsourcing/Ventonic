@@ -117,6 +117,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Oportunity');
     }
 
+    // User notes
+    public function notes() {
+        return $this->hasMany(Note::class);
+    }
+
     public function getPhotoAttribute()
     {
         return ($this->sellerProfile!==null)

@@ -73,6 +73,9 @@
    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
    {{--  <script src="{{ asset('js/app.js') }}"></script> --}}
 
+   <!-- console_error #2 -->
+   <script src="{{ asset('js/jquery/jquery-3.5.1.min.js') }}"></script>
+
     <!-- BEGIN: Vendor JS-->
 
     <script src="{{ asset('vendors/js/vendors.min.js') }}" defer></script>
@@ -107,9 +110,10 @@
     <script src="{{ asset('js/scripts/forms/select/form-select2.min.js') }}"></script>
     {{--END:select2 --}}
 
-    <script>
+    <!-- console_error #1 -->
+    <!-- <script>
         $('.select2').select2();
-    </script>
+    </script> -->
 
     @yield('extra-js')
 

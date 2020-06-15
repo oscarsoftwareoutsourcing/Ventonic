@@ -18,20 +18,20 @@
             <li class=" navigation-header"><span>Apps</span>
             </li>
 
-            <li class=" nav-item"><a href="{{ route('chat') }}"><i class="feather icon-message-square"></i><span class="menu-title" data-i18n="Chat">Chat</span></a>
+            <li class=" nav-item"><a href="{{ route('chat') }}"><i class="feather icon-message-square"></i><span class="menu-title">Chat</span></a>
             </li>
 
-            <li class=" nav-item"><a href="calender"><i class="feather icon-calendar"></i><span class="menu-title" data-i18n="Calender">Calendario</span></a>
+            <li class=" nav-item"><a href="calender"><i class="feather icon-calendar"></i><span class="menu-title">Calendario</span></a>
             </li>
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-mail"></i><span class="menu-title" data-i18n="Email">Email</span></a>
+            <li class=" nav-item"><a href="#"><i class="feather icon-mail"></i><span class="menu-title">Email</span></a>
             </li>
             {{-- Oportunidades --}}
             @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
-            <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-star"></i><span class="menu-title" data-i18n="Oportunidades">Oportunidades</span></a>
+            <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-star"></i><span class="menu-title">Oportunidades</span></a>
                 @if(\Auth::user()->type=="E")
                 <ul class="menu-content">
-                    <li><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item" data-i18n="Mis Oportunidades">Mis oportunidades</span></a>
+                    <li><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item"Oportunidades">Mis oportunidades</span></a>
                     </li>
                 </ul>
                 @endif
@@ -42,9 +42,9 @@
 
             {{-- Negociaciones Company --}}
            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
-           <li class=" nav-item"><a href="{{route('negociationCompany.index')}}"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Negociaciones">Negociaciones</span></a>
+           <li class=" nav-item"><a href="{{route('negociationCompany.index')}}"><i class="feather icon-users"></i><span class="menu-title">Negociaciones</span></a>
                 <ul class="menu-content">
-                    <li><a href="{{route('negociationCompany.index')}}"><i class="feather icon-users"></i><span class="menu-item" data-i18n="Negociaciones">Negociaciones</span></a>
+                    <li><a href="{{route('negociationCompany.index')}}"><i class="feather icon-users"></i><span class="menu-item">Negociaciones</span></a>
                     </li>
                 </ul>
             </li>
@@ -52,38 +52,38 @@
 
             {{-- Contactos --}}
            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
-           <li class=" nav-item"><a href="#"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Negociaciones">Contacto</span></a>
+           <li class=" nav-item"><a href="#"><i class="feather icon-users"></i><span class="menu-title">Contacto</span></a>
                 <ul class="menu-content">
                     <li>
-                        <a href="{{route('contact.create')}}"><i class="feather icon-users"></i><span class="menu-item" data-i18n="Contacto">Crear nuevo contacto</span></a>
+                        <a href="{{route('contact.create')}}"><i class="feather icon-users"></i><span class="menu-item">Crear nuevo contacto</span></a>
                     </li>
                     <li>
-                        <a href="{{route('contact.list')}}"><i class="feather icon-users"></i><span class="menu-item" data-i18n="Contacto">Buscar contacto</span></a>
+                        <a href="{{route('contact.list')}}"><i class="feather icon-users"></i><span class="menu-item">Buscar contacto</span></a>
                     </li>
                 </ul>
             </li>
             @endif
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo">Todo</span></a>
+            <li class=" nav-item"><a href="{{route('notes')}}"><i class="feather icon-check-square"></i><span class="menu-title">Todo</span></a>
             </li>
 
             @if (\Auth::user()->type=="E")
-            <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item" data-i18n="">Buscar Vendedor</span></a>
+            <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item"uscar Vendedor</span></a>
             </li>
             @endif
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title" data-i18n="User">{{ Auth::user()->name }}</span></a>
+            <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title">{{ Auth::user()->name }}</span></a>
                 <ul class="menu-content">
                     @if (auth()->user()->email_verified_at !== null)
-                    <li><a href="{{ route('perfil.index') }}"><i class="feather icon-user"></i><span class="menu-item" data-i18n="Mi Perfil">Mi Perfil</span></a>
+                    <li><a href="{{ route('perfil.index') }}"><i class="feather icon-user"></i><span class="menu-item"Perfil">Mi Perfil</span></a>
                     </li>
                     @endif
                     @if (\Auth::user()->type=="E")
-                    <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item" data-i18n="">Buscar Vendedor</span></a>
+                    <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item"uscar Vendedor</span></a>
                     </li>
                     @endif
                     <li><a href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-power"></i> <span class="menu-item" data-i18n="{{ __('Salir') }}">{{ __('Salir') }}</span></a>
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-power"></i> <span class="menu-item"__('Salir') }}">{{ __('Salir') }}</span></a>
                     </li>
                 </ul>
             </li>

@@ -10,7 +10,7 @@
                             </li>
                             <li class="scrollable-container media-list">
                                 <!-- <notification-item v-for="unread in unreadNotifications" :unread="unread"></notification-item> -->
-                                <notification-item v-for="unread in unreadNotifications" :unread="unread"></notification-item>
+                                <notification-item v-for="(unread, i) in unreadNotifications" :key="i" :unread="unread"></notification-item>
 
                             <!--<a class="d-flex justify-content-between" href="javascript:void(0)">
                                     <div class="media d-flex align-items-start">
