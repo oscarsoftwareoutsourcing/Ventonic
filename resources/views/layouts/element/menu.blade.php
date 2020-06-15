@@ -55,24 +55,17 @@
            <li class=" nav-item"><a href="#"><i class="feather icon-users"></i><span class="menu-title">Contacto</span></a>
                 <ul class="menu-content">
                     <li>
-<<<<<<< HEAD
-                        <a href="{{route('contact.create')}}"><i class="feather icon-users"></i><span class="menu-item">Crear nuevo contacto</span></a>
-                    </li>
-                    <li>
-                        <a href="{{route('contact.list')}}"><i class="feather icon-users"></i><span class="menu-item">Buscar contacto</span></a>
-=======
                         <a href="{{route('contact.list')}}"><i class="feather icon-users"></i><span class="menu-item" data-i18n="Contacto">Buscar contacto</span></a>
->>>>>>> b1b2d6395caf8b62e998cba9d03fb54f076b3f3b
                     </li>
                 </ul>
             </li>
             @endif
 
-            <li class=" nav-item"><a href="{{route('notes')}}"><i class="feather icon-check-square"></i><span class="menu-title">Todo</span></a>
+            <li class=" nav-item"><a href="{{route('todos')}}"><i class="feather icon-check-square"></i><span class="menu-title">Todo</span></a>
             </li>
 
             @if (\Auth::user()->type=="E")
-            <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item"uscar Vendedor</span></a>
+            <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item">Buscar Vendedor</span></a>
             </li>
             @endif
 
@@ -83,11 +76,11 @@
                     </li>
                     @endif
                     @if (\Auth::user()->type=="E")
-                    <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item"uscar Vendedor</span></a>
+                    <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item">Buscar Vendedor</span></a>
                     </li>
                     @endif
                     <li><a href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-power"></i> <span class="menu-item"__('Salir') }}">{{ __('Salir') }}</span></a>
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-power"></i> <span class="menu-item">{{ __('Salir') }}</span></a>
                     </li>
                 </ul>
             </li>

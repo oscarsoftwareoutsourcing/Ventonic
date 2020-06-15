@@ -126,5 +126,5 @@ Route::get('contacto/eliminar/{contact_id}/{user_id}', 'ContactController@destro
 
 // Notes module
 $router->group(['middleware' => ['verified']], function() use ($router) {
-    $router->get('notes', 'NoteController@index')->name('notes');
+    $router->get('todos', 'TodoController@index')->name('todos');
 });

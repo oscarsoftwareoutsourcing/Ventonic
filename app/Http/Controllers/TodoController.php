@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 
-class NoteController extends Controller
+class TodoController extends Controller
 {
     // To load index of the module.
     public function index() {
@@ -14,6 +14,6 @@ class NoteController extends Controller
         // Get user notes
         $user = User::with(['notes'])->find(Auth::id());
 
-        return view('notes.index')->with('notes', $user->notes);
+        return view('todos.index')->with('notes', $user->notes);
     }
 }
