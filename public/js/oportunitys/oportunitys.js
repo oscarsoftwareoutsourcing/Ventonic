@@ -12,7 +12,19 @@ $(document).ready(function(){
             else
             $(this).show();                
         });
-    }); 
+    });
+    
+    // Buscador de contactos se cambio porque aqui uso la clase oportunityTable en lugar del id
+    $("#textSearch").on('keyup', function(){
+      _this = this;
+      // Muestra los tr que concuerdan con la busqueda, y oculta los demás.
+      $.each($(".oportunityTable tbody tr"), function() {
+          if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+          $(this).hide();
+          else
+          $(this).show();                
+      });
+  }); 
     // alert('Hola');
     // Ordenar columnas
     $('th').click(function() {

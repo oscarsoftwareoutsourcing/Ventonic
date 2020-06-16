@@ -236,18 +236,30 @@ class ContactController extends Controller
      */
     public function destroy($contact_id, $user_id)
     {
-        if($user_id == auth()->user()->id){
-            $delete_contact_group=ContactGroup::where('contact_id', $contact_id)->delete();
-            if($delete_contact_group){
-                $delete_contact=Contact::where('id',$contact_id)->where('user_id', $user_id)->delete();
+        $result='';
+        // var_dump($user_id); die();
+        if((int)$user_id == auth()->user()->id){
+
+            // Buscar el contacto para ver si esta compartido
+            $search=ContactGroup::where('contact_id',(int)$contact_id)->get();
+            if($search){
+                ContactGroup::where('contact_id', (int)$contact_id)->delete();
             }
-        }
-
-        if($delete_contact){
+            $delete_contact=Contact::find((int)$contact_id);
+            $borrado=$delete_contact->delete();
+            var_dump($borrado);
+                if(isset($borrado)){
+                            
+                    return redirect()->route('contact.list')
+                                    ->with(['message'=>'Contacto eliminado exitosamente']);
+                }else{
+                    return redirect()->route('contact.list')
+                                    ->with(['error'=>'No se ha podido eliminar el contacto']);
+                }   
+                
+        }else{
             return redirect()->route('contact.list')
-                            ->with(['message'=>'Contacto eliminado exitosamente']);
+                            ->with(['error'=>'No esta autorizado para eliminar este contacto']);
         }
-
-
     }
 }
