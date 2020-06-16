@@ -142,7 +142,7 @@
                     <div class="col-lg-4 col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between pb-0">
-                                <h4 class="card-title">Customers</h4>
+                                <h4 class="card-title">Clientes</h4>
                                 <div class="dropdown chart-dropdown">
                                     <button class="btn btn-sm border-0 dropdown-toggle px-0" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Últimos 7 Días
@@ -162,7 +162,7 @@
                                     <li class="list-group-item d-flex justify-content-between ">
                                         <div class="series-info">
                                             <i class="fa fa-circle font-small-3 text-primary"></i>
-                                            <span class="text-bold-600">Ofertas de Negociación:</span>
+                                            <span class="text-bold-600">Ofertas de Negociación</span>
                                         </div>
                                         <div class="product-result">
                                             <span>29</span>
@@ -171,7 +171,7 @@
                                     <li class="list-group-item d-flex justify-content-between ">
                                         <div class="series-info">
                                             <i class="fa fa-circle font-small-3 text-warning"></i>
-                                            <span class="text-bold-600">Ofertas Aceptadas:</span>
+                                            <span class="text-bold-600">Ofertas Aceptadas</span>
                                         </div>
                                         <div class="product-result">
                                             <span>12</span>
@@ -180,10 +180,10 @@
                                     <li class="list-group-item d-flex justify-content-between ">
                                         <div class="series-info">
                                             <i class="fa fa-circle font-small-3 text-danger"></i>
-                                            <span class="text-bold-600">Ofertas Perdidas:</span>
+                                            <span class="text-bold-600">Ofertas Perdidas</span>
                                         </div>
                                         <div class="product-result">
-                                            <span>149</span>
+                                            <span>8</span>
                                         </div>
                                     </li>
                                 </ul>
@@ -345,4 +345,5 @@
     <script src="{{ asset('vendors/js/extensions/shepherd.min.js') }}"></script>
     <script src="{{ asset('js/scripts/pages/dashboard-analytics.min.js') }}"></script>
     <script src="{{ asset('/vendors/js/tables/ag-grid/ag-grid-community.min.noStyle.js') }}"></script>
+    <script src="{{ asset('js/scripts/cards/card-customer-chart.js') }}"></script>
 @endsection
