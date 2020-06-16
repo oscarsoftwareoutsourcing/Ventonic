@@ -130,4 +130,4 @@ $router->group(['middleware' => ['verified']], function() use ($router) {
     $router->get('todos', 'TodoController@index')->name('todos');
 });
 
-Route::view('dash','dashboard.index');
+Route::view('dash','inicio-dashboard');

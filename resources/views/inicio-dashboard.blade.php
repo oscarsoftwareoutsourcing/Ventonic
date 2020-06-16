@@ -27,6 +27,7 @@
                                 <h3><a class="text-white" href="{{  route('oportunity.saved')  }}">Oportunidades</a></h3>
                             </div>
                             <div class="card-content" style="position: relative;">
+                                <div id="subscribe-gain-chart"></div>
                                 <div class="resize-triggers">
                                     <div class="expand-trigger">
                                         <div style="width: 350px; height: 101px;"></div>

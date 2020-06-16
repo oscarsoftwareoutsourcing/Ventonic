@@ -97,12 +97,12 @@
                                         <div class="col-lg-6 col-12 d-flex justify-content-between flex-column text-right order-lg-2 order-1">
                                             <div class="dropdown chart-dropdown">
                                                 <button class="btn btn-sm border-0 dropdown-toggle p-0" type="button" id="dropdownItem5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Last 7 Days
+                                                    Últimos 7 Días
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem5">
-                                                    <a class="dropdown-item" href="#">Last 28 Days</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Last Year</a>
+                                                    <a class="dropdown-item" href="#">Últimos 28 Días</a>
+                                                    <a class="dropdown-item" href="#">Último Mes</a>
+                                                    <a class="dropdown-item" href="#">Último Año</a>
                                                 </div>
                                             </div>
                                             <div id="avg-session-chart"></div>
@@ -145,12 +145,12 @@
                                 <h4 class="card-title">Customers</h4>
                                 <div class="dropdown chart-dropdown">
                                     <button class="btn btn-sm border-0 dropdown-toggle px-0" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Last 7 Days
+                                        Últimos 7 Días
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem3">
-                                        <a class="dropdown-item" href="#">Last 28 Days</a>
-                                        <a class="dropdown-item" href="#">Last Month</a>
-                                        <a class="dropdown-item" href="#">Last Year</a>
+                                        <a class="dropdown-item" href="#">Últimos 28 Días</a>
+                                        <a class="dropdown-item" href="#">Último Mes</a>
+                                        <a class="dropdown-item" href="#">Último Año</a>
                                     </div>
                                 </div>
                             </div>
@@ -343,6 +343,6 @@
     <script src="{{ asset('vendors/js/charts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('vendors/js/extensions/tether.min.js') }}"></script>
     <script src="{{ asset('vendors/js/extensions/shepherd.min.js') }}"></script>
-    <script src="{{ asset('js/scripts/pages/dashboard-analytics.js') }}"></script>
+    <script src="{{ asset('js/scripts/pages/dashboard-analytics.min.js') }}"></script>
     <script src="{{ asset('/vendors/js/tables/ag-grid/ag-grid-community.min.noStyle.js') }}"></script>
 @endsection
