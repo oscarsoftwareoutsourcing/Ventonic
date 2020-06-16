@@ -1,4 +1,23 @@
 {
     "i18n-ally.localesPaths": "resources/lang",
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#339fff",
+        "activityBar.activeBorder": "#bf0065",
+        "activityBar.background": "#339fff",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#bf0065",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "statusBar.background": "#0087ff",
+        "statusBar.border": "#0087ff",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#339fff",
+        "titleBar.activeBackground": "#0087ff",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.border": "#0087ff",
+        "titleBar.inactiveBackground": "#0087ff99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#0087FF"
 }

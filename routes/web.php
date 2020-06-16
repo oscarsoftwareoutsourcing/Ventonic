@@ -14,7 +14,8 @@
 Route::get('/', function () {
     if (auth()->check() && auth()->user()->type === "E") {
         // return view('search-result');
-        return view('inicio-dashboard');
+        //return view('inicio-dashboard');
+        return view('dashboard.index');
     }
     return view('welcome');
 });
@@ -128,3 +129,5 @@ Route::get('contacto/eliminar/{contact_id}/{user_id}', 'ContactController@destro
 $router->group(['middleware' => ['verified']], function() use ($router) {
     $router->get('todos', 'TodoController@index')->name('todos');
 });
+
+Route::view('dash','dashboard.index');

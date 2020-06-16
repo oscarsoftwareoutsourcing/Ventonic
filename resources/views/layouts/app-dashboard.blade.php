@@ -91,6 +91,7 @@
     <!-- BEGIN: Vendor JS-->
 
     <script src="{{ asset('vendors/js/vendors.min.js') }}" defer></script>
+    @yield('extra-js-chart')
 
 
     <script src="{{ asset('vendors/js/forms/select/select2.full.min.js') }}"></script>

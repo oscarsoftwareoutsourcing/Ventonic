@@ -201,7 +201,8 @@ class ContactController extends Controller
     public function show()
     {
         $contacts=Contact::where('user_id', auth()->user()->id)->orderByDesc('favorite')->paginate(10);
-        return view('inicio-dashboard', ['contacts'=>$contacts]);
+        //return view('inicio-dashboard', ['contacts'=>$contacts]); 
+        return view('dashboard.index', ['contacts'=>$contacts]);
 
     }
 
