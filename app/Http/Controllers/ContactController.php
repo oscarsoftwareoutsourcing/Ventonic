@@ -46,24 +46,30 @@ class ContactController extends Controller
         // Sacar todos los grupos a los que pertenece el usuario
         $groups=GroupUser::where('user_id', auth()->user()->id)->get();
         $contacts_compartidos=array();
+        $compartidos=array();
         foreach($groups as $group){
-            $compartidos=ContactGroup::where('group_id', $group->group_id)->value('contact_id');
-            foreach($compartidos as $compartido){
-                if (!array_key_exists($compartido->id, $contacts_compartidos)){
+            $comp=ContactGroup::where('group_id', $group->group_id)->value('contact_id');
+            $true=array_search($comp, $compartidos);
+            if(!array_search($comp, $compartidos)){
+                $compartidos[]=$comp;
+            }
+        }
+
+        foreach($compartidos as $i=>$compartido){
+            if ($compartido){
                     $contacts_compartidos[]=[
-                        'id'=>$compartido->contact_id,
-                        'user_id'=>Contact::getUserId($compartido->contact_id),
-                        'name'=>Contact::getUserName($compartido->contact_id),
-                        'last_name'=>Contact::getUserLastName($compartido->contact_id),
-                        'email'=>Contact::getUserEmail($compartido->contact_id),
-                        'phone'=>Contact::getUserPhone($compartido->contact_id),
-                        'company'=>Contact::getUserCompany($compartido->contact_id),
-                        'private'=>Contact::getUserPrivate($compartido->contact_id),
-                        'favorite'=>Contact::getUserFavorite($compartido->contact_id),
-                        'type'=>Contact::getUserType($compartido->contact_id),
-                        'type_contact'=>Contact::getUserTypeContact($compartido->contact_id),
+                        'id'=>$compartido,
+                        'user_id'=>Contact::getUserId($compartido),
+                        'name'=>Contact::getUserName($compartido),
+                        'last_name'=>Contact::getUserLastName($compartido),
+                        'email'=>Contact::getUserEmail($compartido),
+                        'phone'=>Contact::getUserPhone($compartido),
+                        'company'=>Contact::getUserCompany($compartido),
+                        'private'=>Contact::getUserPrivate($compartido),
+                        'favorite'=>Contact::getUserFavorite($compartido),
+                        'type'=>Contact::getUserType($compartido),
+                        'type_contact'=>Contact::getUserTypeContact($compartido),
                     ];
-                }
             }
         }
 
@@ -78,6 +84,7 @@ class ContactController extends Controller
         
     }
 
+    
     /**
      * Show the form for creating a new resource.
      *
