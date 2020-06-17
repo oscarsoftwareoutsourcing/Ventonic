@@ -216,6 +216,7 @@
 @endsection
 
 @section('extra-js')
+    <script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}" defer></script>
     <script src="{{ asset('vendors/js/extensions/moment.min.js') }}" defer></script>
     <script src="{{ asset('vendors/js/calendar/fullcalendar.min.js') }}" defer></script>
     <script src="{{ asset('vendors/js/calendar/extensions/daygrid.min.js') }}" defer></script>
