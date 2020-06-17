@@ -11,7 +11,7 @@
                         <div class="app-fixed-search">
                             <div class="sidebar-toggle d-block d-lg-none"><i class="feather icon-menu"></i></div>
                             <fieldset class="form-group position-relative has-icon-left m-0">
-                                <input type="text" class="form-control" id="todo-search" placeholder="Search...">
+                                <input type="text" class="form-control" id="todo-search" placeholder="Buscar...">
                                 <div class="form-control-position">
                                     <i class="feather icon-search"></i>
                                 </div>
@@ -20,12 +20,14 @@
 
                         <!-- Notes list -->
                         <div class="todo-task-list list-group ps ps--active-y">
-                            <ul class="todo-task-list-wrapper media-list" v-if="notes.length !== 0">
+                            <ul class="todo-task-list-wrapper media-list" v-if="getTodos.length > 0">
 
                                 <!-- Note -->
-                                <li class="todo-item" data-toggle="modal" data-target="#todoForm">
+                                <li v-for="(todo, index) in getTodos" :key="index" class="todo-item" data-toggle="modal" data-target="#todoForm">
                                     <div class="todo-title-wrapper d-flex justify-content-between mb-50">
                                         <div class="todo-title-area d-flex align-items-center">
+
+                                            <!-- Todo title -->
                                             <div class="title-wrapper d-flex">
                                                 <div class="vs-checkbox-con">
                                                     <input type="checkbox">
@@ -35,7 +37,7 @@
                                                         </span>
                                                     </span>
                                                 </div>
-                                                <h6 class="todo-title mt-50 mx-50">Meet Jane ❤️</h6>
+                                                <h6 class="todo-title mt-50 mx-50">{{ todo.title }}</h6>
                                             </div>
                                             <div class="chip-wrapper">
                                                 <div class="chip mb-0">
@@ -61,13 +63,22 @@
                                             <a class="todo-item-delete"><i class="feather icon-trash"></i></a>
                                         </div>
                                     </div>
-                                    <p class="todo-desc truncate mb-0">Toffee sugar plum oat cake tiramisu tart bonbon gingerbread cheesecake cake.</p>
+
+                                    <!-- Todo description -->
+                                    <p class="todo-desc truncate mb-0">{{ todo.description }}</p>
                                 </li>
                             </ul>
-                            <div class="no-results">
-                                <h5>No Items Found</h5>
+                            <div v-else class="no-results">
+                                <h5>No hay tareas</h5>
                             </div>
-                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 385px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 231px;"></div></div></div>
+
+                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                            </div>
+                            <div class="ps__rail-y" style="top: 0px; height: 385px; right: 0px;">
+                                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 231px;"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,12 +87,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
-    props: ['notes'],
     data() {
         return {
 
         }
+    },
+    computed: {
+        ...mapGetters(['getTodos']),
     }
 }
 </script>

@@ -1,8 +1,14 @@
+import VueChatScroll from 'vue-chat-scroll';
+import Vuelidate from 'vuelidate';
+// Import store modules.
+import store from './store/index.js';
+
 require('./bootstrap');
 
 window.Vue = require('vue');
-import VueChatScroll from 'vue-chat-scroll';
 Vue.use(VueChatScroll);
+Vue.use(Vuelidate);
+
 
 Vue.component('search-sellers', () => import('./components/SearchSellersComponent.vue'));
 Vue.component('chat', () => import('./components/ChatComponent.vue'));
@@ -10,11 +16,14 @@ Vue.component('notification', () => import('./components/NotificationComponent.v
 Vue.component('notification-item', () => import('./components/NotificationItemComponent.vue'));
 
 // Notes module components
+Vue.component('todos-module', () => import('./components/Todos.vue'));
 Vue.component('todo-sidebar', () => import('./components/TodoSideBar.vue'));
 Vue.component('todo-list', () => import('./components/TodoList.vue'));
 Vue.component('todo-form', () => import('./components/TodoForm.vue'));
+
 const app = new Vue({
     el: '#app',
+    store
 });
 
 $(document).ready(function() {

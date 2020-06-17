@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StatusAplicantsSeeder::class);
         $this->call(StatusNegociationsSeeder::class);
         $this->call(CountriesSeeder::class);
+        $this->call(ModuleLabelsSeeder::class);
         // $this->call(GroupSeeder::class);
         // $this->call(AplicantsTableSeeder::class);
     }
