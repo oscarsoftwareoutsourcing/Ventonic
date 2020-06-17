@@ -62,7 +62,32 @@ class TodoController extends Controller
             ]);
 
         } catch (\Exception $ex) {
-            echo $ex;
+            return response()->json([
+                'result' => false
+            ]);
+        }
+    }
+
+    public function updateTodos(Request $request) {
+
+        try {
+            $updated_todos = null;
+
+            // Create object.
+            $todos = Todo::where('user_id', $request->uid)->first();
+
+            $todos->todos = $request->todos;
+
+            // Save 
+            $todos->save();
+            $updated_todos = $todos->todos;
+
+            return response()->json([
+                'result' => true,
+                'updatedTodos' => $updated_todos
+            ]);
+
+        } catch (\Exception $ex) {
             return response()->json([
                 'result' => false
             ]);

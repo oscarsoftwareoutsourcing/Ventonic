@@ -47,10 +47,13 @@ export default {
         // Set data into the store.
         this.SET_LABELS(this.labels);
         this.SET_UID(this.uid);
-        if(this.todos.length > 0) { this.SET_TODOS(this.todos); }
+        if(this.todos.length > 0) {
+            this.SET_TODOS(this.todos);
+            this.SET_COPY();
+        }
     },
     methods: {
-        ...mapMutations(['SET_LABELS', 'SET_TODOS', 'SET_UID']),
+        ...mapMutations(['SET_LABELS', 'SET_TODOS', 'SET_UID', 'SET_COPY']),
     },
     computed: {
         ...mapGetters(['getTodos']),

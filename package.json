@@ -32,6 +32,7 @@
         "es6-promise": "^4.2.8",
         "select2": "^4.0.13",
         "vue-chat-scroll": "^1.4.0",
+        "vue2-perfect-scrollbar": "^1.5.0",
         "vuelidate": "^0.7.5",
         "vuex": "^3.4.0"
     }
