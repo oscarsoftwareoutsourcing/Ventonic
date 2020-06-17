@@ -13,4 +13,14 @@ class ContactGroup extends Model
     {
         return $this->hasMany('App\Contact');
     }
+
+    public static function getContactGroup($contact_id, $group_id){
+        $true=false;
+        $group=ContactGroup::where('contact_id', $contact_id)->where('group_id', $group_id)->value('id');
+        if($group>0){
+            $true=true;
+        }
+// var_dump($true); die();
+        return $true;
+    }
 }

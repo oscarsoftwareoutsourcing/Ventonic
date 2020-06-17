@@ -139,20 +139,20 @@ class ContactController extends Controller
             ]
         );
         // Compartir usuario
-        if(is_array($request['private'])){
+        if(isset($request['private']) && is_array($request['private'])){
             $private = implode($request['private']);
         }
 
 
         if($contact){
-            if($private==='para mi'){
+            if(isset($private) && $private==='para mi'){
                 $contact_id=$contact->id;
                 $contact=Contact::find($contact->id);
                 $contact->private=1;
                 $contact->update();
             }
 
-            else if($private==='todos'){
+            else if(isset($private) && $private==='todos'){
                 $contact_id=$contact->id;
                 // Sacar todos los grupos de usuarios del contacto
                 $groups=Group::where('user_id', auth()->user()->id)->get();
@@ -168,7 +168,7 @@ class ContactController extends Controller
                 }
 
             }
-            else if($private!=='para mi' && $private!=='todos'){
+            else if(isset($private) && $private!=='para mi' && $private!=='todos'){
                 $contact_id=$contact->id;
 
                 // Sacar los id de los grupos de que selecciono el usuario
@@ -212,9 +212,90 @@ class ContactController extends Controller
      * @param  \App\contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function edit(contact $contact)
+    public function update(Request $request)
     {
-        //
+        $contact_id=$request->input('contact_id');
+
+        $contact=Contact::find((int)$contact_id);
+        $image=$request->file('image');
+        $validation= $request->validate([
+            'nombre' => 'required|string|max:255'
+        ]);
+        // var_dump($contact); die();
+
+        if($image){
+            $image_path_name = time().$image->getClientOriginalName();
+            Storage::disk('public')->put($image_path_name, File::get($image));
+        }
+
+        $contact->name=$request->nombre;
+        $contact->last_name=$request->apellido ?? null;
+        $contact->image=$request->image ? $image_path_name : null;
+        $contact->email=$request->email ?? null;
+        $contact->web=$request->web ?? null;
+        $contact->phone=$request->telefono ?? null;
+        $contact->company= $request->empresa ?? null;
+        $contact->address=$request->direccion_empresa ?? null;
+        $contact->postal_code=$request->codigo_postal ?? null;
+        $contact->sector=$request->sector ?? null;
+        $contact->notes= $request->anotaciones ?? null;
+        $contact->share=null;
+        $contact->type= $request->etiquetas ?? null;
+        $contact->favorite= $request->favorite ?? null;
+        $contact->cargo= $request->cargo ?? null;
+        $contact->address_longitude= $request->address_longitude ?? null;
+        $contact->address_latitude= $request->address_latitude ?? null;
+        // $contact->user_id= $request->user_id ?? null;
+        $contact->type_contact= $request->type_contact ?? null;
+        $contact->update();
+
+        // if(isset($request['private']) && is_array($request['private'])){
+        //     $private = implode($request['private']);
+        // }
+
+
+        // if($contact){
+        //     if($private==='para mi'){
+        //         $contact_id=$contact->id;
+        //         $contact=Contact::find($contact->id);
+        //         $contact->private=1;
+        //         $contact->update();
+        //     }
+
+        //     else if($private==='todos'){
+        //         $contact_id=$contact->id;
+        //         // Sacar todos los grupos de usuarios del contacto
+        //         $groups=Group::where('user_id', auth()->user()->id)->get();
+        //         $users=array();
+
+        //         // Insertar el contacto en la tabla contact_group para hacerlo disponible en todos sus grupos
+        //         foreach($groups as $group){
+        //             $contactGroup = ContactGroup::updateOrCreate(
+        //                 ['contact_id' =>$contact_id,
+        //                  'group_id' => $group->id
+        //                 ]
+        //             );
+        //         }
+
+        //     }
+        //     else if($private!=='para mi' && $private!=='todos'){
+        //         $contact_id=$contact->id;
+
+        //         // Sacar los id de los grupos de que selecciono el usuario
+        //         $groups=$request->private;
+        //         foreach($groups as $group){
+        //             $contactGroup = ContactGroup::updateOrCreate(
+        //                 ['contact_id' =>$contact_id,
+        //                  'group_id' => (int)$group
+        //                 ]
+        //             );
+        //         }
+
+        //     }          
+        // }
+
+        return redirect()->route('contact.list')
+                            ->with(['message'=>'Contacto modificado exitosamente']);
     }
 
     /**
@@ -224,9 +305,13 @@ class ContactController extends Controller
      * @param  \App\contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, contact $contact)
+    public function edit($contact_id)
     {
-        //
+        $contact=Contact::find($contact_id);
+        $countrys=Country::all();
+        $groups=Group::where('user_id', auth()->user()->id)->get();
+        $users=User::orderBy('name', 'desc')->get();
+        return view('contact.form-edit', ['countrys'=>$countrys, 'contact'=>$contact, 'groups'=>$groups, 'users'=>$users]);
     }
 
     /**
@@ -237,18 +322,30 @@ class ContactController extends Controller
      */
     public function destroy($contact_id, $user_id)
     {
-        if($user_id == auth()->user()->id){
-            $delete_contact_group=ContactGroup::where('contact_id', $contact_id)->delete();
-            if($delete_contact_group){
-                $delete_contact=Contact::where('id',$contact_id)->where('user_id', $user_id)->delete();
+        $result='';
+        // var_dump($user_id); die();
+        if((int)$user_id == auth()->user()->id){
+
+            // Buscar el contacto para ver si esta compartido
+            $search=ContactGroup::where('contact_id',(int)$contact_id)->get();
+            if($search){
+                ContactGroup::where('contact_id', (int)$contact_id)->delete();
             }
-        }
-
-        if($delete_contact){
+            $delete_contact=Contact::find((int)$contact_id);
+            $borrado=$delete_contact->delete();
+            var_dump($borrado);
+                if(isset($borrado)){
+                            
+                    return redirect()->route('contact.list')
+                                    ->with(['message'=>'Contacto eliminado exitosamente']);
+                }else{
+                    return redirect()->route('contact.list')
+                                    ->with(['error'=>'No se ha podido eliminar el contacto']);
+                }   
+                
+        }else{
             return redirect()->route('contact.list')
-                            ->with(['message'=>'Contacto eliminado exitosamente']);
+                            ->with(['error'=>'No esta autorizado para eliminar este contacto']);
         }
-
-
     }
 }

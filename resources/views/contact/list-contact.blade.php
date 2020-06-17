@@ -33,9 +33,22 @@
                     <div class="card card-oportunity">
                         <div class="card-header">Mis contactos</div>
                      <div class="card-body">
+                        @if(session('message'))
+                        <div class="alert alert-success">
+                            <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                            {{session('message')}}
+                        </div>
+                    @endif
                     
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                        {{session('error')}}
+                    </div>
+                    @endif
                     <div class="row">
                         <div class="col-6">
+         
                             <div class="input-group">
                                 <div class="input-group-append">
                                     {{-- <a href="{{ route('contact.create') }}" class="btn btn-primary btn_right_new" type="button">
@@ -60,7 +73,7 @@
                     </div>
                     <div class="">
                         {{-- <table id="oportunityTable" class="table  data-list-view table-hover mb-0 table-responsive"> --}}
-                        <table id="datatable" class="table  data-list-view table-hover mb-0 table-responsive">
+                        <table id="datatable" class="table  oportunityTable data-list-view table-hover mb-0 table-responsive">
                             <thead>
                                 <tr>
                                     <th style="text-align:center;" width="20%">Nombre</th>
@@ -76,7 +89,7 @@
                                 @foreach($contacts as $contact)
                                     
                                 <tr href="{{route('contact.create', ['contact'=>$contact['id']])}}" class="fila" id="fila{{$contact['id']}}">
-                                    <td style="text-align:left;" width="20%">
+                                    <td style="text-align:left;" width="25%">
                                         <span><i class="{{App\Contact::getIcon($contact['type_contact'])}} text-primary"></i></span>
                                         @if($contact['private']==1)
                                         <span style="margin-left:5px;margin-right:5px;"><i class="feather icon-eye"></i></span>
@@ -85,8 +98,8 @@
                                     </td>
                                     <td style="text-align:center;" width="20%">{{$contact['last_name']}}</td>
                                     <td style="text-align:center;" width="10%">{{$contact['phone']}}</td>
-                                    <td style="text-align:center;" width="20%">{{$contact['email']}}</td>
-                                    <td style="text-align:center;" width="20%">{{$contact['company']}}
+                                    <td style="text-align:center;" width="15%">{{$contact['email']}}</td>
+                                    <td style="text-align:center;" width="15%">{{$contact['company']}}
                                     <input type="text" class="tipoContacto" value="{{$contact['type']}}" data-id="{{$contact['id']}}" hidden>
                                     </td>
                                     <td style="text-align:center;" width="5%">
@@ -94,20 +107,9 @@
                                             <i class="ficon feather icon-star warning"></i>
                                         @endif
                                     </td>
-                                    <td class="nav nav-pills" style="text-align:center;" width="5%">
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                                Editar
-                                            </a>
-                                            <div class="dropdown-menu">
-                                                @if($contact['type_contact']=='persona')
-                                                <a class="dropdown-item" id="dropdown1-tab" href="#dropdown1" data-toggle="pill" aria-expanded="true">Convertir a empresa</a>
-                                                @else
-                                                <a class="dropdown-item" id="dropdown2-tab" href="#dropdown1" data-toggle="pill" aria-expanded="true">Convertir a persona</a>
-                                                @endif
-                                                <a class="dropdown-item" id="dropdown3-tab" href="#dropdown2" data-toggle="pill" aria-expanded="true">Eliminar</a>
-                                            </div>
-                                        </li>
+                                    <td width="10%" style="text-align:center;">
+                                        <a href="{{route('contact.destroy',['contact_id'=>$contact['id'], 'user_id'=>$contact['user_id']])}}" class="float-left mr-2"><i class="feather icon-trash-2 text-white"></i></a>
+                                        <a href="{{route('contact.editForm',['contact_id'=>$contact['id']])}}" class="float-left"><i class="feather icon-edit text-white"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
