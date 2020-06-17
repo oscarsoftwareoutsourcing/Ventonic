@@ -12,7 +12,7 @@
 
                 <!-- Add task button -->
                 <div class="form-group text-center add-task">
-                    <button type="button" class="btn btn-primary btn-block my-1 waves-effect waves-light" data-toggle="modal" data-target="#todoForm">Add Task</button>
+                    <button type="button" class="btn btn-primary btn-block my-1 waves-effect waves-light" data-toggle="modal" data-target="#taskModal">Nueva tarea</button>
                 </div>
 
                 <!-- Task filters -->
@@ -20,29 +20,26 @@
 
                     <!-- All-filter -->
                     <div class="list-group list-group-filters font-medium-1">
-                        <a href="#" class="list-group-item list-group-item-action border-0 pt-0 active">
-                            <i class="font-medium-5 feather icon-mail mr-50"></i> All
+                        <a href="#" class="list-group-item list-group-item-action border-0 pt-0">
+                            <i class="font-medium-5 feather icon-mail mr-50"></i> Todas
                         </a>
                     </div>
                     <hr>
 
                     <!-- Other-filters (module_labels) -->
-                    <h5 class="mt-2 mb-1 pt-25">Filters</h5>
+                    <h5 class="mt-2 mb-1 pt-25">Filtros</h5>
                     <div class="list-group list-group-filters font-medium-1">
-                        <a href="#" class="list-group-item list-group-item-action border-0"><i class="font-medium-5 feather icon-star mr-50"></i> Starred</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0"><i class="font-medium-5 feather icon-info mr-50"></i> Important</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0"><i class="font-medium-5 feather icon-check mr-50"></i> Completed</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0"><i class="font-medium-5 feather icon-trash mr-50"></i> Trashed</a>
+                        <a href="#" class="list-group-item list-group-item-action border-0"><i class="font-medium-5 feather icon-star mr-50"></i> Principal</a>
+                        <a href="#" class="list-group-item list-group-item-action border-0"><i class="font-medium-5 feather icon-info mr-50"></i> Importantes</a>
+                        <a href="#" class="list-group-item list-group-item-action border-0"><i class="font-medium-5 feather icon-check mr-50"></i> Completadas</a>
+                        <a href="#" class="list-group-item list-group-item-action border-0"><i class="font-medium-5 feather icon-trash mr-50"></i> Descartadas</a>
                     </div>
                     <hr>
 
                     <!-- Labels (custom labels) -->
-                    <h5 class="mt-2 mb-1 pt-25">Labels</h5>
+                    <h5 class="mt-2 mb-1 pt-25">Etiquetas <a href="#" class="pt-2"><i class="font-medium-5 feather icon-plus success"></i></a></h5>
                     <div class="list-group list-group-labels font-medium-1">
-                        <a href="#" class="list-group-item list-group-item-action border-0 d-flex align-items-center"><span class="bullet bullet-primary mr-1"></span> Frontend</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 d-flex align-items-center"><span class="bullet bullet-warning mr-1"></span> Backend</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 d-flex align-items-center"><span class="bullet bullet-success mr-1"></span> Doc</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 d-flex align-items-center"><span class="bullet bullet-danger mr-1"></span> Bug</a>
+                        <a href="#" class="list-group-item list-group-item-action border-0 d-flex align-items-center" v-for="(label) in getLabels" :key="label.id"><span class="bullet bullet-primary mr-1"></span> {{ label.label }}</a>
                     </div>
                     <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
                         <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
@@ -57,8 +54,16 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from 'vuex';
 export default {
-
+    methods: {
+        ...mapMutations({
+            toggleForm: 'TOGGLE_SHOW_FORM'
+        }),
+    },
+    computed: {
+        ...mapGetters(['getLabels'])
+    }
 }
 </script>
 

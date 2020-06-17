@@ -118,8 +118,8 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     // User notes
-    public function notes() {
-        return $this->hasMany(Note::class);
+    public function todos() {
+        return $this->hasMany(Todo::class);
     }
 
     public function getPhotoAttribute()

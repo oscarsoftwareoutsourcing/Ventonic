@@ -20210,13 +20210,14 @@
   line-height : 1.5;
 }
 .todo-application .content-area-wrapper .content-right .todo-task-list .no-results {
-  display : none;
+  /* display : none; */
+  display : block;
   padding : 1.5rem;
   text-align : center;
 }
-.todo-application .content-area-wrapper .content-right .todo-task-list .no-results.show {
-  display : block;
-}
+/* .todo-application .content-area-wrapper .content-right .todo-task-list .no-results.show {
+  display : block !important;
+} */
 
 @-webkit-keyframes fadeIn {
   0% {
