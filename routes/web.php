@@ -129,6 +129,10 @@ Route::get('contacto/eliminar/{contact_id}/{user_id}', 'ContactController@destro
 Route::get('contacto/editar/{contact_id}', 'ContactController@edit')->name('contact.editForm')->middleware('verified');
 Route::post('contacto/update', 'ContactController@update')->name('contact.update')->middleware('verified');
 
+// Rutas para grupos
+
+Route::get('grupos/crear', 'GroupController@show')->name('group.show')->middleware('verified');
+
 
 // Notes module
 $router->group(['middleware' => ['verified']], function() use ($router) {

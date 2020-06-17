@@ -11,6 +11,11 @@ class GroupUser extends Model
     
     public function user()
     {
-        return $this->hasMany('App\User');
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function group()
+    {
+        return $this->belongsTo('App\Group', 'group_id');
     }
 }
