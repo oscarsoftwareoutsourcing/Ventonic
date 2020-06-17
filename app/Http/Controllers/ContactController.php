@@ -47,7 +47,7 @@ class ContactController extends Controller
         $groups=GroupUser::where('user_id', auth()->user()->id)->get();
         $contacts_compartidos=array();
         foreach($groups as $group){
-            $compartidos=ContactGroup::where('group_id', $group->group_id)->get();
+            $compartidos=ContactGroup::where('group_id', $group->group_id)->value('contact_id');
             foreach($compartidos as $compartido){
                 if (!array_key_exists($compartido->id, $contacts_compartidos)){
                     $contacts_compartidos[]=[
