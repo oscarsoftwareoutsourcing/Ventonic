@@ -121,8 +121,13 @@ Route::get('contacto/listado', 'ContactController@index')->name('contact.list')-
 Route::get('contacto/crear/{contact?}', 'ContactController@create')->name('contact.create')->middleware('verified');
 Route::post('contacto/save', 'ContactController@store')->name('contact.save')->middleware('verified');
 Route::get('contacto/widget/{contacts?}', 'ContactController@show')->name('contact.show')->middleware('verified');
+Route::get('contacto/widget/{contacts?}', 'ContactController@show')->name('contact.show')->middleware('verified');
 Route::get('contacto/image/{filename}', 'ContactController@getImage')->name('contact.image')->middleware('verified');
 Route::get('contacto/eliminar/{contact_id}/{user_id}', 'ContactController@destroy')->name('contact.destroy')->middleware('verified');
+
+Route::get('contacto/editar/{contact_id}', 'ContactController@edit')->name('contact.editForm')->middleware('verified');
+Route::post('contacto/update', 'ContactController@update')->name('contact.update')->middleware('verified');
+
 
 // Notes module
 $router->group(['middleware' => ['verified']], function() use ($router) {

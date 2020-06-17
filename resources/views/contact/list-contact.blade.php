@@ -35,12 +35,14 @@
                      <div class="card-body">
                         @if(session('message'))
                         <div class="alert alert-success">
+                            <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
                             {{session('message')}}
                         </div>
                     @endif
                     
                     @if(session('error'))
                     <div class="alert alert-danger">
+                        <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
                         {{session('error')}}
                     </div>
                     @endif
@@ -107,7 +109,7 @@
                                     </td>
                                     <td width="10%" style="text-align:center;">
                                         <a href="{{route('contact.destroy',['contact_id'=>$contact['id'], 'user_id'=>$contact['user_id']])}}" class="float-left mr-2"><i class="feather icon-trash-2 text-white"></i></a>
-                                        <a href="" class="float-left"><i class="feather icon-edit text-white"></i></a>
+                                        <a href="{{route('contact.editForm',['contact_id'=>$contact['id']])}}" class="float-left"><i class="feather icon-edit text-white"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
