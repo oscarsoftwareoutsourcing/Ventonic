@@ -490,12 +490,12 @@
 
   // main menu internationalization
 
-  // init i18n and load language file
+ /* // init i18n and load language file
   i18next.use(window.i18nextXHRBackend).init({
       debug: false,
       fallbackLng: "en",
       backend: {
-        loadPath: "../../../data/locales/{{lng}}.json"
+        loadPath: "data/locales/{{lng}}.json"
       },
       returnObjects: true
     },
@@ -520,7 +520,7 @@
     i18next.changeLanguage(currentLanguage, function (err, t) {
       $(".main-menu, .horizontal-menu-wrapper").localize();
     });
-  });
+  });*/
 
   /********************* Bookmark & Search ***********************/
   // This variable is used for mouseenter and mouseleave events of search list
@@ -604,11 +604,11 @@
   });
 
   // Filter
-  if ($('.search-list-main').length) {
+  /*if ($('.search-list-main').length) {
     var searchListMain = new PerfectScrollbar(".search-list-main", {
       wheelPropagation: false
     });
-  }
+  }*/
   if ($('.search-list-bookmark').length) {
     var searchListBookmark = new PerfectScrollbar(".search-list-bookmark", {
       wheelPropagation: false
@@ -681,7 +681,7 @@
           a = 0;
 
         // getting json data from file for search results
-        $.getJSON("../../../app-assets/data/" + $filename + ".json", function (
+        $.getJSON("data/" + $filename + ".json", function (
           data
         ) {
           for (var i = 0; i < data.listItems.length; i++) {
@@ -942,6 +942,6 @@
   });
 
   // Waves Effect
-  Waves.init();
-  Waves.attach(".btn", ["waves-light"]);
+  //Waves.init();
+  //Waves.attach(".btn", ["waves-light"]);
 })(window, document, jQuery);
