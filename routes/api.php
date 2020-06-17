@@ -22,4 +22,7 @@ $router->group(['prefix' => 'todos'], function() use ($router) {
 
     // Save todo.
     $router->post('save-todo', ['uses' => 'TodoController@saveTodo']);
+
+    // Update todos.
+    $router->post('update-todos', ['uses' => 'TodoController@updateTodos']);
 });

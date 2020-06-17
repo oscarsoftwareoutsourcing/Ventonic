@@ -19,18 +19,18 @@
                         </div>
 
                         <!-- Notes list -->
-                        <div class="todo-task-list list-group ps ps--active-y">
-                            <ul class="todo-task-list-wrapper media-list" v-if="getTodos.length > 0">
+                        <perfect-scrollbar class="todo-task-list list-group" ref="scrollbar">
+                            <ul class="todo-task-list-wrapper media-list" v-if="getTodosCopy.length > 0">
 
                                 <!-- Note -->
-                                <li v-for="(todo, index) in getTodos" :key="index" class="todo-item" data-toggle="modal" data-target="#todoForm">
+                                <li v-for="(todo, i) in getTodosCopy" :key="i" class="todo-item" v-bind:class="{'completed':todo.filters.completed}" data-toggle="modal" data-target="#todoForm">
                                     <div class="todo-title-wrapper d-flex justify-content-between mb-50">
                                         <div class="todo-title-area d-flex align-items-center">
 
                                             <!-- Todo title -->
                                             <div class="title-wrapper d-flex">
                                                 <div class="vs-checkbox-con">
-                                                    <input type="checkbox">
+                                                    <input @click="toggleCompleted(i)" type="checkbox" v-model="todo.filters.completed">
                                                     <span class="vs-checkbox vs-checkbox-sm">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
@@ -42,26 +42,16 @@
 
                                             <!-- Todo labels -->
                                             <div class="chip-wrapper">
-                                                <div class="chip mb-0">
+                                                <div class="chip mb-0" v-for="(label, j) in todo.labels" :key="j">
                                                     <div class="chip-body">
-                                                        <span class="chip-text" data-value="Frontend"><span class="bullet bullet-primary bullet-xs"></span> Frontend</span>
-                                                    </div>
-                                                </div>
-                                                <div class="chip mb-0">
-                                                    <div class="chip-body">
-                                                        <span class="chip-text" data-value="Backend"><span class="bullet bullet-warning bullet-xs"></span> Backend</span>
-                                                    </div>
-                                                </div>
-                                                <div class="chip mb-0">
-                                                    <div class="chip-body">
-                                                        <span class="chip-text" data-value="Doc"><span class="bullet bullet-success bullet-xs"></span> Doc</span>
+                                                        <span class="chip-text" data-value="Frontend"><span class="bullet bullet-primary bullet-xs"></span> {{ printLabel(label) }}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="float-right todo-item-action d-flex">
-                                            <a class="todo-item-info success"><i class="feather icon-info"></i></a>
-                                            <a class="todo-item-favorite warning"><i class="feather icon-star"></i></a>
+                                            <a class="todo-item-info" @click="toggleImportant(i)"><i class="feather icon-info" :class="todo.filters.important ? 'success' : ''"></i></a>
+                                            <a class="todo-item-favorite" @click="toggleStarred(i)"><i class="feather icon-star" :class="todo.filters.starred ? 'warning' : ''"></i></a>
                                             <a class="todo-item-delete"><i class="feather icon-trash"></i></a>
                                         </div>
                                     </div>
@@ -73,14 +63,7 @@
                             <div v-else class="no-results">
                                 <h5>No hay tareas</h5>
                             </div>
-
-                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-                            </div>
-                            <div class="ps__rail-y" style="top: 0px; height: 385px; right: 0px;">
-                                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 231px;"></div>
-                            </div>
-                        </div>
+                        </perfect-scrollbar>
                     </div>
                 </div>
             </div>
@@ -89,25 +72,33 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
     data() {
         return {
-
+        }
+    },
+    methods: {
+        ...mapActions(['updateTodos']),
+        async toggleCompleted(index) {
+            this.getTodosCopy[index].filters.completed = !this.getTodosCopy[index].filters.completed;
+            await this.updateTodos(this.getTodosCopy);
+        },
+        async toggleImportant(index) {
+            this.getTodosCopy[index].filters.important = !this.getTodosCopy[index].filters.important;
+            await this.updateTodos(this.getTodosCopy);
+        },
+        async toggleStarred(index) {
+            this.getTodosCopy[index].filters.starred = !this.getTodosCopy[index].filters.starred;
+            await this.updateTodos(this.getTodosCopy);
+        },
+        printLabel(label) {
+            let data = this.getLabels.filter( l => l.id === label );
+            return data[0].label;
         }
     },
     computed: {
-        ...mapGetters(['getTodos', 'getLabels']),
-        todoLabels(todo) {
-            let todosLbs = []; // To return.
-            
-            // filter the labels store object to get the ones setted to this note.
-            // todosLbs = this.getLabels.filter((lb) => {
-            //     return lb.id === todo.
-            // });
-
-            // Devolvemos un arreglo con las
-        }
+        ...mapGetters(['getTodosCopy', 'getLabels']),
     }
 }
 </script>

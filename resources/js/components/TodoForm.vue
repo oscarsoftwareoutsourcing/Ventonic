@@ -10,7 +10,7 @@
 
                             <!-- Title -->
                             <h5 class="modal-title" id="opTodoTask">Tarea</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="eraseData()">
+                            <button :disabled="isDisabled" type="button" class="close" data-dismiss="modal" aria-label="Close" @click="eraseData()">
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
@@ -68,16 +68,16 @@
 
                             <!-- Submit -->
                             <fieldset class="form-group position-relative has-icon-left mb-0">
-                                <button type="submit" class="btn btn-primary update-todo-item waves-effect waves-light"><i class="feather icon-edit d-block d-lg-none"></i>
-                                    <span class="d-none d-lg-block">Guardar</span>
+                                <button :disabled="isDisabled" type="submit" class="btn btn-primary update-todo-item waves-effect waves-light"><i class="feather icon-edit d-block d-lg-none"></i>
+                                    <span class="d-none d-lg-block">{{ (isDisabled) ? 'Guardando...' : 'Guardar'}}</span>
                                 </button>
                             </fieldset>
 
                             <!-- Cancel -->
                             <fieldset class="form-group position-relative has-icon-left mb-0">
-                                <button type="button" class="btn btn-outline-light waves-effect waves-light" data-toggle="modal" data-target="#taskModal" @click="eraseData()">
+                                <button :disabled="isDisabled" type="button" class="btn btn-outline-light waves-effect waves-light" data-toggle="modal" data-target="#taskModal" @click="eraseData()">
                                     <i class="feather icon-x d-block d-lg-none"></i>
-                                    <span class="d-none d-lg-block">Cancel</span>
+                                    <span class="d-none d-lg-block">Terminar</span>
                                 </button>
                             </fieldset>
                         </div>
@@ -97,6 +97,8 @@ export default {
     data() {
         return {
 
+            // UI
+            isDisabled: false,
             isStarred: false,
             isImportant: false,
             
@@ -125,6 +127,8 @@ export default {
         async check() {
             if (!this.$v.$invalid) {
 
+                this.isDisabled = !this.isDisabled;
+
                 // Data to send to the server.
                 let data = {
                     title: this.title,
@@ -141,7 +145,10 @@ export default {
                 try {
 
                     // Send data
-                    this.saveTodo(data);
+                    await this.saveTodo(data);
+
+                    this.isDisabled = !this.isDisabled;
+                    this.eraseData();
 
                 } catch (error) {
                     // this.$router.push('/error');

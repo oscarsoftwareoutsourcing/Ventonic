@@ -16,7 +16,7 @@
                 </div>
 
                 <!-- Task filters -->
-                <div class="sidebar-menu-list ps ps--active-y">
+                <perfect-scrollbar class="sidebar-menu-list" ref="scrollbar">
 
                     <!-- All-filter -->
                     <div class="list-group list-group-filters font-medium-1">
@@ -41,13 +41,7 @@
                     <div class="list-group list-group-labels font-medium-1">
                         <a href="#" class="list-group-item list-group-item-action border-0 d-flex align-items-center" v-for="(label) in getLabels" :key="label.id"><span class="bullet bullet-primary mr-1"></span> {{ label.label }}</a>
                     </div>
-                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                        <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-                    </div>
-                    <div class="ps__rail-y" style="top: 0px; height: 342px; right: 0px;">
-                        <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 221px;"></div>
-                    </div>
-                </div>
+                </perfect-scrollbar>
             </div>
         </div>
     </div>

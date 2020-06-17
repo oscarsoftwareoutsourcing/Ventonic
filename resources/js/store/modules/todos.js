@@ -14,6 +14,7 @@ const initialState = () => ({
     labels: [],
     userLabels: [],
     todos: [],
+    todosCopy: [],
     todo: null
 });
 
@@ -22,7 +23,7 @@ const state = initialState;
 
 export const getters = {
     getLabels: state => { return state.labels },
-    getTodos: state => { return state.todos },
+    getTodosCopy: state => { return state.todosCopy },
     getTodo: state => { return state.todo }
 };
 
@@ -52,7 +53,7 @@ export const actions = {
         // Array to send
         let data = {
             uid: state.userId,
-            todos: [...state.todos]
+            todos: state.todosCopy
         };
 
         // We push or replace the note into the todos copied array.
@@ -61,7 +62,7 @@ export const actions = {
             // We modify the todo.
             data.todos[state.getTodo] = t;
         } else {
-            data.todos.push(t);
+            (data.todos.length > 0) ? data.todos.unshift(t) : data.todos.push(t);
         }
 
         // We stringify the todos object.
@@ -77,62 +78,62 @@ export const actions = {
                 commit('SET_TODOS', JSON.parse(response.data.updatedTodos));
             }
         } catch (error) {
-
-            console.log(error);
             // if(error.response.status === 401) {
             // }
+        } finally {
+            commit('SET_COPY', state.todos);
         }
     },
-    // async update({ commit }, data) {
-    //     let config = {
-    //         headers: {
-    //             Authorization: `bearer ${localStorage.getItem('user_token')}`
-    //         }
-    //     }
+    async updateTodos({ state, commit }, todos) {
+        try {
 
-    //     try {
-    //         const response = await this.$axios.$put(`${this.$axios.defaults.baseURL}products/update/${data.id}`, data.ud, config);
+            // Data to send
+            let data = {
+                uid: state.userId,
+                todos: JSON.stringify(todos)
+            };
 
-    //         commit('SET_CODE', response.code);
-    //         commit('UPDATE_PRODUCT', response.product);
-    //     } catch (error) {
-    //         if(error.response.status === 401) {
-    //             console.log('Mostrar mensaje de sesión expirada');
-    //             commit('SET_CODE', '401');
-    //             if(process.browser) localStorage.removeItem('user_token');
-    //         } else {
-    //             commit('SET_CODE', '003');
-    //         }
-    //     }
-    // },
-    // async delete({ commit }, id) {
-    //     let config = {
-    //         headers: {
-    //             Authorization: `bearer ${localStorage.getItem('user_token')}`
-    //         }
-    //     }
+            // We send the todos copied array, with the todo that were added or updated.
+            const response = await axios.post('http://ventonic.test/api/todos/update-todos', data);
 
-    //     try {
-    //         const response = await this.$axios.$put(`${this.$axios.defaults.baseURL}products/delete/${data.id}`, {}, config);
+            // We change the todos array if true is returned.
+            if(response.data.result) {
+                commit('SET_TODOS', JSON.parse(response.data.updatedTodos));
+            }
+        } catch (error) {
+        } finally {
+            commit('SET_COPY', state.todos);
+        }
+    },
+    async delete({ commit }, id) {
+        let config = {
+            headers: {
+                Authorization: `bearer ${localStorage.getItem('user_token')}`
+            }
+        }
 
-    //         commit('SET_CODE', response.code);
-    //         commit('REMOVE_PRODUCT', response.product);
-    //     } catch (error) {
-    //         if(error.response.status === 401) {
-    //             console.log('Mostrar mensaje de sesión expirada');
-    //             commit('SET_CODE', '401');
-    //             if(process.browser) localStorage.removeItem('user_token');
-    //         } else {
-    //             commit('SET_CODE', '003');
-    //         }
-    //     }
-    // }
+        try {
+            const response = await this.$axios.$put(`${this.$axios.defaults.baseURL}products/delete/${data.id}`, {}, config);
+
+            commit('SET_CODE', response.code);
+            commit('REMOVE_PRODUCT', response.product);
+        } catch (error) {
+            if(error.response.status === 401) {
+                console.log('Mostrar mensaje de sesión expirada');
+                commit('SET_CODE', '401');
+                if(process.browser) localStorage.removeItem('user_token');
+            } else {
+                commit('SET_CODE', '003');
+            }
+        }
+    }
 };
 
 export const mutations = {
     SET_UID: (state, uid) => state.userId = uid,
     SET_LABELS: (state, ls) => state.labels = ls,
     SET_TODOS: (state, ts) => state.todos = ts,
+    SET_COPY: (state) => state.todosCopy = _.cloneDeep(state.todos),
     // SET_CODE: (state, c) => state.code = c,
     // RESET: (state) => {
     //     const newState = initialState();

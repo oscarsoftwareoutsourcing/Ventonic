@@ -24,5 +24,5 @@
 @endsection
 
 @section('extra-js')
-    {{-- <script src="{{ asset('js/scripts/pages/app-todo.js') }}" defer></script> --}}
+    {{-- <script src="{{ asset('js/scripts/pages/app-todo.js') }}"></script> --}}
 @endsection
