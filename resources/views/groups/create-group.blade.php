@@ -13,11 +13,16 @@
                         <div class="card-header">
                             <h6 class="alert alert-primary float-left display-block"><i class="feather icon-users "></i> <span class="text-white"">Gestion de grupos de usuarios</span></h6>
                         </div>
+                        <div class="card-header">
+                            <div>
+                                <a type="button" href="{{route('group.form')}}" class="btn btn-outline-primary btn-md text-white"><i class="feather icon-users "></i> Nuevo grupo </a><span>  o puedes <a href="{{route('contact.list')}}" class="text-primary">gestionar los usuarios</a> de tu cuenta</span>
+                            </div>
+                        </div>
                         <div class="card-body px-75">
                             <div class="list-group">
                                 @foreach($groups as $group)
                                 <p class="list-group-item text-primary">{{$group->name}}<span class="text-white">
-                                    <code><i class="feather icon-user"></i> {{$group->user->name}}</code></span>
+                                    <code><i class='feather icon-user'></i>{{App\Group::getUserByGroup($group->id)}}</code></span>
                                 </p>
                                 @endforeach
                             </div>

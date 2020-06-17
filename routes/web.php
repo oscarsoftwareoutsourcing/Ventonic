@@ -132,6 +132,7 @@ Route::post('contacto/update', 'ContactController@update')->name('contact.update
 // Rutas para grupos
 
 Route::get('grupos/crear', 'GroupController@show')->name('group.show')->middleware('verified');
+Route::get('grupos/form', 'GroupController@create')->name('group.form')->middleware('verified');
 
 
 // Notes module
