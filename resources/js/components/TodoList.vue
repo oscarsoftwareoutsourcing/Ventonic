@@ -39,6 +39,8 @@
                                                 </div>
                                                 <h6 class="todo-title mt-50 mx-50">{{ todo.title }}</h6>
                                             </div>
+
+                                            <!-- Todo labels -->
                                             <div class="chip-wrapper">
                                                 <div class="chip mb-0">
                                                     <div class="chip-body">
@@ -95,7 +97,17 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['getTodos']),
+        ...mapGetters(['getTodos', 'getLabels']),
+        todoLabels(todo) {
+            let todosLbs = []; // To return.
+            
+            // filter the labels store object to get the ones setted to this note.
+            // todosLbs = this.getLabels.filter((lb) => {
+            //     return lb.id === todo.
+            // });
+
+            // Devolvemos un arreglo con las
+        }
     }
 }
 </script>
