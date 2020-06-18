@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const URL = process.env.MIX_API_URL;
+
 /*
   Products
   For the auth user data in the platform.
@@ -71,7 +73,7 @@ export const actions = {
         try {
 
             // We send the todos copied array, with the todo that were added or updated.
-            const response = await axios.post('https://dev.ventonic.com/api/todos/save-todo', data);
+            const response = await axios.post(`${URL}/api/todos/save-todo`, data);
 
             // We change the todos array if true is returned.
             if(response.data.result) {
@@ -94,7 +96,7 @@ export const actions = {
             };
 
             // We send the todos copied array, with the todo that were added or updated.
-            const response = await axios.post('https://dev.ventonic.com/api/todos/update-todos', data);
+            const response = await axios.post(`${URL}/api/todos/update-todos`, data);
 
             // We change the todos array if true is returned.
             if(response.data.result) {
