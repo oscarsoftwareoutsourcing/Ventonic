@@ -97,7 +97,7 @@ export const actions = {
                 commit('SET_TODOS', JSON.parse(response.data.updatedTodos));
                 
                 /* Reset todo */
-                commit('RESET_TODO', state.todos);
+                commit('RESET_TODO');
             }
         } catch (error) {
             /* Render error message */
@@ -185,12 +185,10 @@ export const mutations = {
     },
     SET_COPY: (state) => state.todosCopy = _.cloneDeep(state.todos),
     RESET_TODO: (state) => {
-        
-        /* Reset index */
-        state.index = null;
 
         /* Reset todo */
         state.todo = {
+            id: null,
             title: '',
             description: '',
             filters: {
