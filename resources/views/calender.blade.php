@@ -105,43 +105,56 @@
                                             </span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Cuándo</label>
                                             <div class="row">
-                                                <div class="col-sm-2">
-                                                    <label for="">Desde</label>
-                                                </div>
                                                 <div class="col-sm-4">
+                                                    <label for="">Fecha de Inicio</label>
+                                                </div>
+                                                <div class="col-sm-7">
                                                     <input type="date" class="form-control pickadate"
-                                                           id="cal-start-date" placeholder="yyyy-mm-dd">
+                                                           id="cal-start-date" placeholder="dd-mm-yyyy">
                                                 </div>
-                                                <div class="col-sm-2">
-                                                    <label for="">a la(s)</label>
-                                                </div>
+                                                <span class="invalid-feedback mb-3" role="alert" class="d-none" id="cal_event_start_at_error">
+                                                    <strong></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">   
+                                            <div class="row">    
                                                 <div class="col-sm-4">
+                                                    <label for="">Hora de Inicio</label>
+                                                </div>
+                                                <div class="col-sm-7">
                                                     <input type="text" class="form-control pickatime" id="cal-start-time"
                                                            placeholder="00:00">
                                                 </div>
                                             </div>
-                                            <span class="invalid-feedback mb-3" role="alert" class="d-none"
-                                                  id="cal_event_start_at_error">
-                                                <strong></strong>
-                                            </span>
+                                           
                                             <span class="invalid-feedback mb-3" role="alert" class="d-none"
                                                   id="cal_event_start_time_error">
                                                 <strong></strong>
                                             </span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            
                                             <div class="row mt-1">
-                                                <div class="col-sm-2">
-                                                    <label for="">al</label>
-                                                </div>
                                                 <div class="col-sm-4">
+                                                    <label for="">Fecha Final</label>
+                                                </div>
+                                                <div class="col-sm-7">
                                                     <input type="date" class="form-control pickadate" id="cal-end-date"
-                                                           placeholder="yyyy-mm-dd">
+                                                           placeholder="dd-mm-yyyyy">
                                                 </div>
-                                                <div class="col-sm-2">
-                                                    <label for="">a la(s)</label>
-                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row mt-1">
                                                 <div class="col-sm-4">
+                                                    <label for="">Hora Final</label>
+                                                </div>
+                                                <div class="col-sm-7">
                                                     <input type="text" class="form-control pickatime" id="cal-end-time"
                                                            placeholder="00:00">
                                                 </div>
@@ -155,9 +168,11 @@
                                                 <strong></strong>
                                             </span>
                                         </div>
+
+
                                         <div class="form-group">
                                             <label for="">Descripción</label>
-                                            <textarea class="form-control" id="cal-description" rows="5"
+                                            <textarea class="form-control" id="cal-description" rows="3"
                                                       placeholder="Descripción del evento"></textarea>
                                             <span class="invalid-feedback mb-3" role="alert" class="d-none"
                                                   id="cal_event_notes_error">
