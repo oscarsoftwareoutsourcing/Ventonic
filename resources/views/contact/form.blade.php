@@ -166,7 +166,7 @@
                                             @else
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="text" id="sector-column" class="form-control" value="{{$contact->type ?? ''}}" disabled>
+                                                    <input type="text" id="sector2-column" class="form-control" value="{{$contact->type ?? ''}}" disabled>
                                                     <label for="email-id-column">Tipo</label>
                                                 </div>
                                             </div>

@@ -136,7 +136,7 @@
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="text" id="sector-column" class="form-control @error('sector') is-invalid @enderror" 
+                                                    <input type="text" id="sector2-column" class="form-control @error('sector') is-invalid @enderror" 
                                                     name="sector" placeholder="Sector" value="{{$contact->sector ?? ''}}">
                                                     <label for="email-id-column">Sector</label>
                                                 </div>
