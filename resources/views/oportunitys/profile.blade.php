@@ -85,12 +85,12 @@
                                     </tr> --}}
 
                                     <tr>
-                                    <td class="font-weight-bold">Mobil</td>
+                                    <td class="font-weight-bold">Móvil</td>
                                     <td>{{$seller_profile->phone_mobil_country.' '.$seller_profile->phone_mobil}}</td>
                                     </tr>
 
                                     <tr>
-                                        <td class="font-weight-bold">LikeInd</td>
+                                        <td class="font-weight-bold">LikedIn</td>
                                         {{-- @if(isset($seller_profile->likeind)) --}}
                                             <td>{{$seller_profile->linkeind}}
                                             </td>

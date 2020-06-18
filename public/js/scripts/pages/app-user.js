@@ -73,77 +73,49 @@ $(document).ready(function () {
   // ag-grid
   /*** COLUMN DEFINE ***/
 
-  var columnDefs = [{
-      headerName: 'ID',
-      field: 'id',
-      width: 125,
-      filter: true,
-      checkboxSelection: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      headerCheckboxSelection: true,
-    },
+  var columnDefs = [
     {
-      headerName: 'Username',
+      headerName: 'Nombre',
       field: 'username',
       filter: true,
-      width: 175,
-      cellRenderer: customAvatarHTML,
+      width: 150,
+      //cellRenderer: customAvatarHTML,
     },
     {
-      headerName: 'Email',
+      headerName: 'Apellido 1',
       field: 'email',
-      filter: true,
-      width: 225,
-    },
-    {
-      headerName: 'Name',
-      field: 'name',
-      filter: true,
-      width: 200,
-    },
-    {
-      headerName: 'Country',
-      field: 'country',
       filter: true,
       width: 150,
     },
     {
-      headerName: 'Role',
+      headerName: 'Apellido 2',
+      field: 'name',
+      filter: true,
+      width: 150,
+    },
+    {
+      headerName: 'Departamento',
+      field: 'country',
+      filter: true,
+      width: 220,
+    },
+    {
+      headerName: 'Categoría',
       field: 'role',
       filter: true,
       width: 150,
     },
     {
-      headerName: 'Status',
+      headerName: 'Salario',
       field: 'status',
       filter: true,
       width: 150,
-      cellRenderer: customBadgeHTML,
-      cellStyle: {
-        "text-align": "center"
-      }
     },
     {
-      headerName: 'Verified',
+      headerName: 'Antiguedad',
       field: 'is_verified',
       filter: true,
-      width: 125,
-      cellRenderer: customBulletHTML,
-      cellStyle: {
-        "text-align": "center"
-      }
-    },
-    {
-      headerName: 'Department',
-      field: 'department',
-      filter: true,
-      width: 150,
-    },
-    {
-      headerName: 'Actions',
-      field: 'transactions',
-      width: 150,
-      cellRenderer: customIconsHTML,
+      width: 180, 
     }
   ];
 

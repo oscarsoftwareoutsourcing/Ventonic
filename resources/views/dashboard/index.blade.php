@@ -31,7 +31,7 @@
                                     <img src="{{ asset('images/elements/decore-right.png') }}" class="img-right" alt="
         card-img-right">
                                     <div class="  mt-0">
-                                        <img src="{{ asset('images/logo/ventonic-logo.png') }}" alt="
+                                        <img src="{{ asset('web/images/logo.png') }}" alt="
                                         Ventonic">
                                     </div>
                                     <br>
@@ -222,40 +222,40 @@
                                                 <i class="feather icon-plus font-medium-2 align-middle"></i>
                                             </div>
                                             <div class="timeline-info">
-                                                <p class="font-weight-bold mb-0">Client Meeting</p>
-                                                <span class="font-small-3">Bonbon macaroon jelly beans gummi bears jelly lollipop apple</span>
+                                                <p class="font-weight-bold mb-0">Reunión con el Cliente</p>
+                                                <span class="font-small-3">Reunión para deiscutir presupuesto de venta</span>
                                             </div>
-                                            <small class="text-muted">25 mins ago</small>
+                                            <small class="text-muted">Hace minutos 25 </small>
                                         </li>
                                         <li>
                                             <div class="timeline-icon bg-warning">
                                                 <i class="feather icon-alert-circle font-medium-2 align-middle"></i>
                                             </div>
                                             <div class="timeline-info">
-                                                <p class="font-weight-bold mb-0">Email Newsletter</p>
-                                                <span class="font-small-3">Cupcake gummi bears soufflé caramels candy</span>
+                                                <p class="font-weight-bold mb-0">Enviar email con propuesta</p>
+                                                <span class="font-small-3">Enviar email al cliente con propuesta de ventas</span>
                                             </div>
-                                            <small class="text-muted">15 days ago</small>
+                                            <small class="text-muted">Hace 15 días</small>
                                         </li>
                                         <li>
                                             <div class="timeline-icon bg-danger">
                                                 <i class="feather icon-check font-medium-2 align-middle"></i>
                                             </div>
                                             <div class="timeline-info">
-                                                <p class="font-weight-bold mb-0">Plan Webinar</p>
-                                                <span class="font-small-3">Candy ice cream cake. Halvah gummi bears</span>
+                                                <p class="font-weight-bold mb-0">Planificación</p>
+                                                <span class="font-small-3">Crear plan de trabajo y estrategia de ventas</span>
                                             </div>
-                                            <small class="text-muted">20 days ago</small>
+                                            <small class="text-muted">Hace 20 días</small>
                                         </li>
                                         <li>
                                             <div class="timeline-icon bg-success">
                                                 <i class="feather icon-check font-medium-2 align-middle"></i>
                                             </div>
                                             <div class="timeline-info">
-                                                <p class="font-weight-bold mb-0">Launch Website</p>
-                                                <span class="font-small-3">Candy ice cream cake. </span>
+                                                <p class="font-weight-bold mb-0">Puesta en producción de Website</p>
+                                                <span class="font-small-3">Puesta en linea del portal web de la empresa </span>
                                             </div>
-                                            <small class="text-muted">25 days ago</small>
+                                            <small class="text-muted">HAce 25 días</small>
                                         </li>
                                         <li>
                                             <div class="timeline-icon bg-primary">
@@ -263,9 +263,9 @@
                                             </div>
                                             <div class="timeline-info">
                                                 <p class="font-weight-bold mb-0">Marketing</p>
-                                                <span class="font-small-3">Candy ice cream. Halvah bears Cupcake gummi bears.</span>
+                                                <span class="font-small-3">Reunión con el equipo de mercadeo.</span>
                                             </div>
-                                            <small class="text-muted">28 days ago</small>
+                                            <small class="text-muted">Hace 28 dias</small>
                                         </li>
                                     </ul>
                                 </div>
@@ -293,18 +293,18 @@
                                                         </div>
                                                     </div>
                                                     <div class="ag-btns d-flex flex-wrap">
-                                                        <input type="text" class="ag-grid-filter form-control w-50 mr-1 mb-1 mb-sm-0" id="filter-text-box" placeholder="Search...." />
+                                                        <input type="text" class="ag-grid-filter form-control w-50 mr-1 mb-1 mb-sm-0" id="filter-text-box" placeholder="Buscar...." />
                                                         <div class="action-btns">
                                                             <div class="btn-dropdown ">
                                                                 <div class="btn-group dropdown actions-dropodown">
                                                                     <button type="button" class="btn btn-white px-2 py-75 dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        Actions
+                                                                        Actiones
                                                                     </button>
                                                                     <div class="dropdown-menu">
-                                                                        <a class="dropdown-item" href="#"><i class="feather icon-trash-2"></i> Delete</a>
-                                                                        <a class="dropdown-item" href="#"><i class="feather icon-clipboard"></i> Archive</a>
-                                                                        <a class="dropdown-item" href="#"><i class="feather icon-printer"></i> Print</a>
-                                                                        <a class="dropdown-item" href="#"><i class="feather icon-download"></i> CSV</a>
+                                                                        <a class="dropdown-item" href="#"><i class="feather icon-trash-2"></i> Eliminar</a>
+                                                                        <a class="dropdown-item" href="#"><i class="feather icon-clipboard"></i> Archivar</a>
+                                                                        <a class="dropdown-item" href="#"><i class="feather icon-printer"></i> Inprimir</a>
+                                                                        <a class="dropdown-item" href="#"><i class="feather icon-download"></i>Exportar CSV</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -342,7 +342,7 @@
     <script src="{{ asset('vendors/js/ui/jquery.sticky.js') }}"></script>
     <script src="{{ asset('vendors/js/charts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('vendors/js/extensions/tether.min.js') }}"></script>
-    <script src="{{ asset('vendors/js/extensions/shepherd.min.js') }}"></script>
+    <script src="{{ asset('vendors/js/extensions/shepherd.js') }}"></script>
     <script src="{{ asset('js/scripts/pages/dashboard-analytics.min.js') }}"></script>
     <script src="{{ asset('/vendors/js/tables/ag-grid/ag-grid-community.min.noStyle.js') }}"></script>
     <script src="{{ asset('js/scripts/cards/card-customer-chart.js') }}"></script>
