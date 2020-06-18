@@ -38,7 +38,7 @@
                                     <th>Tipo de Empleo</th>
                                     <th>Sector</th>
                                     @if(App\Aplicant::postulationsTrue(\Auth::user()->id)==true)
-                                    <th>Estatus</th>
+                                    <th>Estado</th>
                                     @endif
                                 </tr>
                             </thead>
