@@ -30,13 +30,7 @@
             {{-- Oportunidades --}}
             @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
             <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-star"></i><span class="menu-title">Oportunidades</span></a>
-                @if(\Auth::user()->type=="E")
-                <ul class="menu-content">
-                    <li><a href="{{ route('oportunity.saved') }}"><i class="feather icon-list"></i><span class="menu-item">Mis oportunidades</span></a>
-                    </li>
-                </ul>
-                @endif
-            </li>
+                  </li>
            @endif
 
 
@@ -44,21 +38,14 @@
             {{-- Negociaciones Company --}}
            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
            <li class=" nav-item"><a href="{{route('negociationCompany.index')}}"><i class="feather icon-users"></i><span class="menu-title">Negociaciones</span></a>
-                <ul class="menu-content">
-                    <li><a href="{{route('negociationCompany.index')}}"><i class="feather icon-users"></i><span class="menu-item">Negociaciones</span></a>
-                    </li>
-                </ul>
+               
             </li>
             @endif
 
             {{-- Contactos --}}
            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
            <li class=" nav-item"><a href="#"><i class="feather icon-users"></i><span class="menu-title">Contacto</span></a>
-                <ul class="menu-content">
-                    <li>
-                        <a href="{{route('contact.list')}}"><i class="feather icon-users"></i><span class="menu-item" data-i18n="Contacto">Buscar contacto</span></a>
-                    </li>
-                </ul>
+  
             </li>
             @endif
 
