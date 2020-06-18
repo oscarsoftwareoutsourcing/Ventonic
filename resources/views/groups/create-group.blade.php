@@ -21,9 +21,9 @@
                         <div class="card-body px-75">
                             <div class="list-group">
                                 @foreach($groups as $group)
-                                <p class="list-group-item text-primary">{{$group->name}}<span class="text-white">
+                                <a href="{{route('group.edit', ['group_id'=> $group->id])}}"><p class="list-group-item text-primary">{{$group->name}}<span class="text-white">
                                     <code><i class='feather icon-user'></i>{{App\Group::getUserByGroup($group->id)}}</code></span>
-                                </p>
+                                </p></a>
                                 @endforeach
                             </div>
                         </div>

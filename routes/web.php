@@ -122,7 +122,6 @@ Route::get('contacto/listado', 'ContactController@index')->name('contact.list')-
 Route::get('contacto/crear/{contact?}', 'ContactController@create')->name('contact.create')->middleware('verified');
 Route::post('contacto/save', 'ContactController@store')->name('contact.save')->middleware('verified');
 Route::get('contacto/widget/{contacts?}', 'ContactController@show')->name('contact.show')->middleware('verified');
-Route::get('contacto/widget/{contacts?}', 'ContactController@show')->name('contact.show')->middleware('verified');
 Route::get('contacto/image/{filename}', 'ContactController@getImage')->name('contact.image')->middleware('verified');
 Route::get('contacto/eliminar/{contact_id}/{user_id}', 'ContactController@destroy')->name('contact.destroy')->middleware('verified');
 
@@ -133,6 +132,8 @@ Route::post('contacto/update', 'ContactController@update')->name('contact.update
 
 Route::get('grupos/crear', 'GroupController@show')->name('group.show')->middleware('verified');
 Route::get('grupos/form', 'GroupController@create')->name('group.form')->middleware('verified');
+Route::get('grupos/editar/{group_id}', 'GroupController@edit')->name('group.edit')->middleware('verified');
+Route::post('grupos/saved', 'GroupController@store')->name('group.saved')->middleware('verified');
 
 
 // Notes module
