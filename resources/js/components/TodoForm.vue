@@ -20,17 +20,17 @@
 
                             <!-- Filters & labels select row -->
                             <div class="todo-item-action ml-auto">
-                                <a @click="toggleImportant()" class="todo-item-info"><i class="feather icon-info" v-bind:class="{'success':isImportant}"></i></a>
-                                <a @click="toggleStarred()" class="todo-item-favorite"><i class="feather icon-star" v-bind:class="{'warning':isStarred}"></i></a>
+                                <a @click="toggleImportant()" class="todo-item-info"><i class="feather icon-info" v-bind:class="{'success':important}"></i></a>
+                                <a @click="toggleStarred()" class="todo-item-favorite"><i class="feather icon-star" v-bind:class="{'warning':starred}"></i></a>
                                 
                                 <!-- Labels dropdown -->
                                 <div class="dropdown todo-item-label">
                                     <i class="dropdown-toggle mr-0 mb-1 feather icon-tag" id="todoEditLabel" data-toggle="dropdown">
                                     </i>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="todoEditLabel">
-                                        <div class="dropdown-item" v-for="(label) in getLabels" :key="label.id">
+                                        <div class="dropdown-item" v-for="(label, index) in getLabels" :key="index">
                                             <div class="vs-checkbox-con">
-                                                <input type="checkbox" data-color="primary" v-model="labels" :value="label.id">
+                                                <input type="checkbox" data-color="primary" v-model="getTodo.labels" :value="label.id">
                                                 <span class="vs-checkbox">
                                                     <span class="vs-checkbox--check">
                                                         <i class="vs-icon feather icon-check mr-0"></i>
@@ -45,7 +45,7 @@
 
                             <!-- Todo title -->
                             <fieldset class="form-group error">
-                                <input type="text" class="edit-todo-item-title form-control" v-model="$v.title.$model" placeholder="Título">
+                                <input type="text" class="edit-todo-item-title form-control" v-model="title" placeholder="Título">
                                 
                                 <!-- Validation messages -->
                                 <article class="help-block" v-if="$v.title.$error">
@@ -55,7 +55,8 @@
 
                             <!-- Description title -->
                             <fieldset class="form-group">
-                                <textarea class="edit-todo-item-desc form-control" rows="3" v-model="$v.description.$model" placeholder="Descripción"></textarea>
+                                <textarea class="edit-todo-item-desc form-control" rows="3" v-model="description" placeholder="Descripción"></textarea>
+
                                 <!-- Validation messages -->
                                 <article class="help-block" v-if="$v.description.$error">
                                     <i class="text-danger">Dato requerido</i>
@@ -77,7 +78,7 @@
                             <fieldset class="form-group position-relative has-icon-left mb-0">
                                 <button :disabled="isDisabled" type="button" class="btn btn-outline-light waves-effect waves-light" data-toggle="modal" data-target="#taskModal" @click="eraseData()">
                                     <i class="feather icon-x d-block d-lg-none"></i>
-                                    <span class="d-none d-lg-block">Terminar</span>
+                                    <span class="d-none d-lg-block">Cancelar</span>
                                 </button>
                             </fieldset>
                         </div>
@@ -90,22 +91,13 @@
 
 <script>
 import { required } from "vuelidate/lib/validators";
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import axios from 'axios';
 
 export default {
     data() {
         return {
-
-            // UI
             isDisabled: false,
-            isStarred: false,
-            isImportant: false,
-            
-            // Form data.
-            labels: [],
-            title: '',
-            description: ''
         }
     },
     validations: {
@@ -118,56 +110,43 @@ export default {
     },
     methods: {
         ...mapActions(['saveTodo']),
-        toggleImportant() {
-            this.isImportant = ! this.isImportant;
-        },
-        toggleStarred() {
-            this.isStarred = ! this.isStarred;
-        },
+        ...mapMutations({
+            resetTodo: 'RESET_TODO',
+            setTodo:'SET_TODO_INDEX',
+            toggleStarred:'TOGGLE_STARRED',
+            toggleImportant:'TOGGLE_IMPORTANT',
+        }),
         async check() {
             if (!this.$v.$invalid) {
 
                 this.isDisabled = !this.isDisabled;
 
-                // Data to send to the server.
-                let data = {
-                    title: this.title,
-                    description: this.description,
-                    filters: {
-                        completed: false,
-                        important: this.isImportant,
-                        starred: this.isStarred,
-                        trashed: false
-                    },
-                    labels: this.labels
-                };
-
-                try {
-
-                    // Send data
-                    await this.saveTodo(data);
-
-                    this.isDisabled = !this.isDisabled;
-                    this.eraseData();
-
-                } catch (error) {
-                    // this.$router.push('/error');
-                }
+                // Send data
+                await this.saveTodo();
+                this.isDisabled = !this.isDisabled;
+                this.eraseData();
             } else {
                 this.$v.$touch();
             }
         },
         eraseData() {
-            this.labels = [];
-            this.isImportant = false;
-            this.isStarred = false;
             this.title = '';
             this.description = '';
             this.$v.$reset();
         }
     },
     computed: {
-        ...mapGetters(['getLabels', 'getTodos']),
+        ...mapGetters(['getLabels', 'getTodo']),
+        important() { return this.getTodo.filters.important; },
+        starred() { return this.getTodo.filters.starred; },
+        title: {
+            get() { return this.getTodo.title; },
+            set(val) { this.getTodo.title = val; }
+        },
+        description: {
+            get() { return this.getTodo.description; },
+            set(val) { this.getTodo.description = val; }
+        }
     }
 }
 </script>

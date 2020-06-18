@@ -26,7 +26,7 @@ import 'es6-promise/auto';
 
 export default {
     props: {
-        uid: {
+        user: {
             type: Number
         },
         todos: {
@@ -46,14 +46,14 @@ export default {
 
         // Set data into the store.
         this.SET_LABELS(this.labels);
-        this.SET_UID(this.uid);
+        this.SET_USER(this.user);
         if(this.todos.length > 0) {
             this.SET_TODOS(this.todos);
             this.SET_COPY();
         }
     },
     methods: {
-        ...mapMutations(['SET_LABELS', 'SET_TODOS', 'SET_UID', 'SET_COPY']),
+        ...mapMutations(['SET_LABELS', 'SET_TODOS', 'SET_USER', 'SET_COPY']),
     },
     computed: {
         ...mapGetters(['getTodos']),

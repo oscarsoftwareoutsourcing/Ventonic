@@ -36,7 +36,6 @@ class TodoController extends Controller
     public function saveTodo(Request $request) {
 
         try {
-            $updated_todos = null;
 
             // Create object.
             $todos = Todo::where('user_id', $request->uid)->first();
@@ -54,11 +53,9 @@ class TodoController extends Controller
             // Save 
             $todos->save();
 
-            $updated_todos = $todos->todos;
-
             return response()->json([
                 'result' => true,
-                'updatedTodos' => $updated_todos
+                'updatedTodos' => $todos->todos
             ]);
 
         } catch (\Exception $ex) {
