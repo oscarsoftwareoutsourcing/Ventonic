@@ -257,7 +257,6 @@
 @endsection
 @section('extra-js')
 @parent
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async></script> --}}
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN7QXrQX8mlDNTdtcSY5dzZzrVJ1516hw&libraries=places&callback=initialize" async defer>
 <script>
 <script src="{{ asset('js/geolocalizacion.js') }}"></script>
