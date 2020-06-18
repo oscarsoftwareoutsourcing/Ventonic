@@ -62,7 +62,7 @@
             </li>
             @endif
 
-            <li class=" nav-item"><a href="{{route('todos')}}"><i class="feather icon-check-square"></i><span class="menu-title">Todo</span></a>
+            <li class=" nav-item"><a href="{{route('todos')}}"><i class="feather icon-check-square"></i><span class="menu-title">Notas Personales</span></a>
             </li>
 
             @if (\Auth::user()->type=="E")

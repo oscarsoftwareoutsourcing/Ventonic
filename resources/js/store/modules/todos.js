@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const URL = process.env.MIX_API_URL;
-
 /*
   Products
   For the auth user data in the platform.
@@ -9,15 +7,24 @@ const URL = process.env.MIX_API_URL;
 
 // Constant to reset this state information.
 const initialState = () => ({
-    // UI
-    userId: null,
-
-    // DB data.
-    labels: [],
-    userLabels: [],
-    todos: [],
-    todosCopy: [],
-    todo: null
+    id: null,
+    user: null, // User ID.
+    labels: [], // Labels from DB.
+    userLabels: [], // User labels for this module.
+    todos: [], // User's todos.
+    todosCopy: [], // Copy of user's todos
+    todo: { // Todo structure for modal form.
+        id: null,
+        title: '',
+        description: '',
+        filters: {
+            starred: false,
+            important: false,
+            completed: false,
+            trashed: false,
+        },
+        labels: []
+    }
 });
 
 // State object.
@@ -50,59 +57,83 @@ export const actions = {
     //         } else console.log('Redirigir a pantalla de error');
     //     }
     // },
-    async saveTodo({ state, commit }, t) {
-
-        // Array to send
-        let data = {
-            uid: state.userId,
-            todos: state.todosCopy
-        };
-
-        // We push or replace the note into the todos copied array.
-        if(state.todo != null) {
-
-            // We modify the todo.
-            data.todos[state.getTodo] = t;
-        } else {
-            (data.todos.length > 0) ? data.todos.unshift(t) : data.todos.push(t);
-        }
-
-        // We stringify the todos object.
-        data.todos = JSON.stringify(data.todos);
+    async saveTodo({ state, commit }) {
 
         try {
 
-            // We send the todos copied array, with the todo that were added or updated.
-            const response = await axios.post(`${URL}/api/todos/save-todo`, data);
+            /* Copy the copy of todos */
+            let copy = _.cloneDeep(state.todosCopy);
 
-            // We change the todos array if true is returned.
+            /* New todo */
+            if(state.todo.id === null) {
+
+                let key = null;
+
+                /* Create id for note */
+                do {
+                    key = Math.random().toString(20).substr(2, 5);
+                } while (state.todos.findIndex(todo => todo.id === key) !== -1);
+
+                state.todo.id = key;
+
+                /* Verify if it doesn't exist */
+                (copy.length > 0) ? copy.unshift(state.todo) : copy.push(state.todo);
+            
+            /* Update todo */
+            } else {
+                let index = state.todos.findIndex(todo => todo.id === state.todo.id);
+                copy[index] = state.todo;
+            }
+
+            /* We stringify the todos object */
+            copy = JSON.stringify(copy);
+
+            /* Send data */
+            const response = await axios.post(`${process.env.MIX_API_URL}/api/todos/save-todo`, {uid: state.user, todos:copy});
+
             if(response.data.result) {
+                
+                /* Change store todos */
                 commit('SET_TODOS', JSON.parse(response.data.updatedTodos));
+                
+                /* Reset todo */
+                commit('RESET_TODO', state.todos);
             }
         } catch (error) {
-            // if(error.response.status === 401) {
-            // }
+            /* Render error message */
+            console.log(error);
         } finally {
+
+            /* Copy todos to render */
             commit('SET_COPY', state.todos);
         }
     },
-    async updateTodos({ state, commit }, todos) {
+    async updateFilter({ state, commit }, filter) {
         try {
 
+            /* Find todo index */
+            let index = state.todosCopy.findIndex(tc => tc.id === state.id);
+            
+            /* Update filter in todo */
+            switch (filter) {
+                case 'starred': state.todosCopy[index].filters.starred = !state.todosCopy[index].filters.starred; break;
+                case 'important': state.todosCopy[index].filters.important = !state.todosCopy[index].filters.important; break;
+                case 'completed': state.todosCopy[index].filters.completed = !state.todosCopy[index].filters.completed; break;
+                case 'trashed': state.todosCopy[index].filters.trashed = !state.todosCopy[index].filters.trashed; break;
+            }
+
             // Data to send
-            let data = {
-                uid: state.userId,
-                todos: JSON.stringify(todos)
-            };
+            let todos = JSON.stringify(state.todosCopy);
 
             // We send the todos copied array, with the todo that were added or updated.
-            const response = await axios.post(`${URL}/api/todos/update-todos`, data);
+            const response = await axios.post(`${process.env.MIX_API_URL}/api/todos/update-todos`, {uid: state.user, todos:todos});
 
             // We change the todos array if true is returned.
             if(response.data.result) {
                 commit('SET_TODOS', JSON.parse(response.data.updatedTodos));
             }
         } catch (error) {
+            console.log(error);
         } finally {
             commit('SET_COPY', state.todos);
         }
@@ -132,10 +163,45 @@ export const actions = {
 };
 
 export const mutations = {
-    SET_UID: (state, uid) => state.userId = uid,
+    TOGGLE_STARRED: (state) => state.todo.filters.starred = !state.todo.filters.starred,
+    TOGGLE_IMPORTANT: (state) => state.todo.filters.important = !state.todo.filters.important,
+    SET_USER: (state, u) => state.user = u,
     SET_LABELS: (state, ls) => state.labels = ls,
     SET_TODOS: (state, ts) => state.todos = ts,
+    SET_TODO_ID: (state, id) => state.id = id ,
+    SET_TODO: (state, id) => {
+
+        /* Set the index to update the array */
+        const index = state.todosCopy.findIndex(tc => tc.id === id);
+
+        if(index !== -1) {
+
+            /* Set the selected todo */
+            Object.keys(state.todo).forEach(key => {
+                // console.log(key);
+                state.todo[key] = state.todosCopy[index][key];
+            });
+        }
+    },
     SET_COPY: (state) => state.todosCopy = _.cloneDeep(state.todos),
+    RESET_TODO: (state) => {
+        
+        /* Reset index */
+        state.index = null;
+
+        /* Reset todo */
+        state.todo = {
+            title: '',
+            description: '',
+            filters: {
+                starred: false,
+                important: false,
+                completed: false,
+                trashed: false,
+            },
+            labels: []
+        };
+    },
     // SET_CODE: (state, c) => state.code = c,
     // RESET: (state) => {
     //     const newState = initialState();

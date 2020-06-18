@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    <todos-module :todos="{{ $todos }}" :labels="{{ $labels }}" :uid="{{ $user_id }}" />
+    <todos-module :todos="{{ $todos }}" :labels="{{ $labels }}" :user="{{ $user_id }}" />
 
     <div class="sidenav-overlay" style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>
     <div class="drag-target" style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>

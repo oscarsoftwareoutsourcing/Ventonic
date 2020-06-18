@@ -11,7 +11,7 @@
                         <div class="app-fixed-search">
                             <div class="sidebar-toggle d-block d-lg-none"><i class="feather icon-menu"></i></div>
                             <fieldset class="form-group position-relative has-icon-left m-0">
-                                <input type="text" class="form-control" id="todo-search" placeholder="Buscar...">
+                                <input type="text" class="form-control" v-model.trim="search" id="todo-search" placeholder="Buscar...">
                                 <div class="form-control-position">
                                     <i class="feather icon-search"></i>
                                 </div>
@@ -20,17 +20,17 @@
 
                         <!-- Notes list -->
                         <perfect-scrollbar class="todo-task-list list-group" ref="scrollbar">
-                            <ul class="todo-task-list-wrapper media-list" v-if="getTodosCopy.length > 0">
+                            <ul class="todo-task-list-wrapper media-list" v-if="list.length > 0">
 
                                 <!-- Note -->
-                                <li v-for="(todo, i) in getTodosCopy" :key="i" class="todo-item" v-bind:class="{'completed':todo.filters.completed}" data-toggle="modal" data-target="#todoForm">
+                                <li v-for="(todo, i) in list" :key="i" class="todo-item" v-bind:class="{'completed':todo.filters.completed}" data-toggle="modal" data-target="#taskModal" @click="setTodo(todo.id)">
                                     <div class="todo-title-wrapper d-flex justify-content-between mb-50">
                                         <div class="todo-title-area d-flex align-items-center">
 
                                             <!-- Todo title -->
                                             <div class="title-wrapper d-flex">
                                                 <div class="vs-checkbox-con">
-                                                    <input @click="toggleCompleted(i)" type="checkbox" v-model="todo.filters.completed">
+                                                    <input @click.stop="toggleFilter(todo.id, 'completed')" type="checkbox" v-model="todo.filters.completed">
                                                     <span class="vs-checkbox vs-checkbox-sm">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
@@ -49,9 +49,11 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <!-- Todo Filters -->
                                         <div class="float-right todo-item-action d-flex">
-                                            <a class="todo-item-info" @click="toggleImportant(i)"><i class="feather icon-info" :class="todo.filters.important ? 'success' : ''"></i></a>
-                                            <a class="todo-item-favorite" @click="toggleStarred(i)"><i class="feather icon-star" :class="todo.filters.starred ? 'warning' : ''"></i></a>
+                                            <a class="todo-item-info" @click.stop="toggleFilter(todo.id, 'important')"><i class="feather icon-info" :class="todo.filters.important ? 'success' : ''"></i></a>
+                                            <a class="todo-item-favorite" @click.stop="toggleFilter(todo.id, 'starred')"><i class="feather icon-star" :class="todo.filters.starred ? 'warning' : ''"></i></a>
                                             <a class="todo-item-delete"><i class="feather icon-trash"></i></a>
                                         </div>
                                     </div>
@@ -72,26 +74,32 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 export default {
     data() {
         return {
+            search: '',
         }
     },
     methods: {
-        ...mapActions(['updateTodos']),
-        async toggleCompleted(index) {
-            this.getTodosCopy[index].filters.completed = !this.getTodosCopy[index].filters.completed;
-            await this.updateTodos(this.getTodosCopy);
+        ...mapActions(['updateFilter']),
+        ...mapMutations({setTodo: 'SET_TODO', setId: 'SET_TODO_ID'}),
+        async toggleFilter(id, filter) {
+            this.setId(id);
+            await this.updateFilter(filter);
         },
-        async toggleImportant(index) {
-            this.getTodosCopy[index].filters.important = !this.getTodosCopy[index].filters.important;
-            await this.updateTodos(this.getTodosCopy);
-        },
-        async toggleStarred(index) {
-            this.getTodosCopy[index].filters.starred = !this.getTodosCopy[index].filters.starred;
-            await this.updateTodos(this.getTodosCopy);
-        },
+        // async toggleCompleted(index) {
+        //     this.getTodosCopy[index].filters.completed = !this.getTodosCopy[index].filters.completed;
+        //     await this.updateTodos();
+        // },
+        // async toggleImportant(index) {
+        //     this.getTodosCopy[index].filters.important = !this.getTodosCopy[index].filters.important;
+        //     await this.updateTodos();
+        // },
+        // async toggleStarred(index) {
+        //     this.getTodosCopy[index].filters.starred = !this.getTodosCopy[index].filters.starred;
+        //     await this.updateTodos();
+        // },
         printLabel(label) {
             let data = this.getLabels.filter( l => l.id === label );
             return data[0].label;
@@ -99,6 +107,14 @@ export default {
     },
     computed: {
         ...mapGetters(['getTodosCopy', 'getLabels']),
+        list() {
+
+            if(this.search !== '') {
+                return this.getTodosCopy.filter(todo => {
+                    return todo.title.toLowerCase().includes(this.search.toLowerCase()) || todo.description.toLowerCase().includes(this.search.toLowerCase())
+                });
+            } else return this.getTodosCopy;
+        }
     }
 }
 </script>

@@ -12,7 +12,7 @@
 
                 <!-- Add task button -->
                 <div class="form-group text-center add-task">
-                    <button type="button" class="btn btn-primary btn-block my-1 waves-effect waves-light" data-toggle="modal" data-target="#taskModal">Nueva tarea</button>
+                    <button type="button" class="btn btn-primary btn-block my-1 waves-effect waves-light" data-toggle="modal" data-target="#taskModal">Nueva Nota</button>
                 </div>
 
                 <!-- Task filters -->
@@ -20,7 +20,7 @@
 
                     <!-- All-filter -->
                     <div class="list-group list-group-filters font-medium-1">
-                        <a href="#" class="list-group-item list-group-item-action border-0 pt-0">
+                        <a href="#" class="list-group-item list-group-item-action border-0 pt-0 active">
                             <i class="font-medium-5 feather icon-mail mr-50"></i> Todas
                         </a>
                     </div>
@@ -51,9 +51,6 @@
 import { mapMutations, mapGetters } from 'vuex';
 export default {
     methods: {
-        ...mapMutations({
-            toggleForm: 'TOGGLE_SHOW_FORM'
-        }),
     },
     computed: {
         ...mapGetters(['getLabels'])

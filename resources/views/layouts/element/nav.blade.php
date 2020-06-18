@@ -12,7 +12,7 @@
                         <!--   a.nav-link.nav-menu-main.menu-toggle.hidden-xs(href='#')-->
                         <!--     i.ficon.feather.icon-menu-->
                         <li class="nav-item d-none d-lg-block">
-                            <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Todo"><i class="ficon feather icon-check-square"></i></a>
+                            <a class="nav-link" href="{{route('todos')}}" data-toggle="tooltip" data-placement="top" title="Notas Personales"><i class="ficon feather icon-check-square"></i></a>
                         </li>
                         
                         <li class="nav-item d-none d-lg-block">
