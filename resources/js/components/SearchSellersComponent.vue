@@ -97,7 +97,14 @@
                                     <td>{{ seller.last_name }}</td>
                                     <td>{{ seller.email }}</td>
                                     <td>{{ seller.last_login }}</td>
-                                    <td>{{ getStatus(seller.status) }}</td>
+                                    <td>
+                                        <div :class="seller.status ? 'chip chip-success' : 'chip chip-warning'">
+                                            <div class="chip-body">
+                                                <div class="chip-text">{{ getStatus(seller.status) }}</div>
+                                            </div>
+                                        </div>
+                                        
+                                    </td>
                                     <td>
                                         <div v-if="seller.seller_profile">
                                             <button @click="toChat(seller.seller_profile.user_id)"
