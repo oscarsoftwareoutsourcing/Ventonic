@@ -9,7 +9,14 @@ const URL = window.api_url;
 
 // Constant to reset this state information.
 const initialState = () => ({
-    id: null,
+    filters: {
+        all: true,
+        starred: false,
+        important: false,
+        completed: false,
+        trashed: false
+    },
+    id: null, // Todo ID.
     user: null, // User ID.
     labels: [], // Labels from DB.
     userLabels: [], // User labels for this module.
@@ -35,36 +42,17 @@ const state = initialState;
 export const getters = {
     getLabels: state => { return state.labels },
     getTodosCopy: state => { return state.todosCopy },
-    getTodo: state => { return state.todo }
+    getTodo: state => { return state.todo },
+    getFilters: state => { return state.filters }
 };
 
 export const actions = {
-    // async queryProducts({ commit }) {
-
-    //     let config = {
-    //         headers: {
-    //             Authorization: `bearer ${localStorage.getItem('user_token')}`
-    //         }
-    //     }
-    //     try {
-    //         const response = await this.$axios.$get(`${this.$axios.defaults.baseURL}products/all`, config);
-
-    //         commit('SET_PRODUCTS', response.products);
-    //     } catch (error) {
-
-    //         if(error.response.status === 401) {
-    //             console.log('Mostrar mensaje de sesión expirada');
-    //             commit('SET_CODE', '401');
-    //             if(process.browser) localStorage.removeItem('user_token');
-    //         } else console.log('Redirigir a pantalla de error');
-    //     }
-    // },
     async saveTodo({ state, commit }) {
 
         try {
 
-            /* Copy the copy of todos */
-            let copy = _.cloneDeep(state.todosCopy);
+            /* Copy of todos */
+            let copy = _.cloneDeep(state.todos);
 
             /* New todo */
             if(state.todo.id === null) {
@@ -108,24 +96,28 @@ export const actions = {
 
             /* Copy todos to render */
             commit('SET_COPY', state.todos);
+            if (!state.filters.all) { commit('FILTER_COPY'); }
         }
     },
     async updateFilter({ state, commit }, filter) {
         try {
 
+            /* Copy of todos */
+            let copy = _.cloneDeep(state.todos);
+
             /* Find todo index */
-            let index = state.todosCopy.findIndex(tc => tc.id === state.id);
+            let index = copy.findIndex(tc => tc.id === state.id);
             
             /* Update filter in todo */
             switch (filter) {
-                case 'starred': state.todosCopy[index].filters.starred = !state.todosCopy[index].filters.starred; break;
-                case 'important': state.todosCopy[index].filters.important = !state.todosCopy[index].filters.important; break;
-                case 'completed': state.todosCopy[index].filters.completed = !state.todosCopy[index].filters.completed; break;
-                case 'trashed': state.todosCopy[index].filters.trashed = !state.todosCopy[index].filters.trashed; break;
+                case 'starred': copy[index].filters.starred = !copy[index].filters.starred; break;
+                case 'important': copy[index].filters.important = !copy[index].filters.important; break;
+                case 'completed': copy[index].filters.completed = !copy[index].filters.completed; break;
+                case 'trashed': copy[index].filters.trashed = !copy[index].filters.trashed; break;
             }
 
             // Data to send
-            let todos = JSON.stringify(state.todosCopy);
+            let todos = JSON.stringify(copy);
 
             // We send the todos copied array, with the todo that were added or updated.
             const response = await axios.post(`${URL}/api/todos/update-todos`, {uid: state.user, todos:todos});
@@ -137,36 +129,26 @@ export const actions = {
         } catch (error) {
             console.log(error);
         } finally {
+
             commit('SET_COPY', state.todos);
+            if (!state.filters.all) { commit('FILTER_COPY'); }
         }
-    },
-    // async delete({ commit }, id) {
-    //     let config = {
-    //         headers: {
-    //             Authorization: `bearer ${localStorage.getItem('user_token')}`
-    //         }
-    //     }
-
-    //     try {
-    //         const response = await this.$axios.$put(`${this.$axios.defaults.baseURL}products/delete/${data.id}`, {}, config);
-
-    //         commit('SET_CODE', response.code);
-    //         commit('REMOVE_PRODUCT', response.product);
-    //     } catch (error) {
-    //         if(error.response.status === 401) {
-    //             console.log('Mostrar mensaje de sesión expirada');
-    //             commit('SET_CODE', '401');
-    //             if(process.browser) localStorage.removeItem('user_token');
-    //         } else {
-    //             commit('SET_CODE', '003');
-    //         }
-    //     }
-    // }
+    }
 };
 
 export const mutations = {
     TOGGLE_STARRED: (state) => state.todo.filters.starred = !state.todo.filters.starred,
     TOGGLE_IMPORTANT: (state) => state.todo.filters.important = !state.todo.filters.important,
+    TOGGLE_FILTER: (state, f) => {
+
+        /* Sett al filters as false */
+        Object.keys(state.filters).forEach(function(key) {
+            state.filters[key] = false;
+          });
+
+        /* Set selected filter as active */
+        state.filters[f] = true;
+    },
     SET_USER: (state, u) => state.user = u,
     SET_LABELS: (state, ls) => state.labels = ls,
     SET_TODOS: (state, ts) => state.todos = ts,
@@ -185,7 +167,24 @@ export const mutations = {
             });
         }
     },
-    SET_COPY: (state) => {state.todosCopy = _.cloneDeep(state.todos)},
+    SET_COPY: (state) => {
+        state.todosCopy = state.todos.filter(todo => {
+            return todo.filters.trashed !== true;
+        });
+    },
+    FILTER_COPY: (state) => {
+        state.todosCopy = state.todos.filter(todo => {
+
+            switch (true) {
+                case state.filters.all: return (todo.filters.trashed === false && todo.filters.trashed === false); break; // All
+                case state.filters.starred: return (todo.filters.starred === true && todo.filters.trashed === false); break; // Starred
+                case state.filters.important: return (todo.filters.important === true && todo.filters.trashed === false); break; // Important
+                case state.filters.completed: return (todo.filters.completed === true && todo.filters.trashed === false); break; // Completed
+                case state.filters.trashed: return (todo.filters.trashed === true); break; // Trashed
+                default: return (todo.filters.trashed === false && todo.filters.trashed === false); break; // All
+            }
+        });
+    },
     RESET_TODO: (state) => {
 
         /* Reset todo */
@@ -202,28 +201,13 @@ export const mutations = {
             labels: []
         };
     },
-    // SET_CODE: (state, c) => state.code = c,
+    
     // RESET: (state) => {
     //     const newState = initialState();
     //     Object.keys(newState).forEach(key => {
     //       state[key] = newState[key]
     //     });
     // },
-    // SET_PRODUCTS: (state, ps) => { state.products = ps },
-    // SET_PRODUCT: (state, p) => {
-
-    //     if(p !== null) {
-    //         const index = state.products.findIndex(product => product.id === p.id);
-    
-    //         if(index !== -1) state.product = p;
-    //     } else state.product = null;
-    // },
-    // UPDATE_PRODUCT: (state, up) => {
-    //     const index = state.products.findIndex(product => product.id === up.id);
-
-    //     if(index !== -1) state.products.splice(index, 1, up);
-    // },
-    // REMOVE_PRODUCT: (state, value) => state.products = state.products.filter(product => product.id !== value)
 }
 
 export default {

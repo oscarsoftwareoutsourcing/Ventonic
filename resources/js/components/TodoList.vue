@@ -54,7 +54,7 @@
                                         <div class="float-right todo-item-action d-flex">
                                             <a class="todo-item-info" @click.stop="toggleFilter(todo.id, 'important')"><i class="feather icon-info" :class="todo.filters.important ? 'success' : ''"></i></a>
                                             <a class="todo-item-favorite" @click.stop="toggleFilter(todo.id, 'starred')"><i class="feather icon-star" :class="todo.filters.starred ? 'warning' : ''"></i></a>
-                                            <a class="todo-item-delete"><i class="feather icon-trash"></i></a>
+                                            <a class="todo-item-delete" @click.stop="toggleFilter(todo.id, 'trashed')"><i class="feather icon-trash" :class="{'danger':todo.filters.trashed}"></i></a>
                                         </div>
                                     </div>
 
@@ -111,7 +111,7 @@ export default {
 
             if(this.search !== '') {
                 return this.getTodosCopy.filter(todo => {
-                    return todo.title.toLowerCase().includes(this.search.toLowerCase()) || todo.description.toLowerCase().includes(this.search.toLowerCase())
+                    return ((todo.title.toLowerCase().includes(this.search.toLowerCase()) || todo.description.toLowerCase().includes(this.search.toLowerCase())) && todo.filters.trashed !== true);
                 });
             } else return this.getTodosCopy;
         }
