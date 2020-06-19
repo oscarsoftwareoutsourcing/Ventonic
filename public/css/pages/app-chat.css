@@ -199,7 +199,7 @@
 }
 
 .chat-application .chat-app-window .start-chat-area, .chat-application .chat-app-window .user-chats {
-  /*background-image : url('../../images/backgrounds/chat-bg.svg');*/
+  background-image : url('../../images/backgrounds/chat-bg-1.jpg');
   background-color : #DFDBE5;
 }
 

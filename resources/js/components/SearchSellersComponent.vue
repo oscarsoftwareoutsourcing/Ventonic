@@ -65,50 +65,66 @@
                             </div>
                         </div>
                     </div>
-                    <table class="table table-hover table-striped dt-responsive nowrap display datatable">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Correo</th>
-                                <th>Última Conexión</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="seller in sellers">
-                                <td>{{ seller.name }}</td>
-                                <td>{{ seller.last_name }}</td>
-                                <td>{{ seller.email }}</td>
-                                <td>{{ seller.last_login }}</td>
-                                <td>{{ getStatus(seller.status) }}</td>
-                                <td>
-                                    <div v-if="seller.seller_profile">
-                                        <button @click="toChat(seller.seller_profile.user_id)"
-                                                class="btn btn-outline-primary btn-sm"
-                                                data-toggle="tooltip"
-                                                :title="seller.status ? 'Contactar a este vendedor' : 'Vendedor no disponible'"
-                                                :disabled="!seller.status">
-                                            <i class="fas fa-comments"></i>
-                                        </button>
-                                        <form action="/chat" method="POST" :id="'chat_'+seller.seller_profile.user_id">
-                                            <input type="hidden" name="_token" :value="token">
-                                            <input type="hidden" name="user" :value="seller.seller_profile.user_id">
-                                        </form>
-                                    </div>
-                                    <div v-else>
-                                        <button class="btn btn-outline-primary btn-sm"
-                                                data-toggle="tooltip"
-                                                :title="seller.status ? 'Contactar a este vendedor' : 'Vendedor no disponible'"
-                                                disabled>
-                                            <i class="fas fa-comments"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped dt-responsive nowrap display datatable"
+                               style="font-size:.758rem">
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Correo</th>
+                                    <th>Última Conexión</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="seller in sellers">
+                                    <td>
+                                         <div class="avatar">
+                                            <img :src="seller.photo" :alt="seller.name" class="img-fluid" v-if="seller.photo" height="40" width="40">
+                                             <img src="/images/anonymous-user.png" class="media-object rounded-circle" :alt="seller.name" height="40" width="40" v-else>
+                                             <div v-if="seller.seller_profile">
+                                                 <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
+                                            </div>    
+                                            <div v-else>
+                                                <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ seller.name }}</td>
+                                    <td>{{ seller.last_name }}</td>
+                                    <td>{{ seller.email }}</td>
+                                    <td>{{ seller.last_login }}</td>
+                                    <td>{{ getStatus(seller.status) }}</td>
+                                    <td>
+                                        <div v-if="seller.seller_profile">
+                                            <button @click="toChat(seller.seller_profile.user_id)"
+                                                    :class="seller.status ? 'btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light' : 'btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light'"
+                                                    data-toggle="tooltip"
+                                                    :title="seller.status ? 'Contactar a este vendedor' : 'Vendedor no disponible'"
+                                                    :disabled="!seller.status">
+                                                <i :class="seller.status ? 'ficon feather icon-message-square' : 'ficon feather icon-mail'"></i>
+                                            </button>
+                                            <form action="/chat" method="POST" :id="'chat_'+seller.seller_profile.user_id">
+                                                <input type="hidden" name="_token" :value="token">
+                                                <input type="hidden" name="user" :value="seller.seller_profile.user_id">
+                                            </form>
+                                        </div>
+                                        <div v-else>
+                                            <button :class="seller.status ? 'btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light' : 'btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light'"
+                                                    data-toggle="tooltip"
+                                                    :title="seller.status ? 'Contactar a este vendedor' : 'Vendedor no disponible'"
+                                                    disabled>
+                                                <i :class="seller.status ? 'ficon feather icon-message-square' : 'ficon feather icon-mail'"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
