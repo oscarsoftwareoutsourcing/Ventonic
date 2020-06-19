@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const URL = window.api_url;
+
 /*
   Products
   For the auth user data in the platform.
@@ -89,7 +91,7 @@ export const actions = {
             copy = JSON.stringify(copy);
 
             /* Send data */
-            const response = await axios.post(`${process.env.MIX_API_URL}/api/todos/save-todo`, {uid: state.user, todos:copy});
+            const response = await axios.post(`${URL}/api/todos/save-todo`, {uid: state.user, todos:copy});
 
             if(response.data.result) {
                 
@@ -126,7 +128,7 @@ export const actions = {
             let todos = JSON.stringify(state.todosCopy);
 
             // We send the todos copied array, with the todo that were added or updated.
-            const response = await axios.post(`${process.env.MIX_API_URL}/api/todos/update-todos`, {uid: state.user, todos:todos});
+            const response = await axios.post(`${URL}/api/todos/update-todos`, {uid: state.user, todos:todos});
 
             // We change the todos array if true is returned.
             if(response.data.result) {
@@ -138,28 +140,28 @@ export const actions = {
             commit('SET_COPY', state.todos);
         }
     },
-    async delete({ commit }, id) {
-        let config = {
-            headers: {
-                Authorization: `bearer ${localStorage.getItem('user_token')}`
-            }
-        }
+    // async delete({ commit }, id) {
+    //     let config = {
+    //         headers: {
+    //             Authorization: `bearer ${localStorage.getItem('user_token')}`
+    //         }
+    //     }
 
-        try {
-            const response = await this.$axios.$put(`${this.$axios.defaults.baseURL}products/delete/${data.id}`, {}, config);
+    //     try {
+    //         const response = await this.$axios.$put(`${this.$axios.defaults.baseURL}products/delete/${data.id}`, {}, config);
 
-            commit('SET_CODE', response.code);
-            commit('REMOVE_PRODUCT', response.product);
-        } catch (error) {
-            if(error.response.status === 401) {
-                console.log('Mostrar mensaje de sesión expirada');
-                commit('SET_CODE', '401');
-                if(process.browser) localStorage.removeItem('user_token');
-            } else {
-                commit('SET_CODE', '003');
-            }
-        }
-    }
+    //         commit('SET_CODE', response.code);
+    //         commit('REMOVE_PRODUCT', response.product);
+    //     } catch (error) {
+    //         if(error.response.status === 401) {
+    //             console.log('Mostrar mensaje de sesión expirada');
+    //             commit('SET_CODE', '401');
+    //             if(process.browser) localStorage.removeItem('user_token');
+    //         } else {
+    //             commit('SET_CODE', '003');
+    //         }
+    //     }
+    // }
 };
 
 export const mutations = {
@@ -183,7 +185,7 @@ export const mutations = {
             });
         }
     },
-    SET_COPY: (state) => state.todosCopy = _.cloneDeep(state.todos),
+    SET_COPY: (state) => {state.todosCopy = _.cloneDeep(state.todos)},
     RESET_TODO: (state) => {
 
         /* Reset todo */
