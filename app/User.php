@@ -211,6 +211,17 @@ class User extends Authenticatable implements MustVerifyEmail
                      ->orWhere('name', 'like', $text . '%');
     }
 
+    public function scopeOrByName($query, $text)
+    {
+        if (empty($text)) {
+            return $query;
+        }
+
+        return $query->orWhere('name', 'like', '%' . $text . '%')
+                     ->orWhere('name', 'like', '%' . $text)
+                     ->orWhere('name', 'like', $text . '%');
+    }
+
     /**
      * Filtra la consulta solo para usuarios que contengan en el apellido la condición dada
      *
@@ -232,6 +243,18 @@ class User extends Authenticatable implements MustVerifyEmail
                      ->orWhere('last_name', 'like', $text . '%');
     }
 
+
+    public function scopeOrByLastName($query, $text)
+    {
+        if (empty($text)) {
+            return $query;
+        }
+
+        return $query->orWhere('last_name', 'like', '%' . $text . '%')
+                     ->orWhere('last_name', 'like', '%' . $text)
+                     ->orWhere('last_name', 'like', $text . '%');
+    }
+
     /**
      * Filtra la consulta solo para usuarios que contengan en el correo electrónico la condición dada
      *
@@ -249,6 +272,17 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return $query->where('email', 'like', '%' . $text . '%')
+                     ->orWhere('email', 'like', '%' . $text)
+                     ->orWhere('email', 'like', $text . '%');
+    }
+
+     public function scopeOrByEmail($query, $text)
+    {
+        if (empty($text)) {
+            return $query;
+        }
+
+        return $query->orWhere('email', 'like', '%' . $text . '%')
                      ->orWhere('email', 'like', '%' . $text)
                      ->orWhere('email', 'like', $text . '%');
     }

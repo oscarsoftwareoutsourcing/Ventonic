@@ -88,6 +88,8 @@ class HomeController extends Controller
     {
         $users = User::seller();
 
+        
+
         if ($users) {
             if ($request->status) {
                 $users = $users->statusConnected();
@@ -98,14 +100,16 @@ class HomeController extends Controller
             }
 
             if ($request->search) {
-                $users = $users->byName($request->search)->byLastName($request->search)->byEmail($request->search);
+                $users = $users->byName($request->search)->orByLastName($request->search)->orByEmail($request->search);
             }
 
             if ($request->filters) {
                 $users = $users->byAnswered($request->filters);
             }
         }
-
+        
+        $users = $users->seller();
+        
         return response()->json($users->get());
     }
 }
