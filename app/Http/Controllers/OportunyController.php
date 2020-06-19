@@ -39,7 +39,14 @@ class OportunyController extends Controller
 
     public function showAll(){
         $oportunitys=Oportunity::where('status_id',2)->orderByDesc('updated_at')->paginate(25);
-        return view('oportunitys.oportunitys',['oportunitys'=> $oportunitys]);
+        $sectors=SectorOportunity::all();
+        $antiguedad=UbicationOportunity::all();
+        $jobType=JobType::all();
+        
+        return view('oportunitys.oportunitys',['oportunitys'=> $oportunitys, 
+                                               'sectors'=>$sectors , 
+                                               'antiguedad'=>$antiguedad,
+                                               'jobType'=>$jobType]);
     }
 
     public function showRegistrationOportunity($oportunity = null){
