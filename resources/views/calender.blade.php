@@ -70,11 +70,10 @@
                                     <div class="modal-body">
                                         <div class="d-flex justify-content-between align-items-center add-category">
                                             <div class="chip-wrapper"></div>
+
                                             <div class="label-icon pt-1 pb-2 dropdown calendar-dropdown">
-                                                <i class="feather icon-tag dropdown-toggle" id="cal-event-category"
-                                                   data-toggle="dropdown"></i>
-                                                <div class="dropdown-menu dropdown-menu-right"
-                                                     aria-labelledby="cal-event-category">
+                                                <i class="feather icon-tag dropdown-toggle" id="cal-event-category" data-toggle="dropdown"></i>
+                                                <div id="labelsDropDown" class="dropdown-menu dropdown-menu-right" aria-labelledby="cal-event-category">
                                                     <span class="dropdown-item business" data-color="success">
                                                         <span class="bullet bullet-success bullet-sm mr-25"></span>
                                                         Eventos
@@ -201,7 +200,7 @@
                                             Actualizar
                                         </button>
                                         <button type="button"
-                                                class="btn btn-flat-danger cancel-event waves-effect waves-light"
+                                                class="btn btn-flat-danger cancel-event waves-effect waves-light closeBtn"
                                                 data-dismiss="modal">
                                             Cancelar
                                         </button>

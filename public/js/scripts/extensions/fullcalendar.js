@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var eventCategory = info.event.extendedProps.dataEventColor;
             var eventText = categoryText[eventCategory];
 
+
             $(".modal-calendar .chip-wrapper .chip").remove();
             $(".modal-calendar .chip-wrapper").append($("<div class='chip chip-" + eventCategory + "'>" +
                 "<div class='chip-body'>" +
@@ -109,12 +110,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // render calendar
     calendar.render();
 
+    // CAMBIOS EM
+    // Labels menu
+    $('#cal-event-category').on('click', function() {
+        // Toggle show/hide dropdown menu.
+        $('#labelsDropDown').toggleClass('show');
+    });
+
+    // Close labels menu when modal hide
+    $('.closeBtn').on('click', function() {
+        $('#labelsDropDown').toggleClass('hide');
+    });
+    // CAMBIOS EM
+
     // appends bullets to left class of header
     $("#calendarSection .fc-right").append(categoryBullets);
 
     // Close modal on submit button
     $(".modal-calendar .cal-submit-event").on("click", function() {
         $(".modal-calendar").modal("hide");
+
+        $('#labelsDropDown').hide();
     });
 
     // reset input element's value for new event
@@ -135,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // open add event modal on click of day
     $(document).on("click", ".fc-day", function() {
+
         $(".modal-calendar").modal("show");
         $(".calendar-dropdown .dropdown-menu").find(".selected").removeClass("selected");
         $(".modal-calendar .cal-submit-event").addClass("d-none");
