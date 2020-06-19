@@ -1,5 +1,9 @@
 @extends('layouts.app-dashboard')
-
+<link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/tables/datatable/datatables.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/file-uploaders/dropzone.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/tables/datatable/extensions/dataTables.checkboxes.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/plugins/file-uploaders/dropzone.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/pages/data-list-view.css') }}">
 @section('content')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -51,7 +55,7 @@
                                         </fieldset>
                                     </li>
                                     
-                                    <li class="d-inline-block mr-2">
+                                    {{-- <li class="d-inline-block mr-2">
                                         <fieldset>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck5">
@@ -66,7 +70,7 @@
                                                 <label class="custom-control-label" for="customCheck4">Experiencia</label>
                                             </div>
                                         </fieldset>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </div>
@@ -88,7 +92,7 @@
                                     </a>
                                 </div> --}}
                                 {{-- <form action="{{ route('oportunity.form') }}" style="display:block;width:100%;"> --}}
-                                <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar postulado..." style="border:1px solid #0087ff;">
+                                {{-- <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar postulado..." style="border:1px solid #0087ff;"> --}}
                                 {{-- <div class="input-group-append">
                                     <button class="btn btn-primary search-oportunity" id="btnSearch" type="button">
                                         <i class="feather icon-search"></i>
@@ -98,7 +102,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="">
+                    {{-- <div class="">
                         <table class="table table-hover mb-0 ">
                             <thead>
                                 <tr>
@@ -147,12 +151,84 @@
                             <span class="float-right">{{ $aplicants->links() }}</span>
                         </div>
                     </div>
-                </div>
+                </div> --}}
+
+                                            <!-- Data list view starts -->
+                            <section id="data-list-view" class="data-list-view-header">
+                                <!-- DataTable starts -->
+                                <div class="table-responsive">
+                                    <table id="datatable" class="table data-list-view mt-2">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>FOTO</th>
+                                                <th>NOMBRE</th>
+                                                <th>APELLIDO</th>
+                                                <th>PERFIL</th>
+                                                <th>CAMBIAR ESTADO</th>
+                                                <th>CHAT</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if(isset($aplicants))
+                                            @foreach($aplicants as $aplicant)
+                                            <tr class="rowTable" id="row{{$aplicant->id}}" class="filaEntera">
+                                                <td></td>
+                                                <td class="product-name">
+                                                <img class="round" src="/{{$aplicant->user->sellerProfile->photo}}" height="40" width="40">
+                                                </td>
+                                                <td class="product-name">
+                                                {{$aplicant->user->name}}
+                                                <input type="text" class="movil" id="movil{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->phone_mobil ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+                                                <input type="text" class="photo" id="photo{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->photo ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+                                                <input type="text" class="video" id="video{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->video ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+                                                <input type="text" class="likeind" id="likeind{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->likeind ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+
+                                                </td>
+
+                                                <td class="product-category">{{$aplicant->user->last_name}}</td>
+                                                <td class="product-category"><a class="btn btn-primary btn-md text-white" href="{{route('oportunity.profile', ['id'=>$aplicant->user_id])}}">Ver</a></td>
+                                                <td class="product-category">
+                                                <select class="form-control status_postulation" name="estatus_postulation" id="status_postulation" data-id="{{$aplicant->id}}">
+                                                    @foreach($status_postulation as $status)
+                                                        <option value="{{$status->id}}">{{$status->description}}</option>
+                                                    @endforeach
+                                                </select>
+                                                </td>
+                                               
+                                                
+                                                <td class="product-price">
+                                                    @if($aplicant->user->status==1)
+                                                        <a href="{{ route('chat') }}" class=""><i class="feather icon-message-square text-success" style="font-size:22px;"></i></a>
+                                                    @else  
+                                                       <a href="" class=""><i class="feather icon-message-square text-danger" style="font-size:22px;"></i></a>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- DataTable ends -->
+                            </section>
+                            <!-- Data list view end -->
 
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('extra-js')
+<script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
+<script src="{{ asset('vendors/js/tables/datatable/datatables.min.js') }}"></script>
+<script src="{{ asset('vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
+<script src="{{ asset('vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('vendors/js/tables/datatable/buttons.bootstrap.min.js') }}"></script>
+<script src="{{ asset('vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
+<script src="{{ asset('vendors/js/tables/datatable/datatables.checkboxes.min.js') }}"></script>
+<script src="{{ asset('js/scripts/ui/data-list-view.js') }}"></script>
+<script>$("#datatable").DataTable();</script>
 @endsection
 {{-- @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}" defer></script>

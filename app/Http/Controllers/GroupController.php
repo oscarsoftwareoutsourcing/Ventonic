@@ -39,9 +39,10 @@ class GroupController extends Controller
              'user_id' => auth()->user()->id
             ]
         );
-        if($grupo && $request->input('users')){
-            $users=$request->input('users');
-            var_dump($users); die();
+
+        if($grupo && $request->input('email')){
+            $email=$request->input('email');
+            var_dump($email); die();
             return 'Hola';
     
         }

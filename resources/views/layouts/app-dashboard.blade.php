@@ -114,6 +114,8 @@
     <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
     {{--END:oportunitys scripts --}}
 
+    <script src="{{ asset('js/geolocalizacion.js') }}"></script>
+
     {{--BEGIN:Modal --}}
     <script src="{{ asset('js/scripts/modal/components-modal.js') }}"></script>
     {{--END:Modal --}}

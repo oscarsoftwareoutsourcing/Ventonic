@@ -166,7 +166,7 @@
                                             @else
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="text" id="sector-column" class="form-control" value="{{$contact->type ?? ''}}" disabled>
+                                                    <input type="text" id="sector2-column" class="form-control" value="{{$contact->type ?? ''}}" disabled>
                                                     <label for="email-id-column">Tipo</label>
                                                 </div>
                                             </div>
@@ -206,8 +206,8 @@
                                                 <div class="form-label-group">
                                                     <input type="text" id="address-input" class="form-control map-input @error('direccion_empresa') is-invalid @enderror" 
                                                     name="direccion_empresa" placeholder="Direccion empresa" value="{{$contact->address ?? ''}}" {{$contact =='persona' || $contact =='empresa' ? '' : 'disabled'}}>
-                                                    <input type="text" class="form-control" id="address-latitude" value="0" name="address_latitude" hidden>
-                                                    <input type="text" class="form-control" id="address-longitude" value="0" name="address_longitude" hidden>
+                                                    <input type="text" class="form-control" id="address-latitude" value="{{$contact->address_latitude ?? ''}}" name="address_latitude" hidden>
+                                                    <input type="text" class="form-control" id="address-longitude" value="{{$contact->address_longitude ?? ''}}" name="address_longitude" hidden>
 
                                                     <label for="company-column">Direccion Empresa</label>
                                                 </div>
@@ -256,115 +256,10 @@
 </div>
 @endsection
 @section('extra-js')
-<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async></script>
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADg2I72vPVAuD_WW21wThK-uHxkbN81vA&libraries=places&callback=initialize" async defer> --}}
+@parent
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN7QXrQX8mlDNTdtcSY5dzZzrVJ1516hw&libraries=places&callback=initialize" async defer>
 <script>
-function initialize() {
-
-$('form').on('keyup keypress', function(e) {
-    var keyCode = e.keyCode || e.which;
-    if (keyCode === 13) {
-        e.preventDefault();
-        return false;
-    }
-});
-const locationInputs = document.getElementsByClassName("map-input");
-
-const autocompletes = [];
-const geocoder = new google.maps.Geocoder;
-for (let i = 0; i < locationInputs.length; i++) {
-
-    const input = locationInputs[i];
-    const fieldKey = input.id.replace("-input", "");
-    const isEdit = document.getElementById(fieldKey + "-latitude").value != '' && document.getElementById(fieldKey + "-longitude").value != '';
-
-    const latitude = parseFloat(document.getElementById(fieldKey + "-latitude").value) || -33.8688;
-    const longitude = parseFloat(document.getElementById(fieldKey + "-longitude").value) || 151.2195;
-    console.log(latitude); 
-    const map = new google.maps.Map(document.getElementById(fieldKey + '-map'), {
-        center: {lat: latitude, lng: longitude},
-        zoom: 13
-    });
-    const marker = new google.maps.Marker({
-        map: map,
-        position: {lat: latitude, lng: longitude},
-    });
-
-    marker.setVisible(isEdit);
-
-    const autocomplete = new google.maps.places.Autocomplete(input);
-    autocomplete.key = fieldKey;
-    autocompletes.push({input: input, map: map, marker: marker, autocomplete: autocomplete});
-}
-
-for (let i = 0; i < autocompletes.length; i++) {
-    const input = autocompletes[i].input;
-    const autocomplete = autocompletes[i].autocomplete;
-    const map = autocompletes[i].map;
-    const marker = autocompletes[i].marker;
-
-    google.maps.event.addListener(autocomplete, 'place_changed', function () {
-        marker.setVisible(false);
-        const place = autocomplete.getPlace();
-
-        geocoder.geocode({'placeId': place.place_id}, function (results, status) {
-            if (status === google.maps.GeocoderStatus.OK) {
-                const lat = results[0].geometry.location.lat();
-                const lng = results[0].geometry.location.lng();
-                setLocationCoordinates(autocomplete.key, lat, lng);
-            }
-        });
-
-        if (!place.geometry) {
-            window.alert("No details available for input: '" + place.name + "'");
-            input.value = "";
-            return;
-        }
-
-        if (place.geometry.viewport) {
-            map.fitBounds(place.geometry.viewport);
-        } else {
-            map.setCenter(place.geometry.location);
-            map.setZoom(17);
-        }
-        marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
-
-    });
-}
-}
-
-function setLocationCoordinates(key, lat, lng) {
-const latitudeField = document.getElementById(key + "-" + "latitude");
-const longitudeField = document.getElementById(key + "-" + "longitude");
-latitudeField.value = lat;
-longitudeField.value = lng;
-}
-
-const map = new google.maps.Map(document.getElementById(fieldKey + '-map'), {
-center: {lat: latitude, lng: longitude},
-zoom: 13
-});
-const marker = new google.maps.Marker({
-map: map,
-position: {lat: latitude, lng: longitude},
-});
-
-const autocomplete = new google.maps.places.Autocomplete(input);
-autocomplete.key = fieldKey;
-autocompletes.push({input: input, map: map, marker: marker, autocomplete: autocomplete});
-
-geocoder.geocode({'placeId': place.place_id}, function (results, status) {
-if (status === google.maps.GeocoderStatus.OK) {
-
-    const lat = results[0].geometry.location.lat();
-    const lng = results[0].geometry.location.lng();
-
-    setLocationCoordinates(autocomplete.key, lat, lng);
-}
-});
-
-</script>
+<script src="{{ asset('js/geolocalizacion.js') }}"></script>
 @endsection
 
 @section('extra-js-app')

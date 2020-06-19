@@ -51,7 +51,7 @@
 
                                 <!-- DataTable starts -->
                                 <div class="table-responsive">
-                                    <table class="table data-list-view table-responsive">
+                                    <table class="table data-list-view">
                                         <thead>
                                             <tr>
                                                 <th></th>

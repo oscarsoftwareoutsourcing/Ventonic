@@ -123,6 +123,10 @@ class ContactController extends Controller
             $image_path_name = time().$image->getClientOriginalName();
             Storage::disk('public')->put($image_path_name, File::get($image));
         }
+
+        // var_dump($request->address_longitude); 
+        // var_dump($request->address_latitude);
+        // die();
         $contact = Contact::updateOrCreate(
             ['name' =>  $request->nombre,
              'last_name' => $request->apellido ?? null,
@@ -139,8 +143,8 @@ class ContactController extends Controller
              'type' =>  $request->etiquetas ?? null,
              'favorite' =>  $request->favorito ? 1 : 0,
              'cargo' =>  $request->cargo_empresa ?? null,
-             'address_longitude' =>  $request->altitud ?? null,
-             'address_latitude' =>  $request->latitud ?? null,
+             'address_longitude' =>  $request->address_longitude ?? null,
+             'address_latitude' =>  $request->address_latitude ?? null,
              'user_id' =>  auth()->user()->id,
              'type_contact'=> $request->type_contact
             ]

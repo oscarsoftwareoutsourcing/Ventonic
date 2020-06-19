@@ -189,6 +189,100 @@ $('#customCheck4').on("change", function(){
   }
 })
 
+// Filtros busqueda postulados por por tipo de empleo en oportunidades
+
+$('#tipo-empleo').on("change", function(){
+  var select=$('#tipo-empleo').val();
+  var tipo=$('.jobType');
+    $.each(tipo,function(i, item) {
+      var data=$(item).data('id');
+      var existTipo = $(item).val();
+      if(existTipo=="todos"){
+        $('.filaEntera').show();
+      }
+      else if(existTipo!==select){
+        console.log('Son iguales');
+        $('#fila'+data).hide();
+      }else{
+         $('#fila'+data).show();        
+      }
+      if(select=='0'){
+       $('.filaEntera').show();
+      }
+    });
+});
+
+// Filtros busqueda postulados por antiguedad
+
+$('#antiguedad').on("change", function(){
+  var select=$('#antiguedad').val();
+  var tipo=$('.antiguedad');
+    $.each(tipo,function(i, item) {
+      var data=$(item).data('id');
+      var existTipo = $(item).val();
+      if(existTipo=="todos"){
+        $('.filaEntera').show();
+      }
+      else if(existTipo!==select){
+        console.log('Son iguales');
+        $('#fila'+data).hide();
+      }else{
+         $('#fila'+data).show();        
+      }
+      if(select=='0'){
+       $('.filaEntera').show();
+      }
+    });
+});
+
+// Filtros busqueda postulados por sector
+
+$('#sectores').on("change", function(){
+  var select=$('#sectores').val();
+  var tipo=$('.sector');
+    $.each(tipo,function(i, item) {
+      var data=$(item).data('id');
+      var existTipo = $(item).val();
+      if(existTipo=="todos"){
+        $('.filaEntera').show();
+      }
+      else if(existTipo!==select){
+        console.log('Son iguales');
+        $('#fila'+data).hide();
+      }else{
+         $('#fila'+data).show();        
+      }
+      if(select=='0'){
+       $('.filaEntera').show();
+      }
+    });
+});
+
+// Filtros busqueda postulados por sector
+
+$('#estatus-postulados').on("change", function(){
+  var select=$('#estatus-postulados').val();
+  var tipo=$('.postulado');
+    $.each(tipo,function(i, item) {
+      var data=$(item).data('id');
+      var existTipo = $(item).val();
+
+      if(existTipo=="todos"){
+        $('.filaEntera').show();
+      }
+      else if(existTipo!==select){
+        console.log('Son iguales');
+        $('#fila'+data).hide();
+      }else{
+         $('#fila'+data).show();        
+      }
+      if(select=='0'){
+       $('.filaEntera').show();
+      }
+    });
+});
+
+
 //Guardar negociacion empresa
 $('#saveNegociation').on("click", function(){
   

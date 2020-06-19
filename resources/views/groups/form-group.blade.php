@@ -30,7 +30,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12">
+                                            {{-- <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="email-id-icon">Usuarios en este grupo</label>
                                                     <select class="select2 form-control" multiple="multiple" id="" name="users[]">
@@ -38,6 +38,18 @@
                                                             <option value="{{$user->id}}">{{$user->name}}</option>
                                                         @endforeach
                                                     </select>
+                                                </div>
+                                            </div> --}}
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="first-name-icon">Invitar usuarios</label>
+                                                    <div class="position-relative has-icon-left">
+                                                        {{-- <input type="email" id="first-name-icon" class="form-control" name="email[]" placeholder="Nombre del grupo"> --}}
+                                                        <input type="email" id="email-icon" class="form-control" name="email" placeholder="Email">
+                                                        <div class="form-control-position">
+                                                            <i class="feather icon-mail"></i>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
