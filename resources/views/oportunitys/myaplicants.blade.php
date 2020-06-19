@@ -55,7 +55,7 @@
                                         </fieldset>
                                     </li>
                                     
-                                    <li class="d-inline-block mr-2">
+                                    {{-- <li class="d-inline-block mr-2">
                                         <fieldset>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck5">
@@ -70,7 +70,7 @@
                                                 <label class="custom-control-label" for="customCheck4">Experiencia</label>
                                             </div>
                                         </fieldset>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </div>
