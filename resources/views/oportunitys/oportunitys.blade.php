@@ -19,7 +19,7 @@
                         <div class="card-body">
                             <div class="row">
                             {{-- BEGIN Filltros --}}
-                                <div class="{{Auth::user()->type=="E" ? 'col-4' : 'col-3' }}">
+                                <div class="{{Auth::user()->type=="E" ? 'col-lg-4' : 'col-lg-3' }}">
                                     <div class="form-label-group">
                                         <select class="form-control" id="tipo-empleo" name="etiquetas">
                                             <option value="0">Busqueda por tipo de Empleo</option>
@@ -29,7 +29,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="{{Auth::user()->type=="E" ? 'col-4' : 'col-3' }}">
+                                <div class="{{Auth::user()->type=="E" ? 'col-lg-4' : 'col-lg-3' }}">
                                     <div class="form-label-group">
                                         <select class="form-control" id="antiguedad" name="etiquetas">
                                             <option value="0">Busqueda por nivel de antiguedad</option>
@@ -39,7 +39,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="{{Auth::user()->type=="E" ? 'col-4' : 'col-3' }}">
+                                <div class="{{Auth::user()->type=="E" ? 'col-lg-4' : 'col-lg-3' }}">
                                     <div class="form-label-group">
                                         <select class="select2 form-control" id="sectores" name="etiquetas">
                                             <option value="0">Busqueda por sector de la empresa</option>
@@ -50,7 +50,7 @@
                                     </div>
                                 </div>
                                 @if(Auth::user()->type=="V")
-                                <div class="col-3">
+                                <div class="col-lg-3">
                                     <div class="form-label-group">
                                         <select class="form-control" id="estatus-postulados" name="etiquetas">
                                             <option  value="0">Estado</option>
@@ -150,11 +150,20 @@
                             
                         </div>
                         <div class="card-body">
+                            @if(Auth::user()->type=="E")
+                                <div class="input-group-append">
+                                    <a href="{{ route('oportunity.form') }}" class="btn btn-primary" type="button">
+                                        <i class="feather icon-plus text-white"></i> Nueva
+                                    </a>
+                                </div>
+                                <hr>
+                                <br>
+                            @endif
                             <!-- Data list view starts -->
                             <section id="data-list-view" class="data-list-view-header">
                                 <!-- DataTable starts -->
                                 <div class="table-responsive">
-                                    <table id="datatable" class="table data-list-view">
+                                    <table id="datatable" class="table data-list-view mt-2">
                                         <thead>
                                             <tr>
                                                 <th></th>

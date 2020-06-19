@@ -34,7 +34,13 @@ class OportunyController extends Controller
     public function index(){
         $user_id=\Auth::user()->id;
         $oportunitys=Oportunity::where('user_id',$user_id)->orderByDesc('updated_at')->paginate(10);
-        return view('oportunitys.myOportunitys',['oportunitys'=> $oportunitys]);
+        $sectors=SectorOportunity::all();
+        $antiguedad=UbicationOportunity::all();
+        $jobType=JobType::all();
+        return view('oportunitys.myOportunitys',['oportunitys'=> $oportunitys, 
+                                                'sectors'=>$sectors , 
+                                                'antiguedad'=>$antiguedad,
+                                                'jobType'=>$jobType]);
     }
 
     public function showAll(){
