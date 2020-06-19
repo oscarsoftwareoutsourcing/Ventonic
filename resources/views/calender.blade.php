@@ -101,7 +101,7 @@
                                             <input type="hidden" id="cal-event-id" readonly>
                                             <span class="invalid-feedback mb-3" role="alert" class="d-none"
                                                   id="cal_event_title_error">
-                                                <strong></strong>
+                                                <strong class="text-danger"></strong>
                                             </span>
                                         </div>
                                         <div class="form-group">
@@ -114,7 +114,7 @@
                                                            id="cal-start-date" placeholder="dd-mm-yyyy">
                                                 </div>
                                                 <span class="invalid-feedback mb-3" role="alert" class="d-none" id="cal_event_start_at_error">
-                                                    <strong></strong>
+                                                    <strong class="text-danger"></strong>
                                                 </span>
                                             </div>
                                         </div>
@@ -132,7 +132,7 @@
                                            
                                             <span class="invalid-feedback mb-3" role="alert" class="d-none"
                                                   id="cal_event_start_time_error">
-                                                <strong></strong>
+                                                  <strong class="text-danger"></strong>
                                             </span>
                                         </div>
 
@@ -146,6 +146,11 @@
                                                     <input type="date" class="form-control pickadate" id="cal-end-date"
                                                            placeholder="dd-mm-yyyyy">
                                                 </div>
+
+                                                <span class="invalid-feedback mb-3" role="alert" class="d-none"
+                                                id="cal_event_end_at_error">
+                                                <strong class="text-danger"></strong>
+                                          </span>
                                             </div>
                                         </div>
 
@@ -159,13 +164,10 @@
                                                            placeholder="00:00">
                                                 </div>
                                             </div>
-                                            <span class="invalid-feedback mb-3" role="alert" class="d-none"
-                                                  id="cal_event_end_at_error">
-                                                <strong></strong>
-                                            </span>
+                                           
                                             <span class="invalid-feedback mb-3" role="alert" class="d-none"
                                                   id="cal_event_end_time_error">
-                                                <strong></strong>
+                                                  <strong class="text-danger"></strong>
                                             </span>
                                         </div>
 
@@ -176,7 +178,7 @@
                                                       placeholder="Descripción del evento"></textarea>
                                             <span class="invalid-feedback mb-3" role="alert" class="d-none"
                                                   id="cal_event_notes_error">
-                                                <strong></strong>
+                                                  <strong class="text-danger"></strong>
                                             </span>
                                         </div>
                                         <div class="form-group">
@@ -185,7 +187,7 @@
                                                    placeholder="Lugar del evento">
                                             <span class="invalid-feedback mb-3" role="alert" class="d-none"
                                                   id="cal_event_place_error">
-                                                <strong></strong>
+                                                  <strong class="text-danger"></strong>
                                             </span>
                                         </div>
                                     </div>
