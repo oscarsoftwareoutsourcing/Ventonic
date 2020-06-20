@@ -27,8 +27,8 @@ body.dark-layout p, body.dark-layout small, body.dark-layout span, body.dark-lay
   color: #fff!important;
 }
 
-body.dark-layout p, body.dark-layout small, body.dark-layout span, body.dark-layout label {
-  color: #fff!important;
+body.dark-layout .pac-container span{
+  color: #000!important;
 }
 
 body.dark-layout hr {
