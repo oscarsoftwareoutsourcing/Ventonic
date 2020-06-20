@@ -33,7 +33,7 @@
                   </li>
            @endif
 
-
+            {{-- No he tocado nada :) --}}
 
             {{-- Negociaciones Company --}}
            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
