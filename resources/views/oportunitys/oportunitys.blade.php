@@ -194,20 +194,21 @@
                                                 <td class="product-price">{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>
                                                 <td class="product-price">{{App\Oportunity::listSectors($oportunity->sectors)}}</td>
                                                 @if((\Auth::user()->type)=="V")
-                                                <td class="product-action">
+                                                <td class="product-action" width="12%">
                                                     @if(App\Aplicant::postulationTrue(\Auth::user()->id, $oportunity->id))
-                                                    <div class="chip chip-success">
+                                                    <div class="chip chip-success" style="width:100%">
                                                         <div class="chip-body text-center">
-                                                            <div class="chip-text small">Postulado
+                                                            <div class="chip-text">
+                                                            Postulado<br>
                                                             <span class="small">{{App\Aplicant::datePostulation(\Auth::user()->id, $oportunity->id)}}</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                      <input type="text" class="postulado" value="postulado" data-id="{{$oportunity->id}}" hidden>
                                                     @else
-                                                    <div class="chip chip-danger">
+                                                    <div class="chip chip-danger" style="width:100%">
                                                         <div class="chip-body">
-                                                            <div class="chip-text small text-center">No postulado</div>
+                                                            <div class="chip-text text-center">No postulado</div>
                                                         </div>
                                                     </div>
                                                     <input type="text" class="postulado" value="no postulado" data-id="{{$oportunity->id}}" hidden>
