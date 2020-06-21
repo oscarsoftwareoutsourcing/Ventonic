@@ -3,7 +3,7 @@
 namespace App\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
-//use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -33,7 +33,8 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        //return new PrivateChannel('channel-name');
-        return new PresenceChannel('chat');
+        //return new PrivateChannel('chatroom.' . session('chat_room_id', ''));
+        //return new PresenceChannel('chat');
+        return new PresenceChannel('chatroom.' . session('chat_room_id', ''));
     }
 }
