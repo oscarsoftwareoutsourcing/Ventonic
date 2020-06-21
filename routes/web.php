@@ -84,6 +84,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('ultimos-eventos', 'EventController@lastEvents')->name('events.list');
     Route::post('get-country-flag', 'ProfileController@getCountryFlag')->name('get-country-flag');
     Route::get('contact-seller/{id}', 'ChatController@contactSeller');
+    Route::get('contact-by/{user_id}/{type}/{origin_type?}/{origin_id?}', 'ChatController@contactBy')->name('contact-by');
     Route::get('get-chat-users', 'ChatController@getUserChatRooms');
     Route::get('set-chat-room/{id}/{user_id}', function ($id, $user_id) {
         session(['chat_room_id' => $id]);

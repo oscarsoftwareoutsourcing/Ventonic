@@ -52,7 +52,7 @@
       <!-- CSRF Token -->
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <script>
-        window.websocketHost = "{{ env('WEBSOCKETS_HOST', '127.0.0.1') }}";
+        window.websocketHost = window.location.hostname;
         window.websocketPort = {{ env('WEBSOCKETS_PORT', 6001) }};
         window.currentUserChat = null;
         window.currentChatRoom = '{{ session('chat_room_id', '') }}';

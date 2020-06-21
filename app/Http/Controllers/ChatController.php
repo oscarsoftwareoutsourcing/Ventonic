@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\User;
 use App\Message;
 use App\ChatRoom;
@@ -84,6 +85,45 @@ class ChatController extends Controller
         ]);
 
         return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Método que crea la sala de chat para contacto de usuarios
+     *
+     * @method    contactBy
+     *
+     * @author     Ing. Oscar Lobo <roscarescalando@gmail.com>
+     *
+     * @param     integer       $user_id        Identificador del usuario al cual contactar
+     * @param     string        $type           Tipo de registro: (op)ortunidad, (ne)gocio, (co)ntactos, (ot)ros
+     * @param     string        $origin_type    Modelo de origen en minúsculas y separado por guión bajo
+     *                                          cuando se trate de un modelo con palabras concatenadas
+     * @param     integer       $origin_id      Identificador del modelo a relacionar
+     *
+     * @return    Response      Redirecciona a la página del chat
+     */
+    public function contactBy($user_id, $type, $origin_type = null, $origin_id = null)
+    {
+        $user = User::find($user_id);
+        $model = ($origin_type !== null) ? "App\\" . ucfirst(Str::camel($origin_type)) : null;
+        $chatRoom = ChatRoom::create([
+            'type' => strtoupper($type),
+            'originable_type' => $model,
+            'originable_id' => $origin_id
+        ]);
+        session(['chat_room_id' => $chatRoom->id]);
+        ChatRoomUser::insert([
+            [
+                'chat_room_id' => $chatRoom->id, 'user_id' => $user->id,
+                'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'chat_room_id' => $chatRoom->id, 'user_id' => auth()->user()->id,
+                'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')
+            ]
+        ]);
+
+        return redirect()->route('chat');
     }
 
     public function getUserChatRooms()
