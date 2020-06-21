@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EventsResource;
+
+use DateTime;
+use App\User;
 use App\Event;
 use Illuminate\Http\Request;
 
@@ -14,22 +18,21 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
-        $calendarEvents = [];
-        foreach ($events as $event) {
-            $calendarEvents[] = [
-                'id' => $event->id,
-                'title' => $event->title,
-                'start' => $event->start_at,
-                'end' => $event->end_at,
-                'description' => $event->notes,
-                'category' => $event->category ?? 'Otros',
-                'place' => $event->place ?? '',
-                'color' => $event->category_color,
-                'dataEventColor' => $event->category_color_class
-            ];
+        try {
+            if (auth()->check()) {
+                
+                $events = User::find(auth()->user()->id)->events;
+                
+                /* Return data with view */
+                return view('calender')->with(['events' => json_encode(EventsResource::collection($events))]);
+            }
+        } catch (\Exception $th) {
+            echo $th;
         }
-        return response()->json($calendarEvents);
+
+        return view('welcome');
+        
+        // return response()->json($calendarEvents);
     }
 
     /**
@@ -54,52 +57,43 @@ class EventController extends Controller
             'title' => ['required'],
             'start_at' => ['required', 'date'],
             'start_time' => ['required'],
-            'end_at' => ['required', 'date'],
-            'end_time' => ['required'],
-            'notes' => ['required']
+            'end_at' => ['required', 'date', 'after_or_equal:start_at'],
+            'end_time' => ['required', 'after_or_equal:start_time']
         ], [
-            'start_at.required' => 'El campo de fecha inicial es obligatorio',
-            'start_at.date' => 'El campo de fecha inicial no tiene un formato válido',
-            'start_time.required' => 'El campo de hora inicial es obligatorio',
-            'end_at.required' => 'El campo de fecha final es obligatorio',
-            'end_at.date' => 'El campo de fecha final no tiene un formato válido',
-            'end_time.required' => 'El campo de hora final es obligatorio',
-            'notes.required' => 'El campo descripción es obligatorio'
+            'title.required' => 'Dato requerido',
+            'start_at.required' => 'Dato requerido',
+            'start_at.date' => 'Debe tener un formato válido',
+            'start_time.required' => 'Dato requerido',
+            'end_at.required' => 'Dato requerido',
+            'end_at.date' => 'Debe tener un formato válido',
+            'end_at.after_or_equal' => 'Debe ser posterior a Fecha de Inicio',
+            'end_time.required' => 'Dato requerido',
+            'end_time.after_or_equal' => 'Debe ser posterior a Hora de Inicio'
         ]);
 
-        Event::create([
-            'category' => $this->setCategory($request->category),
-            'title' => $request->title,
-            'start_at' => $request->start_at . ' ' . $request->start_time.':00',
-            'end_at' => $request->end_at . ' ' . $request->end_time.':00',
-            'notes' => $request->notes,
-            'place' => $request->place ?? null,
-            'user_id' => auth()->user()->id
-        ]);
+        try {
 
-        return response()->json(['result' => true], 200);
-    }
+            $start = strtotime($request->start_at. ' '.$request->start_time);
+            $end = strtotime($request->end_at. ' '.$request->end_time);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Event $event)
-    {
-        //
-    }
+            $startDate = date("Y-m-d H:i:s", $start);
+            $endDate = date("Y-m-d H:i:s", $end);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Event $event)
-    {
-        //
+            $event = new Event;
+            $event->category = $request->category ?? 'O';
+            $event->title = $request->title;
+            $event->start_at = $startDate;
+            $event->end_at = $endDate;
+            $event->notes = $request->notes;
+            $event->place = $request->place ?? null;
+            $event->user_id = auth()->user()->id;
+
+            $event->save();
+
+            return response()->json(['result' => true, 'event' => new EventsResource($event)], 200);
+        } catch (\Throwable $th) {
+            echo $th;
+        }
     }
 
     /**
@@ -109,38 +103,48 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'title' => ['required'],
             'start_at' => ['required', 'date'],
             'start_time' => ['required'],
-            'end_at' => ['required', 'date'],
-            'end_time' => ['required'],
-            'notes' => ['required']
+            'end_at' => ['required', 'date', 'after_or_equal:start_at'],
+            'end_time' => ['required', 'after_or_equal:start_time']
         ], [
-            'start_at.required' => 'El campo de fecha inicial es obligatorio',
-            'start_at.date' => 'El campo de fecha inicial no tiene un formato válido',
-            'start_time.required' => 'El campo de hora inicial es obligatorio',
-            'end_at.required' => 'El campo de fecha final es obligatorio',
-            'end_at.date' => 'El campo de fecha final no tiene un formato válido',
-            'end_time.required' => 'El campo de hora final es obligatorio',
-            'notes.required' => 'El campo descripción es obligatorio'
+            'title.required' => 'Dato requerido',
+            'start_at.required' => 'Dato requerido',
+            'start_at.date' => 'Debe tener un formato válido',
+            'start_time.required' => 'Dato requerido',
+            'end_at.required' => 'Dato requerido',
+            'end_at.date' => 'Debe tener un formato válido',
+            'end_at.after_or_equal' => 'Debe ser posterior a Fecha de Inicio',
+            'end_time.required' => 'Dato requerido',
+            'end_time.after_or_equal' => 'Debe ser posterior a Hora de Inicio'
         ]);
 
-        $event->title = $request->title;
-        $event->start_at = $request->start_at . ' ' . $request->start_time.':00';
-        $event->end_at = $request->end_at . ' ' . $request->end_time.':00';
-        $event->notes = $request->notes;
-        if ($request->category) {
-            $event->category = $this->setCategory($request->category);
-        }
-        if ($request->place) {
-            $event->place = $request->place;
-        }
-        $event->save();
+        try {
 
-        return response()->json(['result' => true], 200);
+            $event = Event::find($id);
+            $start = strtotime($request->start_at. ' '.$request->start_time);
+            $end = strtotime($request->end_at. ' '.$request->end_time);
+
+            $startDate = date("Y-m-d H:i:s", $start);
+            $endDate = date("Y-m-d H:i:s", $end);
+            $event->category = $request->category ?? 'O';
+            $event->title = $request->title;
+            $event->start_at = $startDate;
+            $event->end_at = $endDate;
+            $event->notes = $request->notes;
+            $event->place = $request->place ?? null;
+            $event->user_id = auth()->user()->id;
+
+            $event->save();
+
+            return response()->json(['result' => true, 'event' => new EventsResource($event)], 200);
+        } catch (\Exception $th) {
+            echo $th;
+        }
     }
 
     /**
@@ -149,32 +153,33 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy($id)
     {
+        $event = Event::find($id);
         $event->delete();
 
         return response()->json(['result' => true], 200);
     }
 
-    public function setCategory($color)
-    {
-        $category = '';
-        switch (strtoupper($color)) {
-            case '#28C76F':
-                $category = 'B';
-                break;
-            case '#FF9F43':
-                $category = 'W';
-                break;
-            case '#EA5455':
-                $category = 'P';
-                break;
-            default:
-                $category = 'O';
-                break;
-        }
-        return $category;
-    }
+    // public function setCategory($color)
+    // {
+    //     $category = '';
+    //     switch (strtoupper($color)) {
+    //         case '#28C76F':
+    //             $category = 'B';
+    //             break;
+    //         case '#FF9F43':
+    //             $category = 'W';
+    //             break;
+    //         case '#EA5455':
+    //             $category = 'P';
+    //             break;
+    //         default:
+    //             $category = 'O';
+    //             break;
+    //     }
+    //     return $category;
+    // }
 
     public function lastEvents()
     {
