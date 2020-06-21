@@ -40,23 +40,19 @@ window.axios.defaults.headers.common = {
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo';
-
-// window.Pusher = require('pusher-js');
-
-// window.Echo = new Echo({
-//     broadcaster: process.env.MIX_BROADCASTER,
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     wsHost: window.location.hostname, //process.env.MIX_WEBSOCKETS_HOST,
-//     wsPort: process.env.MIX_WEBSOCKETS_PORT,
-//     wssPort: process.env.MIX_WEBSOCKETS_PORT,
-//     enabledTransports: ['ws', 'wss'],
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     disableStats: true,
-//     encrypted: false //true si usa certificado ssl
-// });
-
 import Echo from 'laravel-echo';
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: 'us2',
+    //encrypted: false,
+    forceTLS: false
+});
+
+/*import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
 
@@ -64,12 +60,11 @@ window.Echo = new Echo({
     broadcaster: process.env.MIX_BROADCASTER,
     key: process.env.MIX_PUSHER_APP_KEY,
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    wsHost:window.location.hostname,
-    //wsHost: window.websocketHost,
+    wsHost: window.location.hostname,
     wsPort: window.websocketPort,
     wssPort: window.websocketPort,
+    enabledTransports: ['ws', 'wss'],
     disableStats:true,
-    encrypted: false 
-
+    encrypted: false //true si usa certificado ssl
     // forceTLS: true
-});
+});*/

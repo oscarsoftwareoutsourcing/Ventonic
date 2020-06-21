@@ -324,8 +324,8 @@
 
                             <!-- Sección de mensajes del chat -->
                             <div class="user-chats ps">
-                                <div class="chats chat-scroll"  v-chat-scroll>
-                                    <div class="chat chat-content-scroll" v-for="(message, index) in messages" :key="index"
+                                <div class="chats chat-scroll"  style="" v-chat-scroll>
+                                    <div class="chat" v-for="(message, index) in messages" :key="index"
                                          :class="{'chat-left': message.user.id !== user.id }">
                                         <div class="chat-avatar">
                                             <a class="avatar m-0" data-toggle="tooltip" href="#"
@@ -347,14 +347,12 @@
                                         <div class="divider-text">Yesterday</div>
                                     </div>-->
                                 </div>
-                                <!--
                                 <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
                                     <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
                                 </div>
                                 <div class="ps__rail-y" style="top: 0px; right: 0px;">
                                     <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
                                 </div>
-                                -->
                             </div>
 
                             <div class="chat-app-form">

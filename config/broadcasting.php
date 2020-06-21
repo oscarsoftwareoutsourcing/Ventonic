@@ -36,16 +36,14 @@ return [
             'secret' => env('PUSHER_APP_SECRET'),
             'app_id' => env('PUSHER_APP_ID'),
             'options' => [
-                'cluster' => 'us2',
-  				'useTLS' => true
-              /*  'cluster' => env('PUSHER_APP_CLUSTER'),
+                'cluster' => env('PUSHER_APP_CLUSTER', 'us2'),
                 'useTLS' => env('PUSHER_APP_TLS', true),
                 //'encrypted' => true,
-                //'host' =>'127.0.0.1',
-                //'port' => 6001,
-                //'scheme' => 'http'
+                /*'host' =>'127.0.0.1',
+                'port' => 6001,
+                'scheme' => 'http'*/
 
-                'host' => env('WEBSOCKETS_HOST', '127.0.0.1'),
+                /*'host' => env('WEBSOCKETS_HOST', '127.0.0.1'),
                 'port' => env('WEBSOCKETS_PORT', 6001),
                 'scheme' => env('PUSHER_APP_SCHEME', 'http'),
                 'curl_options' => [
