@@ -83,6 +83,18 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('events', 'EventController');
     Route::get('ultimos-eventos', 'EventController@lastEvents')->name('events.list');
     Route::post('get-country-flag', 'ProfileController@getCountryFlag')->name('get-country-flag');
+    Route::get('contact-seller/{id}', 'ChatController@contactSeller');
+    Route::get('get-chat-users', 'ChatController@getUserChatRooms');
+    Route::get('set-chat-room/{id}/{user_id}', function ($id, $user_id) {
+        session(['chat_room_id' => $id]);
+        $user = \App\User::find($user_id);
+        $messages = $user->messages()->get();
+        foreach ($messages as $msg) {
+            $msg->unreaded = false;
+            $msg->save();
+        }
+        return response()->json(['result' => true], 200);
+    });
 });
 
 /* Routas para oportunidades */

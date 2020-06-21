@@ -18,3 +18,7 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 Broadcast::channel('chat', function ($user) {
     return $user;
 });
+
+Broadcast::channel('chatroom.{id}', function ($user, $id) {
+    return !\App\ChatRoomUser::where('chat_room_id', $id)->get()->isEmpty();
+});

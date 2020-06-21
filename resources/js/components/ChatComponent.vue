@@ -209,13 +209,53 @@
                             </fieldset>
                         </div>
                     </div>
-                    <div id="users-list" class="chat-user-list list-group position-relative ps ps--active-y">
+                    <div class="chat-user-list list-group position-relative ps ps--active-y"
+                         v-for="room in chatOrigins" v-if="room.users.length > 0">
+                        <h3 class="primary p-1 mb-0">{{ room.type }}</h3>
+                        <ul class="chat-users-list-wrapper media-list">
+                            <li v-for="(otherUser, index) in room.users" :key="index"
+                                @click="selectUser(otherUser)"
+                                :class="{'active': (typeof(selectedUser.user_id) !== 'undefined' && selectedUser.user_id === otherUser.user.id)}">
+                                <div class="pr-1">
+                                    <span class="avatar m-0 avatar-md">
+                                        <img class="media-object rounded-circle" :src="otherUser.user.photo" height="42"
+                                             width="42" v-if="otherUser.user.photo">
+                                        <img src="/images/anonymous-user.png" class="media-object rounded-circle"
+                                             alt="photo" height="42" width="42" v-else>
+                                        <i></i>
+                                    </span>
+                                </div>
+                                <div class="user-chat-info">
+                                    <div class="contact-info">
+                                        <h5 class="font-weight-bold mb-0">{{ otherUser.user.name }}</h5>
+                                        <p class="truncate"></p>
+                                    </div>
+                                    <div class="contact-meta">
+                                        <span class="float-right mb-25">
+                                            {{ otherUser.user.last_login }}
+                                        </span>
+                                        <span class="badge badge-primary badge-pill float-right"
+                                              v-if="otherUser.user.unreaded_messages > 0"
+                                              :id="'unreaded_'+otherUser.user.id">
+                                            {{ otherUser.user.unreaded_messages }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                        </div>
+                        <div class="ps__rail-y" style="top: 0px; height: 358px; right: 0px;">
+                            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 138px;"></div>
+                        </div>
+                    </div>
+                    <!--<div id="users-list" class="chat-user-list list-group position-relative ps ps--active-y">
                         <h3 class="primary p-1 mb-0">Chats</h3>
                         <ul class="chat-users-list-wrapper media-list">
                             <li v-for="(otherUser, index) in users" :key="index" v-if="user.id!==otherUser.id"
                                 @click="selectUser(otherUser)">
                                 <div class="pr-1">
-                                    <!-- temporal -->
                                     {{ selectUser(otherUser) }}
                                     <span class="avatar m-0 avatar-md">
                                         <img class="media-object rounded-circle" :src="otherUser.photo" height="42"
@@ -231,8 +271,8 @@
                                         <p class="truncate"></p>
                                     </div>
                                     <div class="contact-meta">
-                                        <span class="float-right mb-25"><!--4:14 PM--></span>
-                                        <span class="badge badge-primary badge-pill float-right"><!--3--></span>
+                                        <span class="float-right mb-25"></span>
+                                        <span class="badge badge-primary badge-pill float-right"></span>
                                     </div>
                                 </div>
                             </li>
@@ -243,7 +283,7 @@
                         <div class="ps__rail-y" style="top: 0px; height: 358px; right: 0px;">
                             <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 138px;"></div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -255,7 +295,8 @@
                 <div class="content-body">
                     <div class="chat-overlay"></div>
                     <section class="chat-app-window">
-                        <div class="start-chat-area" v-if="!selectedUser">
+                        <div class="start-chat-area"
+                             v-if="!selectedUser || typeof(selectedUser.user) === 'undefined'">
                             <span class="mb-1 start-chat-icon feather icon-message-square"></span>
                             <h4 class="py-50 px-1 sidebar-toggle start-chat-text">Iniciar conversación</h4>
                         </div>
@@ -267,13 +308,15 @@
                                             <i class="feather icon-menu font-large-1"></i>
                                         </div>
                                         <div class="avatar user-profile-toggle m-0 m-0 mr-1">
-                                            <img :src="selectedUser.photo" alt="user avatar" width="40" height="40"
-                                                 v-if="selectedUser.photo">
+                                            <img :src="selectedUser.user.photo" alt="user avatar" width="40" height="40"
+                                                 v-if="selectedUser.user.photo">
                                             <img src="/images/anonymous-user.png" class="media-object rounded-circle"
                                                  alt="photo" height="40" width="40" v-else>
-                                            <span class="avatar-status-busy"></span>
+                                            <span class="avatar-status-busy"
+                                                  v-if="!selectedUser.user.status"></span>
+                                            <span class="avatar-status-online" v-else></span>
                                         </div>
-                                        <h6 class="mb-0">{{ selectedUser.name || 'anonimo' }}</h6>
+                                        <h6 class="mb-0">{{ selectedUser.user.name || 'anonimo' }}</h6>
                                     </div>
                                     <span class="favorite"><i class="feather icon-star font-medium-5"></i></span>
                                 </header>
@@ -281,8 +324,8 @@
 
                             <!-- Sección de mensajes del chat -->
                             <div class="user-chats ps">
-                                <div class="chats"  style="height:250px; overflow-y:scroll" v-chat-scroll>
-                                    <div class="chat" v-for="(message, index) in messages" :key="index"
+                                <div class="chats chat-scroll"  v-chat-scroll>
+                                    <div class="chat chat-content-scroll" v-for="(message, index) in messages" :key="index"
                                          :class="{'chat-left': message.user.id !== user.id }">
                                         <div class="chat-avatar">
                                             <a class="avatar m-0" data-toggle="tooltip" href="#"
@@ -304,12 +347,14 @@
                                         <div class="divider-text">Yesterday</div>
                                     </div>-->
                                 </div>
+                                <!--
                                 <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
                                     <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
                                 </div>
                                 <div class="ps__rail-y" style="top: 0px; right: 0px;">
                                     <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
                                 </div>
+                                -->
                             </div>
 
                             <div class="chat-app-form">
@@ -326,34 +371,6 @@
                             </div>
                         </div>
                     </section>
-                    <!-- Perfil de usuario lateral derecho (usuario contactado) -->
-                    <div class="user-profile-sidebar">
-                        <header class="user-profile-header">
-                            <span class="close-icon">
-                                <i class="feather icon-x"></i>
-                            </span>
-                            <div class="header-profile-sidebar">
-                                <div class="avatar">
-                                    <img :src="selectedUser.photo" alt="user_avatar" width="70" height="70"
-                                         v-if="selectedUser.photo">
-                                    <img src="/images/anonymous-user.png" alt="user_avatar" width="70" height="70" v-else>
-                                    <span class="avatar-status-busy avatar-status-lg"></span>
-                                </div>
-                                <h4 class="chat-user-name">Felecia Rower</h4>
-                            </div>
-                        </header>
-
-                        <div class="user-profile-sidebar-area p-2 ps">
-                            <h6>Perfil</h6>
-                            <p></p>
-                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-                            </div>
-                            <div class="ps__rail-y" style="top: 0px; right: 0px;">
-                                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -369,14 +386,16 @@
                 users: [],
                 activeUser: false,
                 typingTimer: false,
-                selectedUser: {}
+                selectedUser: {},
+                chatOrigins: []
             }
         },
         created() {
             const vm = this;
             vm.fetchMessages();
+            vm.getChatUsers();
 
-            Echo.join('chat').here(user => {
+            /*Echo.join('chat').here(user => {
                 vm.users = user;
             }).joining(user => {
                 vm.users.push(user);
@@ -394,10 +413,21 @@
                 vm.typingTimer = setTimeout(() => {
                     vm.activeUser = false;
                 }, 2000);
-            });
+            });*/
+        },
+        mounted() {
+
         },
         props: ['user'],
         methods: {
+            getChatUsers() {
+                const vm = this;
+                axios.get('/get-chat-users').then(response => {
+                    vm.chatOrigins = response.data.chatOrigins;
+                }).catch(error => {
+                    console.error(error);
+                });
+            },
             /**
              * Obtiene los mensajes del chat
              *
@@ -422,6 +452,11 @@
              */
             sendMessage() {
                 const vm = this;
+
+                if (!vm.newMessage) {
+                    /** Si no hay ningún mensaje que enviar no permite agregar texto al chat */
+                    return false;
+                }
 
                 vm.messages.push({
                     user: vm.user,
@@ -451,6 +486,53 @@
             },
             selectUser(user) {
                 this.selectedUser = user;
+            }
+        },
+        watch: {
+            /**
+             * Modifica los datos globales de acuerdo al usuario seleccionado
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             *
+             * @return    {object}        Objeto con datos del usuario seleccionado
+             */
+            selectedUser: function() {
+                const vm = this;
+                window.currentUserChat = vm.selectedUser;
+
+                if (vm.selectedUser) {
+                    var chat_room_id = vm.selectedUser.chat_room_id || vm.selectedUser.user.chat_room_id;
+                    axios.get(`/set-chat-room/${chat_room_id}/${vm.selectedUser.user_id}`).then(response => {
+                        if (response.data.result) {
+                            $(`#unreaded_${vm.selectedUser.user_id}`).html('');
+                        }
+                    }).catch(error => {
+                        console.log(error);
+                    })
+
+                    Echo.join('chat').here(user => {
+                        vm.users = user;
+                    }).joining(user => {
+                        vm.users.push(user);
+                    }).leaving(user => {
+                        vm.users = vm.users.filter(u => u.id != user.id);
+                    }).listen('MessageSent', (event) => {
+                        vm.messages.push(event.message);
+                    }).listenForWhisper('typing', user => {
+                        vm.activeUser = user;
+
+                        if (vm.typingTimer) {
+                            clearTimeout(vm.typingTimer);
+                        }
+
+                        vm.typingTimer = setTimeout(() => {
+                            vm.activeUser = false;
+                        }, 2000);
+                    });
+                    /*Echo.private(`chatroom.${chat_room_id}`).listen('MessageSent', (event) => {
+                        vm.messages.push(event.message);
+                    });*/
+                }
             }
         }
     };

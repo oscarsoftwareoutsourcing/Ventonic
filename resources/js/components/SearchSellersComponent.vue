@@ -82,12 +82,12 @@
                             <tbody>
                                 <tr v-for="seller in sellers">
                                     <td>
-                                         <div class="avatar">
+                                        <div class="avatar">
                                             <img :src="seller.photo" :alt="seller.name" class="img-fluid" v-if="seller.photo" height="40" width="40">
-                                             <img src="/images/anonymous-user.png" class="media-object rounded-circle" :alt="seller.name" height="40" width="40" v-else>
-                                             <div v-if="seller.seller_profile">
-                                                 <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
-                                            </div>    
+                                            <img src="/images/anonymous-user.png" class="media-object rounded-circle" :alt="seller.name" height="40" width="40" v-else>
+                                            <div v-if="seller.seller_profile">
+                                                <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
+                                            </div>
                                             <div v-else>
                                                 <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
                                             </div>
@@ -103,15 +103,14 @@
                                                 <div class="chip-text">{{ getStatus(seller.status) }}</div>
                                             </div>
                                         </div>
-                                        
+
                                     </td>
                                     <td>
                                         <div v-if="seller.seller_profile">
-                                            <button @click="toChat(seller.seller_profile.user_id)"
+                                            <button @click="contactSeller(seller.id)"
                                                     :class="seller.status ? 'btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light' : 'btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light'"
                                                     data-toggle="tooltip"
-                                                    :title="seller.status ? 'Contactar a este vendedor' : 'Vendedor no disponible'"
-                                                    :disabled="!seller.status">
+                                                    :title="seller.status ? 'Contactar a este vendedor' : 'Vendedor no disponible'">
                                                 <i :class="seller.status ? 'ficon feather icon-message-square' : 'ficon feather icon-mail'"></i>
                                             </button>
                                             <form action="/chat" method="POST" :id="'chat_'+seller.seller_profile.user_id">
@@ -120,10 +119,10 @@
                                             </form>
                                         </div>
                                         <div v-else>
-                                            <button :class="seller.status ? 'btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light' : 'btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light'"
+                                            <button type="button" :class="seller.status ? 'btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light' : 'btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light'"
                                                     data-toggle="tooltip"
                                                     :title="seller.status ? 'Contactar a este vendedor' : 'Vendedor no disponible'"
-                                                    disabled>
+                                                    @click="contactSeller(seller.id)">
                                                 <i :class="seller.status ? 'ficon feather icon-message-square' : 'ficon feather icon-mail'"></i>
                                             </button>
                                         </div>
@@ -184,6 +183,15 @@
             toChat(user_id) {
                 //location.href = `/chat/${user_id}`;
                 $(`form#chat_${user_id}`).submit();
+            },
+            contactSeller(id) {
+                axios.get('/contact-seller/'+id).then(response => {
+                    if (response.data.result) {
+                        location.href = "/chat";
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
             }
         },
         mounted() {

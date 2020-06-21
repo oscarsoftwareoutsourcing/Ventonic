@@ -11,7 +11,7 @@ class Message extends Model
      *
      * @var array
      */
-    protected $fillable = ['message'];
+    protected $fillable = ['message', 'unreaded', 'chat_room_id'];
     /**
      * Message belongs to User.
      *

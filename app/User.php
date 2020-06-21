@@ -11,7 +11,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
 
     protected $with = ['sellerProfile', 'companyProfile'];
-    protected $appends = ['filterable_seller', 'photo'];
+    protected $appends = ['filterable_seller', 'photo', 'unreaded_messages', 'chat_rooms'];
 
     /**
      * The attributes that are mass assignable.
@@ -41,6 +41,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'filterable_seller' => 'array',
         'last_login' => 'datetime:d/m/Y h:i:s A'
     ];
+
+    /**
+     * User has many ChatRoomUsers.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function chatRoomUsers()
+    {
+        return $this->hasMany(ChatRoomUser::class);
+    }
 
     /**
      * User has one SellerProfile.
@@ -143,6 +153,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return (
             !is_null($this->sellerProfile) && !is_null($this->sellerProfile->answered)
         ) ? $this->sellerProfile->answered : null;
+    }
+
+    public function getUnreadedMessagesAttribute()
+    {
+        return count($this->messages()->where('unreaded', true)->get());
+    }
+
+    public function getChatRoomsAttribute()
+    {
+        return $this->chatRoomUsers()->get('chat_room_id');
     }
 
     /**

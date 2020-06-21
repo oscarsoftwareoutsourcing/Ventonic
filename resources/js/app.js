@@ -20,7 +20,7 @@ Vue.component('notification-item', () => import('./components/NotificationItemCo
 
 // Notes module components
 Vue.component('todos-module', () => import('./components/Todos.vue'));
-Vue.component('todo-sidebar', () => import('./components/TodoSideBar.vue'));
+Vue.component('todo-sidebar', () => import('./components/TodoSidebar.vue'));
 Vue.component('todo-list', () => import('./components/TodoList.vue'));
 Vue.component('todo-form', () => import('./components/TodoForm.vue'));
 

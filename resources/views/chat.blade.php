@@ -4,6 +4,14 @@
 
 @section('extra-css')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/pages/app-chat.css') }}">
+    <style>
+        .chat-scroll {
+            scrollbar-color: transparent transparent !important;
+        }
+        .chat-scroll::-webkit-scrollbar {
+          width: 0;
+        }
+    </style>
 @endsection
 
 @section('extra-style')
@@ -20,9 +28,9 @@
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
-   
+
         <chat :user="{{ auth()->user() }}"></chat>
-        
+
 </div>
 @endsection
 
