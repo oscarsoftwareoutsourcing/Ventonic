@@ -280,4 +280,130 @@ class User extends Authenticatable implements MustVerifyEmail
             return $q;
         });
     }
+
+    public static function getAnsweredAnios($user_id, $question_id){
+        $sellerAnswer=SellerAnsweredSurvey::where('user_id',(int)$user_id)
+                                            ->where('question_id', (int)$question_id)
+                                            ->get();
+
+        $result='';
+        $option_index='';
+        foreach($sellerAnswer as $seller){
+            $result=$seller->user_id;
+            $option_index=$seller->option_index;
+        }
+
+        if(isset($result) && $result == $user_id){
+            $answered=Question::where('id', $question_id)->value('options');
+            $answered=ltrim($answered,'[');
+            $answered=rtrim($answered,']');
+            $answered=str_replace('\u00f1', 'ñ', $answered);
+            $answered=str_replace('\u00e1', 'á', $answered);
+            $answered_string=str_replace('"', '', $answered);
+
+            $answeredArray=explode(',', $answered_string);
+            $respuesta='';
+            foreach($answeredArray as $i=>$answer){
+                if ($i==$option_index){
+                    $respuesta=$answer;
+                }
+            }
+            return $respuesta;
+        }
+
+    }
+
+    public static function getExperiencie($user_id, $question_id){
+        $sellerAnswer=SellerAnsweredSurvey::where('user_id',(int)$user_id)
+                                            ->where('question_id', (int)$question_id)
+                                            ->get();
+
+        $result='';
+        $option_index='';
+        foreach($sellerAnswer as $seller){
+            $result=$seller->user_id;
+            $option_index=$seller->option_index;
+        }
+
+        if(isset($result) && $result == $user_id){
+            $answered=Question::where('id', $question_id)->value('options');
+            $answered=ltrim($answered,'[');
+            $answered=rtrim($answered,']');
+            $answered=str_replace('"', '', $answered);
+            $answered=str_replace('\u00e9', 'é', $answered);
+            $answered_string=str_replace('\u00ed', 'í', $answered);
+
+            $answeredArray=explode(',', $answered_string);
+            $respuesta='';
+            foreach($answeredArray as $i=>$answer){
+                if ($i==$option_index){
+                    $respuesta=$answer;
+                }
+            }
+            return $respuesta;
+        }
+
+    }
+
+    public static function getDisponibilidad($user_id, $question_id){
+        $sellerAnswer=SellerAnsweredSurvey::where('user_id',(int)$user_id)
+                                            ->where('question_id', (int)$question_id)
+                                            ->get();
+
+        $result='';
+        $option_index='';
+        foreach($sellerAnswer as $seller){
+            $result=$seller->user_id;
+            $option_index=$seller->option_index;
+        }
+
+        if(isset($result) && $result == $user_id){
+            $answered=Question::where('id', $question_id)->value('options');
+            $answered=ltrim($answered,'[');
+            $answered=rtrim($answered,']');
+            $answered=str_replace('"', '', $answered);
+            $answered_string=str_replace('\u00f1', 'ñ', $answered);
+            $answeredArray=explode(',', $answered_string);
+            $respuesta='';
+            foreach($answeredArray as $i=>$answer){
+                if ($i==$option_index){
+                    $respuesta=$answer;
+                }
+            }
+            return $respuesta;
+        }
+
+    }
+
+    public static function getTipoColaboration($user_id, $question_id){
+        $sellerAnswer=SellerAnsweredSurvey::where('user_id',(int)$user_id)
+                                            ->where('question_id', (int)$question_id)
+                                            ->get();
+
+        $result='';
+        $option_index='';
+        foreach($sellerAnswer as $seller){
+            $result=$seller->user_id;
+            $option_index=$seller->option_index;
+        }
+
+        if(isset($result) && $result == $user_id){
+            $answered=Question::where('id', $question_id)->value('options');
+            $answered=ltrim($answered,'[');
+            $answered=rtrim($answered,']');
+            $answered=str_replace('"', '', $answered);
+            $answered=str_replace('\u00f1', 'ñ', $answered);
+            $anios_string=str_replace('\u00f3', 'ó', $answered);
+            $answeredArray=explode(',', $anios_string);
+            $respuesta='';
+            foreach($answeredArray as $i=>$answer){
+                if ($i==$option_index){
+                    $respuesta=$answer;
+                }
+            }
+            return $respuesta;
+        }
+
+    }
+
 }

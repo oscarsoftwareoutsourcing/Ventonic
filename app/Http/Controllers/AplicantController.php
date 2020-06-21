@@ -14,6 +14,9 @@ use App\SellerAnsweredSurvey;
 use App\Events\PostulationOportunity;
 use App\StatusPostulation;
 use App\Helpers\FormatTime;
+use App\JobType;
+use App\UbicationOportunity;
+use App\SectorOportunity;
 
 class AplicantController extends Controller
 {
@@ -61,17 +64,62 @@ class AplicantController extends Controller
 
         // Notificaciones
         // event(new PostulationOportunity($postulation));
-
-        return view('oportunitys.oportunitys', ['oportunitys'=> $oportunitys]);
+        $sectors=SectorOportunity::all();
+        $antiguedad=UbicationOportunity::all();
+        $jobType=JobType::all();
+        return view('oportunitys.oportunitys',['oportunitys'=> $oportunitys, 
+                                               'sectors'=>$sectors , 
+                                               'antiguedad'=>$antiguedad,
+                                               'jobType'=>$jobType]);
     }
 
 
     public function myaplicants($oportunity_id){
         $aplicants=Aplicant::where('oportunity_id', (int)$oportunity_id)->paginate(25);
         $status_postulation=StatusPostulation::all();
+
+        // respuestas para filtros
+        $anios=Question::where('id', 2)->value('options');
+        $anios=ltrim($anios,'[');
+        $anios=rtrim($anios,']');
+        $anios=str_replace('\u00f1', 'ñ', $anios);
+        $anios=str_replace('\u00e1', 'á', $anios);
+        $anios_string=str_replace('"', '', $anios);
+        $aniosArray=explode(',', $anios_string);
+
+        $experiencia=Question::where('id', 3)->value('options');
+        $experiencia=ltrim($experiencia,'[');
+        $experiencia=rtrim($experiencia,']');
+        $experiencia=str_replace('"', '', $experiencia);
+        $experiencia=str_replace('\u00e9', 'é', $experiencia);
+        $experiencia_string=str_replace('\u00ed', 'í', $experiencia);
+        $experienciaArray=explode(',', $experiencia_string);
+
+        $disponibilidad=Question::where('id', 4)->value('options');
+        $disponibilidad=ltrim($disponibilidad,'[');
+        $disponibilidad=rtrim($disponibilidad,']');
+        $disponibilidad=str_replace('"', '', $disponibilidad);
+        $disponibilidad_string=str_replace('\u00f1', 'ñ', $disponibilidad);
+        $disponibilidadArray=explode(',', $disponibilidad_string);
+
+        $colaboracion=Question::where('id', 5)->value('options');
+        $colaboracion=ltrim($colaboracion,'[');
+        $colaboracion=rtrim($colaboracion,']');
+        $colaboracion=str_replace('"', '', $colaboracion);
+        $colaboracion=str_replace('\u00f1', 'ñ', $colaboracion);
+        $colaboracion_string=str_replace('\u00f3', 'ó', $colaboracion);
+        $colaboracionArray=explode(',', $colaboracion_string);
+        
+        // var_dump($colaboracionArray); die();
+        
         return view('oportunitys.myaplicants', [
                     'aplicants'=>$aplicants,
-                    'status_postulation'=>$status_postulation
+                    'status_postulation'=>$status_postulation,
+                    'anios'=>$aniosArray,
+                    'experiencia'=>$experienciaArray,
+                    'disponibilidad'=>$disponibilidadArray,
+                    'colaboracion'=>$colaboracionArray
+
         ]);
     }
 

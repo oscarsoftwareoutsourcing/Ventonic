@@ -189,6 +189,87 @@ $('#customCheck4').on("change", function(){
   }
 })
 
+$('.aniosFilter').on("change", function(){
+  if($(this).prop('checked')){
+    var i=$(this).data('id');
+    var aniosFil=$('#aniosFilter'+i).val();
+    var aniosAnswer=$('.anios');
+    $.each(aniosAnswer,function(i, item) {
+      var data=$(item).data('id');
+      var exist = $(item).val();
+      if(exist!==aniosFil){
+        $('#row'+data).hide();
+      }
+      else{
+        $('#row'+data).show();
+      }
+    });
+  }else{
+    $('.rowTable').show();
+  }
+})
+
+$('.experienciaFilter').on("change", function(){
+  if($(this).prop('checked')){
+    var i=$(this).data('id');
+    var experienciaFil=$('#experienciaFilter'+i).val();
+    var experienciaAnswer=$('.experiencia');
+    $.each(experienciaAnswer,function(i, item) {
+      var data=$(item).data('id');
+      var exist = $(item).val();
+      if(exist!==experienciaFil){
+        $('#row'+data).hide();
+      }
+      else{
+        $('#row'+data).show();
+      }
+    });
+  }else{
+    $('.rowTable').show();
+  }
+})
+
+$('.disponibilidadFilter').on("change", function(){
+  if($(this).prop('checked')){
+    var i=$(this).data('id');
+    var disponibilidadFil=$('#disponibilidadFilter'+i).val();
+    var disponibilidadAnswer=$('.disponibilidad');
+    $.each(disponibilidadAnswer,function(i, item) {
+      var data=$(item).data('id');
+      var exist = $(item).val();
+      if(exist!==disponibilidadFil){
+        $('#row'+data).hide();
+      }
+      else{
+        $('#row'+data).show();
+      }
+    });
+  }else{
+    $('.rowTable').show();
+  }
+})
+
+$('.colaboracionFilter').on("change", function(){
+  if($(this).prop('checked')){
+    var i=$(this).data('id');
+    var colaboracionFil=$('#colaboracionFilter'+i).val();
+    var colaboracionAnswer=$('.colaboracion');
+    $.each(colaboracionAnswer,function(i, item) {
+      var data=$(item).data('id');
+      var exist = $(item).val();
+      if(exist!==colaboracionFil){
+        $('#row'+data).hide();
+      }
+      else{
+        $('#row'+data).show();
+      }
+    });
+  }else{
+    $('.rowTable').show();
+  }
+})
+
+
 // Filtros busqueda postulados por por tipo de empleo en oportunidades
 
 $('#tipo-empleo').on("change", function(){

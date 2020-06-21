@@ -11,71 +11,149 @@
     <div class="content-wrapper">
         <div class="content-header row">
         </div>
-        <div class="container">
+        <div class="">
             <div class="row justify-content-center">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    {{-- BEGIND Filtros --}}
+                <div class="col-md-4">
                     <div class="card">
-                        <div class="card-header">
-                            <h4>Filtros</h4>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-body">
-                                <ul class="list-unstyled mb-0">
-                                    <li class="d-inline-block mr-2">
-                                        <fieldset>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input filter-options" name="customCheck" id="customCheck1">
-                                                <label class="custom-control-label" for="customCheck1">Móvil</label>
-                                            </div>
-                                        </fieldset>
-                                    </li>
-                                    <li class="d-inline-block mr-2">
-                                        <fieldset>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input filter-options" name="customCheck" id="customCheck2">
-                                                <label class="custom-control-label" for="customCheck2">Foto</label>
-                                            </div>
-                                        </fieldset>
-                                    </li>
-                                    <li class="d-inline-block mr-2">
-                                        <fieldset>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input filter-options" name="customCheck" id="customCheck3">
-                                                <label class="custom-control-label" for="customCheck3">Vídeo</label>
-                                            </div>
-                                        </fieldset>
-                                    </li>
-                                    <li class="d-inline-block mr-2">
-                                        <fieldset>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input filter-options" name="customCheck" id="customCheck4">
-                                                <label class="custom-control-label" for="customCheck4">LinkedIn</label>
-                                            </div>
-                                        </fieldset>
-                                    </li>
-                                    
-                                    {{-- <li class="d-inline-block mr-2">
-                                        <fieldset>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck5">
-                                                <label class="custom-control-label" for="customCheck4">Años</label>
-                                            </div>
-                                        </fieldset>
-                                    </li>
-                                    <li class="d-inline-block mr-2">
-                                        <fieldset>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck6">
-                                                <label class="custom-control-label" for="customCheck4">Experiencia</label>
-                                            </div>
-                                        </fieldset>
-                                    </li> --}}
-                                </ul>
+                        <div class="card-header">Filtros</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <b>Datos Personales</b>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <fieldset>
+                                                <div class="vs-checkbox-con vs-checkbox-info">
+                                                    <input type="checkbox" value="false" id="customCheck1">
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">Móvil</span>
+                                                </div>
+                                            </fieldset>    
+                                        </div>
+                                        <div class="col-12">
+                                            <fieldset>
+                                                <div class="vs-checkbox-con vs-checkbox-info">
+                                                    <input type="checkbox" value="false" id="customCheck2">
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">Foto</span>
+                                                </div>
+                                            </fieldset>   
+                                        </div>
+                                        <div class="col-12">
+                                            <fieldset>
+                                                <div class="vs-checkbox-con vs-checkbox-info">
+                                                    <input type="checkbox" value="false" id="customCheck3">
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">Vídeo</span>
+                                                </div>
+                                            </fieldset>   
+                                        </div>
+                                        <div class="col-12">
+                                            <fieldset>
+                                                <div class="vs-checkbox-con vs-checkbox-info">
+                                                    <input type="checkbox" value="false" id="customCheck4">
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">LinkedIn</span>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <b>Años de experiencia en venta</b>
+                                    @foreach($anios as $i=>$anio)
+                                    <fieldset>
+                                        <div class="vs-checkbox-con vs-checkbox-info">
+                                        <input type="checkbox" value="{{$anio}}" class="aniosFilter" id="aniosFilter{{$i}}" data-id="{{$i}}">
+                                            <span class="vs-checkbox">
+                                                <span class="vs-checkbox--check">
+                                                    <i class="vs-icon feather icon-check"></i>
+                                                </span>
+                                            </span>
+                                            <span class="">{{$anio}}</span>
+                                        </div>
+                                    </fieldset>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <b>Experiencia demostrable</b>
+                                    @foreach($experiencia as $i=>$anio)
+                                    <fieldset>
+                                        <div class="vs-checkbox-con vs-checkbox-info">
+                                            <input type="checkbox" value="{{$anio}}" class="experienciaFilter" id="experienciaFilter{{$i}}" data-id="{{$i}}">
+                                            <span class="vs-checkbox">
+                                                <span class="vs-checkbox--check">
+                                                    <i class="vs-icon feather icon-check"></i>
+                                                </span>
+                                            </span>
+                                            <span class="">{{$anio}}</span>
+                                        </div>
+                                    </fieldset>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <b>Disponibilidad</b>
+                                    @foreach($disponibilidad as $i=>$anio)
+                                    <fieldset>
+                                        <div class="vs-checkbox-con vs-checkbox-info">
+                                            <input type="checkbox" value="{{$anio}}" class="disponibilidadFilter" id="disponibilidadFilter{{$i}}" data-id="{{$i}}">
+                                            <span class="vs-checkbox">
+                                                <span class="vs-checkbox--check">
+                                                    <i class="vs-icon feather icon-check"></i>
+                                                </span>
+                                            </span>
+                                            <span class="">{{$anio}}</span>
+                                        </div>
+                                    </fieldset>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <b>Tipo de colaboración</b>
+                                    @foreach($colaboracion as $i=>$anio)
+                                    <fieldset>
+                                        <div class="vs-checkbox-con vs-checkbox-info">
+                                            <input type="checkbox" value="{{$anio}}" class="colaboracionFilter" id="colaboracionFilter{{$i}}" data-id="{{$i}}">
+                                            <span class="vs-checkbox">
+                                                <span class="vs-checkbox--check">
+                                                    <i class="vs-icon feather icon-check"></i>
+                                                </span>
+                                            </span>
+                                            <span class="">{{$anio}}</span>
+                                        </div>
+                                    </fieldset>
+                                    @endforeach
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                    {{-- END Filtros --}}
+                </div>
+                <div class="col-md-8">
                     <div class="card card-oportunity">
                         <div class="card-header"></div>
                      <div class="card-body">
@@ -86,134 +164,72 @@
                                 <span>Estatus modificado exitosamente</span>
                             </div>
                             <div class="input-group">
-                                {{-- <div class="input-group-append">
-                                    <a href="{{ route('oportunity.form') }}" class="btn btn-primary btn_right_new" type="button">
-                                        Nueva
-                                    </a>
-                                </div> --}}
-                                {{-- <form action="{{ route('oportunity.form') }}" style="display:block;width:100%;"> --}}
-                                {{-- <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar postulado..." style="border:1px solid #0087ff;"> --}}
-                                {{-- <div class="input-group-append">
-                                    <button class="btn btn-primary search-oportunity" id="btnSearch" type="button">
-                                        <i class="feather icon-search"></i>
-                                    </button>
-                                </div> --}}
-                                {{-- </form> --}}
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="">
-                        <table class="table table-hover mb-0 ">
+                <section id="data-list-view" class="data-list-view-header">
+                    <!-- DataTable starts -->
+                    <div class="table-responsive">
+                        <table id="datatable" class="table data-list-view mt-2">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellido</th>
-                                    <th>Perfil</th>
-                                    <th>Estado</th>
-                                    <th>Chat</th>
+                                    <th></th>
+                                    <th>FOTO</th>
+                                    <th>NOMBRE</th>
+                                    <th>APELLIDO</th>
+                                    <th>PERFIL</th>
+                                    <th>CAMBIAR ESTADO</th>
+                                    <th>CHAT</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @if(isset($aplicants))
-                                    @foreach($aplicants as $aplicant)
-                                    <tr class="rowTable" id="row{{$aplicant->id}}">
-                                        <td style="text-align:center;">
-                                            {{$aplicant->user->name}}
-                                            <input type="text" class="movil" id="movil{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->phone_mobil ?? ''}}" data-id="{{$aplicant->id}}" hidden>
-                                            <input type="text" class="photo" id="photo{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->photo ?? ''}}" data-id="{{$aplicant->id}}" hidden>
-                                            <input type="text" class="video" id="video{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->video ?? ''}}" data-id="{{$aplicant->id}}" hidden>
-                                            <input type="text" class="likeind" id="likeind{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->likeind ?? ''}}" data-id="{{$aplicant->id}}" hidden>
-                                        </td>
-                                        <td style="text-align:center;">{{$aplicant->user->last_name}}
-                                        </td>
-                                        <td style="text-align:center;"><a class="btn btn-outline-primary btn-md text-white" href="{{route('oportunity.profile', ['id'=>$aplicant->user_id])}}">Ver</a>
-                                        </td>                                       
-                                        <td style="text-align:center;">
-                                            <select class="form-control status_postulation" name="estatus_postulation" id="status_postulation" data-id="{{$aplicant->id}}">
-                                                @foreach($status_postulation as $status)
+                                @foreach($aplicants as $aplicant)
+                                <tr class="rowTable" id="row{{$aplicant->id}}" class="filaEntera">
+                                    <td></td>
+                                    <td class="product-name">
+                                    <img class="round" src="/{{$aplicant->user->sellerProfile->photo}}" height="40" width="40">
+                                    </td>
+                                    <td class="product-name">
+                                    {{$aplicant->user->name}}
+                                    <input type="text" class="movil" id="movil{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->phone_mobil ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+                                    <input type="text" class="photo" id="photo{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->photo ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+                                    <input type="text" class="video" id="video{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->video ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+                                    <input type="text" class="likeind" id="likeind{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->likeind ?? ''}}" data-id="{{$aplicant->id}}" hidden>
+                                    <input type="text" class="anios" id="sector{{$aplicant->id}}" value="{{App\User::getAnsweredAnios($aplicant->user_id, 2)}}" data-id="{{$aplicant->id}}" hidden>
+                                    <input type="text" class="experiencia" id="sector{{$aplicant->id}}" value="{{App\User::getExperiencie($aplicant->user_id, 3)}}" data-id="{{$aplicant->id}}" hidden>
+                                    <input type="text" class="disponibilidad" id="sector{{$aplicant->id}}" value="{{App\User::getTipoColaboration($aplicant->user_id, 4)}}" data-id="{{$aplicant->id}}" hidden>
+                                    <input type="text" class="colaboracion" id="sector{{$aplicant->id}}" value="{{App\User::getTipoColaboration($aplicant->user_id, 5)}}" data-id="{{$aplicant->id}}" hidden>
+
+                                    </td>
+
+                                    <td class="product-category">{{$aplicant->user->last_name}}</td>
+                                    <td class="product-category"><a class="btn btn-primary btn-md text-white" href="{{route('oportunity.profile', ['id'=>$aplicant->user_id])}}">Ver</a></td>
+                                    <td class="product-category">
+                                    <select class="form-control status_postulation" name="estatus_postulation" id="status_postulation" data-id="{{$aplicant->id}}">
+                                        @foreach($status_postulation as $status)
                                             <option value="{{$status->id}}">{{$status->description}}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td style="text-align:center;">
-                                            @if($aplicant->user->status==1)
-                                            <a href="{{ route('chat') }}" class=""><i class="feather icon-message-square" style="foont-size:22px;"></i></a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                        @endforeach
+                                    </select>
+                                    </td>
+                                   
+                                    
+                                    <td class="product-price">
+                                        @if($aplicant->user->status==1)
+                                            <a href="{{ route('chat') }}" class=""><i class="feather icon-message-square text-success" style="font-size:22px;"></i></a>
+                                        @else  
+                                           <a href="" class=""><i class="feather icon-message-square text-danger" style="font-size:22px;"></i></a>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
                                 @endif
                             </tbody>
                         </table>
                     </div>
-                    <div class="row">
-                        <div class="col-12 float-right mt-2">
-                            <span class="float-right">{{ $aplicants->links() }}</span>
-                        </div>
-                    </div>
-                </div> --}}
-
-                                            <!-- Data list view starts -->
-                            <section id="data-list-view" class="data-list-view-header">
-                                <!-- DataTable starts -->
-                                <div class="table-responsive">
-                                    <table id="datatable" class="table data-list-view mt-2">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>FOTO</th>
-                                                <th>NOMBRE</th>
-                                                <th>APELLIDO</th>
-                                                <th>PERFIL</th>
-                                                <th>CAMBIAR ESTADO</th>
-                                                <th>CHAT</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if(isset($aplicants))
-                                            @foreach($aplicants as $aplicant)
-                                            <tr class="rowTable" id="row{{$aplicant->id}}" class="filaEntera">
-                                                <td></td>
-                                                <td class="product-name">
-                                                <img class="round" src="/{{$aplicant->user->sellerProfile->photo}}" height="40" width="40">
-                                                </td>
-                                                <td class="product-name">
-                                                {{$aplicant->user->name}}
-                                                <input type="text" class="movil" id="movil{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->phone_mobil ?? ''}}" data-id="{{$aplicant->id}}" hidden>
-                                                <input type="text" class="photo" id="photo{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->photo ?? ''}}" data-id="{{$aplicant->id}}" hidden>
-                                                <input type="text" class="video" id="video{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->video ?? ''}}" data-id="{{$aplicant->id}}" hidden>
-                                                <input type="text" class="likeind" id="likeind{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->likeind ?? ''}}" data-id="{{$aplicant->id}}" hidden>
-
-                                                </td>
-
-                                                <td class="product-category">{{$aplicant->user->last_name}}</td>
-                                                <td class="product-category"><a class="btn btn-primary btn-md text-white" href="{{route('oportunity.profile', ['id'=>$aplicant->user_id])}}">Ver</a></td>
-                                                <td class="product-category">
-                                                <select class="form-control status_postulation" name="estatus_postulation" id="status_postulation" data-id="{{$aplicant->id}}">
-                                                    @foreach($status_postulation as $status)
-                                                        <option value="{{$status->id}}">{{$status->description}}</option>
-                                                    @endforeach
-                                                </select>
-                                                </td>
-                                               
-                                                
-                                                <td class="product-price">
-                                                    @if($aplicant->user->status==1)
-                                                        <a href="{{ route('chat') }}" class=""><i class="feather icon-message-square text-success" style="font-size:22px;"></i></a>
-                                                    @else  
-                                                       <a href="" class=""><i class="feather icon-message-square text-danger" style="font-size:22px;"></i></a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                            @endif
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- DataTable ends -->
-                            </section>
-                            <!-- Data list view end -->
-
+                    <!-- DataTable ends -->
+                </section>
+                </div>
             </div>
         </div>
     </div>
