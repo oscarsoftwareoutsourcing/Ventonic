@@ -20,5 +20,17 @@ Broadcast::channel('chat', function ($user) {
 });
 
 Broadcast::channel('chatroom.{id}', function ($user, $id) {
-    return !\App\ChatRoomUser::where('chat_room_id', $id)->get()->isEmpty();
+    //$chatRoom = \App\ChatRoom::find($id);
+    //return !\App\ChatRoomUser::where('chat_room_id', $id)->get()->isEmpty();
+    //return !\App\ChatRoomUser::where(['chat_room_id' => $id, 'user_id' => $user->id])->get()->isEmpty();
+    $chatRoomUsers = \App\ChatRoomUser::where(['chat_room_id' => $id])->get();
+
+    foreach ($chatRoomUsers as $chatRoomUser) {
+        if ($chatRoomUser->user_id === $user->id) {
+            return $user;
+        }
+    }
+
+    return null;
 });
+

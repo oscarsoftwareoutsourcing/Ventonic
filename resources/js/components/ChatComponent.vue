@@ -496,19 +496,43 @@
              */
             selectedUser: function() {
                 const vm = this;
+                vm.messages = [];
                 window.currentUserChat = vm.selectedUser;
-
                 if (vm.selectedUser) {
                     var chat_room_id = vm.selectedUser.chat_room_id || vm.selectedUser.user.chat_room_id;
+                    //Echo.leave(`chatroom.${chat_room_id}`);
                     axios.get(`/set-chat-room/${chat_room_id}/${vm.selectedUser.user_id}`).then(response => {
                         if (response.data.result) {
                             $(`#unreaded_${vm.selectedUser.user_id}`).html('');
+                            vm.fetchMessages();
                         }
                     }).catch(error => {
                         console.log(error);
                     })
 
-                    Echo.join('chat').here(user => {
+                    /*Echo.join('chat').here(user => {
+                        vm.users = user;
+                    }).joining(user => {
+                        vm.users.push(user);
+                    }).leaving(user => {
+                        vm.users = vm.users.filter(u => u.id != user.id);
+                    }).listen('MessageSent', (event) => {
+                        vm.messages.push(event.message);
+                    }).listenForWhisper('typing', user => {
+                        vm.activeUser = user;
+
+                        if (vm.typingTimer) {
+                            clearTimeout(vm.typingTimer);
+                        }
+
+                        vm.typingTimer = setTimeout(() => {
+                            vm.activeUser = false;
+                        }, 2000);
+                    });*/
+                    /*Echo.private(`chatroom.${chat_room_id}`).listen('MessageSent', (event) => {
+                        vm.messages.push(event.message);
+                    });*/
+                    Echo.join(`chatroom.${chat_room_id}`).here(user => {
                         vm.users = user;
                     }).joining(user => {
                         vm.users.push(user);
@@ -527,9 +551,6 @@
                             vm.activeUser = false;
                         }, 2000);
                     });
-                    /*Echo.private(`chatroom.${chat_room_id}`).listen('MessageSent', (event) => {
-                        vm.messages.push(event.message);
-                    });*/
                 }
             }
         }

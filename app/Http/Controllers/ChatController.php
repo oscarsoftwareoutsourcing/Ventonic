@@ -48,10 +48,23 @@ class ChatController extends Controller
         return redirect()->route('chat');
     }
 
+    public function setChatRoom($id, $user_id)
+    {
+        session(['chat_room_id' => $id]);
+        $user = User::find($user_id);
+        $messages = $user->messages()->get();
+        foreach ($messages as $msg) {
+            $msg->unreaded = false;
+            $msg->save();
+        }
+        return response()->json(['result' => true], 200);
+    }
+
     public function fetchMessages()
     {
         if (session('chat_room_id') !== null) {
-            return Message::where('chat_room_id', session('chat_room_id'))->with('user')->get();
+            $chatRoomId = (int)session('chat_room_id');
+            return Message::where('chat_room_id', $chatRoomId)->with('user')->get();
         }
         return Message::with('user')->get();
     }
@@ -91,8 +104,6 @@ class ChatController extends Controller
      * Método que crea la sala de chat para contacto de usuarios
      *
      * @method    contactBy
-     *
-     * @author     Ing. Oscar Lobo <roscarescalando@gmail.com>
      *
      * @param     integer       $user_id        Identificador del usuario al cual contactar
      * @param     string        $type           Tipo de registro: (op)ortunidad, (ne)gocio, (co)ntactos, (ot)ros
