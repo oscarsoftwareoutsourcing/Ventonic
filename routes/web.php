@@ -29,12 +29,12 @@ Route::get('/test', function () {
     return view('test');
 });
 
-Route::get('calender', function () {
+/* Route::get('calender', function () {
     if (auth()->check()) {
         return view('calender');
     }
     return view('welcome');
-})->name('events.calender');
+})->name('events.calender'); */
 
 Route::get('acceso/{type?}', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('acceso', 'Auth\LoginController@login');
@@ -144,5 +144,7 @@ Route::post('grupos/saved', 'GroupController@store')->name('group.saved')->middl
 $router->group(['middleware' => ['verified']], function() use ($router) {
     $router->get('todos', 'TodoController@index')->name('todos');
 });
+
+Route::get('calender', 'EventController@index')->name('events.calender');
 
 Route::view('dash','inicio-dashboard');
