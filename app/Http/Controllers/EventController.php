@@ -90,7 +90,9 @@ class EventController extends Controller
 
             $event->save();
 
-            return response()->json(['result' => true, 'event' => new EventsResource($event)], 200);
+            $events = User::find(auth()->user()->id)->events;
+
+            return response()->json(['result' => true, 'events' => EventsResource::collection($events)], 200);
         } catch (\Throwable $th) {
             echo $th;
         }
@@ -141,7 +143,9 @@ class EventController extends Controller
 
             $event->save();
 
-            return response()->json(['result' => true, 'event' => new EventsResource($event)], 200);
+            $events = User::find(auth()->user()->id)->events;
+
+            return response()->json(['result' => true, 'events' => EventsResource::collection($events)], 200);
         } catch (\Exception $th) {
             echo $th;
         }
@@ -158,7 +162,9 @@ class EventController extends Controller
         $event = Event::find($id);
         $event->delete();
 
-        return response()->json(['result' => true], 200);
+        $events = User::find(auth()->user()->id)->events;
+
+        return response()->json(['result' => true, 'events' => EventsResource::collection($events)], 200);
     }
 
     // public function setCategory($color)

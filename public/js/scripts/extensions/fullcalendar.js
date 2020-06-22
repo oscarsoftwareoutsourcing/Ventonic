@@ -1,7 +1,5 @@
 /* Set todays date */
-var calDate = new Date;
-// var today = formatDate(calDate, true);
-var today = moment(calDate).format('DD-MM-YYYY');
+var calDate = moment(new Date).format('DD-MM-YYYY');
 
 /* Label bullets data. */
 var labelBullets = {
@@ -15,6 +13,7 @@ var categoryBullets = $(".cal-category-bullets").html();
 
 /* Get data from server. */
 var data = $('span#eventsData').data('info');
+console.log(data);
 
 /* Calendar element to init */
 var calendarEl = document.getElementById('fc-default');
@@ -24,20 +23,17 @@ $('span#eventsData').remove();
 
 // date picker
 $(".pickadate").pickadate({
-    format: 'dd-mm-yyyy'
+    format: 'dd-mm-yyyy',
+    formatSubmit: 'yyyy-mm-dd'
 });
 
 // Time picker
-var $startsAt = $('#cal-start-time' ).pickatime({
+$('.pickatime').pickatime({
     format: 'hh:i A',
     interval: 15
-}),
-$endsAt = $('#cal-end-time').pickatime({
-    format: 'hh:i A',
-    interval: 15
-}),
-pickerSetStartsAt = $startsAt.pickatime( 'picker' ),
-pickerSetEndsAt = $endsAt.pickatime( 'picker' );
+});
+var pickerSetStartsAt = $('#cal-start-time').pickatime( 'picker' ),
+pickerSetEndsAt = $('#cal-end-time').pickatime( 'picker' );
 
 /* Configure the calendar */
 var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -47,13 +43,15 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
         addNew: {
             text: ' Agregar',
             click: function() {
-                $("#modalForm").modal("show");
-                $("#cal-start-date").val(today);
-                $("#cal-end-date").val(today);
+                $('#saveBtn, #deleteBtn').removeClass('d-none');
+                $('#updateBtn, #deleteBtn').addClass('d-none');
+                $("#cal-start-date").val(calDate);
+                $("#cal-end-date").val(calDate);
                 
                 // Set actual time.
-                pickerSetStartsAt.set( 'select', moment(today).format('hh:mm a'));
-                pickerSetEndsAt.set( 'select', moment(today).format('hh:mm a'));
+                pickerSetStartsAt.set( 'select', moment(calDate).format('hh:mm a'));
+                pickerSetEndsAt.set( 'select', moment(calDate).format('hh:mm a'));
+                $("#modalForm").modal("show");
             }
         }
     },
@@ -68,13 +66,16 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
     allDay: true,
     dateClick: function(info) {
 
+        $('#saveBtn, #deleteBtn').removeClass('d-none');
+        $('#updateBtn, #deleteBtn').addClass('d-none');
+
         $("#calendarForm #cal-start-date").val(moment(info.dateStr).format('DD-MM-YYYY'));
         $("#calendarForm #cal-end-date").val(moment(info.dateStr).format('DD-MM-YYYY'));
         
         // Set actual time.
         if(info.view.type === 'dayGridMonth') {
-            pickerSetStartsAt.set( 'select', moment(today).format('hh:mm a'));
-            pickerSetEndsAt.set( 'select', moment(today).format('hh:mm a'));
+            pickerSetStartsAt.set( 'select', moment(calDate).format('hh:mm a'));
+            pickerSetEndsAt.set( 'select', moment(calDate).format('hh:mm a'));
         } else {
             pickerSetStartsAt.set( 'select', moment(info.dateStr).format('hh:mm a'));
             pickerSetEndsAt.set( 'select', moment(info.dateStr).format('hh:mm a'));
@@ -87,20 +88,20 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
         /* Hide buttons */
         $('#saveBtn, #deleteBtn').addClass('d-none');
         $('#updateBtn, #deleteBtn').removeClass('d-none');
-        $("#modalForm").modal("show");
         info.event._def.hasEnd = true;
-
+        
         $('#cal-event-id').val(info.event.id);
         $('#cal-event-title').val(info.event.title);
         $('#cal-start-date').val(moment(info.event.start).format('DD-MM-YYYY'));
-        $('#cal-start-time').val(moment(info.event.start).format('hh:mm a'));
+        pickerSetStartsAt.set( 'select', moment(info.event.start).format('hh:mm a'));
         $('#cal-end-date').val(moment(info.event.end).format('DD-MM-YYYY'));
-        $('#cal-end-time').val(moment(info.event.end).format('hh:mm a'));
+        pickerSetEndsAt.set( 'select', moment(info.event.end).format('hh:mm a'));
         $('#cal-description').val(info.event.extendedProps.description);
         $('#cal-event-place').val(info.event.extendedProps.place);
         
         let key = info.event.extendedProps.category;
         renderBullet(key);
+        $("#modalForm").modal("show");
     }
 });
 
@@ -138,23 +139,13 @@ $('#saveBtn').on('click', function() {
         category: $('#categoriesContainer .selected').data('key')
     }).then(response => {
         if (response.data.result) {
-            calendar.addEvent({
-                id: response.data.event.id,
-                title: response.data.event.title,
-                start: moment(response.data.event.start).format('YYYY-MM-DD'),
-                end: moment(response.data.event.end).format('YYYY-MM-DD'),
-                description: (response.data.event.description === null) ? '' : response.data.event.description,
-                color: response.data.event.color,
-                dataEventColor: response.data.event.dataEventColor,
-                place: (response.data.event.place === null) ? '' : response.data.event.place,
-                category: response.data.event.category,
-                allDay: true
-            });
 
-            // calendar.refetchEvents();
+            calendar.removeAllEvents();
+            calendar.addEventSource(response.data.events);
             resetModal();
         }
     }).catch(error => {
+        console.log(error);
         if(error.response.status === 422) { // Validation
 
             /* Delete all the validations rendered before */
@@ -181,8 +172,9 @@ $("#updateBtn").on("click", function() {
         category: $('#categoriesContainer .selected').data('key')
     }).then(response => {
         if (response.data.result) {
+            calendar.removeAllEvents();
+            calendar.addEventSource(response.data.events);
             resetModal();
-            calendar.refetchEvents();
         }
     }).catch(error => {
         if (typeof(error.response) !="undefined") {
@@ -198,13 +190,19 @@ $("#updateBtn").on("click", function() {
 
 // Remove Event
 $("#deleteBtn").on("click", function() {
+
+    $('#deleteModal').modal('show');
+});
+
+$("#confirmDelete").on("click", function() {
+
     let id = $('#cal-event-id').val();
     if ($('#cal-event-id').val()){
         axios.delete('/events/' + id).then(response => {
             if (response.data.result) {
 
-                console.log('ELIMINÉ!');
-                calendar.removeEvent(id);
+                calendar.removeAllEvents();
+                calendar.addEventSource(response.data.events);
                 resetModal();
             }
         }).catch(error => {
@@ -255,7 +253,7 @@ function resetModal() {
     cleanBulletList();
 
     /* Close modal */
-    $('#modalForm').modal('hide');
+    $('#modalForm, #deleteModal').modal('hide');
 
     $('#saveBtn, #updateBtn, #deleteBtn').addClass('d-none');
 }

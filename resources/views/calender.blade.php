@@ -199,6 +199,27 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- Delete modal --}}
+                    <div class="modal fade text-left" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" style="display: none" aria-modal="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xs" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger white">
+                                    <h5 class="modal-title" id="myModalLabel120">¡Alerta!</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>¿Está seguro de eliminar el evento?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="confirmDelete" class="btn btn-danger waves-effect waves-light">Sí</button>
+                                    <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>
