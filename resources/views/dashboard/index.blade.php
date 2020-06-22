@@ -342,7 +342,7 @@
     <script src="{{ asset('vendors/js/ui/jquery.sticky.js') }}"></script>
     <script src="{{ asset('vendors/js/charts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('vendors/js/extensions/tether.min.js') }}"></script>
-    <script src="{{ asset('vendors/js/extensions/shepherd.min.js') }}"></script>
+    
     <script src="{{ asset('js/scripts/pages/dashboard-analytics.min.js') }}"></script>
     <script src="{{ asset('/vendors/js/tables/ag-grid/ag-grid-community.min.noStyle.js') }}"></script>
     <script src="{{ asset('js/scripts/cards/card-customer-chart.js') }}"></script>
