@@ -108,8 +108,10 @@
                                         @endif
                                     </td>
                                     <td width="10%" style="text-align:center;">
-                                        <a href="{{route('contact.destroy',['contact_id'=>$contact['id'], 'user_id'=>$contact['user_id']])}}" class="float-left mr-2"><i class="feather icon-trash-2 text-white"></i></a>
-                                        <a href="{{route('contact.editForm',['contact_id'=>$contact['id']])}}" class="float-left"><i class="feather icon-edit text-white"></i></a>
+                                        <a href="#" data-target="#primary" class="float-left mr-2"><i class="feather icon-trash-2 text-white"></i></a>
+                                        <a href="{{route('contact.editForm',['contact_id'=>$contact['id']])}}" class="float-left">
+                                            <i class="feather icon-edit text-white"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -122,7 +124,34 @@
                         </div>
                     </div>
                 </div>
-
+                {{--BEGIN:Modal--}}
+                <div class="modal fade text-left" id="primary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary white">
+                                <h5 class="modal-title" id="myModalLabel160">Eliminar Contacto</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Está a punto de eliminar un contacto ¿Esta seguro de continuar?
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{{route('contact.destroy',['contact_id'=>$contact['id'], 'user_id'=>$contact['user_id']])}}" 
+                                    type="submit" name="contact-directo" value="mensaje-directo" class="btn btn-primary">
+                                    Confirmar
+                                </a>
+                                <button name="sala-chat" value="sala-chat" class="btn btn-success float-right">
+                                    <a href=''  
+                                        class="text-white"> Cancelar <i class="text-white feather icon-message-circle"></i>
+                                    </a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{--END: Modal--}}               
             </div>
         </div>
     </div>

@@ -158,14 +158,25 @@
 
                                           <div class="col-4 justify-content-center content-btn-save-oportunity">
                                             @if(\Auth::user()->type !=="V" && $oportunity->user_id ==\Auth::user()->id)
-                                              <button type="submit" class="btn btn-primary waves-effect waves-light mx-auto mt-1" name="guardar" value="guardar">
+                                              <button type="submit" 
+                                                class="btn btn-primary waves-effect waves-light mx-auto mt-1" 
+                                                name="guardar" value="guardar">
                                                 <a href="{{ route('oportunity.saved') }}" class="text-white">
                                                 GUARDAR
                                                 </a>
                                               </button>
 
                                             @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)==null)
-                                              <button type="button" class="btn btn-primary waves-effect waves-light mx-auto mt-1" name="candidatura" data-toggle="modal" data-target="#primary" id="postularseBtn" value="candidatura">PRESENTAR MI CANDIDATURA</button>
+                                              <button type="button" 
+                                                      class="btn btn-primary waves-effect waves-light mx-auto mt-1" 
+                                                      name="candidatura" 
+                                                      data-toggle="modal" 
+                                                      data-target="#primary" 
+                                                      id="postularseBtn" 
+                                                      value="candidatura"
+                                              >
+                                                PRESENTAR MI CANDIDATURA
+                                              </button>
 
                                             @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)!=null)
                                               <span> Ya te has postulado para esta oportunidad</span>
@@ -199,7 +210,7 @@
                                                                 @if($oportunity->user->status==1)
                                                                 <button name="sala-chat" value="sala-chat" class="btn btn-success float-right"><a href='{{url("contact-by/$oportunity->user_id/op/oportunity/$oportunity->id")}}'  class="text-white"> Chat <i class="text-white feather icon-message-circle"></i></a></button>
                                                                 @endif
-                                                              </div>
+                                                            </div>
                                                           </form>
                                                       </div>
                                                   </div>
