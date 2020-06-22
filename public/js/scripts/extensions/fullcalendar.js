@@ -13,7 +13,6 @@ var categoryBullets = $(".cal-category-bullets").html();
 
 /* Get data from server. */
 var data = $('span#eventsData').data('info');
-console.log(data);
 
 /* Calendar element to init */
 var calendarEl = document.getElementById('fc-default');
