@@ -36,6 +36,7 @@ pickerSetEndsAt = $('#cal-end-time').pickatime( 'picker' );
 
 /* Configure the calendar */
 var calendar = new FullCalendar.Calendar(calendarEl, {
+    locale: 'es',
     events: data,
     plugins: ["dayGrid", "timeGrid", "interaction"],
     customButtons: {
