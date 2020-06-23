@@ -1,4 +1,3 @@
-
 function initialize() {
 
     $('form').on('keyup keypress', function(e) {
@@ -20,34 +19,17 @@ function initialize() {
 
         const latitude = parseFloat(document.getElementById(fieldKey + "-latitude").value) || 40.4167754;
         const longitude = parseFloat(document.getElementById(fieldKey + "-longitude").value) || -3.7037902;
-        // const local= "//www.google.com/maps.google.com/?ll="+latitude+","+longitude;
-        const local= "https://www.google.com/maps/search/?api=1&query="+latitude+","+longitude;
 
         const map = new google.maps.Map(document.getElementById(fieldKey + '-map'), {
             center: {lat: latitude, lng: longitude},
-            zoom: 13,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            zoom: 13
         });
-
-
         const marker = new google.maps.Marker({
             map: map,
             position: {lat: latitude, lng: longitude},
-            // url: local
         });
 
         marker.setVisible(isEdit);
-
-
-        google.maps.event.addListener(marker, 'click', function() {
-            const latitudeField = document.getElementById("address-latitude").value;
-            const longitudeField = document.getElementById("address-longitude").value;
-            // alert(local);
-            var embed ="<iframe width='425' height='350' frameborder='0' scrolling='no'  marginheight='0' marginwidth='0' src='https://maps.google.com/maps?&amp;q="+ encodeURIComponent( $(this).text() ) +"&amp;output=embed'></iframe>";
- 
-            window.location.href = local;
-            local.value(' ');
-        });
 
         const autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.key = fieldKey;
@@ -97,6 +79,3 @@ function setLocationCoordinates(key, lat, lng) {
     latitudeField.value = lat;
     longitudeField.value = lng;
 }
-
-
-
