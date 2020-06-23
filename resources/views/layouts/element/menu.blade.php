@@ -21,12 +21,12 @@
             <li class=" nav-item"><a href="{{ route('chat') }}"><i class="feather icon-message-square"></i><span class="menu-title">Chat</span></a>
             </li>
 
-        <li class=" nav-item"><a href="{{ route('events.calender') }}"><i class="feather icon-calendar"></i><span class="menu-title">Calendario</span></a>
+            <li class=" nav-item"><a href="{{ route('events.calender') }}"><i class="feather icon-calendar"></i><span class="menu-title">Calendario</span></a>
             </li>
-            <!--
-            <li class=" nav-item"><a href="#"><i class="feather icon-mail"></i><span class="menu-title">Email</span></a>
+            
+            <li class=" nav-item"><a href="{{ route('email') }}"><i class="feather icon-mail"></i><span class="menu-title">Email</span></a>
             </li>
-        -->
+        
             {{-- Oportunidades --}}
             @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
             <li class=" nav-item"><a href="#"><i class="feather icon-star"></i><span class="menu-title">Oportunidades</span></a>

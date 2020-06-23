@@ -20,7 +20,7 @@
                         </li>
                         
                         <li class="nav-item d-none d-lg-block">
-                            <a class="nav-link" href="#" data-toggle="tooltip" data-placement="top" title="Email"><i class="ficon feather icon-mail"></i></a>
+                            <a class="nav-link" href="{{ route('email') }}" data-toggle="tooltip" data-placement="top" title="Email"><i class="ficon feather icon-mail"></i></a>
                         </li>
                         
                         <li class="nav-item d-none d-lg-block">

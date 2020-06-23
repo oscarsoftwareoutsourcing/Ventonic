@@ -140,9 +140,14 @@ Route::get('grupos/editar/{group_id}', 'GroupController@edit')->name('group.edit
 Route::post('grupos/saved', 'GroupController@store')->name('group.saved')->middleware('verified');
 
 
-// Notes module
+// EM Modules
 $router->group(['middleware' => ['verified']], function() use ($router) {
+
+    // Notes module
     $router->get('todos', 'TodoController@index')->name('todos');
+    
+    // Email module
+    $router->get('email', 'EmailController@index')->name('email');
 });
 
 Route::get('calender', 'EventController@index')->name('events.calender');
