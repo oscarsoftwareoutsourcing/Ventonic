@@ -81,10 +81,8 @@
         mounted() {
             Echo.private('App.User.' + this.userid)
             .notification((notification) => {
-                let newUnreadNotifications = {data:{aplicantName:notification.aplicantName, 
-                                                   oportunityName:notification.oportunityName,
-                                                   sellerName:notification.sellerName,
-                                                   time:notification.time}};
+                console.log(notification)
+                let newUnreadNotifications = {data:notification};
                 this.unreadNotifications.push(newUnreadNotifications);
             });
         }

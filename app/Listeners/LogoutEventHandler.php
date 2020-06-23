@@ -5,7 +5,7 @@ namespace App\Listeners;
 //use Illuminate\Contracts\Queue\ShouldQueue;
 //use Illuminate\Queue\InteractsWithQueue;
 
-class LoginEventHandler
+class LogoutEventHandler
 {
     /**
      * Create the event listener.
@@ -25,8 +25,7 @@ class LoginEventHandler
      */
     public function handle($event)
     {
-        $event->user->last_login = date('Y-m-d H:i:s');
-        $event->user->status = true;
+        $event->user->status = false;
         $event->user->save();
     }
 }

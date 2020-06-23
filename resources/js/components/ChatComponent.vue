@@ -393,6 +393,10 @@
             vm.fetchMessages();
             vm.getChatUsers();
 
+            if (vm.chatRoomUser) {
+                vm.selectUser(vm.chatRoomUser);
+            }
+
             /*Echo.join('chat').here(user => {
                 vm.users = user;
             }).joining(user => {
@@ -416,7 +420,7 @@
         mounted() {
 
         },
-        props: ['user'],
+        props: ['user', 'chatRoomUser'],
         methods: {
             getChatUsers() {
                 const vm = this;
@@ -498,6 +502,7 @@
                 const vm = this;
                 vm.messages = [];
                 window.currentUserChat = vm.selectedUser;
+
                 if (vm.selectedUser) {
                     var chat_room_id = vm.selectedUser.chat_room_id || vm.selectedUser.user.chat_room_id;
                     //Echo.leave(`chatroom.${chat_room_id}`);
@@ -540,6 +545,7 @@
                         vm.users = vm.users.filter(u => u.id != user.id);
                     }).listen('MessageSent', (event) => {
                         vm.messages.push(event.message);
+                        console.log(event.message)
                     }).listenForWhisper('typing', user => {
                         vm.activeUser = user;
 

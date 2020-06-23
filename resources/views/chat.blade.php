@@ -29,7 +29,8 @@
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
 
-        <chat :user="{{ auth()->user() }}"></chat>
+    {{-- Sección para chat --}}
+    <chat :user="{{ auth()->user() }}" :chat-room-user="{{ json_encode(session('chat_room_user', '')) }}"></chat>
 
 </div>
 @endsection

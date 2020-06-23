@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 use App\User;
 use App\Message;
 use App\ChatRoom;
 use App\ChatRoomUser;
 use App\Events\MessageSent;
+use App\Helpers\FormatTime;
+use App\Notifications\ChatRoom as ChatRoomNotify;
 
 class ChatController extends Controller
 {
@@ -48,18 +51,37 @@ class ChatController extends Controller
         return redirect()->route('chat');
     }
 
+    /**
+     * Establece la sala de chat
+     *
+     * @method    setChatRoom
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     integer         $id         Identificador de la sala de chat
+     * @param     integer         $user_id    Identificador del usuario con el cual establecer conversación
+     */
     public function setChatRoom($id, $user_id)
     {
-        session(['chat_room_id' => $id]);
         $user = User::find($user_id);
         $messages = $user->messages()->get();
         foreach ($messages as $msg) {
             $msg->unreaded = false;
             $msg->save();
         }
-        return response()->json(['result' => true], 200);
+        session(['chat_room_id' => $id, 'chat_room_user' => $user]);
+        return response()->json(['result' => true, 'userChat' => $user], 200);
     }
 
+    /**
+     * Obtiene los mensaje de un usuario
+     *
+     * @method    fetchMessages
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @return    object           Devuelve un objeto con los mensajes de un usuario
+     */
     public function fetchMessages()
     {
         if (session('chat_room_id') !== null) {
@@ -69,6 +91,17 @@ class ChatController extends Controller
         return Message::with('user')->get();
     }
 
+    /**
+     * Permite crear y enviar mensajes de chat
+     *
+     * @method    sendMessage
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request        $request    Objeto con la petición solicitada
+     *
+     * @return    JSONResponse         Devuelve un objeto con el resultado de la petición
+     */
     public function sendMessage(Request $request)
     {
         $message = auth()->user()->messages()->create([
@@ -76,22 +109,60 @@ class ChatController extends Controller
             'chat_room_id' => session('chat_room_id') ?? null
         ]);
 
+        if (session('chat_room_id') !== null) {
+            ChatRoomUser::where(
+                'chat_room_id',
+                session('chat_room_id')
+            )->update(['updated_at' => Carbon::now()]);
+            $time=FormatTime::LongTimeFilter($message->created_at);
+
+            $chatRoomUsers = ChatRoomUser::where('chat_room_id', session('chat_room_id'))->where(
+                'user_id',
+                '<>',
+                auth()->user()->id
+            )->get();
+
+            /** Envía notificaciones a todos los usuarios a los cuales se les envía un mensaje en una sala de chat */
+            foreach ($chatRoomUsers as $chatRoomUser) {
+                if ($chatRoomUser->user_id !== auth()->user()->id) {
+                    $user = User::find($chatRoomUser->user_id);
+                    $user->notify(
+                        new ChatRoomNotify(auth()->user(), $request->message, session('chat_room_id'), $time)
+                    );
+                }
+            }
+        }
+
         broadcast(new MessageSent($message->load('user')))->toOthers();
 
         return ['status' => 'success'];
     }
 
+    /**
+     * Crea la sala de chat bajo la cual se contacta a un vendedor
+     *
+     * @method    contactSeller
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     integer           $id    Identificador del usuario a contactar
+     *
+     * @return    JSONResponse             Objeto con la respuesta
+     */
     public function contactSeller($id)
     {
         $user = User::find($id);
         $chatRoom = ChatRoom::create([
             'type' => 'OT'
         ]);
-        session(['chat_room_id' => $chatRoom->id]);
-        ChatRoomUser::create([
+        $userChatRoom = ChatRoomUser::create([
             'chat_room_id' => $chatRoom->id,
             'user_id' => $user->id
-        ]);
+        ], []);
+        /** @var object consulta el registro recién creado con la relación correspondiente a los usuarios */
+        $userChatRoom = ChatRoomUser::with(['user'])->find($userChatRoom->id);
+        session(['chat_room_id' => $chatRoom->id, 'chat_room_user' => $userChatRoom]);
+
         ChatRoomUser::create([
             'chat_room_id' => $chatRoom->id,
             'user_id' => auth()->user()->id
@@ -104,6 +175,8 @@ class ChatController extends Controller
      * Método que crea la sala de chat para contacto de usuarios
      *
      * @method    contactBy
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     integer       $user_id        Identificador del usuario al cual contactar
      * @param     string        $type           Tipo de registro: (op)ortunidad, (ne)gocio, (co)ntactos, (ot)ros
@@ -122,7 +195,6 @@ class ChatController extends Controller
             'originable_type' => $model,
             'originable_id' => $origin_id
         ]);
-        session(['chat_room_id' => $chatRoom->id]);
         ChatRoomUser::insert([
             [
                 'chat_room_id' => $chatRoom->id, 'user_id' => $user->id,
@@ -134,12 +206,27 @@ class ChatController extends Controller
             ]
         ]);
 
+        /** @var object consulta el registro recién creado con la relación correspondiente a los usuarios */
+        $userChatRoom = ChatRoomUser::with(['user'])->where([
+            'chat_room_id' => $chatRoom->id, 'user_id' => $user->id
+        ])->first();
+        session(['chat_room_id' => $chatRoom->id, 'chat_room_user' => $userChatRoom]);
+
         return redirect()->route('chat');
     }
 
+    /**
+     * Obtiene los usuarios de chat del usuario autenticado
+     *
+     * @method    getUserChatRooms
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @return    JSONResponse              Objeto con un listado de usuario en el chat
+     */
     public function getUserChatRooms()
     {
-        $chatUsers = ChatRoomUser::whereHas('chatRoom')->get();
+        $userId = auth()->user()->id;
 
         $chatOrigins = [
             [
@@ -166,12 +253,23 @@ class ChatController extends Controller
 
         $alreadyUsers = [];
 
-        foreach ($chatUsers as $chatUser) {
-            if ($chatUser->user_id !== auth()->user()->id && !in_array($chatUser->user_id, $alreadyUsers)) {
-                array_push($alreadyUsers, $chatUser->user_id);
-                array_push($chatOrigins[$indexes[$chatUser->chatRoom->type]]['users'], $chatUser);
+        $user = User::find($userId);
+
+        foreach ($user->chatRooms as $chatRoom) {
+            /** @var object Datos de conversaciones en chats ordenados descendentemente, mas recientes de primero */
+            $chatUsers = ChatRoomUser::where('chat_room_id', $chatRoom->chat_room_id)->where(
+                'user_id',
+                '<>',
+                $userId
+            )->orderBy('updated_at', 'desc')->get();
+            foreach ($chatUsers as $chatUser) {
+                if (!in_array($chatUser->user_id, $alreadyUsers)) {
+                    array_push($alreadyUsers, $chatUser->user_id);
+                    array_push($chatOrigins[$indexes[$chatUser->chatRoom->type]]['users'], $chatUser);
+                }
             }
         }
+
 
         return response()->json(['chatOrigins' => $chatOrigins], 200);
     }

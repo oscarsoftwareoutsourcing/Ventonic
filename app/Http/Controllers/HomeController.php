@@ -39,7 +39,8 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function searchSeller(){
+    public function searchSeller()
+    {
         if (auth()->user()->type === "E") {
             return view('search-result');
         }

@@ -160,6 +160,10 @@
             status: function() {
                 const vm = this;
                 vm.search();
+            },
+            statusDisconnected: function() {
+                const vm = this;
+                vm.search();
             }
         },
         methods: {
