@@ -433,7 +433,6 @@
             /**
              * Obtiene los mensajes del chat
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @return     {[type]}         [description]
              */
@@ -448,7 +447,6 @@
             /**
              * Envía el mensaje al usuario
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @return     {[type]}         [description]
              */
@@ -478,7 +476,6 @@
             /**
              * Envía el evento cuando el usuario esta escribiendo
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @return     {[type]}           [description]
              */
@@ -494,7 +491,6 @@
             /**
              * Modifica los datos globales de acuerdo al usuario seleccionado
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @return    {object}        Objeto con datos del usuario seleccionado
              */

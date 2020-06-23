@@ -56,7 +56,6 @@ class ChatController extends Controller
      *
      * @method    setChatRoom
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     integer         $id         Identificador de la sala de chat
      * @param     integer         $user_id    Identificador del usuario con el cual establecer conversación
@@ -78,7 +77,6 @@ class ChatController extends Controller
      *
      * @method    fetchMessages
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return    object           Devuelve un objeto con los mensajes de un usuario
      */
@@ -96,7 +94,6 @@ class ChatController extends Controller
      *
      * @method    sendMessage
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request        $request    Objeto con la petición solicitada
      *
@@ -143,7 +140,6 @@ class ChatController extends Controller
      *
      * @method    contactSeller
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     integer           $id    Identificador del usuario a contactar
      *
@@ -176,7 +172,6 @@ class ChatController extends Controller
      *
      * @method    contactBy
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     integer       $user_id        Identificador del usuario al cual contactar
      * @param     string        $type           Tipo de registro: (op)ortunidad, (ne)gocio, (co)ntactos, (ot)ros
@@ -220,7 +215,6 @@ class ChatController extends Controller
      *
      * @method    getUserChatRooms
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return    JSONResponse              Objeto con un listado de usuario en el chat
      */

@@ -31,7 +31,6 @@
             /**
              * Establece el enlace al cual redirigir al hacer click en la notificación
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}    data    Ruta del enlace
              */
@@ -44,7 +43,6 @@
             /**
              * Establece el ícono de la notificación
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}    data    Clase a utilizar para el ícono de la notificación
              */
@@ -57,7 +55,6 @@
             /**
              * Establece el título de la notificación
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}    data    Título a mostrar en la notificación
              */
@@ -70,7 +67,6 @@
             /**
              * Establece el texto o mensaje de la notificación
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}    data    Mensaje a mostrar en la notificación
              */
