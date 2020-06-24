@@ -71,10 +71,33 @@
                 unreadNotifications:this.unreads
             }
         },
+        watch: {
+            unreadNotifications: function() {
+                const vm = this;
+                vm.chatMenuNotifications();
+            }
+        },
         methods: {
             markNotificationAsRead(){
                 if(this.unreadNotifications.length){
-                    axios.get('markAsRead')
+                    axios.get('markAsRead');
+                }
+            },
+            chatMenuNotifications() {
+                const vm = this;
+                //condición para mostrar notificaciones sin leer en el menú de la izquierda
+                var chatCount = vm.unreadNotifications.filter((notification) => {
+                    return notification.data.icon === 'icon-message-square';
+                }).length;
+                console.log(chatCount);
+
+                if (chatCount > 0) {
+                    $(".chat-menu-notifications").text(chatCount);
+                    $(".chat-menu-notifications").removeClass('d-none');
+                }
+                else {
+                    $(".chat-menu-notifications").text('');
+                    $(".chat-menu-notifications").addClass('d-none');
                 }
             }
         },
@@ -83,6 +106,10 @@
                 let newUnreadNotifications = {data:notification};
                 this.unreadNotifications.push(newUnreadNotifications);
             });
+
+            this.chatMenuNotifications();
+
+            // Agregar instrucción para que cuando se abra el listado de notificaciones consulte la hora y muestre el tiempo desde el que se recibió la notificación
         }
-    }
+    };
 </script>

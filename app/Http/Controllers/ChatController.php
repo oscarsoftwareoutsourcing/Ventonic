@@ -81,7 +81,6 @@ class ChatController extends Controller
      *
      * @method    fetchMessages
      *
-     *
      * @return    object           Devuelve un objeto con los mensajes de un usuario
      */
     public function fetchMessages()
@@ -241,6 +240,9 @@ class ChatController extends Controller
 
     public function getChatOrigins($filter = null)
     {
+        /*if ($filter !== null) {
+            $filter = explode(" ", $filter);
+        }*/
         $userId = auth()->user()->id;
 
         $chatOrigins = [
@@ -279,12 +281,19 @@ class ChatController extends Controller
             )->latest()->get();
 
             foreach ($chatUsers as $chatUser) {
+                /*if (
+                    $filter !== null &&
+                    count($filter) > 0 &&
+                    $this->strposArr($chatUser->user->name, $filter) === false &&
+                    $this->strposArr($chatUser->user->last_name, $filter) === false &&
+                    $this->strposArr($chatUser->user->email, $filter) === false
+                ) {*/
                 if (
                     $filter !== null &&
                     !empty($filter) &&
-                    strpos($chatUser->user->name, $filter) === false &&
-                    strpos($chatUser->user->last_name, $filter) === false &&
-                    strpos($chatUser->user->email, $filter) === false
+                    strpos(strtoupper($chatUser->user->name), strtoupper($filter)) === false &&
+                    strpos(strtoupper($chatUser->user->last_name), strtoupper($filter)) === false &&
+                    strpos(strtoupper($chatUser->user->email), strtoupper($filter)) === false
                 ) {
                     /** continúa a la siguiente iteración si existe un filtro y no existe en el registro */
                     continue;
@@ -299,4 +308,17 @@ class ChatController extends Controller
 
         return $chatOrigins;
     }
+
+    /*public function strposArr($haystack, $needle)
+    {
+        if (!is_array($needle)) {
+            $needle = [$needle];
+        }
+        foreach ($needle as $what) {
+            if (strpos(strtoupper($haystack), strtoupper($what)) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }*/
 }

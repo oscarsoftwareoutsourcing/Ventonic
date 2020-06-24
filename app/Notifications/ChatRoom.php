@@ -35,7 +35,7 @@ class ChatRoom extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'broadcast'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -46,10 +46,16 @@ class ChatRoom extends Notification
      */
     public function toMail($notifiable)
     {
+        if ($notifiable->status) {
+            return false;
+        }
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->greeting("Hola ".$notifiable->name.",")
+                    ->subject('Nuevo mensaje de chat recibido')
+                    ->line('Has recibido un nuevo mensaje de ' . $this->fromUser->name)
+                    ->line('"'.$this->message.'"')
+                    ->line('Puedes ver el mensaje desde la plataforma de Ventonic en el apartado chat.');
     }
 
     /**

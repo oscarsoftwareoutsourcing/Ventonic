@@ -18,7 +18,12 @@
             <li class=" navigation-header"><span>Apps</span>
             </li>
 
-            <li class=" nav-item"><a href="{{ route('chat') }}"><i class="feather icon-message-square"></i><span class="menu-title">Chat</span></a>
+            <li class=" nav-item">
+                <a href="{{ route('chat') }}">
+                    <i class="feather icon-message-square"></i>
+                    <span class="menu-title">Chat</span>
+                    <span class="badge badge badge-pill badge-primary float-right mr-2 chat-menu-notifications d-none"></span>
+                </a>
             </li>
 
             <li class=" nav-item"><a href="{{ route('events.calender') }}"><i class="feather icon-calendar"></i><span class="menu-title">Calendario</span></a>
