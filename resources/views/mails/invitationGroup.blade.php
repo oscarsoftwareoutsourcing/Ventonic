@@ -6,13 +6,13 @@
     <title>Nueva Invitacion grupo</title>
 </head>
 <body>
-    <p>Hola! Has sido invitado a unirte al grupo </p>
+<p>Hola! Has sido invitado a unirte al grupo {{$name_group}}</p>
 
-    <p>Si deseas unirte ve a la siguiente url para registrarte en nuestra plataforma y onfirmar tu invitación:</p>
-    <ul>
-        <li>
-            <a class="text-primary" href="href="{{ url('registro/'. $confirmation_code) }}"">registrate</a>
-        </li>
-    </ul>
+    <p>Si deseas unirte ve a la siguiente url para 
+        <a class="text-primary" href="href="{{ url('registro/'. $codigo_confirmacion) }}"">registrarte</a>
+        en nuestra plataforma y confirmar tu invitación.
+    </p>
+
+    <p>Saludos, Equipo Ventonic.</p>
 </body>
 </html>

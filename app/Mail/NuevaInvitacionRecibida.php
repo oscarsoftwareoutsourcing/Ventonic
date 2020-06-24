@@ -12,12 +12,13 @@ class NuevaInvitacionRecibida extends Mailable
     use Queueable, SerializesModels;
 
     // public $codigo_confirmacion;
-
-    public function __construct()
+    public $name_group;
+    public $codigo_confirmacion;
+    public function __construct($name_group, $codigo_confirmacion)
     {
         //
     }
-
+s
     /**
      * Build the message.
      *

@@ -51,21 +51,17 @@ class GroupController extends Controller
             $name_group=$grupo->name;
             $group_id=$grupo->id;
             $user_id=User::where('email', $email)->value('id');
-            $verification=User::where('email', $email)->value('id');
             $codigo_confirmacion= substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 20); 
             
             $invitation = Invitation::updateOrCreate(
                 ['group_id' =>  $group_id,
-                 'user_id' => $user_id,
+                 'email' => $email,
                  'token'=>$codigo_confirmacion,
                  'status'=>0,
                 ]
-            );
-            $token_link='';
-            
-            if($verification==null){
-                $token_link=;
-                Mail::to($email)->send(new NuevaInvitacionRecibida());
+            );            
+            if($user_id==null){
+                Mail::to($email)->send(new NuevaInvitacionRecibida($name_group, $codigo_confirmacion));
                 echo 'Usuario no registrado';
             
             }else{               

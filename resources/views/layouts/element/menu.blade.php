@@ -72,7 +72,7 @@
             </li>
             @endif
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title">{{ Auth::user()->name }}</span></a>
+            {{-- <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title">{{ Auth::user()->name }}</span></a>
                 <ul class="menu-content">
                     @if (auth()->user()->email_verified_at !== null)
                     <li><a href="{{ route('perfil.index') }}"><i class="feather icon-user"></i><span class="menu-item">Mi Perfil</span></a>
@@ -86,7 +86,7 @@
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-power"></i> <span class="menu-item">{{ __('Salir') }}</span></a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </div>
