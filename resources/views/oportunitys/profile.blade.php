@@ -134,9 +134,13 @@
                             </div>
                             <div class="card-body px-75">
                                 <div class="list-group">
-                                    @foreach($questions as $question)
+                                    {{-- @foreach($questions as $i=>$question)
                                     <p class="list-group-item text-primary">{{$question->name}}<span class="text-white"><code> Dapibus ac facilisis in</code></span></p>
-                                    @endforeach
+                                    @endforeach --}}
+                                    <p class="list-group-item text-primary">Años de experiencia en ventas <span class="text-white"><code>{{App\User::getAnsweredAnios($seller_profile->user_id, 2)}}</code></span></p>
+                                    <p class="list-group-item text-primary">Areas de experiencia<span class="text-white"><code>{{App\User::getExperiencie($seller_profile->user_id, 3)}}</code></span></p>
+                                    <p class="list-group-item text-primary">Disponibilidad<span class="text-white"><code>{{App\User::getDisponibilidad($seller_profile->user_id, 4)}}</code></span></p>
+                                    <p class="list-group-item text-primary">Tipo de colaboración <span class="text-white"><code>{{App\User::getTipoColaboration($seller_profile->user_id, 5)}}</code></span></p>
                                 </div>
 
                             </div>
