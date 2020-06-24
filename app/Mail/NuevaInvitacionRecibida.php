@@ -18,7 +18,7 @@ class NuevaInvitacionRecibida extends Mailable
     {
         //
     }
-s
+
     /**
      * Build the message.
      *
