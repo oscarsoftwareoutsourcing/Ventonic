@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('contact-by/{user_id}/{type}/{origin_type?}/{origin_id?}', 'ChatController@contactBy')->name('contact-by');
     Route::get('get-chat-users', 'ChatController@getUserChatRooms');
     Route::get('set-chat-room/{id}/{user_id}', 'ChatController@setChatRoom');
+    Route::post('filter-chat-users', 'ChatController@filterUserChatRooms');
 });
 
 /* Routas para oportunidades */

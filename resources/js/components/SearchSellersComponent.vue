@@ -82,11 +82,11 @@
                             <tbody>
                                 <tr v-for="seller in sellers">
                                     <td>
-                                        <div class="avatar">
+                                         <div class="avatar">
                                             <img :src="seller.photo" :alt="seller.name" class="img-fluid" v-if="seller.photo" height="40" width="40">
-                                            <img src="/images/anonymous-user.png" class="media-object rounded-circle" :alt="seller.name" height="40" width="40" v-else>
-                                            <div v-if="seller.seller_profile">
-                                                <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
+                                             <img src="/images/anonymous-user.png" class="media-object rounded-circle" :alt="seller.name" height="40" width="40" v-else>
+                                             <div v-if="seller.seller_profile">
+                                                 <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
                                             </div>
                                             <div v-else>
                                                 <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
@@ -196,20 +196,33 @@
                 }).catch(error => {
                     console.error(error);
                 });
+            },
+            getUsers() {
+                const vm = this;
+                axios.get('/get-users').then(response => {
+                    //vm.sellers = response.data;
+                    vm.search();
+                }).catch(error => {
+                    console.error(error);
+                });
+            },
+            getSurveys() {
+                const vm = this;
+                axios.get('/get-surveys').then(response => {
+                    vm.surveys = response.data;
+                }).catch(error => {
+                    console.error(error);
+                });
             }
         },
         mounted() {
             const vm = this;
-            axios.get('/get-users').then(response => {
-                vm.sellers = response.data;
-            }).catch(error => {
-                console.error(error);
-            });
-            axios.get('/get-surveys').then(response => {
-                vm.surveys = response.data;
-            }).catch(error => {
-                console.error(error);
-            });
+            vm.getUsers();
+            vm.getSurveys();
+
+            setInterval(() => {
+                vm.getUsers();
+            }, 5000);
         }
     };
 </script>

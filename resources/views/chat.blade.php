@@ -5,10 +5,14 @@
 @section('extra-css')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/pages/app-chat.css') }}">
     <style>
-        .chat-scroll {
+        .user-list-scroll {
+            height:100%;
+            overflow-y:scroll;
+        }
+        .chat-scroll, .user-list-scroll {
             scrollbar-color: transparent transparent !important;
         }
-        .chat-scroll::-webkit-scrollbar {
+        .chat-scroll::-webkit-scrollbar, .user-list-scroll::-webkit-scrollbar {
           width: 0;
         }
     </style>

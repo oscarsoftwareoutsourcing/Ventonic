@@ -79,9 +79,7 @@
             }
         },
         mounted() {
-            Echo.private('App.User.' + this.userid)
-            .notification((notification) => {
-                console.log(notification)
+            Echo.private('App.User.' + this.userid).notification((notification) => {
                 let newUnreadNotifications = {data:notification};
                 this.unreadNotifications.push(newUnreadNotifications);
             });

@@ -16,6 +16,12 @@ class ChatRoomUser extends Model
     protected $fillable = ['chat_room_id', 'user_id'];
 
     /**
+     * Lista de atributos para la gestión de fechas
+     * @var array $dates
+     */
+    protected $dates = ['updated_at'];
+
+    /**
      * ChatRoomUser belongs to ChatRoom.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

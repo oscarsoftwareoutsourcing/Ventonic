@@ -162,7 +162,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getChatRoomsAttribute()
     {
-        return $this->chatRoomUsers()->get('chat_room_id');
+        return $this->chatRoomUsers()->latest('updated_at')->get('chat_room_id');
     }
 
     /**

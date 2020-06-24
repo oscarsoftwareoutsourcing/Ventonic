@@ -68,7 +68,11 @@ class ChatController extends Controller
             $msg->unreaded = false;
             $msg->save();
         }
-        session(['chat_room_id' => $id, 'chat_room_user' => $user]);
+        /** @var object consulta el registro recién creado con la relación correspondiente a los usuarios */
+        $userChatRoom = ChatRoomUser::with(['user'])->where([
+            'chat_room_id' => $id, 'user_id' => $user_id
+        ])->first();
+        session(['chat_room_id' => $id, 'chat_room_user' => $userChatRoom]);
         return response()->json(['result' => true, 'userChat' => $user], 200);
     }
 
@@ -107,10 +111,14 @@ class ChatController extends Controller
         ]);
 
         if (session('chat_room_id') !== null) {
+            $now = Carbon::now();
             ChatRoomUser::where(
                 'chat_room_id',
                 session('chat_room_id')
-            )->update(['updated_at' => Carbon::now()]);
+            )->update(['updated_at' => $now]);
+            $room = ChatRoom::find(session('chat_room_id'));
+            $room->updated_at = $now;
+            $room->save();
             $time=FormatTime::LongTimeFilter($message->created_at);
 
             $chatRoomUsers = ChatRoomUser::where('chat_room_id', session('chat_room_id'))->where(
@@ -220,6 +228,19 @@ class ChatController extends Controller
      */
     public function getUserChatRooms()
     {
+        $chatOrigins = $this->getChatOrigins();
+        return response()->json(['chatOrigins' => $chatOrigins], 200);
+    }
+
+    public function filterUserChatRooms(Request $request)
+    {
+        $filterText = $request->filter;
+        $chatOrigins = $this->getChatOrigins($filterText);
+        return response()->json(['chatOrigins' => $chatOrigins], 200);
+    }
+
+    public function getChatOrigins($filter = null)
+    {
         $userId = auth()->user()->id;
 
         $chatOrigins = [
@@ -255,8 +276,20 @@ class ChatController extends Controller
                 'user_id',
                 '<>',
                 $userId
-            )->orderBy('updated_at', 'desc')->get();
+            )->latest()->get();
+
             foreach ($chatUsers as $chatUser) {
+                if (
+                    $filter !== null &&
+                    !empty($filter) &&
+                    strpos($chatUser->user->name, $filter) === false &&
+                    strpos($chatUser->user->last_name, $filter) === false &&
+                    strpos($chatUser->user->email, $filter) === false
+                ) {
+                    /** continúa a la siguiente iteración si existe un filtro y no existe en el registro */
+                    continue;
+                }
+
                 if (!in_array($chatUser->user_id, $alreadyUsers)) {
                     array_push($alreadyUsers, $chatUser->user_id);
                     array_push($chatOrigins[$indexes[$chatUser->chatRoom->type]]['users'], $chatUser);
@@ -264,7 +297,6 @@ class ChatController extends Controller
             }
         }
 
-
-        return response()->json(['chatOrigins' => $chatOrigins], 200);
+        return $chatOrigins;
     }
 }
