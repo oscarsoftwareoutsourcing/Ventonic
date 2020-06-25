@@ -235,7 +235,12 @@
     </div>
 </div>
 @endsection
+
+@section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}"></script>
+@endsection
 @section('extra-js')
+
 <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/datatables.min.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
@@ -246,6 +251,3 @@
 <script src="{{ asset('js/scripts/ui/data-list-view.js') }}"></script>
 <script>$("#datatable").DataTable();</script>
 @endsection
-{{-- @section('extra-js-app')
-    <script src="{{ asset('js/app.js') }}" defer></script>
-@endsection --}}

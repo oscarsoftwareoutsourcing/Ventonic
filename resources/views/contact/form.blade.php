@@ -255,6 +255,11 @@
     </div>
 </div>
 @endsection
+
+@section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}"></script>
+@endsection
+
 @section('extra-js')
 @parent
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN7QXrQX8mlDNTdtcSY5dzZzrVJ1516hw&libraries=places&callback=initialize" async defer>
@@ -262,6 +267,3 @@
 <script src="{{ asset('js/geolocalizacion.js') }}"></script>
 @endsection
 
-@section('extra-js-app')
-    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
-@endsection
