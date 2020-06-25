@@ -13,7 +13,9 @@ class ChangeEventsNotesField extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('events', function (Blueprint $table) {
+            $table->text('notes')->nullable()->change();
+        });
     }
 
     /**
@@ -23,8 +25,6 @@ class ChangeEventsNotesField extends Migration
      */
     public function down()
     {
-        Schema::table('events', function (Blueprint $table) {
-            $table->text('notes')->nullable()->change();
-        });
+        
     }
 }
