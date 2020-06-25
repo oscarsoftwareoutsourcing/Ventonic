@@ -47,11 +47,13 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm($type = null)
     {
+        var_dump($type); die();
         if ($type === 'empresa') {
             return view('auth.register-company');
         }
         return view('auth.register');
     }
+
 
     /**
      * Get a validator for an incoming registration request.

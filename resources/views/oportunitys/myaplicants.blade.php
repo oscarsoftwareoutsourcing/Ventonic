@@ -198,7 +198,7 @@
                                     <input type="text" class="likeind" id="likeind{{$aplicant->id}}" value="{{$aplicant->user->sellerProfile->likeind ?? ''}}" data-id="{{$aplicant->id}}" hidden>
                                     <input type="text" class="anios" id="sector{{$aplicant->id}}" value="{{App\User::getAnsweredAnios($aplicant->user_id, 2)}}" data-id="{{$aplicant->id}}" hidden>
                                     <input type="text" class="experiencia" id="sector{{$aplicant->id}}" value="{{App\User::getExperiencie($aplicant->user_id, 3)}}" data-id="{{$aplicant->id}}" hidden>
-                                    <input type="text" class="disponibilidad" id="sector{{$aplicant->id}}" value="{{App\User::getTipoColaboration($aplicant->user_id, 4)}}" data-id="{{$aplicant->id}}" hidden>
+                                    <input type="text" class="disponibilidad" id="sector{{$aplicant->id}}" value="{{App\User::getDisponibilidad($aplicant->user_id, 4)}}" data-id="{{$aplicant->id}}" hidden>
                                     <input type="text" class="colaboracion" id="sector{{$aplicant->id}}" value="{{App\User::getTipoColaboration($aplicant->user_id, 5)}}" data-id="{{$aplicant->id}}" hidden>
 
                                     </td>

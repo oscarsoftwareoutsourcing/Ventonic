@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Group;
 use App\User;
 use App\GroupUser;
+use App\Invitation;
+use App\Notifications\NewInvitationGroup;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NuevaInvitacionRecibida;
 
 class GroupController extends Controller
 {
@@ -40,11 +44,32 @@ class GroupController extends Controller
             ]
         );
 
+
+
         if($grupo && $request->input('email')){
             $email=$request->input('email');
-            var_dump($email); die();
-            return 'Hola';
-    
+            $name_group=$grupo->name;
+            $group_id=$grupo->id;
+            $user_id=User::where('email', $email)->value('id');
+            $codigo_confirmacion= substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 20); 
+            
+            $invitation = Invitation::updateOrCreate(
+                ['group_id' =>  $group_id,
+                 'email' => $email,
+                 'token'=>$codigo_confirmacion,
+                 'status'=>0,
+                ]
+            );            
+            if($user_id==null){
+                Mail::to($email)->send(new NuevaInvitacionRecibida($name_group, $codigo_confirmacion));
+                echo 'Usuario no registrado';
+            
+            }else{               
+                $user_notify=User::find($user_id);
+                $user_notify->notify(new NewInvitationGroup());
+                echo 'correo enviado';
+            }
+
         }
     }
 }
