@@ -23,7 +23,7 @@
                             </div>
                         @endif
 
-                        Te has autenticado en el sistema con éxito
+                        Te has autenticado en el sistema con éxito 1
                     </div>
                 </div>
             </div>

@@ -36,7 +36,7 @@ class HomeController extends Controller
             return view('dashboard.index', ['contacts'=>$contacts]);
 
         }
-        return view('home');
+        return view('dashboard.index');  //home
     }
 
     public function searchSeller()
