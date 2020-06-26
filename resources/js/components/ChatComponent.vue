@@ -355,7 +355,6 @@ export default {
     /**
      * Obtiene el listado de usuarios en el chat
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      */
     getChatUsers() {
       const vm = this;
@@ -371,7 +370,6 @@ export default {
     /**
      * Obtiene los mensajes del chat
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return     {[type]}         [description]
      */
@@ -389,7 +387,6 @@ export default {
     /**
      * Envía el mensaje al usuario
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return     {[type]}         [description]
      */
@@ -423,7 +420,6 @@ export default {
     /**
      * Envía el evento cuando el usuario esta escribiendo
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return     {[type]}           [description]
      */
@@ -434,7 +430,6 @@ export default {
     /**
      * Establece los datos del usuario seleccionado para conversaciones
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     {object}      user    Objeto con información del usuario seleccionado
      */
@@ -481,7 +476,6 @@ export default {
     /**
      * Modifica los datos globales de acuerdo al usuario seleccionado
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return    {object}        Objeto con datos del usuario seleccionado
      */
