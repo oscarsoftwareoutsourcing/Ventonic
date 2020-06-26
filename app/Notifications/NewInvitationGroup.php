@@ -46,9 +46,10 @@ class NewInvitationGroup extends Notification
         return (new MailMessage)
                     ->greeting("Hola ".$notifiable->name.",")
                     ->subject('Invitación al grupo '.$this->name_group.' de usuarios recibida!')
+                    ->line('Has sido invitado a unirte al grupo '.$this->name_group)
                     ->line('Para aceptar la invitación visite el siguiente link.')
                     ->action('Ver invitación', url(env('APP_URL').'/acceso'))
-                    ->line('y encuentrela en su perfil,');
+                    ->line('y encuentrala en tu perfil,');
     }
 
     /**
