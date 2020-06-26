@@ -218,7 +218,7 @@
               <div class="chat_navbar">
                 <header class="chat_header d-flex justify-content-between align-items-center p-1">
                   <div class="vs-con-items d-flex align-items-center">
-                    <div class="sidebar-toggle d-block d-lg-none mr-1">
+                    <div class="sidebar-toggle d-block d-lg-none mr-1" v-on:click="openContent">
                       <i class="feather icon-menu font-large-1"></i>
                     </div>
                     <div class="avatar user-profile-toggle m-0 m-0 mr-1">
@@ -435,6 +435,7 @@ export default {
      */
     selectUser(user) {
       this.selectedUser = user;
+      this.closeContent();
     },
     searchInChat() {
       const vm = this;
@@ -458,10 +459,12 @@ export default {
     },
     closeContent: function() {
       //console.log("Cerrar");
-      $(".chat-profile-sidebar").removeClass("show");
-      $(".user-profile-sidebar").removeClass("show");
-      $(".app-content .sidebar-content").removeClass("show");
-      $(".chat-overlay").removeClass("show");
+      if ($(window).width() < 992) {
+        $(".chat-profile-sidebar").removeClass("show");
+        $(".user-profile-sidebar").removeClass("show");
+        $(".app-content .sidebar-content").removeClass("show");
+        $(".chat-overlay").removeClass("show");
+      }
     },
     openContent: function() {
       if ($(window).width() < 992) {
