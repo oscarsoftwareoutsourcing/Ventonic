@@ -31,6 +31,7 @@
                                 <a type="button" href="{{route('group.form')}}" class="btn btn-outline-primary btn-md text-white"><i class="feather icon-users "></i> Nuevo grupo </a><span>  o puedes <a href="{{route('contact.list')}}" class="text-primary">gestionar los usuarios</a> de tu cuenta</span>
                             </div>
                         </div>
+                        @if($groups!=null)
                         <div class="card-body px-75">
                             <div class="list-group">
                                 @foreach($groups as $group)
@@ -38,8 +39,23 @@
                                     <code><i class='feather icon-user'></i>{{App\Group::getUserByGroup($group->id)}}</code></span>
                                 </p></a>
                                 @endforeach
+                                @if(isset($groups_added) && $groups_added!=null)
+                                    @foreach($groups_added as $group)
+                                        <a href="{{route('group.edit', ['group_id'=> $group->group_id])}}"><p class="list-group-item text-primary">{{$group->group->name}}<span class="text-white">
+                                            <code><i class='feather icon-user'></i>{{App\Group::getUserByGroup($group->group_id)}}</code></span>
+                                        </p></a>
+                                    @endforeach
+                                @endif
+        
                             </div>
                         </div>
+                        @else
+                        <div class="card-body px-75">
+                            <div class="list-group">
+                                <p class="list-group-item text-primary">No ha registrado ningún grupo de usuarios</p>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     
                 </div>
