@@ -344,7 +344,6 @@ class ContactController extends Controller
             }
             $delete_contact=Contact::find((int)$contact_id);
             $borrado=$delete_contact->delete();
-            var_dump($borrado);
                 if(isset($borrado)){
                             
                     return redirect()->route('contact.list')

@@ -13,6 +13,7 @@ use App\CompanyProfile;
 use App\SellerProfile;
 use App\Question;
 use App\User;
+use App\Invitation;
 
 class ProfileController extends Controller
 {
@@ -36,9 +37,19 @@ class ProfileController extends Controller
         $phone_code = $this->phone_code;
         $profile = $this->profile;
         $country_flag = $this->country_flag;
+        
+        // Confirmar invitacion a grupo
+            $user_id = auth()->user()->id;
+            $email_user_login = User::where('id', $user_id)->value('email');
+            $verify = Invitation::where('email', $email_user_login)
+                ->where('status', 'pendiente')
+                ->value('id');
+            if ($verify != null && $verify > 0) {
+                return redirect()->route('group.confirmInvitation',['invitacion_id'=>$verify]);
+            }
+        // Fin confirmar invitacion a grupo
 
         $questions = Question::where(['option_type' => $type, 'status' => true])->orderBy('priority')->get();
-
         return view('auth.profile', compact('type', 'status', 'phone_code', 'profile', 'questions', 'country_flag'));
     }
 
@@ -194,6 +205,22 @@ class ProfileController extends Controller
         }
 
         $request->session()->flash('status', 'Datos almacenados con éxito');
+
+        // Confirmar invitacion a grupo
+        $user_id = auth()->user()->id;
+        $email_user_login = User::where('id', $user_id)->value('email');
+        var_dump($email_user_login);
+        die();
+
+        $verify = Invitation::where('email', $email_user_login)
+            ->where('status', 'pendiente')
+            ->value('id');
+        var_dump($verify);
+        die();
+        if ($verify != null && $verify > 0) {
+            return redirect()->route('group.confirmInvitation');
+        }
+        // Fin confirmar invtacion a grupo
 
         if ($this->getType() === 'E' && $profile->status >= 100) {
             return redirect()->route('search.init');

@@ -16,9 +16,12 @@ class NewInvitationGroup extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public $name_group;
+    public $url;
+    public function __construct($name_group, $url)
     {
-        //
+        $this->name_group =$name_group;
+        $this->url =$url;
     }
 
     /**
@@ -41,9 +44,11 @@ class NewInvitationGroup extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->greeting("Hola ".$notifiable->name.",")
+                    ->subject('Invitación al grupo '.$this->name_group.' de usuarios recibida!')
+                    ->line('Para aceptar la invitación visite el siguiente link.')
+                    ->action('Ver invitación', url(env('APP_URL').'/acceso'))
+                    ->line('y encuentrela en su perfil,');
     }
 
     /**

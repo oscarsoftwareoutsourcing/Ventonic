@@ -10,6 +10,19 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
+                    @if(session('message'))
+                        <div class="alert alert-success">
+                            <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                            {{session('message')}}
+                        </div>
+                    @endif
+                    
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                            {{session('error')}}
+                        </div>
+                    @endif
                         <div class="card-header">
                             <h6 class="alert alert-primary float-left display-block"><i class="feather icon-users "></i> <span class="text-white"">Gestion de grupos de usuarios</span></h6>
                         </div>

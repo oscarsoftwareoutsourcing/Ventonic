@@ -33,7 +33,7 @@
                     <div class="card card-oportunity">
                         <div class="card-header">Mis contactos</div>
                      <div class="card-body">
-                        @if(session('message'))
+                    @if(session('message'))
                         <div class="alert alert-success">
                             <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
                             {{session('message')}}
@@ -138,10 +138,12 @@
                                 Está a punto de eliminar un contacto ¿Esta seguro de continuar?
                             </div>
                             <div class="modal-footer">
+                                @if($contacts)
                                 <a href="{{route('contact.destroy',['contact_id'=>$contact['id'], 'user_id'=>$contact['user_id']])}}" 
                                     type="submit" name="contact-directo" value="mensaje-directo" class="btn btn-primary">
                                     Confirmar
                                 </a>
+                                @endif
                                 <button name="sala-chat" value="sala-chat" class="btn btn-success float-right">
                                     <a href=''  
                                         class="text-white"> Cancelar <i class="text-white feather icon-message-circle"></i>

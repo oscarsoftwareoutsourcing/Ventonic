@@ -15,7 +15,7 @@ use App\Mail\NuevaInvitacionRecibida;
 class GroupController extends Controller
 {
     public function show(){
-        $groups=Group::where('user_id', auth()->user()->id)->get();
+        $groups=Group::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
         return view('groups.create-group', ['groups'=>$groups]);
     }
 
@@ -37,14 +37,11 @@ class GroupController extends Controller
             'name' => 'required|string|max:255'
         ]);
 
-
         $grupo = Group::updateOrCreate(
             ['name' =>  $request->name,
              'user_id' => auth()->user()->id
             ]
         );
-
-
 
         if($grupo && $request->input('email')){
             $email=$request->input('email');
@@ -52,24 +49,71 @@ class GroupController extends Controller
             $group_id=$grupo->id;
             $user_id=User::where('email', $email)->value('id');
             $codigo_confirmacion= substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 20); 
-            
+            $url=$codigo_confirmacion;
+
             $invitation = Invitation::updateOrCreate(
                 ['group_id' =>  $group_id,
                  'email' => $email,
                  'token'=>$codigo_confirmacion,
-                 'status'=>0,
+                 'status'=>'pendiente',
                 ]
-            );            
+            ); 
+           
             if($user_id==null){
-                Mail::to($email)->send(new NuevaInvitacionRecibida($name_group, $codigo_confirmacion));
-                echo 'Usuario no registrado';
+                // var_dump($name_group); die();
+                Mail::to($email)->send(new NuevaInvitacionRecibida($name_group, $url));
+
+                return redirect()->route('group.show')
+                                    ->with(['message'=>'Invitación enviada exitosamente']);
             
             }else{               
                 $user_notify=User::find($user_id);
-                $user_notify->notify(new NewInvitationGroup());
-                echo 'correo enviado';
+                $user_notify->notify(new NewInvitationGroup($name_group, $url));
+                return redirect()->route('group.show')
+                                    ->with(['message'=>'Invitación enviada exitosamente']);
             }
 
+        }else{
+            return redirect()->back()->with(['message'=>'Invitación enviada exitosamente']);
         }
     }
+    
+
+    public function confirmAceptInvitation($invitacion_id){
+        $group_id=Invitation::where('id',(int)$invitacion_id)->value('group_id');
+        $group=Group::where('id',$group_id)->first();
+        return view('groups.confirm',['group'=> $group, 'invitacion_id'=>$invitacion_id]);
+    }
+
+
+    public function aceptInvitation($id_group, $id_invitacion){
+        $id_invitacion=(int)$id_invitacion;
+        $invitacion=Invitation::find($id_invitacion);
+
+        $invitacion->status="aceptada";
+        $invitacion->update();
+
+        $user_id=auth()->user()->id;
+        $newMenber = GroupUser::updateOrCreate(
+            ['group_id' => $id_group,
+             'user_id' => auth()->user()->id
+            ]
+        );
+        if($newMenber){
+            return redirect()->route('contact.list')
+                             ->with(['message'=>'Grupo agregado exitosamente']);
+        }
+    }
+
+    
+    public function cancelInvitation($id_group, $id_invitacion){
+        $invitacion=Invitation::find((int)$id_invitacion);
+        $invitacion->status="rechazada";
+        $invitacion->update();
+        
+         return redirect()->route('contact.list')
+            ->with(['message'=>'Invitación rechazada']);
+    }
+
+
 }
