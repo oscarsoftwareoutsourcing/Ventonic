@@ -235,7 +235,6 @@
 
 @section('extra-js')
 <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script>
-<script src="{{ asset('js/app.js') }}" defer></script>
 
 <script>
   $(document).ready(function(){
