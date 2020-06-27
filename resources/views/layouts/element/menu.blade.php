@@ -50,7 +50,7 @@
 
             {{-- Negociaciones Company --}}
            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
-           <li class=" nav-item"><a href="{{route('negociationCompany.index')}}"><i class="feather icon-users"></i><span class="menu-title">Negociaciones</span></a>
+           <li class=" nav-item"><a href="{{route('negociaciones')}}"><i class="feather icon-users"></i><span class="menu-title">Negociaciones</span></a>
                
             </li>
             @endif

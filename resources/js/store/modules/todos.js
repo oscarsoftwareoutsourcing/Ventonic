@@ -2,10 +2,7 @@ import axios from 'axios';
 
 const URL = window.api_url;
 
-/*
-  Products
-  For the auth user data in the platform.
-*/
+/* Products */
 
 // Constant to reset this state information.
 const initialState = () => ({
@@ -200,14 +197,7 @@ export const mutations = {
             },
             labels: []
         };
-    },
-    
-    // RESET: (state) => {
-    //     const newState = initialState();
-    //     Object.keys(newState).forEach(key => {
-    //       state[key] = newState[key]
-    //     });
-    // },
+    }
 }
 
 export default {

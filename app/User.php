@@ -132,6 +132,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Todo::class);
     }
 
+    // User negotiations
+    public function negotiations() {
+        return $this->hasMany(Negotiation::class);
+    }
+
+    // User moduleLabels
+    public function negotiation_processes() {
+        return $this->hasMany(UserModuleLabel::class);
+    }
+
     public function getPhotoAttribute()
     {
         return ($this->sellerProfile!==null)
