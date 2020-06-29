@@ -22,7 +22,9 @@
             <div class="row">
                 <div class="col">
                     <div id="listsContainer" class="scrolling-wrapper row no-gutters flex-row flex-nowrap">
-                        <negotiation-process v-for="(process, index) in getProcesses" :key="index" :title="process.title" />
+                        <!-- <negotiation-process-list :processData="getProcesses" :negotiations="getNegsLists" /> -->
+                        <negotiation-process-list v-for="(process, index) in getProcesses" :key="index" :processData="process" />
+                        <!-- <negotiation-process-list v-for="(process, index) in getProcesses" :key="index" :processData="process" /> -->
                     </div>
                 </div>
             </div>
@@ -36,13 +38,19 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex';
+import draggable from 'vuedraggable';
 export default {
-    props: ['types', 'statuses', 'processes', 'negotiations'],
+    components: {
+        draggable
+    },
+    props: ['types', 'statuses', 'processes', 'negotiations', 'user', 'contacts'],
     mounted() {
         this.setTypes(this.types);
         this.setStatuses(this.statuses);
         this.setProcesses(this.processes.processes);
         this.setNegotiations(this.negotiations);
+        this.setUserId(this.user);
+        this.setContacts(this.contacts);
     },
     methods: {
         ...mapMutations({
@@ -50,14 +58,21 @@ export default {
             setStatuses: 'SET_STATUSES',
             setProcesses: 'SET_PROCESSES',
             setNegotiations: 'SET_NEGOTIATIONS',
+            setUserId: 'SET_USER_ID',
+            setContacts: 'SET_CONTACTS',
         }),
     },
     computed: {
-        ...mapGetters(['getProcesses']),
+        ...mapGetters(['getProcesses', 'getNegsLists']),
     }
 }
 </script>
 
 <style>
-
+    .list-height {
+        min-height: 200px !important;
+    }
+    .negotiation-card {
+        background-color: #262C49 !important;
+    }
 </style>

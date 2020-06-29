@@ -1,78 +1,64 @@
 import axios from 'axios';
 
-const URL = window.api_url;
-
 /* Negotiations */
 
 // Constant to reset this state information.
 const initialState = () => ({
+    contacts: [], // User contacts
     types: [], // Negotiations types.
     statuses: [], // Negotiation statuses.
     processes: [], // Negotiation processes.
-    negotiations: [], // Negotiations
-
+    negotiations: [], // Negotiations.
+    negLists: [],
+    negotiation: {
+        id: null,
+        userId: null,
+        contactId: null,
+        negTypeId: null,
+        negStatusId: null,
+        negProcessId: null,
+        title: '',
+        description: '',
+        amount: '',
+        active: true,
+    },
 });
 
 // State object.
 const state = initialState;
 
 export const getters = {
+    getContacts: state => { return state.contacts },
+    getTypes: state => { return state.types },
+    getStatuses: state => { return state.statuses },
     getProcesses: state => { return state.processes },
+    getNegotiation: state => { return state.negotiation },
+    getNegotiations: state => { return state.negotiations },
+    getNegsLists: state => { return state.negLists },
 };
 
 export const actions = {
-    /* async saveTodo({ state, commit }) {
+    async saveNeg({ state, commit }) {
 
         try {
 
-            // Copy of todos
-            let copy = _.cloneDeep(state.todos);
-
-            // New todo
-            if(state.todo.id === null) {
-
-                let key = null;
-
-                // Create id for note
-                do {
-                    key = Math.random().toString(20).substr(2, 5);
-                } while (state.todos.findIndex(todo => todo.id === key) !== -1);
-
-                state.todo.id = key;
-
-                // Verify if it doesn't exist
-                (copy.length > 0) ? copy.unshift(state.todo) : copy.push(state.todo);
-            
-            // Update todo
-            } else {
-                let index = state.todos.findIndex(todo => todo.id === state.todo.id);
-                copy[index] = state.todo;
-            }
-
-            // We stringify the todos object
-            copy = JSON.stringify(copy);
-
             // Send data
-            const response = await axios.post(`${URL}/api/todos/save-todo`, {uid: state.user, todos:copy});
+            const response = await axios.post(`${window.api_url}/api/negotiations/save-negotiation`, state.negotiation);
 
             if(response.data.result) {
                 
                 // Change store todos
-                commit('SET_TODOS', JSON.parse(response.data.updatedTodos));
+                commit('ADD_NEGOTIATION', response.data.saved_neg);
                 
                 // Reset todo
-                commit('RESET_TODO');
+                commit('RESET_NEGOTIATION');
             }
         } catch (error) {
             // Render error message
             console.log(error);
         } finally {
-
-            // Copy todos to render
-            commit('SET_COPY', state.todos);
-            if (!state.filters.all) { commit('FILTER_COPY'); }
         }
-    }, */
+    },
     /* async updateFilter({ state, commit }, filter) {
         try {
 
@@ -111,10 +97,41 @@ export const actions = {
 };
 
 export const mutations = {
+    SET_USER_ID: (state, i) => state.negotiation.userId = i,
+    SET_CONTACTS: (state, c) => state.contacts = c,
     SET_TYPES: (state, t) => state.types = t,
     SET_STATUSES: (state, s) => state.statuses = s,
     SET_PROCESSES: (state, p) => state.processes = p,
-    SET_NEGOTIATIONS: (state, n) => state.negotiations = n,
+    SET_NEGOTIATIONS: (state, ns) => {
+        state.negotiations = ns;
+
+        // Create a copy for every process of this user.
+        state.processes.forEach(process => {
+            state.negLists['list-' + process.id] = state.negotiations.filter(neg => neg.neg_process_id === process.id);
+        });
+    },
+    SET_NEGOTIATION: (state, n) => state.negotiation = n,
+    RESET_NEGOTIATION: (state) => {
+
+        /* Reset todo */
+        state.negotiation = {
+            id: null,
+            contactId: null,
+            negTypeId: null,
+            negStatusId: null,
+            negProcessId: null,
+            title: '',
+            description: '',
+            amount: '',
+            active: true,
+        };
+    },
+    ADD_NEGOTIATION: (state, n) => {
+        state.negotiations.push(n);
+    },
+    // UPDATE_NEG_LIST: (state, val) => {
+    //     state.negLists['list-1'] = val;
+    // }
     /* TOGGLE_STARRED: (state) => state.todo.filters.starred = !state.todo.filters.starred,
     TOGGLE_IMPORTANT: (state) => state.todo.filters.important = !state.todo.filters.important,
     TOGGLE_FILTER: (state, f) => {

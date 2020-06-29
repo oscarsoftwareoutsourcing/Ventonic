@@ -159,7 +159,6 @@ export const mutations = {
 
             /* Set the selected todo */
             Object.keys(state.todo).forEach(key => {
-                // console.log(key);
                 state.todo[key] = state.todosCopy[index][key];
             });
         }

@@ -8,9 +8,12 @@
 @endsection
 
 @section('content')
-    <negotiations-module :types="{{ $negTypes }}" :statuses="{{ $negStatuses }}" :processes="{{ $negProcesses }}" :negotiations="{{ $negotiations }}" />
+    <negotiations-module :types="{{ $negTypes }}" :statuses="{{ $negStatuses }}" :processes="{{ $negProcesses }}" :negotiations="{{ $negotiations }}" :user="{{ $userId }}" :contacts="{{ $userContacts }}" />
 @endsection
 @section('extra-js')
+    <script>
+        window.api_url="{{ env('MIX_API_URL') }}";
+    </script>
 @endsection
 
 @section('extra-js-app')
