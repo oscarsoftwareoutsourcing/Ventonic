@@ -20,7 +20,7 @@
                 />
                 <span class="avatar-status-online avatar-status-lg"></span>
               </div>
-              <h4 class="chat-user-name">{{ user.name }}</h4>
+              <h4 class="chat-user-name">{{ user.name }} {{ user.last_name }}</h4>
             </div>
           </header>
 
@@ -172,7 +172,9 @@
                 </div>
                 <div class="user-chat-info">
                   <div class="contact-info">
-                    <h5 class="font-weight-bold mb-0">{{ otherUser.user.name }}</h5>
+                    <h5
+                      class="font-weight-bold mb-0"
+                    >{{ otherUser.user.name }} {{ otherUser.user.last_name }}</h5>
                     <p class="truncate"></p>
                   </div>
                   <div class="contact-meta">
@@ -240,7 +242,9 @@
                       <span class="avatar-status-busy" v-if="!selectedUser.user.status"></span>
                       <span class="avatar-status-online" v-else></span>
                     </div>
-                    <h6 class="mb-0">{{ selectedUser.user.name || 'anonimo' }}</h6>
+                    <h6
+                      class="mb-0"
+                    >{{ selectedUser.user.name || 'anonimo' }} {{ selectedUser.user.last_name || '' }}</h6>
                   </div>
                   <span class="favorite">
                     <i class="feather icon-star font-medium-5"></i>

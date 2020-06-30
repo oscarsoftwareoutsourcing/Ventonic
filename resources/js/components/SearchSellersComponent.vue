@@ -86,7 +86,7 @@
                   <th>Apellido</th>
                   <th>Correo</th>
                   <th>Última Conexión</th>
-                  <th>Status</th>
+
                   <th></th>
                 </tr>
               </thead>
@@ -122,13 +122,7 @@
                   <td>{{ seller.last_name }}</td>
                   <td>{{ seller.email }}</td>
                   <td>{{ seller.last_login }}</td>
-                  <td>
-                    <div :class="seller.status ? 'chip chip-success' : 'chip chip-warning'">
-                      <div class="chip-body">
-                        <div class="chip-text">{{ getStatus(seller.status) }}</div>
-                      </div>
-                    </div>
-                  </td>
+
                   <td>
                     <div v-if="seller.seller_profile">
                       <button
