@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Invitation extends Model
 {
     protected $table = 'invitations';
-    protected $fillable = ['group_id','user_id', 'token', 'status'];
+    protected $fillable = ['group_id','user_id', 'token', 'status', 'email'];
 
     public function group()
     {

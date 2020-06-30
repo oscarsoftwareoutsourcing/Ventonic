@@ -63,7 +63,8 @@
 
 <!-- BEGIN: Body  vertical-menu-modern-->
 <!-- data-menu="vertical-menu-modern" -->
-<body class="vertical-layout vertical-menu-modern {{ ($type_device=='mobile') ? 'semi-dark-layout':'dark-layout' }} 2-columns @yield('extra-style') navbar-floating footer-static" data-open="hover" data-menu="vertical-menu-modern" data-col="2-columns" data-layout="dark-layout" data-device="{{ $type_device }}">
+<body class="vertical-layout vertical-menu-modern {{ ($type_device=='mobile') ? 'semi-dark-layout':'dark-layout' }}  @yield('extra-style')
+navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="content-left-silderbar" data-layout="dark-layout" data-device="{{ $type_device }}">
     <div id="app">
 
         @include('layouts.element.nav')
@@ -111,7 +112,7 @@
     <script src="{{ asset('js/scripts/components.js') }}" ></script>
 
     <!-- END: Theme JS-->
-    
+
     {{--BEGIN:oportuniys scripts --}}
     <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
     {{--END:oportunitys scripts --}}

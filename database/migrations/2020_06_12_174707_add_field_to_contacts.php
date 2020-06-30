@@ -26,6 +26,9 @@ class AddFieldToContacts extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contacts');
+        Schema::table('contacts', function (Blueprint $table) {
+            $table->dropColumn('private');
+            $table->dropColumn('type_contact');
+        });
     }
 }

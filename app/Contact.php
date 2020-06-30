@@ -107,4 +107,8 @@ class Contact extends Model
         $contact=Contact::where('id', (int)$contact_id)->value('favorite');
         return $contact;
     }
+
+    public function negotiation(){
+        return $this->belongsToMany(Negotiation::class);
+    }
 }

@@ -18,7 +18,7 @@ class CreateEventsTable extends Migration
             $table->string('title')->comment('Título del evento');
             $table->date('start_at')->comment('fecha y hora en que inicia el evento');
             $table->date('end_at')->comment('fecha y hora en que finaliza el evento');
-            $table->text('notes')->comment('nota o descripción del evento');
+            $table->text('notes')->notNullable()->comment('nota o descripción del evento');
             $table->text('tags')->nullable()->comment('etiquetas bajo la cual se encuentra el evento');
             $table->boolean('private')->default(true);
             $table->bigInteger('user_id')->unsigned()->nullable();

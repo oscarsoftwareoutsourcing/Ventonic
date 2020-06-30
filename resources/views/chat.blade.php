@@ -23,7 +23,7 @@
 @endsection
 
 @section('extra-data')
-    ccontent-left-sidebar
+    content-left-sidebar
 @endsection
 
 @section('content')

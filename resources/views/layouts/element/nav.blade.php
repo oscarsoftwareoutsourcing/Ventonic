@@ -34,7 +34,7 @@
 
                         @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
                         <li class="nav-item d-none d-lg-block">
-                            <a class="nav-link" href="{{ route('negociationCompany.index') }}" data-toggle="tooltip" data-placement="top" title="Negociaciones"><i class="ficon feather icon-users"></i></a>
+                            <a class="nav-link" href="{{ route('negociaciones') }}" data-toggle="tooltip" data-placement="top" title="Negociaciones"><i class="ficon feather icon-users"></i></a>
                         </li>
                         @endif
 
@@ -75,7 +75,7 @@
                     {{-- Fin notificaciones --}}
                     </li>
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
-                            <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">{{ Auth::user()->name }} </span><span class="user-status">Disponible</span></div><span><img class="round" src="/{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }} " height="40" width="40"></span>
+                            <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">{{ Auth::user()->name.' '. strtoUpper(substr(Auth::user()->last_name,0,1)).'.' }} </span><span class="user-status">Disponible</span></div><span><img class="round" src="/{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }} " height="40" width="40"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             

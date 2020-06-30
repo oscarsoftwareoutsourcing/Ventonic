@@ -126,8 +126,9 @@ class AplicantController extends Controller
     public function profilePostulant($id){
         $seller_profile=SellerProfile::where('user_id',(int)$id)->first();
         $array_answered=SellerAnsweredSurvey::where('user_id',$id)->get();
-        $questions=Question::all();
+        $questions=Question::where('option_type', 'V')->get();
         $answered=null;
+        // var_dump($seller_profile); die();
         // // $array_question=explode(",",$questions);
         // // var_dump($array_question); die();
         //foreach($questions as $question){
