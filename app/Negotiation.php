@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Negotiation extends Model
 {
 
+    protected $casts = [
+        'active' => 'boolean'
+    ];
+
+
     // Relations
     // User
     public function user() {

@@ -8,7 +8,7 @@
                     <a href="#" data-toggle="modal" data-target="#negForm" class="list-group-item list-group-item-action negotiation-card mb-1" v-for="(card, index) in negotiations" :key="index" :data-neg-id="card.id" @click="setNegotiation(card)">
                         <div class="d-flex w-100 justify-content-between mb-1">
                             <small>{{ createdAt(card.created_at) }}</small>
-                            <a @click.stop="archiveNegotiation(card.id, card.active)" title="Archivar"><i class="fa fa-folder-open-o warning"></i></a>
+                            <a @click.stop="archiveNegotiation(card.id, card.active)" title="Archivar"><i class="fa fa-archive warning"></i></a>
                         </div>
                         <h5 class="mb-1 text-white">{{ card.title }}</h5>
                         <p class="mb-1">{{ card.description }}</p>
@@ -65,7 +65,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['getProcesses', 'getNegotiations', 'getNegsLists']),
+        ...mapGetters(['getProcesses', 'getNegotiations']),
         negotiations() {
             return this.getNegotiations.filter(neg => neg.neg_process_id === this.processData.id);
         }
