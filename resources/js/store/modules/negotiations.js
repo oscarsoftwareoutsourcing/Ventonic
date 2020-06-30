@@ -12,11 +12,11 @@ const initialState = () => ({
     negLists: [],
     negotiation: {
         id: null,
-        userId: null,
-        contactId: null,
-        negTypeId: null,
-        negStatusId: null,
-        negProcessId: null,
+        user_id: null,
+        contact_id: null,
+        neg_type_id: null,
+        neg_status_id: null,
+        neg_process_id: null,
         title: '',
         description: '',
         amount: '',
@@ -48,7 +48,7 @@ export const actions = {
             if(response.data.result) {
                 
                 // Change store todos
-                commit('ADD_NEGOTIATION', response.data.saved_neg);
+                commit('MANAGE_NEGOTIATION', response.data.saved_neg);
                 
                 // Reset todo
                 commit('RESET_NEGOTIATION');
@@ -57,6 +57,38 @@ export const actions = {
             // Render error message
             console.log(error);
         } finally {
+        }
+    },
+    async changeToList({commit}, value) {
+        try {
+
+            // Send data
+            const response = await axios.put(`${window.api_url}/api/negotiations/change-negotiation-list/${value.id}`, {processId: value.processId});
+
+            if(response.data.result) {
+                
+                // Change store todos
+                commit('UPDATE_NEGOTIATIONS', response.data.updated_neg);
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    async toggleActivation({commit}, value) {
+        try {
+
+            // Send data
+            const response = await axios.post(`${window.api_url}/api/negotiations/toggle-active-negotiation`, {id: value.id, active: value.active});
+
+            if(response.data.result) {
+                
+                // Change store todos
+                commit('UPDATE_NEGOTIATIONS', response.data.toggled_neg);
+            }
+            
+        } catch (error) {
+            console.log(error);
         }
     },
     /* async updateFilter({ state, commit }, filter) {
@@ -97,7 +129,7 @@ export const actions = {
 };
 
 export const mutations = {
-    SET_USER_ID: (state, i) => state.negotiation.userId = i,
+    SET_USER_ID: (state, i) => state.negotiation.user_id = i,
     SET_CONTACTS: (state, c) => state.contacts = c,
     SET_TYPES: (state, t) => state.types = t,
     SET_STATUSES: (state, s) => state.statuses = s,
@@ -126,12 +158,22 @@ export const mutations = {
             active: true,
         };
     },
-    ADD_NEGOTIATION: (state, n) => {
-        state.negotiations.push(n);
+    MANAGE_NEGOTIATION: (state, n) => {
+        const index = state.negotiations.findIndex(sn => sn.id === n.id);
+
+        if(index !== -1) {
+            state.negotiations[index] = n;
+        } else {
+            state.negotiations.push(n);
+        }
     },
-    // UPDATE_NEG_LIST: (state, val) => {
-    //     state.negLists['list-1'] = val;
-    // }
+    UPDATE_NEGOTIATIONS: (state, val) => {
+        const index = state.negotiations.findIndex(n => n.id === val.id);
+        
+        if(index !== -1) {
+            state.negotiations[index] = val;
+        }
+    }
     /* TOGGLE_STARRED: (state) => state.todo.filters.starred = !state.todo.filters.starred,
     TOGGLE_IMPORTANT: (state) => state.todo.filters.important = !state.todo.filters.important,
     TOGGLE_FILTER: (state, f) => {

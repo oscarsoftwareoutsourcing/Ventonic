@@ -22,9 +22,7 @@
             <div class="row">
                 <div class="col">
                     <div id="listsContainer" class="scrolling-wrapper row no-gutters flex-row flex-nowrap">
-                        <!-- <negotiation-process-list :processData="getProcesses" :negotiations="getNegsLists" /> -->
                         <negotiation-process-list v-for="(process, index) in getProcesses" :key="index" :processData="process" />
-                        <!-- <negotiation-process-list v-for="(process, index) in getProcesses" :key="index" :processData="process" /> -->
                     </div>
                 </div>
             </div>
@@ -61,6 +59,24 @@ export default {
             setUserId: 'SET_USER_ID',
             setContacts: 'SET_CONTACTS',
         }),
+        hideDeleteModal() {
+
+            alert();
+
+            // get modal
+            const modal = document.querySelector('#deleteNegModal');
+            
+            // change state like in hidden modal
+            modal.classList.remove('show');
+            modal.setAttribute('aria-hidden', 'true');
+            modal.setAttribute('style', 'display: none');
+
+            // get modal backdrop
+            const modalBackdrops = document.querySelectorAll('.modal-backdrop');
+
+            // remove opened modal backdrop
+            document.body.removeChild(modalBackdrops[0]);
+        }
     },
     computed: {
         ...mapGetters(['getProcesses', 'getNegsLists']),
