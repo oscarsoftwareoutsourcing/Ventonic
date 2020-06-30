@@ -32,9 +32,11 @@ class ChangeFieldsToEventsTable extends Migration
     {
         Schema::table('events', function (Blueprint $table) {
             $table->dropColumn('category');
-            $table->text('tags')->nullable()->comment('etiquetas bajo la cual se encuentra el evento');
-            $table->date('start_at')->comment('fecha de inicio del evento')->change();
-            $table->date('end_at')->comment('fecha final del evento')->change();
+            $table->dropColumn('start_at');
+            $table->dropColumn('end_at');
+            // $table->text('tags')->nullable()->comment('etiquetas bajo la cual se encuentra el evento');
+            // $table->date('start_at')->comment('fecha de inicio del evento')->change();
+            // $table->date('end_at')->comment('fecha final del evento')->change();
         });
     }
 }

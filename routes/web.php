@@ -117,12 +117,6 @@ Route::get('markAsRead', function () {
 //     return "Event has been sent!";
 // });
 
-
-// Rutas para negociaciones Company
-Route::get('negociaciones/empresa', 'NegociationCompanyController@index')->name('negociationCompany.index')->middleware('verified');
-Route::get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{producto}/{responsable}/{estimado}', 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');
-
-
 // Rutas para contacto
 Route::get('contacto/listado', 'ContactController@index')->name('contact.list')->middleware('verified');
 Route::get('contacto/crear/{contact?}', 'ContactController@create')->name('contact.create')->middleware('verified');
@@ -150,6 +144,11 @@ $router->group(['middleware' => ['verified']], function() use ($router) {
     
     // Email module
     $router->get('email', 'EmailController@index')->name('email');
+
+    // Negotiations
+    // Rutas para negociaciones Company
+    $router->get('negociaciones', 'NegotiationController@index')->name('negociaciones');
+    // $router->get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{producto}/{responsable}/{estimado}', 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');
 });
 
 Route::get('calender', 'EventController@index')->name('events.calender');

@@ -12,15 +12,23 @@ class ModuleLabelsSeeder extends Seeder
     public function run()
     {
         DB::table('module_labels')->insert([
-            'module' => 'Todos',
-            'labels' => json_encode([
-                ["id" => 1, "label" => "Etiqueta #1"],
-                ["id" => 2, "label" => "Etiqueta #2"],
-                ["id" => 3, "label" => "Etiqueta #3"],
-                ["id" => 4, "label" => "Etiqueta #4"],
-            ]),
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => NULL
+            [
+                'module' => 'Todos',
+                'labels' => json_encode([
+                    ["id" => 1, "label" => "Etiqueta #1"],
+                    ["id" => 2, "label" => "Etiqueta #2"],
+                    ["id" => 3, "label" => "Etiqueta #3"],
+                    ["id" => 4, "label" => "Etiqueta #4"],
+                ]),
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => NULL
+            ],
+            [
+                'module' => 'Negotiations',
+                'labels' => NULL,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => NULL
+            ]
         ]);
     }
 }

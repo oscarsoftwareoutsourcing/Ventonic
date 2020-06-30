@@ -1,6 +1,6 @@
 import VueChatScroll from 'vue-chat-scroll';
-import PerfectScrollbar from 'vue2-perfect-scrollbar'
-import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
+import PerfectScrollbar from 'vue2-perfect-scrollbar';
+import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css';
 import Vuelidate from 'vuelidate';
 // Import store modules.
 import store from './store/index.js';
@@ -10,7 +10,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 Vue.use(VueChatScroll);
 Vue.use(Vuelidate);
-Vue.use(PerfectScrollbar)
+Vue.use(PerfectScrollbar);
 
 
 Vue.component('search-sellers', () => import('./components/SearchSellersComponent.vue'));
@@ -23,6 +23,12 @@ Vue.component('todos-module', () => import('./components/Todos.vue'));
 Vue.component('todo-sidebar', () => import('./components/TodoSidebar.vue'));
 Vue.component('todo-list', () => import('./components/TodoList.vue'));
 Vue.component('todo-form', () => import('./components/TodoForm.vue'));
+
+// Negotiations module components
+Vue.component('negotiations-module', () => import('./components/Negotiations.vue'));
+Vue.component('negotiation-process-list', () => import('./components/NegProcessList.vue'));
+Vue.component('negotiation-card', () => import('./components/NegCard.vue'));
+Vue.component('negotiation-form', () => import('./components/NegForm.vue'));
 
 const app = new Vue({
     el: '#app',

@@ -26,3 +26,13 @@ $router->group(['prefix' => 'todos'], function() use ($router) {
     // Update todos.
     $router->post('update-todos', ['uses' => 'TodoController@updateTodos']);
 });
+    
+// Negotiations routes
+$router->group(['prefix' => 'negotiations'], function() use ($router) {
+
+    // Save todo.
+    $router->post('save-negotiation', ['uses' => 'NegotiationController@saveNegotiation']);
+
+    // Update todos.
+    // $router->post('update-todos', ['uses' => 'TodoController@updateTodos']);
+});

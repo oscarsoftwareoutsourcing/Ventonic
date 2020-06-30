@@ -13,7 +13,7 @@ class ChangeEventsNotesField extends Migration
      */
     public function up()
     {
-        //
+       DB::statement('ALTER TABLE events CHANGE notes notes TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL ');
     }
 
     /**
@@ -24,7 +24,7 @@ class ChangeEventsNotesField extends Migration
     public function down()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->text('notes')->nullable()->change();
+            DB::statement('ALTER TABLE events CHANGE notes notes TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL');
         });
     }
 }
