@@ -53,15 +53,17 @@ class NegotiationController extends Controller
             $negotiation->title = $request->title;
             $negotiation->description = $request->description;
             $negotiation->amount = $request->amount;
-            $negotiation->active = true;
+            $negotiation->active = $request->active;
             $negotiation->created_at = date('Y-m-d H:i:s');
             $negotiation->updated_at = NULL;
 
             $negotiation->save();
 
+            $negotiations = User::find($request->user_id)->negotiations;
+
             return response()->json([
                 'result' => true,
-                'saved_neg' => $negotiation
+                'newNegotiations' => $negotiations
             ]);
         } catch (\Throwable $th) {
             echo $th;
@@ -90,29 +92,14 @@ class NegotiationController extends Controller
             $negotiation->active = !$request->active;
             $negotiation->save();
 
+            $negotiations = User::find($negotiation->user_id)->negotiations;
+
             return response()->json([
                 'result' => true,
-                'toggled_neg' => $negotiation
+                'newNegotiations' => $negotiations
             ]);
         } catch (\Throwable $th) {
             echo $th;
         }
     }
-
-    /* public function store($seller_profile_id, $status_negociations_id, $producto, $responsable, $estimado){
-
-        $negociacion = NegociationCompany::updateOrCreate(
-            ['user_id' => auth()->user()->id,
-             'seller_profile_id' =>   $seller_profile_id,
-             'status_negociations_id' => $status_negociations_id,
-             'producto' => $producto,
-             'responsable'=>$responsable,
-             'importe'=>$estimado
-            ]
-        );
-        if($negociacion){
-            return response()->json(['status'=>'success','message'=>'Estatus modificado exitosamente']); 
-        }
-
-    } */
 }

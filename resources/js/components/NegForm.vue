@@ -79,7 +79,7 @@
                         </div>
 
                         <!-- Amount -->
-                        <label>Aporte:</label>
+                        <label>Importe:</label>
                         <div class="form-group">
                             <input name="txtAmount" id="txtAmount" type="text" placeholder="Monto" class="form-control" v-model="amount">
                             
