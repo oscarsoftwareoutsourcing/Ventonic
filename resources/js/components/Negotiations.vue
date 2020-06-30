@@ -58,25 +58,7 @@ export default {
             setNegotiations: 'SET_NEGOTIATIONS',
             setUserId: 'SET_USER_ID',
             setContacts: 'SET_CONTACTS',
-        }),
-        hideDeleteModal() {
-
-            alert();
-
-            // get modal
-            const modal = document.querySelector('#deleteNegModal');
-            
-            // change state like in hidden modal
-            modal.classList.remove('show');
-            modal.setAttribute('aria-hidden', 'true');
-            modal.setAttribute('style', 'display: none');
-
-            // get modal backdrop
-            const modalBackdrops = document.querySelectorAll('.modal-backdrop');
-
-            // remove opened modal backdrop
-            document.body.removeChild(modalBackdrops[0]);
-        }
+        })
     },
     computed: {
         ...mapGetters(['getProcesses', 'getNegsLists']),
