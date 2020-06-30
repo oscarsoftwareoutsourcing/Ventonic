@@ -45,7 +45,26 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
+                        
                         <div class="card">
+                             <div class="card-header d-flex justify-content-between pb-0">
+                                <h4 class="card-title"></h4>
+                                <div class="dropdown chart-dropdown">
+                                    <button class="btn btn-sm border-0 dropdown-toggle px-0" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Últimos 7 Días
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem3">
+                                        <a class="dropdown-item" href="#">Esta semana</a>
+                                        <a class="dropdown-item" href="#">Este mes</a>
+                                        <a class="dropdown-item" href="#">Este Año</a>
+                                        <a class="dropdown-item" href="#">Últimos 7 Días</a>
+                                        <a class="dropdown-item" href="#">Últimos 30 Días</a>
+                                        <a class="dropdown-item" href="#">Últimos 90 Días</a>
+                                        <a class="dropdown-item" href="#">Último Año</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{route('contact.list')}}" alt="Contactos">
                             <div class="card-header d-flex flex-column align-items-start pb-0">
                                 <div class="avatar bg-rgba-primary p-50 m-0">
                                     <div class="avatar-content">
@@ -53,15 +72,35 @@
                                     </div>
                                 </div>
                                 <h2 class="text-bold-700 mt-1 mb-25">92.6k</h2>
-                                <p class="mb-0">Nuevos Clientes este mes</p>
+                                <p class="mb-0">Nuevos Contactos este mes</p>
                             </div>
                             <div class="card-content">
                                 <div id="subscribe-gain-chart"></div>
                             </div>
+                            </a>
                         </div>
+                        
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
                         <div class="card">
+                            <div class="card-header d-flex justify-content-between pb-0">
+                                <h4 class="card-title"></h4>
+                                <div class="dropdown chart-dropdown">
+                                    <button class="btn btn-sm border-0 dropdown-toggle px-0" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Últimos 7 Días
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem3">
+                                        <a class="dropdown-item" href="#">Esta semana</a>
+                                        <a class="dropdown-item" href="#">Este mes</a>
+                                        <a class="dropdown-item" href="#">Este Año</a>
+                                        <a class="dropdown-item" href="#">Últimos 7 Días</a>
+                                        <a class="dropdown-item" href="#">Últimos 30 Días</a>
+                                        <a class="dropdown-item" href="#">Últimos 90 Días</a>
+                                        <a class="dropdown-item" href="#">Último Año</a>
+                                    </div>
+                                </div>
+                            </div>
+                             <a href="{{route('negociaciones')}}" alt="Negociaciones">
                             <div class="card-header d-flex flex-column align-items-start pb-0">
                                 <div class="avatar bg-rgba-warning p-50 m-0">
                                     <div class="avatar-content">
@@ -74,6 +113,7 @@
                             <div class="card-content">
                                 <div id="orders-received-chart"></div>
                             </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -142,14 +182,18 @@
                     <div class="col-lg-4 col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between pb-0">
-                                <h4 class="card-title">Clientes</h4>
+                                <h4 class="card-title">Contactos</h4>
                                 <div class="dropdown chart-dropdown">
                                     <button class="btn btn-sm border-0 dropdown-toggle px-0" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Últimos 7 Días
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem3">
-                                        <a class="dropdown-item" href="#">Últimos 28 Días</a>
-                                        <a class="dropdown-item" href="#">Último Mes</a>
+                                        <a class="dropdown-item" href="#">Esta semana</a>
+                                        <a class="dropdown-item" href="#">Este mes</a>
+                                        <a class="dropdown-item" href="#">Este Año</a>
+                                        <a class="dropdown-item" href="#">Últimos 7 Días</a>
+                                        <a class="dropdown-item" href="#">Últimos 30 Días</a>
+                                        <a class="dropdown-item" href="#">Últimos 90 Días</a>
                                         <a class="dropdown-item" href="#">Último Año</a>
                                     </div>
                                 </div>
