@@ -14,6 +14,7 @@
     <script>
         window.api_url="{{ env('MIX_API_URL') }}";
     </script>
+    <script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}" defer></script>
 @endsection
 
 @section('extra-js-app')

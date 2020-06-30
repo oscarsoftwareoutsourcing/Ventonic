@@ -79,13 +79,14 @@
                         </div>
 
                         <!-- Amount -->
-                        <label>Monto:</label>
+                        <label>Aporte:</label>
                         <div class="form-group">
                             <input name="txtAmount" id="txtAmount" type="text" placeholder="Monto" class="form-control" v-model="amount">
                             
                             <!-- Validation messages -->
                             <article class="help-block" v-if="$v.amount.$error">
-                                <i class="text-danger">Dato requerido</i>
+                                <i class="text-danger" v-if="!$v.amount.required">Dato requerido</i>
+                                <i class="text-danger" v-if="!$v.amount.decimal">No pueden ser letras</i>
                             </article>
                         </div>
                     </div>
@@ -100,7 +101,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { required, decimal } from 'vuelidate/lib/validators';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 export default {
     data() {
@@ -125,7 +126,8 @@ export default {
             required
         },
         amount: {
-            required
+            required,
+            decimal
         }
     },
     methods: {
@@ -164,16 +166,16 @@ export default {
             return (this.getNegotiation.id === null) ? 'Nueva Negociación' : 'Actualizar Negociación';
         },
         negTypeId: {
-            get() { return this.getNegotiation.negTypeId; },
-            set(val) { this.getNegotiation.negTypeId = val; }
+            get() { return this.getNegotiation.neg_type_id; },
+            set(val) { this.getNegotiation.neg_type_id = val; }
         },
         negProcessId: {
-            get() { return this.getNegotiation.negProcessId; },
-            set(val) { this.getNegotiation.negProcessId = val; }
+            get() { return this.getNegotiation.neg_process_id; },
+            set(val) { this.getNegotiation.neg_process_id = val; }
         },
         contactId: {
-            get() { return this.getNegotiation.contactId; },
-            set(val) { this.getNegotiation.contactId = val; }
+            get() { return this.getNegotiation.contact_id; },
+            set(val) { this.getNegotiation.contact_id = val; }
         },
         title: {
             get() { return this.getNegotiation.title; },

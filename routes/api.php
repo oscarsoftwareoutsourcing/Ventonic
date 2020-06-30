@@ -30,8 +30,14 @@ $router->group(['prefix' => 'todos'], function() use ($router) {
 // Negotiations routes
 $router->group(['prefix' => 'negotiations'], function() use ($router) {
 
-    // Save todo.
+    // Save negotiation.
     $router->post('save-negotiation', ['uses' => 'NegotiationController@saveNegotiation']);
+
+    // Update negotiation process.
+    $router->put('change-negotiation-list/{id}', ['uses' => 'NegotiationController@updateList']);
+
+    // Toggle negotiation activation.
+    $router->post('toggle-active-negotiation', ['uses' => 'NegotiationController@toggleActiveNegotiation']);
 
     // Update todos.
     // $router->post('update-todos', ['uses' => 'TodoController@updateTodos']);

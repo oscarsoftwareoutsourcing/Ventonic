@@ -38,12 +38,18 @@ class NegotiationController extends Controller
 
     public function saveNegotiation(Request $request) {
         try {
-            $negotiation = new Negotiation;
-            $negotiation->user_id = $request->userId;
-            $negotiation->contact_id = $request->contactId;
-            $negotiation->neg_type_id = $request->negTypeId;
+
+            if($request->id !== null) {
+                $negotiation = Negotiation::find($request->id);
+            } else {
+                $negotiation = new Negotiation;
+            }
+            
+            $negotiation->user_id = $request->user_id;
+            $negotiation->contact_id = $request->contact_id;
+            $negotiation->neg_type_id = $request->neg_type_id;
             $negotiation->neg_status_id = 3;
-            $negotiation->neg_process_id = $request->negProcessId;
+            $negotiation->neg_process_id = $request->neg_process_id;
             $negotiation->title = $request->title;
             $negotiation->description = $request->description;
             $negotiation->amount = $request->amount;
@@ -56,6 +62,37 @@ class NegotiationController extends Controller
             return response()->json([
                 'result' => true,
                 'saved_neg' => $negotiation
+            ]);
+        } catch (\Throwable $th) {
+            echo $th;
+        }
+    }
+
+    public function updateList(Request $request, $id) {
+        try {
+            $negotiation = Negotiation::find($id);
+            $negotiation->neg_process_id = $request->processId;
+            $negotiation->save();
+
+            return response()->json([
+                'result' => true,
+                'updated_neg' => $negotiation
+            ]);
+        } catch (\Throwable $th) {
+            echo $th;
+        }
+    }
+
+    public function toggleActiveNegotiation(Request $request) {
+        try {
+
+            $negotiation = Negotiation::find($request->id);
+            $negotiation->active = !$request->active;
+            $negotiation->save();
+
+            return response()->json([
+                'result' => true,
+                'toggled_neg' => $negotiation
             ]);
         } catch (\Throwable $th) {
             echo $th;
