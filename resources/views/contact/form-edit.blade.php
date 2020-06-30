@@ -190,12 +190,12 @@
                                             <div class="col-md-12 col-12">
                                                 <div class="form-label-group">
                                                     <input type="text" id="address-input" class="form-control map-input" 
-                                                    name="direccion_empresa" placeholder="Direccion empresa" value="{{$contact->address ?? ''}}">
+                                                    name="direccion_empresa" placeholder="Dirección Empresa" value="{{$contact->address ?? ''}}">
                                                     <input type="text" class="form-control" id="address-latitude" value="{{$contact->address_latitude ?? ''}}" name="address_latitude" hidden>
                                                     <input type="text" class="form-control" id="address-longitude" value="{{$contact->address_longitude ?? ''}}" name="address_longitude" hidden>
                                                     <input type="hidden" class="form-control" value="{{$contact->id}}" name="contact_id">
                                                     {{-- <input type="" class="form-control" value="{{$contact->user_id}}" name="user_id"> --}}
-                                                    <label for="company-column">Direccion Empresa</label>
+                                                    <label for="company-column">Dirección Empresa</label>
                                                 </div>
                                                 @error('direccion_empresa')
                                                 <div class="alert alert-danger">{{ $message }}</div>

@@ -24,7 +24,7 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <a href="{{ route('contact.create', ['contact'=>'persona']) }}" type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Persona</a>
+                                <a href="{{ route('contact.create', ['contact'=>'persona']) }}" type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Contacto</a>
                                 <a href="{{ route('contact.create', ['contact'=>'empresa']) }}" type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Empresa</a>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                                             <tr>
                                                 <th style="text-align:center;" width="20%">Nombre</th>
                                                 <th style="text-align:center;" width="20%">Apellido</th>
-                                                <th style="text-align:center;" width="10%">Telefono</th>
+                                                <th style="text-align:center;" width="10%">Teléfono</th>
                                                 <th style="text-align:center;" width="20%">Email</th>
                                                 <th style="text-align:center;" width="20%">Empresa</th>
                                                 <th style="text-align:center;" width="5%">Favoritos</th>

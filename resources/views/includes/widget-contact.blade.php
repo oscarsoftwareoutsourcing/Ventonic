@@ -29,7 +29,7 @@
                 <tr>
                     <th style="text-align:center;" width="20%">Nombre</th>
                     <th style="text-align:center;" width="20%">Apellido</th>
-                    <th style="text-align:center;" width="20%">Telefono</th>
+                    <th style="text-align:center;" width="20%">Teléfono</th>
                     <th style="text-align:center;" width="20%">Email</th>
                     <th style="text-align:center;" width="20%">Empresa</th>
                     <th></th>
