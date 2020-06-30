@@ -67,6 +67,9 @@ export const actions = {
                 
                 // Change store todos
                 commit('UPDATE_NEGOTIATIONS', response.data.updated_neg);
+
+                // Reset todo
+                commit('RESET_NEGOTIATION');
             }
             
         } catch (error) {
