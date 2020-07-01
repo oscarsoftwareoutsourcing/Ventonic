@@ -116,9 +116,11 @@
                             </div>
                             <div class="card-body" style="overflow:hidden; padding-bottom:5px;">
                                 @if($seller_profile->video)
-                                    <iframe class="ql-video ql-align-center" src="{{$seller_profile->video}}" width="100%" height="260"></iframe>
-                                </video>
-             
+                                    <video id="sampleMovie" width="500" height="260" preload controls>
+                                        <source src="/{{ $seller_profile->video }}" />
+                                        <source src="/{{ $seller_profile->video }}" />
+                                        <source src="/{{ $seller_profile->video }}" />
+                                     </video>
                                 @endif
     
                             </div>
