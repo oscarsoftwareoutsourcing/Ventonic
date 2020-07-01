@@ -40,7 +40,7 @@
                     <li><a href="{{ route('oportunity.saved') }}"><i class="feather icon-list"></i><span class="menu-item">Mis oportunidades</span></a>
                     </li>
                     @endif
-                    <li><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Oportunidades Generales</span></a>
+                    <li><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Otras Empresas</span></a>
                     </li>
                 </ul>
             </li>

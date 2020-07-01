@@ -167,7 +167,7 @@
                                                 <td class="product-category">{{$oportunity->ubication}}</td>
                                                 <td class="product-price">{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>
                                                 <td class="product-price">{{App\Oportunity::listSectors($oportunity->sectors)}}</td>
-                                                <td class="product-price">
+                                                <td class="product-price" style="text-align:center;">
                                                 @if(App\Aplicant::countAplicant($oportunity->id)>0)
                                                     <div class="chip chip-success">
                                                         <div class="chip-body text-center">
@@ -177,7 +177,7 @@
                                                         </div>
                                                     </div>
                                                 @else
-                                                    <div class="chip chip-danger">
+                                                    <div class="chip chip-danger" style="text-align:center;" >
                                                         <div class="chip-body text-center">
                                                             <div class="chip-text text-center">
                                                             <span class="text-center">{{App\Aplicant::countAplicant($oportunity->id)}}</td></span>
