@@ -15,14 +15,29 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <form class="form form-vertical">
+                            @if(session('message'))
+                                <div class="alert alert-success">
+                                    <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                    {{session('message')}}
+                                </div>
+                            @endif
+                            
+                            @if(session('error'))
+                                <div class="alert alert-danger">
+                                    <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                    {{session('error')}}
+                                </div>
+                            @endif
+                                <form action="{{route('group.update')}}" class="form form-vertical" method="POST">
+                                    @csrf
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="first-name-icon">Nombre del grupo</label>
                                                     <div class="position-relative has-icon-left">
-                                                        <input type="text" id="first-name-icon" value="{{$group->name}}" class="form-control" name="name" placeholder="">
+                                                        <input type="text" id="first-name-icon" value="{{$group->name}}" class="form-control" name="name" placeholder="" {{$group->user_id != auth()->user()->id ? 'disabled' : ''}}>
+                                                        <input type="text" id="first-name-icon" value="{{$group->id}}" class="form-control" name="group_id" placeholder="" hidden>
                                                         <div class="form-control-position">
                                                             <i class="feather icon-user"></i>
                                                         </div>
@@ -39,20 +54,27 @@
                                                     </select>
                                                 </div>
                                             </div>
-
+                                            @if($group->user_id == auth()->user()->id)
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label for="email-id-icon">Añade un usuario a este grupo</label>
-                                                    <select class="custom-select form-control" id="" name="users[]">
-                                                        @foreach($users as $user)
-                                                            <option value="{{$user->id}}">{{$user->name}}</option>
-                                                        @endforeach
-                                                    </select>
+                                                    <label for="first-name-icon">Invitar usuarios</label>
+                                                    <div class="position-relative has-icon-left">
+                                                        {{-- <input type="email" id="first-name-icon" class="form-control" name="email[]" placeholder="Nombre del grupo"> --}}
+                                                        <input type="email" id="email-icon" class="form-control" name="email" placeholder="Email">
+                                                        <div class="form-control-position">
+                                                            <i class="feather icon-mail"></i>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            @endif
                                             <div class="col-12">
+                                                @if($group->user_id == auth()->user()->id)
                                                 <button type="submit" class="btn btn-primary mr-1 mb-1 float-right">Guardar Cambios</button>
                                                 <a href="{{route('group.show')}}" class="btn btn-outline-warning mr-1 mb-1 float-left">Cancelar</a>
+                                                @else
+                                                <a href="{{route('group.show')}}" class="btn btn-outline-warning mr-1 mb-1 float-left">Regresar</a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

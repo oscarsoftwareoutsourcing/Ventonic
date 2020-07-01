@@ -13,6 +13,7 @@ use App\CompanyProfile;
 use App\SellerProfile;
 use App\Question;
 use App\User;
+use App\Invitation;
 
 class ProfileController extends Controller
 {
@@ -36,9 +37,19 @@ class ProfileController extends Controller
         $phone_code = $this->phone_code;
         $profile = $this->profile;
         $country_flag = $this->country_flag;
+        
+        // Confirmar invitacion a grupo
+            $user_id = auth()->user()->id;
+            $email_user_login = User::where('id', $user_id)->value('email');
+            $verify = Invitation::where('email', $email_user_login)
+                ->where('status', 'pendiente')
+                ->value('id');
+            if ($verify != null && $verify > 0) {
+                return redirect()->route('group.confirmInvitation',['invitacion_id'=>$verify]);
+            }
+        // Fin confirmar invitacion a grupo
 
         $questions = Question::where(['option_type' => $type, 'status' => true])->orderBy('priority')->get();
-
         return view('auth.profile', compact('type', 'status', 'phone_code', 'profile', 'questions', 'country_flag'));
     }
 
@@ -60,6 +71,16 @@ class ProfileController extends Controller
      */
     public function store(Request $request, UploadRepository $up)
     {
+        // Modificar nombre y apellido
+            $name=$request->input('name') ? $request->input('name') : auth()->user()->name;
+            $last_name=$request->input('last_name') ? $request->input('last_name') : null;
+            $user_id=auth()->user()->id;
+            $user=User::find($user_id);
+            $user->name=$name;
+            $user->last_name=$last_name;
+            $user->update();
+        // End modificar nombre y apellido
+        
         $answered = [];
         if ($request->question) {
             foreach ($request->question as $q) {
@@ -194,6 +215,19 @@ class ProfileController extends Controller
         }
 
         $request->session()->flash('status', 'Datos almacenados con éxito');
+
+        // Confirmar invitacion a grupo
+        $user_id = auth()->user()->id;
+        $email_user_login = User::where('id', $user_id)->value('email');
+
+        $verify = Invitation::where('email', $email_user_login)
+            ->where('status', 'pendiente')
+            ->value('id');
+
+        if ($verify != null && $verify > 0) {
+            return redirect()->route('group.confirmInvitation');
+        }
+        // Fin confirmar invtacion a grupo
 
         if ($this->getType() === 'E' && $profile->status >= 100) {
             return redirect()->route('search.init');

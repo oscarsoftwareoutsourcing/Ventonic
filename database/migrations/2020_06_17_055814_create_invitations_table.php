@@ -20,7 +20,7 @@ class CreateInvitationsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->string('token', 255)->nullable();
-            $table->boolean('status');
+            $table->string('status', 50);
 
             $table->timestamps();
         });

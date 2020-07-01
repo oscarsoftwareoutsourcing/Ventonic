@@ -242,8 +242,6 @@
     <script src="{{ asset('js/app.js') }}"></script>
 @endsection
 @section('extra-js')
-
-<script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/datatables.min.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>

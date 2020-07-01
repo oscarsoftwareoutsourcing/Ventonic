@@ -9,8 +9,8 @@
 <p>Hola! Has sido invitado a unirte al grupo {{$name_group}}</p>
 
     <p>Si deseas unirte ve a la siguiente url para 
-        <a class="text-primary" href="href="{{ url('registro/'. $codigo_confirmacion) }}"">registrarte</a>
-        en nuestra plataforma y confirmar tu invitación.
+        <a class="text-primary" href="{{ url(env('APP_URL').'/registro') }}">registrarte</a>
+        en nuestra plataforma! Una vez registrado encontrarás la invitación en tu perfil.
     </p>
 
     <p>Saludos, Equipo Ventonic.</p>

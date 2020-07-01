@@ -13,10 +13,11 @@ class NuevaInvitacionRecibida extends Mailable
 
     // public $codigo_confirmacion;
     public $name_group;
-    public $codigo_confirmacion;
-    public function __construct($name_group, $codigo_confirmacion)
+    public $url;
+    public function __construct($name_group, $url)
     {
-        //
+        $this->name_group =$name_group;
+        $this->url =$url;
     }
 
     /**

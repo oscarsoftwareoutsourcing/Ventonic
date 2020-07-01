@@ -37,7 +37,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        // $this->middleware('guest');
     }
 
     /**
@@ -47,7 +47,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm($type = null)
     {
-        var_dump($type); die();
+        
         if ($type === 'empresa') {
             return view('auth.register-company');
         }
@@ -90,5 +90,17 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        
+        $user=User::first();
+        $email_register=User::where('email', $user->email)->get();
+
+    }
+
+    public function addGroup($type, $code_verificacion=null){
+        if ($type === 'empresa') {
+            return view('auth.register-company');
+        }
+        return view('auth.register');
+        
     }
 }

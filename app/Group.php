@@ -15,7 +15,7 @@ class Group extends Model
         return $this->hasMany('App\GroupUser');
     }
 
-    public function inivitation()
+    public function invitation()
     {
         return $this->hasMany('App\Invitation');
     }
@@ -33,6 +33,13 @@ class Group extends Model
         }
         $usuarios=rtrim($users_txt, ', ');
         return $usuarios;
+    }
+
+    public static function getName($user_id){
+        $name=User::where('id', $user_id)->value('name');
+        $apellido=User::where('id', $user_id)->value('last_name');
+        $nombreCompleto=$name.' '.strtoUpper(substr($apellido,0,1));
+        return $nombreCompleto;
     }
 
 }
