@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/tables/datatable/datatables.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/file-uploaders/dropzone.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/tables/datatable/extensions/dataTables.checkboxes.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('/vendors/css/forms/select/select2.min.css') }}">
 
 {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/plugins/file-uploaders/dropzone.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/pages/data-list-view.css') }}"> --}}
@@ -20,7 +21,7 @@
                     {{-- BEGIN botones nuevo --}}
                     <div class="card">
                         <div class="card-header">
-                            <h4>Contactos</h4>
+                            <h1>Contactos</h1>
                         </div>
                         <div class="card-content">
                             <div class="card-body">

@@ -216,9 +216,9 @@
                                                 
                                                 <td class="product-price" style="text-align:center;">
                                                     @if($aplicant->user->status==1)
-                                                       <a  href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'op', 'origin_type' => 'oportunity', 'origin_id' => $aplicant->id]) }}" class=""><i class="feather icon-message-square text-success" style="font-size:22px;"></i></a>
+                                                       <a  href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'op', 'origin_type' => 'oportunity', 'origin_id' => $aplicant->id]) }}" class="btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light"><i class="feather icon-message-square"></i></a>
                                                     @else  
-                                                    <a href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'op', 'origin_type' => 'oportunity', 'origin_id' => $aplicant->id]) }}" class=""><i class="feather icon-message-square text-danger" style="font-size:22px;"></i></a>
+                                                    <a href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'op', 'origin_type' => 'oportunity', 'origin_id' => $aplicant->id]) }}" class="btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light"><i class="ficon feather icon-mail"></i></a>
                                                     @endif
                                                 </td>
                                             </tr>

@@ -57,7 +57,7 @@
 
             {{-- Contactos --}}
            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
-           <li class=" nav-item"><a href="{{route('contact.list')}}"><i class="feather icon-users"></i><span class="menu-title">Contacto</span></a>
+           <li class=" nav-item"><a href="{{route('contact.list')}}"><i class="feather icon-users"></i><span class="menu-title">Contactos</span></a>
                 {{-- <ul class="menu-content">
                     <li>
                     <a href="{{ route('contact.list') }}"><i class="feather icon-user"></i><span class="menu-item">Buscar Contacto</span></a>

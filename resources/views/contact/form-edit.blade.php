@@ -1,4 +1,8 @@
 @extends('layouts.app-dashboard')
+@section('extra-css')
+<link rel="stylesheet" type="text/css" href="{{ asset('/vendors/css/forms/select/select2.min.css') }}">
+@endsection
+
 @section('content')
 <div class="app-content content">
     <div class="content-overlay"></div>
