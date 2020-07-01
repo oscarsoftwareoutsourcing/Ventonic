@@ -105,6 +105,31 @@ $('.status_postulation').on("change", function(){
   });
 });
 
+// Borrar contactos
+// Lleno los valores del modal con los datos del contactoa eliminar
+function asignarValores(value){
+  var contact_id=$('#contact_id'+value).val();
+  var user_id=$('#user_id'+value).val();
+  $('#contact_id_modal').val(contact_id);
+  $('#user_id_modal').val(user_id);
+};
+
+$('#buttonDelete').on("click", function(){
+  var contact_id=$('#contact_id_modal').val();
+  var user_id=$('#user_id_modal').val();
+  $.ajax({
+    url:url+'/contacto/eliminar/'+contact_id+'/'+user_id,
+    type:'GET',
+    success:function(response){
+      alert('Contacto eliminado exitosamente');
+      location. reload();
+    },
+    error : function(xhr, status) {
+      alert('Disculpe, no esta autorizado para eliminar este contacto');
+    },
+  });
+});
+
 // Message flash despues del cambio de estado
 $('#dismiss').on("click", function(){
   $('.alert-success').css('color', 'transparent');

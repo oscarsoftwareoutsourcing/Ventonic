@@ -333,11 +333,8 @@ class ContactController extends Controller
      */
     public function destroy($contact_id, $user_id)
     {
-        $result='';
-       // var_dump($user_id); 
-       // var_dump(auth()->user()->id); 
 
-        die();
+        $result='';
         if((int)$user_id == auth()->user()->id){
 
             // Buscar el contacto para ver si esta compartido
@@ -349,16 +346,16 @@ class ContactController extends Controller
             $borrado=$delete_contact->delete();
                 if(isset($borrado)){
                             
-                    return redirect()->route('contact.list')
+                return redirect()->route('contact.list')
                                     ->with(['message'=>'Contacto eliminado exitosamente']);
                 }else{
                     return redirect()->route('contact.list')
                                     ->with(['error'=>'No se ha podido eliminar el contacto']);
                 }   
-                
         }else{
             return redirect()->route('contact.list')
-                            ->with(['error'=>'No esta autorizado para eliminar este contacto']);
+            ->with(['error'=>'No esta autorizado para eliminar este contacto']);
+
         }
     }
 }

@@ -46,6 +46,17 @@
                         {{session('error')}}
                     </div>
                     @endif
+                    {{-- <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-success" style="display:none">
+                                <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                <span>Contacto eliminado exitosamente</span>
+                            </div>
+                            <div class="input-group">
+                            </div>
+                        </div>
+                    </div> --}}
+
                     <div class="row">
                         <div class="col-6">
          
@@ -89,7 +100,7 @@
                                 @foreach($contacts as $contact)
                                     
                                 <tr  class="fila" id="fila{{$contact['id']}}">
-                                    <td style="text-align:left;" width="25%">
+                                    <td style="text-align:left;" width="20%">
                                         <span><i class="{{App\Contact::getIcon($contact['type_contact'])}} text-primary"></i></span>
                                         @if($contact['private']==1)
                                         <span style="margin-left:5px;margin-right:5px;"><i class="feather icon-eye"></i></span>
@@ -107,13 +118,18 @@
                                             <i class="ficon feather icon-star warning"></i>
                                         @endif
                                     </td>
-                                    <td width="10%" style="text-align:center;">
-                                        <a data-toggle="modal"  data-target="#deleteModal" class="float-left mr-2" >
-                                            <i   class="feather icon-trash-2 text-white"></i>
+                                    <td width="15%" style="text-align:center;">
+                                        <a href="{{route('contact.create', ['contact'=>$contact['id']])}}" class="float-left ml-1">
+                                            <i class="feather icon-eye text-white"></i>
                                         </a>
-                                        <a href="{{route('contact.editForm',['contact_id'=>$contact['id']])}}" class="float-left">
+                                        <a href="{{route('contact.editForm',['contact_id'=>$contact['id']])}}" class="float-left  mx-1">
                                             <i class="feather icon-edit text-white"></i>
                                         </a>
+                                        <a id="iconDelete" data-toggle="modal"  data-target="#deleteModal" class="float-left" onclick="asignarValores({{$contact['id']}})">
+                                            <i class="feather icon-trash-2 text-white"></i>
+                                        </a>
+                                        <input value="{{$contact['user_id']}}" id="user_id{{$contact['id']}}" data-id="{{$contact['id']}}" hidden>
+                                        <input value="{{$contact['id']}}" id="contact_id{{$contact['id']}}" data-id="{{$contact['id']}}" hidden>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -136,14 +152,15 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body text-white">
                                 Está a punto de eliminar un contacto ¿Esta seguro de continuar?
+                                <input id="user_id_modal" hidden>
+                                <input id="contact_id_modal" hidden>
+
                             </div>
                             <div class="modal-footer">
                                 <a class="btn btn-secondary float-right text-primary" data-dismiss="modal">Cancelar</a>
-
-                                <a href="{{route('contact.destroy',['contact_id'=>$contact['id'], 'user_id'=>$contact['user_id']])}}" 
-                                    type="submit" name="contact-directo" value="mensaje-directo" class="btn btn-primary">
+                                <a id="buttonDelete" class="btn btn-primary" data-dismiss="modal">
                                     Confirmar
                                 </a>
                             </div>
