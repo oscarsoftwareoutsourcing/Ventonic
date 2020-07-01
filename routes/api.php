@@ -35,10 +35,13 @@ $router->group(['prefix' => 'negotiations'], function() use ($router) {
 
     // Update negotiation process.
     $router->put('change-negotiation-list/{id}', ['uses' => 'NegotiationController@updateList']);
-
+    
     // Toggle negotiation activation.
     $router->post('toggle-active-negotiation', ['uses' => 'NegotiationController@toggleActiveNegotiation']);
-
+    
+        // Update negotiation process.
+        $router->put('change-negotiation-status/{id}', ['uses' => 'NegotiationController@updateStatus']);
+    
     // Update todos.
     // $router->post('update-todos', ['uses' => 'TodoController@updateTodos']);
 });
