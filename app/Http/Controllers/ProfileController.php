@@ -132,7 +132,7 @@ class ProfileController extends Controller
                 ],
                 'video' => [
                     'mimetypes:video/avi,video/mpeg,video/mp4,video/x-ms-wmv,video/x-msvideo',
-                    'file', 'max:2048'
+                    'file', 'max:10240'
                 ],
                 'question' => ['array']
             ]);
@@ -346,7 +346,9 @@ class ProfileController extends Controller
 
     public function getCountryFlag(Request $request)
     {
+       // dd($request);
         $countryFlag = ($request->country_code) ? $this->setCountryFlag($request->country_code) : '';
+        //dd($request);
         return response()->json(['country_flag' => $countryFlag], 200);
     }
 

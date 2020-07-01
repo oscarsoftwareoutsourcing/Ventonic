@@ -266,11 +266,12 @@
                                                     <video class="video" src="{{ $profile->video }}" autoplay loop/>
                                                 </div>
                                             @endif
-                                            <input id="video" type="file" class="form-control @error('video') is-invalid @enderror" name="video" value="{{ old('video') ?? ((!is_null($profile)) ? $profile->video : '') }}" autocomplete="video">
+                                            <input id="video" type="file" class="form-control @error('video') is-invalid @enderror" name="video" value="{{ old('video') ?? ((!is_null($profile)) ? $profile->video : '') }}" autocomplete="video" onchange="Filevalidation()">
                                             <small id="videoHelpBlock" class="form-text text-muted">
-                                                El tamaño del vídeo debe ser como máximo 2MB.<br>
+                                                El tamaño del vídeo debe ser como máximo 10MB.<br>
                                                 Los formatos soportados son: .avi, .mpeg, .mp4 y .wmv
                                             </small>
+                                            <p id="size"></p> 
                                             @error('video')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -360,6 +361,32 @@
 
 @section('extra-js')
     @parent
+
+     <script type='text/javascript'> 
+     Filevalidation = () => { 
+        const fi = document.getElementById('video'); 
+        // Check if any file is selected. 
+        if (fi.files.length > 0) { 
+            for (const i = 0; i <= fi.files.length - 1; i++) { 
+  
+                const fsize = fi.files.item(i).size; 
+                const file = Math.round((fsize / 1024)); 
+                // The size of the file. 
+                if (file >= 10096) { 
+                    alert( 
+                      "El tamaño del vídeo debe ser como máximo 10MB.");
+                      document.getElementById('video').value = null; 
+                } else { 
+                    document.getElementById('size').innerHTML = '<b>'
+                    + file + '</b> KB'; 
+                } 
+            } 
+        } 
+    } 
+    </script>
+
+
+
     <script>
         function getCountryFlag(el) {
             el.val();
@@ -374,4 +401,6 @@
             });
         }
     </script>
+
+   
 @endsection
