@@ -334,7 +334,10 @@ class ContactController extends Controller
     public function destroy($contact_id, $user_id)
     {
         $result='';
-        // var_dump($user_id); die();
+        var_dump($user_id); 
+        var_dump(auth()->user()->id); 
+
+        die();
         if((int)$user_id == auth()->user()->id){
 
             // Buscar el contacto para ver si esta compartido

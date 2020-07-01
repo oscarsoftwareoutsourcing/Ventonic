@@ -108,7 +108,7 @@
                                         @endif
                                     </td>
                                     <td width="10%" style="text-align:center;">
-                                        <a href="#" data-target="#primary" class="float-left mr-2"><i class="feather icon-trash-2 text-white"></i></a>
+                                        <a id="deleteButton" href="#" data-target="#primary" class="float-left mr-2" onclick="$('#deleteModal').modal('show');"><i  onclick="$('#deleteModal').modal('show');" class="feather icon-trash-2 text-white"></i></a>
                                         <a href="{{route('contact.editForm',['contact_id'=>$contact['id']])}}" class="float-left">
                                             <i class="feather icon-edit text-white"></i>
                                         </a>
@@ -125,7 +125,7 @@
                     </div>
                 </div>
                 {{--BEGIN:Modal--}}
-                <div class="modal fade text-left" id="primary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+                <div class="modal fade text-left" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-primary white">
@@ -138,17 +138,12 @@
                                 Está a punto de eliminar un contacto ¿Esta seguro de continuar?
                             </div>
                             <div class="modal-footer">
-                                @if($contacts)
+                                <a class="btn btn-secondary float-right text-primary" data-dismiss="modal">Cancelar</a>
+
                                 <a href="{{route('contact.destroy',['contact_id'=>$contact['id'], 'user_id'=>$contact['user_id']])}}" 
                                     type="submit" name="contact-directo" value="mensaje-directo" class="btn btn-primary">
                                     Confirmar
                                 </a>
-                                @endif
-                                <button name="sala-chat" value="sala-chat" class="btn btn-success float-right">
-                                    <a href=''  
-                                        class="text-white"> Cancelar <i class="text-white feather icon-message-circle"></i>
-                                    </a>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -159,11 +154,8 @@
     </div>
 </div>
 @endsection
-@section('extra-js-app')
-<script src="{{ asset('js/app.js') }}"></script>
-@endsection
+
 @section('extra-js')
-{{-- <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script> --}}
 {{-- <script src="{{ asset('vendors/js/extensions/dropzone.min.js') }}"></script> --}}
 <script src="{{ asset('vendors/js/tables/datatable/datatables.min.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
@@ -173,4 +165,7 @@
 <script src="{{ asset('vendors/js/tables/datatable/datatables.checkboxes.min.js') }}"></script>
 <script src="{{ asset('js/scripts/ui/data-list-view.js') }}"></script>
 <script>$("#datatable").DataTable();</script>
+@endsection
+@section('extra-js-app')
+<script src="{{ asset('js/app.js') }}"></script>
 @endsection

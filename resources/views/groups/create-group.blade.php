@@ -28,7 +28,7 @@
                         </div>
                         <div class="card-header">
                             <div>
-                                <a type="button" href="{{route('group.form')}}" class="btn btn-outline-primary btn-md text-white"><i class="feather icon-users "></i> Nuevo grupo </a><span>  o puedes <a href="{{route('contact.list')}}" class="text-primary">gestionar los usuarios</a> de tu cuenta</span>
+                                <a type="button" href="{{route('group.form')}}" class="btn btn-outline-primary btn-md text-white"><i class="feather icon-users "></i> Nuevo grupo </a><span>  o puedes <a href="{{route('contact.list')}}" class="text-primary">gestionar los contactos</a> de tu cuenta</span>
                             </div>
                         </div>
                         @if($groups!=null)

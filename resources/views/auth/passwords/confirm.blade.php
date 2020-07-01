@@ -9,7 +9,6 @@
 
                 <div class="card-body">
                     {{ __('Por favor confirme su contraseña antes de continuar.') }}
-
                     <form method="POST" action="{{ route('password.confirm') }}">
                         @csrf
 
