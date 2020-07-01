@@ -9,6 +9,7 @@ const initialState = () => ({
     statuses: [], // Negotiation statuses.
     processes: [], // Negotiation processes.
     negotiations: [], // Negotiations.
+    userId: null,
     negotiation: {
         id: null,
         user_id: null,
@@ -40,6 +41,8 @@ export const actions = {
 
         try {
 
+            state.negotiation.user_id = state.userId;
+
             // Send data
             const response = await axios.post(`${window.api_url}/api/negotiations/save-negotiation`, state.negotiation);
 
@@ -67,6 +70,9 @@ export const actions = {
                 
                 // Change store todos
                 commit('UPDATE_NEGOTIATIONS', response.data.updated_neg);
+
+                // Reset todo
+                commit('RESET_NEGOTIATION');
             }
             
         } catch (error) {
@@ -88,11 +94,30 @@ export const actions = {
         } catch (error) {
             console.log(error);
         }
-    }
+    },
+    async changeStatus({commit}, value) {
+        try {
+
+            // Send data
+            const response = await axios.put(`${window.api_url}/api/negotiations/change-negotiation-status/${value.id}`, {statusId: value.stateId});
+
+            if(response.data.result) {
+                
+                // Change store todos
+                commit('SET_NEGOTIATIONS', response.data.newNegotiations);
+
+                // Reset todo
+                commit('RESET_NEGOTIATION');
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }
+    },
 };
 
 export const mutations = {
-    SET_USER_ID: (state, i) => state.negotiation.user_id = i,
+    SET_USER_ID: (state, i) => state.userId = i,
     SET_CONTACTS: (state, c) => state.contacts = c,
     SET_TYPES: (state, t) => state.types = t,
     SET_STATUSES: (state, s) => state.statuses = s,
@@ -113,10 +138,10 @@ export const mutations = {
         /* Reset todo */
         state.negotiation = {
             id: null,
-            contactId: null,
-            negTypeId: null,
-            negStatusId: null,
-            negProcessId: null,
+            contact_id: null,
+            neg_type_id: null,
+            neg_status_id: null,
+            neg_process_id: null,
             title: '',
             description: '',
             amount: '',

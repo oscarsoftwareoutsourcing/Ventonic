@@ -27,7 +27,6 @@ Vue.component('todo-form', () => import('./components/TodoForm.vue'));
 // Negotiations module components
 Vue.component('negotiations-module', () => import('./components/Negotiations.vue'));
 Vue.component('negotiation-process-list', () => import('./components/NegProcessList.vue'));
-Vue.component('negotiation-card', () => import('./components/NegCard.vue'));
 Vue.component('negotiation-form', () => import('./components/NegForm.vue'));
 
 const app = new Vue({

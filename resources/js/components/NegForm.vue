@@ -14,6 +14,16 @@
 
                     <div class="modal-body">
 
+                        <!-- Status -->
+                        <template v-if="negId !== null">
+                            <label for="">Estado:</label>
+                            <div class="form-group">
+                                <select name="cboNegStatus" id="cboNegStatus" class="form-control" v-model="negStatusId">
+                                    <option v-for="(status, index) in getStatuses" :key="index" :value="status.id">{{ status.status }}</option>
+                                </select>
+                            </div>
+                        </template>
+
                         <!-- Type -->
                         <label for="">Tipo:</label>
                         <div class="form-group">
@@ -92,6 +102,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary waves-effect waves-light" @click="check()">Guardar</button>
+                        <button v-if="negId !== null" type="button" class="btn btn-warning waves-effect waves-light" @click.stop="archiveNegotiation(negId, negActive)">Archivar</button>
                         <button type="button" data-dismiss="modal" class="btn btn-danger waves-effect waves-light" @click="eraseData()">Cancelar</button>
                     </div>
                 </form>
@@ -134,7 +145,7 @@ export default {
         ...mapMutations({
             resetNeg: 'RESET_NEGOTIATION'
         }),
-        ...mapActions(['saveNeg']),
+        ...mapActions(['saveNeg', 'toggleActivation']),
         async check() {
             if (!this.$v.$invalid) {
 
@@ -147,6 +158,13 @@ export default {
             } else {
                 this.$v.$touch();
             }
+        },
+        archiveNegotiation(negId, activeState) {
+            let values = {
+                id: negId,
+                active: activeState
+            }
+            this.toggleActivation(values);
         },
         getName(contact) {
             if(contact.last_name !== null) {
@@ -161,13 +179,23 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['getContacts', 'getTypes', 'getProcesses', 'getNegotiation']),
+        ...mapGetters(['getContacts', 'getStatuses', 'getTypes', 'getProcesses', 'getNegotiation']),
         negOperation() {
             return (this.getNegotiation.id === null) ? 'Nueva Negociación' : 'Actualizar Negociación';
+        },
+        negId() {
+            return this.getNegotiation.id;
+        },
+        negActive() {
+            return this.getNegotiation.active;
         },
         negTypeId: {
             get() { return this.getNegotiation.neg_type_id; },
             set(val) { this.getNegotiation.neg_type_id = val; }
+        },
+        negStatusId: {
+            get() { return this.getNegotiation.neg_status_id; },
+            set(val) { this.getNegotiation.neg_status_id = val; }
         },
         negProcessId: {
             get() { return this.getNegotiation.neg_process_id; },
