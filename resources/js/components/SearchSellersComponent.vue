@@ -85,6 +85,7 @@
                   <th>Nombre</th>
                   <th>Apellido</th>
                   <th>Correo</th>
+                  <th>Perfil</th>
                   <th>Última Conexión</th>
 
                   <th></th>
@@ -121,6 +122,16 @@
                   <td>{{ seller.name }}</td>
                   <td>{{ seller.last_name }}</td>
                   <td>{{ seller.email }}</td>
+                  <td style="text-align:center;">
+                    <div v-if="seller.seller_profile">
+                      <a
+                        class="btn btn-primary btn-md text-white"
+                        :href="'profile/aplicant/'+ seller.id "
+                      >Ver</a>
+                    </div>
+                    <div v-else>No Disponible</div>
+                  </td>
+
                   <td>{{ seller.last_login }}</td>
 
                   <td>
@@ -227,6 +238,19 @@ export default {
     contactSeller(id) {
       axios
         .get("/contact-seller/" + id)
+        .then(response => {
+          if (response.data.result) {
+            location.href = "/chat";
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+
+    profileSeller(id) {
+      axios
+        .get("/profile/aplicant/" + id)
         .then(response => {
           if (response.data.result) {
             location.href = "/chat";

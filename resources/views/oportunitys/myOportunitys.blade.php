@@ -143,11 +143,12 @@
                                     <table id="datatable" class="table data-list-view mt-2">
                                         <thead>
                                             <tr>
+                                                <th>ESTADO</th>
                                                 <th>TITULO</th>
-                                                <th>EMPRESA</th>
+                                                <!--<th>EMPRESA</th>-->
                                                 <th>CARGO</th>
                                                 <th>UBICACION</th>
-                                                <th>TIPO EMPLEO</th>
+                                                <!--<th>TIPO EMPLEO</th>-->
                                                 <th>SECTOR</th>
                                                 <th>N° INSCRITOS</th>
                                                 <th>CANDIDATOS</th>
@@ -157,15 +158,20 @@
                                             @if(isset($oportunitys))
                                             @foreach($oportunitys as $oportunity)
                                             <tr href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}" class="filaEntera">
+                                                <td></td>
                                                 <td class="product-name">{{$oportunity->title}}
                                                     <input type="text" class="jobType" value="{{$oportunity->job_type_id}}" data-id="{{$oportunity->id}}" hidden>
                                                     <input type="text" class="antiguedad" value="{{$oportunity->ubication_oportunity_id}}" data-id="{{$oportunity->id}}" hidden>
                                                     <input type="text" class="sector" value="{{$oportunity->sectors}}" data-id="{{$oportunity->id}}" hidden>
                                                 </td>
+                                                <!--
                                                 <td class="product-category">{{$oportunity->user->name}}</td>
+                                                -->
                                                 <td class="product-category">{{$oportunity->cargo}}</td>
                                                 <td class="product-category">{{$oportunity->ubication}}</td>
+                                                <!--
                                                 <td class="product-price">{{App\JobType::getType((int)$oportunity->job_type_id)}}</td>
+                                                -->
                                                 <td class="product-price">{{App\Oportunity::listSectors($oportunity->sectors)}}</td>
                                                 <td class="product-price" style="text-align:center;">
                                                 @if(App\Aplicant::countAplicant($oportunity->id)>0)

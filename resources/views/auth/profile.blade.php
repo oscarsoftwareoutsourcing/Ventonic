@@ -263,7 +263,7 @@
                                         <div class="col-md-6">
                                             @if(!is_null($profile) && $profile->video)
                                                 <div class="embed-responsive embed-responsive-16by9 mb-3">
-                                                    <video class="video" src="{{ $profile->video }}" autoplay loop/>
+                                                    <video class="video" src="{{ $profile->video }}" preload controls autoplay/>
                                                 </div>
                                             @endif
                                             <input id="video" type="file" class="form-control @error('video') is-invalid @enderror" name="video" value="{{ old('video') ?? ((!is_null($profile)) ? $profile->video : '') }}" autocomplete="video" onchange="Filevalidation()">

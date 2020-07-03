@@ -173,7 +173,7 @@
                                     <table id="datatable" class="table data-list-view mt-2">
                                         <thead>
                                             <tr>
-                                                <th></th>
+                                                
                                                 <th>FOTO</th>
                                                 <th>NOMBRE</th>
                                                 <th>APELLIDO</th>
@@ -186,9 +186,16 @@
                                             @if(isset($aplicants))
                                             @foreach($aplicants as $aplicant)
                                             <tr class="rowTable" id="row{{$aplicant->id}}" class="filaEntera">
-                                                <td></td>
+                                                
                                                 <td class="product-name" style="text-align:center;">
-                                                <img class="round" src="/{{$aplicant->user->sellerProfile->photo}}" height="40" width="40">
+                                                    <div class="avatar">
+                                                        <img  src="/{{$aplicant->user->sellerProfile->photo}}" height="40" width="40">
+                                                        @if($aplicant->user->status==1)
+                                                            <span class="avatar-status-online"></span>
+                                                        @else  
+                                                            <span class="avatar-status-busy"></span>
+                                                        </div>
+                                                @endif
                                                 </td>
                                                 <td class="product-name">
                                                 {{$aplicant->user->name}}
@@ -216,9 +223,9 @@
                                                 
                                                 <td class="product-price" style="text-align:center;">
                                                     @if($aplicant->user->status==1)
-                                                       <a  href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'op', 'origin_type' => 'oportunity', 'origin_id' => $aplicant->id]) }}" class="btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light"><i class="feather icon-message-square"></i></a>
+                                                       <a  href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light"><i class="feather icon-message-square"></i></a>
                                                     @else  
-                                                    <a href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'op', 'origin_type' => 'oportunity', 'origin_id' => $aplicant->id]) }}" class="btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light"><i class="ficon feather icon-mail"></i></a>
+                                                    <a href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light"><i class="ficon feather icon-mail"></i></a>
                                                     @endif
                                                 </td>
                                             </tr>

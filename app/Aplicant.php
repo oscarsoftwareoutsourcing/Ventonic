@@ -75,6 +75,11 @@ class Aplicant extends Model
         return $result;
     }
 
+     public static function getStatus($id){
+        $valor=User::where('id',$id)->value('status');
+        return $valor;
+    }
+
     // Scopes
     public function scopeMovil($query, $movil){
         if($movil){

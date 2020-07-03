@@ -19,7 +19,9 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="users-view-image">
+                                        @if($seller_profile->photo)
                                         <img src="/{{$seller_profile->photo}}" class="users-avatar-shadow w-100 rounded mb-2 pr-2 ml-1" alt="avatar">
+                                        @endif
                                     </div>
                                     <div class="col-12 col-sm-9 col-md-6 col-lg-5">
                                         <table>
@@ -36,6 +38,16 @@
                                             <tr>
                                                 <td class="font-weight-bold">Email</td>
                                                 <td>{{$seller_profile->user->email}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">Chat</td>
+                                                <td>
+                                                    @if (App\Aplicant::getStatus((int)$seller_profile->user_id)==1)
+                                                       <a  href="{{ route('contact-by', ['user_id' => $seller_profile->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light" alt="Contactar al vendedor"><i class="feather icon-message-square"></i></a>
+                                                    @else  
+                                                    <a href="{{ route('contact-by', ['user_id' => $seller_profile->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light"  alt="Dejar un mensaje al vendedor"><i class="ficon feather icon-mail"></i></a>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>
