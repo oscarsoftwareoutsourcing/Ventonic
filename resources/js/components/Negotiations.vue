@@ -1,5 +1,5 @@
 <template>
-    <div class="app-content content">
+    <div id="negotiationsModule" class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
@@ -11,7 +11,7 @@
                         <div class="col-12">
                             <h2 class="content-header-title float-left mb-0">Negociaciones |</h2>
                             <div class="breadcrumb-wrapper col-12">
-                                <button type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light" data-toggle="modal" data-target="#negForm">Nueva</button>
+                                <button type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light" @click="toggleModal">Nueva</button>
                             </div>
                         </div>
                     </div>
@@ -21,7 +21,7 @@
             <!-- Process lists -->
             <div class="row">
                 <div class="col">
-                    <div id="listsContainer" class="scrolling-wrapper row no-gutters flex-row flex-nowrap">
+                    <div id="listsContainer" class="row no-gutters flex-row flex-nowrap scrolling-wrapper">
                         <negotiation-process-list v-for="(process, index) in getProcesses" :key="index" :processData="process" />
                     </div>
                 </div>
@@ -30,6 +30,7 @@
             <!-- Negotiation Modal -->
             <negotiation-form />
 
+            <div class="modal-backdrop fade show" v-if="getShowModal"></div>
         </div>
     </div>
 </template>
@@ -52,6 +53,7 @@ export default {
     },
     methods: {
         ...mapMutations({
+            toggleModal: 'TOGGLE_MODAL',
             setTypes: 'SET_TYPES',
             setStatuses: 'SET_STATUSES',
             setProcesses: 'SET_PROCESSES',
@@ -61,7 +63,7 @@ export default {
         })
     },
     computed: {
-        ...mapGetters(['getProcesses', 'getNegsLists']),
+        ...mapGetters(['getProcesses', 'getNegsLists', 'getShowModal']),
     }
 }
 </script>

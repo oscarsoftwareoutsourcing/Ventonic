@@ -1,10 +1,10 @@
 <template>
-    <div class="modal fade text-left" id="negForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+    <div class="modal fade text-left show" id="negForm" tabindex="-1" role="dialog" style="display: block;" v-if="getShowModal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="myModalLabel33">{{ negOperation }}</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="eraseData()">
+                    <button type="button" class="close" @click="eraseData()">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -101,9 +101,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary waves-effect waves-light" @click="check()">Guardar</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light" @click="check()" :disabled="isDisabled">Guardar</button>
                         <button v-if="negId !== null" type="button" class="btn btn-warning waves-effect waves-light" @click.stop="archiveNegotiation(negId, negActive)">Archivar</button>
-                        <button type="button" data-dismiss="modal" class="btn btn-danger waves-effect waves-light" @click="eraseData()">Cancelar</button>
+                        <button type="button" class="btn btn-light waves-effect waves-light" @click="eraseData()">Cancelar</button>
                     </div>
                 </form>
             </div>
@@ -143,7 +143,8 @@ export default {
     },
     methods: {
         ...mapMutations({
-            resetNeg: 'RESET_NEGOTIATION'
+            resetNeg: 'RESET_NEGOTIATION',
+            toggleModal: 'TOGGLE_MODAL',
         }),
         ...mapActions(['saveNeg', 'toggleActivation']),
         async check() {
@@ -153,7 +154,7 @@ export default {
 
                 // Send data
                 await this.saveNeg();
-                // this.isDisabled = !this.isDisabled;
+                this.isDisabled = !this.isDisabled;
                 this.eraseData();
             } else {
                 this.$v.$touch();
@@ -174,12 +175,13 @@ export default {
             }
         },
         eraseData() {
+            this.toggleModal();
             this.resetNeg();
             this.$v.$reset();
         }
     },
     computed: {
-        ...mapGetters(['getContacts', 'getStatuses', 'getTypes', 'getProcesses', 'getNegotiation']),
+        ...mapGetters(['getContacts', 'getStatuses', 'getTypes', 'getProcesses', 'getNegotiation', 'getShowModal']),
         negOperation() {
             return (this.getNegotiation.id === null) ? 'Nueva Negociación' : 'Actualizar Negociación';
         },

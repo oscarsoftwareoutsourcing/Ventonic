@@ -1,4 +1,5 @@
 <template>
+    <!-- <div class="custom-modal show" :class="modal ? 'hidden-custom': ''"> -->
     <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
@@ -98,6 +99,7 @@ export default {
     data() {
         return {
             isDisabled: false,
+            modal: true
         }
     },
     validations: {
@@ -151,6 +153,41 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+    // .custom-modal {
+    //     position: fixed;
+    //     top: 50%;
+    //     left: 50%;
+    //     z-index: 1050;
+    //     display: block;
+    //     width: 100vh;
+    //     height: 500px;
+    //     overflow: hidden;
+    //     outline: 0;
+    //     transition: transform .5s ease;
+    //     // z-index: 99999;
+    //     transform: translate(-50%,-50%);
+    //     .hidden-custom{
+    //         transform: translate(-200vh, -50%);
+    //     }
+    // }
 
+    // .custom-backdrop {
+    //     position: fixed;
+    //     top: 50%;
+    //     left: 50%;
+    //     z-index: 1050;
+    //     display: block;
+    //     width: 100vw;
+    //     height: 100vh;
+    //     overflow: hidden;
+    //     outline: 0;
+    //     transition: transform .5s ease;
+    //     z-index: 99999;
+    //     transform: translate(-50%,-50%);
+    //     background-color: rgba(black, .5);
+    //     .hidden-custom{
+    //         transform: translate(-200vh, -50%);
+    //     }
+    // }
 </style>

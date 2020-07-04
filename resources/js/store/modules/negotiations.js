@@ -4,6 +4,7 @@ import axios from 'axios';
 
 // Constant to reset this state information.
 const initialState = () => ({
+    showModal: false,
     contacts: [], // User contacts
     types: [], // Negotiations types.
     statuses: [], // Negotiation statuses.
@@ -28,6 +29,7 @@ const initialState = () => ({
 const state = initialState;
 
 export const getters = {
+    getShowModal: state => { return state.showModal },
     getContacts: state => { return state.contacts },
     getTypes: state => { return state.types },
     getStatuses: state => { return state.statuses },
@@ -117,6 +119,7 @@ export const actions = {
 };
 
 export const mutations = {
+    TOGGLE_MODAL: (state) => state.showModal = !state.showModal,
     SET_USER_ID: (state, i) => state.userId = i,
     SET_CONTACTS: (state, c) => state.contacts = c,
     SET_TYPES: (state, t) => state.types = t,
