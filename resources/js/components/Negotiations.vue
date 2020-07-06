@@ -30,13 +30,34 @@
             <!-- Negotiation Modal -->
             <negotiation-form />
 
-            <div class="modal-backdrop fade show" v-if="getShowModal"></div>
+            <!-- Archive Confirm Modal -->
+            <div id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-modal="true" class="modal fade text-left show" style="display: block;" v-if="getShowConfirm">
+                <div role="document" class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xs">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger white">
+                            <h5 id="myModalLabel120" class="modal-title">¡Alerta!</h5>
+                            <button @click.stop="cancelArchive" type="button" data-dismiss="modal" aria-label="Close" class="close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Está seguro de archivar esta negociación?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button @click.stop="toggleActivation" type="button" id="confirmDelete" class="btn btn-danger waves-effect waves-light">Sí</button>
+                            <button @click.stop="cancelArchive" type="button" data-dismiss="modal" class="btn btn-success waves-effect waves-light">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-backdrop fade show" v-if="getShowModal || getShowConfirm"></div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapMutations, mapGetters } from 'vuex';
+import { mapMutations, mapGetters, mapActions } from 'vuex';
 import draggable from 'vuedraggable';
 export default {
     components: {
@@ -52,18 +73,25 @@ export default {
         this.setContacts(this.contacts);
     },
     methods: {
+        ...mapActions(['toggleActivation']),
         ...mapMutations({
             toggleModal: 'TOGGLE_MODAL',
+            toggleConfirm: 'TOGGLE_CONFIRM',
             setTypes: 'SET_TYPES',
             setStatuses: 'SET_STATUSES',
             setProcesses: 'SET_PROCESSES',
             setNegotiations: 'SET_NEGOTIATIONS',
             setUserId: 'SET_USER_ID',
             setContacts: 'SET_CONTACTS',
-        })
+            resetNeg: 'RESET_NEGOTIATION',
+        }),
+        cancelArchive() {
+            this.resetNeg();
+            this.toggleConfirm();
+        }
     },
     computed: {
-        ...mapGetters(['getProcesses', 'getNegsLists', 'getShowModal']),
+        ...mapGetters(['getProcesses', 'getNegsLists', 'getShowModal', 'getShowConfirm']),
     }
 }
 </script>

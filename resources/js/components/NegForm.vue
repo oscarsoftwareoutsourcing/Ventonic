@@ -96,7 +96,7 @@
                             <!-- Validation messages -->
                             <article class="help-block" v-if="$v.amount.$error">
                                 <i class="text-danger" v-if="!$v.amount.required">Dato requerido</i>
-                                <i class="text-danger" v-if="!$v.amount.decimal">No pueden ser letras</i>
+                                <i class="text-danger" v-if="!$v.amount.decimal">Importe inválido</i>
                             </article>
                         </div>
                     </div>
@@ -113,8 +113,12 @@
 
 <script>
 import { required, decimal } from 'vuelidate/lib/validators';
+import Datepicker from 'vuejs-datepicker';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 export default {
+    components: {
+        Datepicker
+    },
     data() {
         return {
             isDisabled: false,
@@ -216,7 +220,9 @@ export default {
             set(val) { this.getNegotiation.description = val; }
         },
         amount: {
-            get() { return this.getNegotiation.amount; },
+            get() {
+                return ((this.getNegotiation.amount).toString()).replace(".", ",");
+            },
             set(val) { this.getNegotiation.amount = val; }
         },
     }

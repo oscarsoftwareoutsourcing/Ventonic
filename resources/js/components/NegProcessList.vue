@@ -2,19 +2,22 @@
     <div class="col-sm-5 col-md-5 col-lg-4 col-xl-3 mr-1">
         <div class="card card-block">
             <div class="card-body">
-                <p>{{ processData.title }}</p>
-                <draggable class="list-group" group="negotiations" @add="onAdd($event, processData.id)" :scroll-sensitivity="250">
+                <article class="d-flex w-100 justify-content-between mb-1">
+                    <p>{{ processData.title }}</p>
+                    <p>{{ listLength }}</p>
+                </article>
+                <draggable class="list-group" group="negotiations" @add="onAdd($event, processData.id)" @remove="onRemove()" :scroll-sensitivity="250">
                     <a href="#" class="list-group-item list-group-item-action negotiation-card mb-1" v-for="(card, index) in negotiations" :key="index" :data-neg-id="card.id" @click="editModal(card)">
                         <div class="d-flex w-100 justify-content-between mb-1">
                             <small>{{ createdAt(card.created_at) }}</small>
-                            <a @click.stop.prevent="archiveNegotiation(card.id, card.active)" title="Archivar"><i class="fa fa-archive warning"></i></a>
+                            <a @click.stop.prevent="archiveModal(card)" title="Archivar"><i class="fa fa-archive warning"></i></a>
                         </div>
 
                         <!-- Title and contact -->
                         <h5 class="mb-1 text-white">{{ card.title }} - {{ showContactName(card.contact_id) }}</h5>
 
                         <!-- Amount -->
-                        <h5 class="mb-1 text-white">Cantidad: {{ card.amount }}</h5>
+                        <h5 class="mb-1 text-white">Cantidad: {{ formatImport(card.amount) }}</h5>
 
                         <!-- Title and contact -->
                         <h5 class="mb-1 text-white">Fecha de cierre</h5>
@@ -65,10 +68,16 @@ export default {
         draggable
     },
     props: ['processData'],
+    data() {
+        return {
+            listLength: 0,
+        }
+    },
     methods: {
-        ...mapActions(['changeToList', 'toggleActivation', 'changeStatus']),
+        ...mapActions(['changeToList', 'changeStatus']),
         ...mapMutations({
             toggleModal: 'TOGGLE_MODAL',
+            toggleConfirm: 'TOGGLE_CONFIRM',
             setNegotiation: 'SET_NEGOTIATION'
         }),
         async onAdd(event, id) {
@@ -78,21 +87,22 @@ export default {
             }
 
             await this.changeToList(values);
+            this.listLength++;
+        },
+        onRemove() {
+            this.listLength--;
         },
         editModal(info) {
             this.setNegotiation(info);
             this.toggleModal();
         },
+        archiveModal(info) {
+            this.setNegotiation(info);
+            this.toggleConfirm();
+        },
         createdAt(date) {
             let created = new Date(date);
             return 'Creado el ' + created.getDate() + '/' + created.getMonth() + '/' + created.getFullYear();
-        },
-        archiveNegotiation(negId, activeState) {
-            let values = {
-                id: negId,
-                active: activeState
-            }
-            this.toggleActivation(values);
         },
         async changeState(negId, state) {
             let values = {
@@ -125,12 +135,17 @@ export default {
             } else {
                 return contact[0].name;
             }
+        },
+        formatImport(value) {
+            return (value.toString()).replace(".", ",");
         }
     },
     computed: {
         ...mapGetters(['getProcesses', 'getNegotiations', 'getContacts']),
         negotiations() {
-            return this.getNegotiations.filter(neg => neg.neg_process_id === this.processData.id);
+            let negs = this.getNegotiations.filter(neg => neg.neg_process_id === this.processData.id);
+            this.listLength = negs.length;
+            return negs;
         }
     }
 }
