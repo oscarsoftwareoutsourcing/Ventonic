@@ -4,6 +4,8 @@ import axios from 'axios';
 
 // Constant to reset this state information.
 const initialState = () => ({
+    showModal: false,
+    showConfirm: false,
     contacts: [], // User contacts
     types: [], // Negotiations types.
     statuses: [], // Negotiation statuses.
@@ -28,6 +30,8 @@ const initialState = () => ({
 const state = initialState;
 
 export const getters = {
+    getShowModal: state => { return state.showModal },
+    getShowConfirm: state => { return state.showConfirm },
     getContacts: state => { return state.contacts },
     getTypes: state => { return state.types },
     getStatuses: state => { return state.statuses },
@@ -79,16 +83,18 @@ export const actions = {
             console.log(error);
         }
     },
-    async toggleActivation({commit}, value) {
+    async toggleActivation({state, commit}) {
         try {
 
             // Send data
-            const response = await axios.post(`${window.api_url}/api/negotiations/toggle-active-negotiation`, {id: value.id, active: value.active});
+            const response = await axios.post(`${window.api_url}/api/negotiations/toggle-active-negotiation`, {id: state.negotiation.id, active: state.negotiation.active});
 
             if(response.data.result) {
                 
                 // Change store todos
                 commit('SET_NEGOTIATIONS', response.data.newNegotiations);
+                commit('RESET_NEGOTIATION');
+                commit('TOGGLE_CONFIRM');
             }
             
         } catch (error) {
@@ -117,6 +123,8 @@ export const actions = {
 };
 
 export const mutations = {
+    TOGGLE_MODAL: (state) => state.showModal = !state.showModal,
+    TOGGLE_CONFIRM: (state) => state.showConfirm = !state.showConfirm,
     SET_USER_ID: (state, i) => state.userId = i,
     SET_CONTACTS: (state, c) => state.contacts = c,
     SET_TYPES: (state, t) => state.types = t,

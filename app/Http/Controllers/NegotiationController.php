@@ -88,7 +88,7 @@ class NegotiationController extends Controller
             $negotiation->neg_type_id = $request->neg_type_id;
             $negotiation->title = $request->title;
             $negotiation->description = $request->description;
-            $negotiation->amount = $request->amount;
+            $negotiation->amount = str_replace(',', '.', $request->amount);
             $negotiation->active = $request->active;
             $negotiation->created_at = date('Y-m-d H:i:s');
             $negotiation->updated_at = NULL;

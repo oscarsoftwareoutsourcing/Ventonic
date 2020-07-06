@@ -8,7 +8,7 @@ class Negotiation extends Model
 {
 
     protected $casts = [
-        'active' => 'boolean'
+        'active' => 'boolean',
     ];
 
 
