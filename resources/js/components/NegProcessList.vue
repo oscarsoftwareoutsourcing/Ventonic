@@ -20,7 +20,7 @@
                         <h5 class="mb-1 text-white">Cantidad: {{ formatImport(card.amount) }}</h5>
 
                         <!-- Title and contact -->
-                        <h5 class="mb-1 text-white">Fecha de cierre</h5>
+                        <h5 class="mb-1 text-white">Fecha de cierre: {{ (card.deadline !== null) ? formatDate(card.deadline) : 'N/A' }}</h5>
                         <hr class="my-1">
                         <div class="d-flex justify-content-between">
 
@@ -60,8 +60,6 @@
 <script>
 import draggable from 'vuedraggable';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
-import $ from '../../../public/js/jquery/jquery-3.5.1.min.js';
-require('../../../public/web/js/bootstrap/bootstrap.min.js');
 
 export default {
     components: {
@@ -80,6 +78,10 @@ export default {
             toggleConfirm: 'TOGGLE_CONFIRM',
             setNegotiation: 'SET_NEGOTIATION'
         }),
+        formatDate(d) {
+            let date = new Date(d);
+            return date.getDate() + ' de ' + new Intl.DateTimeFormat('es-ES', { month: 'long'}).format(date) + ' del ' + date.getFullYear();
+        },
         async onAdd(event, id) {
             let values = {
                 id: event.item.getAttribute('data-neg-id'),
@@ -137,7 +139,7 @@ export default {
             }
         },
         formatImport(value) {
-            return (value.toString()).replace(".", ",");
+            return new Intl.NumberFormat('de-ES', { style: 'currency', currency: 'EUR' }).format(value);
         }
     },
     computed: {

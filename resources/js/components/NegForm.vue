@@ -66,6 +66,13 @@
                             </article>
                         </div>
 
+                        <!-- Deadline -->
+                        <label>Fecha de cierre:</label>
+                        <div class="form-group">
+                            <datepicker :bootstrap-styling="true" :language="es" :highlighted="highlighted" :disabled-dates="disabledDates" v-model="deadline" placeholder="Escoger una fecha" :format="format">
+                            </datepicker>
+                        </div>
+
                         <!-- Title -->
                         <label>Título:</label>
                         <div class="form-group">
@@ -102,7 +109,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary waves-effect waves-light" @click="check()" :disabled="isDisabled">Guardar</button>
-                        <button v-if="negId !== null" type="button" class="btn btn-warning waves-effect waves-light" @click.stop="archiveNegotiation(negId, negActive)">Archivar</button>
+                        <button v-if="negId !== null" type="button" class="btn btn-warning waves-effect waves-light" @click.stop="archiveModal()">Archivar</button>
                         <button type="button" class="btn btn-light waves-effect waves-light" @click="eraseData()">Cancelar</button>
                     </div>
                 </form>
@@ -112,8 +119,9 @@
 </template>
 
 <script>
-import { required, decimal } from 'vuelidate/lib/validators';
 import Datepicker from 'vuejs-datepicker';
+import {es} from 'vuejs-datepicker/dist/locale'
+import { required, decimal } from 'vuelidate/lib/validators';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 export default {
     components: {
@@ -122,6 +130,15 @@ export default {
     data() {
         return {
             isDisabled: false,
+            es: es,
+            today: new Date(),
+            format: 'dd-MM-yyyy',
+            highlighted: {
+                dates: [new Date()]
+            },
+            disabledDates: {
+                to: new Date()
+            }
         }
     },
     validations: {
@@ -149,6 +166,8 @@ export default {
         ...mapMutations({
             resetNeg: 'RESET_NEGOTIATION',
             toggleModal: 'TOGGLE_MODAL',
+            toggleConfirm: 'TOGGLE_CONFIRM',
+            setNegotiation: 'SET_NEGOTIATION'
         }),
         ...mapActions(['saveNeg', 'toggleActivation']),
         async check() {
@@ -164,12 +183,8 @@ export default {
                 this.$v.$touch();
             }
         },
-        archiveNegotiation(negId, activeState) {
-            let values = {
-                id: negId,
-                active: activeState
-            }
-            this.toggleActivation(values);
+        archiveModal() {
+            this.toggleConfirm();
         },
         getName(contact) {
             if(contact.last_name !== null) {
@@ -225,10 +240,30 @@ export default {
             },
             set(val) { this.getNegotiation.amount = val; }
         },
+        deadline: {
+            get() {
+                return this.getNegotiation.deadline;
+            },
+            set(val) { this.getNegotiation.deadline = val; }
+        },
     }
 }
 </script>
 
 <style>
+    .vdp-datepicker__calendar {
+        position: absolute !important;
+        z-index: 100 !important;
+        background: #262C49 !important;
+        width: 300px !important;
+        border: 1px solid #ccc !important;
+    }
 
+    .vdp-datepicker__calendar .cell.highlighted {
+        background: #10163A !important;
+    }
+
+    .vdp-datepicker__calendar header .up:not(.disabled):hover {
+        background: transparent !important;
+    }
 </style>

@@ -19,6 +19,7 @@ const initialState = () => ({
         neg_type_id: null,
         neg_status_id: null,
         neg_process_id: null,
+        deadline: null,
         title: '',
         description: '',
         amount: '',
@@ -64,7 +65,7 @@ export const actions = {
         } finally {
         }
     },
-    async changeToList({commit}, value) {
+    async changeToList({ commit }, value) {
         try {
 
             // Send data
@@ -95,6 +96,10 @@ export const actions = {
                 commit('SET_NEGOTIATIONS', response.data.newNegotiations);
                 commit('RESET_NEGOTIATION');
                 commit('TOGGLE_CONFIRM');
+
+                if(state.showModal) {
+                    commit('TOGGLE_MODAL');
+                }
             }
             
         } catch (error) {

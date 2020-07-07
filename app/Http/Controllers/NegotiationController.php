@@ -9,6 +9,7 @@ use App\UserModuleLabel;
 use App\NegotiationType;
 use App\NegotiationStatus;
 use App\Negotiation;
+use Carbon\Carbon;
 
 class NegotiationController extends Controller
 {
@@ -90,6 +91,7 @@ class NegotiationController extends Controller
             $negotiation->description = $request->description;
             $negotiation->amount = str_replace(',', '.', $request->amount);
             $negotiation->active = $request->active;
+            $negotiation->deadline = Carbon::parse($request->deadline)->toDateTimeString();
             $negotiation->created_at = date('Y-m-d H:i:s');
             $negotiation->updated_at = NULL;
 
