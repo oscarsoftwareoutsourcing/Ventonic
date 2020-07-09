@@ -4,9 +4,10 @@ import axios from 'axios';
 
 // Constant to reset this state information.
 const initialState = () => ({
-    showModal: false,
+    showForm: false,
     showConfirm: false,
-    contacts: [], // User contacts
+    contacts: [], // User contacts.
+    userGroups: [], // User contacts.
     types: [], // Negotiations types.
     statuses: [], // Negotiation statuses.
     processes: [], // Negotiation processes.
@@ -16,9 +17,11 @@ const initialState = () => ({
         id: null,
         user_id: null,
         contact_id: null,
+        groups: [],
         neg_type_id: null,
         neg_status_id: null,
         neg_process_id: null,
+        deadline: null,
         title: '',
         description: '',
         amount: '',
@@ -30,9 +33,10 @@ const initialState = () => ({
 const state = initialState;
 
 export const getters = {
-    getShowModal: state => { return state.showModal },
+    getShowForm: state => { return state.showForm },
     getShowConfirm: state => { return state.showConfirm },
     getContacts: state => { return state.contacts },
+    getUserGroups: state => { return state.userGroups },
     getTypes: state => { return state.types },
     getStatuses: state => { return state.statuses },
     getProcesses: state => { return state.processes },
@@ -64,7 +68,7 @@ export const actions = {
         } finally {
         }
     },
-    async changeToList({commit}, value) {
+    async changeToList({ commit }, value) {
         try {
 
             // Send data
@@ -95,6 +99,10 @@ export const actions = {
                 commit('SET_NEGOTIATIONS', response.data.newNegotiations);
                 commit('RESET_NEGOTIATION');
                 commit('TOGGLE_CONFIRM');
+
+                if(state.showForm) {
+                    commit('TOGGLE_FORM');
+                }
             }
             
         } catch (error) {
@@ -123,10 +131,11 @@ export const actions = {
 };
 
 export const mutations = {
-    TOGGLE_MODAL: (state) => state.showModal = !state.showModal,
+    TOGGLE_FORM: (state) => state.showForm = !state.showForm,
     TOGGLE_CONFIRM: (state) => state.showConfirm = !state.showConfirm,
     SET_USER_ID: (state, i) => state.userId = i,
     SET_CONTACTS: (state, c) => state.contacts = c,
+    SET_USER_GROUPS: (state, g) => state.userGroups = g,
     SET_TYPES: (state, t) => state.types = t,
     SET_STATUSES: (state, s) => state.statuses = s,
     SET_PROCESSES: (state, p) => state.processes = p,
@@ -147,6 +156,7 @@ export const mutations = {
         state.negotiation = {
             id: null,
             contact_id: null,
+            groups: [],
             neg_type_id: null,
             neg_status_id: null,
             neg_process_id: null,

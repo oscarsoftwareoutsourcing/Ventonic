@@ -142,6 +142,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(UserModuleLabel::class);
     }
 
+    // User groups
+    public function groups() {
+        return $this->hasMany(Group::class);
+    }
+
     public function getPhotoAttribute()
     {
         return ($this->sellerProfile!==null)
@@ -485,5 +490,4 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         return $respuesta;
     }
-
 }

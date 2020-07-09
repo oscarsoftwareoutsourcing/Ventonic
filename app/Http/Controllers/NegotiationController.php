@@ -9,6 +9,7 @@ use App\UserModuleLabel;
 use App\NegotiationType;
 use App\NegotiationStatus;
 use App\Negotiation;
+use Carbon\Carbon;
 
 class NegotiationController extends Controller
 {
@@ -17,9 +18,11 @@ class NegotiationController extends Controller
         try {
 
             // Get all the information needed in the module.
-            $contacts = User::find(auth()->user()->id)->contact;
+            $user = User::find(auth()->user()->id);
+            $contacts = $user->contact; // User contacts (clients).
             $neg_types = NegotiationType::all(); // Negotiation types.
             $neg_statuses = NegotiationStatus::all(); // Negotiation statuses.
+            $user_groups = $user->groups; // Groups of users to access the negotiations.
 
             // We check if user has negotiation processes already in the DB.
             $user_neg_processes = User::find(auth()->user()->id)->negotiation_processes; // Negotiation processes.
@@ -49,12 +52,16 @@ class NegotiationController extends Controller
                 $processes = $user_neg_processes[0]['labels'];
             }
 
-
-            $negotiations = User::find(auth()->user()->id)->negotiations; // Negotiations
+            // Created negotiations
+            $negotiations = User::find(auth()->user()->id)->negotiations;
+            
+            // Shared negotiations
+            // $sharedNegotiations = User::find(auth()->user()->id)->negotiations;
 
             // Return the data to the view
             return view('negotiations.index')->with([
                 'userContacts' => $contacts,
+                'userGroups' => $user_groups,
                 'negTypes' => $neg_types,
                 'negStatuses' => $neg_statuses,
                 'negProcesses' => $processes,
@@ -90,6 +97,7 @@ class NegotiationController extends Controller
             $negotiation->description = $request->description;
             $negotiation->amount = str_replace(',', '.', $request->amount);
             $negotiation->active = $request->active;
+            $negotiation->deadline = Carbon::parse($request->deadline)->toDateTimeString();
             $negotiation->created_at = date('Y-m-d H:i:s');
             $negotiation->updated_at = NULL;
 

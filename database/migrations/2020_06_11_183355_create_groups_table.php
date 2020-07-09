@@ -17,8 +17,9 @@ class CreateGroupsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->comment('Nombre del Grupo');
             $table->bigInteger('user_id')->unsigned()->comment('Id del usario que crea el grupo');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

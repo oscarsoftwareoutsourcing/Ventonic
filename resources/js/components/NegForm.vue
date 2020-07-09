@@ -1,119 +1,214 @@
 <template>
-    <div class="modal fade text-left show" id="negForm" tabindex="-1" role="dialog" style="display: block;" v-if="getShowModal">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel33">{{ negOperation }}</h4>
-                    <button type="button" class="close" @click="eraseData()">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">{{ negId ? 'Actualizar' : 'Nueva'}} Negociación</h4>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+                <form class="form form-horizontal" data-bitwarden-watching="1">
+                    <div class="form-body">
+                        <div class="row">
+                            
+                            <!-- Status -->
+                            <template v-if="negId !== null">
+                                <div class="col-lg-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-3">
+                                            <span>Estado:</span>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <select name="cboNegStatus" id="cboNegStatus" class="form-control" v-model="negStatusId">
+                                                <option v-for="(status, index) in getStatuses" :key="index" :value="status.id">{{ status.status }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
 
-                <!-- Form -->
-                <form action="#" data-bitwarden-watching="1">
+                            <!-- Type -->
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <span>Tipo</span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <select name="cboNegType" id="cboNegType" class="form-control" v-model="negTypeId">
+                                            <option :value="null">- Ecoger un tipo -</option>
+                                            <option v-for="(type, index) in getTypes" :key="index" :value="type.id">{{ type.type }}</option>
+                                        </select>
 
-                    <div class="modal-body">
-
-                        <!-- Status -->
-                        <template v-if="negId !== null">
-                            <label for="">Estado:</label>
-                            <div class="form-group">
-                                <select name="cboNegStatus" id="cboNegStatus" class="form-control" v-model="negStatusId">
-                                    <option v-for="(status, index) in getStatuses" :key="index" :value="status.id">{{ status.status }}</option>
-                                </select>
+                                        <!-- Validation messages -->
+                                        <article class="help-block" v-if="$v.negTypeId.$error">
+                                            <i class="text-danger">Dato requerido</i>
+                                        </article>
+                                    </div>
+                                </div>
                             </div>
-                        </template>
-
-                        <!-- Type -->
-                        <label for="">Tipo:</label>
-                        <div class="form-group">
-                            <select name="cboNegType" id="cboNegType" class="form-control" v-model="negTypeId">
-                                <option :value="null">- Ecoger un tipo -</option>
-                                <option v-for="(type, index) in getTypes" :key="index" :value="type.id">{{ type.type }}</option>
-                            </select>
-
-                            <!-- Validation messages -->
-                            <article class="help-block" v-if="$v.negTypeId.$error">
-                                <i class="text-danger">Dato requerido</i>
-                            </article>
-                        </div>
-
-                        <!-- Process -->
-                        <label for="">Proceso:</label>
-                        <div class="form-group">
-                            <select name="cboProcess" id="cboProcess" class="form-control" v-model="negProcessId">
-                                <option :value="null">- Ecoger un proceso -</option>
-                                <option v-for="(process, index) in getProcesses" :key="index" :value="process.id">{{ process.title }}</option>
-                            </select>
                             
-                            <!-- Validation messages -->
-                            <article class="help-block" v-if="$v.negProcessId.$error">
-                                <i class="text-danger">Dato requerido</i>
-                            </article>
-                        </div>
+                            <!-- Process -->
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <span>Proceso:</span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <select name="cboProcess" id="cboProcess" class="form-control" v-model="negProcessId">
+                                            <option :value="null">- Ecoger un proceso -</option>
+                                            <option v-for="(process, index) in getProcesses" :key="index" :value="process.id">{{ process.title }}</option>
+                                        </select>
 
-                        <!-- Contact -->
-                        <label for="">Contacto:</label>
-                        <div class="form-group">
-                            <select name="cboContact" id="cboContact" class="form-control" v-model="contactId">
-                                <option :value="null">- Ecoger un contacto -</option>
-                                <option v-for="(contact, index) in getContacts" :key="index" :value="contact.id">{{ getName(contact) }}</option>
-                            </select>
+                                        <!-- Validation messages -->
+                                        <article class="help-block" v-if="$v.negProcessId.$error">
+                                            <i class="text-danger">Dato requerido</i>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
                             
-                            <!-- Validation messages -->
-                            <article class="help-block" v-if="$v.contactId.$error">
-                                <i class="text-danger">Dato requerido</i>
-                            </article>
-                        </div>
+                            <!-- Contact -->
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <span>Contacto:</span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <select name="cboContact" id="cboContact" class="form-control" v-model="contactId">
+                                            <option :value="null">- Ecoger un contacto -</option>
+                                            <option v-for="(contact, index) in getContacts" :key="index" :value="contact.id">{{ getName(contact) }}</option>
+                                        </select>
 
-                        <!-- Title -->
-                        <label>Título:</label>
-                        <div class="form-group">
-                            <input type="text" name="txtTitle" id="txtTitle" placeholder="Título de la negociación" class="form-control" v-model="title">
+                                        <!-- Validation messages -->
+                                        <article class="help-block" v-if="$v.contactId.$error">
+                                            <i class="text-danger">Dato requerido</i>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
                             
-                            <!-- Validation messages -->
-                            <article class="help-block" v-if="$v.title.$error">
-                                <i class="text-danger">Dato requerido</i>
-                            </article>
-                        </div>
+                            <!-- Deadline -->
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <span>Fecha de cierre:</span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <datepicker :bootstrap-styling="true" :language="es" :highlighted="highlighted" :disabled-dates="disabledDates" v-model="deadline" placeholder="Escoger una fecha" :format="format"></datepicker>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Title -->
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <span>Título:</span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" name="txtTitle" id="txtTitle" placeholder="Título de la negociación" class="form-control" v-model="title">
 
-                        <!-- Description -->
-                        <label>Descripción:</label>
-                        <div class="form-group">
-                            <textarea name="txaDescription" id="txaDescription" placeholder="Descripción de la negociación" class="form-control" v-model="description"></textarea>
+                                        <!-- Validation messages -->
+                                        <article class="help-block" v-if="$v.title.$error">
+                                            <i class="text-danger">Dato requerido</i>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
                             
-                            <!-- Validation messages -->
-                            <article class="help-block" v-if="$v.description.$error">
-                                <i class="text-danger">Dato requerido</i>
-                            </article>
-                        </div>
+                            <!-- Description -->
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <span>Descripción:</span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <textarea name="txaDescription" id="txaDescription" placeholder="Descripción de la negociación" class="form-control" v-model="description"></textarea>
 
-                        <!-- Amount -->
-                        <label>Importe:</label>
-                        <div class="form-group">
-                            <input name="txtAmount" id="txtAmount" type="text" placeholder="Monto" class="form-control" v-model="amount">
+                                        <!-- Validation messages -->
+                                        <article class="help-block" v-if="$v.description.$error">
+                                            <i class="text-danger">Dato requerido</i>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
                             
-                            <!-- Validation messages -->
-                            <article class="help-block" v-if="$v.amount.$error">
-                                <i class="text-danger" v-if="!$v.amount.required">Dato requerido</i>
-                                <i class="text-danger" v-if="!$v.amount.decimal">Importe inválido</i>
-                            </article>
+                            <!-- Amount -->
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <span>Importe:</span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input name="txtAmount" id="txtAmount" type="text" placeholder="Monto" class="form-control" v-model="amount">
+                                        
+                                        <!-- Validation messages -->
+                                        <article class="help-block" v-if="$v.amount.$error">
+                                            <i class="text-danger" v-if="!$v.amount.required">Dato requerido</i>
+                                            <i class="text-danger" v-if="!$v.amount.decimal">Importe inválido</i>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Groups -->
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <span>Grupos:</span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <ul class="list-unstyled mb-1">
+                                            <li class="d-inline-block mr-2">
+                                                <fieldset>
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" class="custom-control-input" name="rdoSharedNeg" id="rdoNotShared" v-model="isShared" :value="false">
+                                                        <label class="custom-control-label" for="rdoNotShared">Sólo para mí</label>
+                                                    </div>
+                                                </fieldset>
+                                            </li>
+                                            <li class="d-inline-block mr-2">
+                                                <fieldset>
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" class="custom-control-input" name="rdoSharedNeg" id="rdoShared" v-model="isShared" :value="true">
+                                                        <label class="custom-control-label" for="rdoShared">Compartida</label>
+                                                    </div>
+                                                </fieldset>
+                                            </li>
+                                            <li class="d-inline-block mr-2" v-if="isShared && groupIds.length < getUserGroups.length">
+                                                <button type="button" class="btn btn-icon btn-success waves-effect waves-light" @click="addGroup"><i class="fa fa-plus mr-1"></i>Agregar</button>
+                                            </li>
+                                        </ul>
+
+                                        <div v-if="isShared">
+                                            <div class="form-group row mb-1" v-for="(gi, index) in groupIds" :key="index">
+                                                <select v-model="groupIds[index]" name="cboGroups" id="cboGroups" class="form-control col-10">
+                                                    <option :value="null">- Ecoger un contacto -</option>
+                                                    <option v-for="(group, index) in getUserGroups" :key="index" :value="group.id">{{ group.name }}</option>
+                                                </select>
+                                                <button v-if="groupIds.length > 1" type="button" class="btn btn-danger ml-1 col-1" @click="removeGroup(index)"><i class="fa fa-minus" style="margin: 0px -5px;"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary waves-effect waves-light" @click="check()" :disabled="isDisabled">Guardar</button>
-                        <button v-if="negId !== null" type="button" class="btn btn-warning waves-effect waves-light" @click.stop="archiveNegotiation(negId, negActive)">Archivar</button>
-                        <button type="button" class="btn btn-light waves-effect waves-light" @click="eraseData()">Cancelar</button>
                     </div>
                 </form>
+            </div>
+
+            <!-- Buttons -->
+            <div class="card-footer text-center pt-5">                
+                <button type="button" class="btn btn-primary waves-effect waves-light" @click="check()" :disabled="isDisabled">Guardar</button>
+                <button v-if="negId !== null" type="button" class="btn btn-warning waves-effect waves-light" @click.stop="archiveModal()">Archivar</button>
+                <button type="button" class="btn btn-light waves-effect waves-light" @click="eraseData()">Cancelar</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { required, decimal } from 'vuelidate/lib/validators';
 import Datepicker from 'vuejs-datepicker';
+import {es} from 'vuejs-datepicker/dist/locale'
+import { required, decimal } from 'vuelidate/lib/validators';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 export default {
     components: {
@@ -122,6 +217,16 @@ export default {
     data() {
         return {
             isDisabled: false,
+            isShared: false,
+            groupIds: [{ id: null }],
+            es: es,
+            format: 'dd-MM-yyyy',
+            highlighted: {
+                dates: [new Date()]
+            },
+            disabledDates: {
+                to: new Date()
+            }
         }
     },
     validations: {
@@ -148,10 +253,19 @@ export default {
     methods: {
         ...mapMutations({
             resetNeg: 'RESET_NEGOTIATION',
-            toggleModal: 'TOGGLE_MODAL',
+            toggleForm: 'TOGGLE_FORM',
+            toggleConfirm: 'TOGGLE_CONFIRM',
+            setNegotiation: 'SET_NEGOTIATION'
         }),
         ...mapActions(['saveNeg', 'toggleActivation']),
+        addGroup() {
+            this.groupIds.push({id: null});
+        },
+        removeGroup(index) {
+            this.groupIds.splice(index, 1);
+        },
         async check() {
+            console.log(this.groupIds);
             if (!this.$v.$invalid) {
 
                 this.isDisabled = !this.isDisabled;
@@ -164,12 +278,8 @@ export default {
                 this.$v.$touch();
             }
         },
-        archiveNegotiation(negId, activeState) {
-            let values = {
-                id: negId,
-                active: activeState
-            }
-            this.toggleActivation(values);
+        archiveModal() {
+            this.toggleConfirm();
         },
         getName(contact) {
             if(contact.last_name !== null) {
@@ -179,13 +289,13 @@ export default {
             }
         },
         eraseData() {
-            this.toggleModal();
+            this.toggleForm();
             this.resetNeg();
             this.$v.$reset();
         }
     },
     computed: {
-        ...mapGetters(['getContacts', 'getStatuses', 'getTypes', 'getProcesses', 'getNegotiation', 'getShowModal']),
+        ...mapGetters(['getContacts', 'getStatuses', 'getTypes', 'getProcesses', 'getNegotiation', 'getShowModal', 'getUserGroups']),
         negOperation() {
             return (this.getNegotiation.id === null) ? 'Nueva Negociación' : 'Actualizar Negociación';
         },
@@ -225,10 +335,38 @@ export default {
             },
             set(val) { this.getNegotiation.amount = val; }
         },
+        deadline: {
+            get() {
+                return this.getNegotiation.deadline;
+            },
+            set(val) { this.getNegotiation.deadline = val; }
+        },
+        negGroups: {
+            get() {
+                return this.getNegotiation.groups;
+            },
+            set(val) {
+                this.getNegotiation.groups = val;
+            }
+        }
     }
 }
 </script>
 
 <style>
+    .vdp-datepicker__calendar {
+        position: absolute !important;
+        z-index: 100 !important;
+        background: #262C49 !important;
+        width: 300px !important;
+        border: 1px solid #ccc !important;
+    }
 
+    .vdp-datepicker__calendar .cell.highlighted {
+        background: #10163A !important;
+    }
+
+    .vdp-datepicker__calendar header .up:not(.disabled):hover {
+        background: transparent !important;
+    }
 </style>

@@ -8,13 +8,12 @@
 @endsection
 
 @section('content')
-    <negotiations-module :types="{{ $negTypes }}" :statuses="{{ $negStatuses }}" :processes="{{ $negProcesses }}" :negotiations="{{ $negotiations }}" :user="{{ $userId }}" :contacts="{{ $userContacts }}" />
+    <negotiations-module :types="{{ $negTypes }}" :statuses="{{ $negStatuses }}" :processes="{{ $negProcesses }}" :negotiations="{{ $negotiations }}" :user="{{ $userId }}" :contacts="{{ $userContacts }}" :a="{{ $userGroups }}" />
 @endsection
 @section('extra-js')
     <script>
         window.api_url="{{ env('MIX_API_URL') }}";
     </script>
-    <script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}" defer></script>
 @endsection
 
 @section('extra-js-app')
