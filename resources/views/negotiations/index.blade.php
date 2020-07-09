@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <negotiations-module :types="{{ $negTypes }}" :statuses="{{ $negStatuses }}" :processes="{{ $negProcesses }}" :negotiations="{{ $negotiations }}" :user="{{ $userId }}" :contacts="{{ $userContacts }}" />
+    <negotiations-module :types="{{ $negTypes }}" :statuses="{{ $negStatuses }}" :processes="{{ $negProcesses }}" :negotiations="{{ $negotiations }}" :user="{{ $userId }}" :contacts="{{ $userContacts }}" :a="{{ $userGroups }}" />
 @endsection
 @section('extra-js')
     <script>

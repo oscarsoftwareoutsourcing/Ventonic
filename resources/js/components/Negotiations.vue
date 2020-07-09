@@ -16,9 +16,9 @@
                         </button>
 
                         <div class="navbar-collapse collapse" id="navbarColor01">
-                            <ul class="navbar-nav mr-auto">
+                            <ul class="navbar-nav mr-auto" v-if="!getShowForm">
                                 <li class="nav-item" style="padding: 5px">
-                                    <button type="button" class="btn btn-primary waves-effect waves-light" @click="toggleModal">Nueva</button>
+                                    <button type="button" class="btn btn-primary waves-effect waves-light" @click="toggleForm">Nueva</button>
                                 </li>
                                 <li class="nav-item" style="padding: 5px">
                                     <button type="button" class="btn btn-warning waves-effect waves-light">Archivadas</button>
@@ -28,7 +28,7 @@
                     </nav>
 
                     <!-- Filter Navbar -->
-                    <nav class="navbar navbar-expand-lg">
+                    <nav class="navbar navbar-expand-lg" v-if="!getShowForm">
                         <a class="navbar-brand d-lg-none">Filtros</a>
                         <button class="navbar-toggler p-0 collapsed d-lg-none" type="button" data-toggle="collapse" style="font-size: 1.5rem;" data-target="#filters" aria-controls="filters" aria-expanded="false" aria-label="Toggle navigation">
                             <i class="fa fa-chevron-down"></i>
@@ -125,7 +125,7 @@
             </div>
 
             <!-- Process lists -->
-            <div class="row">
+            <div class="row" v-if="!getShowForm">
                 <div class="col">
                     <div id="listsContainer" class="row no-gutters flex-row flex-nowrap scrolling-wrapper">
                         <negotiation-process-list v-for="(process, index) in getProcesses" :key="index" :processData="process" />
@@ -134,7 +134,7 @@
             </div>
 
             <!-- Negotiation Modal -->
-            <negotiation-form />
+            <negotiation-form v-if="getShowForm" />
 
             <!-- Archive Confirm Modal -->
             <div id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-modal="true" class="modal fade text-left show" style="display: block;" v-if="getShowConfirm">
@@ -157,7 +157,7 @@
                 </div>
             </div>
 
-            <div class="modal-backdrop fade show" v-if="getShowModal || getShowConfirm"></div>
+            <div class="modal-backdrop fade show" v-if="getShowConfirm"></div>
         </div>
     </div>
 </template>
@@ -169,7 +169,7 @@ export default {
     components: {
         draggable
     },
-    props: ['types', 'statuses', 'processes', 'negotiations', 'user', 'contacts'],
+    props: ['types', 'statuses', 'processes', 'negotiations', 'user', 'contacts', 'a'],
     mounted() {
         this.setTypes(this.types);
         this.setStatuses(this.statuses);
@@ -177,11 +177,12 @@ export default {
         this.setNegotiations(this.negotiations);
         this.setUserId(this.user);
         this.setContacts(this.contacts);
+        this.setUserGroups(this.a);
     },
     methods: {
         ...mapActions(['toggleActivation']),
         ...mapMutations({
-            toggleModal: 'TOGGLE_MODAL',
+            toggleForm: 'TOGGLE_FORM',
             toggleConfirm: 'TOGGLE_CONFIRM',
             setTypes: 'SET_TYPES',
             setStatuses: 'SET_STATUSES',
@@ -189,15 +190,19 @@ export default {
             setNegotiations: 'SET_NEGOTIATIONS',
             setUserId: 'SET_USER_ID',
             setContacts: 'SET_CONTACTS',
+            setUserGroups: 'SET_USER_GROUPS',
             resetNeg: 'RESET_NEGOTIATION',
         }),
         cancelArchive() {
-            this.resetNeg();
+
+            if(!this.getShowForm) {
+                this.resetNeg();
+            }
             this.toggleConfirm();
         }
     },
     computed: {
-        ...mapGetters(['getProcesses', 'getNegsLists', 'getShowModal', 'getShowConfirm']),
+        ...mapGetters(['getProcesses', 'getNegsLists', 'getShowForm', 'getShowConfirm']),
     }
 }
 </script>

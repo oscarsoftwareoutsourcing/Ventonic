@@ -10,7 +10,7 @@
                 <!-- Draggable elements -->
                 <div>
                     <draggable class="list-group" group="negotiations" @add="onAdd($event, processData.id)" @remove="onRemove($event)" :scroll-sensitivity="250">
-                        <a href="#" class="list-group-item list-group-item-action negotiation-card mb-1" v-for="(card, index) in negotiations" :key="index" :data-neg-id="card.id" :data-neg-import="card.amount" @click="editModal(card)">
+                        <a href="#" class="list-group-item list-group-item-action negotiation-card mb-1" v-for="(card, index) in negotiations" :key="index" :data-neg-id="card.id" :data-neg-import="card.amount" @click="editForm(card)">
                             <div class="d-flex w-100 justify-content-between mb-1">
                                 <small>{{ createdAt(card.created_at) }}</small>
                                 <a @click.stop.prevent="archiveModal(card)" title="Archivar"><i class="fa fa-archive warning"></i></a>
@@ -84,7 +84,7 @@ export default {
     methods: {
         ...mapActions(['changeToList', 'changeStatus']),
         ...mapMutations({
-            toggleModal: 'TOGGLE_MODAL',
+            toggleForm: 'TOGGLE_FORM',
             toggleConfirm: 'TOGGLE_CONFIRM',
             setNegotiation: 'SET_NEGOTIATION'
         }),
@@ -104,9 +104,9 @@ export default {
         onRemove(event) {
             this.listLength--;
         },
-        editModal(info) {
+        editForm(info) {
             this.setNegotiation(info);
-            this.toggleModal();
+            this.toggleForm();
         },
         archiveModal(info) {
             this.setNegotiation(info);
