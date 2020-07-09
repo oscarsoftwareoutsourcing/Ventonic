@@ -44,7 +44,7 @@
       </svg>
     </span>
     <!-- SVG END -->
-    <div class="container-fluid">
+    <div class="container-fluid" id="app">
       <div class="row no-gutters justify-content-center">
         <div class="col-xl-5 col-lg-7 bg-gray py-4 py-lg-5 px-4 px-lg-5 px-xl-6">
           <!-- Logo START -->
@@ -63,7 +63,7 @@
       </div>
     </section>  
     
-    {{-- <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script> --}}
+     <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script>
     <script src="{{ asset('web/js/popper/popper.min.js') }}"></script>
     <script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}"></script>
 
