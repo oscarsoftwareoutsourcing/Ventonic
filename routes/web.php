@@ -88,6 +88,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('get-chat-users', 'ChatController@getUserChatRooms');
     Route::get('set-chat-room/{id}/{user_id}', 'ChatController@setChatRoom');
     Route::post('filter-chat-users', 'ChatController@filterUserChatRooms');
+    Route::delete('chatroom/{id}/delete', 'ChatController@destroyChatRoom');
     Route::post('notification-time/update', 'NotificationController@updateTime');
 });
 

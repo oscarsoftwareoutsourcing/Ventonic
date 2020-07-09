@@ -309,6 +309,15 @@ class ChatController extends Controller
         return $chatOrigins;
     }
 
+     public function destroyChatRoom($id)
+    {
+        $chatRoom = ChatRoom::find($id);
+        $chatRoom->delete();
+        session()->forget(['chat_room_id', 'chat_room_user']);
+        return response()->json(['result' => true], 200);
+    }
+
+
     /*public function strposArr($haystack, $needle)
     {
         if (!is_array($needle)) {

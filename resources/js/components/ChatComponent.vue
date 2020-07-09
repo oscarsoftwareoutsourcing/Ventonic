@@ -23,7 +23,6 @@
               <h4 class="chat-user-name">{{ user.name }} {{ user.last_name }}</h4>
             </div>
           </header>
-
           <div class="profile-sidebar-area">
             <div class="scroll-area ps ps--active-y">
               <h6>Perfil</h6>
@@ -101,7 +100,6 @@
             </div>
           </div>
         </div>
-
         <!-- Chat Sidebar area -->
         <div class="sidebar-content card">
           <span class="sidebar-close-icon">
@@ -198,7 +196,6 @@
         </div>
       </div>
     </div>
-
     <!-- Area de mensajes del chat -->
     <div class="content-right">
       <div class="content-wrapper">
@@ -247,11 +244,18 @@
                     >{{ selectedUser.user.name || 'anonimo' }} {{ selectedUser.user.last_name || '' }}</h6>
                   </div>
                   <span class="favorite">
-                    <i class="feather icon-star font-medium-5"></i>
+                    <a
+                      class="todo-item-delete"
+                      href="javascript:void(0)"
+                      data-toggle="tooltip"
+                      title="Eliminar chat"
+                      @click="deleteChatRoom(selectedUser.chat_room_id)"
+                    >
+                      <i class="feather icon-trash"></i>
+                    </a>
                   </span>
                 </header>
               </div>
-
               <!-- Sección de mensajes del chat -->
               <div class="user-chats ps">
                 <div class="chats chat-scroll" style v-chat-scroll>
@@ -300,7 +304,6 @@
                   <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
                 </div>
               </div>
-
               <div class="chat-app-form">
                 <form class="chat-app-input d-flex" action="javascript:void(0);">
                   <input
@@ -454,12 +457,12 @@ export default {
         });
       //console.log(filterChat);
       /*
-                // Captura mensajes del usuario para filtrar en el chat
-                axios.get('/messages').then(response => {
-                    vm.messages = response.data;
-                }).catch(error => {
-                    console.error(error);
-                });*/
+                      // Captura mensajes del usuario para filtrar en el chat
+                      axios.get('/messages').then(response => {
+                          vm.messages = response.data;
+                      }).catch(error => {
+                          console.error(error);
+                      });*/
     },
     closeContent: function() {
       //console.log("Cerrar");
@@ -477,6 +480,30 @@ export default {
         $(".app-content .sidebar-content").addClass("show");
         $(".chat-application .chat-overlay").addClass("show");
       }
+    },
+    deleteChatRoom(chatRoomId) {
+      const vm = this;
+      bootbox.confirm({
+        size: "small",
+        message:
+          "Está a punto de eliminar este chat ¿Esta seguro de continuar?",
+        callback: function(result) {
+          if (result) {
+            axios
+              .delete(`/chatroom/${chatRoomId}/delete`)
+              .then(response => {
+                if (response.data.result) {
+                  vm.getChatUsers();
+                  vm.selectedUser = {};
+                  bootbox.alert("Chat eliminado");
+                }
+              })
+              .catch(error => {
+                console.errro(error);
+              });
+          }
+        }
+      });
     }
   },
   watch: {
@@ -488,6 +515,9 @@ export default {
      */
     selectedUser: function() {
       const vm = this;
+      if ($.isEmptyObject(vm.selectedUser)) {
+        return false;
+      }
       vm.messages = [];
       window.currentUserChat = vm.selectedUser;
 
