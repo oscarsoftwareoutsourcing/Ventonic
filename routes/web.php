@@ -90,6 +90,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('filter-chat-users', 'ChatController@filterUserChatRooms');
     Route::delete('chatroom/{id}/delete', 'ChatController@destroyChatRoom');
     Route::post('notification-time/update', 'NotificationController@updateTime');
+
+        /** Rutas para la gestión de correos */
+    Route::post('email/settings', 'EmailController@setSetting');
+    Route::get('email', 'EmailController@index')->name('email');
+    Route::get('email/messages', 'EmailController@getMessages')->name('email.get-messages');
 });
 
 /* Routas para oportunidades */

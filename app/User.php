@@ -142,6 +142,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(UserModuleLabel::class);
     }
 
+    /**
+    * User has many EmailSettings.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function emailSettings()
+    {
+        return $this->hasMany(EmailSetting::class);
+    }
+
     // User groups
     public function groups() {
         return $this->hasMany(Group::class);
