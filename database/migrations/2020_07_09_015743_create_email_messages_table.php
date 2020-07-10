@@ -20,15 +20,15 @@ class CreateEmailMessagesTable extends Migration
             $table->string('subject')->nullable();
             $table->string('references')->nullable();
             $table->dateTime('message_at')->comment('fecha del mensaje');
-            $table->json('from')->comment('arreglo de objetos de quién(es) envía(n) el correo');
-            $table->json('to')->comment('arreglo de objetos de quién(es) recibe(n) el correo');
-            $table->json('cc')->nullable()->comment('arreglo de objetos de quién(es) recibe(n) una copia del correo');
-            $table->json('bcc')->nullable()->comment(
+            $table->longText('from')->comment('arreglo de objetos de quién(es) envía(n) el correo');
+            $table->longText('to')->comment('arreglo de objetos de quién(es) recibe(n) el correo');
+            $table->longText('cc')->nullable()->comment('arreglo de objetos de quién(es) recibe(n) una copia del correo');
+            $table->longText('bcc')->nullable()->comment(
                 'arreglo de objetos de quién(es) recibe(n) una copia oculta del correo'
             );
-            $table->json('reply_to')->comment('arreglo de objetos de direcciones de correo a los cuales responder');
-            $table->json('sender')->comment('Datos de la persona que envía el correo');
-            $table->json('attachments')->nullable()->comment('registra los archivos adjuntos al mensaje');
+            $table->longText('reply_to')->comment('arreglo de objetos de direcciones de correo a los cuales responder');
+            $table->longText('sender')->comment('Datos de la persona que envía el correo');
+            $table->longText('attachments')->nullable()->comment('registra los archivos adjuntos al mensaje');
             $table->boolean('read')->default(false)->comment('condición para determinar si el mensaje fue leído');
             $table->enum('folder_type', [
                 'inbox', 'trash', 'sent', 'junk', 'drafts', 'spam', 'archive', 'starred'
