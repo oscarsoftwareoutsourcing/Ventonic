@@ -27,7 +27,7 @@
 @endsection
 
 @section('extra-js-app')
-    <script src="{{ asset('js/app.js') }}"></script>
+   <script src="{{ asset('js/app.js') }}" defer></script>
 @endsection
 @section('extra-js')
     <script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}"></script>

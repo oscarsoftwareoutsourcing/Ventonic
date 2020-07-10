@@ -102,6 +102,8 @@ class EmailController extends Controller
             }
         }
 
+        Cache::forget('email-config-' . $user->id);
+
         return response()->json(['result' => true, 'emails_list' => $emails], 200);
     }
 
@@ -119,7 +121,9 @@ class EmailController extends Controller
         $user = auth()->user();
 
         try {
-            $emailSetting = EmailSetting::where('user_id', $user->id)->first();
+            $emailSetting = Cache::rememberForever('email-config-' . $user->id, function () use ($user) {
+                return EmailSetting::where('user_id', $user->id)->first();
+            });
 
             if ($emailSetting) {
                 $emailClient = new Client([
