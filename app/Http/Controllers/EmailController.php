@@ -112,7 +112,6 @@ class EmailController extends Controller
      *
      * @method    getMessages
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return    JsonResponse         Objeto con los mensajes del usuario
      */
@@ -121,9 +120,7 @@ class EmailController extends Controller
         $user = auth()->user();
 
         try {
-            $emailSetting = Cache::rememberForever('email-config-' . $user->id, function () use ($user) {
-                return EmailSetting::where('user_id', $user->id)->first();
-            });
+            $emailSetting = EmailSetting::where('user_id', auth()->user()->id)->first();
 
             if ($emailSetting) {
                 $emailClient = new Client([

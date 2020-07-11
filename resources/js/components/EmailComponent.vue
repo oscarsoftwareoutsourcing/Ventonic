@@ -3,7 +3,7 @@
     <div class="sidebar-left">
       <div class="sidebar">
         <div class="sidebar-content email-app-sidebar d-flex">
-          <span class="sidebar-close-icon">
+          <span class="sidebar-close-icon" v-on:click="sidebarClose">
             <i class="feather icon-x"></i>
           </span>
           <div class="email-app-menu">
@@ -168,7 +168,7 @@
             <div class="email-app-list-wrapper">
               <div class="email-app-list">
                 <div class="app-fixed-search">
-                  <div class="sidebar-toggle d-block d-lg-none">
+                  <div class="sidebar-toggle d-block d-lg-none" v-on:click="sidebarShow">
                     <i class="feather icon-menu"></i>
                   </div>
                   <fieldset class="form-group position-relative has-icon-left m-0">
@@ -269,6 +269,7 @@
                       class="media"
                       v-for="email in emails.inbox"
                       :class="{'mail-read': (typeof(email.read)!=='undefined') ? email.read : false}"
+                      v-on:click="openContent"
                     >
                       <div class="media-left pr-50">
                         <div class="avatar">
@@ -304,7 +305,7 @@
                           </div>
                         </div>
                         <div class="mail-message">
-                          <p class="list-group-item-text truncate mb-0">{{ email.body }}</p>
+                          <p class="list-group-item-text truncate mb-0"> <div v-html="email.body"></div> </p>
                         </div>
                       </div>
                     </li>
@@ -320,7 +321,7 @@
             <div class="email-app-details">
               <div class="email-detail-header">
                 <div class="email-header-left d-flex align-items-center mb-1">
-                  <span class="go-back mr-1">
+                  <span class="go-back mr-1" v-on:click="closeContent">
                     <i class="feather icon-arrow-left font-medium-4"></i>
                   </span>
                   <h3>Focused impactful open system 📷 😃</h3>
@@ -518,6 +519,7 @@
 
 <script>
 import VueLoading from "vuejs-loading-plugin";
+
 Vue.use(VueLoading, {
   dark: true,
   text: "Cargando mensajes",
@@ -544,7 +546,6 @@ export default {
     /**
      * Obtiene un listado de mensajes del servidor de correos
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      */
     getEmails() {
       const vm = this;
@@ -567,7 +568,6 @@ export default {
     /**
      * Marca el o los mensajes como leídos
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     {string|array}      message_id    identificador del(los) mensaje(s)
      */
@@ -575,11 +575,28 @@ export default {
     /**
      * Elimina uno o mas mensajes
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     {string|array}    message_id    Identificador del(los) mensaje(s) a eliminar
      */
-    delete(message_id) {}
+    delete(message_id) {},
+
+    openContent: function() {
+      $(".app-content .email-app-details").toggleClass("show");
+    },
+    closeContent: function() {
+      e.stopPropagation();
+      $(".app-content .email-app-details").removeClass("show");
+    },
+     // Main menu toggle should hide app menu
+    sidebarClose: function () {
+        $('.sidebar-left').removeClass('show');
+        $('.app-content-overlay').removeClass('show');
+    },
+    sidebarShow: function(){
+        e.stopPropagation();
+        $('.app-content .sidebar-left').toggleClass('show');
+        $('.app-content .app-content-overlay').addClass('show');
+    }
   },
   mounted() {
     const vm = this;
