@@ -12,7 +12,7 @@ $factory->define(Contact::class, function (Faker $faker) {
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
         'address' => $faker->address,
-        'user_id' =>  factory(App\User::class), //9,
+        'user_id' => 9, //factory(App\User::class), //9,
         'phone' => $faker->tollFreePhoneNumber,
         'address' => $faker->address,
         //'created_at' => $faker->dateTime,
