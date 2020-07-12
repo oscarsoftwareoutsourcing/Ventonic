@@ -18,9 +18,12 @@
                                 <!-- Created At -->
                                 <div class="d-flex w-100 justify-content-between mb-1">
                                     <small><i class="feather icon-users text-primary mr-1" v-if="card.user_id !== getUserId"></i>{{ createdAt(card.created_at) }}</small>
-                                    <div>
+                                    <div v-if="card.active">
                                         <a title="Editar" @click.stop="editNegotiation(card)"><i class="fa fa-pencil-square primary"></i></a>
                                         <a title="Archivar" @click.stop="confirmArchive(card)"><i class="fa fa-archive warning"></i></a>
+                                    </div>
+                                    <div v-else>
+                                        <a title="Restaurar" @click.stop="confirmArchive(card)"><i class="feather icon-arrow-up-right success"></i></a>
                                     </div>
                                 </div>
 
@@ -34,7 +37,8 @@
                                 <h5 class="mb-1 text-white">Fecha de cierre: {{ (card.deadline !== null) ? formatDate(card.deadline) : 'N/A' }}</h5>
                                 <hr class="my-1">
 
-                                <div class="d-flex justify-content-between">
+                                <!-- Card footer -->
+                                <div class="d-flex justify-content-between" v-if="card.active">
 
                                     <!-- Toggle status -->
                                     <div class="float-left statusContainer">

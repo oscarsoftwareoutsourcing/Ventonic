@@ -11,13 +11,13 @@
 
                 <div class="navbar-collapse collapse" id="navbarColor01">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item" style="padding: 5px" v-if="!getShowForm && !archiveNegs">
+                        <li class="nav-item" style="padding: 5px" v-if="!getShowForm && getActives">
                             <button type="button" class="btn btn-primary waves-effect waves-light" @click="newNegotiation">Nueva</button>
                         </li>
-                        <li class="nav-item" style="padding: 5px" v-if="!archiveNegs">
+                        <li class="nav-item" style="padding: 5px" v-if="getActives">
                             <button type="button" class="btn btn-warning waves-effect waves-light" @click="renderArchived">Archivadas</button>
                         </li>
-                        <li class="nav-item" style="padding: 5px" v-if="archiveNegs">
+                        <li class="nav-item" style="padding: 5px" v-if="!getActives">
                             <button type="button" class="btn btn-success waves-effect waves-light" @click="renderActives">Activas</button>
                         </li>
                     </ul>
@@ -125,11 +125,8 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 export default {
-    data() {
-        return {
-            archiveNegs: false
-        }
-    },
+    // data() {
+    // },
     mounted() {
         this.setControlsHeight(this.$refs.controlsCard.offsetHeight);
     },
@@ -138,6 +135,7 @@ export default {
             setControlsHeight: 'SET_CONTROLS_HEIGHT',
             toggleForm: 'TOGGLE_FORM',
             toggleLists: 'TOGGLE_LISTS',
+            toggleActives: 'TOGGLE_ACTIVES',
             setArchivedNegs: 'SEPARATE_ARCHIVED_NEGOTIATIONS',
             setActives: 'SEPARATE_NEGOTIATIONS',
         }),
@@ -146,16 +144,16 @@ export default {
             this.toggleForm();
         },
         renderArchived() {
-            this.archiveNegs = true;
+            this.toggleActives();
             this.setArchivedNegs();
         },
         renderActives() {
-            this.archiveNegs = false;
+            this.toggleActives();
             this.setActives();
         }
     },
     computed: {
-        ...mapGetters(['getShowForm'])
+        ...mapGetters(['getShowForm', 'getActives'])
     }
 }
 </script>

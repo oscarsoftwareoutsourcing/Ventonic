@@ -10,7 +10,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>¿Está seguro de archivar esta negociación?</p>
+                    <p>¿Está seguro de {{ (getNegotiation.active) ? 'archivar' : 'restaurar' }} esta negociación?</p>
                 </div>
                 <div class="modal-footer">
                     <button @click.stop="toggleArchive" type="button" id="confirmDelete" class="btn btn-danger waves-effect waves-light" :disabled="isDisabled">Sí</button>
@@ -57,7 +57,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['getShowForm', 'getShowConfirm']),
+        ...mapGetters(['getShowForm', 'getShowConfirm', 'getNegotiation']),
     }
 }
 </script>
