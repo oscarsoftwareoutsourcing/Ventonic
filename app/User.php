@@ -137,6 +137,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Negotiation::class);
     }
 
+    // User related negotiations
+    public function related_negotiations() {
+        return $this->belongsToMany(Negotiation::class);
+    }
+
     // User moduleLabels
     public function negotiation_processes() {
         return $this->hasMany(UserModuleLabel::class);
@@ -145,6 +150,11 @@ class User extends Authenticatable implements MustVerifyEmail
     // User groups
     public function groups() {
         return $this->hasMany(Group::class);
+    }
+
+    public function related_groups() {
+        // return $this->hasManyThrough(Group::class, GroupUser::class);
+        return $this->hasMany('App\GroupUser', 'user_id');
     }
 
     public function getPhotoAttribute()
