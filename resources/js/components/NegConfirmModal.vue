@@ -43,12 +43,12 @@ export default {
             this.cancelArchive();
         },
         cancelArchive() {
-
-            this.toggleConfirm();
-
             if(!this.getShowForm) {
-                // this.toggleForm();
+                this.toggleConfirm();
                 this.resetNeg();
+            } else if(this.getShowDetails) {
+                console.log('ENTRÉ!');
+                this.toggleConfirm();
             } else {
                 this.toggleForm();
                 this.toggleLists();
@@ -57,7 +57,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['getShowForm', 'getShowConfirm', 'getNegotiation']),
+        ...mapGetters(['getShowForm', 'getShowConfirm', 'getShowDetails', 'getNegotiation']),
     }
 }
 </script>

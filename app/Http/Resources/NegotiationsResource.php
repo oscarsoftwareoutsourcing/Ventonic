@@ -17,7 +17,6 @@ class NegotiationsResource extends JsonResource
         return [
             // Editable Data
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'active' => $this->active,
             'title' => $this->title,
             'description' => $this->description,
@@ -33,7 +32,8 @@ class NegotiationsResource extends JsonResource
             // Render Data
             'extras' => [
                 'sharedWith' => getSharedUsers($this->related_users),
-            ]
+            ],
+            'owner' => $this->user,
         ];
     }
 

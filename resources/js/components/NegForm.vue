@@ -240,7 +240,13 @@ export default {
         if(this.getNegotiation.groups.length > 0) {
             this.isShared = true;
             this.groupIds = [];
-            this.getNegotiation.groups.forEach(g => this.groupIds.push({id: g}));
+            this.getNegotiation.groups.forEach(g => {
+                this.getUserGroups.forEach(ug => {
+                    if(g === ug.id) {
+                        this.groupIds.push({id: g});
+                    }
+                });
+            });
         }
     },
     validations() {
