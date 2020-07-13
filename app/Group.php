@@ -25,10 +25,6 @@ class Group extends Model
         return $this->belongsTo('App\User', 'user_id');
     }
 
-    public function usersIn() {
-        return $this->hasMany(GroupUser::class);
-    }
-
     public static function getUserByGroup($group_id){
         $users_txt='';
         $users=GroupUser::where('group_id', $group_id)->get();

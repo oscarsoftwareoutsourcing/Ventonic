@@ -4,7 +4,7 @@ import "vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css";
 import Vuelidate from "vuelidate";
 // Import store modules.
 import store from "./store/index.js";
-import moment from 'moment';
+import moment from "moment";
 
 require("./bootstrap");
 
@@ -34,7 +34,6 @@ Vue.component("todo-sidebar", () => import("./components/TodoSidebar.vue"));
 Vue.component("todo-list", () => import("./components/TodoList.vue"));
 Vue.component("todo-form", () => import("./components/TodoForm.vue"));
 
-// Negotiations module components
 Vue.component("negotiations-module", () =>
     import("./components/Negotiations.vue")
 );
@@ -47,7 +46,7 @@ Vue.mixin({
     data() {
         return {
             errors: {}
-        }
+        };
     },
     methods: {
         /**
@@ -60,7 +59,7 @@ Vue.mixin({
          */
         hasErrors(field) {
             const vm = this;
-            return typeof (vm.errors[field]) !== "undefined";
+            return typeof vm.errors[field] !== "undefined";
         },
         /**
          * Establece el formato de fecha y hora para una cadena de texto
@@ -70,7 +69,7 @@ Vue.mixin({
          * @return    {string}           Devuelve la fecha y hora en formato MMMM Do YYYY, h:mm:ss a
          */
         datetime_format(value) {
-            return moment(String(value)).format('MMMM Do YYYY, h:mm:ss a');
+            return moment(String(value)).format("MMMM Do YYYY, h:mm:ss a");
         },
         /**
          * Establece el formato de fecha para una cadena de texto
@@ -80,7 +79,7 @@ Vue.mixin({
          * @return    {string}       Devuelve la fecha en formato MMMM Do YYYY
          */
         date_format(value) {
-            return moment(String(value)).format('MMMM Do YYYY');
+            return moment(String(value)).format("MMMM Do YYYY");
         },
         /**
          * Estableve el formato de hora para una cadena de texto
@@ -90,21 +89,42 @@ Vue.mixin({
          * @return    {string}       Devuelve la hora en formato h:mm:ss a
          */
         time_format(value) {
-            return moment(String(value)).format('h:mm:ss a');
+            return moment(String(value)).format("h:mm:ss a");
         }
     }
 });
 
+Vue.component("negotiations-module", () =>
+    import("./components/Negotiations.vue")
+);
+Vue.component("negotiations-controls", () =>
+    import("./components/NegControls.vue")
+);
+Vue.component("negotiations-lists", () => import("./components/NegsLists.vue"));
+Vue.component("negotiation-form", () => import("./components/NegForm.vue"));
+Vue.component("negotiation-details", () =>
+    import("./components/NegDetails.vue")
+);
+Vue.component("negotiation-event-modal", () =>
+    import("./components/NegEventModal.vue")
+);
+Vue.component("negotiation-file-modal", () =>
+    import("./components/NegFileModal.vue")
+);
+Vue.component("negotiation-confirm-modal", () =>
+    import("./components/NegConfirmModal.vue")
+);
+em_negotiations;
 
 const app = new Vue({
     el: "#app",
     store
 });
 
-$(document).ready(function () {
-    $('input[name^="filter_"]').on("click", function () {
+$(document).ready(function() {
+    $('input[name^="filter_"]').on("click", function() {
         var filter = [];
-        $('input[name^="filter_"]').each(function () {
+        $('input[name^="filter_"]').each(function() {
             if ($(this).is(":checked")) {
                 filter.push($(this).val());
             }
@@ -119,7 +139,7 @@ $(document).ready(function () {
                 .then(response => {
                     var results = "";
                     if (response.data) {
-                        $(response.data).each(function () {
+                        $(response.data).each(function() {
                             results += `<tr>
                                         <td>${this.name}</td>
                                         <td>${this.last_name}</td>
