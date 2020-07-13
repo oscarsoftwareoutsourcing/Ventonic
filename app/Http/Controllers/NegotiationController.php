@@ -58,7 +58,7 @@ class NegotiationController extends Controller
             $userNegotiations = User::find(auth()->user()->id)->negotiations()->with(['type', 'status', 'contact', 'related_users.related_groups.group.groupUser'])->get();
                         
             // Shared negotiations
-            $relatedNegotiations = User::find(auth()->user()->id)->related_negotiations()->with(['type', 'status', 'contact', 'related_users.related_groups.group.groupUser'])->get();
+            $relatedNegotiations = User::find(auth()->user()->id)->related_negotiations()->with(['user', 'type', 'status', 'contact', 'related_users.related_groups.group.groupUser'])->get();
 
             $merged = $userNegotiations->merge($relatedNegotiations);
 

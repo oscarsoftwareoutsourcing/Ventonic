@@ -34,14 +34,6 @@ Vue.component("todo-sidebar", () => import("./components/TodoSidebar.vue"));
 Vue.component("todo-list", () => import("./components/TodoList.vue"));
 Vue.component("todo-form", () => import("./components/TodoForm.vue"));
 
-Vue.component("negotiations-module", () =>
-    import("./components/Negotiations.vue")
-);
-Vue.component("negotiation-process-list", () =>
-    import("./components/NegProcessList.vue")
-);
-Vue.component("negotiation-form", () => import("./components/NegForm.vue"));
-
 Vue.mixin({
     data() {
         return {
@@ -114,7 +106,6 @@ Vue.component("negotiation-file-modal", () =>
 Vue.component("negotiation-confirm-modal", () =>
     import("./components/NegConfirmModal.vue")
 );
-em_negotiations;
 
 const app = new Vue({
     el: "#app",

@@ -10,16 +10,29 @@
                 </button>
 
                 <div class="navbar-collapse collapse" id="navbarColor01">
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav mr-auto" v-if="!getShowDetails">
                         <li class="nav-item" style="padding: 5px" v-if="!getShowForm && getActives">
                             <button type="button" class="btn btn-primary waves-effect waves-light" @click="newNegotiation">Nueva</button>
                         </li>
-                        <li class="nav-item" style="padding: 5px" v-if="getActives">
+                        <li class="nav-item" style="padding: 5px" v-if="getActives && !getShowForm">
                             <button type="button" class="btn btn-warning waves-effect waves-light" @click="renderArchived">Archivadas</button>
                         </li>
-                        <li class="nav-item" style="padding: 5px" v-if="!getActives">
+                        <li class="nav-item" style="padding: 5px" v-if="!getActives && !getShowForm">
                             <button type="button" class="btn btn-success waves-effect waves-light" @click="renderActives">Activas</button>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav mr-auto" v-else>
+                        <li class="nav-item" style="padding: 5px">
+                            <button type="button" class="btn btn-light waves-effect waves-light" @click="backToLists">Volver</button>
+                        </li>
+                        <template v-if="getUserId === getNegotiations['list-' + getNegotiation.neg_process_id][getDetailedNegIndex].owner.id">
+                            <li class="nav-item" style="padding: 5px">
+                                <button type="button" class="btn btn-primary waves-effect waves-light" @click="editNegotiation">Editar</button>
+                            </li>
+                            <li class="nav-item" style="padding: 5px">
+                                <button type="button" class="btn btn-warning waves-effect waves-light" @click="archiveModal">Archivar</button>
+                            </li>
+                        </template>
                     </ul>
                 </div>
             </nav>
@@ -136,12 +149,25 @@ export default {
             toggleForm: 'TOGGLE_FORM',
             toggleLists: 'TOGGLE_LISTS',
             toggleActives: 'TOGGLE_ACTIVES',
+            toggleDetails: 'TOGGLE_DETAILS',
+            toggleConfirm: 'TOGGLE_CONFIRM',
             setArchivedNegs: 'SEPARATE_ARCHIVED_NEGOTIATIONS',
             setActives: 'SEPARATE_NEGOTIATIONS',
         }),
         newNegotiation() {
             this.toggleLists();
             this.toggleForm();
+        },
+        editNegotiation() {
+            this.toggleDetails();
+            this.toggleForm();
+        },
+        archiveModal() {
+            this.toggleConfirm();
+        },
+        backToLists() {
+            this.toggleDetails();
+            this.toggleLists();
         },
         renderArchived() {
             this.toggleActives();
@@ -153,7 +179,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['getShowForm', 'getActives'])
+        ...mapGetters(['getShowForm', 'getActives', 'getShowDetails', 'getUserId', 'getNegotiation', 'getNegotiations', 'getDetailedNegIndex'])
     }
 }
 </script>

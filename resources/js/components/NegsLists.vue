@@ -13,17 +13,19 @@
                 <perfect-scrollbar>
                     <ul class="dragElements p-0">
                         <draggable group="negotiations" @add="onAdd($event, process.id)" :scroll-sensitivity="250">
-                            <li v-for="(card) in getNegotiations['list-' + process.id]" :key="card.id" :data-neg-id="card.id">
+                            <li v-for="(card, index) in getNegotiations['list-' + process.id]" :key="index" :data-neg-id="card.id" @click="showDetails(card, index)">
 
                                 <!-- Created At -->
                                 <div class="d-flex w-100 justify-content-between mb-1">
-                                    <small><i class="feather icon-users text-primary mr-1" v-if="card.user_id !== getUserId"></i>{{ createdAt(card.created_at) }}</small>
-                                    <div v-if="card.active">
-                                        <a title="Editar" @click.stop="editNegotiation(card)"><i class="fa fa-pencil-square primary"></i></a>
-                                        <a title="Archivar" @click.stop="confirmArchive(card)"><i class="fa fa-archive warning"></i></a>
-                                    </div>
-                                    <div v-else>
-                                        <a title="Restaurar" @click.stop="confirmArchive(card)"><i class="feather icon-arrow-up-right success"></i></a>
+                                    <small><i v-if="card.owner.id !== getUserId" class="feather icon-users text-primary mr-1" title="Compartida"></i>{{ createdAt(card.created_at) }}</small>
+                                    <div v-if="card.owner.id === getUserId">
+                                        <div v-if="card.active">
+                                            <a title="Editar" @click.stop="editNegotiation(card)"><i class="fa fa-pencil-square primary"></i></a>
+                                            <a title="Archivar" @click.stop="confirmArchive(card)"><i class="fa fa-archive warning"></i></a>
+                                        </div>
+                                        <div v-else>
+                                            <a title="Restaurar" @click.stop="confirmArchive(card)"><i class="feather icon-arrow-up-right success"></i></a>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -35,6 +37,9 @@
 
                                 <!-- Deadline -->
                                 <h5 class="mb-1 text-white">Fecha de cierre: {{ (card.deadline !== null) ? formatDate(card.deadline) : 'N/A' }}</h5>
+
+                                <!-- Owner -->
+                                <h5 v-if="getUserId !== card.owner.id" class="text-primary">{{ showOwnerName(card.owner) }}</h5>
                                 <hr class="my-1">
 
                                 <!-- Card footer -->
@@ -110,9 +115,11 @@ export default {
         ...mapActions(['changeToList', 'changeStatus']),
         ...mapMutations({
             toggleLists: 'TOGGLE_LISTS',
+            toggleDetails: 'TOGGLE_DETAILS',
             toggleForm: 'TOGGLE_FORM',
             toggleConfirm: 'TOGGLE_CONFIRM',
             setNegotiation: 'SET_NEGOTIATION',
+            setIndex: 'SET_DETAILED_NEG_INDEX',
             setNegotiationGroups: 'SET_NEGOTIATION_GROUPS',
         }),
         createdAt(date) {
@@ -127,6 +134,13 @@ export default {
                 return contact.name + ' ' + contact.last_name;
             } else {
                 return contact.name;
+            }
+        },
+        showOwnerName(owner) {
+            if(owner.last_name !== null) {
+                return owner.name + ' ' + owner.last_name;
+            } else {
+                return owner.name;
             }
         },
         formatDate(d) {
@@ -174,9 +188,18 @@ export default {
             element.parentElement.classList.toggle('show');
             element.nextElementSibling.classList.toggle('show');
         },
+        showDetails(neg, index) {
+            this.setNegotiation(neg);
+            if(neg.groups.length > 0) {
+                this.setNegotiationGroups(neg.groups);
+            }
+            this.setIndex(index);
+            this.toggleLists();
+            this.toggleDetails();
+        }
     },
     computed: {
-        ...mapGetters(['getHeaderNavbarShadowHeight', 'getControlsHeight', 'getProcesses', 'getNegotiations', 'getTotals', 'getUserId']),
+        ...mapGetters(['getHeaderNavbarShadowHeight', 'getControlsHeight', 'getProcesses', 'getNegotiations', 'getTotals', 'getUserId', 'getShowDetails']),
     }
 }
 </script>

@@ -16,7 +16,8 @@ const initialState = () => ({
         showEventForm: false,
         showFileForm: false,
         showConfirm: false,
-        actives: true
+        actives: true,
+        detailedNegIndex: null
     },
 
     // Data to render in the UI
@@ -65,14 +66,13 @@ export const getters = {
     getShowFileForm: state => { return state.ui.showFileForm },
     getShowConfirm: state => { return state.ui.showConfirm },
     getActives: state => { return state.ui.actives },
-
+    getDetailedNegIndex: state => { return state.ui.detailedNegIndex },
 
     // Data elements to render
     getUserId: state => { return state.data.userId },
     getProcesses: state => { return state.data.processes },
     getNegotiations: state => { return state.data.renderedNegotiations },
     getTotals: state => { return state.data.totals },
-
     getTypes: state => { return state.data.types },
     getStatuses: state => { return state.data.statuses },
     getContacts: state => { return state.data.contacts },
@@ -141,7 +141,7 @@ export const actions = {
                 // Change store todos
                 commit('HANDLE_CHANGE', response.data.archivedNeg);
 
-                if(state.active) {
+                if(state.ui.actives) {
                     commit('SEPARATE_NEGOTIATIONS');
                 } else {
                     commit('SEPARATE_ARCHIVED_NEGOTIATIONS');
@@ -182,6 +182,7 @@ export const mutations = {
     TOGGLE_DETAILS: (state) => state.ui.showDetails = !state.ui.showDetails,
     TOGGLE_CONFIRM: (state) => state.ui.showConfirm = !state.ui.showConfirm,
     TOGGLE_ACTIVES: (state) => state.ui.actives = !state.ui.actives,
+    SET_DETAILED_NEG_INDEX: (state, dni) => state.ui.detailedNegIndex = dni,
     SET_USER_ID: (state, i) => state.data.userId = i,
     SET_TYPES: (state, t) => state.data.types = t,
     SET_STATUSES: (state, s) => state.data.statuses = s,
@@ -201,7 +202,7 @@ export const mutations = {
             state.data.renderedNegotiations['list-' + process.id] = state.data.negotiations.filter(neg => {
                 if(neg.neg_process_id === process.id && neg.active) {
                     total += parseFloat(neg.amount);
-                    return neg.neg_process_id === process.id && neg.active
+                    return neg.neg_process_id === process.id && neg.active;
                 }
             });
 
