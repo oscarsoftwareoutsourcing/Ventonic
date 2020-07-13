@@ -4,6 +4,7 @@ import "vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css";
 import Vuelidate from "vuelidate";
 // Import store modules.
 import store from "./store/index.js";
+import moment from 'moment';
 
 require("./bootstrap");
 
@@ -42,15 +43,68 @@ Vue.component("negotiation-process-list", () =>
 );
 Vue.component("negotiation-form", () => import("./components/NegForm.vue"));
 
+Vue.mixin({
+    data() {
+        return {
+            errors: {}
+        }
+    },
+    methods: {
+        /**
+         * Determina si un campo del formulario contiene algún error de validación
+         *
+         * @param     {string}     field    Nombre del campo a validar
+         *
+         * @return    {Boolean}    Devuelve verdadero si el campo a validar contiene algún error,
+         *                         de lo contrario devuelve falso
+         */
+        hasErrors(field) {
+            const vm = this;
+            return typeof (vm.errors[field]) !== "undefined";
+        },
+        /**
+         * Establece el formato de fecha y hora para una cadena de texto
+         *
+         * @param     {string}           value    Cadena de texto con la fecha y hora a ser formateada
+         *
+         * @return    {string}           Devuelve la fecha y hora en formato MMMM Do YYYY, h:mm:ss a
+         */
+        datetime_format(value) {
+            return moment(String(value)).format('MMMM Do YYYY, h:mm:ss a');
+        },
+        /**
+         * Establece el formato de fecha para una cadena de texto
+         *
+         * @param     {string}       value    Cadena de texto con la fecha a ser formateada
+         *
+         * @return    {string}       Devuelve la fecha en formato MMMM Do YYYY
+         */
+        date_format(value) {
+            return moment(String(value)).format('MMMM Do YYYY');
+        },
+        /**
+         * Estableve el formato de hora para una cadena de texto
+         *
+         * @param     {string}       value    Cadena de texto con la hora a ser formateada
+         *
+         * @return    {string}       Devuelve la hora en formato h:mm:ss a
+         */
+        time_format(value) {
+            return moment(String(value)).format('h:mm:ss a');
+        }
+    }
+});
+
+
 const app = new Vue({
     el: "#app",
     store
 });
 
-$(document).ready(function() {
-    $('input[name^="filter_"]').on("click", function() {
+$(document).ready(function () {
+    $('input[name^="filter_"]').on("click", function () {
         var filter = [];
-        $('input[name^="filter_"]').each(function() {
+        $('input[name^="filter_"]').each(function () {
             if ($(this).is(":checked")) {
                 filter.push($(this).val());
             }
@@ -65,7 +119,7 @@ $(document).ready(function() {
                 .then(response => {
                     var results = "";
                     if (response.data) {
-                        $(response.data).each(function() {
+                        $(response.data).each(function () {
                             results += `<tr>
                                         <td>${this.name}</td>
                                         <td>${this.last_name}</td>

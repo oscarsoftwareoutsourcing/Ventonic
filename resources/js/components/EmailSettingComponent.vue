@@ -32,18 +32,38 @@
               </div>
               <div v-else>
                 <div class="card-body">
+                  <div class="alert alert-danger" role="alert" v-if="settingError">
+                    <h4 class="alert-heading">Error</h4>
+                    <p class="mb-0">{{ settingError }}</p>
+                  </div>
                   <h6 class="font-weight-bold">Información del usuario</h6>
                   <div class="row">
                     <div class="col-lg-6 col-md-6 col-xs-12">
                       <div class="form-group">
                         <label for>Su nombre</label>
-                        <input type="text" class="form-control" v-model="name" />
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="name"
+                          :class="{'has-error': hasErrors('name')}"
+                        />
+                        <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('name')">
+                          <strong>{{ errors.name }}</strong>
+                        </span>
                       </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-xs-12">
                       <div class="form-group">
                         <label for>Dirección de correo</label>
-                        <input type="email" class="form-control" v-model="email" />
+                        <input
+                          type="email"
+                          class="form-control"
+                          v-model="email"
+                          :class="{'has-error': hasErrors('email')}"
+                        />
+                        <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('email')">
+                          <strong>{{ errors.email }}</strong>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -56,8 +76,8 @@
                           <input
                             class="form-check-input"
                             type="checkbox"
-                            value="auto"
                             id="autoConfig"
+                            v-model="autoConfig"
                           />
                           <label class="form-check-label" for="autoConfig">Configuración automática</label>
                         </div>
@@ -66,34 +86,93 @@
                     <div class="col-lg-6 col-md-6 col-xs-12">
                       <div class="form-group">
                         <label for>Tipo de cuenta</label>
-                        <select class="custom-select" v-model="protocol">
+                        <select
+                          class="custom-select"
+                          v-model="protocol"
+                          :class="{'has-error': hasErrors('protocol')}"
+                        >
                           <option value="imap">IMAP</option>
                           <option value="pop3">POP3</option>
                         </select>
+                        <span
+                          class="invalid-feedback mb-3"
+                          role="alert"
+                          v-if="hasErrors('protocol')"
+                        >
+                          <strong>{{ errors.protocol }}</strong>
+                        </span>
                       </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-xs-12">
                       <div class="form-group">
                         <label for>Servidor de correo entrante</label>
-                        <input type="text" class="form-control" v-model="incoming_server_host" />
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="incoming_server_host"
+                          :class="{'has-error': hasErrors('incoming_server_host')}"
+                        />
+                        <span
+                          class="invalid-feedback mb-3"
+                          role="alert"
+                          v-if="hasErrors('incoming_server_host')"
+                        >
+                          <strong>{{ errors.incoming_server_host }}</strong>
+                        </span>
                       </div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-xs-12">
                       <div class="form-group">
                         <label for>Puerto</label>
-                        <input type="text" class="form-control" v-model="incoming_server_port" />
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="incoming_server_port"
+                          :class="{'has-error': hasErrors('incoming_server_port')}"
+                        />
+                        <span
+                          class="invalid-feedback mb-3"
+                          role="alert"
+                          v-if="hasErrors('incoming_server_port')"
+                        >
+                          <strong>{{ errors.incoming_server_port }}</strong>
+                        </span>
                       </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-xs-12">
                       <div class="form-group">
                         <label for>Servidor de correo saliente (SMTP)</label>
-                        <input type="text" class="form-control" v-model="outgoing_server_host" />
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="outgoing_server_host"
+                          :class="{'has-error': hasErrors('outgoing_server_host')}"
+                        />
+                        <span
+                          class="invalid-feedback mb-3"
+                          role="alert"
+                          v-if="hasErrors('outgoing_server_host')"
+                        >
+                          <strong>{{ errors.outgoing_server_host }}</strong>
+                        </span>
                       </div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-xs-12">
                       <div class="form-group">
                         <label for>Puerto</label>
-                        <input type="text" class="form-control" v-model="outgoing_server_port" />
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="outgoing_server_port"
+                          :class="{'has-error': hasErrors('outgoing_server_port')}"
+                        />
+                        <span
+                          class="invalid-feedback mb-3"
+                          role="alert"
+                          v-if="hasErrors('outgoing_server_port')"
+                        >
+                          <strong>{{ errors.outgoing_server_port }}</strong>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -103,29 +182,37 @@
                     <div class="col-lg-6 col-md-6 col-xs-12">
                       <div class="form-group">
                         <label for>Nombre de usuario</label>
-                        <input type="text" class="form-control" v-model="username" />
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="username"
+                          :class="{'has-error': hasErrors('username')}"
+                        />
+                        <span
+                          class="invalid-feedback mb-3"
+                          role="alert"
+                          v-if="hasErrors('username')"
+                        >
+                          <strong>{{ errors.username }}</strong>
+                        </span>
                       </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-xs-12">
                       <div class="form-group">
                         <label for>Contraseña</label>
-                        <input type="password" class="form-control" v-model="password" />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-group">
-                        <div class="form-check">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            value="true"
-                            id="rememberPassword"
-                            data-toggle="tooltip"
-                            title="Si marca esta opción la contraseña será guardada en nuestro sistema, de lo contrario le será solicitada en cada proceso de gestión de correo"
-                            v-model="rememberPassword"
-                          />
-                          <label class="form-check-label" for="rememberPassword">Recordar contraseña</label>
-                        </div>
+                        <input
+                          type="password"
+                          class="form-control"
+                          v-model="password"
+                          :class="{'has-error': hasErrors('password')}"
+                        />
+                        <span
+                          class="invalid-feedback mb-3"
+                          role="alert"
+                          v-if="hasErrors('password')"
+                        >
+                          <strong>{{ errors.password }}</strong>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -179,10 +266,10 @@ export default {
       incoming_server_host: "",
       outgoing_server_host: "",
       incoming_server_port: 993,
-      outgoing_server_port: 143,
+      outgoing_server_port: 465,
       username: "",
       password: "",
-      rememberPassword: false,
+      settingError: "",
       configured: false,
       configStarted: false,
       emails_list: []
@@ -204,7 +291,9 @@ export default {
     /**
      * Establece la configuración del servidor de correos del usuario
      *
-     */ setSettings() {
+     * @author     <roldandvg@gmail.com>
+     */
+    setSettings() {
       const vm = this;
       vm.$loading(true);
       axios
@@ -214,10 +303,11 @@ export default {
           autoConfig: vm.autoConfig,
           protocol: vm.protocol,
           incoming_server_host: vm.incoming_server_host,
+          incoming_server_port: vm.incoming_server_port,
           outgoing_server_host: vm.outgoing_server_host,
+          outgoing_server_port: vm.outgoing_server_port,
           username: vm.username,
-          password: vm.password,
-          rememberPassword: vm.rememberPassword
+          password: vm.password
         })
         .then(response => {
           if (response.data.result) {
@@ -225,12 +315,20 @@ export default {
             vm.configured = true;
             vm.emails_list = response.data.emails_list;
           } else {
-            console.log(response.data.message);
+            vm.settingError = response.data.message;
           }
           vm.$loading(false);
         })
         .catch(error => {
-          console.error(error);
+          vm.errors = {};
+
+          if (typeof error.response != "undefined") {
+            for (var index in error.response.data.errors) {
+              if (error.response.data.errors[index]) {
+                vm.errors[index] = error.response.data.errors[index][0];
+              }
+            }
+          }
           vm.$loading(false);
         });
     }

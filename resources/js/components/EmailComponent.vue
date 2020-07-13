@@ -3,7 +3,7 @@
     <div class="sidebar-left">
       <div class="sidebar">
         <div class="sidebar-content email-app-sidebar d-flex">
-          <span class="sidebar-close-icon" v-on:click="sidebarClose">
+          <span class="sidebar-close-icon">
             <i class="feather icon-x"></i>
           </span>
           <div class="email-app-menu">
@@ -19,7 +19,11 @@
             </div>
             <div class="sidebar-menu-list">
               <div class="list-group list-group-messages font-medium-1">
-                <a href="#" class="list-group-item list-group-item-action border-0 pt-0 active">
+                <a
+                  href="javascrip:void(0)"
+                  @click="getEmails"
+                  class="list-group-item list-group-item-action border-0 pt-0 active"
+                >
                   <i class="font-medium-5 feather icon-mail mr-50"></i> Entrada
                   <span
                     class="badge badge-primary badge-pill float-right"
@@ -54,26 +58,26 @@
               <h5 class="my-2 pt-25">Etiquetas</h5>
               <div class="list-group list-group-labels font-medium-1">
                 <a
-                  href="#"
                   class="list-group-item list-group-item-action border-0 d-flex align-items-center"
+                  href="javascript:void(0)"
                 >
                   <span class="bullet bullet-success mr-1"></span> Personal
                 </a>
                 <a
-                  href="#"
                   class="list-group-item list-group-item-action border-0 d-flex align-items-center"
+                  href="javascript:void(0)"
                 >
                   <span class="bullet bullet-primary mr-1"></span> Compañía
                 </a>
                 <a
-                  href="#"
                   class="list-group-item list-group-item-action border-0 d-flex align-items-center"
+                  href="javascript:void(0)"
                 >
                   <span class="bullet bullet-warning mr-1"></span> Importante
                 </a>
                 <a
-                  href="#"
                   class="list-group-item list-group-item-action border-0 d-flex align-items-center"
+                  href="javascript:void(0)"
                 >
                   <span class="bullet bullet-danger mr-1"></span> Privado
                 </a>
@@ -104,20 +108,34 @@
                     type="text"
                     id="emailTo"
                     class="form-control"
-                    placeholder="To"
+                    placeholder="Para"
                     name="fname-floating"
+                    v-model="sent.to"
+                    data-toggle="tooltip"
+                    title="dirección de correo electrónico de la persona a la cual enviar"
+                    :class="{'has-error': hasErrors('to')}"
                   />
                   <label for="emailTo">Para</label>
+                  <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('to')">
+                    <strong>{{ errors.to }}</strong>
+                  </span>
                 </div>
                 <div class="form-label-group">
                   <input
                     type="text"
                     id="emailSubject"
                     class="form-control"
-                    placeholder="Subject"
+                    placeholder="Asunto"
                     name="fname-floating"
+                    v-model="sent.subject"
+                    data-toggle="tooltip"
+                    title="Asunto del correo electrónico"
+                    :class="{'has-error': hasErrors('subject')}"
                   />
                   <label for="emailSubject">Asunto</label>
+                  <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('subject')">
+                    <strong>{{ errors.subject }}</strong>
+                  </span>
                 </div>
                 <div class="form-label-group">
                   <input
@@ -126,8 +144,15 @@
                     class="form-control"
                     placeholder="CC"
                     name="fname-floating"
+                    v-model="sent.cc"
+                    data-title="tooltip"
+                    title="correo electrónico a quién enviar una copia"
+                    :class="{'has-error': hasErrors('cc')}"
                   />
                   <label for="emailCC">CC</label>
+                  <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('cc')">
+                    <strong>{{ errors.cc }}</strong>
+                  </span>
                 </div>
                 <div class="form-label-group">
                   <input
@@ -136,22 +161,58 @@
                     class="form-control"
                     placeholder="BCC"
                     name="fname-floating"
+                    v-model="sent.bcc"
+                    data-toggle="tooltip"
+                    title="dirección de correo a quién enviar una copia oculta"
+                    :class="{'has-error': hasErrors('bcc')}"
                   />
                   <label for="emailBCC">BCC</label>
+                  <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('bcc')">
+                    <strong>{{ errors.bcc }}</strong>
+                  </span>
                 </div>
                 <div id="email-container">
-                  <div class="editor" data-placeholder="Message"></div>
+                  <!--<div class="editor" data-placeholder="Message" v-model="sent.message"></div>-->
+                  <textarea
+                    class="form-control"
+                    cols="30"
+                    rows="4"
+                    v-model="sent.message"
+                    placeholder="Mensaje"
+                    data-toggle="tooltip"
+                    title="Mensaje del correo electrónico"
+                    :class="{'has-error': hasErrors('message')}"
+                  ></textarea>
+                  <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('message')">
+                    <strong>{{ errors.message }}</strong>
+                  </span>
                 </div>
-                <div class="form-group mt-2">
-                  <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="emailAttach" />
-                    <label class="custom-file-label" for="emailAttach">Archivo adjunto</label>
-                  </div>
-                </div>
+                <!--<div class="form-group mt-2">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="emailAttach"
+                                               data-toggle="tooltip" title="archivo adjunto"/>
+                                        <label class="custom-file-label" for="emailAttach">Archivo adjunto</label>
+                                    </div>
+                </div>-->
               </div>
               <div class="modal-footer">
-                <input type="submit" value="Send" class="btn btn-primary" />
-                <input type="Reset" value="Cancel" class="btn btn-white" data-dismiss="modal" />
+                <input
+                  type="button"
+                  value="Send"
+                  class="btn btn-primary"
+                  data-toggle="tooltip"
+                  title="Enviar correo electrónico"
+                  @click="sentMessage"
+                />
+                <input
+                  type="Reset"
+                  value="Cancel"
+                  class="btn btn-white"
+                  data-dismiss="modal"
+                  data-toggle="tooltip"
+                  title="Cancelar envio de correo"
+                  @click="resetMessage"
+                />
               </div>
             </div>
           </div>
@@ -168,7 +229,7 @@
             <div class="email-app-list-wrapper">
               <div class="email-app-list">
                 <div class="app-fixed-search">
-                  <div class="sidebar-toggle d-block d-lg-none" v-on:click="sidebarShow">
+                  <div class="sidebar-toggle d-block d-lg-none">
                     <i class="feather icon-menu"></i>
                   </div>
                   <fieldset class="form-group position-relative has-icon-left m-0">
@@ -200,24 +261,27 @@
                       <li class="list-inline-item">
                         <div class="dropdown">
                           <a
-                            href="#"
                             class="dropdown-toggle"
                             id="folder"
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
+                            href="javascript:void(0)"
                           >
                             <i class="feather icon-folder"></i>
                           </a>
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="folder">
                             <a class="dropdown-item d-flex font-medium-1" href="#">
-                              <i class="font-medium-3 feather icon-edit-2 mr-50"></i> Borrador
+                              <i class="font-medium-3 feather icon-edit-2 mr-50"></i>
+                              Borrador
                             </a>
                             <a class="dropdown-item d-flex font-medium-1" href="#">
-                              <i class="font-medium-3 feather icon-info mr-50"></i> Spam
+                              <i class="font-medium-3 feather icon-info mr-50"></i>
+                              Spam
                             </a>
                             <a class="dropdown-item d-flex font-medium-1" href="#">
-                              <i class="font-medium-3 feather icon-trash mr-50"></i> Papelera
+                              <i class="font-medium-3 feather icon-trash mr-50"></i>
+                              Papelera
                             </a>
                           </div>
                         </div>
@@ -225,27 +289,31 @@
                       <li class="list-inline-item">
                         <div class="dropdown">
                           <a
-                            href="#"
                             class="dropdown-toggle"
                             id="tag"
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
+                            href="javascript:void(0)"
                           >
                             <i class="feather icon-tag"></i>
                           </a>
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="tag">
                             <a href="#" class="dropdown-item font-medium-1">
-                              <span class="mr-1 bullet bullet-success bullet-sm"></span> Personal
+                              <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                              Personal
                             </a>
                             <a href="#" class="dropdown-item font-medium-1">
-                              <span class="mr-1 bullet bullet-primary bullet-sm"></span> Compañía
+                              <span class="mr-1 bullet bullet-primary bullet-sm"></span>
+                              Compañía
                             </a>
                             <a href="#" class="dropdown-item font-medium-1">
-                              <span class="mr-1 bullet bullet-warning bullet-sm"></span> Importante
+                              <span class="mr-1 bullet bullet-warning bullet-sm"></span>
+                              Importante
                             </a>
                             <a href="#" class="dropdown-item font-medium-1">
-                              <span class="mr-1 bullet bullet-danger bullet-sm"></span> Privado
+                              <span class="mr-1 bullet bullet-danger bullet-sm"></span>
+                              Privado
                             </a>
                           </div>
                         </div>
@@ -269,7 +337,7 @@
                       class="media"
                       v-for="email in emails.inbox"
                       :class="{'mail-read': (typeof(email.read)!=='undefined') ? email.read : false}"
-                      v-on:click="openContent"
+                      @click="openContent(email)"
                     >
                       <div class="media-left pr-50">
                         <div class="avatar">
@@ -300,12 +368,15 @@
                           <div class="mail-meta-item">
                             <span class="float-right">
                               <span class="mr-1 bullet bullet-success bullet-sm"></span>
-                              <span class="mail-date">{{ email.message_at.substr(0,10) }}</span>
+                              <span class="mail-date">{{ datetime_format(email.message_at) }}</span>
                             </span>
                           </div>
                         </div>
                         <div class="mail-message">
-                          <p class="list-group-item-text truncate mb-0"> <div v-html="email.body"></div> </p>
+                          <p class="list-group-item-text truncate mb-0">
+                            <!--<div v-html="email.body"></div>-->
+                            {{ email.body_text }}
+                          </p>
                         </div>
                       </div>
                     </li>
@@ -321,10 +392,10 @@
             <div class="email-app-details">
               <div class="email-detail-header">
                 <div class="email-header-left d-flex align-items-center mb-1">
-                  <span class="go-back mr-1" v-on:click="closeContent">
+                  <span class="go-back mr-1" @click="closeContent">
                     <i class="feather icon-arrow-left font-medium-4"></i>
                   </span>
-                  <h3>Focused impactful open system 📷 😃</h3>
+                  <h3>{{ selectedEmail.subject }}</h3>
                 </div>
                 <div class="email-header-right mb-1 ml-2 pl-1">
                   <ul class="list-inline m-0">
@@ -336,11 +407,11 @@
                     <li class="list-inline-item">
                       <div class="dropdown no-arrow">
                         <a
-                          href="#"
                           class="dropdown-toggle"
                           data-toggle="dropdown"
                           aria-haspopup="true"
                           aria-expanded="false"
+                          href="javascript:void(0)"
                         >
                           <i class="feather icon-folder font-medium-5"></i>
                         </a>
@@ -360,26 +431,30 @@
                     <li class="list-inline-item">
                       <div class="dropdown no-arrow">
                         <a
-                          href="#"
                           class="dropdown-toggle"
                           data-toggle="dropdown"
                           aria-haspopup="true"
                           aria-expanded="false"
+                          href="javascript:void(0)"
                         >
                           <i class="feather icon-tag font-medium-5"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="tag">
-                          <a href="#" class="dropdown-item font-medium-1">
-                            <span class="mr-1 bullet bullet-success bullet-sm"></span> Personal
+                          <a href="javascript:void(0)" class="dropdown-item font-medium-1">
+                            <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                            Personal
                           </a>
-                          <a href="#" class="dropdown-item font-medium-1">
-                            <span class="mr-1 bullet bullet-primary bullet-sm"></span> Company
+                          <a href="javascript:void(0)" class="dropdown-item font-medium-1">
+                            <span class="mr-1 bullet bullet-primary bullet-sm"></span>
+                            Company
                           </a>
-                          <a href="#" class="dropdown-item font-medium-1">
-                            <span class="mr-1 bullet bullet-warning bullet-sm"></span> Important
+                          <a href="javascript:void(0)" class="dropdown-item font-medium-1">
+                            <span class="mr-1 bullet bullet-warning bullet-sm"></span>
+                            Important
                           </a>
-                          <a href="#" class="dropdown-item font-medium-1">
-                            <span class="mr-1 bullet bullet-danger bullet-sm"></span> Private
+                          <a href="javascript:void(0)" class="dropdown-item font-medium-1">
+                            <span class="mr-1 bullet bullet-danger bullet-sm"></span>
+                            Private
                           </a>
                         </div>
                       </div>
@@ -419,7 +494,10 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="card px-1">
-                      <div class="card-header email-detail-head ml-75">
+                      <div
+                        class="card-header email-detail-head ml-75"
+                        v-if="Object.keys(selectedEmail).length > 0 && selectedEmail.constructor === Object"
+                      >
                         <div
                           class="user-details d-flex justify-content-between align-items-center flex-wrap"
                         >
@@ -432,7 +510,9 @@
                             />
                           </div>
                           <div class="mail-items">
-                            <h4 class="list-group-item-heading mb-0">Ardis Balderson</h4>
+                            <h4
+                              class="list-group-item-heading mb-0"
+                            >{{ selectedEmail.from[0].personal }}</h4>
                             <div class="email-info-dropup dropdown">
                               <span
                                 class="dropdown-toggle font-small-3"
@@ -440,41 +520,39 @@
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false"
-                              >abaldersong@utexas.edu</span>
+                              >{{ selectedEmail.from[0].mail }}</span>
                               <div
                                 class="dropdown-menu dropdown-menu-right p-50"
                                 aria-labelledby="dropdownMenuButton200"
                               >
                                 <div class="px-25 dropdown-item">
                                   From:
-                                  <strong>abaldersong@utexas.edu</strong>
+                                  <strong>{{ selectedEmail.from[0].mail }}</strong>
                                 </div>
                                 <div class="px-25 dropdown-item">
                                   To:
-                                  <strong>johndoe@ow.ly</strong>
+                                  <strong>{{ selectedEmail.to[0].mail }}</strong>
                                 </div>
                                 <div class="px-25 dropdown-item">
                                   Date:
-                                  <strong>4:25 AM 13 Jan 2018</strong>
+                                  <strong>{{ datetime_format(selectedEmail.message_at) }}</strong>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div class="mail-meta-item">
-                          <div class="mail-time mb-1">4:14 AM</div>
-                          <div class="mail-date">17 May 2018</div>
+                          <div class="mail-time mb-1">{{ time_format(selectedEmail.message_at) }}</div>
+                          <div class="mail-date">{{ date_format(selectedEmail.message_at) }}</div>
                         </div>
                       </div>
                       <div class="card-body mail-message-wrapper pt-2 mb-0">
                         <div class="mail-message">
-                          <p>Hey John,</p>
-                          <p>bah kivu decrete epanorthotic unnotched Argyroneta nonius veratrine preimaginary saunders demidolmen Chaldaic allusiveness lorriker unworshipping ribaldish tableman hendiadys outwrest unendeavored fulfillment scientifical Pianokoto Chelonia</p>
-                          <p>Freudian sperate unchary hyperneurotic phlogiston duodecahedron unflown Paguridea catena disrelishable Stygian paleopsychology cantoris phosphoritic disconcord fruited inblow somewhatly ilioperoneal forrard palfrey Satyrinae outfreeman melebiose</p>
+                          <div v-html="selectedEmail.body"></div>
                         </div>
                         <div class="mail-attachements d-flex">
                           <i class="feather icon-paperclip font-medium-5 mr-50"></i>
-                          <span>Attachments</span>
+                          <span>Archivos adjuntos</span>
                         </div>
                       </div>
                       <div class="mail-files py-2">
@@ -519,10 +597,9 @@
 
 <script>
 import VueLoading from "vuejs-loading-plugin";
-
 Vue.use(VueLoading, {
   dark: true,
-  text: "Cargando mensajes",
+  text: "Procesando, por favor espere",
   loading: false,
   background: "rgba(16, 22, 58, .5)"
 });
@@ -532,7 +609,15 @@ export default {
       inboxUnread: 0,
       draft: 0,
       spam: 0,
-      emails: []
+      emails: [],
+      selectedEmail: {},
+      sent: {
+        to: "",
+        cc: "",
+        bcc: "",
+        subject: "",
+        message: ""
+      }
     };
   },
   props: {
@@ -546,6 +631,7 @@ export default {
     /**
      * Obtiene un listado de mensajes del servidor de correos
      *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      */
     getEmails() {
       const vm = this;
@@ -566,8 +652,69 @@ export default {
         });
     },
     /**
+     * Ejecuta la acción para enviar un mensaje de correo electrónico
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     */
+    sentMessage() {
+      const vm = this;
+      vm.$loading(true);
+      axios
+        .post("/email/sent", {
+          to: vm.sent.to,
+          cc: vm.sent.cc,
+          bcc: vm.sent.bcc,
+          subject: vm.sent.subject,
+          message: vm.sent.message
+        })
+        .then(response => {
+          if (response.data.result) {
+            vm.$loading(false);
+            $("#composeForm")
+              .find(".close")
+              .click();
+            toastr.success("Correo enviado", "Éxito!");
+            vm.resetMessage();
+          }
+        })
+        .catch(error => {
+          vm.errors = {};
+
+          if (typeof error.response != "undefined") {
+            for (var index in error.response.data.errors) {
+              if (error.response.data.errors[index]) {
+                vm.errors[index] = error.response.data.errors[index][0];
+              }
+            }
+          }
+          vm.$loading(false);
+        });
+    },
+    /**
+     * Ejecuta la acción para reiniciar los campos para el envio de correo electrónico
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     */
+    resetMessage() {
+      this.sent = {
+        to: "",
+        cc: "",
+        bcc: "",
+        subject: "",
+        message: ""
+      };
+
+      /** remueve y oculta cualquier mensaje de error del formulario */
+      $("input, select, textarea").removeClass("has-error");
+      $(".invalid-feedback")
+        .find("strong")
+        .text("");
+      $(".invalid-feedback").hide();
+    },
+    /**
      * Marca el o los mensajes como leídos
      *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     {string|array}      message_id    identificador del(los) mensaje(s)
      */
@@ -575,27 +722,21 @@ export default {
     /**
      * Elimina uno o mas mensajes
      *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     {string|array}    message_id    Identificador del(los) mensaje(s) a eliminar
      */
     delete(message_id) {},
-
-    openContent: function() {
+    openContent: function(email = null) {
+      const vm = this;
+      if (email) {
+        vm.selectedEmail = email;
+      }
       $(".app-content .email-app-details").toggleClass("show");
     },
-    closeContent: function() {
+    closeContent: function(e) {
       e.stopPropagation();
       $(".app-content .email-app-details").removeClass("show");
-    },
-     // Main menu toggle should hide app menu
-    sidebarClose: function () {
-        $('.sidebar-left').removeClass('show');
-        $('.app-content-overlay').removeClass('show');
-    },
-    sidebarShow: function(){
-        e.stopPropagation();
-        $('.app-content .sidebar-left').toggleClass('show');
-        $('.app-content .app-content-overlay').addClass('show');
     }
   },
   mounted() {

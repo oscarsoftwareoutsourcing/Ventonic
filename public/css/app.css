@@ -1,19 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
-.span6 {
-  float: left;
-  width: 48%;
-  padding: 1%;
-}
-
-.emojionearea-editor:not(.inline) {
-  min-height: 8em !important;
-}
-
-.avatar-chat {
-  width: 50px;
-}
-
 /*!
  * Bootstrap v4.4.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -10894,6 +10880,48 @@ a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6;
   }
+}
+
+.span6 {
+  float: left;
+  width: 48%;
+  padding: 1%;
+}
+
+.emojionearea-editor:not(.inline) {
+  min-height: 8em !important;
+}
+
+.avatar-chat {
+  width: 50px;
+}
+
+.loading-circle {
+  margin: 0 auto !important;
+}
+
+.invalid-feedback {
+  display: block !important;
+}
+
+input.has-error,
+select.has-error,
+textarea.has-error {
+  border: 1px solid red !important;
+}
+
+.btn-primary {
+  border-color: #4839EB !important;
+  background-color: #0087FF !important;
+  color: #FFFFFF;
+}
+
+.btn-sm,
+.btn-group-sm > .btn {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.7rem;
+  line-height: 1;
+  border-radius: 0.4285rem;
 }
 
 .flag-icon-background,

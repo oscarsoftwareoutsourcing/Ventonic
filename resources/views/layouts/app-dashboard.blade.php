@@ -42,12 +42,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/pages/app-user.css') }}">
     <!-- END: Page CSS-->
 
-    @yield('extra-css')
-
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
     <!-- END: Custom CSS-->
 
+    @yield('extra-css')
 
       <!-- CSRF Token -->
       <meta name="csrf-token" content="{{ csrf_token() }}">
