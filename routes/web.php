@@ -98,6 +98,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('email/settings', 'EmailController@setSetting');
     Route::get('email', 'EmailController@index')->name('email');
     Route::get('email/messages', 'EmailController@getMessages')->name('email.get-messages');
+    Route::post('email/sent', 'EmailController@sentMessage')->name('email.sent-message');
+
 });
 
 /* Routas para oportunidades */
