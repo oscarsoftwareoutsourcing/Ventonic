@@ -11,6 +11,7 @@ use Webklex\IMAP\Exceptions\ConnectionFailedException;
 use Swift_SmtpTransport;
 use Swift_Mailer;
 use App\EmailSetting;
+use App\EmailMessage;
 use App\Mail\UserManageMail;
 
 class EmailController extends Controller
@@ -24,6 +25,23 @@ class EmailController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
         }
+    }
+
+    public function getSetting(Request $request)
+    {
+        $emailSetting = EmailSetting::with('emailMessage')->where('user_id', auth()->user()->id)->first();
+
+        return response()->json([
+            'result' => true,
+            'name' => $emailSetting->name,
+            'email' => $emailSetting->email,
+            'protocol' => $emailSetting->protocol,
+            'incoming_server_host' => $emailSetting->incoming_server_host,
+            'incoming_server_port' => $emailSetting->incoming_server_port,
+            'outgoing_server_host' => $emailSetting->outgoing_server_host,
+            'outgoing_server_port' => $emailSetting->outgoing_server_port,
+            'username' => $emailSetting->username
+        ], 200);
     }
 
     public function setSetting(Request $request)
@@ -83,7 +101,7 @@ class EmailController extends Controller
         }
 
 
-        EmailSetting::updateOrCreate(
+        $emailSetting = EmailSetting::updateOrCreate(
             ['user_id' => $user->id],
             [
                 'name' => $request->name ?? $user->name,
@@ -107,6 +125,28 @@ class EmailController extends Controller
             $messages = $folder->messages()->all()->get();
             $emails[strtolower($folder->name)] = [];
             foreach ($messages as $message) {
+                EmailMessage::updateOrCreate(
+                    ['message_id' => $message->message_id],
+                    [
+                        'message_nro' => $message->getMessageNo(),
+                        'folder_type' => strtolower($folder->name),
+                        'subject' => $message->getSubject(),
+                        'references' => $message->getReferences(),
+                        'message_at' => $message->getDate(),
+                        'from' => json_encode($message->getFrom()),
+                        'to' => json_encode($message->getTo()),
+                        'cc' => ($message->getCc()) ? json_encode($message->getCc()) : null,
+                        'bcc' => ($message->getBcc()) ? json_encode($message->getBcc()) : null,
+                        'reply_to' => json_encode($message->getReplyTo()),
+                        'sender' => json_encode($message->getSender()),
+                        'attachments' => ($message->getAttachments()) ? json_encode($message->getAttachments()) : null,
+                        'body' => ($message->hasHTMLBody())
+                                  ? $message->getHTMLBody()
+                                  : (($message->hasTextBody()) ? $message->getTextBody() : null),
+                        'body_text' => $message->getTextBody() ?? '',
+                        'email_setting_id' => $emailSetting->id
+                    ]
+                );
                 array_push($emails[strtolower($folder->name)], [
                     'message_id' => $message->message_id,
                     'message_nro' => $message->getMessageNo(),
@@ -136,76 +176,126 @@ class EmailController extends Controller
      *
      * @method    getMessages
      *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     [integer]     $download   Establece si se descarga o no los mensajes desde el servidor de correo
      *
      * @return    JsonResponse         Objeto con los mensajes del usuario
      */
-    public function getMessages()
+    public function getMessages($download = 0)
     {
         $user = auth()->user();
 
         try {
-            $emailSetting = EmailSetting::where('user_id', auth()->user()->id)->first();
+            $emailSetting = EmailSetting::with('emailMessage')->where('user_id', auth()->user()->id)->first();
 
             if ($emailSetting) {
-                /*if (strpos($emailSetting->email, 'gmail')) {
-                    config([
-                        'imap.accounts.gmail.host' => 'mail.gmail.com',
-                        'imap.accounts.gmail.username' => $emailSetting->username,
-                        'imap.accounts.gmail.password' => $emailSetting->password,
+                if ($download || EmailMessage::where('email_setting_id', $emailSetting->id)->get()->isEmpty()) {
+                    $emailClient = new Client([
+                        'host'          => $emailSetting->incoming_server_host,
+                        'port'          => $emailSetting->incoming_server_port,
+                        'encryption'    => 'ssl',
+                        'validate_cert' => true,
+                        'username'      => $emailSetting->username,
+                        'password'      => Crypt::decryptString($emailSetting->password),
+                        'protocol'      => $emailSetting->protocol
                     ]);
-                    $emailClient = PresetClient::account('gmail');
-                } else {*/
-                $emailClient = new Client([
-                    'host'          => $emailSetting->incoming_server_host,
-                    'port'          => $emailSetting->incoming_server_port,
-                    'encryption'    => 'ssl',
-                    'validate_cert' => true,
-                    'username'      => $emailSetting->username,
-                    'password'      => Crypt::decryptString($emailSetting->password),
-                    'protocol'      => $emailSetting->protocol
-                ]);
-                //}
 
-                $emailClient->connect();
+                    $emailClient->connect();
 
-                if (!$emailClient->isConnected()) {
-                    return response()->json([
-                        'result' => false,
-                        'message' => 'No se pudo establecer la conexión con el servidor, ' .
-                                     'verifique la configuración e intente de nuevo'
-                    ], 200);
-                }
+                    if (!$emailClient->isConnected()) {
+                        return response()->json([
+                            'result' => false,
+                            'message' => 'No se pudo establecer la conexión con el servidor, ' .
+                                         'verifique la configuración e intente de nuevo'
+                        ], 200);
+                    }
 
-                $emails = [];
-                $emailFolders = $emailClient->getFolders();
+                    $emails = [];
+                    $emailFolders = $emailClient->getFolders();
 
-                foreach ($emailFolders as $folder) {
-                    $messages = $folder->messages()->all()->get();
-                    $emails[strtolower($folder->name)] = [];
-                    foreach ($messages as $message) {
-                        array_push($emails[strtolower($folder->name)], [
+                    foreach ($emailFolders as $folder) {
+                        $messages = $folder->messages()->all()->get();
+                        $emails[strtolower($folder->name)] = [];
+                        foreach ($messages as $message) {
+                            EmailMessage::updateOrCreate(
+                                ['message_id' => $message->message_id],
+                                [
+                                    'message_nro' => $message->getMessageNo(),
+                                    'folder_type' => strtolower($folder->name),
+                                    'subject' => $message->getSubject(),
+                                    'references' => $message->getReferences(),
+                                    'message_at' => $message->getDate(),
+                                    'from' => json_encode($message->getFrom()),
+                                    'to' => json_encode($message->getTo()),
+                                    'cc' => ($message->getCc()) ? json_encode($message->getCc()) : null,
+                                    'bcc' => ($message->getBcc()) ? json_encode($message->getBcc()) : null,
+                                    'reply_to' => json_encode($message->getReplyTo()),
+                                    'sender' => json_encode($message->getSender()),
+                                    'attachments' => ($message->getAttachments())
+                                                     ? json_encode($message->getAttachments()) : null,
+                                    'body' => ($message->hasHTMLBody())
+                                              ? $message->getHTMLBody()
+                                              : (($message->hasTextBody()) ? $message->getTextBody() : null),
+                                    'body_text' => $message->getTextBody() ?? '',
+                                    'email_setting_id' => $emailSetting->id
+                                ]
+                            );
+                            array_push($emails[strtolower($folder->name)], [
+                                'message_id' => $message->message_id,
+                                'message_nro' => $message->getMessageNo(),
+                                'subject' => $message->getSubject(),
+                                'references' => $message->getReferences(),
+                                'message_at' => $message->getDate(),
+                                'from' => $message->getFrom(),
+                                'to' => $message->getTo(),
+                                'cc' => $message->getCc(),
+                                'bcc' => $message->getBcc(),
+                                'reply_to' => $message->getReplyTo(),
+                                'sender' => $message->getSender(),
+                                'attachments' => $message->getAttachments(),
+                                'body' => ($message->hasHTMLBody())
+                                          ? $message->getHTMLBody()
+                                          : (($message->hasTextBody()) ? $message->getTextBody() : null),
+                                'body_text' => $message->getTextBody() ?? ''
+                            ]);
+                        }
+                    }
+                } else {
+                    $emails = [];
+                    foreach ($emailSetting->emailMessage()->get() as $message) {
+                        $emails[$message->folder_type] = $emails[$message->folder_type] ?? [];
+                        array_push($emails[$message->folder_type], [
                             'message_id' => $message->message_id,
-                            'message_nro' => $message->getMessageNo(),
-                            'subject' => $message->getSubject(),
-                            'references' => $message->getReferences(),
-                            'message_at' => $message->getDate(),
-                            'from' => $message->getFrom(),
-                            'to' => $message->getTo(),
-                            'cc' => $message->getCc(),
-                            'bcc' => $message->getBcc(),
-                            'reply_to' => $message->getReplyTo(),
-                            'sender' => $message->getSender(),
-                            'attachments' => $message->getAttachments(),
-                            'body' => ($message->hasHTMLBody())
-                                      ? $message->getHTMLBody()
-                                      : (($message->hasTextBody()) ? $message->getTextBody() : null),
-                            'body_text' => $message->getTextBody() ?? ''
+                            'message_nro' => $message->message_nro,
+                            'subject' => $message->subject,
+                            'references' => $message->references,
+                            'message_at' => $message->message_at,
+                            'from' => json_decode($message->from),
+                            'to' => json_decode($message->to),
+                            'cc' => json_decode($message->cc),
+                            'bcc' => json_decode($message->bcc),
+                            'reply_to' => json_decode($message->reply_to),
+                            'sender' => json_decode($message->sender),
+                            'attachments' => json_decode($message->attachments),
+                            'body' => $message->body,
+                            'body_text' => $message->body_text
                         ]);
                     }
                 }
 
-                return response()->json(['result' => true, 'emails_list' => $emails], 200);
+                $trashed = EmailMessage::onlyTrashed()->get();
+                $favorites = EmailMessage::where('favorite', true)->get();
+
+                return response()->json([
+                    'result' => true, 'emails_list' => $emails, 'trashed' => $trashed, 'favorites' => $favorites
+                ], 200);
             }
+
+            return response()->json([
+                'result' => false,
+                'message' => 'No ha configurado una cuenta de correo. Verifique'
+            ], 200);
         } catch (ConnectionFailedException $e) {
             return response()->json(['result' => false, 'message' => $e->getMessage()]);
         }
@@ -216,6 +306,7 @@ class EmailController extends Controller
      *
      * @method    sentMessage
      *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request        $request    Objeto con la petición
      *
@@ -259,8 +350,74 @@ class EmailController extends Controller
 
             $mailer = app()->makeWith('user.mailer', $configuration);
             $mailer->to($toEmails)->send(new UserManageMail($request->subject, $request->message));
+
+            /*EmailMessage::updateOrCreate(
+                ['message_id' => $message->message_id],
+                [
+                    'message_nro' => $message->getMessageNo(),
+                    'folder_type' => 'sent',
+                    'subject' => $request->subject,
+                    'references' => ,
+                    'message_at' => $message->getDate(),
+                    'from' => json_encode($message->getFrom()),
+                    'to' => json_encode($message->getTo()),
+                    'cc' => ($message->getCc()) ? json_encode($message->getCc()) : null,
+                    'bcc' => ($message->getBcc()) ? json_encode($message->getBcc()) : null,
+                    'reply_to' => json_encode($message->getReplyTo()),
+                    'sender' => json_encode($message->getSender()),
+                    'attachments' => ($message->getAttachments())
+                                     ? json_encode($message->getAttachments()) : null,
+                    'body' => ($message->hasHTMLBody())
+                              ? $message->getHTMLBody()
+                              : (($message->hasTextBody()) ? $message->getTextBody() : null),
+                    'body_text' => $message->getTextBody() ?? '',
+                    'email_setting_id' => $emailSetting->id
+                ]
+            );*/
         }
 
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Elimina uno o varios mensajes
+     *
+     * @method    destroyMessages
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request            $request    [description]
+     *
+     * @return    JsonResponse
+     */
+    public function destroyMessages(Request $request)
+    {
+        if (is_array($request->messages)) {
+            foreach ($request->messages as $message) {
+                $email = EmailMessage::where('message_id', $message)->first();
+                if ($email) {
+                    $email->delete();
+                }
+            }
+        } else {
+            $email = EmailMessage::where('message_id', $request->messages)->first();
+            if ($email) {
+                $email->delete();
+            }
+        }
+        return response()->json(['result' => true], 200);
+    }
+
+    public function setFavorite(Request $request)
+    {
+        $message = EmailMessage::where('message_id', $request->message_id)->first();
+
+        if (!$message) {
+            return response()->json(['result' => false, 'message' => 'Mensage no encontrado'], 200);
+        }
+
+        $message->favorite = true;
+        $message->save();
         return response()->json(['result' => true], 200);
     }
 }

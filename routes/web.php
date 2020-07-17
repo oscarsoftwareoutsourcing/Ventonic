@@ -94,12 +94,14 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::delete('chatroom/{id}/delete', 'ChatController@destroyChatRoom');
     Route::post('notification-time/update', 'NotificationController@updateTime');
 
-        /** Rutas para la gestión de correos */
-    Route::post('email/settings', 'EmailController@setSetting');
+/** Rutas para la gestión de correos */
     Route::get('email', 'EmailController@index')->name('email');
-    Route::get('email/messages', 'EmailController@getMessages')->name('email.get-messages');
+    Route::get('email/settings', 'EmailController@getSetting');
+    Route::post('email/settings', 'EmailController@setSetting');
+    Route::get('email/messages/{download?}', 'EmailController@getMessages')->name('email.get-messages');
     Route::post('email/sent', 'EmailController@sentMessage')->name('email.sent-message');
-
+    Route::post('email/messages/delete', 'EmailController@destroyMessages');
+    Route::post('email/set-favorite', 'EmailController@setFavorite');
 });
 
 /* Routas para oportunidades */

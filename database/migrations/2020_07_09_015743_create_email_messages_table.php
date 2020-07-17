@@ -20,15 +20,15 @@ class CreateEmailMessagesTable extends Migration
             $table->string('subject')->nullable();
             $table->string('references')->nullable();
             $table->dateTime('message_at')->comment('fecha del mensaje');
-            $table->longText('from')->comment('arreglo de objetos de quién(es) envía(n) el correo');
-            $table->longText('to')->comment('arreglo de objetos de quién(es) recibe(n) el correo');
-            $table->longText('cc')->nullable()->comment('arreglo de objetos de quién(es) recibe(n) una copia del correo');
-            $table->longText('bcc')->nullable()->comment(
+            $table->json('from')->comment('arreglo de objetos de quién(es) envía(n) el correo');
+            $table->json('to')->comment('arreglo de objetos de quién(es) recibe(n) el correo');
+            $table->json('cc')->nullable()->comment('arreglo de objetos de quién(es) recibe(n) una copia del correo');
+            $table->json('bcc')->nullable()->comment(
                 'arreglo de objetos de quién(es) recibe(n) una copia oculta del correo'
             );
-            $table->longText('reply_to')->comment('arreglo de objetos de direcciones de correo a los cuales responder');
-            $table->longText('sender')->comment('Datos de la persona que envía el correo');
-            $table->longText('attachments')->nullable()->comment('registra los archivos adjuntos al mensaje');
+            $table->json('reply_to')->comment('arreglo de objetos de direcciones de correo a los cuales responder');
+            $table->json('sender')->comment('Datos de la persona que envía el correo');
+            $table->json('attachments')->nullable()->comment('registra los archivos adjuntos al mensaje');
             $table->boolean('read')->default(false)->comment('condición para determinar si el mensaje fue leído');
             $table->enum('folder_type', [
                 'inbox', 'trash', 'sent', 'junk', 'drafts', 'spam', 'archive', 'starred'
@@ -40,6 +40,9 @@ class CreateEmailMessagesTable extends Migration
                 'etiquetas de correo separadas por coma. Valores a permitir: personal, company, important, private'
             );
             $table->longText('body')->comment('cuerpo del mensaje del correo electrónico');
+            $table->longText('body_text')->comment('cuerpo del mensaje del correo electrónico');
+            $table->boolean('favorite')->default(false)->comment('determina si un mensaje esta marcado como favorito');
+            $table->softDeletes()->comment('Fecha y hora en la que el registro fue eliminado');
             $table->unsignedBigInteger('email_setting_id')->nullable();
             $table->foreign('email_setting_id')->references('id')->on('email_settings')
                   ->onDelete('cascade')->onUpdate('cascade');
