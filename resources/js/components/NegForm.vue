@@ -138,7 +138,7 @@
                                         <span>Importe:</span>
                                     </div>
                                     <div class="col-md-9">
-                                        <input name="txtAmount" id="txtAmount" type="text" placeholder="Monto" class="form-control" v-model="amount">
+                                        <input name="txtAmount" id="txtAmount" type="text" placeholder="Importe" class="form-control" v-model="amount">
                                         
                                         <!-- Validation messages -->
                                         <article class="help-block" v-if="$v.amount.$error">
