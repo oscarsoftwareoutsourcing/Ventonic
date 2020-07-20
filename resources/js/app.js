@@ -86,26 +86,18 @@ Vue.mixin({
     }
 });
 
-Vue.component("negotiations-module", () =>
-    import("./components/Negotiations.vue")
-);
-Vue.component("negotiations-controls", () =>
-    import("./components/NegControls.vue")
-);
-Vue.component("negotiations-lists", () => import("./components/NegsLists.vue"));
+// Negotiations Module
+Vue.component("negotiations-module", () => import("./components/Negotiations.vue"));
+Vue.component("negotiations-controls", () => import("./components/NegControls.vue"));
+Vue.component("negotiations-filters", () => import("./components/NegFilters.vue"));
+Vue.component("negotiations-list", () => import("./components/NegsList.vue"));
+Vue.component("negotiation-card", () => import("./components/NegCard.vue"));
+
 Vue.component("negotiation-form", () => import("./components/NegForm.vue"));
-Vue.component("negotiation-details", () =>
-    import("./components/NegDetails.vue")
-);
-Vue.component("negotiation-event-modal", () =>
-    import("./components/NegEventModal.vue")
-);
-Vue.component("negotiation-file-modal", () =>
-    import("./components/NegFileModal.vue")
-);
-Vue.component("negotiation-confirm-modal", () =>
-    import("./components/NegConfirmModal.vue")
-);
+Vue.component("negotiation-details", () => import("./components/NegDetails.vue"));
+Vue.component("negotiation-event-modal", () => import("./components/NegEventModal.vue"));
+Vue.component("negotiation-file-modal", () => import("./components/NegFileModal.vue"));
+Vue.component("negotiation-confirm-modal", () => import("./components/NegConfirmModal.vue"));
 
 const app = new Vue({
     el: "#app",

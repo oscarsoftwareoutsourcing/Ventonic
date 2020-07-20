@@ -47,9 +47,9 @@ export default {
                 this.toggleConfirm();
                 this.resetNeg();
             } else if(this.getShowDetails) {
-                console.log('ENTRÉ!');
                 this.toggleConfirm();
             } else {
+                this.toggleConfirm();
                 this.toggleForm();
                 this.toggleLists();
                 this.resetNeg();
