@@ -13,6 +13,7 @@ use Swift_Mailer;
 use App\EmailSetting;
 use App\EmailMessage;
 use App\Mail\UserManageMail;
+use Carbon\Carbon;
 
 class EmailController extends Controller
 {
@@ -284,11 +285,13 @@ class EmailController extends Controller
                     }
                 }
 
-                $trashed = EmailMessage::onlyTrashed()->get();
-                $favorites = EmailMessage::where('favorite', true)->get();
+                $trashed = $emailSetting->emailMessage()->onlyTrashed()->get();
+                $favorites = $emailSetting->emailMessage()->where('favorite', true)->get();
+                $sends = $emailSetting->emailMessage()->where('folder_type', 'sent')->get();
 
                 return response()->json([
-                    'result' => true, 'emails_list' => $emails, 'trashed' => $trashed, 'favorites' => $favorites
+                    'result' => true, 'emails_list' => $emails, 'trashed' => $trashed, 'favorites' => $favorites,
+                    'messages_send' => $sends
                 ], 200);
             }
 
@@ -351,32 +354,86 @@ class EmailController extends Controller
             $mailer = app()->makeWith('user.mailer', $configuration);
             $mailer->to($toEmails)->send(new UserManageMail($request->subject, $request->message));
 
-            /*EmailMessage::updateOrCreate(
-                ['message_id' => $message->message_id],
+            /** @var object Objeto con el último mensaje enviado si existe */
+            $messagesSend = EmailMessage::where([
+                'email_setting_id' => $emailSetting->id,
+                'folder_type' => 'sent'
+            ])->orderBy('message_nro', 'desc')->first();
+
+            $now = Carbon::now();
+
+            $to = $cc = $bcc = [];
+            foreach ($toEmails as $toEmail) {
+                array_push($to, [
+                    "full" => "<".$toEmail.">",
+                    "host" => explode("@", $toEmail)[1],
+                    "mail" => $toEmail,
+                    "mailbox" => explode("@", $toEmail)[0],
+                    "personal" => ""
+                ]);
+            }
+
+            if (isset($ccEmails)) {
+                foreach ($ccEmails as $ccEmail) {
+                    array_push($cc, [
+                        "full" => "<".$ccEmail.">",
+                        "host" => explode("@", $ccEmail)[1],
+                        "mail" => $ccEmail,
+                        "mailbox" => explode("@", $ccEmail)[0],
+                        "personal" => ""
+                    ]);
+                }
+            }
+            if (isset($bccEmails)) {
+                foreach ($bccEmails as $bccEmail) {
+                    array_push($bcc, [
+                        "full" => "<".$bccEmail.">",
+                        "host" => explode("@", $bccEmail)[1],
+                        "mail" => $bccEmail,
+                        "mailbox" => explode("@", $bccEmail)[0],
+                        "personal" => ""
+                    ]);
+                }
+            }
+
+            $from = [
                 [
-                    'message_nro' => $message->getMessageNo(),
-                    'folder_type' => 'sent',
-                    'subject' => $request->subject,
-                    'references' => ,
-                    'message_at' => $message->getDate(),
-                    'from' => json_encode($message->getFrom()),
-                    'to' => json_encode($message->getTo()),
-                    'cc' => ($message->getCc()) ? json_encode($message->getCc()) : null,
-                    'bcc' => ($message->getBcc()) ? json_encode($message->getBcc()) : null,
-                    'reply_to' => json_encode($message->getReplyTo()),
-                    'sender' => json_encode($message->getSender()),
-                    'attachments' => ($message->getAttachments())
-                                     ? json_encode($message->getAttachments()) : null,
-                    'body' => ($message->hasHTMLBody())
-                              ? $message->getHTMLBody()
-                              : (($message->hasTextBody()) ? $message->getTextBody() : null),
-                    'body_text' => $message->getTextBody() ?? '',
-                    'email_setting_id' => $emailSetting->id
+                    "full" => $user->name . " <" . $user->email . ">",
+                    "host" => explode("@", $user->email)[1],
+                    "mail" => $user->email,
+                    "mailbox" => explode("@", $user->email)[0],
+                    "personal" => $user->name
                 ]
-            );*/
+            ];
+
+            /** Guarda el mensaje enviado en base de datos */
+            EmailMessage::create([
+                'message_id' => Crypt::encryptString((string)$user->id . $now),
+                'message_nro' => ($messagesSend) ? ((int)$messagesSend->mesage_nro + 1) : 1,
+                'folder_type' => 'sent',
+                'subject' => $request->subject,
+                'references' => '',
+                'message_at' => $now,
+                'from' => json_encode($from),
+                'to' => json_encode($to),
+                'cc' => (count($cc) > 0) ? json_encode($cc) : null,
+                'bcc' => (count($bcc) > 0) ? json_encode($bcc) : null,
+                'reply_to' => json_encode($from),
+                'sender' => json_encode($from),
+                'attachments' => null,
+                'body' => $request->message,
+                'body_text' => $request->message,
+                'email_setting_id' => $emailSetting->id
+            ]);
+
+            /** @var object Objeto con un listado de mensajes enviados */
+            $emailMessages = EmailMessage::where([
+                'email_setting_id' => $emailSetting->id,
+                'folder_type' => 'sent'
+            ])->orderBy('message_nro', 'desc')->get();
         }
 
-        return response()->json(['result' => true], 200);
+        return response()->json(['result' => true, 'messages_send' => $emailMessages], 200);
     }
 
     /**
@@ -408,6 +465,15 @@ class EmailController extends Controller
         return response()->json(['result' => true], 200);
     }
 
+    /**
+     * Establece los mensages marcados como favoritos
+     *
+     * @method    setFavorite
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request        $request    Objeto con la petición
+     */
     public function setFavorite(Request $request)
     {
         $message = EmailMessage::where('message_id', $request->message_id)->first();
@@ -419,5 +485,48 @@ class EmailController extends Controller
         $message->favorite = true;
         $message->save();
         return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Guardar mensaje en borradores
+     *
+     * @method    saveDraft
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request      $request    Objeto con los datos de la petición
+     *
+     * @return    JsonResponse       Objeto con los datos de respuesta
+     */
+    public function saveDraft(Request $request)
+    {
+        $emailSetting = EmailSetting::where('user_id', $user->id)->first();
+
+        /** Guarda el mensaje en la carpeta de borradores */
+        /*EmailMessage::create([
+            'message_id' => Crypt::encryptString((string)$user->id . $now),
+            'message_nro' => ($messagesSend) ? ((int)$messagesSend->mesage_nro + 1) : 1,
+            'folder_type' => 'sent',
+            'subject' => $request->subject,
+            'references' => '',
+            'message_at' => $now,
+            'from' => json_encode($from),
+            'to' => json_encode($to),
+            'cc' => (count($cc) > 0) ? json_encode($cc) : null,
+            'bcc' => (count($bcc) > 0) ? json_encode($bcc) : null,
+            'reply_to' => json_encode($from),
+            'sender' => json_encode($from),
+            'attachments' => null,
+            'body' => $request->message,
+            'body_text' => $request->message,
+            'email_setting_id' => $emailSetting->id
+        ]);*/
+
+        $drafts = EmailMessage::where([
+            'email_setting_id' => $emailSetting->id,
+            'folder_type' => 'draft'
+        ])->get();
+
+        return response()->json(['result' => true, 'drafts' => $drafts], 200);
     }
 }

@@ -13,11 +13,11 @@
                         <div class="email-app-menu">
                             <div class="form-group form-group-compose text-center compose-btn">
                                 <button type="button" class="btn btn-primary btn-block my-2" data-toggle="modal"
-                                        data-target="#composeForm">
+                                        data-target="#composeForm" id="composeEmail">
                                     <i class="feather icon-edit"></i> Componer
                                 </button>
                             </div>
-                            <div class="sidebar-menu-list">
+                            <div class="sidebar-menu-list" style="overflow:auto">
                                 <div class="list-group list-group-messages font-medium-1">
                                     <a href="javascrip:void(0)" @click="getEmails"
                                        class="list-group-item list-group-item-action border-0 pt-0 active">
@@ -27,7 +27,11 @@
                                         </span>
                                     </a>
                                     <a href="#" class="list-group-item list-group-item-action border-0">
-                                        <i class="font-medium-5 fa fa-paper-plane-o mr-50"></i> Enviados
+                                        <i class="font-medium-5 feather icon-navigation mr-50"></i> Enviados
+                                        <span class="badge badge-danger badge-pill float-right"
+                                              v-if="messages_send.length > 0">
+                                            {{ messages_send.length }}
+                                        </span>
                                     </a>
                                     <a href="#" class="list-group-item list-group-item-action border-0">
                                         <i class="font-medium-5 feather icon-edit-2 mr-50"></i> Borradores
@@ -83,7 +87,9 @@
                         <div class="modal-dialog modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h3 class="modal-title text-text-bold-600" id="emailCompose">Nuevo Mensaje</h3>
+                                    <h3 class="modal-title text-text-bold-600" id="emailCompose">
+                                        {{ titleSentMessage }}
+                                    </h3>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -153,9 +159,11 @@
                                     </div>-->
                                 </div>
                                 <div class="modal-footer">
-                                    <input type="button" value="Send" class="btn btn-primary" data-toggle="tooltip"
+                                    <input type="button" value="Enviar" class="btn btn-primary" data-toggle="tooltip"
                                            title="Enviar correo electrónico" @click="sentMessage"/>
-                                    <input type="Reset" value="Cancel" class="btn btn-white" data-dismiss="modal"
+                                    <input type="button" value="Guardar" class="btn btn-primary" data-toggle="tooltip"
+                                           title="Guardar correo electrónico en borradores" @click="saveDraft"/>
+                                    <input type="Reset" value="Cancelar" class="btn btn-white" data-dismiss="modal"
                                            data-toggle="tooltip" title="Cancelar envio de correo" @click="resetMessage"/>
                                 </div>
                             </div>
@@ -272,7 +280,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="email-user-list list-group">
+                                    <div class="email-user-list list-group" style="overflow:auto">
                                         <ul class="users-list-wrapper media-list">
                                             <li class="media" v-for="email in emails.inbox"
                                                 :class="{'mail-read': (typeof(email.read)!=='undefined') ? email.read : false}">
@@ -398,10 +406,12 @@
                                                     <i class="feather icon-mail font-medium-5"></i>
                                                 </span>
                                             </li>
-                                            <li class="list-inline-item">
-                                                <span class="action-icon">
-                                                    <i class="feather icon-trash font-medium-5"></i>
-                                                </span>
+                                            <li class="list-inline-item mail-delete">
+                                                <a href="javascript:void(0)" @click="deleteMessage()">
+                                                    <span class="action-icon">
+                                                        <i class="feather icon-trash"></i>
+                                                    </span>
+                                                </a>
                                             </li>
                                             <li class="list-inline-item email-prev">
                                                 <span class="action-icon">
@@ -416,7 +426,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="email-scroll-area">
+                                <div class="email-scroll-area" style="overflow:auto">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="email-label ml-2 my-2 pl-1">
@@ -499,12 +509,18 @@
                                                 <div class="card-body">
                                                     <div class="d-flex justify-content-between">
                                                         <span class="font-medium-1">
-                                                            Click here to
+                                                            Haga clic para
                                                             <span class="primary cursor-pointer">
-                                                                <strong>Reply</strong>
-                                                            </span> or
+                                                                <a href="javascript:void(0)" @click="replyMessage()"
+                                                                   data-toggle="modal" data-target="#composeForm">
+                                                                    <strong>Responser</strong>
+                                                                </a>
+                                                            </span> o
                                                             <span class="primary cursor-pointer">
-                                                                <strong>Forward</strong>
+                                                                <a href="javascript:void(0)" @click="forwardMessage()"
+                                                                   data-toggle="modal" data-target="#composeForm">
+                                                                    <strong>Reenviar</strong>
+                                                                </a>
                                                             </span>
                                                         </span>
                                                         <i class="feather icon-paperclip font-medium-5 mr-50"></i>
@@ -535,6 +551,7 @@ Vue.use(VueLoading, {
 export default {
     data() {
         return {
+            titleSentMessage: 'Nuevo Mensaje',
             settingUpdate: false,
             inboxUnread: 0,
             draft: 0,
@@ -550,7 +567,8 @@ export default {
             },
             selectedMessages: [],
             trash: [],
-            favorites: []
+            favorites: [],
+            messages_send: []
         };
     },
     props: {
@@ -576,6 +594,7 @@ export default {
                         vm.emails = response.data.emails_list;
                         vm.trash = response.data.trashed;
                         vm.favorites = response.data.favorites;
+                        vm.messages_send = response.data.messages_send;
                     } else {
                         toastr.warning(response.data.message, 'Error!');
                     }
@@ -606,6 +625,7 @@ export default {
                     $('#composeForm').find('.close').click();
                     toastr.success('Correo enviado', 'Éxito!');
                     vm.resetMessage();
+                    vm.messages_send = response.data.messages_send;
                 }
             }).catch(error => {
                 vm.errors = {};
@@ -619,6 +639,15 @@ export default {
                 }
                 vm.$loading(false);
             });
+        },
+        /**
+         * Guardar mensaje en borradores
+         *
+         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+         */
+        saveDraft() {
+            const vm = this;
+
         },
         /**
          * Ejecuta la acción para reiniciar los campos para el envio de correo electrónico
@@ -656,15 +685,16 @@ export default {
          *                                      si no se especifica busca en un listado de mensajes a eliminar,
          *                                      si no existe advierte al usuario
          */
-        deleteMessage(message_id = null) {
+        deleteMessage() {
             const vm = this;
+            var message_id = (vm.selectedEmail) ? vm.selectedEmail.message_id : null;
             if (message_id !== null && vm.selectedMessages.length === 0) {
                 toastr.warning('Debe seleccionar uno o mas mensajes a borrar', 'Error!');
                 return false;
             }
 
             axios.post('/email/messages/delete', {
-                messages: message_id || vm.selectedMessages
+                messages: (vm.selectedMessages.length > 0) ? vm.selectedMessages : [message_id]
             }).then(response => {
                 if (response.data.result) {
                     vm.getEmails();
@@ -698,6 +728,32 @@ export default {
                 console.error(error);
             });
         },
+        /**
+         * Responder mensaje
+         *
+         * @method    replyMessage
+         *
+         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+         */
+        replyMessage() {
+            const vm = this;
+            vm.sent.to = vm.selectedEmail.from[0].mail;
+            vm.sent.subject = `RE: ${vm.selectedEmail.subject}`;
+            vm.sent.message = vm.selectedEmail.body_text;
+            vm.titleSentMessage = 'Responder Mensaje';
+        },
+        /**
+         * Reenviar mensaje
+         *
+         * @method    replyMessage
+         *
+         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+         */
+        forwardMessage() {
+            const vm = this;
+            vm.sent.message = vm.selectedEmail.body_text;
+            vm.titleSentMessage = 'Reenviar Mensaje';
+        },
         openContent: function(email = null) {
             const vm = this;
             if (email) {
@@ -708,6 +764,9 @@ export default {
         closeContent: function(e) {
             e.stopPropagation();
             $(".app-content .email-app-details").removeClass("show");
+            this.resetMessage();
+            this.selectedEmail = {};
+            this.titleSentMessage = 'Nuevo Mensaje';
         }
     },
     mounted() {
@@ -725,6 +784,9 @@ export default {
                     vm.selectedMessages.push($(this).val());
                 });
             }
+        });
+        $('#composeEmail').on('click', function() {
+            vm.titleSentMessage = 'Nuevo Mensaje';
         });
     }
 };

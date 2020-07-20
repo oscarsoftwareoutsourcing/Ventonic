@@ -56,6 +56,12 @@
         window.currentUserChat = null;
         window.currentChatRoom = '{{ session('chat_room_id', '') }}';
     </script>
+    <style>
+        .loading-screen {
+            z-index: 9999 !important;
+        }
+    </style>
+</head>
 
 </head>
 <!-- END: Head-->
