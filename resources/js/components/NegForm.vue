@@ -213,7 +213,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
-import {es} from 'vuejs-datepicker/dist/locale'
+import {es} from 'vuejs-datepicker/dist/locale';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { required, decimal, not, sameAs } from 'vuelidate/lib/validators';
 
@@ -413,19 +413,4 @@ export default {
 </script>
 
 <style>
-    .vdp-datepicker__calendar {
-        position: absolute !important;
-        z-index: 100 !important;
-        background: #262C49 !important;
-        width: 300px !important;
-        border: 1px solid #ccc !important;
-    }
-
-    .vdp-datepicker__calendar .cell.highlighted {
-        background: #10163A !important;
-    }
-
-    .vdp-datepicker__calendar header .up:not(.disabled):hover {
-        background: transparent !important;
-    }
 </style>
