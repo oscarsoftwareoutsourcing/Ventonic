@@ -1,5 +1,5 @@
 <template>
-    <li>
+    <li @click="showDetails(negotiation)">
         
         <!-- Card Header -->
         <div class="d-flex w-100 justify-content-between mb-1">
@@ -76,9 +76,21 @@ export default {
             toggleConfirm: 'TOGGLE_CONFIRM',
             setNegotiation: 'SET_NEGOTIATION',
             setNegotiationGroups: 'SET_NEGOTIATION_GROUPS',
+            toggleDetails: 'TOGGLE_DETAILS',
+            setDetailedNeg: 'SET_DETAILED_NEG'
         }),
         formatDate(d) {
             return d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
+        },
+        showDetails(negotiation) {
+
+            // Set negotiation object to render on the view.
+            this.setDetailedNeg(negotiation);
+            if(negotiation.groups.length > 0) {
+                this.setNegotiationGroups(negotiation.groups);
+            }
+            this.toggleLists();
+            this.toggleDetails();
         },
         editNegotiation(neg) {
             this.setNegotiation(neg);

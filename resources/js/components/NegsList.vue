@@ -38,7 +38,7 @@ export default {
                 processId: id
             }
             await this.changeToList(values);
-        },
+        }
     },
     computed: {
         ...mapGetters(['getNegotiations', 'getSearch', 'getNegFilters']),

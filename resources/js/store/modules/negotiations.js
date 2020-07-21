@@ -38,7 +38,7 @@ const initialState = () => ({
         showFileForm: false,
         showConfirm: false,
         actives: true,
-        detailedNegIndex: null
+        detailedNeg: null
     },
 
     // Data to render in the UI
@@ -88,7 +88,7 @@ export const getters = {
     getShowFileForm: state => { return state.ui.showFileForm },
     getShowConfirm: state => { return state.ui.showConfirm },
     getActives: state => { return state.ui.actives },
-    getDetailedNegIndex: state => { return state.ui.detailedNegIndex },
+    getDetailedNeg: state => { return state.ui.detailedNeg },
 
     // Data elements to render
     getUserId: state => { return state.data.userId },
@@ -215,7 +215,14 @@ export const mutations = {
     TOGGLE_DETAILS: (state) => state.ui.showDetails = !state.ui.showDetails,
     TOGGLE_CONFIRM: (state) => state.ui.showConfirm = !state.ui.showConfirm,
     TOGGLE_ACTIVES: (state) => state.ui.actives = !state.ui.actives,
-    SET_DETAILED_NEG_INDEX: (state, dni) => state.ui.detailedNegIndex = dni,
+    SET_DETAILED_NEG: (state, dn) => {
+        state.ui.detailedNeg = dn;
+        // state.ui.detailedNeg.created_at = new Date(state.ui.detailedNeg.created_at);
+        // state.ui.detailedNeg.deadline = new Date(state.ui.detailedNeg.deadline);
+        // if(state.ui.detailedNeg.updated_at !== null) {
+        //     state.ui.detailedNeg.created_at = new Date(state.ui.detailedNeg.updated_at);
+        // }
+    },
     SET_USER_ID: (state, i) => state.data.userId = i,
     SET_TYPES: (state, t) => state.data.types = t,
     SET_STATUSES: (state, s) => state.data.statuses = s,
@@ -229,6 +236,9 @@ export const mutations = {
             // Convert all date data to date JS type.
             neg.created_at = new Date(neg.created_at);
             neg.deadline = new Date(neg.deadline);
+            if(neg.updated_at !== null) {
+                neg.updated_at = new Date(neg.updated_at);
+            }
 
             // Fill owners array.
             if(neg.owner.id !== state.data.userId) {

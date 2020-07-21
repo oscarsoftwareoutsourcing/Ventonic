@@ -5,13 +5,13 @@
 
                 <!-- Negotiation title with contact -->
                 <div class="card-header">
-                    <h2 class="card-title">{{ detailedNeg.title }} con {{ showContact(detailedNeg.contact) }}</h2>
+                    <h2 class="card-title">{{ title }} con {{ contact }}</h2>
                 </div>
                 <div class="card-content">
                     <div class="card-body">
 
                         <!-- Responsable -->
-                        <p><b>Responsable:</b> {{ showOwner(detailedNeg.owner) }}</p>
+                        <p><b>Responsable:</b> {{ owner }}</p>
 
                         <ul class="nav nav-tabs nav-justified" id="myTab2" role="tablist">
                             <li class="nav-item">
@@ -57,18 +57,18 @@
                 </div>
                 <div class="card-body">
                     <!-- Description -->
-                    <p>{{ detailedNeg.description }}</p>
+                    <p>{{ description }}</p>
                     
                     <!-- Status -->
                     <div class="mt-1">
                         <h6 class="mb-0">Estado:</h6>
-                        <p v-if="detailedNeg.status.id === 3" class="text-primary">En Proceso<i title="En proceso" class="feather icon-loader ml-1"></i></p>
-                        <p v-if="detailedNeg.status.id === 1" class="text-success">Ganada<i class="fa fa-trophy ml-1" title="Ganada"></i></p>
-                        <p v-if="detailedNeg.status.id === 2" class="text-danger">Perdida<i class="fa fa-thumbs-o-down ml-1" title="Perdida"></i></p>
+                        <p v-if="status.id === 3" class="text-primary">En Proceso<i title="En proceso" class="feather icon-loader ml-1"></i></p>
+                        <p v-if="status.id === 1" class="text-success">Ganada<i class="fa fa-trophy ml-1" title="Ganada"></i></p>
+                        <p v-if="status.id === 2" class="text-danger">Perdida<i class="fa fa-thumbs-o-down ml-1" title="Perdida"></i></p>
                     </div>
 
                     <!-- Shared with -->
-                    <div class="mt-1" v-if="detailedNeg.extras.sharedWith.length > 0">
+                    <div class="mt-1" v-if="isShared">
                         <h6 class="mb-0">Compartida con:</h6>
                         <ul>
                             <li v-for="(group, index) in negGroups" :key="index">{{ group.name }}</li>
@@ -78,26 +78,29 @@
                     <!-- Amount -->
                     <div class="mt-1">
                         <h6 class="mb-0">Importe:</h6>
-                        <p>{{ formatImp(detailedNeg.amount) }}</p>
+                        <p>{{ amount }}</p>
                     </div>
 
                     <!-- Deadline -->
                     <div class="mt-1">
                         <h6 class="mb-0">Fecha de cierre:</h6>
-                        <p>{{ (detailedNeg.deadline !== null) ? formatDate(detailedNeg.deadline) : 'N/A' }}</p>
+                        <p>{{ deadline }}</p>
                     </div>
 
                     <!-- Created at -->
                     <div class="mt-1">
                         <h6 class="mb-0">Creada el:</h6>
-                        <p>{{ formatDate(detailedNeg.created_at) }}</p>
+                        <p>{{ createdAt }}</p>
                     </div>
 
                     <!-- Last update -->
                     <div class="mt-1">
                         <h6 class="mb-0">Actualizado el:</h6>
-                        <p>{{ (detailedNeg.deadline !== null) ? formatDate(detailedNeg.updated_at) : 'No se ha actualizado' }}</p>
+                        <p>{{ updatedAt }}</p>
                     </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary btn btn-block waves-effect waves-light" @click="returnList">Volver</button>
                 </div>
             </div>
         </div>
@@ -105,7 +108,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
     data() {
         return {
@@ -113,8 +116,8 @@ export default {
         }
     },
     mounted() {
-        if(this.getNegotiation.groups.length > 0) {
-            this.getNegotiation.groups.forEach(g => {
+        if(this.getDetailedNeg.groups.length > 0) {
+            this.getDetailedNeg.groups.forEach(g => {
                 this.getUserGroups.forEach(ug => {
                     if(g === ug.id) {
                         this.negGroups.push(ug);
@@ -124,33 +127,49 @@ export default {
         }
     },
     methods: {
-        showContact(contact) {
-            if(contact.last_name !== null) {
-                return contact.name + ' ' + contact.last_name;
-            } else {
-                return contact.name;
-            }
-        },
-        showOwner(owner) {
-            if(owner.last_name !== null) {
-                return owner.name + ' ' + owner.last_name;
-            } else {
-                return owner.name;
-            }
-        },
+        ...mapMutations({
+            setNegotiationGroups: 'SET_NEGOTIATION_GROUPS',
+            setDetailedNeg: 'SET_DETAILED_NEG',
+            toggleLists: 'TOGGLE_LISTS',
+            toggleDetails: 'TOGGLE_DETAILS',
+        }),
         formatImp(i) {
             return new Intl.NumberFormat('de-ES', { style: 'currency', currency: 'EUR' }).format(i);
         },
         formatDate(d) {
-            let date = new Date(d);
-            return date.getDate() + ' de ' + new Intl.DateTimeFormat('es-ES', { month: 'long'}).format(date) + ' del ' + date.getFullYear();
+            return d.getDate() + ' de ' + new Intl.DateTimeFormat('es-ES', { month: 'long'}).format(d) + ' del ' + d.getFullYear();
+        },
+        returnList() {
+            this.setNegotiationGroups(null);
+            this.setDetailedNeg(null);
+            this.toggleLists();
+            this.toggleDetails();
         }
     },
     computed: {
-        ...mapGetters(['getNegotiation', 'getNegotiations', 'getDetailedNegIndex', 'getUserGroups']),
-        detailedNeg() {
-            return this.getNegotiations['list-' + this.getNegotiation.neg_process_id][this.getDetailedNegIndex];
-        }
+        ...mapGetters(['getNegotiation', 'getNegotiations', 'getDetailedNeg', 'getUserGroups']),
+        title() { return this.getDetailedNeg.title },
+        contact() {
+            if(this.getDetailedNeg.contact.last_name !== null) {
+                return this.getDetailedNeg.contact.name + ' ' + this.getDetailedNeg.contact.last_name;
+            } else {
+                return this.getDetailedNeg.contact.name;
+            }
+        },
+        owner() {
+            if(this.getDetailedNeg.owner.last_name !== null) {
+                return this.getDetailedNeg.owner.name + ' ' + this.getDetailedNeg.owner.last_name;
+            } else {
+                return this.getDetailedNeg.owner.name;
+            }
+        },
+        status() { return this.getDetailedNeg.status; },
+        description() { return this.getDetailedNeg.description; },
+        isShared() { return (this.getDetailedNeg.extras.sharedWith.length > 0) ? true : false; },
+        amount() { return this.formatImp(this.getDetailedNeg.amount); },
+        deadline() { return (this.getDetailedNeg.deadline !== null) ? this.formatDate(this.getDetailedNeg.deadline) : 'N/A' },
+        createdAt() { return this.formatDate(this.getDetailedNeg.created_at) },
+        updatedAt() { return (this.getDetailedNeg.updated_at !== null) ? this.formatDate(this.getDetailedNeg.updated_at) : 'No se ha actualizado' },
     }
 }
 </script>
