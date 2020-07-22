@@ -219,7 +219,7 @@ class EmailController extends Controller
                         $messages = $folder->messages()->all()->get();
                         $emails[strtolower($folder->name)] = [];
                         foreach ($messages as $message) {
-                            EmailMessage::updateOrCreate(
+                            $emailMessage = EmailMessage::updateOrCreate(
                                 ['message_id' => $message->message_id],
                                 [
                                     'message_nro' => $message->getMessageNo(),

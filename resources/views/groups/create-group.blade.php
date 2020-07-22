@@ -24,7 +24,7 @@
                         </div>
                     @endif
                         <div class="card-header">
-                            <h6 class="alert alert-primary float-left display-block"><i class="feather icon-users "></i> <span class="text-white"">Gestion de grupos de usuarios</span></h6>
+                            <h6 class="alert alert-primary float-left display-block"><i class="feather icon-users "></i> <span class="text-white">Gestion de grupos de usuarios</span></h6>
                         </div>
                         <div class="card-header">
                             <div>
@@ -64,6 +64,11 @@
     </div>
 </div>
 @endsection
+
+@section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+@endsection
+
 @section('extra-js')
 <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
 @endsection
