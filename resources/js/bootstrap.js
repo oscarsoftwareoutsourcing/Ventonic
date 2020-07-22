@@ -13,6 +13,9 @@ try {
     require('bootstrap');
     window.bootbox = require('bootbox');
 
+    /** Toastr messages */
+    window.toastr = require('toastr');
+
     /*require('emojione');
     require('emojionearea');*/
 

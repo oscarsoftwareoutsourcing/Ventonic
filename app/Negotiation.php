@@ -25,11 +25,16 @@ class Negotiation extends Model
 
     // Type
     public function type() {
-        return $this->hasOne(NegotiationType::class);
+        return $this->belongsTo(NegotiationType::class, 'neg_type_id');
     }
 
     // Status
     public function status() {
-        return $this->hasOne(NegotiationStatus::class);
+        return $this->belongsTo(NegotiationStatus::class, 'neg_status_id');
+    }
+
+    // Related users
+    public function related_users() {
+        return $this->belongsToMany(User::class);
     }
 }

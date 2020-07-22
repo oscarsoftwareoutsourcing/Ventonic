@@ -84,12 +84,25 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('ultimos-eventos', 'EventController@lastEvents')->name('events.list');
     Route::post('get-country-flag', 'ProfileController@getCountryFlag')->name('get-country-flag');
     Route::get('contact-seller/{id}', 'ChatController@contactSeller');
-    Route::get('contact-by/{user_id}/{type}/{origin_type?}/{origin_id?}', 'ChatController@contactBy')->name('contact-by');
+    Route::get(
+        'contact-by/{user_id}/{type}/{origin_type?}/{origin_id?}',
+        'ChatController@contactBy'
+    )->name('contact-by');
     Route::get('get-chat-users', 'ChatController@getUserChatRooms');
     Route::get('set-chat-room/{id}/{user_id}', 'ChatController@setChatRoom');
     Route::post('filter-chat-users', 'ChatController@filterUserChatRooms');
     Route::delete('chatroom/{id}/delete', 'ChatController@destroyChatRoom');
     Route::post('notification-time/update', 'NotificationController@updateTime');
+
+  /** Rutas para la gestión de correos */
+    Route::get('email', 'EmailController@index')->name('email');
+    Route::get('email/settings', 'EmailController@getSetting');
+    Route::post('email/settings', 'EmailController@setSetting');
+    Route::get('email/messages/{download?}', 'EmailController@getMessages')->name('email.get-messages');
+    Route::post('email/sent', 'EmailController@sentMessage')->name('email.sent-message');
+    Route::post('email/messages/delete', 'EmailController@destroyMessages');
+    Route::post('email/set-favorite', 'EmailController@setFavorite');
+    Route::post('email/save-draft', 'EmailController@saveDraft');
 });
 
 /* Routas para oportunidades */

@@ -18,7 +18,8 @@
         "laravel/tinker": "^2.0",
         "pragmarx/countries-laravel": "^0.7.0",
         "pusher/pusher-php-server": "~3.0",
-        "torann/geoip": "^1.2"
+        "torann/geoip": "^1.2",
+        "webklex/laravel-imap": "^1.4"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

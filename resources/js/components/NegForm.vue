@@ -138,7 +138,7 @@
                                         <span>Importe:</span>
                                     </div>
                                     <div class="col-md-9">
-                                        <input name="txtAmount" id="txtAmount" type="text" placeholder="Monto" class="form-control" v-model="amount">
+                                        <input name="txtAmount" id="txtAmount" type="text" placeholder="Importe" class="form-control" v-model="amount">
                                         
                                         <!-- Validation messages -->
                                         <article class="help-block" v-if="$v.amount.$error">
@@ -160,7 +160,7 @@
                                             <li class="d-inline-block mr-2">
                                                 <fieldset>
                                                     <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" name="rdoSharedNeg" id="rdoNotShared" v-model="isShared" :value="false">
+                                                        <input type="radio" class="custom-control-input" name="rdoSharedNeg" id="rdoNotShared" v-model="isShared" :value="false" @click="resetGroupIds">
                                                         <label class="custom-control-label" for="rdoNotShared">Sólo para mí</label>
                                                     </div>
                                                 </fieldset>
@@ -180,11 +180,17 @@
 
                                         <div v-if="isShared">
                                             <div class="form-group row mb-1" v-for="(gi, index) in groupIds" :key="index">
-                                                <select v-model="groupIds[index]" name="cboGroups" id="cboGroups" class="form-control col-10">
+                                                <select name="cboGroups" class="form-control col-10" v-model="groupIds[index].id">
                                                     <option :value="null">- Ecoger un contacto -</option>
                                                     <option v-for="(group, index) in getUserGroups" :key="index" :value="group.id">{{ group.name }}</option>
                                                 </select>
                                                 <button v-if="groupIds.length > 1" type="button" class="btn btn-danger ml-1 col-1" @click="removeGroup(index)"><i class="fa fa-minus" style="margin: 0px -5px;"></i></button>
+
+                                                <!-- Validation messages -->
+                                                <article class="help-block row no-gutters" v-if="$v.groupIds.$each[index].$error">
+                                                    <i class="text-danger col-12" v-if="!$v.groupIds.$each[index].id.required">Dato requerido</i>
+                                                    <i class="text-danger col-12" v-if="!$v.groupIds.$each[index].id.isDuplicate">Valor duplicado</i>
+                                                </article>
                                             </div>
                                         </div>
                                     </div>
@@ -199,7 +205,7 @@
             <div class="card-footer text-center pt-5">                
                 <button type="button" class="btn btn-primary waves-effect waves-light" @click="check()" :disabled="isDisabled">Guardar</button>
                 <button v-if="negId !== null" type="button" class="btn btn-warning waves-effect waves-light" @click.stop="archiveModal()">Archivar</button>
-                <button type="button" class="btn btn-light waves-effect waves-light" @click="eraseData()">Cancelar</button>
+                <button type="button" class="btn btn-light waves-effect waves-light" @click="eraseData()" :disabled="isDisabled">Cancelar</button>
             </div>
         </div>
     </div>
@@ -207,9 +213,10 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
-import {es} from 'vuejs-datepicker/dist/locale'
-import { required, decimal } from 'vuelidate/lib/validators';
+import {es} from 'vuejs-datepicker/dist/locale';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { required, decimal, not, sameAs } from 'vuelidate/lib/validators';
+
 export default {
     components: {
         Datepicker
@@ -218,7 +225,7 @@ export default {
         return {
             isDisabled: false,
             isShared: false,
-            groupIds: [{ id: null }],
+            groupIds: [{id: null}],
             es: es,
             format: 'dd-MM-yyyy',
             highlighted: {
@@ -229,33 +236,72 @@ export default {
             }
         }
     },
-    validations: {
-        negTypeId: {
-            required
-        },
-        negProcessId: {
-            required
-        },
-        contactId: {
-            required
-        },
-        title: {
-            required
-        },
-        description: {
-            required
-        },
-        amount: {
-            required,
-            decimal
+    mounted() {
+        if(this.getNegotiation.groups.length > 0) {
+            this.isShared = true;
+            this.groupIds = [];
+            this.getNegotiation.groups.forEach(g => {
+                this.getUserGroups.forEach(ug => {
+                    if(g === ug.id) {
+                        this.groupIds.push({id: g});
+                    }
+                });
+            });
         }
+    },
+    validations() {
+        let rules = {
+            negTypeId: {
+                required
+            },
+            negProcessId: {
+                required
+            },
+            contactId: {
+                required
+            },
+            title: {
+                required
+            },
+            description: {
+                required
+            },
+            amount: {
+                required,
+                decimal
+            }
+        };
+
+        if(this.isShared) {
+            rules.groupIds = {
+                $each: {
+                    id: {
+                        required,
+                        isDuplicate: (value) => {
+                            let passed = true;
+
+                            let seen = this.groupIds.filter(gi => gi.id === value);
+
+                            if(seen.length > 1) {
+                                passed = false;
+                            }
+                            return passed;
+                        }
+                    }
+                }
+            }
+        }
+
+        return rules;
     },
     methods: {
         ...mapMutations({
             resetNeg: 'RESET_NEGOTIATION',
             toggleForm: 'TOGGLE_FORM',
+            toggleLists: 'TOGGLE_LISTS',
             toggleConfirm: 'TOGGLE_CONFIRM',
-            setNegotiation: 'SET_NEGOTIATION'
+            setNegotiation: 'SET_NEGOTIATION',
+            setNegotiationGroups: 'SET_NEGOTIATION_GROUPS'
         }),
         ...mapActions(['saveNeg', 'toggleActivation']),
         addGroup() {
@@ -264,9 +310,21 @@ export default {
         removeGroup(index) {
             this.groupIds.splice(index, 1);
         },
+        setGroup(index, value) {
+            this.groupIds[index].id = value;
+        },
+        resetGroupIds() {
+            this.groupIds = [{id: null}];
+            this.setNegotiationGroups([]);
+        },
         async check() {
-            console.log(this.groupIds);
             if (!this.$v.$invalid) {
+
+                if(this.isShared) {
+                    this.setNegotiationGroups(this.groupIds);
+                } else {
+                    this.resetGroupIds();
+                }
 
                 this.isDisabled = !this.isDisabled;
 
@@ -290,6 +348,7 @@ export default {
         },
         eraseData() {
             this.toggleForm();
+            this.toggleLists();
             this.resetNeg();
             this.$v.$reset();
         }
@@ -354,19 +413,4 @@ export default {
 </script>
 
 <style>
-    .vdp-datepicker__calendar {
-        position: absolute !important;
-        z-index: 100 !important;
-        background: #262C49 !important;
-        width: 300px !important;
-        border: 1px solid #ccc !important;
-    }
-
-    .vdp-datepicker__calendar .cell.highlighted {
-        background: #10163A !important;
-    }
-
-    .vdp-datepicker__calendar header .up:not(.disabled):hover {
-        background: transparent !important;
-    }
 </style>

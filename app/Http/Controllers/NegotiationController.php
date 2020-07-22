@@ -9,11 +9,13 @@ use App\UserModuleLabel;
 use App\NegotiationType;
 use App\NegotiationStatus;
 use App\Negotiation;
+use App\Group;
 use Carbon\Carbon;
+use App\Http\Resources\NegotiationsResource;
 
 class NegotiationController extends Controller
 {
-    public function index(){
+    public function index() {
 
         try {
 
@@ -53,11 +55,15 @@ class NegotiationController extends Controller
             }
 
             // Created negotiations
-            $negotiations = User::find(auth()->user()->id)->negotiations;
-            
+            $userNegotiations = User::find(auth()->user()->id)->negotiations()->with(['type', 'status', 'contact', 'related_users.related_groups.group.groupUser'])->get();
+                        
             // Shared negotiations
-            // $sharedNegotiations = User::find(auth()->user()->id)->negotiations;
+            $relatedNegotiations = User::find(auth()->user()->id)->related_negotiations()->with(['user', 'type', 'status', 'contact', 'related_users.related_groups.group.groupUser'])->get();
 
+            $merged = $userNegotiations->merge($relatedNegotiations);
+
+            $result = json_encode(NegotiationsResource::collection($merged->all()));
+            
             // Return the data to the view
             return view('negotiations.index')->with([
                 'userContacts' => $contacts,
@@ -65,7 +71,7 @@ class NegotiationController extends Controller
                 'negTypes' => $neg_types,
                 'negStatuses' => $neg_statuses,
                 'negProcesses' => $processes,
-                'negotiations' => $negotiations,
+                'negotiations' => $result,
                 'userId' => auth()->user()->id
             ]);
         } catch (\Throwable $th) {
@@ -76,7 +82,8 @@ class NegotiationController extends Controller
     public function saveNegotiation(Request $request) {
         try {
 
-            if($request->id !== null) {
+            // // Check if ID comes to update instead of create
+            if($request->id !== null) { // Update
                 $negotiation = Negotiation::find($request->id);
                 $negotiation->neg_status_id = $request->neg_status_id;
                 if($request->neg_status_id === 1) {
@@ -84,12 +91,13 @@ class NegotiationController extends Controller
                 } else {
                     $negotiation->neg_process_id = $request->neg_process_id;
                 }
-            } else {
+            } else { // Create
                 $negotiation = new Negotiation;
                 $negotiation->neg_status_id = 3;
                 $negotiation->neg_process_id = $request->neg_process_id;
             }
             
+            // Set other props to save.
             $negotiation->user_id = $request->user_id;
             $negotiation->contact_id = $request->contact_id;
             $negotiation->neg_type_id = $request->neg_type_id;
@@ -101,13 +109,19 @@ class NegotiationController extends Controller
             $negotiation->created_at = date('Y-m-d H:i:s');
             $negotiation->updated_at = NULL;
 
+            // Save negotiation.
             $negotiation->save();
 
-            $negotiations = User::find($request->user_id)->negotiations;
+            // We check if we need to relate users.
+            if(count($request->groups) > 0) {
+                $ids = $this->getIdsInGroup($request->groups);
+
+                $negotiation->related_users()->sync($ids);
+            } else $negotiation->related_users()->sync([]);
 
             return response()->json([
                 'result' => true,
-                'newNegotiations' => $negotiations
+                'negotiation' => new NegotiationsResource($negotiation)
             ]);
         } catch (\Throwable $th) {
             echo $th;
@@ -122,7 +136,7 @@ class NegotiationController extends Controller
 
             return response()->json([
                 'result' => true,
-                'updated_neg' => $negotiation
+                'updated_neg' => new NegotiationsResource($negotiation)
             ]);
         } catch (\Throwable $th) {
             echo $th;
@@ -140,11 +154,9 @@ class NegotiationController extends Controller
 
             $negotiation->save();
 
-            $negotiations = User::find($negotiation->user_id)->negotiations;
-
             return response()->json([
                 'result' => true,
-                'newNegotiations' => $negotiations
+                'updated_neg' => new NegotiationsResource($negotiation)
             ]);
         } catch (\Throwable $th) {
             echo $th;
@@ -158,14 +170,26 @@ class NegotiationController extends Controller
             $negotiation->active = !$request->active;
             $negotiation->save();
 
-            $negotiations = User::find($negotiation->user_id)->negotiations;
-
             return response()->json([
                 'result' => true,
-                'newNegotiations' => $negotiations
+                'archivedNeg' => new NegotiationsResource($negotiation)
             ]);
         } catch (\Throwable $th) {
             echo $th;
         }
+    }
+
+    private function getIdsInGroup($arr) {
+        $userIds = array();
+
+        foreach ($arr as $group_id) {
+            $usersArr = Group::find($group_id['id'])->groupUser;
+            foreach ($usersArr as $user) {
+                array_push($userIds, $user['user_id']);
+            }
+        }
+
+        $userIds = array_unique($userIds);
+        return $userIds;
     }
 }

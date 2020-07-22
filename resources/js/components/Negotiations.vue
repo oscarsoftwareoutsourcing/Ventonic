@@ -1,162 +1,91 @@
 <template>
     <div id="negotiationsModule" class="app-content content">
         <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
-        <div class="content-wrapper pt-1">
+        <div id="headerNavbarShadow" class="header-navbar-shadow"></div>
+        <div id="contentWrapper" class="content-wrapper pt-1">
             
             <!-- Module control -->
-            <div class="card card-block mb-1">
-                <div class="card-body p-0">
+            <negotiations-controls />
 
-                    <!-- Manage Navbar -->
-                    <nav class="navbar navbar-expand-lg">
-                        <a class="navbar-brand">Negociaciones</a>
-                        <button class="navbar-toggler p-0 collapsed" type="button" data-toggle="collapse" style="font-size: 1.5rem;" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                            <i class="fa fa-chevron-down"></i>
-                        </button>
+            <!-- Lists View -->
+            <section id="listView" class="row" v-if="getShowLists">
 
-                        <div class="navbar-collapse collapse" id="navbarColor01">
-                            <ul class="navbar-nav mr-auto" v-if="!getShowForm">
-                                <li class="nav-item" style="padding: 5px">
-                                    <button type="button" class="btn btn-primary waves-effect waves-light" @click="toggleForm">Nueva</button>
-                                </li>
-                                <li class="nav-item" style="padding: 5px">
-                                    <button type="button" class="btn btn-warning waves-effect waves-light">Archivadas</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
+                <!-- Filters bar -->
+                <negotiations-filters />
+                
 
-                    <!-- Filter Navbar -->
-                    <nav class="navbar navbar-expand-lg" v-if="!getShowForm">
-                        <a class="navbar-brand d-lg-none">Filtros</a>
-                        <button class="navbar-toggler p-0 collapsed d-lg-none" type="button" data-toggle="collapse" style="font-size: 1.5rem;" data-target="#filters" aria-controls="filters" aria-expanded="false" aria-label="Toggle navigation">
-                            <i class="fa fa-chevron-down"></i>
-                        </button>
+                <!-- Search and lists -->
+                <div id="searchAndListsCol" class="col h-100">
+                    <div class="content-body">
+                        <div id="searchSection" class="row my-1">
 
-                        <div class="navbar-collapse collapse" id="filters">
-                            
-                            <!-- Input search -->
-                            <form class="form-inline">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
-                            </form>
-                            
-                            <!-- Filter options -->
-                            <ul class="navbar-nav mr-auto">
-                                <li class="nav-item" style="padding: 5px">
-                                    <div class="btn-group">
-                                        <div class="dropdown">
-                                            <button class="btn btn-flat-dark dropdown-toggle mr-1 mb-1 waves-effect waves-light" type="button" id="dropdownMenuButton700" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Filtro 1
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton700" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                                <a class="dropdown-item" href="#">Option 1</a>
-                                                <a class="dropdown-item" href="#">Option 2</a>
-                                                <a class="dropdown-item" href="#">Option 3</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="nav-item" style="padding: 5px">
-                                    <div class="btn-group">
-                                        <div class="dropdown">
-                                            <button class="btn btn-flat-dark dropdown-toggle mr-1 mb-1 waves-effect waves-light" type="button" id="dropdownMenuButton700" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Filtro 2
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton700" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                                <a class="dropdown-item" href="#">Option 1</a>
-                                                <a class="dropdown-item" href="#">Option 2</a>
-                                                <a class="dropdown-item" href="#">Option 3</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="nav-item" style="padding: 5px">
-                                    <div class="btn-group">
-                                        <div class="dropdown">
-                                            <button class="btn btn-flat-dark dropdown-toggle mr-1 mb-1 waves-effect waves-light" type="button" id="dropdownMenuButton700" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Filtro 2
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton700" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                                <a class="dropdown-item" href="#">Option 1</a>
-                                                <a class="dropdown-item" href="#">Option 2</a>
-                                                <a class="dropdown-item" href="#">Option 3</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="nav-item" style="padding: 5px">
-                                    <div class="btn-group">
-                                        <div class="dropdown">
-                                            <button class="btn btn-flat-dark dropdown-toggle mr-1 mb-1 waves-effect waves-light" type="button" id="dropdownMenuButton700" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Filtro 2
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton700" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                                <a class="dropdown-item" href="#">Option 1</a>
-                                                <a class="dropdown-item" href="#">Option 2</a>
-                                                <a class="dropdown-item" href="#">Option 3</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="nav-item" style="padding: 5px">
-                                    <div class="btn-group">
-                                        <div class="dropdown">
-                                            <button class="btn btn-flat-dark dropdown-toggle mr-1 mb-1 waves-effect waves-light" type="button" id="dropdownMenuButton700" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Filtro 2
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton700" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                                <a class="dropdown-item" href="#">Option 1</a>
-                                                <a class="dropdown-item" href="#">Option 2</a>
-                                                <a class="dropdown-item" href="#">Option 3</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                            <!-- Total of negotiations -->
+                            <div class="col-12 mb-1">
+                                <div class="search-results text-white">
+                                    Tiene {{ totalNegotiations }} negociaciones en total
+                                </div>
+                            </div>
 
-                            <!-- Apply -->
-                            <div class="form-inline">
-                                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Aplicar</button>
+                            <!-- Search bar -->
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-icon btn-outline-primary mr-1 mb-1 waves-effect waves-light d-block d-lg-none"><i class="fa fa-sliders"></i></button>
+                                    <div class="search-bar w-100">
+                                        <form>
+                                            <fieldset class="form-group position-relative mb-1">
+                                                <input type="text" class="form-control" id="searchbar" placeholder="Buscar..." v-model.trim="search">
+                                                <div class="form-control-position">
+                                                    <i class="feather icon-search pr-2"></i>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Filer badges -->
+                            <div class="col-xs-12 col">
+                                <div class="badge badge-md badge-warning mr-1 filterBadge">Info<i class="feather icon-x"></i></div>
+                                <div class="badge badge-md badge-warning mr-1 filterBadge">Info<i class="feather icon-x"></i></div>
+                                <div class="badge badge-md badge-warning mr-1 filterBadge">Info<i class="feather icon-x"></i></div>
+                                <div class="badge badge-md badge-warning mr-1 filterBadge">Info<i class="feather icon-x"></i></div>
+                                <div class="badge badge-md badge-warning mr-1 filterBadge">Info<i class="feather icon-x"></i></div>
+                            </div>
+
+                            <!-- Total of found negotiations -->
+                            <div class="col-xs-12 col-lg-auto">
+                                <span>30 negociaciones encontradas</span>
                             </div>
                         </div>
-                    </nav>
-                </div>
-            </div>
-
-            <!-- Process lists -->
-            <div class="row" v-if="!getShowForm">
-                <div class="col">
-                    <div id="listsContainer" class="row no-gutters flex-row flex-nowrap scrolling-wrapper">
-                        <negotiation-process-list v-for="(process, index) in getProcesses" :key="index" :processData="process" />
+                        
+                        <!-- Lists -->
+                        <perfect-scrollbar class="ps-width">
+                            <div id="listsContainer" class="lists">
+                                <negotiations-list class="list" v-for="(proc) in getProcesses" :key="proc.id" :process="proc" />
+                            </div>
+                        </perfect-scrollbar>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Negotiation Modal -->
+            <!-- Negotiation Form -->
             <negotiation-form v-if="getShowForm" />
 
-            <!-- Archive Confirm Modal -->
-            <div id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-modal="true" class="modal fade text-left show" style="display: block;" v-if="getShowConfirm">
-                <div role="document" class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xs">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger white">
-                            <h5 id="myModalLabel120" class="modal-title">¡Alerta!</h5>
-                            <button @click.stop="cancelArchive" type="button" data-dismiss="modal" aria-label="Close" class="close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Está seguro de archivar esta negociación?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button @click.stop="toggleActivation" type="button" id="confirmDelete" class="btn btn-danger waves-effect waves-light">Sí</button>
-                            <button @click.stop="cancelArchive" type="button" data-dismiss="modal" class="btn btn-success waves-effect waves-light">No</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Negotiation Details -->
+            <negotiation-details v-if="getShowDetails" />
 
+            <!-- Note Modal -->
+            <todo-form v-if="getShowNoteForm" />
+
+            <!-- Event Modal -->
+            <negotiation-event-modal v-if="getShowEventForm" />
+
+            <!-- Files Modal -->
+            <negotiation-file-modal v-if="getShowFileForm" />
+
+            <!-- Confirm Modal -->
+            <negotiation-confirm-modal v-if="getShowConfirm" />
+            
             <div class="modal-backdrop fade show" v-if="getShowConfirm"></div>
         </div>
     </div>
@@ -169,52 +98,240 @@ export default {
     components: {
         draggable
     },
+    data() {
+        return {
+            window: {
+                width: 0,
+                height: 0
+            }
+        }
+    },
     props: ['types', 'statuses', 'processes', 'negotiations', 'user', 'contacts', 'a'],
+    created() {
+
+        // Capture everytime window gets resized.
+        window.addEventListener('load', this.updateModuleSizes);
+        window.addEventListener('resize', this.handleResize);
+        this.setFooterStyles();
+    },
     mounted() {
+        
+        // Get window actual size.
+        this.handleResize();
+
+        this.setUserId(this.user);
         this.setTypes(this.types);
         this.setStatuses(this.statuses);
         this.setProcesses(this.processes.processes);
-        this.setNegotiations(this.negotiations);
-        this.setUserId(this.user);
         this.setContacts(this.contacts);
         this.setUserGroups(this.a);
+        this.setNegotiations(this.negotiations);
+    },
+    destroyed() {
+
+        // Remove events listener
+        window.removeEventListener('resize', this.handleResize);
+        window.addEventListener('load', this.updateModuleSizes);
     },
     methods: {
         ...mapActions(['toggleActivation']),
         ...mapMutations({
-            toggleForm: 'TOGGLE_FORM',
-            toggleConfirm: 'TOGGLE_CONFIRM',
+            setHeaderNavbarShadowHeight: 'SET_HEADER_NAVBAR_SHADOW_HEIGHT',
+            setUserId: 'SET_USER_ID',
             setTypes: 'SET_TYPES',
             setStatuses: 'SET_STATUSES',
             setProcesses: 'SET_PROCESSES',
-            setNegotiations: 'SET_NEGOTIATIONS',
-            setUserId: 'SET_USER_ID',
             setContacts: 'SET_CONTACTS',
             setUserGroups: 'SET_USER_GROUPS',
-            resetNeg: 'RESET_NEGOTIATION',
+            setNegotiations: 'SET_NEGOTIATIONS',
+            separateNegotiations: 'SEPARATE_NEGOTIATIONS',
+            setSearch: 'SET_SEARCH',
         }),
-        cancelArchive() {
+        handleResize() { // Get window height and width.
+            this.window.width = window.innerWidth;
+            this.window.height = window.innerHeight;
 
-            if(!this.getShowForm) {
-                this.resetNeg();
+            if(document.body.querySelector('#navControls') !== null) {
+                this.updateModuleSizes();
             }
-            this.toggleConfirm();
+        },
+        updateModuleSizes() {
+            let ventonicMenuWidth = document.body.querySelector('div.main-menu').offsetWidth; // Ventonic ppal menu options.
+            let headerNavbarShadowHeight = document.body.querySelector('#headerNavbarShadow').offsetHeight; // Header navbar shadow.
+            let navControlsHeight = document.body.querySelector('#navControls').offsetHeight; // Nav Controls.
+            let appFooterHeight = document.body.querySelector('#appFooter').offsetHeight; // App Footer.
+            let lgFiltersBarWidth = null; // Filters bar.
+            // let lgFiltersBarWidth = document.querySelector('#lgFiltersBar').offsetWidth; // Filters bar.
+            let lgFiltersBarHeight = null; // Filters bar.
+            let searchAndListsColWidth = null;
+            let listsContainerHeight = null;
+
+            let listViewHeight = this.window.height - (headerNavbarShadowHeight + navControlsHeight + appFooterHeight);
+
+            // Set list view height.
+            document.body.querySelector('#listView').style.height = listViewHeight + 'px';
+            document.body.querySelector('#listView').style.maxHeight = listViewHeight + 'px';
+
+            // Filters width.
+            document.querySelector('#lgFiltersBar').style.width = '350px';
+            document.querySelector('#lgFiltersBar').style.maxWidth = '350px';
+            lgFiltersBarWidth = document.querySelector('#lgFiltersBar').offsetWidth; // Filters bar.
+            // Filters height.
+            document.querySelector('#lgFiltersBar').style.height = listViewHeight + 'px';
+            lgFiltersBarHeight = document.querySelector('#lgFiltersBar').offsetHeight;
+
+            // Set filters card height.
+            document.body.querySelector('#filtersCard').style.height = (lgFiltersBarHeight - (document.querySelector('#lgFiltersBar').children[0].offsetHeight + 32)) + 'px';
+
+            // Set search & bar width.
+            document.body.querySelector('#searchAndListsCol').style.width = (this.window.width - (ventonicMenuWidth + lgFiltersBarWidth + 56)) + 'px';
+            searchAndListsColWidth = document.querySelector('#searchAndListsCol').offsetWidth;
+            document.body.querySelector('#listsContainer').style.width = (searchAndListsColWidth - 28) + 'px';
+            document.body.querySelector('#listsContainer').style.height = (document.querySelector('#searchAndListsCol').offsetHeight - (document.body.querySelector('#searchSection').offsetHeight + 32)) + 'px';
+
+            listsContainerHeight = document.body.querySelector('#listsContainer').offsetHeight;
+
+            // Cards height
+            let listHeaderHeight = document.body.querySelector('.headerList').offsetHeight;
+            let listFooterHeight = document.body.querySelector('.footerList').offsetHeight;
+            
+            document.body.querySelectorAll('.dragElements').forEach(ul => {
+                ul.style.height = (listsContainerHeight - 15) - (listHeaderHeight + listFooterHeight) + 'px';
+            });
+        },
+        setFooterStyles() {
+            let footer = document.body.querySelector('#appFooter');
+            footer.style.position = 'absolute';
+            footer.style.bottom = 0;
+            footer.style.right = 0;
         }
     },
     computed: {
-        ...mapGetters(['getProcesses', 'getNegsLists', 'getShowForm', 'getShowConfirm']),
+        ...mapGetters([
+            'getShowLists',
+            'getShowForm',
+            'getShowDetails',
+            'getShowNoteForm',
+            'getShowEventForm',
+            'getShowFileForm',
+            'getShowConfirm',
+            'getProcesses',
+            'getNegotiations',
+            'getSearch'
+        ]),
+        search: {
+            get() { return this.getSearch },
+            set(val) {
+                this.setSearch(val);
+            }
+        },
+        totalNegotiations() {
+            return this.getNegotiations.length;
+        }
     }
 }
 </script>
 
-<style>
-    .navbar-toggler {
-        color: #ffffff;
+<style lang="scss">
+/* Some Sass variables */
+// Layout
+$list-width: 330px;
+$gap: 10px;
+// Misc
+$list-border-radius: 5px;
+$card-border-radius: 3px;
+
+// Colors
+$list-bg-color: #10163A;
+
+/* Content Right */
+/* Filters badge */
+.filterBadge, .filterBadge .feather {
+    color: #000000 !important;
+    font-weight: bolder !important;
+    margin: 0px 0px 5px 0px !important;
+}
+
+.ps-width {
+    width: max-content;
+}
+
+.lists {
+    display: flex;
+    > .list {
+        flex: 0 0 auto; // 'rigid' lists
+        margin-left: $gap;
     }
-    .list-height {
-        min-height: 200px !important;
+    &::after {
+        content: '';
+        flex: 0 0 $gap;
     }
-    .negotiation-card {
-        background-color: #262C49 !important;
+}
+
+.list {
+    width: $list-width;
+
+    > * {
+        background-color: $list-bg-color;
+        color: #C2C6DC;
+
+        padding: 0 $gap;
     }
+
+    .headerList {
+        font-size: 16px;
+        font-weight: bold;
+        border-top-left-radius: $list-border-radius;
+        border-top-right-radius: $list-border-radius;
+    }
+
+    .footerList {
+        border-bottom-left-radius: $list-border-radius;
+        border-bottom-right-radius: $list-border-radius;
+        color: #888;
+    }
+
+    .dragElements {
+        list-style: none;
+        margin: 0;
+
+        li {
+            background-color: #262C49 !important;
+            padding: $gap;
+            &:not(:last-child) {
+                margin-bottom: $gap;
+            }
+
+            border-radius: $card-border-radius;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+/* Filters Sidebar */
+#lgFiltersBar {
+    max-height: calc(100 - (63 + 102 + 95 + 81));
+}
+
+.vdp-datepicker__calendar {
+    position: absolute !important;
+    z-index: 100 !important;
+    background: #262C49 !important;
+    width: 300px !important;
+    border: 1px solid #ccc !important;
+}
+
+.vdp-datepicker__calendar .cell.highlighted {
+    background: #10163A !important;
+}
+
+.vdp-datepicker__calendar header .up:not(.disabled):hover {
+    background: transparent !important;
+}
+
+@media (min-width: 992px) {
+    body .content-detached.content-right .content-body {
+        margin-left: calc(260px + .5rem) !important;
+    }
+}
 </style>

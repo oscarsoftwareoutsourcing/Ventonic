@@ -33,17 +33,21 @@
             </li>
         
             {{-- Oportunidades --}}
-            @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
+            @if(\Auth::user()->type=="E")
             <li class=" nav-item"><a href="#"><i class="feather icon-star"></i><span class="menu-title">Oportunidades</span></a>
                 <ul class="menu-content">
-                    @if(\Auth::user()->type=="E")
+                    
                     <li><a href="{{ route('oportunity.saved') }}"><i class="feather icon-list"></i><span class="menu-item">Mis oportunidades</span></a>
                     </li>
-                    @endif
+                   
                     <li><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Otras Empresas</span></a>
                     </li>
                 </ul>
             </li>
+           @endif
+
+           @if(\Auth::user()->type=="V" || isset(auth()->user()->sellerProfile))
+                <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Oportunidades</span></a></li>
            @endif
 
             {{-- No he tocado nada :) --}}
