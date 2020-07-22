@@ -7,6 +7,17 @@
     <!--<link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/editors/quill/quill.snow.css') }}">-->
     <link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/editors/quill/monokai-sublime.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
+    <style>
+        /*.users-list-wrapper li.media {
+            min-width: 780px !important;
+        }*/
+        .email-app-list-wrapper {
+            min-width: 780px !important;
+        }
+        .email-user-list {
+            overflow-x: hidden !important;
+        }
+    </style>
 @endsection
 
 @section('extra-style')

@@ -46,9 +46,9 @@ class ChatRoom extends Notification
      */
     public function toMail($notifiable)
     {
-        if ($notifiable->status) {
-            return false;
-        }
+       // if ($notifiable->status) {
+       //     return false;
+       // }
 
         return (new MailMessage)
                     ->greeting("Hola ".$notifiable->name.",")

@@ -130,9 +130,11 @@ class ChatController extends Controller
             foreach ($chatRoomUsers as $chatRoomUser) {
                 if ($chatRoomUser->user_id !== auth()->user()->id) {
                     $user = User::find($chatRoomUser->user_id);
-                    $user->notify(
-                        new ChatRoomNotify(auth()->user(), $request->message, session('chat_room_id'), $time)
-                    );
+                    if ($user->status === 0) {
+                        $user->notify(
+                            new ChatRoomNotify(auth()->user(), $request->message, session('chat_room_id'), $time)
+                        );
+                    }
                 }
             }
         }
