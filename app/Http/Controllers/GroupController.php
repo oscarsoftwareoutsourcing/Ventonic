@@ -49,7 +49,7 @@ class GroupController extends Controller
             $name_group=$grupo->name;
             $group_id=$grupo->id;
             $user_id=User::where('email', $email)->value('id');
-            $codigo_confirmacion= substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 20); 
+            $codigo_confirmacion= substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 20);
             $url=$codigo_confirmacion;
 
             $invitation = Invitation::updateOrCreate(
@@ -58,16 +58,16 @@ class GroupController extends Controller
                  'token'=>$codigo_confirmacion,
                  'status'=>'pendiente',
                 ]
-            ); 
-           
+            );
+
             if($user_id==null){
                 // var_dump($name_group); die();
                 Mail::to($email)->send(new NuevaInvitacionRecibida($name_group, $url));
 
                 return redirect()->route('group.show')
                                     ->with(['message'=>'Invitación enviada exitosamente']);
-            
-            }else{               
+
+            }else{
                 $user_notify=User::find($user_id);
                 $user_notify->notify(new NewInvitationGroup($name_group, $url));
                 return redirect()->route('group.show')
@@ -78,12 +78,12 @@ class GroupController extends Controller
             return redirect()->back()->with(['message'=>'Invitación enviada exitosamente']);
         }
     }
-    
+
     public function update(Request $request){
         $validation= $request->validate([
             'name' => 'required|string|max:255'
         ]);
-        
+
         $group_id=$request->input('group_id');
         $grupo=Group::find((int)$group_id);
         $grupo->name=$request->input('name');
@@ -94,7 +94,7 @@ class GroupController extends Controller
             $name_group=$grupo->name;
             $group_id=$grupo->id;
             $user_id=User::where('email', $email)->value('id');
-            $codigo_confirmacion= substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 20); 
+            $codigo_confirmacion= substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 20);
             $url=$codigo_confirmacion;
 
             $invitation = Invitation::updateOrCreate(
@@ -103,14 +103,14 @@ class GroupController extends Controller
                  'token'=>$codigo_confirmacion,
                  'status'=>'pendiente',
                 ]
-            ); 
-           
+            );
+
             if($user_id==null){
                 Mail::to($email)->send(new NuevaInvitacionRecibida($name_group, $url));
                 return redirect()->route('group.show')
                                     ->with(['message'=>'Invitación enviada exitosamente']);
-            
-            }else{               
+
+            }else{
                 $user_notify=User::find($user_id);
                 $user_notify->notify(new NewInvitationGroup($name_group, $url));
                 return redirect()->route('group.show')
@@ -148,15 +148,37 @@ class GroupController extends Controller
         }
     }
 
-    
+
     public function cancelInvitation($id_group, $id_invitacion){
         $invitacion=Invitation::find((int)$id_invitacion);
         $invitacion->status="rechazada";
         $invitacion->update();
-        
+
          return redirect()->route('contact.list')
             ->with(['message'=>'Invitación rechazada']);
     }
 
+    /**
+     * Permite eliminar un usuario de un grupo
+     *
+     * @method    destroy
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request    $request    Objeto con la petición
+     *
+     * @return    object     Objeto con los datos de respuesta
+     */
+    public function destroy(Request $request)
+    {
+        $groupUser = GroupUser::where(['group_id' => $request->group_id, 'user_id' => $request->user_id])->first();
 
+        if ($groupUser) {
+            $groupUser->delete();
+            session()->flash('message', 'Usuario eliminado del grupo');
+        } else {
+            session()->flash('message', 'El usuario no pudo ser eliminado del grupo');
+        }
+        return response()->json(['result' => true], 200);
+    }
 }
