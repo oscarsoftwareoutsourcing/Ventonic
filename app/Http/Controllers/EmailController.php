@@ -428,7 +428,7 @@ class EmailController extends Controller
                 'bcc' => (count($bcc) > 0) ? json_encode($bcc) : null,
                 'reply_to' => json_encode($from),
                 'sender' => json_encode($from),
-                'attachments' => null,
+                'attachments' => ($attach !== null) ? json_encode($attach) : $attach,
                 'body' => $request->message,
                 'body_text' => $request->message,
                 'email_setting_id' => $emailSetting->id
