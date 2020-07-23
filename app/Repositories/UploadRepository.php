@@ -11,6 +11,7 @@ class UploadRepository
     private $name;
     private $extension;
     private $stored;
+    private $storedPath;
     private $allowed_upload = [];
     private $min_sizes = ['width' => '480', 'height' => '480'];
     private $max_sizes = ['width' => '1280', 'height' => '900'];
@@ -49,6 +50,7 @@ class UploadRepository
                     $upload = Storage::disk($store)->put($this->name, File::get($file));
                     if ($upload) {
                         $this->stored = 'storage/files/'. $this->name;
+                        $this->storedPath = config('filesystems.disks.' . $store . '.root') . '/' . $this->name;
                         return true;
                     } else {
                         $this->error_msg = __('Error al subir el archivo, verifique e intente de nuevo');
@@ -87,6 +89,11 @@ class UploadRepository
     public function getStored()
     {
         return $this->stored;
+    }
+
+    public function getStoredPath()
+    {
+        return $this->storedPath;
     }
 
     public function delete($file, $store)
