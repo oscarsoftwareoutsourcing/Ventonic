@@ -33,7 +33,11 @@ class GroupController extends Controller
         $group=Group::find((int)$group_id);
         $userGroup=GroupUser::where('group_id', $group_id)->get();
         $users=User::orderBy('name', 'desc')->get();
-        return view('groups.edit-group', ['group'=> $group, 'userGroup'=>$userGroup, 'users'=>$users ]);
+        $invitations = $group->invitation()->get(['email', 'status']);
+
+        return view('groups.edit-group', [
+            'group' => $group, 'userGroup' => $userGroup, 'users' => $users, 'invitations' => $invitations
+        ]);
     }
 
     public function store(Request $request)
@@ -167,6 +171,30 @@ class GroupController extends Controller
         $invitacion->status="rechazada";
         $invitacion->update();
 
-         return redirect()->route('contact.list')->with(['message'=>'Invitación rechazada']);
+        return redirect()->route('contact.list')->with(['message'=>'Invitación rechazada']);
+    }
+
+    /**
+     * Permite eliminar un usuario de un grupo
+     *
+     * @method    destroy
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request    $request    Objeto con la petición
+     *
+     * @return    object     Objeto con los datos de respuesta
+     */
+    public function destroy(Request $request)
+    {
+        $groupUser = GroupUser::where(['group_id' => $request->group_id, 'user_id' => $request->user_id])->first();
+
+        if ($groupUser) {
+            $groupUser->delete();
+            session()->flash('message', 'Usuario eliminado del grupo');
+        } else {
+            session()->flash('message', 'El usuario no pudo ser eliminado del grupo');
+        }
+        return response()->json(['result' => true], 200);
     }
 }
