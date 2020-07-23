@@ -13,11 +13,18 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    {{-- BEGIND Filtros --}}
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Crear contacto</h4>
+                    <div class="header-ventonic">
+                    <div class="card-ventonic">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-12 ">
+                                    <div class="text-ventonic">Contacto</div> 
+                                </div> 
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="card">
+                     
                         <div class="card-content">
                             <div class="card-body">
                                 <form action="{{route('contact.save')}}" method="POST" class="form" enctype="multipart/form-data">
