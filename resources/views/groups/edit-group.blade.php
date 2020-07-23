@@ -115,6 +115,31 @@
                                                         {{-- </div> --}}
                                                     </div>
                                                 </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="email-id-icon">Estatus de invitaciones</label>
+                                                        <!-- DataTable starts -->
+                                                        {{-- <div class="table-responsive"> --}}
+                                                            <table id="datatable" class="table data-list-view mt-2" width="100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Email</th>
+                                                                        <th>Estatus</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach ($invitations as $invitation)
+                                                                        <tr>
+                                                                            <td>{{ $invitation->email }}</td>
+                                                                            <td>{{ $invitation->status }}</td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        {{-- </div> --}}
+                                                    </div>
+                                                </div>
                                                 <!-- DataTable ends -->
                                                 <div class="col-12">
                                                     @if($group->user_id == auth()->user()->id)

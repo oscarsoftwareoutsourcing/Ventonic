@@ -33,7 +33,11 @@ class GroupController extends Controller
         $group=Group::find((int)$group_id);
         $userGroup=GroupUser::where('group_id', $group_id)->get();
         $users=User::orderBy('name', 'desc')->get();
-        return view('groups.edit-group', ['group'=> $group, 'userGroup'=>$userGroup, 'users'=>$users ]);
+        $invitations = $group->invitation()->get(['email', 'status']);
+
+        return view('groups.edit-group', [
+            'group' => $group, 'userGroup' => $userGroup, 'users' => $users, 'invitations' => $invitations
+        ]);
     }
 
     public function store(Request $request)
