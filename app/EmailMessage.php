@@ -11,7 +11,7 @@ class EmailMessage extends Model
 
     protected $fillable = [
         'message_id', 'message_nro', 'subject', 'references', 'message_at', 'from', 'to', 'cc', 'bcc', 'reply_to',
-        'sender', 'read', 'folder_type', 'labels', 'body', 'body_text', 'email_setting_id'
+        'sender', 'read', 'folder_type', 'labels', 'body', 'body_text', 'email_setting_id', 'attachments'
     ];
 
     protected $hidden = ['created_at', 'updated_at'];

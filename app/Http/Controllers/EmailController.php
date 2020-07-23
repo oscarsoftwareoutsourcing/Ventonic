@@ -356,8 +356,10 @@ class EmailController extends Controller
             $mailer = app()->makeWith('user.mailer', $configuration);
 
             /** Verifica si hay un archivo adjunto para subirlo al servidor y enviarlo en el correo */
-            if ($request->file('attachmentEmail') && $up->upload($request->file('attachmentEmail'), 'attachments')) {
-                $attach = $up->getStoredPath();
+            if ($request->file('attachmentEmail')) {
+                if ($up->upload($request->file('attachmentEmail'), 'attachments', true)) {
+                    $attach = $up->getStoredPath();
+                }
             }
 
             $mailer->to($toEmails)->send(new UserManageMail($request->subject, $request->message, $attach));
@@ -428,7 +430,7 @@ class EmailController extends Controller
                 'bcc' => (count($bcc) > 0) ? json_encode($bcc) : null,
                 'reply_to' => json_encode($from),
                 'sender' => json_encode($from),
-                'attachments' => ($attach !== null) ? json_encode($attach) : $attach,
+                'attachments' => ($attach !== null) ? json_encode([$attach]) : $attach,
                 'body' => $request->message,
                 'body_text' => $request->message,
                 'email_setting_id' => $emailSetting->id

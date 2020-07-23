@@ -73,7 +73,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body pt-1">
-                                    <div class="form-label-group mt-1">
+                                    <div class="form-label-group mt-3">
                                         <input type="text" id="emailTo" class="form-control" placeholder="Para" name="fname-floating" v-model="sent.to" data-toggle="tooltip" title="dirección de correo electrónico de la persona a la cual enviar" :class="{'has-error': hasErrors('to')}" />
                                         <label for="emailTo">Para</label>
                                         <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('to')">
@@ -621,17 +621,19 @@
                                                     <div class="mail-message">
                                                         <div v-html="selectedEmail.body"></div>
                                                     </div>
-                                                    <div class="mail-attachements d-flex">
+                                                    <div class="mail-attachements d-flex" v-if="selectedEmail.attachments">
                                                         <i class="feather icon-paperclip font-medium-5 mr-50"></i>
                                                         <span>Archivos adjuntos</span>
                                                     </div>
                                                 </div>
-                                                <div class="mail-files py-2">
-                                                    <!--<div class="chip chip-primary">
+                                                <div class="mail-files py-2" v-if="selectedEmail.attachments">
+                                                    <div class="chip chip-primary" v-for="attach in selectedEmail.attachments">
                                                         <div class="chip-body py-50">
-                                                            <span class="chip-text">interdum.docx</span>
+                                                            <span class="chip-text">
+                                                                {{ getAttachName(attach) }}
+                                                            </span>
                                                         </div>
-                          </div>-->
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -744,6 +746,19 @@ export default {
                 });
         },
         /**
+         * Obtiene el nombre del archivo adjunto en un correo
+         *
+         * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+         *
+         * @param     {string}         attachmentPath    Ruta del archivo adjunto
+         *
+         * @return    {string}         Nombre del archivo adjunto
+         */
+        getAttachName(attachmentPath) {
+            var pathSections = attachmentPath.split("/");
+            return pathSections[pathSections.length - 1];
+        },
+        /**
          * Ejecuta la acción para enviar un mensaje de correo electrónico
          *
          * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
@@ -815,6 +830,7 @@ export default {
                 .find("strong")
                 .text("");
             $(".invalid-feedback").hide();
+            $("#attachmentEmail").val('');
         },
         /**
          * Marca el o los mensajes como leídos
