@@ -11,8 +11,25 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
+
+                  <div class="header-ventonic-blue">
+                    <div class="card-ventonic">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-12 ">
+                                    <div class="text-ventonic-white">Oportunidades</div> 
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card card-oportunity">
-                        <div class="card-header"></div>
+                        <div class="header_ventonic-description">
+                            <div class="card_vetonic-description">
+                                <div class="text_vetonic-description">
+                                    Crear Oportunidad
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <form method="POST" action="{{ route('oportunity.save') }}" enctype="multipart/form-data">
                                 @csrf

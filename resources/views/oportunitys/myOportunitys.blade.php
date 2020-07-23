@@ -19,9 +19,9 @@
                             
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                    <div class="text-ventonic">Oportunidades</div> 
+                                <div class="text-ventonic" data-type="{{ Auth::user()->typeuser }}">Oportunidades</div> 
                                 </div>
-                                @if(Auth::user()->type=="E")
+                                @if(Auth::user()->typeuser=="E")
                                     <div class="col-lg-3 col-md-4 col-sm-12 ">
                                         <a class="btn btn-primary" type="button" href="{{ route('oportunity.form') }}">+ Nueva</a>
                                     </div>
@@ -33,7 +33,7 @@
                         <div class="card-body">
                             <div class="row">
                             {{-- BEGIN Filltros --}}
-                                <div class="{{Auth::user()->type=="E" ? 'col-lg-4' : 'col-lg-3' }}">
+                                <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
                                     <div class="form-label-group">
                                         <select class="form-control" id="tipo-empleo" name="etiquetas">
                                             <option value="0">Busqueda por tipo de Empleo</option>
@@ -43,7 +43,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="{{Auth::user()->type=="E" ? 'col-lg-4' : 'col-lg-3' }}">
+                                <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
                                     <div class="form-label-group">
                                         <select class="form-control" id="antiguedad" name="etiquetas">
                                             <option value="0">Busqueda por nivel de antiguedad</option>
@@ -53,7 +53,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="{{Auth::user()->type=="E" ? 'col-lg-4' : 'col-lg-3' }}">
+                                <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
                                     <div class="form-label-group">
                                         <select class="form-control" id="sectores" name="etiquetas">
                                             <option value="0">Busqueda por sector de la empresa</option>
@@ -63,7 +63,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                @if(Auth::user()->type=="V")
+                                @if(Auth::user()->typeuser=="V")
                                 <div class="col-lg-3">
                                     <div class="form-label-group">
                                         <select class="form-control" id="estatus-postulados" name="etiquetas">
@@ -75,7 +75,7 @@
                                 </div>
                                 @endif
 
-                                @if(Auth::user()->type=="E")
+                                @if(Auth::user()->typeuser=="E")
                                 <div class="col-lg-3">
                                     <div class="extra-ventonic">
                                         &nbsp;

@@ -188,6 +188,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return ($this->sellerProfile!==null) ? 'Vendedor' : (($this->companyProfile!==null) ? 'Empresa' : '');
     }
 
+
+
+     public function getTypeuserAttribute()
+    {
+        return ($this->sellerProfile!==null) ? 'V' : (($this->companyProfile!==null) ? 'E' : '');
+    }
+
     /**
      * Evalua y agrega un atributo con los usuarios del tipo vendedor que hayan respondido una encuesta
      *

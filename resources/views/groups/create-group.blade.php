@@ -24,11 +24,20 @@
                         </div>
                     @endif
                         <div class="card-header">
+                            <!--
                             <h6 class="alert alert-primary float-left display-block"><i class="feather icon-users "></i> <span class="text-white">Gestion de grupos de usuarios</span></h6>
+                            -->
+
+                            <div class="text-ventonic">
+                                Gestion de grupos de usuarios
+                            </div>
+
                         </div>
+
+
                         <div class="card-header">
                             <div>
-                                <a type="button" href="{{route('group.form')}}" class="btn btn-outline-primary btn-md text-white"><i class="feather icon-users "></i> Nuevo grupo </a><span>  o puedes <a href="{{route('contact.list')}}" class="text-primary">gestionar los contactos</a> de tu cuenta</span>
+                                <a type="button" href="{{route('group.form')}}" class="btn btn-primary btn-md text-white"><i class="feather icon-users text-white"></i> Nuevo grupo </a><span>  o puedes <a href="{{route('contact.list')}}" class="text-primary">gestionar los contactos</a> de tu cuenta</span>
                             </div>
                         </div>
                         @if($groups!=null)
