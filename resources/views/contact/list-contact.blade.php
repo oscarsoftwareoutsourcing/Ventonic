@@ -21,7 +21,7 @@
                     {{-- BEGIN botones nuevo --}}
                     <div class="card">
                         <div class="card-header">
-                            <h1>Contactos</h1>
+                            <h1 class="text-ventonic">Contactos</h1>
                         </div>
                         <div class="card-content">
                             <div class="card-body">

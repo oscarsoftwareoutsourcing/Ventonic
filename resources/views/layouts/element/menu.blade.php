@@ -33,7 +33,7 @@
             </li>
         
             {{-- Oportunidades --}}
-            @if(\Auth::user()->type=="E")
+            @if(\Auth::user()->type=="E" || isset(auth()->user()->CompanyProfile))
             <li class=" nav-item"><a href="#"><i class="feather icon-star"></i><span class="menu-title">Oportunidades</span></a>
                 <ul class="menu-content">
                     

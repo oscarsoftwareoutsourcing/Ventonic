@@ -1,6 +1,6 @@
 <template>
   <nav id="navControls" class="navbar navbar-expand-lg navbar-dark bg-primary negNavbar">
-    <a class="navbar-brand" href="#">Negociaciones</a>
+    <a class="text_ventonic-title" href="#">Negociaciones</a>
 
     <button
       class="navbar-toggler actionsToggler collapsed"
@@ -38,13 +38,13 @@ export default {
   methods: {
     ...mapMutations({
       toggleForm: "TOGGLE_FORM",
-      toggleLists: "TOGGLE_LISTS"
+      toggleLists: "TOGGLE_LISTS",
     }),
     newNegotiation() {
       this.toggleLists();
       this.toggleForm();
-    }
-  }
+    },
+  },
 };
 </script>
 
