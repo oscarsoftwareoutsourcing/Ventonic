@@ -31,6 +31,11 @@
     </div>
 </div>
 @endsection
+
+@section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+@endsection
+
 @section('extra-js')
 <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
 @endsection
