@@ -15,7 +15,8 @@ Route::get('/', function () {
     if (auth()->check() && auth()->user()->type === "E") {
         // return view('search-result');
         //return view('inicio-dashboard');
-        return view('dashboard.index');
+        // return view('dashboard.index');
+        return redirect('/inicio');
     }
     return view('welcome');
 });
@@ -55,6 +56,7 @@ Route::get('/inicio', 'HomeController@index')->name('home')->middleware('verifie
 Route::get('buscar-vendedores', 'HomeController@searchSeller')->name('search.init')->middleware('verified');
 
 Route::post('filtro', 'HomeController@filterSearch')->name('filter.search')->middleware('verified');
+Route::post('filterDashbaord', 'HomeController@filterDashbaord')->name('filter.dashboard')->middleware('verified');
 Route::resource('perfil', 'ProfileController')->middleware('verified');
 //Route::resource('questions', 'QuestionController')->middleware('verified');
 Route::get('get-users', 'HomeController@getUsers')->name('get-users')->middleware('verified');
