@@ -28,7 +28,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem3">
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('this week')">Esta semana</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('this month')">Este mes</a>
-                        <a class="dropdown-item" href="#" onclick="filterDashbaord('this year')">Este Año</a>
+                        <a class="dropdown-item" href="#" onclick="filterDashbaord('this year')">Este año</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('7 days ago')">Últimos 7 Días</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('30 days ago')">Últimos 30 Días</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('90 days ago')">Últimos 90 Días</a>
@@ -68,7 +68,7 @@
                                         </div>
                                     </div>
                                     <h2 class="text-bold-700 mt-1 mb-25 new_contacts">{{$contacts_data['all']['total']}}</h2>
-                                    <p class="mb-0">Nuevos contactos <span class="selected_time">en los últimos 7 días</span></p>
+                                    <p class="mb-0">Nuevos Contactos <span class="selected_time">en los últimos 7 días</span></p>
                                 </div>
                                 <div class="card-content">
                                     <div id="subscribe_gain_chart"></div>
@@ -122,7 +122,7 @@
                                     <hr />
                                     <div class="row avg-sessions pt-50">
                                         <div class="col-6">
-                                            <p class="mb-0">Facturación: <span id="contact_billing">{{$negs['closed']['amount']}}</span>€</p>
+                                            <p class="mb-0">Facturación: €<span id="contact_billing"> {{$negs['closed']['amount']}}</span></p>
                                             <div class="progress progress-bar-primary mt-25">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width:50%"></div>
                                             </div>
@@ -134,15 +134,15 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <p class="mb-0">Clientes Perdidos: <span id="contact_lost">{{$contacts_data['lost']['total']}}</span></p>
-                                            <div class="progress progress-bar-danger mt-25">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="70" aria-valuemax="100" style="width:70%"></div>
+                                            <p class="mb-0">En negociación: €<span id="contact_negotiation"> {{$negs['in_process']['amount']}}</span></p>
+                                            <div class="progress progress-bar-success mt-25">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="90" aria-valuemax="100" style="width:90%"></div>
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <p class="mb-0">Negociación: <span id="contact_negotiation">{{$negs['in_process']['amount']}}</span>€</p>
-                                            <div class="progress progress-bar-success mt-25">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="90" aria-valuemax="100" style="width:90%"></div>
+                                            <p class="mb-0">Clientes Perdidos: <span id="contact_lost">{{$contacts_data['lost']['total']}}</span></p>
+                                            <div class="progress progress-bar-danger mt-25">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="70" aria-valuemax="100" style="width:70%"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -834,7 +834,7 @@
                 show: !1
             },
             series: [{
-                name: "Ventas",
+                name: "Exitosas",
                 // data: [90, 50, 86, 40, 100, 20]
                 data: []
             }, {
