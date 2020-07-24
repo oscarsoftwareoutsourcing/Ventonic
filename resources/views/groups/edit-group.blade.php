@@ -52,8 +52,13 @@
                                                     <div class="form-group">
                                                         <label for="first-name-icon">Nombre del grupo</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="text" id="first-name-icon" value="{{$group->name}}" class="form-control" name="name" placeholder="" {{$group->user_id != auth()->user()->id ? 'disabled' : ''}}>
-                                                            <input type="text" id="first-name-icon" value="{{$group->id}}" class="form-control" name="group_id" placeholder="" hidden>
+                                                            <input type="text" id="first-name-icon"
+                                                                   value="{{$group->name}}" class="form-control"
+                                                                   name="name" placeholder=""
+                                                                   {{$group->user_id != auth()->user()->id ? 'disabled' : ''}}>
+                                                            <input type="text" id="first-name-icon"
+                                                                   value="{{$group->id}}" class="form-control"
+                                                                   name="group_id" placeholder="" hidden>
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-user"></i>
                                                             </div>
