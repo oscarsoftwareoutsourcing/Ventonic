@@ -88,7 +88,8 @@
                                             <i class="feather icon-package text-warning font-medium-5"></i>
                                         </div>
                                     </div>
-                                    <h2 class="text-bold-700 mt-1 mb-25" id="total_billed">{{$negs['won']['amount']}}</h2>
+                                    <h2 class="text-bold-700 mt-1 mb-25" id="total_billed">@money($negs['won']['amount'])€</h2>
+                                    
                                     <p class="mb-0">Facturacion Total</p>
                                 </div>
                                 <div class="card-content">
@@ -122,7 +123,7 @@
                                     <hr />
                                     <div class="row avg-sessions pt-50">
                                         <div class="col-6">
-                                            <p class="mb-0">Facturación: €<span id="contact_billing"> {{$negs['closed']['amount']}}</span></p>
+                                            <p class="mb-0">Facturación: <span id="contact_billing">@money($negs['closed']['amount'])€</span></p>
                                             <div class="progress progress-bar-primary mt-25">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width:50%"></div>
                                             </div>
@@ -134,7 +135,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <p class="mb-0">En negociación: €<span id="contact_negotiation"> {{$negs['in_process']['amount']}}</span></p>
+                                            <p class="mb-0">En negociación: <span id="contact_negotiation"> @money($negs['in_process']['amount'])€</span></p>
                                             <div class="progress progress-bar-success mt-25">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="90" aria-valuemax="100" style="width:90%"></div>
                                             </div>
@@ -193,41 +194,42 @@
                     <div class="card-header d-flex justify-content-between pb-0">
                         <h4 class="card-title">Ofertas</h4>
                     </div>
-                </div>
-                <div class="card-content">
-                    <div class="card-body py-0">
-                        <div id="offers_chart"></div>
+                
+                    <div class="card-content">
+                        <div class="card-body py-0">
+                            <div id="offers_chart"></div>
+                        </div>
+                        <ul class="list-group list-group-flush customer-info">
+                            <li class="list-group-item d-flex justify-content-between ">
+                                <div class="series-info">
+                                    <i class="fa fa-circle font-small-3 text-primary"></i>
+                                    <span class="text-bold-600">Ofertas de Negociación</span>
+                                </div>
+                                <div class="product-result">
+                                    <span id="offer_neg">{{$negs['in_process']['total']}}</span>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between ">
+                                <div class="series-info">
+                                    <i class="fa fa-circle font-small-3 text-warning"></i>
+                                    <span class="text-bold-600">Ofertas Aceptadas</span>
+                                </div>
+                                <div class="product-result">
+                                    <span id="offer_won">{{$negs['won']['total']}}</span>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between ">
+                                <div class="series-info">
+                                    <i class="fa fa-circle font-small-3 text-danger"></i>
+                                    <span class="text-bold-600">Ofertas Perdidas</span>
+                                </div>
+                                <div class="product-result">
+                                    <span id="offer_lost">{{$negs['lost']['total']}}</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <ul class="list-group list-group-flush customer-info">
-                        <li class="list-group-item d-flex justify-content-between ">
-                            <div class="series-info">
-                                <i class="fa fa-circle font-small-3 text-primary"></i>
-                                <span class="text-bold-600">Ofertas de Negociación</span>
-                            </div>
-                            <div class="product-result">
-                                <span id="offer_neg">{{$negs['in_process']['total']}}</span>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between ">
-                            <div class="series-info">
-                                <i class="fa fa-circle font-small-3 text-warning"></i>
-                                <span class="text-bold-600">Ofertas Aceptadas</span>
-                            </div>
-                            <div class="product-result">
-                                <span id="offer_won">{{$negs['won']['total']}}</span>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between ">
-                            <div class="series-info">
-                                <i class="fa fa-circle font-small-3 text-danger"></i>
-                                <span class="text-bold-600">Ofertas Perdidas</span>
-                            </div>
-                            <div class="product-result">
-                                <span id="offer_lost">{{$negs['lost']['total']}}</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                    </div>
             </div>
             <div class="col-lg-4 col-12">
                 <div class="card">
@@ -487,6 +489,11 @@
         new ApexCharts(document.querySelector("#offers_chart"), offers).render();
     });
 
+    function moneyFormat(number) {
+        let num = parseFloat(number).toLocaleString('es-ES')
+        return num;
+    }
+
     function filterDashbaord(date) {
         $.ajax({
             url: url + '/filterDashbaord',
@@ -506,12 +513,14 @@
                     subscribe_gain.series[0].data.push(response.contacts_data.all.contacts[i].total);
                 }
                 new ApexCharts(document.querySelector("#subscribe_gain_chart"), subscribe_gain).render();
-
-                $('#contact_billing').html(response.negs.closed.amount.toFixed(2));
+                
+                let contactBilling = moneyFormat(response.negs.closed.amount)+'€';
+                let contactNegotiation = moneyFormat(response.negs.in_process.amount)+'€';
+                $('#contact_billing').html(contactBilling);
                 $('#contacts_percent').html(response.contacts_data.all.percent);
                 $('#contact_clients').html(response.contacts_data.new.total);
                 $('#contact_lost').html(response.contacts_data.lost.total);
-                $('#contact_negotiation').html(response.negs.in_process.amount.toFixed(2));
+                $('#contact_negotiation').html(contactNegotiation);
 
                 $("#avg_session_chart").html('');
                 avg_session = avg_session_chart();
@@ -520,8 +529,8 @@
                 }
                 new ApexCharts(document.querySelector("#avg_session_chart"), avg_session).render();
 
-
-                $('#total_billed').html(response.negs.won.amount.toFixed(2));
+                let totalBilled = moneyFormat(response.negs.won.amount)+'€';
+                $('#total_billed').html(totalBilled);
                 $("#orders_received_chart").html('');
                 orders_received = orders_received_chart();
                 for (let i = 0; i < response.negs.won.negs.length; i++) {
