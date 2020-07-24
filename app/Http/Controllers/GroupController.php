@@ -11,6 +11,7 @@ use App\Notifications\NewInvitationGroup;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NuevaInvitacionRecibida;
 use App\Helpers\FormatTime;
+use App\Rules\InvitationRule;
 
 class GroupController extends Controller
 {
@@ -56,6 +57,9 @@ class GroupController extends Controller
         $time=FormatTime::LongTimeFilter($grupo->created_at);
 
         if ($grupo && $request->input('email')) {
+            $this->validate($request, [
+                'email' => [new InvitationRule($grupo->id)]
+            ]);
             $email=$request->input('email');
             $name_group=$grupo->name;
             $group_id=$grupo->id;
@@ -103,6 +107,9 @@ class GroupController extends Controller
         $grupo->update();
 
         if ($grupo && $request->input('email')) {
+            $this->validate($request, [
+                'email' => [new InvitationRule($grupo->id)]
+            ]);
             $email=$request->input('email');
             $name_group=$grupo->name;
             $group_id=$grupo->id;
@@ -113,6 +120,7 @@ class GroupController extends Controller
                 20
             );
             $url=$codigo_confirmacion;
+            $time=FormatTime::LongTimeFilter($grupo->created_at);
 
             $invitation = Invitation::updateOrCreate(
                 ['group_id' =>  $group_id,
@@ -127,7 +135,7 @@ class GroupController extends Controller
                 return redirect()->route('group.show')->with(['message'=>'Invitación enviada exitosamente']);
             } else {
                 $user_notify=User::find($user_id);
-                $user_notify->notify(new NewInvitationGroup($name_group, $url));
+                $user_notify->notify(new NewInvitationGroup($name_group, $url, $time, auth()->user()));
                 return redirect()->route('group.show')->with(['message'=>'Invitación enviada exitosamente']);
             }
         } else {

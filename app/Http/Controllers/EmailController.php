@@ -13,6 +13,7 @@ use Swift_Mailer;
 use App\EmailSetting;
 use App\EmailMessage;
 use App\Mail\UserManageMail;
+use App\Repositories\UploadRepository;
 use Carbon\Carbon;
 
 class EmailController extends Controller
@@ -315,7 +316,7 @@ class EmailController extends Controller
      *
      * @return    JsonResponse         Devuelve un objeto con el resultado de la petición
      */
-    public function sentMessage(Request $request)
+    public function sentMessage(Request $request, UploadRepository $up)
     {
         $this->validate($request, [
             'to' => ['required'],
@@ -351,8 +352,17 @@ class EmailController extends Controller
                 'from_name'    => $user->name,
             ];
 
+            $attach = null;
             $mailer = app()->makeWith('user.mailer', $configuration);
-            $mailer->to($toEmails)->send(new UserManageMail($request->subject, $request->message));
+
+            /** Verifica si hay un archivo adjunto para subirlo al servidor y enviarlo en el correo */
+            if ($request->file('attachmentEmail')) {
+                if ($up->upload($request->file('attachmentEmail'), 'attachments', true)) {
+                    $attach = $up->getStoredPath();
+                }
+            }
+
+            $mailer->to($toEmails)->send(new UserManageMail($request->subject, $request->message, $attach));
 
             /** @var object Objeto con el último mensaje enviado si existe */
             $messagesSend = EmailMessage::where([
@@ -420,7 +430,7 @@ class EmailController extends Controller
                 'bcc' => (count($bcc) > 0) ? json_encode($bcc) : null,
                 'reply_to' => json_encode($from),
                 'sender' => json_encode($from),
-                'attachments' => null,
+                'attachments' => ($attach !== null) ? json_encode([$attach]) : $attach,
                 'body' => $request->message,
                 'body_text' => $request->message,
                 'email_setting_id' => $emailSetting->id

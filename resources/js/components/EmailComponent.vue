@@ -143,7 +143,7 @@
                   </button>
                 </div>
                 <div class="modal-body pt-1">
-                  <div class="form-label-group mt-1">
+                  <div class="form-label-group mt-3">
                     <input
                       type="text"
                       id="emailTo"
@@ -227,13 +227,18 @@
                       <strong>{{ errors.message }}</strong>
                     </span>
                   </div>
-                  <!--<div class="form-group mt-2">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="emailAttach"
-                                                   data-toggle="tooltip" title="archivo adjunto"/>
-                                            <label class="custom-file-label" for="emailAttach">Archivo adjunto</label>
-                                        </div>
-                  </div>-->
+                  <div class="form-group mt-2">
+                    <div class="custom-file">
+                      <input
+                        type="file"
+                        class="custom-file-input"
+                        id="emailAttach"
+                        data-toggle="tooltip"
+                        title="archivo adjunto"
+                      />
+                      <label class="custom-file-label" for="emailAttach">Archivo adjunto</label>
+                    </div>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <input
@@ -277,7 +282,7 @@
               <div class="email-app-list-wrapper">
                 <div class="email-app-list">
                   <div class="app-fixed-search">
-                    <div class="sidebar-toggle d-block d-lg-none" v-on:click="openContentFolder">
+                    <div class="sidebar-toggle d-block d-lg-none" @click="openContentFolder">
                       <i class="feather icon-menu"></i>
                     </div>
                     <fieldset class="form-group position-relative has-icon-left m-0">
@@ -358,21 +363,18 @@
                           </div>
                         </li>
                         <li class="list-inline-item">
-                          <div class="dropdown labelemail">
+                          <div class="dropdown">
                             <a
                               class="dropdown-toggle"
                               id="tag"
                               data-toggle="dropdown"
                               aria-haspopup="true"
                               aria-expanded="false"
-                              @click="openLabels"
+                              href="javascript:void(0)"
                             >
                               <i class="feather icon-tag"></i>
                             </a>
-                            <div
-                              class="dropdown-menu dropdown-menu-right open-labels"
-                              aria-labelledby="tag"
-                            >
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="tag">
                               <a href="#" class="dropdown-item font-medium-1">
                                 <span class="mr-1 bullet bullet-success bullet-sm"></span>
                                 Personal
@@ -923,17 +925,20 @@
                           <div class="mail-message">
                             <div v-html="selectedEmail.body"></div>
                           </div>
-                          <div class="mail-attachements d-flex">
+                          <div class="mail-attachements d-flex" v-if="selectedEmail.attachments">
                             <i class="feather icon-paperclip font-medium-5 mr-50"></i>
                             <span>Archivos adjuntos</span>
                           </div>
                         </div>
-                        <div class="mail-files py-2">
-                          <!--<div class="chip chip-primary">
-                                                        <div class="chip-body py-50">
-                                                            <span class="chip-text">interdum.docx</span>
-                                                        </div>
-                          </div>-->
+                        <div class="mail-files py-2" v-if="selectedEmail.attachments">
+                          <div
+                            class="chip chip-primary"
+                            v-for="attach in selectedEmail.attachments"
+                          >
+                            <div class="chip-body py-50">
+                              <span class="chip-text">{{ getAttachName(attach) }}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -982,7 +987,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import VueLoading from "vuejs-loading-plugin";
 Vue.use(VueLoading, {
@@ -1058,6 +1062,19 @@ export default {
         });
     },
     /**
+     * Obtiene el nombre del archivo adjunto en un correo
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     {string}         attachmentPath    Ruta del archivo adjunto
+     *
+     * @return    {string}         Nombre del archivo adjunto
+     */
+    getAttachName(attachmentPath) {
+      var pathSections = attachmentPath.split("/");
+      return pathSections[pathSections.length - 1];
+    },
+    /**
      * Ejecuta la acción para enviar un mensaje de correo electrónico
      *
      * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
@@ -1065,13 +1082,22 @@ export default {
     sentMessage() {
       const vm = this;
       vm.$loading(true);
+
+      var formData = new FormData();
+      var attachment = document.querySelector(`#emailAttach`);
+
+      formData.append("attachmentEmail", attachment.files[0]);
+      formData.append("to", vm.sent.to);
+      formData.append("cc", vm.sent.cc);
+      formData.append("bcc", vm.sent.bcc);
+      formData.append("subject", vm.sent.subject);
+      formData.append("message", vm.sent.message);
+
       axios
-        .post("/email/sent", {
-          to: vm.sent.to,
-          cc: vm.sent.cc,
-          bcc: vm.sent.bcc,
-          subject: vm.sent.subject,
-          message: vm.sent.message,
+        .post("/email/sent", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
         .then((response) => {
           if (response.data.result) {
@@ -1121,6 +1147,7 @@ export default {
       $("input, select, textarea").removeClass("has-error");
       $(".invalid-feedback").find("strong").text("");
       $(".invalid-feedback").hide();
+      $("#attachmentEmail").val("");
     },
     /**
      * Marca el o los mensajes como leídos
@@ -1235,9 +1262,7 @@ export default {
     },
 
     openContentFolder: function (e) {
-      //if ($(window).width() < 992) {
       console.log("inicia conversacion");
-      // }
       e.stopPropagation();
       $(".app-content .sidebar-left").toggleClass("show");
       $(".app-content .app-content-overlay").addClass("show");

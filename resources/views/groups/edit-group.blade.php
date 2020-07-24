@@ -14,8 +14,8 @@
                     <div class="card-ventonic">
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                    <div class="text-ventonic-white">Grupo de Usuarios</div> 
-                                </div> 
+                                    <div class="text-ventonic-white">Grupo de Usuarios</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                         </div>
-                            
+
                             <div class="card-content">
                                 <div class="card-body">
                                 @if(session('message'))
@@ -52,8 +52,13 @@
                                                     <div class="form-group">
                                                         <label for="first-name-icon">Nombre del grupo</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="text" id="first-name-icon" value="{{$group->name}}" class="form-control" name="name" placeholder="" {{$group->user_id != auth()->user()->id ? 'disabled' : ''}}>
-                                                            <input type="text" id="first-name-icon" value="{{$group->id}}" class="form-control" name="group_id" placeholder="" hidden>
+                                                            <input type="text" id="first-name-icon"
+                                                                   value="{{$group->name}}" class="form-control"
+                                                                   name="name" placeholder=""
+                                                                   {{$group->user_id != auth()->user()->id ? 'disabled' : ''}}>
+                                                            <input type="text" id="first-name-icon"
+                                                                   value="{{$group->id}}" class="form-control"
+                                                                   name="group_id" placeholder="" hidden>
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-user"></i>
                                                             </div>
@@ -76,11 +81,16 @@
                                                             <label for="first-name-icon">Invitar usuarios</label>
                                                             <div class="position-relative has-icon-left">
                                                                 {{-- <input type="email" id="first-name-icon" class="form-control" name="email[]" placeholder="Nombre del grupo"> --}}
-                                                                <input type="email" id="email-icon" class="form-control" name="email" placeholder="Email">
+                                                                <input type="email" id="email-icon" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}">
                                                                 <div class="form-control-position">
                                                                     <i class="feather icon-mail"></i>
                                                                 </div>
                                                             </div>
+                                                            @error('email')
+                                                                <span class="invalid-feedback" role="alert" style="display:block">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
                                                         </div>
                                                     </div>
                                                 @endif
