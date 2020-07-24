@@ -8,10 +8,12 @@ use App\User;
 use App\GroupUser;
 use App\Invitation;
 use App\Notifications\NewInvitationGroup;
+use App\Notifications\ExitGroup;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NuevaInvitacionRecibida;
 use App\Helpers\FormatTime;
 use App\Rules\InvitationRule;
+use Carbon\Carbon;
 
 class GroupController extends Controller
 {
@@ -168,7 +170,8 @@ class GroupController extends Controller
             []
         );
         if ($newMenber) {
-            return redirect()->route('contact.list')->with(['message'=>'Grupo agregado exitosamente']);
+            //return redirect()->route('contact.list')->with(['message'=>'Grupo agregado exitosamente']);
+            return redirect()->route('group.show')->with(['message'=>'Grupo agregado exitosamente']);
         }
     }
 
@@ -199,7 +202,23 @@ class GroupController extends Controller
 
         if ($groupUser) {
             $groupUser->delete();
-            session()->flash('message', 'Usuario eliminado del grupo');
+
+            if ($request->user_id === auth()->user()->id) {
+                /** Usuario que se esta dando de baja de un grupo */
+                $invitation=Invitation::where([
+                    'group_id' => $groupUser->group_id, 'email' => auth()->user()->email
+                ])->first();
+                if ($invitation) {
+                    $invitation->delete();
+                }
+                $time=FormatTime::LongTimeFilter(Carbon::now());
+                $groupUser->group->user->notify(
+                    new ExitGroup($groupUser->group->name, auth()->user()->name, route('group.show'), $time)
+                );
+                session()->flash('message', 'Se ha dado de baja en el grupo ' . $groupUser->group->name);
+            } else {
+                session()->flash('message', 'Usuario eliminado del grupo');
+            }
         } else {
             session()->flash('message', 'El usuario no pudo ser eliminado del grupo');
         }
