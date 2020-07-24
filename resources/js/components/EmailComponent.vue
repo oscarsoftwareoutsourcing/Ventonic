@@ -19,7 +19,7 @@
                   data-target="#composeForm"
                   id="composeEmail"
                 >
-                  <i class="feather icon-edit"></i> Componer
+                  <i class="feather icon-edit"></i> Nuevo
                 </button>
               </div>
               <div class="sidebar-menu-list" style="overflow:auto">
