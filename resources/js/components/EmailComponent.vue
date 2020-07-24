@@ -7,7 +7,7 @@
       <div class="sidebar-left">
         <div class="sidebar">
           <div class="sidebar-content email-app-sidebar d-flex">
-            <span class="sidebar-close-icon">
+            <span class="sidebar-close-icon" @click="closeContentFolder">
               <i class="feather icon-x"></i>
             </span>
             <div class="email-app-menu">
@@ -271,13 +271,13 @@
         <div class="content-wrapper">
           <div class="content-header row"></div>
           <div class="content-body">
-            <div class="app-content-overlay"></div>
+            <div class="app-content-overlay" @click="closeContentFolder"></div>
             <div class="email-app-area">
               <!-- Email list Area -->
               <div class="email-app-list-wrapper">
                 <div class="email-app-list">
                   <div class="app-fixed-search">
-                    <div class="sidebar-toggle d-block d-lg-none">
+                    <div class="sidebar-toggle d-block d-lg-none" v-on:click="openContentFolder">
                       <i class="feather icon-menu"></i>
                     </div>
                     <fieldset class="form-group position-relative has-icon-left m-0">
@@ -358,18 +358,21 @@
                           </div>
                         </li>
                         <li class="list-inline-item">
-                          <div class="dropdown">
+                          <div class="dropdown labelemail">
                             <a
                               class="dropdown-toggle"
                               id="tag"
                               data-toggle="dropdown"
                               aria-haspopup="true"
                               aria-expanded="false"
-                              href="javascript:void(0)"
+                              @click="openLabels"
                             >
                               <i class="feather icon-tag"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="tag">
+                            <div
+                              class="dropdown-menu dropdown-menu-right open-labels"
+                              aria-labelledby="tag"
+                            >
                               <a href="#" class="dropdown-item font-medium-1">
                                 <span class="mr-1 bullet bullet-success bullet-sm"></span>
                                 Personal
@@ -986,7 +989,7 @@ Vue.use(VueLoading, {
   dark: true,
   text: "Procesando, por favor espere",
   loading: false,
-  background: "rgba(16, 22, 58, .5)"
+  background: "rgba(16, 22, 58, .5)",
 });
 export default {
   data() {
@@ -1004,20 +1007,20 @@ export default {
         cc: "",
         bcc: "",
         subject: "",
-        message: ""
+        message: "",
       },
       selectedMessages: [],
       trash: [],
       favorites: [],
-      messages_send: []
+      messages_send: [],
     };
   },
   props: {
     download_messages: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   watch: {},
   methods: {
@@ -1038,7 +1041,7 @@ export default {
       vm.$loading(true);
       axios
         .get(`/email/messages${download === 1 ? "/1" : ""}`)
-        .then(response => {
+        .then((response) => {
           if (response.data.result) {
             vm.emails = response.data.emails_list;
             vm.trash = response.data.trashed;
@@ -1049,7 +1052,7 @@ export default {
           }
           vm.$loading(false);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
           vm.$loading(false);
         });
@@ -1068,20 +1071,18 @@ export default {
           cc: vm.sent.cc,
           bcc: vm.sent.bcc,
           subject: vm.sent.subject,
-          message: vm.sent.message
+          message: vm.sent.message,
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.result) {
             vm.$loading(false);
-            $("#composeForm")
-              .find(".close")
-              .click();
+            $("#composeForm").find(".close").click();
             toastr.success("Correo enviado", "Éxito!");
             vm.resetMessage();
             vm.messages_send = response.data.messages_send;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           vm.errors = {};
 
           if (typeof error.response != "undefined") {
@@ -1113,14 +1114,12 @@ export default {
         cc: "",
         bcc: "",
         subject: "",
-        message: ""
+        message: "",
       };
 
       /** remueve y oculta cualquier mensaje de error del formulario */
       $("input, select, textarea").removeClass("has-error");
-      $(".invalid-feedback")
-        .find("strong")
-        .text("");
+      $(".invalid-feedback").find("strong").text("");
       $(".invalid-feedback").hide();
     },
     /**
@@ -1154,15 +1153,15 @@ export default {
       axios
         .post("/email/messages/delete", {
           messages:
-            vm.selectedMessages.length > 0 ? vm.selectedMessages : [message_id]
+            vm.selectedMessages.length > 0 ? vm.selectedMessages : [message_id],
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.result) {
             vm.getEmails();
             toastr.success("Mensaje(s) eliminado(s)", "Éxito!");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           toastr.danger(
             "No ha sido posible eliminar el(los) mensaje(s). Intente de nuevo mas tarde"
           );
@@ -1180,9 +1179,9 @@ export default {
       const vm = this;
       axios
         .post("/email/set-favorite", {
-          message_id: message_id
+          message_id: message_id,
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.result) {
             //$(`#${message_id}`).attr('style', 'color:orange');
             vm.favorites.push(message_id);
@@ -1190,7 +1189,7 @@ export default {
             toastr.warning(response.data.message, "Alerta!");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
     },
@@ -1220,20 +1219,38 @@ export default {
       vm.sent.message = vm.selectedEmail.body_text;
       vm.titleSentMessage = "Reenviar Mensaje";
     },
-    openContent: function(email = null) {
+    openContent: function (email = null) {
       const vm = this;
       if (email) {
         vm.selectedEmail = email;
       }
       $(".app-content .email-app-details").toggleClass("show");
     },
-    closeContent: function(e) {
+    closeContent: function (e) {
       e.stopPropagation();
       $(".app-content .email-app-details").removeClass("show");
       this.resetMessage();
       this.selectedEmail = {};
       this.titleSentMessage = "Nuevo Mensaje";
-    }
+    },
+
+    openContentFolder: function (e) {
+      //if ($(window).width() < 992) {
+      console.log("inicia conversacion");
+      // }
+      e.stopPropagation();
+      $(".app-content .sidebar-left").toggleClass("show");
+      $(".app-content .app-content-overlay").addClass("show");
+    },
+
+    closeContentFolder: function () {
+      $(".sidebar-left").removeClass("show");
+      $(".app-content-overlay").removeClass("show");
+    },
+
+    openLabels: function () {
+      $(".openLabels").toggleClass("show");
+    },
   },
   mounted() {
     const vm = this;
@@ -1243,18 +1260,18 @@ export default {
 
     $(".selectAll")
       .find("input[type=checkbox]")
-      .on("click", function() {
+      .on("click", function () {
         if (vm.selectedMessages.length > 0) {
           vm.selectedMessages = [];
         } else {
-          $(".checkboxEmail").each(function() {
+          $(".checkboxEmail").each(function () {
             vm.selectedMessages.push($(this).val());
           });
         }
       });
-    $("#composeEmail").on("click", function() {
+    $("#composeEmail").on("click", function () {
       vm.titleSentMessage = "Nuevo Mensaje";
     });
-  }
+  },
 };
 </script>

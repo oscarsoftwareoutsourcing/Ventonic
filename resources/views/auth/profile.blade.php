@@ -11,8 +11,25 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-12">
+                    <div class="header-ventonic-blue">
+                    <div class="card-ventonic">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-12 ">
+                                    <div class="text-ventonic-white">Perfil</div> 
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card">
-                        <div class="card-header">Perfil</div>
+                         <div class="header_ventonic-description">
+                            <div class="card_vetonic-description">
+                                <div class="text_vetonic-description">
+                                    Actualizar Perfil
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="card-body">
                             @if (session('status'))
                                 <div class="alert alert-success" role="alert">
