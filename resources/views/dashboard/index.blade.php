@@ -178,7 +178,7 @@
                                         </div>
                                         <div class="text-center">
                                             <p class="mb-50">Tiempo Conversion</p>
-                                            <span class="font-large-1" id="neg_cov_time">1d</span>
+                                            <span class="font-large-1" id="neg_cov_time">{{$negs['convDays']}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -543,7 +543,7 @@
                 $('#negotiation').html(response.negs.all.total);
                 $('#neg_won').html(response.negs.won.total);
                 $('#neg_lost').html(response.negs.lost.total);
-                // $('#neg_cov_time').html(response.negs.con_time);
+                $('#neg_cov_time').html(response.negs.convDays);
 
                 $("#support_tracker_chart").html('');
                 let conversion_ratio = (response.negs.won.total / response.negs.all.total) * 100;

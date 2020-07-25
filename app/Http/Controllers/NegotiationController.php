@@ -88,6 +88,7 @@ class NegotiationController extends Controller
                 $negotiation->neg_status_id = $request->neg_status_id;
                 if($request->neg_status_id === 1) {
                     $negotiation->neg_process_id = 6;
+                    $negotiation->won_status_date = Carbon::now();
                 } else {
                     $negotiation->neg_process_id = $request->neg_process_id;
                 }
