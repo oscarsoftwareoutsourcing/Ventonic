@@ -130,11 +130,9 @@ class ChatController extends Controller
             foreach ($chatRoomUsers as $chatRoomUser) {
                 if ($chatRoomUser->user_id !== auth()->user()->id) {
                     $user = User::find($chatRoomUser->user_id);
-                    if ($user->status === 0) {
-                        $user->notify(
-                            new ChatRoomNotify(auth()->user(), $request->message, session('chat_room_id'), $time)
-                        );
-                    }
+                    $user->notify(
+                        new ChatRoomNotify(auth()->user(), $request->message, session('chat_room_id'), $time)
+                    );
                 }
             }
         }
@@ -311,7 +309,7 @@ class ChatController extends Controller
         return $chatOrigins;
     }
 
-     public function destroyChatRoom($id)
+    public function destroyChatRoom($id)
     {
         $chatRoom = ChatRoom::find($id);
         $chatRoom->delete();

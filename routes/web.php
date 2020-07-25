@@ -151,8 +151,15 @@ Route::get('grupos/form', 'GroupController@create')->name('group.form')->middlew
 Route::get('grupos/editar/{group_id}', 'GroupController@edit')->name('group.edit')->middleware('verified');
 Route::post('grupos/saved', 'GroupController@store')->name('group.saved')->middleware('verified');
 Route::post('grupos/update', 'GroupController@update')->name('group.update')->middleware('verified');
+Route::post(
+    'grupos/destroy',
+    'GroupController@destroy'
+)->name('group.destroy')->middleware('verified');
 
-Route::get('grupos/confirmar/{invitacion_id}', 'GroupController@confirmAceptInvitation')->name('group.confirmInvitation')->middleware('verified');
+Route::get(
+    'grupos/confirmar/{invitacion_id}',
+    'GroupController@confirmAceptInvitation'
+)->name('group.confirmInvitation')->middleware('verified');
 Route::get('aceptar/{id_group}/{invitacion_id}', 'GroupController@aceptInvitation')->name('groups.confirm')->middleware('verified');
 Route::get('rechazar/{id_group}/{invitacion_id}', 'GroupController@cancelInvitation')->name('groups.cancel')->middleware('verified');
 
@@ -162,7 +169,7 @@ $router->group(['middleware' => ['verified']], function() use ($router) {
 
     // Notes module
     $router->get('todos', 'TodoController@index')->name('todos');
-    
+
     // Email module
     $router->get('email', 'EmailController@index')->name('email');
 

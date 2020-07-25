@@ -9,10 +9,25 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Crear grupo de usuarios</h4>
+                    <div class="header-ventonic-blue">
+                    <div class="card-ventonic">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-12 ">
+                                    <div class="text-ventonic-white">Grupo de Usuarios</div> 
+                                </div> 
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="header_ventonic-description">
+                            <div class="card_vetonic-description">
+                                <div class="text_vetonic-description">
+                                   Crear grupo de usuarios
+                                </div>
+                            </div>
+                        </div>
+                       
                         <div class="card-content">
                             <div class="card-body">
                                 <form action="{{route('group.saved')}}" class="form form-vertical" method="POST">
@@ -68,6 +83,11 @@
     </div>
 </div>
 @endsection
+
+@section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+@endsection
+
 @section('extra-js')
 <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
 @endsection

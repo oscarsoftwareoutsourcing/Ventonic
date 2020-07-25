@@ -43,8 +43,9 @@
 @endsection
 @section('extra-js')
     <script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}"></script>
-    <!--<script src="{{ asset('vendors/js/editors/quill/katex.min.js') }}"></script>
+    <script src="{{ asset('js/scripts/pages/app-email.js') }}"></script>
+    <!-- 
+    <script src="{{ asset('vendors/js/editors/quill/katex.min.js') }}"></script>
     <script src="{{ asset('vendors/js/editors/quill/highlight.min.js') }}"></script>
-    <script src="{{ asset('vendors/js/editors/quill/quill.js') }}"></script>
-    <script src="{{ asset('js/scripts/pages/app-email.js') }}"></script>-->
+    <script src="{{ asset('vendors/js/editors/quill/quill.js') }}"></script> -->
 @endsection

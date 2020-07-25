@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class NewInvitationGroup extends Notification
 {
@@ -18,10 +19,15 @@ class NewInvitationGroup extends Notification
      */
     public $name_group;
     public $url;
-    public function __construct($name_group, $url)
+    public $fromUser;
+    public $time;
+
+    public function __construct($name_group, $url, $time, $fromUser = null)
     {
         $this->name_group =$name_group;
-        $this->url =$url;
+        $this->url = route('group.confirmInvitation', ['invitacion_id' => $url]);
+        $this->fromUser = $fromUser;
+        $this->time = $time;
     }
 
     /**
@@ -32,7 +38,7 @@ class NewInvitationGroup extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -63,5 +69,39 @@ class NewInvitationGroup extends Notification
         return [
             //
         ];
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'icon' => 'icon-users',
+            'title' => 'Nuevo mensaje de ' . $this->fromUser->name,
+            'link' => $this->url,
+            'text'=>  'Invitación a ser parte del grupo ' . $this->name_group,
+            'time'=> $this->time
+        ];
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'icon' => 'icon-users',
+            'title' => 'Nuevo mensaje de ' . $this->fromUser->name,
+            'link' => $this->url,
+            'text'=>  'Invitación a ser parte del grupo ' . $this->name_group,
+            'time'=> $this->time
+        ]);
     }
 }

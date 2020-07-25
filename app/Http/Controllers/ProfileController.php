@@ -37,7 +37,7 @@ class ProfileController extends Controller
         $phone_code = $this->phone_code;
         $profile = $this->profile;
         $country_flag = $this->country_flag;
-        
+
         // Confirmar invitacion a grupo
             $user_id = auth()->user()->id;
             $email_user_login = User::where('id', $user_id)->value('email');
@@ -80,7 +80,7 @@ class ProfileController extends Controller
             $user->last_name=$last_name;
             $user->update();
         // End modificar nombre y apellido
-        
+
         $answered = [];
         if ($request->question) {
             foreach ($request->question as $q) {
@@ -315,7 +315,10 @@ class ProfileController extends Controller
                         $count++;
                     }
                 }
-                $statusAnswered = $count * 100 / $totalToAnswer;
+
+                if ($totalToAnswer > 0) {
+                    $statusAnswered = $count * 100 / $totalToAnswer;
+                }
             }
 
             if ($type === 'E') {

@@ -13,104 +13,107 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 /* Estilos Personalizados Modulo de Oportunidades
    Autor: RuthReyes
 */
-.senForm-step1{
-	background:#262C49!important;
-	border-radius:4px; 
-	padding:20px;
-	margin-left: 0px;
+.senForm-step1 {
+    background: #262C49 !important;
+    border-radius: 4px;
+    padding: 20px;
+    margin-left: 0px;
     margin-right: 0px;
 }
 
-.adicionales{
-	background:#262C49!important;
-	border-radius:4px; 
-	padding:20px;
-	margin-left: 0px;
+.adicionales {
+    background: #262C49 !important;
+    border-radius: 4px;
+    padding: 20px;
+    margin-left: 0px;
     margin-right: 0px;
 }
 
-.card-oportunity{
-   margin-bottom:0px;
+.card-oportunity {
+    margin-bottom: 0px;
 }
 
-.content-btn-save-oportunity{
-   display:flex;
-   flex-flow: row wrap;
-   align-items: center;
-   justify-content: center;
+.content-btn-save-oportunity {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
 }
 
-.transparent{
-   background:#262C49!important;
+.transparent {
+    background: #262C49 !important;
 }
 
-.container-image-oportunity{
-	width:100%;
-	height:250px;
-	margin-bottom:20px;
-	margin-top:20px;
+.container-image-oportunity {
+    width: 100%;
+    height: 250px;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
-.container-image-oportunity{
-	width:100%!important;
-	height: 250px;
-}
-.container-image-oportunity>img{
-	width:100%!important;
-	height: 100%;
+.container-image-oportunity {
+    width: 100% !important;
+    height: 250px;
 }
 
-.titleOportunity{
-	display:flex;
-	justify-content: center;
-	align-items: center;
-	flex-flow: column wrap;
-	margin-bottom: 20px;
+.container-image-oportunity>img {
+    width: 100% !important;
+    height: 100%;
 }
 
-.titleOportunity>h4{
-   font-size:18px;
+.titleOportunity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+    margin-bottom: 20px;
 }
 
-.habilidades_cargo_title{
-	text-align: left;
-	font-size:14px;
+.titleOportunity>h4 {
+    font-size: 18px;
+}
+
+.habilidades_cargo_title {
+    text-align: left;
+    font-size: 14px;
 }
 
 .feather {
-	color: #0087FF;
-	font-size:16px;
+    color: #0087FF;
+    font-size: 16px;
 }
 
-.body-oportunitys{
-	padding-left:5%;
-	font-size:14px;
+.body-oportunitys {
+    padding-left: 5%;
+    font-size: 14px;
 }
 
-.container-habilidades{
-	display:flex;
-	flex-flow: row wrap;
-	width: 100%;
-	margin-left:20px;
+.container-habilidades {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    margin-left: 20px;
 }
 
-.description_oportunitys{
-	width: 100%;
-	text-align: center;
-	margin-top:0px;
-	font-size: 14px;;
+.description_oportunitys {
+    width: 100%;
+    text-align: center;
+    margin-top: 0px;
+    font-size: 14px;
+    ;
 }
 
-.description_oportunitys>p{
-	text-align: center;
+.description_oportunitys>p {
+    text-align: center;
 }
 
-.oportunity-description{
-    margin-left:20px;
+.oportunity-description {
+    margin-left: 20px;
 }
 
-.skill, .ubication-text{
-	display: block;
+.skill,
+.ubication-text {
+    display: block;
     height: 28px;
     background: #262C49;
     color: #fff;
@@ -120,12 +123,13 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     margin-right: 2px;
     padding-left: 10px;
     padding-right: 10px;
-	font-size: 12px;
-	margin-bottom: 10px;
-	
+    font-size: 12px;
+    margin-bottom: 10px;
+
 }
-.ubication-text{
-	display: flex;
+
+.ubication-text {
+    display: flex;
     height: 28px;
     background: #262C49;
     color: #fff;
@@ -135,17 +139,17 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     margin-right: 2px;
     padding-left: 10px;
     padding-right: 10px;
-	font-size: 12px;
-	margin-bottom: 10px;
-	
+    font-size: 12px;
+    margin-bottom: 10px;
+
 }
 
-.experience_oportunity{
-	margin-left:20px;
+.experience_oportunity {
+    margin-left: 20px;
 }
 
-.empresa_oportunity{
-	margin-top:0px;
+.empresa_oportunity {
+    margin-top: 0px;
 }
 
 .imagen-empresa {
@@ -157,120 +161,127 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     margin-right: 10px;
 }
 
-.ubication-oportunity{
-	margin-left:20px;
+.ubication-oportunity {
+    margin-left: 20px;
 }
 
-.btn_right_new{
-	border-bottom-left-radius: .25rem!important;
-	border-top-left-radius: .25rem!important;
+.btn_right_new {
+    border-bottom-left-radius: .25rem !important;
+    border-top-left-radius: .25rem !important;
 }
 
-.search-oportunity>i{
-	color:#fff!important;
+.search-oportunity>i {
+    color: #fff !important;
 }
 
-.obligatorio{
-	color:#0087FF!important;
+.obligatorio {
+    color: #0087FF !important;
 }
 
-body.dark-layout .table tbody tr:not([class*='table-']) td .publicada{
-	color:#24A866!important;
-	border-radius:2px!important;
-	margin-top:2px!important;;
+body.dark-layout .table tbody tr:not([class*='table-']) td .publicada {
+    color: #24A866 !important;
+    border-radius: 2px !important;
+    margin-top: 2px !important;
+    ;
 }
 
-.cancelada{
-	color:#D6434A!important;
-	border-radius:2px!important;
-	margin-top:2px!important;
+.cancelada {
+    color: #D6434A !important;
+    border-radius: 2px !important;
+    margin-top: 2px !important;
 }
 
-.cerrada{
-	color:#B9C2DB!important;
-	/* border:1px solid grey; */
-	border-radius:2px!important;
-	margin-top:2px!important;;
+.cerrada {
+    color: #B9C2DB !important;
+    /* border:1px solid grey; */
+    border-radius: 2px !important;
+    margin-top: 2px !important;
+    ;
 }
 
-.borrador{
-	/* opacity:0.5; */
-	color:#B9C2DB!important;
-	border-radius:2px!important;
-	margin-top:2px!important;;
+.borrador {
+    /* opacity:0.5; */
+    color: #B9C2DB !important;
+    border-radius: 2px !important;
+    margin-top: 2px !important;
+    ;
 }
 
-#oportunitys thead tr th{
-	text-transform: uppercase;
-	text-align: center;
+#oportunitys thead tr th {
+    text-transform: uppercase;
+    text-align: center;
 }
 
-.oportunity-row{
-	cursor:pointer;
+.oportunity-row {
+    cursor: pointer;
 }
 
-.ocultar{
-	display:none!important;
+.ocultar {
+    display: none !important;
 }
 
 table tr th {
-	cursor: pointer;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-  }
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
-  table tr{
-	  margin-top:2px;
-  }
-  
-  .sorting {
-	background-color: #D4D4D4;
-  }
-  
-  .asc:after {
-	content: ' ↑';
-  }
-  
-  .desc:after {
-	content: " ↓";
-  }
+table tr {
+    margin-top: 2px;
+}
 
-  /* #cke_description{
+.sorting {
+    background-color: #D4D4D4;
+}
+
+.asc:after {
+    content: ' ↑';
+}
+
+.desc:after {
+    content: " ↓";
+}
+
+/* #cke_description{
 	  opacity:0.5!important;
   } */
-  iframe{
-	  background: transparent;
-	  color:#fff;
-  }
+iframe {
+    background: transparent;
+    color: #fff;
+}
 
-  #cke_description{
-	background-color: #414561!important;
-	color:#fff!important;
-  }
+#cke_description {
+    background-color: #414561 !important;
+    color: #fff !important;
+}
 
-  .cke_wysiwyg_frame, .cke_wysiwyg_div {
-	background-color: #414561!important;
-	color:#fff;
+.cke_wysiwyg_frame,
+.cke_wysiwyg_div {
+    background-color: #414561 !important;
+    color: #fff;
 }
 
 .cke_bottom {
     padding: 6px 8px 2px;
     position: relative;
     border: 1px solid #10163A;
-	background: #10163A!important;
-	color:#fff!important;
+    background: #10163A !important;
+    color: #fff !important;
 }
-.cke_wysiwyg_frame, .cke_wysiwyg_div {
-    background-color: #414561!important;
+
+.cke_wysiwyg_frame,
+.cke_wysiwyg_div {
+    background-color: #414561 !important;
 }
+
 .cke_top {
     border-bottom: 1px solid #10163A;
     /* background: #414561!important; */
     padding: 6px 8px 2px;
     white-space: normal;
-    color: #fff!important;
+    color: #fff !important;
 }
 
 .cke_chrome {
@@ -279,69 +290,147 @@ table tr th {
     padding: 0;
 }
 
-#oportunityTable tr{
-	cursor:pointer;
+#oportunityTable tr {
+    cursor: pointer;
 }
 
-#botonera{
-	display:flex;
-	flex-flow:row wrap;
-	align-items: center;
-	justify-content: center;
+#botonera {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
 }
 
-.actions{
-	margin-left: 10px!important;
-    display: flex!important;
-    flex-direction: column!important;
+.actions {
+    margin-left: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-.information-card{
-	height:350px!important;
-	min-height: 340px;
+.information-card {
+    height: 350px !important;
+    min-height: 340px;
 }
 
-.menu-dashboard{
-	display:flex;
-	flex-flow:row wrap;
-	min-height: 600px;
-	justify-content: center;
-	align-items: center;
+.menu-dashboard {
+    display: flex;
+    flex-flow: row wrap;
+    min-height: 600px;
+    justify-content: center;
+    align-items: center;
 
 }
 
-.menu-item-principal{
-	width:40%;
-	border:1px solid #C2C6DC;
-	display:flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
-	border-radius:4px;
-	height: 300px;
-	margin:2%;
-	box-shadow: 10px 10px 4px -9px rgba(0,0,0,0.75);
-	color:#C2C6DC!important;
+.menu-item-principal {
+    width: 40%;
+    border: 1px solid #C2C6DC;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    height: 300px;
+    margin: 2%;
+    box-shadow: 10px 10px 4px -9px rgba(0, 0, 0, 0.75);
+    color: #C2C6DC !important;
 }
 
-.menu-item-principal>h2>a{
-	cursor: pointer;
+.menu-item-principal>h2>a {
+    cursor: pointer;
 }
 
 @media(max-width: 767px) {
-	.menu-item-principal>h2{
-		font-size: 1.54rem;
+    .menu-item-principal>h2 {
+        font-size: 1.54rem;
+    }
 }
 
 @media(max-width: 600px) {
-	.menu-item-principal{
-		width:90%;  
-	}
+    .menu-item-principal {
+        width: 90%;
+    }
 }
 
-.contact-image{
-	border-radius: 9px!important;
+.contact-image {
+    border-radius: 9px !important;
 }
-/* Fin Estilos Personalizados Modulo de Oportunidades
-   Autor: RuthReyes
-*/
+
+.header-ventonic {
+    background-color: #10163A !important;
+    border-radius: 5px !important;
+    margin-bottom: 2.2rem;
+    border: none;
+    box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
+}
+
+.header-ventonic-blue {
+    background-color: #0087FF !important;
+    border-radius: 5px !important;
+    margin-bottom: 2.2rem;
+    border: none;
+    box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
+}
+
+.header_ventonic-description {
+    background-color: #D4D4D4 !important;
+    color: #0087FF !important;
+    display: flex;
+    border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 15px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    border: 0px;
+}
+
+.card_vetonic-description {
+    padding: 1rem 1rem;
+    align-items: center;
+}
+
+.text_vetonic-description {
+    color: #0087FF;
+    text-decoration: none;
+    background-color: transparent;
+    margin-right: 1.5rem;
+    font-size: 1rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+.card-ventonic {
+    /* display: flex; */
+    padding: 1rem 1rem;
+    align-items: center;
+    color: #fff;
+}
+
+.text-ventonic {
+    color: #0087FF !important;
+    text-decoration: none;
+    background-color: transparent;
+    margin-right: 1.5rem;
+    font-size: 2rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+.text-ventonic-white {
+    color: #FFFFFF !important;
+    text-decoration: none;
+    background-color: transparent;
+    margin-right: 1.5rem;
+    font-size: 2rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+.extra-ventonic {
+    width: 600px;
+    display: block;
+}
+
+.text_ventonic-title {
+    color: #0087FF !important;
+    margin-right: 1rem;
+    font-size: 2rem;
+    line-height: inherit;
+}

@@ -175,6 +175,27 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Agrega un atributo para obtener el tipo de usuario (vendedor o empresa)
+     *
+     * @method    getTypeAttribute
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @return    string              Devuelve el tipo de usuario, si es vendedor o empresa
+     */
+    public function getTypeAttribute()
+    {
+        return ($this->sellerProfile!==null) ? 'Vendedor' : (($this->companyProfile!==null) ? 'Empresa' : '');
+    }
+
+
+
+     public function getTypeuserAttribute()
+    {
+        return ($this->sellerProfile!==null) ? 'V' : (($this->companyProfile!==null) ? 'E' : '');
+    }
+
+    /**
      * Evalua y agrega un atributo con los usuarios del tipo vendedor que hayan respondido una encuesta
      *
      * @method     getFilterableSellerAttribute
@@ -401,7 +422,7 @@ class User extends Authenticatable implements MustVerifyEmail
                     $respuesta=$answer;
                 }
             }
-            
+
         }else{
             $respuesta="Sin respuesta registrada en el perfil";
         }
@@ -487,7 +508,7 @@ class User extends Authenticatable implements MustVerifyEmail
         foreach($sellerAnswer as $seller){
             $result=$seller->user_id;
             $option_index=$seller->option_index;
-        }     
+        }
 
         if(isset($result) && $result == $user_id){
 

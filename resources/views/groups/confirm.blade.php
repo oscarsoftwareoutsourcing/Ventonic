@@ -15,7 +15,7 @@
                         </div>
                         <div class="card-body justify-content-center">
                             <h5 class="mb-3">Saludos {{auth()->user()->name}}!</h5>
-                                <p>Has sido por <b>{{App\Group::getName($group->user_id)}}</b> a unirte al grupo <b>"{{$group->name}}"</b></p>
+                                <p>Has sido invitado por <b>{{App\Group::getName($group->user_id)}}</b> a unirte al grupo <b>"{{$group->name}}"</b></p>
                             <p class="mb-2">¿Deseas aceptar la invitación?</p>
   
                             <a href="{{route('groups.cancel',['id_group'=>$group->id,'invitacion_id'=>$invitacion_id])}}" 
@@ -31,6 +31,11 @@
     </div>
 </div>
 @endsection
+
+@section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+@endsection
+
 @section('extra-js')
 <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
 @endsection
