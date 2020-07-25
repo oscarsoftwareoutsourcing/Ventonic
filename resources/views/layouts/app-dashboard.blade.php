@@ -149,6 +149,12 @@ navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern
 
     @yield('extra-js')
 
+    <script>
+        $(document).ready(function() {
+            $("[data-toggle=tooltip]").tooltip();
+        });
+    </script>
+
 </body>
 <!-- END: Body-->
 
