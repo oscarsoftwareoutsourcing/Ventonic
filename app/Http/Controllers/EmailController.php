@@ -165,7 +165,8 @@ class EmailController extends Controller
                     'body' => ($message->hasHTMLBody())
                               ? $message->getHTMLBody()
                               : (($message->hasTextBody()) ? $message->getTextBody() : null),
-                    'body_text' => $message->getTextBody() ?? ''
+                    'body_text' => $message->getTextBody() ?? '',
+                    'read' => false
                 ]);
             }
         }
@@ -259,7 +260,8 @@ class EmailController extends Controller
                                 'body' => ($message->hasHTMLBody())
                                           ? $message->getHTMLBody()
                                           : (($message->hasTextBody()) ? $message->getTextBody() : null),
-                                'body_text' => $message->getTextBody() ?? ''
+                                'body_text' => $message->getTextBody() ?? '',
+                                'read' => false,
                             ]);
                         }
                     }
@@ -281,7 +283,8 @@ class EmailController extends Controller
                             'sender' => json_decode($message->sender),
                             'attachments' => json_decode($message->attachments),
                             'body' => $message->body,
-                            'body_text' => $message->body_text
+                            'body_text' => $message->body_text,
+                            'read' => $message->read
                         ]);
                     }
                 }
@@ -538,5 +541,26 @@ class EmailController extends Controller
         ])->get();
 
         return response()->json(['result' => true, 'drafts' => $drafts], 200);
+    }
+
+    /**
+     * Marca un mensaje como leído o no leído de acuerdo al evento generado
+     *
+     * @method    markRead
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request     $request    Objeto con información de la petición
+     *
+     * @return    JsonResponse            Objeto JSON con datos de la respuesta
+     */
+    public function markRead(Request $request)
+    {
+        $emailMessage = EmailMessage::where('message_id', $request->message_id)->first();
+        if ($emailMessage) {
+            $emailMessage->read = $request->read ?? true;
+            $emailMessage->save();
+        }
+        return response()->json(['result' => true], 200);
     }
 }

@@ -103,6 +103,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('email/messages/delete', 'EmailController@destroyMessages');
     Route::post('email/set-favorite', 'EmailController@setFavorite');
     Route::post('email/save-draft', 'EmailController@saveDraft');
+    Route::post('email/mark-read', 'EmailController@markRead');
 });
 
 /* Routas para oportunidades */
