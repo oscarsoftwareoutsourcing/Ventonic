@@ -183,10 +183,11 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return    string              Devuelve el tipo de usuario, si es vendedor o empresa
      */
-    public function getTypeAttribute()
-    {
-        return ($this->sellerProfile!==null) ? 'Vendedor' : (($this->companyProfile!==null) ? 'Empresa' : '');
-    }
+    //public function getTypeAttribute()
+    //{
+        //return ($this->sellerProfile!==null) ? 'Vendedor' : (($this->companyProfile!==null) ? 'Empresa' : '');
+        //return $this->type;
+    //}
 
 
 
