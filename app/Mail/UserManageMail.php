@@ -34,9 +34,21 @@ class UserManageMail extends Mailable
      */
     public function build()
     {
-        if ($this->attach !== null) {
-            return $this->subject($this->subject)->view('email.send-mail')->attach($this->attach);
+        /** Condición que evalúa si posee archivos adjuntos */
+        if ($this->attach !== null && count($this->attach) > 0) {
+
+            $mail = $this->subject($this->subject)->view('email.send-mail');
+
+            /** envia varios archivos adjuntos si el attributo $attach es un arreglo */
+            if (is_array($this->attach)) {
+                foreach ($this->attach as $attach) {
+                    $mail->attach($attach);
+                }
+            }
+
+            return $mail;
         }
+
         return $this->subject($this->subject)->view('email.send-mail');
     }
 }

@@ -104,6 +104,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('email/set-favorite', 'EmailController@setFavorite');
     Route::post('email/save-draft', 'EmailController@saveDraft');
     Route::post('email/mark-read', 'EmailController@markRead');
+    Route::post('email/upload-attachment', 'EmailController@uploadAttachment');
 });
 
 /* Routas para oportunidades */

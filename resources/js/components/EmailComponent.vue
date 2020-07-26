@@ -168,8 +168,19 @@
                                     <div class="form-group mt-2">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="emailAttach"
-                                                   data-toggle="tooltip" title="archivo adjunto" />
+                                                   data-toggle="tooltip" title="archivo adjunto"
+                                                   @change="uploadAttachment" />
                                             <label class="custom-file-label" for="emailAttach">Archivo adjunto</label>
+                                        </div>
+                                        <div class="mail-files py-2" v-if="newEmailAttachments.length > 0">
+                                            <div class="chip chip-primary mr-2" v-for="attach in newEmailAttachments">
+                                                <div class="chip-body py-50">
+                                                    <i class="fa fa-paperclip font-medium-2 mr-50"></i>
+                                                    <span class="chip-text">
+                                                        {{ getAttachName(attach) }}
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -224,7 +235,7 @@
                                             <ul class="list-inline m-0">
                                                 <li class="list-inline-item">
                                                     <a href="javascript:void(0)" data-toggle="tooltip"
-                                                       title="verificar correos nuevos">
+                                                       title="verificar correos nuevos" @click="getEmails(1)">
                                                         <span class="action-icon">
                                                             <i class="feather icon-refresh-cw"></i>
                                                         </span>
@@ -764,8 +775,9 @@
                                                         <span>Archivos adjuntos</span>
                                                     </div>
                                                 </div>
-                                                <div class="mail-files py-2" v-if="selectedEmail.attachments">
-                                                    <div class="chip chip-primary" v-for="attach in selectedEmail.attachments">
+                                                <div class="mail-files py-2" v-if="selectedEmail.attachments"
+                                                     v-for="attachments in selectedEmail.attachments">
+                                                    <div class="chip chip-primary mr-2" v-for="attach in attachments">
                                                         <div class="chip-body py-50">
                                                             <span class="chip-text">{{ getAttachName(attach) }}</span>
                                                         </div>
@@ -840,6 +852,7 @@ export default {
             trash: [],
             favorites: [],
             messages_send: [],
+            newEmailAttachments: []
         };
     },
     props: {
@@ -876,6 +889,34 @@ export default {
             vm.getEmails();
             if (folder === "inbox") {}
             vm.showFolder = folder;
+        },
+        /**
+         * Almacena los archivos a adjuntar para un nuevo correo
+         *
+         * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+         */
+        uploadAttachment: function() {
+            if (!$("#emailAttach").val()) {
+                return false;
+            }
+            const vm = this;
+            var formData = new FormData();
+            var attachment = document.querySelector(`#emailAttach`);
+            formData.append("attachmentEmail", attachment.files[0]);
+
+            axios.post('/email/upload-attachment', formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }).then(response => {
+                if (response.data.result) {
+                    vm.newEmailAttachments.push(response.data.attach);
+                    $("#emailAttach").val('').change();
+                    $('.custom-file-label').text('');
+                }
+            }).catch(error => {
+                console.error(error);
+            });
         },
         /**
          * Muestra el número de mensajes en una carpeta
@@ -951,7 +992,7 @@ export default {
             const vm = this;
             vm.$loading(true);
 
-            var formData = new FormData();
+            /*var formData = new FormData();
             var attachment = document.querySelector(`#emailAttach`);
 
             formData.append("attachmentEmail", attachment.files[0]);
@@ -959,35 +1000,36 @@ export default {
             formData.append("cc", vm.sent.cc);
             formData.append("bcc", vm.sent.bcc);
             formData.append("subject", vm.sent.subject);
-            formData.append("message", vm.sent.message);
+            formData.append("message", vm.sent.message);*/
 
-            axios
-                .post("/email/sent", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((response) => {
-                    if (response.data.result) {
-                        vm.$loading(false);
-                        $("#composeForm").find(".close").click();
-                        toastr.success("Correo enviado", "Éxito!");
-                        vm.resetMessage();
-                        vm.messages_send = response.data.messages_send;
-                    }
-                })
-                .catch((error) => {
-                    vm.errors = {};
+            axios.post("/email/sent", {
+                to: vm.sent.to,
+                cc: vm.sent.cc,
+                bcc: vm.sent.bcc,
+                subject: vm.sent.subject,
+                message: vm.sent.message,
+                attachments: vm.newEmailAttachments
+            }).then((response) => {
+                if (response.data.result) {
+                    vm.$loading(false);
+                    $("#composeForm").find(".close").click();
+                    toastr.success("Correo enviado", "Éxito!");
+                    vm.resetMessage();
+                    vm.messages_send = response.data.messages_send;
+                    vm.newEmailAttachments = [];
+                }
+            }).catch((error) => {
+                vm.errors = {};
 
-                    if (typeof error.response != "undefined") {
-                        for (var index in error.response.data.errors) {
-                            if (error.response.data.errors[index]) {
-                                vm.errors[index] = error.response.data.errors[index][0];
-                            }
+                if (typeof error.response != "undefined") {
+                    for (var index in error.response.data.errors) {
+                        if (error.response.data.errors[index]) {
+                            vm.errors[index] = error.response.data.errors[index][0];
                         }
                     }
-                    vm.$loading(false);
-                });
+                }
+                vm.$loading(false);
+            });
         },
         /**
          * Guardar mensaje en borradores
@@ -1016,6 +1058,8 @@ export default {
             $(".invalid-feedback").find("strong").text("");
             $(".invalid-feedback").hide();
             $("#attachmentEmail").val("");
+            $("#emailAttach").val("");
+            $('.custom-file-label').text('');
         },
         /**
          * Marca el o los mensajes como leídos

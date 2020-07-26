@@ -60,6 +60,22 @@
         .loading-screen {
             z-index: 9999 !important;
         }
+        .custom-file input[type="file"] {
+            cursor: pointer;
+        }
+        body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item {
+            padding-left: 10px;
+        }
+        body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active, body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active i {
+            color: #ffffff;
+        }
+        body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active {
+            background-color: #0087FF;
+            border-radius: 5px;
+        }
+        body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active:hover, body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active:hover i {
+            color: #C2C6DC;
+        }
     </style>
 </head>
 
@@ -150,9 +166,9 @@ navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern
     @yield('extra-js')
 
     <script>
-        $(document).ready(function() {
+        /*$(document).ready(function() {
             $("[data-toggle=tooltip]").tooltip();
-        });
+        });*/
     </script>
 
 </body>
