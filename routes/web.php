@@ -110,17 +110,32 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 /* Routas para oportunidades */
 Route::get('oportunitys', 'OportunyController@index')->name('oportunity.saved')->middleware('verified');
 Route::get('list/oportunitys', 'OportunyController@showAll')->name('oportunity.list')->middleware('verified');
-Route::get('create/{oportunity?}', 'OportunyController@showRegistrationOportunity')->name('oportunity.form')->middleware('verified');
+Route::get(
+    'create/{oportunity?}',
+    'OportunyController@showRegistrationOportunity'
+)->name('oportunity.form')->middleware('verified');
 Route::post('save', 'OportunyController@store')->name('oportunity.save')->middleware('verified');
-Route::get('oportunity/image/{filename}', 'OportunyController@getImage')->name('oportunityImage')->middleware('verified');
+Route::get(
+    'oportunity/image/{filename}',
+    'OportunyController@getImage'
+)->name('oportunityImage')->middleware('verified');
 Route::get('oportunity/{id}', 'OportunyController@showOportunity')->name('oportunity')->middleware('verified');
 
 
 /* Rutas para postulaciones */
 Route::post('postularme', 'AplicantController@store')->name('oportunity.postulation')->middleware('verified');
-Route::get('postulados/{oportunity_id}', 'AplicantController@myaplicants')->name('oportunity.mispostulados')->middleware('verified');
-Route::get('profile/aplicant/{id}', 'AplicantController@profilePostulant')->name('oportunity.profile')->middleware('verified');
-Route::get('estatus/{id}/{estatus_postulations_id}', 'AplicantController@updateStatus')->name('oportunity.estatusUpdate')->middleware('verified');
+Route::get(
+    'postulados/{oportunity_id}',
+    'AplicantController@myaplicants'
+)->name('oportunity.mispostulados')->middleware('verified');
+Route::get(
+    'profile/aplicant/{id}',
+    'AplicantController@profilePostulant'
+)->name('oportunity.profile')->middleware('verified');
+Route::get(
+    'estatus/{id}/{estatus_postulations_id}',
+    'AplicantController@updateStatus'
+)->name('oportunity.estatusUpdate')->middleware('verified');
 
 
 /*Notificaciones */
@@ -139,7 +154,10 @@ Route::get('contacto/crear/{contact?}', 'ContactController@create')->name('conta
 Route::post('contacto/save', 'ContactController@store')->name('contact.save')->middleware('verified');
 Route::get('contacto/widget/{contacts?}', 'ContactController@show')->name('contact.show')->middleware('verified');
 Route::get('contacto/image/{filename}', 'ContactController@getImage')->name('contact.image')->middleware('verified');
-Route::get('contacto/eliminar/{contact_id}/{user_id}', 'ContactController@destroy')->name('contact.destroy')->middleware('verified');
+Route::get(
+    'contacto/eliminar/{contact_id}/{user_id}',
+    'ContactController@destroy'
+)->name('contact.destroy')->middleware('verified');
 
 Route::get('contacto/editar/{contact_id}', 'ContactController@edit')->name('contact.editForm')->middleware('verified');
 Route::post('contacto/update', 'ContactController@update')->name('contact.update')->middleware('verified');
@@ -160,25 +178,32 @@ Route::get(
     'grupos/confirmar/{invitacion_id}',
     'GroupController@confirmAceptInvitation'
 )->name('group.confirmInvitation')->middleware('verified');
-Route::get('aceptar/{id_group}/{invitacion_id}', 'GroupController@aceptInvitation')->name('groups.confirm')->middleware('verified');
-Route::get('rechazar/{id_group}/{invitacion_id}', 'GroupController@cancelInvitation')->name('groups.cancel')->middleware('verified');
+Route::get(
+    'aceptar/{id_group}/{invitacion_id}',
+    'GroupController@aceptInvitation'
+)->name('groups.confirm')->middleware('verified');
+Route::get(
+    'rechazar/{id_group}/{invitacion_id}',
+    'GroupController@cancelInvitation'
+)->name('groups.cancel')->middleware('verified');
 
 
 // EM Modules
-$router->group(['middleware' => ['verified']], function() use ($router) {
+Route::group(['middleware' => ['verified']], function () use ($router) {
 
     // Notes module
-    $router->get('todos', 'TodoController@index')->name('todos');
+    Route::get('todos', 'TodoController@index')->name('todos');
 
     // Email module
-    $router->get('email', 'EmailController@index')->name('email');
+    Route::get('email', 'EmailController@index')->name('email');
 
     // Negotiations
     // Rutas para negociaciones Company
-    $router->get('negociaciones', 'NegotiationController@index')->name('negociaciones');
-    // $router->get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{producto}/{responsable}/{estimado}', 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');
+    Route::get('negociaciones', 'NegotiationController@index')->name('negociaciones');
+    // $router->get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{producto}/{responsable}/{estimado}',
+    // 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');
 });
 
 Route::get('calender', 'EventController@index')->name('events.calender');
 
-Route::view('dash','inicio-dashboard');
+Route::view('dash', 'inicio-dashboard');
