@@ -317,7 +317,7 @@
                                     </div>
                                     <div class="email-user-list list-group" style="overflow:auto">
                                         <ul class="users-list-wrapper media-list">
-                                            <li class="media" v-for="email in emails.inbox" v-if="showFolder==='inbox'"
+                                            <li class="media" v-for="email in emails.inbox" :key="email.id" v-if="showFolder==='inbox'"
                                                 :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                 <div class="media-left pr-50">
                                                     <div class="avatar">
@@ -618,6 +618,26 @@
                                                 </div>
                                             </li>
                                         </ul>
+                                        <!--<nav aria-label="Page navigation example">
+                                            <ul class="pagination justify-content-center mt-2">
+                                                <li class="page-item prev">
+                                                    <a class="page-link" @click="page--" href="javascript:void(0)">
+                                                        Prev
+                                                    </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" v-for="pageNumber in pages.slice(page-1, page+5)"
+                                                       @click="page = pageNumber" href="javascript:void(0)">
+                                                        {{ pageNumber }}
+                                                    </a>
+                                                </li>
+                                                <li class="page-item next">
+                                                    <a class="page-link" @click="page++" href="javascript:void(0)">
+                                                        Next
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>-->
                                         <div class="no-results">
                                             <h5>No Items Found</h5>
                                         </div>
@@ -823,391 +843,428 @@
     </div>
 </template>
 <script>
-import VueLoading from "vuejs-loading-plugin";
-Vue.use(VueLoading, {
-    dark: true,
-    text: "Procesando, por favor espere",
-    loading: false,
-    background: "rgba(16, 22, 58, .5)",
-});
-export default {
-    data() {
-        return {
-            showFolder: "inbox",
-            titleSentMessage: "Nuevo Mensaje",
-            settingUpdate: false,
-            inboxUnread: 0,
-            draft: [],
-            spam: [],
-            emails: [],
-            selectedEmail: {},
-            sent: {
-                to: "",
-                cc: "",
-                bcc: "",
-                subject: "",
-                message: "",
-            },
-            selectedMessages: [],
-            trash: [],
-            favorites: [],
-            messages_send: [],
-            newEmailAttachments: []
-        };
-    },
-    props: {
-        download_messages: {
-            type: Boolean,
-            required: false,
-            default: false,
+    import VueLoading from "vuejs-loading-plugin";
+    Vue.use(VueLoading, {
+        dark: true,
+        text: "Procesando, por favor espere",
+        loading: false,
+        background: "rgba(16, 22, 58, .5)",
+    });
+    export default {
+        data() {
+            return {
+                showFolder: "inbox",
+                titleSentMessage: "Nuevo Mensaje",
+                settingUpdate: false,
+                inboxUnread: 0,
+                draft: [],
+                spam: [],
+                emails: [],
+                selectedEmail: {},
+                sent: {
+                    to: "",
+                    cc: "",
+                    bcc: "",
+                    subject: "",
+                    message: "",
+                },
+                selectedMessages: [],
+                trash: [],
+                favorites: [],
+                messages_send: [],
+                newEmailAttachments: [],
+                /** @type {Number} Indica el número de página actual en la paginación del correo */
+                page: 1,
+                /** @type {Number} Indica el número de elementos a mostrar por cada página */
+                perPage: 10,
+                /** @type {Array} Contiene los elementos a mostrar en cada página */
+                pages: [],
+            };
         },
-    },
-    watch: {
-        /**
-         * Monitorea cuando se selecciona un correo electrónico para ejecutar las acciones asociadas
-         *
-         * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-         */
-        selectedEmail: function() {
-            const vm = this;
-            if (vm.selectedEmail) {
-                axios.post('/email/mark-read', {
-                    message_id: vm.selectedEmail.message_id
+        props: {
+            download_messages: {
+                type: Boolean,
+                required: false,
+                default: false,
+            },
+        },
+        watch: {
+            /**
+             * Monitorea cuando se selecciona un correo electrónico para ejecutar las acciones asociadas
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             */
+            selectedEmail: function() {
+                const vm = this;
+                if (vm.selectedEmail) {
+                    axios.post('/email/mark-read', {
+                        message_id: vm.selectedEmail.message_id
+                    }).then(response => {
+                        if (response.data.result) {
+                            vm.getEmails();
+                        }
+                    }).catch(error => {
+                        console.error(error);
+                    });
+                }
+            }
+        },
+        methods: {
+            /**
+             * Establece la carpeta o bandeja de correo a mostrar
+             *
+             * @author     Ing. Roldan Vargas <rolvar@sogtwareoutsourcing.es> | <roldandvg@gmail.com>
+             */
+            setFolder(folder) {
+                const vm = this;
+                vm.getEmails();
+                if (folder === "inbox") {}
+                vm.showFolder = folder;
+            },
+            /**
+             * Almacena los archivos a adjuntar para un nuevo correo
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             */
+            uploadAttachment: function() {
+                if (!$("#emailAttach").val()) {
+                    return false;
+                }
+                const vm = this;
+                var formData = new FormData();
+                var attachment = document.querySelector(`#emailAttach`);
+                formData.append("attachmentEmail", attachment.files[0]);
+
+                axios.post('/email/upload-attachment', formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
                 }).then(response => {
                     if (response.data.result) {
-                        vm.getEmails();
+                        vm.newEmailAttachments.push(response.data.attach);
+                        $("#emailAttach").val('').change();
+                        $('.custom-file-label').text('');
                     }
                 }).catch(error => {
                     console.error(error);
                 });
-            }
-        }
-    },
-    methods: {
-        setFolder(folder) {
-            const vm = this;
-            vm.getEmails();
-            if (folder === "inbox") {}
-            vm.showFolder = folder;
-        },
-        /**
-         * Almacena los archivos a adjuntar para un nuevo correo
-         *
-         * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-         */
-        uploadAttachment: function() {
-            if (!$("#emailAttach").val()) {
-                return false;
-            }
-            const vm = this;
-            var formData = new FormData();
-            var attachment = document.querySelector(`#emailAttach`);
-            formData.append("attachmentEmail", attachment.files[0]);
-
-            axios.post('/email/upload-attachment', formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }).then(response => {
-                if (response.data.result) {
-                    vm.newEmailAttachments.push(response.data.attach);
-                    $("#emailAttach").val('').change();
-                    $('.custom-file-label').text('');
-                }
-            }).catch(error => {
-                console.error(error);
-            });
-        },
-        /**
-         * Muestra el número de mensajes en una carpeta
-         *
-         * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-         *
-         * @param     {array}         folder    Arreglo con el contenido de una carpeta
-         *
-         * @return    {integer}       Número de mensajes en la carpeta establecida
-         */
-        countMessages(folder) {
-            return (typeof(folder) !== "undefined") ? folder.length : 0;
-        },
-        /**
-         * Muestra el número de mensaje sin leer dentro de una carpeta
-         *
-         * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-         *
-         * @param     {array}       folder    Arreglo con el contenido de la carpeta
-         *
-         * @return    {integer}     Número de mensajes sin leer dentro de la carpeta
-         */
-        countUnread(folder) {
-            return (typeof(folder) !== "undefined") ? folder.filter(function(msg) {
-                return (typeof(msg.read) !== "undefined" && !msg.read)
-            }).length : 0;
-        },
-        /**
-         * Obtiene un listado de mensajes del servidor de correos
-         *
-         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-         */
-        getEmails(download = 0) {
-            const vm = this;
-            vm.$loading(true);
-            axios
-                .get(`/email/messages${download === 1 ? "/1" : ""}`)
-                .then((response) => {
+            },
+            /**
+             * Muestra el número de mensajes en una carpeta
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             *
+             * @param     {array}         folder    Arreglo con el contenido de una carpeta
+             *
+             * @return    {integer}       Número de mensajes en la carpeta establecida
+             */
+            countMessages(folder) {
+                return (typeof(folder) !== "undefined") ? folder.length : 0;
+            },
+            /**
+             * Muestra el número de mensaje sin leer dentro de una carpeta
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             *
+             * @param     {array}       folder    Arreglo con el contenido de la carpeta
+             *
+             * @return    {integer}     Número de mensajes sin leer dentro de la carpeta
+             */
+            countUnread(folder) {
+                return (typeof(folder) !== "undefined") ? folder.filter(function(msg) {
+                    return (typeof(msg.read) !== "undefined" && !msg.read)
+                }).length : 0;
+            },
+            /**
+             * Obtiene un listado de mensajes del servidor de correos
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             */
+            getEmails(download = 0) {
+                const vm = this;
+                vm.$loading(true);
+                axios.get(`/email/messages${download === 1 ? "/1" : ""}`).then((response) => {
                     if (response.data.result) {
                         vm.emails = response.data.emails_list;
                         vm.trash = response.data.trashed;
                         vm.favorites = response.data.favorites;
                         vm.messages_send = response.data.messages_send;
+                        //setPages
                     } else {
                         toastr.warning(response.data.message, "Error!");
                     }
                     vm.$loading(false);
-                })
-                .catch((error) => {
+                }).catch((error) => {
                     console.error(error);
                     vm.$loading(false);
                 });
-        },
-        /**
-         * Obtiene el nombre del archivo adjunto en un correo
-         *
-         * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-         *
-         * @param     {string}         attachmentPath    Ruta del archivo adjunto
-         *
-         * @return    {string}         Nombre del archivo adjunto
-         */
-        getAttachName(attachmentPath) {
-            var pathSections = attachmentPath.split("/");
-            return pathSections[pathSections.length - 1];
-        },
-        /**
-         * Ejecuta la acción para enviar un mensaje de correo electrónico
-         *
-         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-         */
-        sentMessage() {
-            const vm = this;
-            vm.$loading(true);
+            },
+            /**
+             * Obtiene el nombre del archivo adjunto en un correo
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             *
+             * @param     {string}         attachmentPath    Ruta del archivo adjunto
+             *
+             * @return    {string}         Nombre del archivo adjunto
+             */
+            getAttachName(attachmentPath) {
+                var pathSections = attachmentPath.split("/");
+                return pathSections[pathSections.length - 1];
+            },
+            /**
+             * Ejecuta la acción para enviar un mensaje de correo electrónico
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             */
+            sentMessage() {
+                const vm = this;
+                vm.$loading(true);
 
-            /*var formData = new FormData();
-            var attachment = document.querySelector(`#emailAttach`);
+                /*var formData = new FormData();
+                var attachment = document.querySelector(`#emailAttach`);
 
-            formData.append("attachmentEmail", attachment.files[0]);
-            formData.append("to", vm.sent.to);
-            formData.append("cc", vm.sent.cc);
-            formData.append("bcc", vm.sent.bcc);
-            formData.append("subject", vm.sent.subject);
-            formData.append("message", vm.sent.message);*/
+                formData.append("attachmentEmail", attachment.files[0]);
+                formData.append("to", vm.sent.to);
+                formData.append("cc", vm.sent.cc);
+                formData.append("bcc", vm.sent.bcc);
+                formData.append("subject", vm.sent.subject);
+                formData.append("message", vm.sent.message);*/
 
-            axios.post("/email/sent", {
-                to: vm.sent.to,
-                cc: vm.sent.cc,
-                bcc: vm.sent.bcc,
-                subject: vm.sent.subject,
-                message: vm.sent.message,
-                attachments: vm.newEmailAttachments
-            }).then((response) => {
-                if (response.data.result) {
-                    vm.$loading(false);
-                    $("#composeForm").find(".close").click();
-                    toastr.success("Correo enviado", "Éxito!");
-                    vm.resetMessage();
-                    vm.messages_send = response.data.messages_send;
-                    vm.newEmailAttachments = [];
-                }
-            }).catch((error) => {
-                vm.errors = {};
+                axios.post("/email/sent", {
+                    to: vm.sent.to,
+                    cc: vm.sent.cc,
+                    bcc: vm.sent.bcc,
+                    subject: vm.sent.subject,
+                    message: vm.sent.message,
+                    attachments: vm.newEmailAttachments
+                }).then((response) => {
+                    if (response.data.result) {
+                        vm.$loading(false);
+                        $("#composeForm").find(".close").click();
+                        toastr.success("Correo enviado", "Éxito!");
+                        vm.resetMessage();
+                        vm.messages_send = response.data.messages_send;
+                        vm.newEmailAttachments = [];
+                    }
+                }).catch((error) => {
+                    vm.errors = {};
 
-                if (typeof error.response != "undefined") {
-                    for (var index in error.response.data.errors) {
-                        if (error.response.data.errors[index]) {
-                            vm.errors[index] = error.response.data.errors[index][0];
+                    if (typeof error.response != "undefined") {
+                        for (var index in error.response.data.errors) {
+                            if (error.response.data.errors[index]) {
+                                vm.errors[index] = error.response.data.errors[index][0];
+                            }
                         }
                     }
-                }
-                vm.$loading(false);
-            });
-        },
-        /**
-         * Guardar mensaje en borradores
-         *
-         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-         */
-        saveDraft() {
-            const vm = this;
-        },
-        /**
-         * Ejecuta la acción para reiniciar los campos para el envio de correo electrónico
-         *
-         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-         */
-        resetMessage() {
-            this.sent = {
-                to: "",
-                cc: "",
-                bcc: "",
-                subject: "",
-                message: "",
-            };
+                    vm.$loading(false);
+                });
+            },
+            /**
+             * Guardar mensaje en borradores
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             */
+            saveDraft() {
+                const vm = this;
+            },
+            /**
+             * Ejecuta la acción para reiniciar los campos para el envio de correo electrónico
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             */
+            resetMessage() {
+                this.sent = {
+                    to: "",
+                    cc: "",
+                    bcc: "",
+                    subject: "",
+                    message: "",
+                };
 
-            /** remueve y oculta cualquier mensaje de error del formulario */
-            $("input, select, textarea").removeClass("has-error");
-            $(".invalid-feedback").find("strong").text("");
-            $(".invalid-feedback").hide();
-            $("#attachmentEmail").val("");
-            $("#emailAttach").val("");
-            $('.custom-file-label').text('');
-        },
-        /**
-         * Marca el o los mensajes como leídos
-         *
-         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-         *
-         * @param     {string|array}      message_id    identificador del(los) mensaje(s)
-         */
-        markAsRead(message_id) {},
-        /**
-         * Elimina uno o mas mensajes
-         *
-         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-         *
-         * @param     {string}    message_id    Identificador del mensaje a eliminar,
-         *                                      si no se especifica busca en un listado de mensajes a eliminar,
-         *                                      si no existe advierte al usuario
-         */
-        deleteMessage() {
-            const vm = this;
-            var message_id = vm.selectedEmail ? vm.selectedEmail.message_id : null;
-            if (message_id !== null && vm.selectedMessages.length === 0) {
-                toastr.warning(
-                    "Debe seleccionar uno o mas mensajes a borrar",
-                    "Error!"
-                );
-                return false;
-            }
-
-            axios
-                .post("/email/messages/delete", {
-                    messages: vm.selectedMessages.length > 0 ? vm.selectedMessages : [message_id],
-                })
-                .then((response) => {
-                    if (response.data.result) {
-                        vm.getEmails();
-                        toastr.success("Mensaje(s) eliminado(s)", "Éxito!");
-                    }
-                })
-                .catch((error) => {
-                    toastr.danger(
-                        "No ha sido posible eliminar el(los) mensaje(s). Intente de nuevo mas tarde"
+                /** remueve y oculta cualquier mensaje de error del formulario */
+                $("input, select, textarea").removeClass("has-error");
+                $(".invalid-feedback").find("strong").text("");
+                $(".invalid-feedback").hide();
+                $("#attachmentEmail").val("");
+                $("#emailAttach").val("");
+                $('.custom-file-label').text('');
+            },
+            /**
+             * Marca el o los mensajes como leídos
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             *
+             * @param     {string|array}      message_id    identificador del(los) mensaje(s)
+             */
+            markAsRead(message_id) {},
+            /**
+             * Elimina uno o mas mensajes
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             *
+             * @param     {string}    message_id    Identificador del mensaje a eliminar,
+             *                                      si no se especifica busca en un listado de mensajes a eliminar,
+             *                                      si no existe advierte al usuario
+             */
+            deleteMessage() {
+                const vm = this;
+                var message_id = vm.selectedEmail ? vm.selectedEmail.message_id : null;
+                if (message_id !== null && vm.selectedMessages.length === 0) {
+                    toastr.warning(
+                        "Debe seleccionar uno o mas mensajes a borrar",
+                        "Error!"
                     );
-                });
-        },
-        /**
-         * Bandera que permite mostrar nuevamente el formulario de configuración
-         *
-         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-         */
-        setting() {
-            this.settingUpdate = true;
-        },
-        setFavorite(message_id) {
-            const vm = this;
-            axios
-                .post("/email/set-favorite", {
-                    message_id: message_id,
-                })
-                .then((response) => {
-                    if (response.data.result) {
-                        vm.favorites.push(message_id);
-                    } else {
-                        toastr.warning(response.data.message, "Alerta!");
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        },
-        /**
-         * Responder mensaje
-         *
-         * @method    replyMessage
-         *
-         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-         */
-        replyMessage() {
-            const vm = this;
-            vm.sent.to = vm.selectedEmail.from[0].mail;
-            vm.sent.subject = `RE: ${vm.selectedEmail.subject}`;
-            vm.sent.message = vm.selectedEmail.body_text;
-            vm.titleSentMessage = "Responder Mensaje";
-        },
-        /**
-         * Reenviar mensaje
-         *
-         * @method    replyMessage
-         *
-         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-         */
-        forwardMessage() {
-            const vm = this;
-            vm.sent.message = vm.selectedEmail.body_text;
-            vm.titleSentMessage = "Reenviar Mensaje";
-        },
-        openContent: function(email = null) {
-            const vm = this;
-            if (email) {
-                vm.selectedEmail = email;
-            }
-            $(".app-content .email-app-details").toggleClass("show");
-        },
-        closeContent: function(e) {
-            e.stopPropagation();
-            $(".app-content .email-app-details").removeClass("show");
-            this.resetMessage();
-            this.selectedEmail = {};
-            this.titleSentMessage = "Nuevo Mensaje";
-        },
-
-        openContentFolder: function(e) {
-            console.log("inicia conversacion");
-            e.stopPropagation();
-            $(".app-content .sidebar-left").toggleClass("show");
-            $(".app-content .app-content-overlay").addClass("show");
-        },
-
-        closeContentFolder: function() {
-            $(".sidebar-left").removeClass("show");
-            $(".app-content-overlay").removeClass("show");
-        },
-
-        openLabels: function() {
-            $(".openLabels").toggleClass("show");
-        },
-    },
-    mounted() {
-        const vm = this;
-        if (vm.download_messages) {
-            vm.getEmails();
-        }
-
-        $(".selectAll")
-            .find("input[type=checkbox]")
-            .on("click", function() {
-                if (vm.selectedMessages.length > 0) {
-                    vm.selectedMessages = [];
-                } else {
-                    $(".checkboxEmail").each(function() {
-                        vm.selectedMessages.push($(this).val());
-                    });
+                    return false;
                 }
-            });
-        $("#composeEmail").on("click", function() {
-            vm.titleSentMessage = "Nuevo Mensaje";
-        });
-    },
-};
 
+                axios
+                    .post("/email/messages/delete", {
+                        messages: vm.selectedMessages.length > 0 ? vm.selectedMessages : [message_id],
+                    })
+                    .then((response) => {
+                        if (response.data.result) {
+                            vm.getEmails();
+                            toastr.success("Mensaje(s) eliminado(s)", "Éxito!");
+                        }
+                    })
+                    .catch((error) => {
+                        toastr.danger(
+                            "No ha sido posible eliminar el(los) mensaje(s). Intente de nuevo mas tarde"
+                        );
+                    });
+            },
+            /**
+             * Bandera que permite mostrar nuevamente el formulario de configuración
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             */
+            setting() {
+                this.settingUpdate = true;
+            },
+            setFavorite(message_id) {
+                const vm = this;
+                axios
+                    .post("/email/set-favorite", {
+                        message_id: message_id,
+                    })
+                    .then((response) => {
+                        if (response.data.result) {
+                            vm.favorites.push(message_id);
+                        } else {
+                            toastr.warning(response.data.message, "Alerta!");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            },
+            /**
+             * Responder mensaje
+             *
+             * @method    replyMessage
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             */
+            replyMessage() {
+                const vm = this;
+                vm.sent.to = vm.selectedEmail.from[0].mail;
+                vm.sent.subject = `RE: ${vm.selectedEmail.subject}`;
+                vm.sent.message = vm.selectedEmail.body_text;
+                vm.titleSentMessage = "Responder Mensaje";
+            },
+            /**
+             * Reenviar mensaje
+             *
+             * @method    replyMessage
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             */
+            forwardMessage() {
+                const vm = this;
+                vm.sent.message = vm.selectedEmail.body_text;
+                vm.titleSentMessage = "Reenviar Mensaje";
+            },
+            /**
+             * Crea el listado de páginas a mostrar en el paginador de correos
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             */
+            setPages (mails) {
+                const vm = this;
+                let numberOfPages = Math.ceil(mails.length / vm.perPage);
+                for (let index = 1; index <= numberOfPages; index++) {
+                    vm.pages.push(index);
+                }
+            },
+            /**
+             * Establece el contenido de la página seleccionada en el paginador de correos
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             *
+             * @param     {array}    mails    Arreglo con listado de correos
+             *
+             * @return    {array}    Arreglo con listado de correos de acuerdo a la página seleccionada
+             */
+            paginate (mails) {
+                const vm = this;
+                let page = vm.page;
+                let perPage = vm.perPage;
+                let from = (page * perPage) - perPage;
+                let to = (page * perPage);
+                return  mails.slice(from, to);
+            },
+            openContent: function(email = null) {
+                const vm = this;
+                if (email !== null) {
+                    vm.selectedEmail = email;
+                    $(".app-content .email-app-details").toggleClass("show");
+                }
+            },
+            closeContent: function(e) {
+                e.stopPropagation();
+                $(".app-content .email-app-details").removeClass("show");
+                this.resetMessage();
+                this.selectedEmail = {};
+                this.titleSentMessage = "Nuevo Mensaje";
+            },
+
+            openContentFolder: function(e) {
+                console.log("inicia conversacion");
+                e.stopPropagation();
+                $(".app-content .sidebar-left").toggleClass("show");
+                $(".app-content .app-content-overlay").addClass("show");
+            },
+
+            closeContentFolder: function() {
+                $(".sidebar-left").removeClass("show");
+                $(".app-content-overlay").removeClass("show");
+            },
+
+            openLabels: function() {
+                $(".openLabels").toggleClass("show");
+            },
+        },
+        mounted() {
+            const vm = this;
+            if (vm.download_messages) {
+                vm.getEmails();
+            }
+
+            $(".selectAll")
+                .find("input[type=checkbox]")
+                .on("click", function() {
+                    if (vm.selectedMessages.length > 0) {
+                        vm.selectedMessages = [];
+                    } else {
+                        $(".checkboxEmail").each(function() {
+                            vm.selectedMessages.push($(this).val());
+                        });
+                    }
+                });
+            $("#composeEmail").on("click", function() {
+                vm.titleSentMessage = "Nuevo Mensaje";
+            });
+        },
+    };
 </script>
