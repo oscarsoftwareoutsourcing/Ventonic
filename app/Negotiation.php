@@ -14,27 +14,42 @@ class Negotiation extends Model
 
     // Relations
     // User
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
     // Contact
-    public function contact() {
+    public function contact()
+    {
         return $this->belongsTo(Contact::class);
     }
 
     // Type
-    public function type() {
+    public function type()
+    {
         return $this->belongsTo(NegotiationType::class, 'neg_type_id');
     }
 
     // Status
-    public function status() {
+    public function status()
+    {
         return $this->belongsTo(NegotiationStatus::class, 'neg_status_id');
     }
 
     // Related users
-    public function related_users() {
+    public function related_users()
+    {
         return $this->belongsToMany(User::class);
+    }
+
+    /**
+     * Negotiation belongs to Group.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
     }
 }

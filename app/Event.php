@@ -26,6 +26,18 @@ class Event extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Event morphs to models in eventable_type.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function eventable()
+    {
+        // morphTo($name = eventable, $type = eventable_type, $id = eventable_id)
+        // requires eventable_type and eventable_id fields on $this->table
+        return $this->morphTo();
+    }
+
     public function getCategoryColorAttribute()
     {
         $color = '';

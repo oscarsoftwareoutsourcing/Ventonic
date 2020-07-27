@@ -1,14 +1,18 @@
 <template>
     <div class="card">
-        <div class="card-header">
-            <h4 class="card-title">{{ negId ? 'Actualizar' : 'Nueva'}} Negociación</h4>
+        <div class="header_ventonic-description">
+            <div class="card_vetonic-description">
+                <div class="text_vetonic-description">
+                    {{ negId ? 'Actualizar' : 'Nueva'}} Negociación
+                </div>
+            </div>
         </div>
         <div class="card-content">
             <div class="card-body">
                 <form class="form form-horizontal" data-bitwarden-watching="1">
                     <div class="form-body">
                         <div class="row">
-                            
+
                             <!-- Status -->
                             <template v-if="negId !== null">
                                 <div class="col-lg-6">
@@ -44,7 +48,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Process -->
                             <div class="col-lg-6">
                                 <div class="form-group row">
@@ -64,7 +68,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Contact -->
                             <div class="col-lg-6">
                                 <div class="form-group row">
@@ -84,7 +88,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Deadline -->
                             <div class="col-lg-6">
                                 <div class="form-group row">
@@ -96,7 +100,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Title -->
                             <div class="col-lg-6">
                                 <div class="form-group row">
@@ -113,7 +117,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Description -->
                             <div class="col-lg-6">
                                 <div class="form-group row">
@@ -130,7 +134,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Amount -->
                             <div class="col-lg-6">
                                 <div class="form-group row">
@@ -139,7 +143,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <input name="txtAmount" id="txtAmount" type="text" placeholder="Importe" class="form-control" v-model="amount">
-                                        
+
                                         <!-- Validation messages -->
                                         <article class="help-block" v-if="$v.amount.$error">
                                             <i class="text-danger" v-if="!$v.amount.required">Dato requerido</i>
@@ -202,7 +206,7 @@
             </div>
 
             <!-- Buttons -->
-            <div class="card-footer text-center pt-5">                
+            <div class="card-footer text-center pt-5">
                 <button type="button" class="btn btn-primary waves-effect waves-light" @click="check()" :disabled="isDisabled">Guardar</button>
                 <button v-if="negId !== null" type="button" class="btn btn-warning waves-effect waves-light" @click.stop="archiveModal()">Archivar</button>
                 <button type="button" class="btn btn-light waves-effect waves-light" @click="eraseData()" :disabled="isDisabled">Cancelar</button>

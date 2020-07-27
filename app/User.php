@@ -167,6 +167,36 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\GroupUser', 'user_id');
     }
 
+    /**
+     * User has many FromEmails.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function fromEmails()
+    {
+        return $this->hasMany(Email::class, 'from_user_id');
+    }
+
+    /**
+     * User has many ToEmails.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function toEmails()
+    {
+        return $this->hasMany(Email::class, 'to_user_id');
+    }
+
+    /**
+     * User has many Notes.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
+
     public function getPhotoAttribute()
     {
         return ($this->sellerProfile!==null)
