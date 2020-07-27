@@ -4,7 +4,7 @@
 <h2 class="mb-4">Regístrate como Vendedor</h2>
 <p class="lead mb-4">Para continuar, inicia sesión o regístrate:</p>
 <p>¿Ya tienes una cuenta? <a href="{{ route('login', ['type' => 'vendedor']) }}">Accede aquí</a></p>
-        
+
 <form class="form-row form-dark align-items-center" id="register"  method="POST" action="{{ route('register') }}">
     @csrf
     <input type="hidden" name="type" value="V">
@@ -28,10 +28,11 @@
             </span>
         @enderror
     </div>
-             
+
     <div class="form-group col-sm-6">
-        <input type="email" class="form-control" id="email" placeholder="Email" title="Email" @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-        
+        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Email"
+               title="Email" name="email" value="{{ old('email') }}" required autocomplete="email">
+
         <p id="span_email" class="error-info error-span">Campo obligatorio</p>
 
         @error('email')
@@ -51,13 +52,13 @@
 
         <p id="span_password" class="error-info error-span">Campo obligatorio</p>
     </div>
-           
+
     <div class="form-group col-sm-12">
         <div class="custom-control custom-checkbox my-1 mr-sm-2 form-group">
             <input class="custom-control-input  @error('accept_terms') is-invalid @enderror"
             type="checkbox" name="accept_terms" id="accept_terms" {{ old('accept_terms') ? 'checked' : '' }}>
             <label class="custom-control-label" for="accept_terms">
-                Acepto las <a href="#"> Condiciones legales, del servicio</a> y la <a href="#">Información básica de privacidad. </a> 
+                Acepto las <a href="#"> Condiciones legales, del servicio</a> y la <a href="#">Información básica de privacidad. </a>
             </label>
             @error('accept_terms')
             <span class="invalid-feedback" role="alert">
@@ -73,7 +74,7 @@
 
 
     <div class="w-100 d-block my-4 inner-empresa border-top">
-        <p>¿Eres empresa?  
+        <p>¿Eres empresa?
             <a class="link" id="access-link"  title="Accede a tu cuenta" href="{{ route('register', ['type' => 'empresa']) }}">Regístrate</a>
         </p>
     </div>
