@@ -132,7 +132,7 @@
                                                     <span>en los últimos 7 días</span>
                                                 </h5>
                                             </div>
-                                            <a href="#" class="btn btn-primary shadow">View Details <i class="feather icon-chevrons-right"></i></a>
+                                            <a href="#" class="btn btn-primary shadow">Ver Detalles <i class="feather icon-chevrons-right"></i></a>
                                         </div>
                                         <div class="col-lg-6 col-12 d-flex justify-content-between flex-column text-right order-lg-2 order-1">
                                             <div class="dropdown chart-dropdown">
