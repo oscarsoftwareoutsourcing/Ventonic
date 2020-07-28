@@ -180,3 +180,6 @@ $router->group(['middleware' => ['verified']], function() use ($router) {
 Route::get('calender', 'EventController@index')->name('events.calender');
 
 Route::view('dash','inicio-dashboard');
+
+Route::get('apps-gratis','FreeAppController@index')->name('freeapps');
+Route::get('validate-pin/{pin}','FreeAppController@validatePin')->name('validatepin');
