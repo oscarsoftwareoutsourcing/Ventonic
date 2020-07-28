@@ -32,21 +32,22 @@ class ProfileController extends Controller
     {
         $this->getStatus();
         $this->setPhoneCode();
-        $type = $this->type;
+        //$type = $this->type;
+        $type = auth()->user()->type;
         $status = $this->status;
         $phone_code = $this->phone_code;
         $profile = $this->profile;
         $country_flag = $this->country_flag;
 
         // Confirmar invitacion a grupo
-            $user_id = auth()->user()->id;
-            $email_user_login = User::where('id', $user_id)->value('email');
-            $verify = Invitation::where('email', $email_user_login)
-                ->where('status', 'pendiente')
-                ->value('id');
-            if ($verify != null && $verify > 0) {
-                return redirect()->route('group.confirmInvitation',['invitacion_id'=>$verify]);
-            }
+        $user_id = auth()->user()->id;
+        $email_user_login = User::where('id', $user_id)->value('email');
+        $verify = Invitation::where('email', $email_user_login)
+            ->where('status', 'pendiente')
+            ->value('id');
+        if ($verify != null && $verify > 0) {
+            return redirect()->route('group.confirmInvitation',['invitacion_id'=>$verify]);
+        }
         // Fin confirmar invitacion a grupo
 
         $questions = Question::where(['option_type' => $type, 'status' => true])->orderBy('priority')->get();

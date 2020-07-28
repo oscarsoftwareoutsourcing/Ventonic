@@ -37,6 +37,19 @@ Vue.component("todo-sidebar", () => import("./components/TodoSidebar.vue"));
 Vue.component("todo-list", () => import("./components/TodoList.vue"));
 Vue.component("todo-form", () => import("./components/TodoForm.vue"));
 
+// Negotiations Module
+Vue.component("negotiations-module", () => import("./components/Negotiations.vue"));
+Vue.component("negotiations-controls", () => import("./components/NegControls.vue"));
+Vue.component("negotiations-filters", () => import("./components/NegFilters.vue"));
+Vue.component("negotiations-list", () => import("./components/NegsList.vue"));
+Vue.component("negotiation-card", () => import("./components/NegCard.vue"));
+
+Vue.component("negotiation-form", () => import("./components/NegForm.vue"));
+Vue.component("negotiation-details", () => import("./components/NegDetails.vue"));
+Vue.component("negotiation-event-modal", () => import("./components/NegEventModal.vue"));
+Vue.component("negotiation-file-modal", () => import("./components/NegFileModal.vue"));
+Vue.component("negotiation-confirm-modal", () => import("./components/NegConfirmModal.vue"));
+
 Vue.mixin({
     data() {
         return {
@@ -89,18 +102,7 @@ Vue.mixin({
     }
 });
 
-// Negotiations Module
-Vue.component("negotiations-module", () => import("./components/Negotiations.vue"));
-Vue.component("negotiations-controls", () => import("./components/NegControls.vue"));
-Vue.component("negotiations-filters", () => import("./components/NegFilters.vue"));
-Vue.component("negotiations-list", () => import("./components/NegsList.vue"));
-Vue.component("negotiation-card", () => import("./components/NegCard.vue"));
 
-Vue.component("negotiation-form", () => import("./components/NegForm.vue"));
-Vue.component("negotiation-details", () => import("./components/NegDetails.vue"));
-Vue.component("negotiation-event-modal", () => import("./components/NegEventModal.vue"));
-Vue.component("negotiation-file-modal", () => import("./components/NegFileModal.vue"));
-Vue.component("negotiation-confirm-modal", () => import("./components/NegConfirmModal.vue"));
 
 const app = new Vue({
     el: "#app",

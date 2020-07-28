@@ -60,6 +60,31 @@
         .loading-screen {
             z-index: 9999 !important;
         }
+        .custom-file input[type="file"] {
+            cursor: pointer;
+        }
+        body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item {
+            padding-left: 10px;
+        }
+        body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active, body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active i {
+            color: #ffffff;
+        }
+        body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active {
+            background-color: #0087FF;
+            border-radius: 5px;
+        }
+        body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active:hover, body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active:hover i {
+            color: #C2C6DC;
+        }
+        body.dark-layout .input-group span {
+            color: #262C49 !important;
+            font-weight: bold;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 8px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
     </style>
 </head>
 
@@ -148,6 +173,12 @@ navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern
     </script> -->
 
     @yield('extra-js')
+
+    <script>
+        /*$(document).ready(function() {
+            $("[data-toggle=tooltip]").tooltip();
+        });*/
+    </script>
 
 </body>
 <!-- END: Body-->

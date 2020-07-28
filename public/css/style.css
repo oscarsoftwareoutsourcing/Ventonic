@@ -434,3 +434,12 @@ iframe {
     font-size: 2rem;
     line-height: inherit;
 }
+
+.card_info {
+    background-color: #FFFFFF;
+    padding: 5px;
+}
+
+.text-black {
+    color: #000000 !important;
+}

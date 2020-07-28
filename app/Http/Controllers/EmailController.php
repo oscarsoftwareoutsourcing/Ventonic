@@ -165,7 +165,8 @@ class EmailController extends Controller
                     'body' => ($message->hasHTMLBody())
                               ? $message->getHTMLBody()
                               : (($message->hasTextBody()) ? $message->getTextBody() : null),
-                    'body_text' => $message->getTextBody() ?? ''
+                    'body_text' => $message->getTextBody() ?? '',
+                    'read' => false
                 ]);
             }
         }
@@ -220,6 +221,23 @@ class EmailController extends Controller
                         $messages = $folder->messages()->all()->get();
                         $emails[strtolower($folder->name)] = [];
                         foreach ($messages as $message) {
+                            $aAttachment = $message->getAttachments();
+                            $aAttachment->each(function ($oAttachment) {
+                                $path = config('filesystems.disks.attachments.root');
+                                /** @var \Webklex\IMAP\Attachment $oAttachment */
+                                $oAttachment->save($path);
+                                return $path . '/' . $oAttachment->getName();
+                            });
+
+                            $attachments = [];
+                            foreach ($message->getAttachments() as $attachFile) {
+                                $path = config('filesystems.disks.attachments.root');
+                                $file = $path . '/' . $attachFile->getName();
+                                array_push($attachments, $file);
+                            }
+                            $alreadyMessage = EmailMessage::where('message_id', $message->message_id)->first();
+
+
                             $emailMessage = EmailMessage::updateOrCreate(
                                 ['message_id' => $message->message_id],
                                 [
@@ -234,13 +252,13 @@ class EmailController extends Controller
                                     'bcc' => ($message->getBcc()) ? json_encode($message->getBcc()) : null,
                                     'reply_to' => json_encode($message->getReplyTo()),
                                     'sender' => json_encode($message->getSender()),
-                                    'attachments' => ($message->getAttachments())
-                                                     ? json_encode($message->getAttachments()) : null,
+                                    'attachments' => (count($attachments) > 0) ? json_encode($attachments) : null,
                                     'body' => ($message->hasHTMLBody())
                                               ? $message->getHTMLBody()
                                               : (($message->hasTextBody()) ? $message->getTextBody() : null),
                                     'body_text' => $message->getTextBody() ?? '',
-                                    'email_setting_id' => $emailSetting->id
+                                    'email_setting_id' => $emailSetting->id,
+                                    'read' => ($alreadyMessage)?$alreadyMessage->read:false
                                 ]
                             );
                             array_push($emails[strtolower($folder->name)], [
@@ -255,17 +273,18 @@ class EmailController extends Controller
                                 'bcc' => $message->getBcc(),
                                 'reply_to' => $message->getReplyTo(),
                                 'sender' => $message->getSender(),
-                                'attachments' => $message->getAttachments(),
+                                'attachments' => (count($attachments) > 0) ? json_encode($attachments) : [],
                                 'body' => ($message->hasHTMLBody())
                                           ? $message->getHTMLBody()
                                           : (($message->hasTextBody()) ? $message->getTextBody() : null),
-                                'body_text' => $message->getTextBody() ?? ''
+                                'body_text' => $message->getTextBody() ?? '',
+                                'read' => ($alreadyMessage)?$alreadyMessage->read:false,
                             ]);
                         }
                     }
                 } else {
                     $emails = [];
-                    foreach ($emailSetting->emailMessage()->get() as $message) {
+                    foreach ($emailSetting->emailMessage()->orderBy('message_at', 'desc')->get() as $message) {
                         $emails[$message->folder_type] = $emails[$message->folder_type] ?? [];
                         array_push($emails[$message->folder_type], [
                             'message_id' => $message->message_id,
@@ -281,7 +300,8 @@ class EmailController extends Controller
                             'sender' => json_decode($message->sender),
                             'attachments' => json_decode($message->attachments),
                             'body' => $message->body,
-                            'body_text' => $message->body_text
+                            'body_text' => $message->body_text,
+                            'read' => $message->read
                         ]);
                     }
                 }
@@ -352,15 +372,15 @@ class EmailController extends Controller
                 'from_name'    => $user->name,
             ];
 
-            $attach = null;
+            $attach = $request->attachments;
             $mailer = app()->makeWith('user.mailer', $configuration);
 
             /** Verifica si hay un archivo adjunto para subirlo al servidor y enviarlo en el correo */
-            if ($request->file('attachmentEmail')) {
+            /*if ($request->file('attachmentEmail')) {
                 if ($up->upload($request->file('attachmentEmail'), 'attachments', true)) {
                     $attach = $up->getStoredPath();
                 }
-            }
+            }*/
 
             $mailer->to($toEmails)->send(new UserManageMail($request->subject, $request->message, $attach));
 
@@ -538,5 +558,49 @@ class EmailController extends Controller
         ])->get();
 
         return response()->json(['result' => true, 'drafts' => $drafts], 200);
+    }
+
+    /**
+     * Marca un mensaje como leído o no leído de acuerdo al evento generado
+     *
+     * @method    markRead
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request     $request    Objeto con información de la petición
+     *
+     * @return    JsonResponse            Objeto JSON con datos de la respuesta
+     */
+    public function markRead(Request $request)
+    {
+        $emailMessage = EmailMessage::where('message_id', $request->message_id)->first();
+        if ($emailMessage) {
+            $emailMessage->read = $request->read ?? true;
+            $emailMessage->save();
+        }
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Guarda el archivo, a adjuntar en el correo, en el servidor para su posterior envío
+     *
+     * @method    uploadAttachment
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request             $request    Objeto con datos de la petición
+     *
+     * @return    JsonResponse        Objeto JSON con datos de respuesta
+     */
+    public function uploadAttachment(Request $request, UploadRepository $up)
+    {
+        if ($request->file('attachmentEmail')) {
+            if ($up->upload($request->file('attachmentEmail'), 'attachments', true)) {
+                $attach = $up->getStoredPath();
+                return response()->json(['result' => true, 'attach' => $attach], 200);
+            }
+        }
+
+        return response()->json(['result' => false], 200);
     }
 }

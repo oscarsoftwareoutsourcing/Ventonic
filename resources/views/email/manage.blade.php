@@ -17,6 +17,17 @@
         .email-user-list {
             overflow-x: hidden !important;
         }
+        nav {
+            z-index: 1;
+        }
+
+        .custom-file-input:lang(en) ~ .custom-file-label::after {
+            content: "Examinar" !important;
+          }
+
+          .custom-file-label::after {
+            content: "Examinar" !important;
+          }
     </style>
 @endsection
 
@@ -44,7 +55,10 @@
 @section('extra-js')
     <script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/scripts/pages/app-email.js') }}"></script>
-    <!-- 
+    <script src="{{ asset('vendors/js/pagination/jquery.bootpag.min.js') }}"></script>
+    <script src="{{ asset('vendors/js/pagination/jquery.twbsPagination.min.js') }}"></script>
+    <script src="{{ asset('js/scripts/pagination/pagination.js') }}"></script>
+    <!--
     <script src="{{ asset('vendors/js/editors/quill/katex.min.js') }}"></script>
     <script src="{{ asset('vendors/js/editors/quill/highlight.min.js') }}"></script>
     <script src="{{ asset('vendors/js/editors/quill/quill.js') }}"></script> -->
