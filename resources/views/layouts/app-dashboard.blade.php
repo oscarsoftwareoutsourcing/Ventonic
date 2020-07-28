@@ -76,6 +76,15 @@
         body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active:hover, body.dark-layout.email-application .app-content .content-area-wrapper .email-app-menu .sidebar-menu-list .list-group-messages .list-group-item.active:hover i {
             color: #C2C6DC;
         }
+        body.dark-layout .input-group span {
+            color: #262C49 !important;
+            font-weight: bold;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 8px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
     </style>
 </head>
 

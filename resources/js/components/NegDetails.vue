@@ -2,7 +2,13 @@
     <div class="row">
         <div class="col-sm-12 col-lg-8">
             <div class="card overflow-hidden">
-
+                <!--<div class="header_ventonic-description">
+                    <div class="card_vetonic-description">
+                        <div class="text_vetonic-description">
+                            Gestión de Negociación
+                        </div>
+                    </div>
+                </div>-->
                 <!-- Negotiation title with contact -->
                 <div class="card-header">
                     <h2 class="card-title">{{ title }} con {{ contact }}</h2>
@@ -55,17 +61,155 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="messages-just" aria-labelledby="messages-tab-justified"
+                            <div class="tab-pane pb-3" id="messages-just" aria-labelledby="messages-tab-justified"
                                  role="tabpanel">
-                                <p>GESTIÓN DE EVENTOS</p>
+                                <div class="d-flex justify-content-between align-items-center add-category">
+                                    <div id="labelBullet" class="chip-wrapper"></div>
+                                    <div class="label-icon pt-1 pb-2 dropdown calendar-dropdown">
+                                        <i class="feather icon-tag dropdown-toggle" id="labelsBtn" data-toggle="dropdown"></i>
+                                        <div id="categoriesContainer" class="dropdown-menu dropdown-menu-right"
+                                             aria-labelledby="cal-event-category">
+                                            <span class="dropdown-item bulletOpt" data-key="B">
+                                                <span class="bullet bullet-success bullet-sm mr-25"></span>
+                                                Eventos
+                                            </span>
+                                            <span class="dropdown-item bulletOpt" data-key="W">
+                                                <span class="bullet bullet-warning bullet-sm mr-25"></span>
+                                                Recordatorios
+                                            </span>
+                                            <span class="dropdown-item bulletOpt" data-key="P">
+                                                <span class="bullet bullet-danger bullet-sm mr-25"></span>
+                                                Tareas
+                                            </span>
+                                            <span class="dropdown-item bulletOpt" data-key="P">
+                                                <span class="bullet bullet-danger bullet-sm mr-25"></span>
+                                                Llamadas
+                                            </span>
+                                            <span class="dropdown-item bulletOpt" data-key="O">
+                                                <span class="bullet bullet-primary bullet-sm mr-25"></span>
+                                                Otros
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form id="calendarForm">
+                                    <!-- Title event -->
+                                    <div class="form-group">
+                                        <label for="">Evento</label>
+                                        <input type="text" class="form-control" id="cal-event-title"
+                                               placeholder="Título del evento">
+                                        <input type="hidden" id="cal-event-id" readonly>
+                                    </div>
+
+                                    <!-- Starts at date -->
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label for="">Fecha de Inicio</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <input type="date" class="form-control pickadate"
+                                                       id="cal-start-date" placeholder="dd-mm-yyyy">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Starts at time -->
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label for="">Hora de Inicio</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control pickatime" id="cal-start-time" placeholder="00:00">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Ends at date -->
+                                    <div class="form-group">
+                                        <div class="row mt-1">
+                                            <div class="col-sm-4">
+                                                <label for="">Fecha Final</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <input type="date" class="form-control pickadate" id="cal-end-date" placeholder="dd-mm-yyyyy">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Ends at time -->
+                                    <div class="form-group">
+                                        <div class="row mt-1">
+                                            <div class="col-sm-4">
+                                                <label for="">Hora Final</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control pickatime" id="cal-end-time" placeholder="00:00">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Note/Description -->
+                                    <div class="form-group">
+                                        <label for="">Descripción</label>
+                                        <textarea class="form-control" id="cal-description" rows="3" placeholder="Descripción del evento"></textarea>
+                                    </div>
+
+                                    <!-- Place -->
+                                    <div class="form-group">
+                                        <label for="">Lugar</label>
+                                        <input type="text" class="form-control" id="cal-event-place" placeholder="Lugar del evento">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary float-left">
+                                            Agregar evento
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="tab-pane" id="settings-just" aria-labelledby="settings-tab-justified"
+                            <div class="tab-pane pb-3" id="settings-just" aria-labelledby="settings-tab-justified"
                                  role="tabpanel">
-                                <p>GESTIÓN DE DOCUMENTOS</p>
+                                <div class="form-group">
+                                    <label for="documentNote">Nota</label>
+                                    <textarea rows="4" class="form-control" id="documentNote"
+                                              placeholder="Agregar una nota"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <form action="#" class="dropzone dropzone-area dz-clickable" id="documentsDz">
+                                        <div class="dz-message">Drop Files Here To Upload</div>
+                                    </form>
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary float-left">
+                                        Enviar
+                                    </button>
+                                </div>
                             </div>
-                            <div class="tab-pane" id="home-just" aria-labelledby="home-tab-justified"
+                            <div class="tab-pane pb-3" id="home-just" aria-labelledby="home-tab-justified"
                                  role="tabpanel">
-                                <p>GESTIÓN DE CORREOS</p>
+                                <div class="form-group">
+                                    <label for="searchEmail">Email contacto</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Correo electrónico"
+                                               aria-describedby="searchEmail">
+                                        <span class="input-group-addon" id="searchEmail">Buscar Email</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subject">Asunto</label>
+                                    <input type="text" class="form-control" placeholder="Asunto">
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Mensaje</label>
+                                    <textarea id="message" class="form-control" rows="10"
+                                              placeholder="Agregar un mensaje"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary float-left">
+                                        Enviar
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -159,6 +303,8 @@
                     });
                 });
             }
+
+
         },
         methods: {
             ...mapMutations({

@@ -1,9 +1,14 @@
 @extends('layouts.app-dashboard')
 
 @section('extra-css')
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/file-uploaders/dropzone.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/plugins/file-uploaders/dropzone.css') }}">
     <style>
         .ps-width {
             width: 100% !important;
+        }
+        #appFooter {
+            position: relative !important;
         }
     </style>
 @endsection
@@ -18,6 +23,8 @@
 @endsection
 
 @section('extra-js')
+    <script src="{{ asset('vendors/js/extensions/dropzone.min.js') }}"></script>
+    <script src="{{ asset('js/scripts/extensions/dropzone.js') }}"></script>
     <script>
         window.api_url="{{ env('MIX_API_URL') }}";
     </script>

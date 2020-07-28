@@ -4,7 +4,7 @@
         <div id="headerNavbarShadow" class="header-navbar-shadow"></div>
         <div id="contentWrapper" class="content-wrapper pt-1">
             <!-- Module control -->
-            <negotiations-controls v-if="!getShowForm" />
+            <negotiations-controls v-if="!getShowForm && !getShowDetails" />
             <div class="header-ventonic-blue" v-else>
                 <div class="card-ventonic">
                     <div class="row">
