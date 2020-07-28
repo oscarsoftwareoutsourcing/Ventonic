@@ -56,9 +56,37 @@
                                               placeholder="Agregar una nota"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-primary float-left">
+                                    <button type="button" class="btn btn-primary">
                                         Enviar
                                     </button>
+                                </div>
+                                <div class="form-group">
+                                    <hr>
+                                    <div id="accordionNote" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingAccordionNote">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <h6 class="panel-title text-left">
+                                                            <a data-toggle="collapse" data-parent="#accordionNote" href="#collapseAccordionNote" aria-expanded="true" aria-controls="collapseAccordionNote">
+                                                                Vista detallada
+                                                            </a>
+                                                        </h6>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <h6 class="panel-title text-right">
+                                                            <a href="javascript:void(0)">
+                                                                <i class="fa fa-cogs"></i> Más opciones
+                                                            </a>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="collapseAccordionNote" class="panel-collapse collapse in float-none" role="tabpanel" aria-labelledby="headingAccordionNote">
+                                                Listado detallado de notas
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane pb-3" id="messages-just" aria-labelledby="messages-tab-justified"
@@ -162,7 +190,7 @@
                                         <input type="text" class="form-control" id="cal-event-place" placeholder="Lugar del evento">
                                     </div>
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary float-left">
+                                        <button type="button" class="btn btn-primary">
                                             Agregar evento
                                         </button>
                                     </div>
@@ -181,9 +209,37 @@
                                     </form>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-primary float-left">
+                                    <button type="button" class="btn btn-primary">
                                         Enviar
                                     </button>
+                                </div>
+                                <div class="form-group">
+                                    <hr>
+                                    <div id="accordionDocument" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingAccordionDocument">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <h6 class="panel-title text-left">
+                                                            <a data-toggle="collapse" data-parent="#accordionDocument" href="#collapseAccordionDocument" aria-expanded="true" aria-controls="collapseAccordionDocument">
+                                                                Vista detallada
+                                                            </a>
+                                                        </h6>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <h6 class="panel-title text-right">
+                                                            <a href="javascript:void(0)">
+                                                                <i class="fa fa-cogs"></i> Más opciones
+                                                            </a>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="collapseAccordionDocument" class="panel-collapse collapse in float-none" role="tabpanel" aria-labelledby="headingAccordionDocument">
+                                                Listado detallado de documentos
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane pb-3" id="home-just" aria-labelledby="home-tab-justified"
@@ -206,9 +262,37 @@
                                               placeholder="Agregar un mensaje"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-primary float-left">
+                                    <button type="button" class="btn btn-primary">
                                         Enviar
                                     </button>
+                                </div>
+                                <div class="form-group">
+                                    <hr>
+                                    <div id="accordionEmail" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingAccordionEmail">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <h6 class="panel-title text-left">
+                                                            <a data-toggle="collapse" data-parent="#accordionEmail" href="#collapseAccordionEmail" aria-expanded="true" aria-controls="collapseAccordionEmail">
+                                                                Vista detallada
+                                                            </a>
+                                                        </h6>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <h6 class="panel-title text-right">
+                                                            <a href="javascript:void(0)">
+                                                                <i class="fa fa-cogs"></i> Más opciones
+                                                            </a>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="collapseAccordionEmail" class="panel-collapse collapse in float-none" role="tabpanel" aria-labelledby="headingAccordionEmail">
+                                                Listado detallado de Emails
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
