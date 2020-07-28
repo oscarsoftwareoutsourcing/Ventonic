@@ -27,7 +27,7 @@ class Group extends Model
      */
     public function negotiations()
     {
-        return $this->hasMany(Negotiation::class);
+        return $this->belongsToMany(Negotiation::class);
     }
 
     public function user()

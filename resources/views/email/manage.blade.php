@@ -20,6 +20,14 @@
         nav {
             z-index: 1;
         }
+
+        .custom-file-input:lang(en) ~ .custom-file-label::after {
+            content: "Examinar" !important;
+          }
+
+          .custom-file-label::after {
+            content: "Examinar" !important;
+          }
     </style>
 @endsection
 

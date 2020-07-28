@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -47,7 +48,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm($type = null)
     {
-        
+
         if ($type === 'empresa') {
             return view('auth.register-company');
         }
@@ -84,13 +85,14 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'uuid' => Str::uuid(),
             'name' => $data['name'],
             'last_name' => $data['last_name'] ?? null,
             'type' => $data['type'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        
+
         $user=User::first();
         $email_register=User::where('email', $user->email)->get();
 
@@ -101,6 +103,6 @@ class RegisterController extends Controller
             return view('auth.register-company');
         }
         return view('auth.register');
-        
+
     }
 }

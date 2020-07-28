@@ -43,13 +43,8 @@ class Negotiation extends Model
         return $this->belongsToMany(User::class);
     }
 
-    /**
-     * Negotiation belongs to Group.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function group()
+    public function groups()
     {
-        return $this->belongsTo(Group::class);
+        return $this->belongsToMany(Group::class);
     }
 }
