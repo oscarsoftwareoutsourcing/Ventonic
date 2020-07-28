@@ -19,7 +19,7 @@
                 <!-- Filters bar -->
                 <negotiations-filters />
                 <!-- Search and lists -->
-                <div id="searchAndListsCol" class="col h-100">
+                <div id="searchAndListsCol" class="col-lg-auto d-none d-lg-block h-100">
                     <div class="content-body">
                         <div id="searchSection" class="row my-1">
                             <!-- Total of negotiations -->

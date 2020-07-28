@@ -1,10 +1,17 @@
 @extends('layouts.app-dashboard')
 
 @section('extra-css')
+    <style>
+        .ps-width {
+            width: 100% !important;
+        }
+    </style>
 @endsection
 
 @section('content')
-    <negotiations-module :types="{{ $negTypes }}" :statuses="{{ $negStatuses }}" :processes="{{ $negProcesses }}" :negotiations="{{ $negotiations }}" :user="{{ $userId }}" :contacts="{{ $userContacts }}" :a="{{ $userGroups }}" />
+    <negotiations-module :types="{{ $negTypes }}" :statuses="{{ $negStatuses }}" :processes="{{ $negProcesses }}"
+                         :negotiations="{{ $negotiations }}" :user="{{ $userId }}" :contacts="{{ $userContacts }}"
+                         :a="{{ $userGroups }}" />
 @endsection
 @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}" defer></script>
