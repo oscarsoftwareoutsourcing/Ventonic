@@ -204,6 +204,8 @@ Route::group(['middleware' => ['verified']], function () use ($router) {
     Route::post('negociaciones/set-note', 'NegotiationController@setNote');
     Route::get('negociaciones/get-events/{negotiation}', 'NegotiationController@getEvents');
     Route::post('negociaciones/set-event', 'NegotiationController@setEvent');
+    Route::get('negociaciones/get-emails/{negotiation}', 'NegotiationController@getEmails');
+    Route::post('negociaciones/set-email', 'NegotiationController@setEmail');
     // $router->get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{producto}/{responsable}/{estimado}',
     // 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');
 });

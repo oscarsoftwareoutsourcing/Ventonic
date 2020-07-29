@@ -387,21 +387,21 @@
                                     <label for="searchEmail">Email contacto</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Correo electrónico"
-                                               aria-describedby="searchEmail">
+                                               aria-describedby="searchEmail" v-model="email.email">
                                         <span class="input-group-addon" id="searchEmail">Buscar Email</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="subject">Asunto</label>
-                                    <input type="text" class="form-control" placeholder="Asunto">
+                                    <input type="text" class="form-control" placeholder="Asunto" v-model="email.subject">
                                 </div>
                                 <div class="form-group">
                                     <label for="message">Mensaje</label>
-                                    <textarea id="message" class="form-control" rows="10"
+                                    <textarea id="message" class="form-control" rows="10" v-model="email.message"
                                               placeholder="Agregar un mensaje"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-primary" @click="setEmail">
                                         Enviar
                                     </button>
                                 </div>
@@ -428,7 +428,21 @@
                                                 </div>
                                             </div>
                                             <div id="collapseAccordionEmail" class="panel-collapse collapse in float-none" role="tabpanel" aria-labelledby="headingAccordionEmail">
-                                                Listado detallado de Emails
+                                                <div class="media-list media-bordered">
+                                                    <div class="media" v-for="e in emails">
+                                                        <a class="align-self-start media-left" href="#">
+                                                            <img :src="(e.to_user.photo)?e.to_user.photo:'/images/anonymous-user.png'" alt="user avatar" width="64" height="64">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <h5 class="media-heading">
+                                                                {{ e.to_user.name }} {{ e.to_user.last_name }} -
+                                                                {{ e.created_at }}
+                                                            </h5>
+                                                            <h6 class="media-heading">Asunto: {{ e.subject }}</h6>
+                                                            <p class="mb-0">Mensaje: {{ e.message }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -536,7 +550,13 @@
                 eventEndTimeError: '',
                 eventDescriptionError: '',
                 eventPlaceError: '',
-                events: []
+                events: [],
+                email: {
+                    email: '',
+                    subject: '',
+                    message: ''
+                },
+                emails: []
             }
         },
         mounted() {
@@ -552,6 +572,7 @@
 
             this.getNotes();
             this.getEvents();
+            this.getEmails();
         },
         methods: {
             ...mapMutations({
@@ -669,6 +690,37 @@
                 axios.get(`/negociaciones/get-events/${vm.getDetailedNeg.id}`).then(response => {
                     if (response.data.result) {
                         vm.events = response.data.events;
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
+            },
+            setEmail() {
+                const vm = this;
+                console.log(vm.getDetailedNeg)
+                axios.post('/negociaciones/set-email', {
+                    email: vm.email.email,
+                    subject: vm.email.subject,
+                    message: vm.email.message,
+                    negotiation_id: vm.getDetailedNeg.id
+                }).then(response => {
+                    if (response.data.result) {
+                        vm.email = {
+                            email: '',
+                            subject: '',
+                            message: ''
+                        };
+                        vm.getEmails();
+                    }
+                }).catch(error => {
+
+                });
+            },
+            getEmails() {
+                const vm = this;
+                axios.get(`/negociaciones/get-emails/${vm.getDetailedNeg.id}`).then(response => {
+                    if (response.data.result) {
+                        vm.emails = response.data.emails;
                     }
                 }).catch(error => {
                     console.error(error);

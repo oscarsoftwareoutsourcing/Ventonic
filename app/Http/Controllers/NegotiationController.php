@@ -3,17 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 // use App\SellerProfile;
+use Carbon\Carbon;
+use App\Http\Resources\NegotiationsResource;
+use App\Mail\Negotiation as NegotiationEmail;
 use App\User;
 use App\UserModuleLabel;
 use App\NegotiationType;
 use App\NegotiationStatus;
 use App\Negotiation;
 use App\Group;
-use Carbon\Carbon;
-use App\Http\Resources\NegotiationsResource;
 use App\Note;
 use App\Event;
+use App\Email;
 
 class NegotiationController extends Controller
 {
@@ -238,7 +241,7 @@ class NegotiationController extends Controller
      *
      * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
-     * @param     integer      $negotiation_id    [description]
+     * @param     Negotiation      $negotiation    Objeto con datos de la negociación
      *
      * @return    JsonResponse Objeto con información de respuesta
      */
@@ -299,8 +302,69 @@ class NegotiationController extends Controller
         return response()->json(['result' => true], 200);
     }
 
+    /**
+     * Obtiene el listado de eventos asociados a una negociación
+     *
+     * @method    getEvents
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Negotiation    $negotiation    Objeto con datos de la negociación
+     *
+     * @return    JsonResponse   Objeto con datos de respuesta a la petición
+     */
     public function getEvents(Negotiation $negotiation)
     {
         return response()->json(['result' => true, 'events' => $negotiation->events], 200);
+    }
+
+    /**
+     * Registra un correo a envíar asociado a una negociación
+     *
+     * @method    setEmail
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request     $request    Objeto con datos de la petición
+     *
+     * @return  JsonResponse  Objeto con información de respuesta a la petición
+     */
+    public function setEmail(Request $request)
+    {
+        $this->validate($request, [
+            'email' => ['required', 'email'],
+            'subject' => ['required'],
+            'message' => ['required']
+        ]);
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json(['result' => false, 'message' => 'El contacto no existe'], 200);
+        }
+        Email::create([
+            'subject' => $request->subject,
+            'message' => $request->message,
+            'from_user_id' => auth()->user()->id,
+            'to_user_id' => $user->id,
+            'emailable_type' => Negotiation::class,
+            'emailable_id' => $request->negotiation_id
+        ]);
+        Mail::to($user)->send(new NegotiationEmail($user->email, $user->name, $request->subject, $request->message));
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Obtiene un listado de correos asociados a una negociación
+     *
+     * @method    getEmails
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Negotiation    $negotiation    Objeto con información de la negociación
+     *
+     * @return    JsonResponse   Objeto con datos de respuesta a la petición
+     */
+    public function getEmails(Negotiation $negotiation)
+    {
+        return response()->json(['result' => true, 'emails' => $negotiation->emails], 200);
     }
 }
