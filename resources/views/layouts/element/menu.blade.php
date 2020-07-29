@@ -73,9 +73,9 @@
             <li class=" nav-item"><a href="{{route('todos')}}"><i class="feather icon-check-square"></i><span class="menu-title">Notas Personales</span></a>
             </li>
 
-            <!-- @php var_dump(\Auth::user()->id); @endphp -->
+            
 
-            @if (\Auth::user()->type=="Empresa")
+            @if (\Auth::user()->type=="E")
             <li class=" nav-item"><a href="{{route('freeapps')}}"><i class="feather icon-calendar"></i><span class="menu-title">Apps Gratis</span></a>
             </li>
             @endif

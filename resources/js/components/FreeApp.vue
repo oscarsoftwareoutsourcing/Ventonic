@@ -9,7 +9,7 @@
                                 <img class="card-img-top img-fluid" :src="'images/pages/content-img-1.jpg'"
                                     alt="Card image cap">
                                 <div class="card-body">
-                                    <h5>Vuexy Admin</h5>
+                                    <h5>Call me</h5>
                                     <p class="card-text  mb-0">By Pixinvent Creative Studio</p>
                                     <span class="card-text">Elite Author</span>
                                     <div class="card-btns d-flex justify-content-between mt-2">
@@ -34,21 +34,50 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form-wizard @on-complete="onComplete" @on-error="handleErrorMessage" color="#7367F0"  finish-button-text="Generate Widget">
-                                    <tab-content title="Step 1" icon="feather icon-home"
-                                        >
-                                        Get Seller PIN
+                                <form-wizard title=""
+                       subtitle="" @on-complete="GenerateWidget" @on-error="handleErrorMessage"
+                                    color="#7367F0" finish-button-text="Generate Widget">
+                                    <tab-content title="Get Seller PIN" icon="feather icon-home">
+                                        <p class="text-center">Ask seller to provide PIN, located in seller profile.</p>
                                     </tab-content>
-                                    <tab-content title="Step 2" icon="feather icon-briefcase" :before-change="beforeTabSwitch">
-                                        <input v-model="pin" type="text" class="form-control col-md-4" placeholder="Enter your Seller PIN here">
-                                        
-                                    </tab-content>
-                                    <tab-content title="Step 3" icon="feather icon-image">
-                                        Generate Widget
-                                    </tab-content>
-                                    <div v-if="errorMsg">
-                                        <span class="danger">{{errorMsg}}</span>
+                                    <tab-content title="PIN Validation" icon="feather icon-briefcase"
+                                        :before-change="beforeTabSwitch">
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <input v-model="pin" type="text" class="form-control col-md-6 offset-md-3"
+                                            placeholder="Enter your Seller PIN here">
+                                        </div>
                                     </div>
+                                        
+
+                                    </tab-content>
+                                    <tab-content title="Generate Widget" :before-change="validateWidgetName"
+                                        icon="feather icon-image">
+                                        <div class="row">
+                                            <div class="col-12 text-center">
+                                            <input v-if="!generated" v-model="widgetname" type="text" class="form-control col-md-6 offset-md-3"
+                                            placeholder="Enter name for the widget">
+                                            </div>
+                                        </div>
+                                         
+                                        <div class="row mt-2" v-if="generated">
+                                            <div class="col-12 text-center">
+                                                <fieldset class="form-group">
+                                                    <textarea class="form-control" v-model="script" id="basicTextarea" rows="10" :disabled="isDisabled" placeholder="Textarea"></textarea>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </tab-content>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <div v-if="errorMsg">
+                                            
+                                                <span style="color:rgb(255,99,71)!important;">{{errorMsg}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
                                 </form-wizard>
                             </div>
                         </div>
@@ -63,7 +92,7 @@
     const widgetWizard = () => import( /* webpackChunkName: "widget-wizard" */ './WidgetWizard.vue');
     import VueFormWizard from 'vue-form-wizard'
     import 'vue-form-wizard/dist/vue-form-wizard.min.css'
-import Axios from 'axios';
+    import Axios from 'axios';
     Vue.use(VueFormWizard)
 
     export default {
@@ -74,8 +103,12 @@ import Axios from 'axios';
         },
         data() {
             return {
-                pin:'',
+                pin: '',
+                widgetname:'',
+                script:'',
+                isDisabled: true,
                 errorMsg: null,
+                generated: false,
             }
         },
 
@@ -86,35 +119,61 @@ import Axios from 'axios';
             onComplete() {
                 alert('Yay. Done!');
             },
-            handleErrorMessage: function(errorMsg){
+            handleErrorMessage: function (errorMsg) {
                 this.errorMsg = errorMsg
             },
             beforeTabSwitch() {
-                 return new Promise((resolve, reject) => {
-                   const vm = this;
+                return new Promise((resolve, reject) => {
+                    const vm = this;
 
-                    if(vm.pin !=''){
+                    if (vm.pin != '') {
                         axios
-                        .get("/validate-pin/"+vm.pin) 
-                        .then(response => {
-                            console.log(response);
-                            if(response.data.found == 1){
-                                resolve(true);
-                            }else{
-                                reject("Pin validation Failed");
-                            }
-                        });
-                    }else{
+                            .get("/validate-pin/" + vm.pin)
+                            .then(response => {
+                                console.log(response);
+                                if (response.data.found == 1) {
+                                    resolve(true);
+                                } else {
+                                    reject("Pin validation Failed");
+                                }
+                            });
+                    } else {
                         reject("Pin validation Failed");
                     }
                 })
-                 
-                
+
+
+
+            },
+            validateWidgetName(){
+                return new Promise((resolve, reject) => {
+                    
+                    if(this.widgetname != ''){
+                        resolve(true);
+                    }else{
+                        reject("Widget name required")
+                    }
+                })
+            },
+            GenerateWidget() {
+                const vm = this;
+               
+
+                axios.post(`/widget/generateWidget`, {
+                    uuid: vm.pin,
+                    widgetName: vm.widgetname
+                }).then(response => {
+                        // vm.script = JSON.stringify(response.data.script, undefined, 4);
+                        vm.script = response.data.script;
+                        vm.generated = true;
+                        vm.isDisabled = false;
+
+                    }).catch(error => {
+                        console.error(error);
+                    });
+
                 
             }
-
-
-
         }
     }
 
@@ -128,8 +187,16 @@ import Axios from 'axios';
         background-color: #7367F0;
     } */
 
-    .wizard-tab-container{
+    .wizard-tab-container {
         color: whitesmoke;
+    }
+
+    .wizard-icon{
+        color: white;
+    }
+    
+   body .vue-form-wizard .wizard-icon-circle{
+        background-color: #262C49 !important;
     }
 
 </style>

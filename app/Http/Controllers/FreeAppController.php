@@ -16,7 +16,7 @@ class FreeAppController extends Controller
     public function validatePin(Request $request){
 
         $pin = $request->pin;
-        $found = User::find($pin);
+        $found = User::firstWhere('uuid',$pin);
         if($found){
             return response()->json(['found'=>'1'], 200);
         }else{

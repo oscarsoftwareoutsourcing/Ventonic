@@ -322,8 +322,8 @@
                                             {{ __('PIN') }}
                                         </label>
 
-                                        <div class="col-md-2">
-                                            <input id="pin" type="text" class="form-control" name="pin" value="{{auth()->user()->id}}" readonly>
+                                        <div class="col-md-4">
+                                            <input id="pin" type="text" class="form-control" name="pin" value="{{auth()->user()->uuid}}" readonly>
                                         </div>
                                         <div class="col-md-2">
                                             <input id="copyBtn" type="button" class="btn btn-outline-primary mr-1 mb-1 waves-effect waves-light" onclick="copyPin()" name="copyBtn" value="Copiar mi PIN" >
