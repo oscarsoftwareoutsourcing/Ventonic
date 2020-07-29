@@ -170,6 +170,7 @@
                                                 <div class="form-label-group">
                                                     <select class="form-control @error('etiquetas') is-invalid @enderror" id="etiqueta-column" name="etiquetas" {{$contact =='persona' || $contact =='empresa' ? '' : 'disabled'}}>
                                                         <option value="Cliente">Cliente</option>
+                                                        <option value="Cliente Perdido">Cliente Perdido</option>
                                                         <option value="Cliente Potencial">Cliente Potencial</option>
                                                         <option value="Colaborador">Colaborador</option>
                                                         <option value="Proveedor">Proveedor</option>

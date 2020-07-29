@@ -10,6 +10,7 @@ use Swift_SmtpTransport;
 use Swift_Mailer;
 use App\Aplicant;
 use App\Observers\AplicantObserver;
+use Illuminate\Support\Facades\Blade;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -55,5 +56,10 @@ class AppServiceProvider extends ServiceProvider
     {
         // Aplicant::observe(AplicantObserver::class);
         Schema::defaultStringLength(191);
+
+        Blade::directive('money', function ($money) {
+            return "<?php echo number_format($money, 2, ',', '.'); ?>";
+            
+        });
     }
 }

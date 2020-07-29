@@ -166,6 +166,7 @@
                                                 <div class="form-label-group">
                                                     <select class="form-control @error('etiquetas') is-invalid @enderror" id="etiqueta-column" name="etiquetas">
                                                         <option {{$contact->type=="Cliente" ? 'selected': ''}} value="Cliente">Cliente</option>
+                                                        <option {{$contact->type=="Cliente" ? 'selected': ''}} value="Cliente Perdido">Cliente Perdido</option>
                                                         <option {{$contact->type=="Cliente Potencial" ? 'selected': ''}} value="Cliente Potencial">Cliente Potencial</option>
                                                         <option {{$contact->type=="Colaborador" ? 'selected': ''}} value="Colaborador">Colaborador</option>
                                                         <option {{$contact->type=="Proveedor" ? 'selected': ''}} value="Proveedor">Proveedor</option>
