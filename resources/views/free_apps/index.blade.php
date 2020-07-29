@@ -29,7 +29,7 @@
 @endsection
 
 @section('extra-js')
-
+<script src="{{ asset('js/scripts/components.js') }}"></script>
 @endsection
 
 @section('extra-js-app')
