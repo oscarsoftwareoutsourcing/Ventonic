@@ -204,6 +204,10 @@ Route::group(['middleware' => ['verified']], function () use ($router) {
     // 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');
 });
 
+
+/* Routas para reportes */
+Route::get('informes/ventas', 'ReportController@sales')->name('report.sales')->middleware('verified');
+
 Route::get('calender', 'EventController@index')->name('events.calender');
 
 Route::view('dash', 'inicio-dashboard');
