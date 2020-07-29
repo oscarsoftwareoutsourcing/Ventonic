@@ -51,7 +51,7 @@ class ReportController extends Controller
                 'n.neg_status_id',
                 's.status as desc',
                 DB::raw('COUNT(n.user_id) as qty'),
-                DB::raw('round(SUM(n.amount),2) as tot')
+                DB::raw("FORMAT(SUM(n.amount),2, 'de_DE') as tot")
                 
             )
             ->Join('negotiation_statuses as s', 's.id', '=', 'n.neg_status_id' )
