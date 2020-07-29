@@ -15,7 +15,14 @@
                 </div>
                 <div class="card-content">
                     <div class="card-body">
-
+                        <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
+                            <p class="mb-0">
+                                Registro almacenado correctamente
+                            </p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
                         <!-- Responsable -->
                         <p><b>Responsable:</b> {{ owner }}</p>
 
@@ -556,7 +563,8 @@
                     subject: '',
                     message: ''
                 },
-                emails: []
+                emails: [],
+                success: false
             }
         },
         mounted() {
@@ -605,7 +613,9 @@
                         vm.noteError = '';
                         vm.getNotes();
                     }
+                    vm.success = response.data.result;
                 }).catch(error => {
+                    vm.success = false;
                     if (typeof(error.response) !="undefined") {
                         for (var index in error.response.data.errors) {
                             if (error.response.data.errors[index]) {
@@ -659,7 +669,9 @@
                         vm.eventPlaceError = '';
                         vm.getEvents();
                     }
+                    vm.success = response.data.result;
                 }).catch(error => {
+                    vm.success = false;
                     if (typeof(error.response) !="undefined") {
                         if (typeof(error.response.data.errors.title) !== "undefined") {
                             vm.eventTitleError = error.response.data.errors.title[0];
@@ -712,8 +724,9 @@
                         };
                         vm.getEmails();
                     }
+                    vm.success = response.data.result;
                 }).catch(error => {
-
+                    vm.success = false;
                 });
             },
             getEmails() {
