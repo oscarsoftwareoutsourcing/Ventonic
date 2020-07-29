@@ -212,3 +212,4 @@ Route::get('apps-gratis','FreeAppController@index')->name('freeapps');
 Route::get('validate-pin/{pin}','FreeAppController@validatePin')->name('validatepin');
 Route::post('widget/generateWidget','WidgetController@store');
 Route::get('widget/widgetsData','WidgetController@widgetsData')->name('widgets.data');
+Route::get('updateWidgetStatus/{widgetID}/{widgetStatus}','WidgetController@updateWidgetStatus')->name('widgets.update');

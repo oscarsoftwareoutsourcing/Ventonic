@@ -38,7 +38,7 @@
         var
         s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
         s1.async=true;
-        s1.src="https://embed.ventonic.com/'.$token.'/default";
+        s1.src="https://embed.ventonic.com/{{widget.token}}/default";
         s1.charset="UTF-8";
         s1.setAttribute("crossorigin","*");
         s0.parentNode.insertBefore(s1,s0);
@@ -51,8 +51,8 @@
 
                                         <div class="card-btns d-flex justify-content-between mt-2">
                                             <div class="custom-control custom-switch custom-control-inline">
-                                                <input type="checkbox" class="custom-control-input" id="ActiveWidget">
-                                                <label class="custom-control-label" for="ActiveWidget">
+                                                <input type="checkbox" class="custom-control-input" v-model="widget.status" :id="widget.id" @change="widgetStatusUpdate($event,widget.id)">
+                                                <label class="custom-control-label" :for="widget.id">
                                                 </label>
                                                 <span class="switch-label">Active</span>
                                             </div>
@@ -70,43 +70,43 @@
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel33">Widget Wizard</h4>
+                                <h4 class="modal-title" id="myModalLabel33">Asistente de widgets</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <form-wizard title="" subtitle="" @on-complete="GenerateWidget"
-                                    @on-error="handleErrorMessage" color="#7367F0" finish-button-text="Generate Widget">
-                                    <tab-content title="Get Seller PIN" icon="feather icon-home">
-                                        <p class="text-center">Ask seller to provide PIN, located in seller profile.</p>
+                                    @on-error="handleErrorMessage" color="#7367F0" finish-button-text="Generar widget">
+                                    <tab-content title="Obtener PIN del vendedor" icon="feather icon-home">
+                                        <p class="text-center">Pide el PIN a tu vendedor</p>
                                     </tab-content>
-                                    <tab-content title="PIN Validation" icon="feather icon-briefcase"
+                                    <tab-content title="Validación de PIN" icon="feather icon-briefcase"
                                         :before-change="beforeTabSwitch">
                                         <div class="row">
                                             <div class="col-12 text-center">
                                                 <input v-model="pin" type="text"
                                                     class="form-control col-md-6 offset-md-3"
-                                                    placeholder="Enter your Seller PIN here">
+                                                    placeholder="Ingrese su PIN de vendedor aquí">
                                             </div>
                                         </div>
 
 
                                     </tab-content>
-                                    <tab-content title="Generate Widget" :before-change="validateWidgetName"
+                                    <tab-content title="Generar widget" :before-change="validateWidgetName"
                                         icon="feather icon-image">
                                         <div class="row">
                                             <div class="col-12 text-center">
                                                 <input v-if="!generated" v-model="widgetname" type="text"
                                                     class="form-control col-md-6 offset-md-3"
-                                                    placeholder="Enter name for the widget">
+                                                    placeholder="Ingrese un nombre para su widget">
                                             </div>
                                         </div>
 
                                         <div class="row mt-2" v-if="generated">
                                             <div class="col-12 text-center">
                                                 <fieldset class="form-group">
-                                                    <textarea class="form-control" v-model="script" id="basicTextarea"
+                                                    <textarea class="form-control mx-1 my-1" v-model="script" id="basicTextarea"
                                                         rows="10" :disabled="isDisabled"
                                                         placeholder="Textarea"></textarea>
                                                 </fieldset>
@@ -156,10 +156,25 @@
                 errorMsg: null,
                 generated: false,
                 Widgets: this.widgets,
+                widgetStatus:false,
             }
         },
 
         methods: {
+            widgetStatusUpdate(event,widgetID){
+                console.log(event.target.checked,widgetID);
+                if(event.target.checked == true){
+                    this.widgetStatus = 1;
+                }else{
+                    this.widgetStatus = 0;
+                }
+
+                axios.get("updateWidgetStatus/"+widgetID+'/'+this.widgetStatus)
+                            .then(response => {
+                                console.log(response);
+                                
+                            });
+            },
             ShowWizard() {
                 console.log('Hello World')
             },
@@ -181,11 +196,11 @@
                                 if (response.data.found == 1) {
                                     resolve(true);
                                 } else {
-                                    reject("Pin validation Failed");
+                                    reject("EL PIN introducido no se corresponde con ningún vendorde de Ventonic");
                                 }
                             });
                     } else {
-                        reject("Pin validation Failed");
+                        reject("Ingresa el PIN para continuar");
                     }
                 })
 
@@ -198,7 +213,7 @@
                     if (this.widgetname != '') {
                         resolve(true);
                     } else {
-                        reject("Widget name required")
+                        reject("Nombre del widget requerido")
                     }
                 })
             },
@@ -225,7 +240,7 @@
     }
 
 </script>
-<style scoped>
+<style >
     .cardModal {
         background-color: #262C49;
     }

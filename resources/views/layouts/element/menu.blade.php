@@ -81,7 +81,7 @@
             @endif
 
             @if (\Auth::user()->type=="E")
-            <li class=" nav-item"><a href="{{route('widgets.data')}}"><i class="feather icon-calendar"></i><span class="menu-title">Widget Data</span></a>
+            <li class=" nav-item"><a href="{{route('widgets.data')}}"><i class="feather icon-calendar"></i><span class="menu-title">Datos de widget</span></a>
             </li>
             @endif
 

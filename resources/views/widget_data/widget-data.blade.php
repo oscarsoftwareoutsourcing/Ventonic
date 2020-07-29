@@ -72,10 +72,10 @@
 </div>
 @endsection
 @section('extra-js')
-<script src="../../../app-assets/vendors/js/tables/datatable/pdfmake.min.js"></script>
+<script src="{{ asset('vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
     
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
+   
+    
     
    
 <script src="{{ asset('vendors/js/tables/datatable/datatables.min.js') }}"></script>
@@ -88,7 +88,7 @@
 <script src="{{ asset('js/scripts/ui/data-list-view.js') }}"></script>
 <script src="{{ asset('/js/scripts/modal/components-modal.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/buttons.html5.min.js')}}"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
+    <script src="{{ asset('vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
 <script>
     $("#datatable").DataTable();
 

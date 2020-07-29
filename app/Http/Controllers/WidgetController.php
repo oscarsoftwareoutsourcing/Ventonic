@@ -129,4 +129,14 @@ class WidgetController extends Controller
        
         return view('widget_data.widget-data',['data'=>$data]);
     }
+
+    public function updateWidgetStatus(Request $request){
+       
+        $update = Widget::where('id',$request->widgetID)->update([
+            'status'=>$request->widgetStatus
+        ]);
+
+        return response()->json($update, 200);
+
+    }
 }
