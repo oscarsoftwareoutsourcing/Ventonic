@@ -53,10 +53,10 @@
                                 <div class="form-group">
                                     <label for="note">Nota</label>
                                     <textarea rows="4" class="form-control" id="note"
-                                              placeholder="Agregar una nota"></textarea>
+                                              placeholder="Agregar una nota" v-model="note"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-primary" @click="setNote">
                                         Enviar
                                     </button>
                                 </div>
@@ -82,8 +82,24 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="collapseAccordionNote" class="panel-collapse collapse in float-none" role="tabpanel" aria-labelledby="headingAccordionNote">
-                                                Listado detallado de notas
+                                            <div id="collapseAccordionNote" class="panel-collapse collapse in float-none"
+                                                 role="tabpanel" aria-labelledby="headingAccordionNote">
+                                                <div class="media-list media-bordered">
+                                                    <div class="media" v-for="n in notes">
+                                                        <a class="align-self-start media-left" href="#">
+                                                            <img :src="(n.user.photo)?n.user.photo:'/images/anonymous-user.png'" alt="user avatar" width="64" height="64">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <h5 class="media-heading">
+                                                                {{ n.user.name }} {{ n.user.last_name }} -
+                                                                {{ n.created_at }}
+                                                            </h5>
+                                                            <p class="mb-0">
+                                                                {{ n.description }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -201,7 +217,7 @@
                                 <div class="form-group">
                                     <label for="documentNote">Nota</label>
                                     <textarea rows="4" class="form-control" id="documentNote"
-                                              placeholder="Agregar una nota"></textarea>
+                                              placeholder="Agregar una nota" v-model="documentNote"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <form action="#" class="dropzone dropzone-area dz-clickable" id="documentsDz">
@@ -374,7 +390,10 @@
     export default {
         data() {
             return {
-                negGroups: []
+                negGroups: [],
+                note: '',
+                notes: [],
+                documentNote: ''
             }
         },
         mounted() {
@@ -388,7 +407,7 @@
                 });
             }
 
-
+            this.getNotes();
         },
         methods: {
             ...mapMutations({
@@ -408,6 +427,29 @@
                 this.setDetailedNeg(null);
                 this.toggleLists();
                 this.toggleDetails();
+            },
+            setNote() {
+                const vm = this;
+                console.log(vm.getDetailedNeg)
+                axios.post('/negociaciones/set-note', {
+                    description: vm.note,
+                    negotiation_id: vm.getDetailedNeg.id
+                }).then(response => {
+                    if (response.data.result) {
+                        vm.note = '';
+                        vm.getNotes();
+                    }
+                }).catch(error => {
+                    console.log(error);
+                });
+            },
+            getNotes() {
+                const vm = this;
+                axios.get(`/negociaciones/get-notes/${vm.getDetailedNeg.id}`).then(response => {
+                    if (response.data.result) {
+                        vm.notes = response.data.notes;
+                    }
+                })
             }
         },
         computed: {

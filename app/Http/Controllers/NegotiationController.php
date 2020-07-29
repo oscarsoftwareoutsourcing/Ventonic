@@ -12,13 +12,13 @@ use App\Negotiation;
 use App\Group;
 use Carbon\Carbon;
 use App\Http\Resources\NegotiationsResource;
+use App\Note;
 
 class NegotiationController extends Controller
 {
-    public function index() {
-
+    public function index()
+    {
         try {
-
             // Get all the information needed in the module.
             $user = User::find(auth()->user()->id);
             $contacts = $user->contact; // User contacts (clients).
@@ -28,7 +28,7 @@ class NegotiationController extends Controller
 
             // We check if user has negotiation processes already in the DB.
             $user_neg_processes = User::find(auth()->user()->id)->negotiation_processes; // Negotiation processes.
-            if(count($user_neg_processes) === 0) { // User doesn't have negotiation processes in the DB.
+            if (count($user_neg_processes) === 0) { // User doesn't have negotiation processes in the DB.
                 $userModuleLabel = new UserModuleLabel;
                 $userModuleLabel->user_id = auth()->user()->id;
                 $userModuleLabel->module_id = 2;
@@ -43,7 +43,7 @@ class NegotiationController extends Controller
                     ]
                 ]);
                 $userModuleLabel->created_at = date('Y-m-d H:i:s');
-                $userModuleLabel->updated_at = NULL;
+                $userModuleLabel->updated_at = null;
 
                 $userModuleLabel->save();
 
@@ -55,15 +55,19 @@ class NegotiationController extends Controller
             }
 
             // Created negotiations
-            $userNegotiations = User::find(auth()->user()->id)->negotiations()->with(['type', 'status', 'contact', 'related_users.related_groups.group.groupUser'])->get();
-                        
+            $userNegotiations = User::find(auth()->user()->id)->negotiations()->with([
+                'type', 'status', 'contact', 'related_users.related_groups.group.groupUser'
+            ])->get();
+
             // Shared negotiations
-            $relatedNegotiations = User::find(auth()->user()->id)->related_negotiations()->with(['user', 'type', 'status', 'contact', 'related_users.related_groups.group.groupUser'])->get();
+            $relatedNegotiations = User::find(auth()->user()->id)->related_negotiations()->with([
+                'user', 'type', 'status', 'contact', 'related_users.related_groups.group.groupUser'
+            ])->get();
 
             $merged = $userNegotiations->merge($relatedNegotiations);
 
             $result = json_encode(NegotiationsResource::collection($merged->all()));
-            
+
             // Return the data to the view
             return view('negotiations.index')->with([
                 'userContacts' => $contacts,
@@ -79,14 +83,14 @@ class NegotiationController extends Controller
         }
     }
 
-    public function saveNegotiation(Request $request) {
+    public function saveNegotiation(Request $request)
+    {
         try {
-
             // // Check if ID comes to update instead of create
-            if($request->id !== null) { // Update
+            if ($request->id !== null) { // Update
                 $negotiation = Negotiation::find($request->id);
                 $negotiation->neg_status_id = $request->neg_status_id;
-                if($request->neg_status_id === 1) {
+                if ($request->neg_status_id === 1) {
                     $negotiation->neg_process_id = 6;
                 } else {
                     $negotiation->neg_process_id = $request->neg_process_id;
@@ -96,7 +100,7 @@ class NegotiationController extends Controller
                 $negotiation->neg_status_id = 3;
                 $negotiation->neg_process_id = $request->neg_process_id;
             }
-            
+
             // Set other props to save.
             $negotiation->user_id = $request->user_id;
             $negotiation->contact_id = $request->contact_id;
@@ -107,17 +111,19 @@ class NegotiationController extends Controller
             $negotiation->active = $request->active;
             $negotiation->deadline = Carbon::parse($request->deadline)->toDateTimeString();
             $negotiation->created_at = date('Y-m-d H:i:s');
-            $negotiation->updated_at = NULL;
+            $negotiation->updated_at = null;
 
             // Save negotiation.
             $negotiation->save();
 
             // We check if we need to relate users.
-            if(count($request->groups) > 0) {
+            if (count($request->groups) > 0) {
                 $ids = $this->getIdsInGroup($request->groups);
 
                 $negotiation->related_users()->sync($ids);
-            } else $negotiation->related_users()->sync([]);
+            } else {
+                $negotiation->related_users()->sync([]);
+            }
 
             return response()->json([
                 'result' => true,
@@ -128,7 +134,8 @@ class NegotiationController extends Controller
         }
     }
 
-    public function updateList(Request $request, $id) {
+    public function updateList(Request $request, $id)
+    {
         try {
             $negotiation = Negotiation::find($id);
             $negotiation->neg_process_id = $request->processId;
@@ -143,12 +150,13 @@ class NegotiationController extends Controller
         }
     }
 
-    public function updateStatus(Request $request, $id) {
+    public function updateStatus(Request $request, $id)
+    {
         try {
             $negotiation = Negotiation::find($id);
             $negotiation->neg_status_id = $request->statusId;
 
-            if($request->statusId === 1) {
+            if ($request->statusId === 1) {
                 $negotiation->neg_process_id = 6;
             }
 
@@ -163,9 +171,9 @@ class NegotiationController extends Controller
         }
     }
 
-    public function toggleActiveNegotiation(Request $request) {
+    public function toggleActiveNegotiation(Request $request)
+    {
         try {
-
             $negotiation = Negotiation::find($request->id);
             $negotiation->active = !$request->active;
             $negotiation->save();
@@ -179,7 +187,8 @@ class NegotiationController extends Controller
         }
     }
 
-    private function getIdsInGroup($arr) {
+    private function getIdsInGroup($arr)
+    {
         $userIds = array();
 
         foreach ($arr as $group_id) {
@@ -191,5 +200,43 @@ class NegotiationController extends Controller
 
         $userIds = array_unique($userIds);
         return $userIds;
+    }
+
+    /**
+     * Registra una nota para una negociación
+     *
+     * @method    setNote
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request    $request    Objeto con la respuesta a la petición
+     *
+     * @return    JsonResponse Objeto con información de respuesta
+     */
+    public function setNote(Request $request)
+    {
+        Note::create([
+            'description' => $request->description,
+            'user_id' => auth()->user()->id,
+            'noteable_id' => $request->negotiation_id,
+            'noteable_type' => Negotiation::class
+        ]);
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Listado de notas asociadas a una negociación
+     *
+     * @method    getNotes
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     integer      $negotiation_id    [description]
+     *
+     * @return    JsonResponse Objeto con información de respuesta
+     */
+    public function getNotes(Negotiation $negotiation)
+    {
+        return response()->json(['result' => true, 'notes' => $negotiation->notes], 200);
     }
 }

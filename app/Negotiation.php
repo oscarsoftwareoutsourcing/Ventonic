@@ -47,4 +47,9 @@ class Negotiation extends Model
     {
         return $this->belongsToMany(Group::class);
     }
+
+    public function notes()
+    {
+        return $this->morphMany(Note::class, 'noteable');
+    }
 }
