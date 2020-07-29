@@ -173,7 +173,7 @@ class HomeController extends Controller
         $negs['lost'] = self::getNegotiations($date_term, 2);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
         $daysCount = self::getConvDays($date_term);
-        $convDaysAvg = $daysCount/$negs['won']['total']; 
+        $convDaysAvg = ($negs['won']['total']>0) ? $daysCount/$negs['won']['total'] : 0; //$daysCount/$negs['won']['total']; 
         $negs['convDays'] = number_format($convDaysAvg);
         
         return json_encode(['contacts_data' => $contacts_data, 'negs' => $negs]);
@@ -209,7 +209,7 @@ class HomeController extends Controller
     public static function getConvDays($date){
 
         $date_range = self::getDateRange($date);
-       
+        //dd($date_range);
         $convDays = Negotiation::selectRaw('SUM(q1.Diff) as Diff')->fromSub(function ($query) use ($date_range){
             $query->selectRaw("DATEDIFF( won_status_date, created_at ) AS Diff")
                 ->from('negotiations')
