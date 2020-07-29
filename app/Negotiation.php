@@ -52,4 +52,9 @@ class Negotiation extends Model
     {
         return $this->morphMany(Note::class, 'noteable');
     }
+
+    public function events()
+    {
+        return $this->morphMany(Event::class, 'eventable');
+    }
 }

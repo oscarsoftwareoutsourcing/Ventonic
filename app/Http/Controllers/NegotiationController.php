@@ -13,6 +13,7 @@ use App\Group;
 use Carbon\Carbon;
 use App\Http\Resources\NegotiationsResource;
 use App\Note;
+use App\Event;
 
 class NegotiationController extends Controller
 {
@@ -244,5 +245,62 @@ class NegotiationController extends Controller
     public function getNotes(Negotiation $negotiation)
     {
         return response()->json(['result' => true, 'notes' => $negotiation->notes], 200);
+    }
+
+    /**
+     * Registra un evento asociado a una negociación
+     *
+     * @method    setEvent
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request     $request    Objeto con información de la petición
+     *
+     * @return  JsonResponse  Objeto con los datos de respuesta a la petición
+     */
+    public function setEvent(Request $request)
+    {
+        $this->validate($request, [
+            'title' => ['required'],
+            'start_at' => ['required', 'date'],
+            'start_time' => ['required'],
+            'end_at' => ['required', 'date', 'after_or_equal:start_at'],
+            'end_time' => ['required', 'after_or_equal:start_time']
+        ], [
+            'title.required' => 'Dato requerido',
+            'start_at.required' => 'Dato requerido',
+            'start_at.date' => 'Debe tener un formato válido',
+            'start_time.required' => 'Dato requerido',
+            'end_at.required' => 'Dato requerido',
+            'end_at.date' => 'Debe tener un formato válido',
+            'end_at.after_or_equal' => 'Debe ser posterior a Fecha de Inicio',
+            'end_time.required' => 'Dato requerido',
+            'end_time.after_or_equal' => 'Debe ser posterior a Hora de Inicio'
+        ]);
+
+        $start = strtotime($request->start_at. ' '.$request->start_time);
+        $end = strtotime($request->end_at. ' '.$request->end_time);
+
+        $startDate = date("Y-m-d H:i:s", $start);
+        $endDate = date("Y-m-d H:i:s", $end);
+
+        Event::create([
+            "category" => $request->category ?? 'O',
+            'title' => $request->title,
+            'start_at' => $startDate,
+            'end_at' => $endDate,
+            'notes' => $request->description,
+            'place' => $request->place ?? null,
+            'user_id' => auth()->user()->id,
+            'eventable_id' => $request->negotiation_id,
+            'eventable_type' => Negotiation::class
+        ]);
+
+        return response()->json(['result' => true], 200);
+    }
+
+    public function getEvents(Negotiation $negotiation)
+    {
+        return response()->json(['result' => true, 'events' => $negotiation->events], 200);
     }
 }
