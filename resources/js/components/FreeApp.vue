@@ -23,6 +23,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="widgets">
                     <div class="row">
                         <div class="col-4" v-for="widget in widgets">
@@ -30,24 +31,40 @@
                                 <div class="card-content">
                                     <!-- <img class="card-img-top img-fluid" :src="'images/pages/content-img-1.jpg'"
                                     alt="Card image cap"> -->
-                                    <fieldset class="form-group">
-                                        <textarea class="form-control" id="basicTextarea" rows="10" disabled><!--Start of Ventonic.com Script-->
-        <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-        var
-        s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src="https://embed.ventonic.com/{{widget.token}}/default";
-        s1.charset="UTF-8";
-        s1.setAttribute("crossorigin","*");
-        s0.parentNode.insertBefore(s1,s0);
-        })();
-        </script>
-        <!--End of Ventonic.com Script--></textarea>
-                                    </fieldset>
-                                    <div class="card-body">
-                                        <h5>{{widget.name}}</h5>
+                                    <div class="accordion" id="accordionExample">
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" :data-target="'#collapseThree'+widget.id" aria-expanded="false" aria-controls="collapseThree">
+                            <h5>{{widget.name}}</h5> <span><i class="feather icon-chevron-down" aria-hidden="true"></i></span>
+                            </button>
+                        </h2>
+                        </div>
+                        <div :id="'collapseThree'+widget.id" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <fieldset class="form-group">
+                                <textarea class="form-control" id="basicTextarea" rows="10" disabled><!--Start of Ventonic.com Script-->
+                                        <script type="text/javascript">
+                                        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+                                        (function(){
+                                        var
+                                        s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                                        s1.async=true;
+                                        s1.src="https://embed.ventonic.com/'.$token.'/default";
+                                        s1.charset="UTF-8";
+                                        s1.setAttribute("crossorigin","*");
+                                        s0.parentNode.insertBefore(s1,s0);
+                                        })();
+                                        </script>
+                                        <!--End of Ventonic.com Script-->
+                                        </textarea>
+                                </fieldset>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                                    <div class="card-body us-card">
+                                        
 
                                         <div class="card-btns d-flex justify-content-between mt-2">
                                             <div class="custom-control custom-switch custom-control-inline">
@@ -260,5 +277,30 @@
     body .vue-form-wizard .wizard-icon-circle {
         background-color: #262C49 !important;
     }
-
+.accordion .card .card-header {
+    padding: 0;
+}
+.accordion .card .card-header h2 button {
+        color: #fff;
+        width: 100%;
+        display: block;
+        max-width: 100%;
+        padding: 15px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+}
+.accordion .card .card-header h2 {
+    width: 100%;
+    display: block;
+}
+.accordion .card .card-header h2 button i{
+    color: #fff;
+}
+.accordion > .card {
+    margin: 0;
+}
+.card-body.us-card {
+    padding: 0px 20px 20px;
+}
 </style>
