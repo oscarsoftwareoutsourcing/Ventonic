@@ -78,6 +78,8 @@
             </li>
             @endif
 
+
+
             {{-- <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title">{{ Auth::user()->name }}</span></a>
                 <ul class="menu-content">
                     @if (auth()->user()->email_verified_at !== null)
@@ -93,6 +95,33 @@
                     </li>
                 </ul>
             </li> --}}
+
+             {{-- Oportunidades --}}
+            @if(\Auth::user())
+            <li class=" nav-item"><a href="#"><i class="feather icon-bar-chart"></i><span class="menu-title">Informes</span></a>
+                <ul class="menu-content">
+                    
+                    <!--
+                    <li class="nav-item"><a href="#" ><i class="fa fa-cart-arrow-down"></i><span class="menu-item">Ventas</span></a>
+                        <ul class="menu-content">
+                            <li data-menu="">
+                                <a href="#" ><i class="fa fa-cart-arrow-down"></i><span class="menu-item">Actividad</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    -->
+                    <li><a href="{{ route('report.sales') }}"><i class="fa fa-cart-arrow-down"></i><span class="menu-item">Ventas</span></a>
+                    </li>
+                   
+                    <li><a href="{{ route('oportunity.list') }}"><i class="fa fa-bar-chart"></i><span class="menu-item">Actividad</span></a>
+                    </li>
+                </ul>
+
+                
+            </li>
+
+  
+           @endif
         </ul>
     </div>
 </div>

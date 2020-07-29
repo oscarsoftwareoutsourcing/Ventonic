@@ -85,6 +85,13 @@
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
         }
+        .timeline-icon i {
+            color: #ffffff;
+        }
+        .timeline-panel {
+            max-height: 250px;
+            overflow: auto;
+        }
     </style>
 </head>
 

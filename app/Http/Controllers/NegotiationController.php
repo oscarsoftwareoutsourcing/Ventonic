@@ -3,22 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 // use App\SellerProfile;
+use Carbon\Carbon;
+use App\Http\Resources\NegotiationsResource;
+use App\Mail\Negotiation as NegotiationEmail;
 use App\User;
 use App\UserModuleLabel;
 use App\NegotiationType;
 use App\NegotiationStatus;
 use App\Negotiation;
 use App\Group;
-use Carbon\Carbon;
-use App\Http\Resources\NegotiationsResource;
+use App\Note;
+use App\Event;
+use App\Email;
 
 class NegotiationController extends Controller
 {
-    public function index() {
-
+    public function index()
+    {
         try {
-
             // Get all the information needed in the module.
             $user = User::find(auth()->user()->id);
             $contacts = $user->contact; // User contacts (clients).
@@ -28,7 +32,7 @@ class NegotiationController extends Controller
 
             // We check if user has negotiation processes already in the DB.
             $user_neg_processes = User::find(auth()->user()->id)->negotiation_processes; // Negotiation processes.
-            if(count($user_neg_processes) === 0) { // User doesn't have negotiation processes in the DB.
+            if (count($user_neg_processes) === 0) { // User doesn't have negotiation processes in the DB.
                 $userModuleLabel = new UserModuleLabel;
                 $userModuleLabel->user_id = auth()->user()->id;
                 $userModuleLabel->module_id = 2;
@@ -43,7 +47,7 @@ class NegotiationController extends Controller
                     ]
                 ]);
                 $userModuleLabel->created_at = date('Y-m-d H:i:s');
-                $userModuleLabel->updated_at = NULL;
+                $userModuleLabel->updated_at = null;
 
                 $userModuleLabel->save();
 
@@ -55,15 +59,19 @@ class NegotiationController extends Controller
             }
 
             // Created negotiations
-            $userNegotiations = User::find(auth()->user()->id)->negotiations()->with(['type', 'status', 'contact', 'related_users.related_groups.group.groupUser'])->get();
-                        
+            $userNegotiations = User::find(auth()->user()->id)->negotiations()->with([
+                'type', 'status', 'contact', 'related_users.related_groups.group.groupUser'
+            ])->get();
+
             // Shared negotiations
-            $relatedNegotiations = User::find(auth()->user()->id)->related_negotiations()->with(['user', 'type', 'status', 'contact', 'related_users.related_groups.group.groupUser'])->get();
+            $relatedNegotiations = User::find(auth()->user()->id)->related_negotiations()->with([
+                'user', 'type', 'status', 'contact', 'related_users.related_groups.group.groupUser'
+            ])->get();
 
             $merged = $userNegotiations->merge($relatedNegotiations);
 
             $result = json_encode(NegotiationsResource::collection($merged->all()));
-            
+
             // Return the data to the view
             return view('negotiations.index')->with([
                 'userContacts' => $contacts,
@@ -79,14 +87,14 @@ class NegotiationController extends Controller
         }
     }
 
-    public function saveNegotiation(Request $request) {
+    public function saveNegotiation(Request $request)
+    {
         try {
-
             // // Check if ID comes to update instead of create
-            if($request->id !== null) { // Update
+            if ($request->id !== null) { // Update
                 $negotiation = Negotiation::find($request->id);
                 $negotiation->neg_status_id = $request->neg_status_id;
-                if($request->neg_status_id === 1) {
+                if ($request->neg_status_id === 1) {
                     $negotiation->neg_process_id = 6;
                     $negotiation->won_status_date = Carbon::now();
                 } else {
@@ -97,7 +105,7 @@ class NegotiationController extends Controller
                 $negotiation->neg_status_id = 3;
                 $negotiation->neg_process_id = $request->neg_process_id;
             }
-            
+
             // Set other props to save.
             $negotiation->user_id = $request->user_id;
             $negotiation->contact_id = $request->contact_id;
@@ -108,17 +116,19 @@ class NegotiationController extends Controller
             $negotiation->active = $request->active;
             $negotiation->deadline = Carbon::parse($request->deadline)->toDateTimeString();
             $negotiation->created_at = date('Y-m-d H:i:s');
-            $negotiation->updated_at = NULL;
+            $negotiation->updated_at = null;
 
             // Save negotiation.
             $negotiation->save();
 
             // We check if we need to relate users.
-            if(count($request->groups) > 0) {
+            if (count($request->groups) > 0) {
                 $ids = $this->getIdsInGroup($request->groups);
 
                 $negotiation->related_users()->sync($ids);
-            } else $negotiation->related_users()->sync([]);
+            } else {
+                $negotiation->related_users()->sync([]);
+            }
 
             return response()->json([
                 'result' => true,
@@ -129,7 +139,8 @@ class NegotiationController extends Controller
         }
     }
 
-    public function updateList(Request $request, $id) {
+    public function updateList(Request $request, $id)
+    {
         try {
             $negotiation = Negotiation::find($id);
             $negotiation->neg_process_id = $request->processId;
@@ -144,12 +155,13 @@ class NegotiationController extends Controller
         }
     }
 
-    public function updateStatus(Request $request, $id) {
+    public function updateStatus(Request $request, $id)
+    {
         try {
             $negotiation = Negotiation::find($id);
             $negotiation->neg_status_id = $request->statusId;
 
-            if($request->statusId === 1) {
+            if ($request->statusId === 1) {
                 $negotiation->neg_process_id = 6;
             }
 
@@ -164,9 +176,9 @@ class NegotiationController extends Controller
         }
     }
 
-    public function toggleActiveNegotiation(Request $request) {
+    public function toggleActiveNegotiation(Request $request)
+    {
         try {
-
             $negotiation = Negotiation::find($request->id);
             $negotiation->active = !$request->active;
             $negotiation->save();
@@ -180,7 +192,8 @@ class NegotiationController extends Controller
         }
     }
 
-    private function getIdsInGroup($arr) {
+    private function getIdsInGroup($arr)
+    {
         $userIds = array();
 
         foreach ($arr as $group_id) {
@@ -192,5 +205,167 @@ class NegotiationController extends Controller
 
         $userIds = array_unique($userIds);
         return $userIds;
+    }
+
+    /**
+     * Registra una nota para una negociación
+     *
+     * @method    setNote
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request    $request    Objeto con la respuesta a la petición
+     *
+     * @return    JsonResponse Objeto con información de respuesta
+     */
+    public function setNote(Request $request)
+    {
+        $this->validate($request, [
+            'description' => ['required'],
+            'negotiation_id' => ['required']
+        ], [
+            'description.required' => 'Debe indicar una nota'
+        ]);
+        Note::create([
+            'description' => $request->description,
+            'user_id' => auth()->user()->id,
+            'noteable_id' => $request->negotiation_id,
+            'noteable_type' => Negotiation::class
+        ]);
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Listado de notas asociadas a una negociación
+     *
+     * @method    getNotes
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Negotiation      $negotiation    Objeto con datos de la negociación
+     *
+     * @return    JsonResponse Objeto con información de respuesta
+     */
+    public function getNotes(Negotiation $negotiation)
+    {
+        return response()->json(['result' => true, 'notes' => $negotiation->notes], 200);
+    }
+
+    /**
+     * Registra un evento asociado a una negociación
+     *
+     * @method    setEvent
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request     $request    Objeto con información de la petición
+     *
+     * @return  JsonResponse  Objeto con los datos de respuesta a la petición
+     */
+    public function setEvent(Request $request)
+    {
+        $this->validate($request, [
+            'title' => ['required'],
+            'start_at' => ['required', 'date'],
+            'start_time' => ['required'],
+            'end_at' => ['required', 'date', 'after_or_equal:start_at'],
+            'end_time' => ['required', 'after_or_equal:start_time']
+        ], [
+            'title.required' => 'Dato requerido',
+            'start_at.required' => 'Dato requerido',
+            'start_at.date' => 'Debe tener un formato válido',
+            'start_time.required' => 'Dato requerido',
+            'end_at.required' => 'Dato requerido',
+            'end_at.date' => 'Debe tener un formato válido',
+            'end_at.after_or_equal' => 'Debe ser posterior a Fecha de Inicio',
+            'end_time.required' => 'Dato requerido',
+            'end_time.after_or_equal' => 'Debe ser posterior a Hora de Inicio'
+        ]);
+
+        $start = strtotime($request->start_at. ' '.$request->start_time);
+        $end = strtotime($request->end_at. ' '.$request->end_time);
+
+        $startDate = date("Y-m-d H:i:s", $start);
+        $endDate = date("Y-m-d H:i:s", $end);
+
+        Event::create([
+            "category" => $request->category ?? 'O',
+            'title' => $request->title,
+            'start_at' => $startDate,
+            'end_at' => $endDate,
+            'notes' => $request->description,
+            'place' => $request->place ?? null,
+            'user_id' => auth()->user()->id,
+            'eventable_id' => $request->negotiation_id,
+            'eventable_type' => Negotiation::class
+        ]);
+
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Obtiene el listado de eventos asociados a una negociación
+     *
+     * @method    getEvents
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Negotiation    $negotiation    Objeto con datos de la negociación
+     *
+     * @return    JsonResponse   Objeto con datos de respuesta a la petición
+     */
+    public function getEvents(Negotiation $negotiation)
+    {
+        return response()->json(['result' => true, 'events' => $negotiation->events], 200);
+    }
+
+    /**
+     * Registra un correo a envíar asociado a una negociación
+     *
+     * @method    setEmail
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request     $request    Objeto con datos de la petición
+     *
+     * @return  JsonResponse  Objeto con información de respuesta a la petición
+     */
+    public function setEmail(Request $request)
+    {
+        $this->validate($request, [
+            'email' => ['required', 'email'],
+            'subject' => ['required'],
+            'message' => ['required']
+        ]);
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json(['result' => false, 'message' => 'El contacto no existe'], 200);
+        }
+        Email::create([
+            'subject' => $request->subject,
+            'message' => $request->message,
+            'from_user_id' => auth()->user()->id,
+            'to_user_id' => $user->id,
+            'emailable_type' => Negotiation::class,
+            'emailable_id' => $request->negotiation_id
+        ]);
+        Mail::to($user)->send(new NegotiationEmail($user->email, $user->name, $request->subject, $request->message));
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Obtiene un listado de correos asociados a una negociación
+     *
+     * @method    getEmails
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Negotiation    $negotiation    Objeto con información de la negociación
+     *
+     * @return    JsonResponse   Objeto con datos de respuesta a la petición
+     */
+    public function getEmails(Negotiation $negotiation)
+    {
+        return response()->json(['result' => true, 'emails' => $negotiation->emails], 200);
     }
 }
