@@ -215,6 +215,12 @@ class NegotiationController extends Controller
      */
     public function setNote(Request $request)
     {
+        $this->validate($request, [
+            'description' => ['required'],
+            'negotiation_id' => ['required']
+        ], [
+            'description.required' => 'Debe indicar una nota'
+        ]);
         Note::create([
             'description' => $request->description,
             'user_id' => auth()->user()->id,

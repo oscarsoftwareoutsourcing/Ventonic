@@ -54,6 +54,10 @@
                                     <label for="note">Nota</label>
                                     <textarea rows="4" class="form-control" id="note"
                                               placeholder="Agregar una nota" v-model="note"></textarea>
+                                    <!-- Validation messages -->
+                                    <article class="help-block" v-if="noteError">
+                                        <i class="text-danger">{{ noteError }}</i>
+                                    </article>
                                 </div>
                                 <div class="form-group">
                                     <button type="button" class="btn btn-primary" @click="setNote">
@@ -113,23 +117,23 @@
                                         <i class="feather icon-tag dropdown-toggle" id="labelsBtn" data-toggle="dropdown"></i>
                                         <div id="categoriesContainer" class="dropdown-menu dropdown-menu-right"
                                              aria-labelledby="cal-event-category">
-                                            <span class="dropdown-item bulletOpt" data-key="B">
+                                            <span class="dropdown-item bulletOpt" data-key="B" @click="event.category=B">
                                                 <span class="bullet bullet-success bullet-sm mr-25"></span>
                                                 Eventos
                                             </span>
-                                            <span class="dropdown-item bulletOpt" data-key="W">
+                                            <span class="dropdown-item bulletOpt" data-key="W" @click="event.category=W">
                                                 <span class="bullet bullet-warning bullet-sm mr-25"></span>
                                                 Recordatorios
                                             </span>
-                                            <span class="dropdown-item bulletOpt" data-key="P">
+                                            <span class="dropdown-item bulletOpt" data-key="P" @click="event.category=P">
                                                 <span class="bullet bullet-danger bullet-sm mr-25"></span>
                                                 Tareas
                                             </span>
-                                            <span class="dropdown-item bulletOpt" data-key="P">
+                                            <span class="dropdown-item bulletOpt" data-key="L" @click="event.category=L">
                                                 <span class="bullet bullet-danger bullet-sm mr-25"></span>
                                                 Llamadas
                                             </span>
-                                            <span class="dropdown-item bulletOpt" data-key="O">
+                                            <span class="dropdown-item bulletOpt" data-key="O" @click="event.category=O">
                                                 <span class="bullet bullet-primary bullet-sm mr-25"></span>
                                                 Otros
                                             </span>
@@ -141,8 +145,8 @@
                                     <div class="form-group">
                                         <label for="">Evento</label>
                                         <input type="text" class="form-control" id="cal-event-title"
-                                               placeholder="Título del evento">
-                                        <input type="hidden" id="cal-event-id" readonly>
+                                               placeholder="Título del evento" v-model="event.title">
+                                        <input type="hidden" v-model="event.category" readonly>
                                     </div>
 
                                     <!-- Starts at date -->
@@ -153,7 +157,7 @@
                                             </div>
                                             <div class="col-sm-7">
                                                 <input type="date" class="form-control pickadate"
-                                                       id="cal-start-date" placeholder="dd-mm-yyyy">
+                                                       id="cal-start-date" placeholder="dd-mm-yyyy" v-model="event.start_date">
                                             </div>
                                         </div>
                                     </div>
@@ -165,7 +169,8 @@
                                                 <label for="">Hora de Inicio</label>
                                             </div>
                                             <div class="col-sm-7">
-                                                <input type="text" class="form-control pickatime" id="cal-start-time" placeholder="00:00">
+                                                <input type="text" class="form-control pickatime" id="cal-start-time"
+                                                       placeholder="00:00" v-model="event.start_time">
                                             </div>
                                         </div>
                                     </div>
@@ -177,7 +182,8 @@
                                                 <label for="">Fecha Final</label>
                                             </div>
                                             <div class="col-sm-7">
-                                                <input type="date" class="form-control pickadate" id="cal-end-date" placeholder="dd-mm-yyyyy">
+                                                <input type="date" class="form-control pickadate" id="cal-end-date"
+                                                       placeholder="dd-mm-yyyyy" v-model="event.end_date">
                                             </div>
                                         </div>
                                     </div>
@@ -189,7 +195,8 @@
                                                 <label for="">Hora Final</label>
                                             </div>
                                             <div class="col-sm-7">
-                                                <input type="text" class="form-control pickatime" id="cal-end-time" placeholder="00:00">
+                                                <input type="text" class="form-control pickatime" id="cal-end-time"
+                                                       placeholder="00:00" v-model="event.end_time">
                                             </div>
                                         </div>
                                     </div>
@@ -197,16 +204,18 @@
                                     <!-- Note/Description -->
                                     <div class="form-group">
                                         <label for="">Descripción</label>
-                                        <textarea class="form-control" id="cal-description" rows="3" placeholder="Descripción del evento"></textarea>
+                                        <textarea class="form-control" id="cal-description" rows="3"
+                                                  placeholder="Descripción del evento" v-model="event.description"></textarea>
                                     </div>
 
                                     <!-- Place -->
                                     <div class="form-group">
                                         <label for="">Lugar</label>
-                                        <input type="text" class="form-control" id="cal-event-place" placeholder="Lugar del evento">
+                                        <input type="text" class="form-control" id="cal-event-place"
+                                               placeholder="Lugar del evento" v-model="event.place">
                                     </div>
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary">
+                                        <button type="button" class="btn btn-primary" @click="setEvent">
                                             Agregar evento
                                         </button>
                                     </div>
@@ -392,8 +401,19 @@
             return {
                 negGroups: [],
                 note: '',
+                noteError: '',
                 notes: [],
-                documentNote: ''
+                documentNote: '',
+                event: {
+                    category: '',
+                    title: '',
+                    start_date: '',
+                    start_time: '',
+                    end_date: '',
+                    end_time: '',
+                    description: '',
+                    place: ''
+                }
             }
         },
         mounted() {
@@ -437,10 +457,17 @@
                 }).then(response => {
                     if (response.data.result) {
                         vm.note = '';
+                        vm.noteError = '';
                         vm.getNotes();
                     }
                 }).catch(error => {
-                    console.log(error);
+                    if (typeof(error.response) !="undefined") {
+                        for (var index in error.response.data.errors) {
+                            if (error.response.data.errors[index]) {
+                                vm.noteError = error.response.data.errors[index][0];
+                            }
+                        }
+                    }
                 });
             },
             getNotes() {
@@ -450,6 +477,9 @@
                         vm.notes = response.data.notes;
                     }
                 })
+            },
+            setEvent() {
+                const vm = this;
             }
         },
         computed: {
