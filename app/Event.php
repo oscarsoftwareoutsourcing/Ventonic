@@ -11,7 +11,11 @@ class Event extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'start_at', 'end_at', 'notes', 'category', 'private', 'place', 'user_id'];
+    protected $fillable = [
+        'title', 'start_at', 'end_at', 'notes', 'category', 'private', 'place', 'user_id',
+        'eventable_type', 'eventable_id'
+    ];
+    protected $with = ['user'];
     protected $hidden = ['created_at', 'updated_at'];
     protected $appends = ['category_color', 'category_name', 'category_color_class'];
     protected $dates = ['start_at', 'end_at'];
