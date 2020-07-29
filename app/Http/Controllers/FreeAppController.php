@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Widget;
 
 class FreeAppController extends Controller
 {
     public function index(){
 
-        return view('free_apps.index');
+        $Widget = Widget::all();
+        return view('free_apps.index',['widgets'=>$Widget]);
         
     }
 

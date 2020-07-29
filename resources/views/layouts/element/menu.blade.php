@@ -81,6 +81,11 @@
             @endif
 
             @if (\Auth::user()->type=="E")
+            <li class=" nav-item"><a href="{{route('widgets.data')}}"><i class="feather icon-calendar"></i><span class="menu-title">Widget Data</span></a>
+            </li>
+            @endif
+
+            @if (\Auth::user()->type=="E")
             <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item">Buscar Vendedor</span></a>
             </li>
             @endif

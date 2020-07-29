@@ -3,7 +3,7 @@
         <div class="content-area-wrapper">
             <section id="basic-examples">
                 <div class="row match-height">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <div class="card">
                             <div class="card-content">
                                 <img class="card-img-top img-fluid" :src="'images/pages/content-img-1.jpg'"
@@ -23,6 +23,48 @@
                         </div>
                     </div>
                 </div>
+                <div class="widgets">
+                    <div class="row">
+                        <div class="col-4" v-for="widget in widgets">
+                            <div class="card">
+                                <div class="card-content">
+                                    <!-- <img class="card-img-top img-fluid" :src="'images/pages/content-img-1.jpg'"
+                                    alt="Card image cap"> -->
+                                    <fieldset class="form-group">
+                                        <textarea class="form-control" id="basicTextarea" rows="10" disabled><!--Start of Ventonic.com Script-->
+        <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var
+        s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src="https://embed.ventonic.com/'.$token.'/default";
+        s1.charset="UTF-8";
+        s1.setAttribute("crossorigin","*");
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+        </script>
+        <!--End of Ventonic.com Script--></textarea>
+                                    </fieldset>
+                                    <div class="card-body">
+                                        <h5>{{widget.name}}</h5>
+
+                                        <div class="card-btns d-flex justify-content-between mt-2">
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input" id="ActiveWidget">
+                                                <label class="custom-control-label" for="ActiveWidget">
+                                                </label>
+                                                <span class="switch-label">Active</span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel33" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
@@ -34,36 +76,39 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form-wizard title=""
-                       subtitle="" @on-complete="GenerateWidget" @on-error="handleErrorMessage"
-                                    color="#7367F0" finish-button-text="Generate Widget">
+                                <form-wizard title="" subtitle="" @on-complete="GenerateWidget"
+                                    @on-error="handleErrorMessage" color="#7367F0" finish-button-text="Generate Widget">
                                     <tab-content title="Get Seller PIN" icon="feather icon-home">
                                         <p class="text-center">Ask seller to provide PIN, located in seller profile.</p>
                                     </tab-content>
                                     <tab-content title="PIN Validation" icon="feather icon-briefcase"
                                         :before-change="beforeTabSwitch">
-                                    <div class="row">
-                                        <div class="col-12 text-center">
-                                            <input v-model="pin" type="text" class="form-control col-md-6 offset-md-3"
-                                            placeholder="Enter your Seller PIN here">
+                                        <div class="row">
+                                            <div class="col-12 text-center">
+                                                <input v-model="pin" type="text"
+                                                    class="form-control col-md-6 offset-md-3"
+                                                    placeholder="Enter your Seller PIN here">
+                                            </div>
                                         </div>
-                                    </div>
-                                        
+
 
                                     </tab-content>
                                     <tab-content title="Generate Widget" :before-change="validateWidgetName"
                                         icon="feather icon-image">
                                         <div class="row">
                                             <div class="col-12 text-center">
-                                            <input v-if="!generated" v-model="widgetname" type="text" class="form-control col-md-6 offset-md-3"
-                                            placeholder="Enter name for the widget">
+                                                <input v-if="!generated" v-model="widgetname" type="text"
+                                                    class="form-control col-md-6 offset-md-3"
+                                                    placeholder="Enter name for the widget">
                                             </div>
                                         </div>
-                                         
+
                                         <div class="row mt-2" v-if="generated">
                                             <div class="col-12 text-center">
                                                 <fieldset class="form-group">
-                                                    <textarea class="form-control" v-model="script" id="basicTextarea" rows="10" :disabled="isDisabled" placeholder="Textarea"></textarea>
+                                                    <textarea class="form-control" v-model="script" id="basicTextarea"
+                                                        rows="10" :disabled="isDisabled"
+                                                        placeholder="Textarea"></textarea>
                                                 </fieldset>
                                             </div>
                                         </div>
@@ -71,13 +116,13 @@
                                     <div class="row">
                                         <div class="col-12 text-center">
                                             <div v-if="errorMsg">
-                                            
+
                                                 <span style="color:rgb(255,99,71)!important;">{{errorMsg}}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    
+
+
                                 </form-wizard>
                             </div>
                         </div>
@@ -101,14 +146,16 @@
             'widget-wizard': widgetWizard,
 
         },
+        props: ["widgets"],
         data() {
             return {
                 pin: '',
-                widgetname:'',
-                script:'',
+                widgetname: '',
+                script: '',
                 isDisabled: true,
                 errorMsg: null,
                 generated: false,
+                Widgets: this.widgets,
             }
         },
 
@@ -145,34 +192,34 @@
 
 
             },
-            validateWidgetName(){
+            validateWidgetName() {
                 return new Promise((resolve, reject) => {
-                    
-                    if(this.widgetname != ''){
+
+                    if (this.widgetname != '') {
                         resolve(true);
-                    }else{
+                    } else {
                         reject("Widget name required")
                     }
                 })
             },
             GenerateWidget() {
                 const vm = this;
-               
+
 
                 axios.post(`/widget/generateWidget`, {
                     uuid: vm.pin,
                     widgetName: vm.widgetname
                 }).then(response => {
-                        // vm.script = JSON.stringify(response.data.script, undefined, 4);
-                        vm.script = response.data.script;
-                        vm.generated = true;
-                        vm.isDisabled = false;
+                    // vm.script = JSON.stringify(response.data.script, undefined, 4);
+                    vm.script = response.data.script;
+                    vm.generated = true;
+                    vm.isDisabled = false;
 
-                    }).catch(error => {
-                        console.error(error);
-                    });
+                }).catch(error => {
+                    console.error(error);
+                });
 
-                
+
             }
         }
     }
@@ -191,11 +238,11 @@
         color: whitesmoke;
     }
 
-    .wizard-icon{
+    .wizard-icon {
         color: white;
     }
-    
-   body .vue-form-wizard .wizard-icon-circle{
+
+    body .vue-form-wizard .wizard-icon-circle {
         background-color: #262C49 !important;
     }
 

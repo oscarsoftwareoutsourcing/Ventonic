@@ -23,7 +23,7 @@
     {{-- Apps Gratis --}}
 
     <!-- <chat :user="{{ auth()->user() }}" :chat-room-user="{{ json_encode(session('chat_room_user', '')) }}"></chat> -->
-    <free-apps></free-apps>
+    <free-apps :widgets="{{json_encode($widgets)}}"></free-apps>
 
 </div>
 @endsection
