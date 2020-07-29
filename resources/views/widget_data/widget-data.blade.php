@@ -41,22 +41,22 @@
                                            <tbody>
                                                @foreach($data as $dt)
                                                <tr>
-                                                   <td>{{$dt->created_at->format('d-m-Y')}}</td>
-                                                   <td>{{$dt->name}}</td>
-                                                   <td>{{$dt->product}}</td>
-                                                   <td>{{$dt->phone_mobil}}</td>
-                                                   <td>{{$dt->url}}</td>
+                                                   <td align="center">{{$dt->created_at->format('d-m-Y')}}</td>
+                                                   <td align="center">{{$dt->name}}</td>
+                                                   <td align="center">{{$dt->product}}</td>
+                                                   <td align="center">{{$dt->phone_mobil}}</td>
+                                                   <td align="center">{{$dt->url}}</td>
                                                </tr>
                                                @endforeach
                                            </tbody>
                                             <tfoot>
-                                                <tr>
+                                                <!-- <tr>
                                                      <th>Fecha</th>
                                                     <th>Vendedor</th>
                                                     <th>Producto</th>
                                                     <th>Teléfono</th>
                                                     <th>Url</th>
-                                                </tr>
+                                                </tr> -->
                                             </tfoot>
                                         </table>
                                     </div>
