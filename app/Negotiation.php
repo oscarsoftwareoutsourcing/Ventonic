@@ -62,4 +62,9 @@ class Negotiation extends Model
     {
         return $this->morphMany(Email::class, 'emailable');
     }
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
 }

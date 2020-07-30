@@ -49,7 +49,8 @@ class UploadRepository
                 } else {
                     $upload = Storage::disk($store)->put($this->name, File::get($file));
                     if ($upload) {
-                        $this->stored = 'storage/files/'. $this->name;
+                        //$this->stored = 'storage/files/'. $this->name;
+                        $this->stored = 'storage/'. $store . '/' . $this->name;
                         $this->storedPath = config('filesystems.disks.' . $store . '.root') . '/' . $this->name;
                         return true;
                     } else {

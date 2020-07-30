@@ -80,6 +80,19 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         return $response;
     });
+    Route::get('storage/documents/{file}', function ($file) {
+        $path = storage_path('app/documents/' . $file);
+        if (!File::exists($path)) {
+            abort(404);
+        }
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
+    });
     Route::resource('events', 'EventController');
     Route::get('ultimos-eventos', 'EventController@lastEvents')->name('events.list');
     Route::post('get-country-flag', 'ProfileController@getCountryFlag')->name('get-country-flag');
@@ -206,6 +219,9 @@ Route::group(['middleware' => ['verified']], function () use ($router) {
     Route::post('negociaciones/set-event', 'NegotiationController@setEvent');
     Route::get('negociaciones/get-emails/{negotiation}', 'NegotiationController@getEmails');
     Route::post('negociaciones/set-email', 'NegotiationController@setEmail');
+    Route::post('negociaciones/upload-documents', 'NegotiationController@uploadDocument');
+    Route::post('negociaciones/set-document', 'NegotiationController@setDocument');
+    Route::get('negociaciones/get-documents/{negotiation}', 'NegotiationController@getDocuments');
     // $router->get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{producto}/{responsable}/{estimado}',
     // 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');
 });

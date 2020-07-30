@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="button" class="btn btn-primary" @click="setNote">
-                                        Enviar
+                                        Guardar
                                     </button>
                                 </div>
                                 <div class="form-group">
@@ -93,7 +93,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="collapseAccordionNote" class="panel-collapse collapse in float-none"
+                                            <div id="collapseAccordionNote"
+                                                 class="panel-collapse collapse in float-none collapse show"
                                                  role="tabpanel" aria-labelledby="headingAccordionNote">
                                                 <div class="media-list media-bordered">
                                                     <div class="media" v-for="n in notes">
@@ -317,7 +318,7 @@
                                             </div>
                                             <div id="collapseAccordionEvent" role="tabpanel"
                                                  aria-labelledby="headingAccordionEmail"
-                                                 class="panel-collapse collapse in float-none timeline-panel">
+                                                 class="panel-collapse collapse in float-none collapse show timeline-panel">
                                                 <!-- Event timeline -->
                                                 <ul class="activity-timeline timeline-left list-unstyled">
                                                     <li v-for="ev in events">
@@ -350,13 +351,17 @@
                                               placeholder="Agregar una nota" v-model="documentNote"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <form action="#" class="dropzone dropzone-area dz-clickable" id="documentsDz">
+                                    <!--<form action="#" class="dropzone dropzone-area dz-clickable" id="documentsDz">
                                         <div class="dz-message">Drop Files Here To Upload</div>
-                                    </form>
+                                    </form>-->
+                                    <vue-dropzone ref="documentDropzone" id="dropzoneDocuments"
+                                                  :options="dropzoneOptions"
+                                                  @vdropzone-sending="dropzoneSendingEvent"
+                                                  @vdropzone-success="dropzoneSuccessEvent"></vue-dropzone>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-primary">
-                                        Enviar
+                                    <button type="button" class="btn btn-primary" @click="setDocument">
+                                        Guardar
                                     </button>
                                 </div>
                                 <div class="form-group">
@@ -381,8 +386,25 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="collapseAccordionDocument" class="panel-collapse collapse in float-none" role="tabpanel" aria-labelledby="headingAccordionDocument">
-                                                Listado detallado de documentos
+                                            <div id="collapseAccordionDocument"
+                                                 class="panel-collapse collapse in float-none collapse show"
+                                                 role="tabpanel" aria-labelledby="headingAccordionDocument">
+                                                <div class="media-list media-bordered">
+                                                    <div class="media" v-for="d in documents">
+                                                        <div class="media-body">
+                                                            <!--<h5 class="media-heading">
+                                                                {{ n.user.name }} {{ n.user.last_name }} -
+                                                                {{ n.created_at }}
+                                                            </h5>-->
+                                                            <p class="mb-0">
+                                                                {{ d.note }}
+                                                            </p>
+                                                            <p class="mb-0">
+                                                                <a :href="d.url">{{ getFileName(d.file) }}</a>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -409,7 +431,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="button" class="btn btn-primary" @click="setEmail">
-                                        Enviar
+                                        Guardar
                                     </button>
                                 </div>
                                 <div class="form-group">
@@ -434,7 +456,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="collapseAccordionEmail" class="panel-collapse collapse in float-none" role="tabpanel" aria-labelledby="headingAccordionEmail">
+                                            <div id="collapseAccordionEmail"
+                                                 class="panel-collapse collapse in float-none collapse show"
+                                                 role="tabpanel" aria-labelledby="headingAccordionEmail">
                                                 <div class="media-list media-bordered">
                                                     <div class="media" v-for="e in emails">
                                                         <a class="align-self-start media-left" href="#">
@@ -530,8 +554,13 @@
 </template>
 
 <script>
-    import { mapGetters, mapMutations } from 'vuex'
+    import { mapGetters, mapMutations } from 'vuex';
+    import vue2Dropzone from 'vue2-dropzone'
+    import 'vue2-dropzone/dist/vue2Dropzone.min.css'
     export default {
+        components: {
+            vueDropzone: vue2Dropzone
+        },
         data() {
             return {
                 negGroups: [],
@@ -539,6 +568,8 @@
                 noteError: '',
                 notes: [],
                 documentNote: '',
+                documentFiles: [],
+                documents: [],
                 event: {
                     category: '',
                     title: '',
@@ -564,7 +595,18 @@
                     message: ''
                 },
                 emails: [],
-                success: false
+                success: false,
+                dropzoneOptions: {
+                    url: '/negociaciones/upload-documents',
+                    //thumbnailWidth: 100,
+                    addRemoveLinks: true,
+                    maxFilesize: 10,
+                    dictDefaultMessage: 'Drop Files Here To Upload',
+                    //dictDefaultMessage: "<i class='fa fa-cloud-upload'></i>UPLOAD ME",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                },
             }
         },
         mounted() {
@@ -581,6 +623,7 @@
             this.getNotes();
             this.getEvents();
             this.getEmails();
+            this.getDocuments();
         },
         methods: {
             ...mapMutations({
@@ -709,7 +752,7 @@
             },
             setEmail() {
                 const vm = this;
-                console.log(vm.getDetailedNeg)
+
                 axios.post('/negociaciones/set-email', {
                     email: vm.email.email,
                     subject: vm.email.subject,
@@ -739,6 +782,55 @@
                     console.error(error);
                 });
             },
+            setDocument() {
+                const vm = this;
+
+                axios.post('/negociaciones/set-document', {
+                    note: vm.documentNote,
+                    documents: vm.documentFiles,
+                    negotiation_id: vm.getDetailedNeg.id
+                }).then(response => {
+                    if (response.data.result) {
+                        vm.documentNote = '';
+                        vm.documentFiles = [];
+                        vm.$refs.documentDropzone.removeAllFiles();
+                        vm.getDocuments();
+                    }
+                    vm.success = response.data.result;
+                }).catch(error => {
+                    console.error(error);
+                });
+            },
+            getDocuments() {
+                const vm = this;
+                axios.get(`/negociaciones/get-documents/${vm.getDetailedNeg.id}`).then(response => {
+                    if (response.data.result) {
+                        vm.documents = response.data.documents;
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
+            },
+            dropzoneSendingEvent(file, xhr, formData) {
+                //Instruccioines a ejecutar para cuando se estan enviando los archivos
+            },
+            /**
+             * Evento que se genera después de una carga correcta de documentos
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             *
+             * @param     {object}                file        Objeto con información del archivo
+             * @param     {object}                response    Objeto con información de respuesta
+             */
+            dropzoneSuccessEvent(file, response) {
+                const vm = this;
+                if (response.result) {
+                    vm.documentFiles.push({
+                        path: response.document_path,
+                        url: response.document_url
+                    });
+                }
+            }
         },
         computed: {
             ...mapGetters(['getNegotiation', 'getNegotiations', 'getDetailedNeg', 'getUserGroups']),

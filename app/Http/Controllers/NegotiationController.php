@@ -17,6 +17,8 @@ use App\Group;
 use App\Note;
 use App\Event;
 use App\Email;
+use App\Document;
+use App\Repositories\UploadRepository;
 
 class NegotiationController extends Controller
 {
@@ -366,5 +368,86 @@ class NegotiationController extends Controller
     public function getEmails(Negotiation $negotiation)
     {
         return response()->json(['result' => true, 'emails' => $negotiation->emails], 200);
+    }
+
+    /**
+     * Gestiona los documentos a subir
+     *
+     * @method    uploadDocument
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request             $request    Objeto con datos de la petición
+     * @param     UploadRepository    $up         Objeto con información del archivo a subir
+     *
+     * @return    JsonResponse        Objeto con información de la respuesta
+     */
+    public function uploadDocument(Request $request, UploadRepository $up)
+    {
+        if ($request->file('file')) {
+            if ($up->upload($request->file('file'), 'documents', true)) {
+                $documentPath = $up->getStoredPath();
+                $documentUrl = $up->getStored();
+            }
+        }
+        return response()->json([
+            'result' => true, 'document_path' => $documentPath, 'document_url' => $documentUrl
+        ], 200);
+    }
+
+    /**
+     * Registra un documento asociado a una negociación
+     *
+     * @method    setDocument
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request        $request    Objeto con información de la petición
+     *
+     * @return    JsonResponse   Datos de respuesta a la petición
+     */
+    public function setDocument(Request $request)
+    {
+        $this->validate($request, [
+            'note' => ['required'],
+            'documents' => ['required'],
+            'negotiation_id' => ['required']
+        ]);
+
+        foreach ($request->documents as $document) {
+            Document::create([
+                'note' => $request->note,
+                'file' => $document['path'],
+                'url' => $document['url'],
+                'documentable_id' => $request->negotiation_id,
+                'documentable_type' => Negotiation::class
+            ]);
+        }
+
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Obtiene los documentos asociados a una negociación
+     *
+     * @method    getDocuments
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Negotiation     $negotiation    Objeto con información de la negociación
+     *
+     * @return    JsonResponse    Objeto con datos de la respuesta a la petición
+     */
+    public function getDocuments(Negotiation $negotiation)
+    {
+        /*$documents = [];
+        $docNote = '';
+        foreach ($negotiation->documents as $document) {
+            if ($docNote !== $document->note) {
+                $docNote = $document->note;
+            }
+            $document[$docNote] =
+        }*/
+        return response()->json(['result' => true, 'documents' => $negotiation->documents], 200);
     }
 }

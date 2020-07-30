@@ -95,6 +95,10 @@ Vue.mixin({
          */
         time_format(value) {
             return moment(String(value)).format("h:mm:ss a");
+        },
+        getFileName(filePath) {
+            var pathSections = filePath.split("/");
+            return pathSections[pathSections.length - 1];
         }
     }
 });
