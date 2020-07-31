@@ -26,11 +26,19 @@
                          :negotiations="{{ $negotiations }}" :user="{{ $userId }}" :contacts="{{ $userContacts }}"
                          :a="{{ $userGroups }}" />
 @endsection
+
+
+
 @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}" defer></script>
 @endsection
 
 @section('extra-js')
+
+    <script>
+        let $body = $('body');
+        $body.addClass('menu-collapsed');
+    </script>
     <!--<script src="{{ asset('vendors/js/extensions/dropzone.min.js') }}"></script>
     <script src="{{ asset('js/scripts/extensions/dropzone.js') }}"></script>-->
     <script>

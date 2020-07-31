@@ -101,7 +101,7 @@
 <!-- BEGIN: Body  vertical-menu-modern-->
 <!-- data-menu="vertical-menu-modern" -->
 <body class="vertical-layout vertical-menu-modern {{ ($type_device=='mobile') ? 'semi-dark-layout':'dark-layout' }}  @yield('extra-style')
-navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="content-left-silderbar" data-layout="dark-layout" data-device="{{ $type_device }}">
+navbar-floating footer-static " data-open="click" data-menu="vertical-menu-modern" data-col="content-left-silderbar" data-layout="dark-layout" data-device="{{ $type_device }}">
     <div id="app">
 
         @include('layouts.element.nav')
