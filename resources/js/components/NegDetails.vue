@@ -30,7 +30,7 @@
                             <li class="nav-item">
                                 <a class="nav-link active" id="profile-tab-justified" data-toggle="tab"
                                    href="#profile-just" role="tab" aria-controls="profile-just" aria-selected="false">
-                                    Notas personales
+                                    Notas
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -49,6 +49,18 @@
                                 <a class="nav-link" id="home-tab-justified" data-toggle="tab" href="#home-just"
                                    role="tab" aria-controls="home-just" aria-selected="true">
                                     Correos
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="calls-tab-justified" data-toggle="tab" href="#calls-just"
+                                   role="tab" aria-controls="calls-just" aria-selected="true">
+                                    Llamadas
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tasks-tab-justified" data-toggle="tab" href="#tasks-just"
+                                   role="tab" aria-controls="tasks-just" aria-selected="true">
+                                    Tareas
                                 </a>
                             </li>
                         </ul>
@@ -78,6 +90,18 @@
                                  <!-- Correos -->
                                 <email-app ref="negotiationEmail" :model-relation-id="getDetailedNeg.id"
                                            model-relation-class="negotiation"></email-app>
+                            </div>
+                            <div class="tab-pane pb-3" id="calls-just" aria-labelledby="calls-tab-justified"
+                                 role="tabpanel">
+                                 <!-- Llamadas -->
+                                <call-event ref="negotiationCalls" :model-relation-id="getDetailedNeg.id"
+                                            model-relation-class="negotiation"></call-event>
+                            </div>
+                            <div class="tab-pane pb-3" id="tasks-just" aria-labelledby="tasks-tab-justified"
+                                 role="tabpanel">
+                                 <!-- Llamadas -->
+                                <task ref="negotiationTasks" :model-relation-id="getDetailedNeg.id"
+                                      model-relation-class="negotiation"></task>
                             </div>
                         </div>
                     </div>

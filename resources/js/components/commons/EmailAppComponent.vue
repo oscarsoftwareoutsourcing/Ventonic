@@ -147,6 +147,11 @@
                     vm.success = false;
                 });
             },
+            /**
+             * Obtiene un listado de correos enviados desde algún módulo de la aplicación
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             */
             getEmails() {
                 const vm = this;
                 axios.get(`/components/get-emails/${vm.modelRelationClass}/${vm.modelRelationId}`).then(response => {

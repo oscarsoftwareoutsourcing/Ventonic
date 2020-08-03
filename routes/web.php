@@ -174,6 +174,7 @@ Route::get(
 
 Route::get('contacto/editar/{contact_id}', 'ContactController@edit')->name('contact.editForm')->middleware('verified');
 Route::post('contacto/update', 'ContactController@update')->name('contact.update')->middleware('verified');
+Route::get('contacto/get-contacts/{contact_id?}', 'ContactController@getContacts')->middleware('verified');
 
 // Rutas para grupos
 
@@ -246,6 +247,22 @@ Route::group([
     Route::post('upload-documents', 'FileController@uploadDocument');
     Route::post('set-document', 'FileController@setDocument');
     Route::get('get-documents/{class}/{id}', 'FileController@getDocuments');
+
+    /**
+     * Gestión de llamadas
+     */
+    Route::get('get-call-results', 'CallResultController@getCallResults');
+    Route::get('get-calls/{class}/{id}', 'CallController@getCalls');
+    Route::post('set-call', 'CallController@setCall');
+
+    /**
+     * Gestión de tareas
+     */
+    Route::get('get-task-types', 'TaskController@getTaskTypes');
+    Route::get('get-task-priorities', 'TaskController@getTaskPriorities');
+    Route::get('get-task-queues', 'TaskController@getTaskQueues');
+    Route::get('get-tasks/{class}/{id}', 'TaskController@getTasks');
+    Route::post('set-task', 'TaskController@setTask');
 });
 
 

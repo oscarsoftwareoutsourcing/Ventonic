@@ -92,6 +92,27 @@
             max-height: 250px;
             overflow: auto;
         }
+        .ck.ck-reset, .ck.ck-reset_all, .ck.ck-reset_all * {
+            background: #262C49 !important;
+            color:#C2C6DC !important;
+            border-radius: 5px;
+        }
+        .ck.ck-editor__main > .ck-editor__editable {
+            background: #262C49 !important;
+            color: #C2C6DC !important;
+        }
+        .ck.ck-toolbar {
+            border: none !important;
+        }
+        .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+            border-top: #C2C6DC !important;
+            border-left: none !important;
+            border-right: none !important;
+            border-bottom: none !important;
+        }
+        .ck-editor .ck-editor__main .ck-content {
+            min-height: 250px;
+        }
     </style>
 </head>
 

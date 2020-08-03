@@ -52,6 +52,8 @@ Vue.component("email-app", () => import("./components/commons/EmailAppComponent.
 Vue.component('note', () => import("./components/commons/NoteComponent.vue"));
 Vue.component('event', () => import("./components/commons/EventComponent.vue"));
 Vue.component('media-file', () => import("./components/commons/MediaFileComponent.vue"));
+Vue.component('call-event', () => import("./components/commons/CallEventComponent.vue"));
+Vue.component('task', () => import("./components/commons/TaskComponent.vue"));
 
 Vue.mixin({
     data() {
