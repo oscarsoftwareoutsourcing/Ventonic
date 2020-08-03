@@ -28,18 +28,18 @@
 
             <li class=" nav-item"><a href="{{ route('events.calender') }}"><i class="feather icon-calendar"></i><span class="menu-title">Calendario</span></a>
             </li>
-            
+
             <li class=" nav-item"><a href="{{ route('email') }}"><i class="feather icon-mail"></i><span class="menu-title">Email</span></a>
             </li>
-        
+
             {{-- Oportunidades --}}
             @if(\Auth::user()->type=="E" || isset(auth()->user()->CompanyProfile))
             <li class=" nav-item"><a href="#"><i class="feather icon-star"></i><span class="menu-title">Oportunidades</span></a>
                 <ul class="menu-content">
-                    
+
                     <li><a href="{{ route('oportunity.saved') }}"><i class="feather icon-list"></i><span class="menu-item">Mis oportunidades</span></a>
                     </li>
-                   
+
                     <li><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Otras Empresas</span></a>
                     </li>
                 </ul>
@@ -55,7 +55,7 @@
             {{-- Negociaciones Company --}}
            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
            <li class=" nav-item"><a href="{{route('negociaciones')}}"><i class="feather icon-users"></i><span class="menu-title">Negociaciones</span></a>
-               
+
             </li>
             @endif
 
@@ -74,7 +74,7 @@
             </li>
 
             @if (\Auth::user()->type=="E")
-            <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item">Buscar Vendedor</span></a>
+            <li class=" nav-item"><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item">Buscar Vendedor</span></a>
             </li>
             @endif
 
@@ -100,7 +100,7 @@
             @if(\Auth::user())
             <li class=" nav-item"><a href="#"><i class="feather icon-bar-chart"></i><span class="menu-title">Informes</span></a>
                 <ul class="menu-content">
-                    
+
                     <!--
                     <li class="nav-item"><a href="#" ><i class="fa fa-cart-arrow-down"></i><span class="menu-item">Ventas</span></a>
                         <ul class="menu-content">
@@ -112,15 +112,18 @@
                     -->
                     <li><a href="{{ route('report.sales') }}"><i class="fa fa-cart-arrow-down"></i><span class="menu-item">Ventas</span></a>
                     </li>
-                   
+
                     <li><a href="{{ route('oportunity.list') }}"><i class="fa fa-bar-chart"></i><span class="menu-item">Actividad</span></a>
                     </li>
                 </ul>
-
-                
             </li>
 
-  
+
+            <li class=" nav-item"><a href="{{ route('search.init') }}"><i class="feather icon-server"></i> <span class="menu-item">App</span></a>
+            </li>
+
+
+
            @endif
         </ul>
     </div>
