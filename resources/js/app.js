@@ -47,6 +47,12 @@ Vue.component("negotiation-event-modal", () => import("./components/NegEventModa
 Vue.component("negotiation-file-modal", () => import("./components/NegFileModal.vue"));
 Vue.component("negotiation-confirm-modal", () => import("./components/NegConfirmModal.vue"));
 
+/** Componentes comúnes */
+Vue.component("email-app", () => import("./components/commons/EmailAppComponent.vue"));
+Vue.component('note', () => import("./components/commons/NoteComponent.vue"));
+Vue.component('event', () => import("./components/commons/EventComponent.vue"));
+Vue.component('media-file', () => import("./components/commons/MediaFileComponent.vue"));
+
 Vue.mixin({
     data() {
         return {

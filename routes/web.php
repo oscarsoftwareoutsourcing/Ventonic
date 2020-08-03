@@ -213,17 +213,39 @@ Route::group(['middleware' => ['verified']], function () use ($router) {
     // Negotiations
     // Rutas para negociaciones Company
     Route::get('negociaciones', 'NegotiationController@index')->name('negociaciones');
-    Route::get('negociaciones/get-notes/{negotiation}', 'NegotiationController@getNotes');
-    Route::post('negociaciones/set-note', 'NegotiationController@setNote');
-    Route::get('negociaciones/get-events/{negotiation}', 'NegotiationController@getEvents');
-    Route::post('negociaciones/set-event', 'NegotiationController@setEvent');
-    Route::get('negociaciones/get-emails/{negotiation}', 'NegotiationController@getEmails');
-    Route::post('negociaciones/set-email', 'NegotiationController@setEmail');
-    Route::post('negociaciones/upload-documents', 'NegotiationController@uploadDocument');
-    Route::post('negociaciones/set-document', 'NegotiationController@setDocument');
-    Route::get('negociaciones/get-documents/{negotiation}', 'NegotiationController@getDocuments');
+
     // $router->get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{producto}/{responsable}/{estimado}',
     // 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');
+});
+
+/** Rutas de componentes generales de la aplicación */
+Route::group([
+    'middleware' => ['auth', 'verified'], 'namespace' => 'Components', 'prefix' => 'components'
+], function () {
+    /**
+     * Gestión de correos
+     */
+    Route::get('get-emails/{class}/{id}', 'EmailAppController@getEmails');
+    Route::post('set-email', 'EmailAppController@setEmail');
+
+    /**
+     * Gestión de notas
+     */
+    Route::get('get-notes/{class}/{id}', 'NoteController@getNotes');
+    Route::post('set-note', 'NoteController@setNote');
+
+    /**
+     * Gestión de eventos
+     */
+    Route::get('get-events/{class}/{id}', 'EventController@getEvents');
+    Route::post('set-event', 'EventController@setEvent');
+
+    /**
+     * Gestión de archivos
+     */
+    Route::post('upload-documents', 'FileController@uploadDocument');
+    Route::post('set-document', 'FileController@setDocument');
+    Route::get('get-documents/{class}/{id}', 'FileController@getDocuments');
 });
 
 
