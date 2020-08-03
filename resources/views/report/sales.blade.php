@@ -20,40 +20,38 @@
                 </div>
             </div>
 
-            
-            
-                <div class="card">
-                    <div class="card-header"></div>
-
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 ">
-                                <div class="table-responsive">
+            <div class="row">
+                
+                <div class="col-lg-12 col-md-12 col-sm-12 ">
+                     <div class="card">
+                        <div class="card-header"></div>
+                        <div class="card-body">
+                            <div class="table-responsive">
                                     <table class="table table-hover mb-0">
-                                        <thead>
+                                        
                                             <tr>
-                                                <th></th>
-                                                <th>Negociación</th>
-                                                <th>Conversión</th>
-                                                <th>Total</th>
-                                                </tr>
-                                        </thead>
+                                                <td class="head-table"></td>
+                                                <td class="text-center head-table">Negociación</td>
+                                                <td class="text-center head-table">Conversión</td>
+                                                <td class="text-center head-table">Total</td>
+                                            </tr>
+                                        
 
-                                          <td colspan="4"><hr></td>
+                                          <td colspan="4"><hr class="hr-report"></td>
                                          @foreach($processes as $process)
                                             <tr>
-                                                <th scope="row">{{ $process->desc }}</th>
+                                                <td scope="row" class="info-table">{{ $process->desc }}</td>
                                                 <td class="text-center">{{ $process->qty }}</td>
                                                 <td class="text-center"> % </td>
                                                 <td class="text-right">{{ $process->tot }} €</td>
                                             </tr>
                                         @endforeach
                                         
-                                        <td colspan="4"><hr></td>
+                                        <td colspan="4"><hr class="hr-report"></td>
 
                                         @foreach($totals as $total)
                                             <tr >
-                                                <th scope="row">{{ $total->desc }}</th>
+                                                <td scope="row" class="info-table">{{ $total->desc }}</td>
                                                 <td class="text-center">{{ $total->qty }}</td>
                                                 <td class="text-center"> % </td>
                                                 <td class="text-right">{{ $total->tot }} €</td>
@@ -62,38 +60,43 @@
 
                                     </table>
                                 </div>
+                        </div>
+                     </div>
+                </div>
+
+                <div class="col-lg-6 col-md-12 ">
+                     <div class="card">
+                        <div class="card-header">
+                             <h4 class="card-title">Negociaciones</h4>
+                        </div>
+                        <div class="card-body">
+                             <div class="card-body">
+                                <div id="bar-chart"></div>
                             </div>
+                        </div>
+                     </div>
+                </div>
 
-                             <div class="col-lg-6 col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Negociaciones</h4>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <div id="bar-chart"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                 <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Estatus</h4>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <div id="pie-chart" class="mx-auto"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-
+                <div class="col-lg-6 col-md-12 ">
+                     <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Estatus</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div id="pie-chart" class="mx-auto"></div>
                             </div>
                         </div>
                     </div>
+
                 </div>
-            </div>
-            </div>
+            </div>    
+            
+      
+
+                <!-- card tablet -->
+        </div>
+    </div>
         
    
 @endsection
