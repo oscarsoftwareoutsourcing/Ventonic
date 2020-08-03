@@ -233,3 +233,6 @@ Route::get('informes/ventas', 'ReportController@sales')->name('report.sales')->m
 Route::get('calender', 'EventController@index')->name('events.calender');
 
 Route::view('dash', 'inicio-dashboard');
+
+Route::get('{uuid}/widget', 'WidgetController@show');
+

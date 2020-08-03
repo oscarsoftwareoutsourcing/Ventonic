@@ -45,3 +45,7 @@ $router->group(['prefix' => 'negotiations'], function() use ($router) {
     // Update todos.
     // $router->post('update-todos', ['uses' => 'TodoController@updateTodos']);
 });
+
+Route::post('/apps', 'AppsController@store');
+Route::post('widget', 'WidgetController@store');
+Route::post('widget/data', 'WidgetDataController@store');
