@@ -41,7 +41,8 @@ class CallController extends Controller
             'contact_id' => $request->contact_id,
             'call_result_id' => $request->call_result_id ?? null,
             'calleventable_id' => $request->modelRelationId,
-            'calleventable_type' => $model
+            'calleventable_type' => $model,
+            'user_id' => auth()->user()->id
         ]);
 
         return response()->json(['result' => true], 200);

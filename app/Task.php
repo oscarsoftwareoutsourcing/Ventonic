@@ -16,7 +16,7 @@ class Task extends Model
         'contact_id', 'task_queue_id', 'task_priority_id', 'task_type_id', 'taskable_type', 'taskable_id'
     ];
 
-    protected $with = ['contact'];
+    protected $with = ['contact', 'user'];
 
     /**
      * Task morphs to models in taskable_type.
@@ -66,5 +66,15 @@ class Task extends Model
     public function contact()
     {
         return $this->belongsTo(Contact::class);
+    }
+
+    /**
+     * Task belongs to User.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

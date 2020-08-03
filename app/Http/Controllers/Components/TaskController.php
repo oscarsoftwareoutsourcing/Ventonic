@@ -97,7 +97,8 @@ class TaskController extends Controller
             'task_priority_id' => $request->task_priority_id ?? null,
             'task_type_id' => $request->task_type_id ?? null,
             'taskable_type' => $model,
-            'taskable_id' => $request->modelRelationId
+            'taskable_id' => $request->modelRelationId,
+            'user_id' => auth()->user()->id
         ]);
 
         return response()->json(['result' => true], 200);

@@ -12,7 +12,7 @@ class CallEvent extends Model
      * @var array
      */
     protected $fillable = [
-        'called_at', 'called_time', 'description', 'follow_task', 'contact_id', 'call_result_id',
+        'called_at', 'called_time', 'description', 'follow_task', 'contact_id', 'call_result_id', 'user_id'
         'calleventable_type', 'calleventable_id'
     ];
 
@@ -36,6 +36,16 @@ class CallEvent extends Model
     public function contact()
     {
         return $this->belongsTo(Contact::class);
+    }
+
+    /**
+     * CallEvent belongs to User.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
