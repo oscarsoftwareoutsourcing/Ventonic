@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Support\Str;
+use App\User;
 
 class UsersSeeder extends Seeder
 {
@@ -13,17 +14,19 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'uuid' => Str::uuid(),
-            'name' => 'Nick',
-            'last_name' => 'Cohen',
-            'email' => 'ncohen@dev.com',
-            'type' => 'V',
-            'status' => 1,
-            'email_verified_at' => date('Y-m-d H:i:s'),
-            'password' => (new BcryptHasher)->make('12345678'),
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => null
-        ]);
+        User::firstOrCreate(
+            ['email' => 'ncohen@dev.com'],
+            [
+                'uuid' => Str::uuid(),
+                'name' => 'Nick',
+                'last_name' => 'Cohen',
+                'type' => 'V',
+                'status' => 1,
+                'email_verified_at' => date('Y-m-d H:i:s'),
+                'password' => (new BcryptHasher)->make('12345678'),
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null
+            ]
+        );
     }
 }

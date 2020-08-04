@@ -26,7 +26,7 @@
                 </a>
             </li>
 
-            <li class=" nav-item active"><a href="{{ route('events.calender') }}"><i class="feather icon-calendar"></i><span class="menu-title">Calendario</span></a>
+            <li class=" nav-item"><a href="{{ route('events.calender') }}"><i class="feather icon-calendar"></i><span class="menu-title">Calendario</span></a>
             </li>
 
             <li class=" nav-item"><a href="{{ route('email') }}"><i class="feather icon-mail"></i><span class="menu-title">Email</span></a>

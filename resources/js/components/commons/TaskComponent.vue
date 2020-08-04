@@ -49,7 +49,7 @@
                     <label for="task_type_id">Tipo</label>
                     <select id="task_type_id" class="custom-select" v-model="task_type_id">
                         <option value="">Seleccione...</option>
-                        <option :value="taskType" v-for="taskType in taskTypes">
+                        <option :value="taskType.id" v-for="taskType in taskTypes">
                             {{ taskType.name }}
                         </option>
                     </select>
@@ -64,7 +64,7 @@
                     <label for="task_priority_id">Prioridad</label>
                     <select id="task_priority_id" class="custom-select" v-model="task_priority_id">
                         <option value="">Seleccione...</option>
-                        <option :value="taskPriority" v-for="taskPriority in taskPriorities">
+                        <option :value="taskPriority.id" v-for="taskPriority in taskPriorities">
                             {{ taskPriority.name }}
                         </option>
                     </select>
