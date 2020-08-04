@@ -67,4 +67,14 @@ class Negotiation extends Model
     {
         return $this->morphMany(Document::class, 'documentable');
     }
+
+    public function callEvents()
+    {
+        return $this->morphMany(CallEvent::class, 'calleventable');
+    }
+
+    public function tasks()
+    {
+        return $this->morphMany(Task::class, 'taskable');
+    }
 }

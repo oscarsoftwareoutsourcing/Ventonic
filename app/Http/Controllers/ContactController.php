@@ -39,7 +39,7 @@ class ContactController extends Controller
                 'type'=>$personal->type,
                 'type_contact'=>$personal->type_contact
             ];
-            
+
         }
 
         // Sacar los usuarios que le han compartido
@@ -81,10 +81,10 @@ class ContactController extends Controller
 
 
         return view('contact.list-contact', ['contacts'=>$contacts]);
-        
+
     }
 
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -118,13 +118,13 @@ class ContactController extends Controller
         $validation= $request->validate([
             'nombre' => 'required|string|max:255'
         ]);
-        
+
         if($image){
             $image_path_name = time().$image->getClientOriginalName();
             Storage::disk('public')->put($image_path_name, File::get($image));
         }
 
-        // var_dump($request->address_longitude); 
+        // var_dump($request->address_longitude);
         // var_dump($request->address_latitude);
         // die();
         $contact = Contact::updateOrCreate(
@@ -192,7 +192,7 @@ class ContactController extends Controller
                     );
                 }
 
-            }          
+            }
         }
 
         return redirect()->route('contact.list');
@@ -212,7 +212,7 @@ class ContactController extends Controller
     public function show()
     {
         $contacts=Contact::where('user_id', auth()->user()->id)->orderByDesc('favorite')->paginate(10);
-        //return view('inicio-dashboard', ['contacts'=>$contacts]); 
+        //return view('inicio-dashboard', ['contacts'=>$contacts]);
         return view('dashboard.index', ['contacts'=>$contacts]);
 
     }
@@ -302,7 +302,7 @@ class ContactController extends Controller
         //             );
         //         }
 
-        //     }          
+        //     }
         // }
 
         return redirect()->route('contact.list')
@@ -345,17 +345,37 @@ class ContactController extends Controller
             $delete_contact=Contact::find((int)$contact_id);
             $borrado=$delete_contact->delete();
                 if(isset($borrado)){
-                            
+
                 return redirect()->route('contact.list')
                                     ->with(['message'=>'Contacto eliminado exitosamente']);
                 }else{
                     return redirect()->route('contact.list')
                                     ->with(['error'=>'No se ha podido eliminar el contacto']);
-                }   
+                }
         }else{
             return redirect()->route('contact.list')
             ->with(['error'=>'No esta autorizado para eliminar este contacto']);
 
         }
+    }
+
+    /**
+     * Obtiene un listado de contactos
+     *
+     * @method    getContacts
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     integer|null         $contact_id    Identificador del contacto. Opcional
+     *
+     * @return    JsonResponse         Objeto JSON con los datos de respuesta a la petición
+     */
+    public function getContacts($contact_id = null)
+    {
+        if ($contact_id !== null) {
+            return response()->json(['result' => true, 'contacts' => Contact::find($contact_id)], 200);
+        }
+
+        return response()->json(['result' => true, 'contacts' => auth()->user()->contact], 200);
     }
 }

@@ -5,6 +5,10 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Task;
+use App\Mail\Generic as GenericMail;
+use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -38,6 +42,25 @@ class Kernel extends ConsoleKernel
                 GROUP BY r.id, r.created_at, m.user_id'
             );
         })->daily();
+
+        /** @var object Objeto con información de las tareas que disponen de un recordatorio */
+        $tasks = Task::whereNotNull('remember_at')->whereDate('remember_at', '>=', Carbon::now())->get();
+        foreach ($tasks as $task) {
+            list($year, $month, $day) = explode("-", $task->remember_at);
+            list($hour, $minute) = explode(":", $task->remember_time);
+            $min = explode(".", $minute);
+            if (date("Y") === $year) {
+                $schedule->call(function () use ($task) {
+                    Mail::to($task->user->id)->send(new GenericEmail(
+                        $task->user->email,
+                        $task->user->name,
+                        'Recordatorio de tarea - ' . $task->title,
+                        $task->description,
+                        'Recordatorio de Tarea'
+                    ));
+                })->cron("$min[0] $hour $day $month *");
+            }
+        }
     }
 
     /**
