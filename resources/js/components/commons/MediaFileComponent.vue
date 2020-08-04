@@ -92,71 +92,12 @@ export default {
         //thumbnailWidth: 100,
         addRemoveLinks: true,
         maxFilesize: 10,
-        dictDefaultMessage: "Arrastra los archivos aquí para subirlos",
+        dictDefaultMessage: "Arrastra tus archivos aquí",
         //dictDefaultMessage: "<i class='fa fa-cloud-upload'></i>UPLOAD ME",
         headers: {
           "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
-<<<<<<< HEAD
       },
-=======
-        methods: {
-            setFile() {
-                const vm = this;
-
-                axios.post('/components/set-document', {
-                    note: vm.documentNote,
-                    documents: vm.documentFiles,
-                    modelRelationId: vm.modelRelationId,
-                    modelRelationClass: vm.modelRelationClass
-                }).then(response => {
-                    if (response.data.result) {
-                        vm.documentNote = '';
-                        vm.documentFiles = [];
-                        vm.$refs.documentDropzone.removeAllFiles();
-                        vm.getFiles();
-                    }
-                    vm.$parent.success = response.data.result;
-                }).catch(error => {
-                    vm.$parent.success = false;
-                    console.error(error);
-                });
-            },
-            getFiles() {
-                const vm = this;
-                axios.get(`/components/get-documents/${vm.modelRelationClass}/${vm.modelRelationId}`).then(response => {
-                    if (response.data.result) {
-                        vm.documents = response.data.documents;
-                    }
-                }).catch(error => {
-                    console.error(error);
-                });
-            },
-            dropzoneSendingEvent(file, xhr, formData) {
-                //Instruccioines a ejecutar para cuando se estan enviando los archivos
-            },
-            /**
-             * Evento que se genera después de una carga correcta de documentos
-             *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-             *
-             * @param     {object}                file        Objeto con información del archivo
-             * @param     {object}                response    Objeto con información de respuesta
-             */
-            dropzoneSuccessEvent(file, response) {
-                const vm = this;
-                if (response.result) {
-                    vm.documentFiles.push({
-                        path: response.document_path,
-                        url: response.document_url
-                    });
-                }
-            }
-        },
-        mounted() {
-            this.getFiles();
-        }
->>>>>>> components
     };
   },
   props: {
@@ -207,9 +148,10 @@ export default {
             vm.$refs.documentDropzone.removeAllFiles();
             vm.getFiles();
           }
-          vm.success = response.data.result;
+          vm.$parent.success = response.data.result;
         })
         .catch((error) => {
+          vm.$parent.success = false;
           console.error(error);
         });
     },

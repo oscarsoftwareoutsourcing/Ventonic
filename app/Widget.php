@@ -18,10 +18,7 @@ class Widget extends Model
      *
      * @var array
      */
-<<<<<<< HEAD
     protected $fillable = ['name', 'app_id', 'user_id', 'url','token', 'parameteres', 'status'];
-=======
     // protected $fillable = ['name', 'app_id', 'user_id', 'url','token', 'parameteres', 'status'];
     protected $guarded = ['id'];
->>>>>>> components
 }
