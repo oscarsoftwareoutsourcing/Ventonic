@@ -305,9 +305,9 @@
                         vm.eventPlaceError = '';
                         vm.getEvents();
                     }
-                    vm.success = response.data.result;
+                    vm.$parent.success = response.data.result;
                 }).catch(error => {
-                    vm.success = false;
+                    vm.$parent.success = false;
                     if (typeof(error.response) !="undefined") {
                         if (typeof(error.response.data.errors.title) !== "undefined") {
                             vm.eventTitleError = error.response.data.errors.title[0];

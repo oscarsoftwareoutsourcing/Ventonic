@@ -135,7 +135,7 @@
                     else {
                         vm.errors.email = response.data.message;
                     }
-                    vm.success = response.data.result;
+                    vm.$parent.success = response.data.result;
                 }).catch(error => {
                     if (typeof(error.response) !="undefined") {
                         for (var index in error.response.data.errors) {
@@ -144,7 +144,7 @@
                             }
                         }
                     }
-                    vm.success = false;
+                    vm.$parent.success = false;
                 });
             },
             /**

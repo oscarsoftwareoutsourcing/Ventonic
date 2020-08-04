@@ -105,9 +105,9 @@
                         vm.noteError = '';
                         vm.getNotes();
                     }
-                    vm.success = response.data.result;
+                    vm.$parent.success = response.data.result;
                 }).catch(error => {
-                    vm.success = false;
+                    vm.$parent.success = false;
                     if (typeof(error.response) !="undefined") {
                         for (var index in error.response.data.errors) {
                             if (error.response.data.errors[index]) {

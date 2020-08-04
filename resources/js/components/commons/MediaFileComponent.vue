@@ -135,8 +135,9 @@
                         vm.$refs.documentDropzone.removeAllFiles();
                         vm.getFiles();
                     }
-                    vm.success = response.data.result;
+                    vm.$parent.success = response.data.result;
                 }).catch(error => {
+                    vm.$parent.success = false;
                     console.error(error);
                 });
             },
