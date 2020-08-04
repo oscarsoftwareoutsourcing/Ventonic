@@ -31,6 +31,10 @@
                         </div>
                         
                         <div class="card-body">
+                                <div class="alert alert-success" style="display:none">
+                                        <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                        <span>El PIN ha sigo copiado al portapaeles</span>
+                                </div>
                             @if (session('status'))
                                 <div class="alert alert-success" role="alert">
                                     {{ session('status') }}
@@ -59,7 +63,8 @@
                                         <input type="hidden" name="status" value="{{ $status }}">
                                     </div>
                                 </div>
-
+                                
+                               
                                 {{-- BEGIN Nombres y apellidos --}}
                                 <div class="form-group row">
                                     <label for="dni_rif" class="col-md-4 col-form-label text-md-right">
@@ -311,6 +316,21 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    {{-- PIN --}}
+                                    <div class="form-group row">
+                                        <label for="dni_rif" class="col-md-4 col-form-label text-md-right">
+                                            {{ __('PIN') }}
+                                        </label>
+
+                                        <div class="col-md-4">
+                                            <input id="pin" type="text" class="form-control" name="pin" value="{{auth()->user()->uuid}}" readonly>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input id="copyBtn" type="button" class="btn btn-outline-primary mr-1 mb-1 waves-effect waves-light" onclick="copyPin()" name="copyBtn" value="Copiar mi PIN" >
+                                        </div>
+                                        
+                                        
+                                    </div>
                                 @endif
 
                                 @if (!$questions->isEmpty())
@@ -402,7 +422,16 @@
     } 
     </script>
 
-
+    <script>
+        function copyPin(){
+           
+            var copyPinText = document.getElementById('pin').select();
+            document.execCommand("copy");
+            alert("El PIN ha sigo copiado al portapaeles");
+            // $(".alert-success").css("display", "block");
+            // setTimeout(function(){ $('.alert-success').hide(); }, 5000);
+        }
+    </script>
 
     <script>
         function getCountryFlag(el) {
@@ -418,6 +447,8 @@
             });
         }
     </script>
+
+    
 
    
 @endsection

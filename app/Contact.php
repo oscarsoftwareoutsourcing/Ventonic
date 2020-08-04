@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
-    protected $fillable = ['name', 'last_name','image','email','web', 'phone', 
-                           'company', 'address', 'city', 'province', 
-                           'postal_code', 'sector', 'notes', 'share', 
-                           'type', 'country_id','user_id', 'favorite', 
-                            'cargo', 'address_latitude', 'address_longitude', 
+    protected $fillable = ['name', 'last_name','image','email','web', 'phone',
+                           'company', 'address', 'city', 'province',
+                           'postal_code', 'sector', 'notes', 'share',
+                           'type', 'country_id','user_id', 'favorite',
+                            'cargo', 'address_latitude', 'address_longitude',
                             'private','type_contact'];
 
 
@@ -27,6 +27,26 @@ class Contact extends Model
         return $this->belongsTo('App\ContactGroupUser', 'contact_id');
     }
 
+    /**
+     * Contact has many CallEvents.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function callEvents()
+    {
+        return $this->hasMany(CallEvent::class);
+    }
+
+    /**
+     * Contact has many Tasks.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
     public static function checkedFavorite($contact){
         $checked='';
         if(isset($contact) && $contact!="empresa" && $contact!="persona"){
@@ -35,7 +55,7 @@ class Contact extends Model
                 $checked='checked';
             }
         }
-        
+
         return $checked;
     }
 
