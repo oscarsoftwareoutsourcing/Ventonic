@@ -57,6 +57,7 @@ Vue.component('event', () => import("./components/commons/EventComponent.vue"));
 Vue.component('media-file', () => import("./components/commons/MediaFileComponent.vue"));
 Vue.component('call-event', () => import("./components/commons/CallEventComponent.vue"));
 Vue.component('task', () => import("./components/commons/TaskComponent.vue"));
+Vue.component('remember-activity', () => import('./components/commons/RememberActivityComponent.vue'));
 
 Vue.mixin({
     data() {

@@ -30,7 +30,7 @@
                             <li class="nav-item">
                                 <a class="nav-link active" id="profile-tab-justified" data-toggle="tab"
                                    href="#profile-just" role="tab" aria-controls="profile-just" aria-selected="false">
-                                    Notas
+                                    Actividades
                                 </a>
                             </li>
                             <li class="nav-item">

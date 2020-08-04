@@ -113,6 +113,17 @@
         .ck-editor .ck-editor__main .ck-content {
             min-height: 250px;
         }
+        body.dark-layout .nav-tabs .nav-item .nav-link.active,
+        body.dark-layout .nav-tabs.nav-justified .nav-item .nav-link.active,
+        body.dark-layout .nav .nav-item .nav-link.active {
+            background: -webkit-linear-gradient(332deg, #0087FF, rgba(115, 103, 240, 0.7));
+            background: linear-gradient(118deg, #0087FF, rgba(115, 103, 240, 0.7));
+            box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7);
+            color: #FFFFFF;
+            font-weight: 400;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
     </style>
 </head>
 
