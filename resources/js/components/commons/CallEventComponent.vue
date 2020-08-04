@@ -21,7 +21,7 @@
                     <label for="call_result_id">Resultado de la llamada</label>
                     <select id="call_result_id" class="custom-select" v-model="call_result_id">
                         <option value="">Seleccione...</option>
-                        <option :value="callResult" v-for="callResult in callResults">
+                        <option :value="callResult.id" v-for="callResult in callResults">
                             {{ callResult.name }}
                         </option>
                     </select>
