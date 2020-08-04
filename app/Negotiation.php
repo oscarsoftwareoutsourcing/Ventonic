@@ -47,4 +47,24 @@ class Negotiation extends Model
     {
         return $this->belongsToMany(Group::class);
     }
+
+    public function notes()
+    {
+        return $this->morphMany(Note::class, 'noteable');
+    }
+
+    public function events()
+    {
+        return $this->morphMany(Event::class, 'eventable');
+    }
+
+    public function emails()
+    {
+        return $this->morphMany(Email::class, 'emailable');
+    }
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
 }

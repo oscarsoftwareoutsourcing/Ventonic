@@ -11,7 +11,9 @@ class Note extends Model
      *
      * @var array
      */
-    protected $fillable = ['description', 'user_id'];
+    protected $fillable = ['description', 'user_id', 'noteable_type', 'noteable_id'];
+
+    protected $with = ['user'];
 
     /**
      * Note morphs to models in noteable_type.

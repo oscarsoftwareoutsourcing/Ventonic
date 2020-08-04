@@ -11,7 +11,8 @@ class Email extends Model
      *
      * @var array
      */
-    protected $fillable = ['subject', 'message', 'from_user_id', 'to_user_id'];
+    protected $fillable = ['subject', 'message', 'from_user_id', 'to_user_id', 'emailable_type', 'emailable_id'];
+    protected $with = ['fromUser', 'toUser'];
 
     /**
      * Email belongs to FromUser.
@@ -30,6 +31,16 @@ class Email extends Model
      */
     public function toUser()
     {
-        return $this->belongsTo(ToUser::class, 'to_user_id');
+        return $this->belongsTo(User::class, 'to_user_id');
+    }
+
+    /**
+     * Email morphs to models in emailable_type.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function emailable()
+    {
+        return $this->morphTo();
     }
 }

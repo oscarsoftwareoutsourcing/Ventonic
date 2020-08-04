@@ -52,3 +52,7 @@ $router->group(['prefix' => 'widget','middleware' => 'auth:api'], function() use
 // Route::group(['prefix' => 'widget'], function () {
     $router->post('generateWidget',['uses'=>'WidgetController@store']);
 });
+
+Route::post('/apps', 'AppsController@store');
+Route::post('widget', 'WidgetController@store');
+Route::post('widget/data', 'WidgetDataController@store');

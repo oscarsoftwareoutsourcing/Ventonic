@@ -43,12 +43,10 @@ class WidgetController extends Controller
         $app_id = 1;
         $user_id = Auth::user()->id;
         $name = $request->widgetName;
-        
+        $url = $request->url;
        
         $token = Str::uuid()->toString();
 
-        
-        $url ='';
         $createdWidget = Widget::create([
             'app_id' => $app_id,
             'user_id' => $user_id,
@@ -125,7 +123,11 @@ class WidgetController extends Controller
         $data = Widget::join('widget_data','widget.id','=','widget_data.widget_id')
         ->join('seller_profiles','seller_profiles.user_id','=','widget.user_id_referred')
         ->join('users','users.id','=','seller_profiles.user_id')
-        ->selectRaw("widget_data.created_at,widget_data.origin as url,seller_profiles.phone_mobil,users.name,'product' as product")->get();
+        ->selectRaw("widget_data.created_at,
+        widget_data.origin as url,
+        seller_profiles.
+        phone_mobil,
+        users.name,'product' as product")->get();
        
         return view('widget_data.widget-data',['data'=>$data]);
     }

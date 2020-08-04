@@ -80,6 +80,19 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         return $response;
     });
+    Route::get('storage/documents/{file}', function ($file) {
+        $path = storage_path('app/documents/' . $file);
+        if (!File::exists($path)) {
+            abort(404);
+        }
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
+    });
     Route::resource('events', 'EventController');
     Route::get('ultimos-eventos', 'EventController@lastEvents')->name('events.list');
     Route::post('get-country-flag', 'ProfileController@getCountryFlag')->name('get-country-flag');
@@ -200,9 +213,22 @@ Route::group(['middleware' => ['verified']], function () use ($router) {
     // Negotiations
     // Rutas para negociaciones Company
     Route::get('negociaciones', 'NegotiationController@index')->name('negociaciones');
+    Route::get('negociaciones/get-notes/{negotiation}', 'NegotiationController@getNotes');
+    Route::post('negociaciones/set-note', 'NegotiationController@setNote');
+    Route::get('negociaciones/get-events/{negotiation}', 'NegotiationController@getEvents');
+    Route::post('negociaciones/set-event', 'NegotiationController@setEvent');
+    Route::get('negociaciones/get-emails/{negotiation}', 'NegotiationController@getEmails');
+    Route::post('negociaciones/set-email', 'NegotiationController@setEmail');
+    Route::post('negociaciones/upload-documents', 'NegotiationController@uploadDocument');
+    Route::post('negociaciones/set-document', 'NegotiationController@setDocument');
+    Route::get('negociaciones/get-documents/{negotiation}', 'NegotiationController@getDocuments');
     // $router->get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{producto}/{responsable}/{estimado}',
     // 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');
 });
+
+
+/* Routas para reportes */
+Route::get('informes/ventas', 'ReportController@sales')->name('report.sales')->middleware('verified');
 
 Route::get('calender', 'EventController@index')->name('events.calender');
 
@@ -213,3 +239,4 @@ Route::get('validate-pin/{pin}','FreeAppController@validatePin')->name('validate
 Route::post('widget/generateWidget','WidgetController@store');
 Route::get('widget/widgetsData','WidgetController@widgetsData')->name('widgets.data');
 Route::get('updateWidgetStatus/{widgetID}/{widgetStatus}','WidgetController@updateWidgetStatus')->name('widgets.update');
+Route::get('{uuid}/widget', 'WidgetController@show');

@@ -14,7 +14,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
    Autor: RuthReyes
 */
 .senForm-step1 {
-    background: #262C49 !important;
+    background: #262c49 !important;
     border-radius: 4px;
     padding: 20px;
     margin-left: 0px;
@@ -22,7 +22,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 
 .adicionales {
-    background: #262C49 !important;
+    background: #262c49 !important;
     border-radius: 4px;
     padding: 20px;
     margin-left: 0px;
@@ -41,7 +41,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 
 .transparent {
-    background: #262C49 !important;
+    background: #262c49 !important;
 }
 
 .container-image-oportunity {
@@ -56,7 +56,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     height: 250px;
 }
 
-.container-image-oportunity>img {
+.container-image-oportunity > img {
     width: 100% !important;
     height: 100%;
 }
@@ -69,7 +69,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     margin-bottom: 20px;
 }
 
-.titleOportunity>h4 {
+.titleOportunity > h4 {
     font-size: 18px;
 }
 
@@ -79,7 +79,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 
 .feather {
-    color: #0087FF;
+    color: #0087ff;
     font-size: 16px;
 }
 
@@ -100,10 +100,9 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     text-align: center;
     margin-top: 0px;
     font-size: 14px;
-    ;
 }
 
-.description_oportunitys>p {
+.description_oportunitys > p {
     text-align: center;
 }
 
@@ -115,7 +114,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .ubication-text {
     display: block;
     height: 28px;
-    background: #262C49;
+    background: #262c49;
     color: #fff;
     padding: 4px;
     border-radius: 9px;
@@ -125,13 +124,12 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     padding-right: 10px;
     font-size: 12px;
     margin-bottom: 10px;
-
 }
 
 .ubication-text {
     display: flex;
     height: 28px;
-    background: #262C49;
+    background: #262c49;
     color: #fff;
     padding: 4px;
     border-radius: 9px;
@@ -141,7 +139,6 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     padding-right: 10px;
     font-size: 12px;
     margin-bottom: 10px;
-
 }
 
 .experience_oportunity {
@@ -166,45 +163,42 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 
 .btn_right_new {
-    border-bottom-left-radius: .25rem !important;
-    border-top-left-radius: .25rem !important;
+    border-bottom-left-radius: 0.25rem !important;
+    border-top-left-radius: 0.25rem !important;
 }
 
-.search-oportunity>i {
+.search-oportunity > i {
     color: #fff !important;
 }
 
 .obligatorio {
-    color: #0087FF !important;
+    color: #0087ff !important;
 }
 
-body.dark-layout .table tbody tr:not([class*='table-']) td .publicada {
-    color: #24A866 !important;
+body.dark-layout .table tbody tr:not([class*="table-"]) td .publicada {
+    color: #24a866 !important;
     border-radius: 2px !important;
     margin-top: 2px !important;
-    ;
 }
 
 .cancelada {
-    color: #D6434A !important;
+    color: #d6434a !important;
     border-radius: 2px !important;
     margin-top: 2px !important;
 }
 
 .cerrada {
-    color: #B9C2DB !important;
+    color: #b9c2db !important;
     /* border:1px solid grey; */
     border-radius: 2px !important;
     margin-top: 2px !important;
-    ;
 }
 
 .borrador {
     /* opacity:0.5; */
-    color: #B9C2DB !important;
+    color: #b9c2db !important;
     border-radius: 2px !important;
     margin-top: 2px !important;
-    ;
 }
 
 #oportunitys thead tr th {
@@ -233,11 +227,11 @@ table tr {
 }
 
 .sorting {
-    background-color: #D4D4D4;
+    background-color: #d4d4d4;
 }
 
 .asc:after {
-    content: ' ↑';
+    content: " ↑";
 }
 
 .desc:after {
@@ -266,8 +260,8 @@ iframe {
 .cke_bottom {
     padding: 6px 8px 2px;
     position: relative;
-    border: 1px solid #10163A;
-    background: #10163A !important;
+    border: 1px solid #10163a;
+    background: #10163a !important;
     color: #fff !important;
 }
 
@@ -277,7 +271,7 @@ iframe {
 }
 
 .cke_top {
-    border-bottom: 1px solid #10163A;
+    border-bottom: 1px solid #10163a;
     /* background: #414561!important; */
     padding: 6px 8px 2px;
     white-space: normal;
@@ -286,7 +280,7 @@ iframe {
 
 .cke_chrome {
     display: block;
-    border: 1px solid #10163A;
+    border: 1px solid #10163a;
     padding: 0;
 }
 
@@ -318,12 +312,11 @@ iframe {
     min-height: 600px;
     justify-content: center;
     align-items: center;
-
 }
 
 .menu-item-principal {
     width: 40%;
-    border: 1px solid #C2C6DC;
+    border: 1px solid #c2c6dc;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -332,20 +325,20 @@ iframe {
     height: 300px;
     margin: 2%;
     box-shadow: 10px 10px 4px -9px rgba(0, 0, 0, 0.75);
-    color: #C2C6DC !important;
+    color: #c2c6dc !important;
 }
 
-.menu-item-principal>h2>a {
+.menu-item-principal > h2 > a {
     cursor: pointer;
 }
 
-@media(max-width: 767px) {
-    .menu-item-principal>h2 {
+@media (max-width: 767px) {
+    .menu-item-principal > h2 {
         font-size: 1.54rem;
     }
 }
 
-@media(max-width: 600px) {
+@media (max-width: 600px) {
     .menu-item-principal {
         width: 90%;
     }
@@ -356,7 +349,7 @@ iframe {
 }
 
 .header-ventonic {
-    background-color: #10163A !important;
+    background-color: #10163a !important;
     border-radius: 5px !important;
     margin-bottom: 2.2rem;
     border: none;
@@ -364,7 +357,7 @@ iframe {
 }
 
 .header-ventonic-blue {
-    background-color: #0087FF !important;
+    background-color: #0087ff !important;
     border-radius: 5px !important;
     margin-bottom: 2.2rem;
     border: none;
@@ -372,8 +365,8 @@ iframe {
 }
 
 .header_ventonic-description {
-    background-color: #D4D4D4 !important;
-    color: #0087FF !important;
+    background-color: #d4d4d4 !important;
+    color: #0087ff !important;
     display: flex;
     border-radius: 5px 5px 0px 0px;
     -moz-border-radius: 5px 15px 0px 0px;
@@ -387,7 +380,7 @@ iframe {
 }
 
 .text_vetonic-description {
-    color: #0087FF;
+    color: #0087ff;
     text-decoration: none;
     background-color: transparent;
     margin-right: 1.5rem;
@@ -404,7 +397,7 @@ iframe {
 }
 
 .text-ventonic {
-    color: #0087FF !important;
+    color: #0087ff !important;
     text-decoration: none;
     background-color: transparent;
     margin-right: 1.5rem;
@@ -414,7 +407,7 @@ iframe {
 }
 
 .text-ventonic-white {
-    color: #FFFFFF !important;
+    color: #ffffff !important;
     text-decoration: none;
     background-color: transparent;
     margin-right: 1.5rem;
@@ -429,17 +422,38 @@ iframe {
 }
 
 .text_ventonic-title {
-    color: #0087FF !important;
+    color: #0087ff !important;
     margin-right: 1rem;
     font-size: 2rem;
     line-height: inherit;
 }
 
 .card_info {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     padding: 5px;
 }
 
 .text-black {
     color: #000000 !important;
+}
+
+.hr-report {
+    height: 2px;
+    background-color: #eee;
+    border: rgba(34, 41, 47, 0.11);
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.head-table {
+    font-size: 1.3rem;
+    font-weight: bold;
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+}
+
+.info-table {
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.05rem;
 }

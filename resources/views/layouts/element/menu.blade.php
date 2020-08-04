@@ -76,19 +76,21 @@
             
 
             @if (\Auth::user()->type=="E")
-            <li class=" nav-item"><a href="{{route('freeapps')}}"><i class="feather icon-calendar"></i><span class="menu-title">Apps Gratis</span></a>
+            <li class=" nav-item"><a href="{{route('freeapps')}}"><i class="feather icon-server"></i><span class="menu-title">Apps Gratis</span></a>
             </li>
             @endif
 
             @if (\Auth::user()->type=="E")
-            <li class=" nav-item"><a href="{{route('widgets.data')}}"><i class="feather icon-calendar"></i><span class="menu-title">Datos de widget</span></a>
+            <li class=" nav-item"><a href="{{route('widgets.data')}}"><i class="fa fa-tasks"></i><span class="menu-title">Datos de widget</span></a>
             </li>
             @endif
 
             @if (\Auth::user()->type=="E")
-            <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item">Buscar Vendedor</span></a>
+            <li class=" nav-item"><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item">Buscar Vendedor</span></a>
             </li>
             @endif
+
+
 
             {{-- <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title">{{ Auth::user()->name }}</span></a>
                 <ul class="menu-content">
@@ -105,6 +107,33 @@
                     </li>
                 </ul>
             </li> --}}
+
+             {{-- Oportunidades --}}
+            @if(\Auth::user())
+            <li class=" nav-item"><a href="#"><i class="feather icon-bar-chart"></i><span class="menu-title">Informes</span></a>
+                <ul class="menu-content">
+                    
+                    <!--
+                    <li class="nav-item"><a href="#" ><i class="fa fa-cart-arrow-down"></i><span class="menu-item">Ventas</span></a>
+                        <ul class="menu-content">
+                            <li data-menu="">
+                                <a href="#" ><i class="fa fa-cart-arrow-down"></i><span class="menu-item">Actividad</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    -->
+                    <li><a href="{{ route('report.sales') }}"><i class="fa fa-cart-arrow-down"></i><span class="menu-item">Ventas</span></a>
+                    </li>
+                   
+                    <li><a href="{{ route('oportunity.list') }}"><i class="fa fa-bar-chart"></i><span class="menu-item">Actividad</span></a>
+                    </li>
+                </ul>
+
+                
+            </li>
+
+  
+           @endif
         </ul>
     </div>
 </div>
