@@ -73,8 +73,20 @@
             <li class=" nav-item"><a href="{{route('todos')}}"><i class="feather icon-check-square"></i><span class="menu-title">Notas Personales</span></a>
             </li>
 
+            
+
             @if (\Auth::user()->type=="E")
-            <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item">Buscar Vendedor</span></a>
+            <li class=" nav-item"><a href="{{route('freeapps')}}"><i class="feather icon-server"></i><span class="menu-title">Apps Gratis</span></a>
+            </li>
+            @endif
+
+            @if (\Auth::user()->type=="E")
+            <li class=" nav-item"><a href="{{route('widgets.data')}}"><i class="fa fa-tasks"></i><span class="menu-title">Datos de widget</span></a>
+            </li>
+            @endif
+
+            @if (\Auth::user()->type=="E")
+            <li class=" nav-item"><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item">Buscar Vendedor</span></a>
             </li>
             @endif
 

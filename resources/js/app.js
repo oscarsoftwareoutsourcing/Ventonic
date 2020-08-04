@@ -6,6 +6,7 @@ import Vuelidate from "vuelidate";
 import store from "./store/index.js";
 import moment from "moment";
 
+
 require("./bootstrap");
 
 window.Vue = require("vue");
@@ -17,6 +18,8 @@ Vue.component("search-sellers", () =>
     import("./components/SearchSellersComponent.vue")
 );
 Vue.component("chat", () => import("./components/ChatComponent.vue"));
+Vue.component("free-apps", () => import("./components/FreeApp.vue"));
+
 Vue.component("email-setting", () =>
     import("./components/EmailSettingComponent.vue")
 );
