@@ -12,7 +12,7 @@ class CallEvent extends Model
      * @var array
      */
     protected $fillable = [
-        'called_at', 'called_time', 'description', 'follow_task', 'contact_id', 'call_result_id', 'user_id'
+        'called_at', 'called_time', 'description', 'follow_task', 'contact_id', 'call_result_id', 'user_id',
         'calleventable_type', 'calleventable_id'
     ];
 
