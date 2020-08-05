@@ -98,6 +98,8 @@ class FileController extends Controller
             return response()->json(['result' => true, 'documents' => []]);
         }
 
-        return response()->json(['result' => true, 'documents' => $record->documents], 200);
+        return response()->json([
+            'result' => true, 'documents' => $record->documents()->orderBy('created_at', 'desc')->get()
+        ], 200);
     }
 }

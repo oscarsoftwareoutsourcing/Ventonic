@@ -79,6 +79,8 @@ class EmailAppController extends Controller
             return response()->json(['result' => true, 'emails' => []]);
         }
 
-        return response()->json(['result' => true, 'emails' => $record->emails], 200);
+        return response()->json([
+            'result' => true, 'emails' => $record->emails()->orderBy('created_at', 'desc')->get()
+        ], 200);
     }
 }

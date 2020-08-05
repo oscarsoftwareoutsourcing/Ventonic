@@ -49,7 +49,7 @@
                     <label for="task_type_id">Tipo</label>
                     <select id="task_type_id" class="custom-select" v-model="task_type_id">
                         <option value="">Seleccione...</option>
-                        <option :value="taskType" v-for="taskType in taskTypes">
+                        <option :value="taskType.id" v-for="taskType in taskTypes">
                             {{ taskType.name }}
                         </option>
                     </select>
@@ -64,7 +64,7 @@
                     <label for="task_priority_id">Prioridad</label>
                     <select id="task_priority_id" class="custom-select" v-model="task_priority_id">
                         <option value="">Seleccione...</option>
-                        <option :value="taskPriority" v-for="taskPriority in taskPriorities">
+                        <option :value="taskPriority.id" v-for="taskPriority in taskPriorities">
                             {{ taskPriority.name }}
                         </option>
                     </select>
@@ -90,43 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="form-group">
-                    <label for="remember_at">Recordatorio</label>
-                    <input type="date" class="form-control" v-model="remember_at">
-                    <!-- Validation messages -->
-                    <article class="help-block" v-if="rememberAtError">
-                        <i class="text-danger">{{ rememberAtError }}</i>
-                    </article>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <label for="remember_time">Hora</label>
-                    <input type="text" class="form-control" v-model="remember_time" placeholder="00:00">
-                    <!-- Validation messages -->
-                    <article class="help-block" v-if="rememberTimeError">
-                        <i class="text-danger">{{ rememberTimeError }}</i>
-                    </article>
-                </div>
-            </div>
-            <div class="col-sm-3 offset-sm-1">
-                <div class="form-group">
-                    <label for="task_queue_id">Cola</label>
-                    <select id="task_queue_id" class="custom-select" v-model="task_queue_id">
-                        <option value="">Seleccione...</option>
-                        <option :value="taskQueue" v-for="taskQueue in taskQueues">
-                            {{ taskQueue.name }}
-                        </option>
-                    </select>
-                    <!-- Validation messages -->
-                    <article class="help-block" v-if="taskQueueIdError">
-                        <i class="text-danger">{{ taskQueueIdError }}</i>
-                    </article>
-                </div>
-            </div>
-        </div>
+        <remember-activity ref="taskRemember"></remember-activity>
         <div class="form-group" v-if="showButtonSave">
             <button type="button" class="btn btn-primary" @click="setTask">
                 Guardar
@@ -176,12 +140,6 @@
 </template>
 
 <script>
-    import CKEditor from '@ckeditor/ckeditor5-vue';
-    import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-    import '@ckeditor/ckeditor5-build-classic/build/translations/es';
-
-    Vue.use(CKEditor);
-
     export default {
         data() {
             return {
@@ -210,19 +168,6 @@
                 taskPriorities: [],
                 taskQueues: [],
                 contacts: [],
-                ckeditor: {
-                    editor: ClassicEditor,
-                    editorConfig: {
-                        toolbar: [
-                            'heading', '|',
-                            'bold', 'italic', 'blockQuote', 'link',
-                            'numberedList', 'bulletedList', '|',
-                            'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
-                            'undo', 'redo'
-                        ],
-                        language: 'es'
-                    }
-                }
             }
         },
         props: {
@@ -246,6 +191,23 @@
             }
         },
         methods: {
+            reset() {
+                const vm = this;
+                vm.title = '';
+                vm.tasked_at = '';
+                vm.tasked_time = '';
+                vm.description = '';
+                vm.task_type_id = '';
+                vm.task_priority_id = '';
+                vm.contact_id = '';
+                vm.titleError = '';
+                vm.taskedAtError = '';
+                vm.taskedTimeError = '';
+                vm.descriptionError = '';
+                vm.taskTypeIdError = '';
+                vm.taskPriorityIdError = '';
+                vm.contactIdError = '';
+            },
             /**
              * Registra una nueva tarea
              *
@@ -259,9 +221,9 @@
                     tasked_at: vm.tasked_at,
                     tasked_time: vm.tasked_time,
                     description: vm.description,
-                    remember_at: vm.remember_at,
-                    remember_time: vm.remember_time,
-                    task_queue_id: vm.task_queue_id,
+                    remember_at: vm.$refs.taskRemember.remember_at,
+                    remember_time: vm.$refs.taskRemember.remember_time,
+                    task_queue_id: vm.$refs.taskRemember.task_queue_id,
                     task_type_id: vm.task_type_id,
                     task_priority_id: vm.task_priority_id,
                     contact_id: vm.contact_id,
@@ -269,26 +231,8 @@
                     modelRelationClass: vm.modelRelationClass
                 }).then(response => {
                     if (response.data.result) {
-                        vm.title = '';
-                        vm.tasked_at = '';
-                        vm.tasked_time = '';
-                        vm.description = '';
-                        vm.remember_at = '';
-                        vm.remember_time = '';
-                        vm.task_queue_id = '';
-                        vm.task_type_id = '';
-                        vm.task_priority_id = '';
-                        vm.contact_id = '';
-                        vm.titleError = '';
-                        vm.taskedAtError = '';
-                        vm.taskedTimeError = '';
-                        vm.descriptionError = '';
-                        vm.taskTypeIdError = '';
-                        vm.taskPriorityIdError = '';
-                        vm.rememberAtError = '';
-                        vm.rememberTimeError = '';
-                        vm.taskQueueIdError = '';
-                        vm.contactIdError = '';
+                        vm.$refs.taskRemember.reset();
+                        vm.reset();
                         vm.getTasks();
                     }
                     vm.$parent.success = response.data.result;
@@ -367,29 +311,12 @@
                     console.error(error);
                 });
             },
-            /**
-             * Obtiene un listado de colas de tareas
-             *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-             */
-            getTaskQueues() {
-                const vm = this;
-
-                axios.get('/components/get-task-queues').then(response => {
-                    if (response.data.result) {
-                        vm.taskQueues = response.data.taskQueues;
-                    }
-                }).catch(error => {
-                    console.error(error);
-                });
-            },
         },
         mounted() {
             this.getTasks();
             this.getContacts();
             this.getTaskTypes();
             this.getTaskPriorities();
-            this.getTaskQueues();
         }
     };
 </script>
