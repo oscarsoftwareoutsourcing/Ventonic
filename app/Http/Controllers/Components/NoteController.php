@@ -59,6 +59,8 @@ class NoteController extends Controller
             return response()->json(['result' => true, 'notes' => []]);
         }
 
-        return response()->json(['result' => true, 'notes' => $record->notes], 200);
+        return response()->json([
+            'result' => true, 'notes' => $record->notes()->orderBy('created_at', 'desc')->get()
+        ], 200);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\TaskQueue;
 
 class TaskQueueSeeder extends Seeder
 {
@@ -11,14 +12,14 @@ class TaskQueueSeeder extends Seeder
      */
     public function run()
     {
-        $queues=[
-            'Ventonic',
-            'Correo propio'
+        $queues = [
+            'Email',
+            'Mensaje de texto',
+            'Llamada'
         ];
-        foreach($queues as $queue){
-            DB::table('task_queues')->insert([
-                'name' => $queue
-            ]);
+
+        foreach ($queues as $queue) {
+            TaskQueue::firstOrCreate(['name' => $queue], []);
         }
     }
 }

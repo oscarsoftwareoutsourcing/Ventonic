@@ -140,12 +140,6 @@
 </template>
 
 <script>
-    import CKEditor from '@ckeditor/ckeditor5-vue';
-    import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-    import '@ckeditor/ckeditor5-build-classic/build/translations/es';
-
-    Vue.use(CKEditor);
-
     export default {
         data() {
             return {
@@ -174,19 +168,6 @@
                 taskPriorities: [],
                 taskQueues: [],
                 contacts: [],
-                ckeditor: {
-                    editor: ClassicEditor,
-                    editorConfig: {
-                        toolbar: [
-                            'heading', '|',
-                            'bold', 'italic', 'blockQuote', 'link',
-                            'numberedList', 'bulletedList', '|',
-                            'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
-                            'undo', 'redo'
-                        ],
-                        language: 'es'
-                    }
-                }
             }
         },
         props: {

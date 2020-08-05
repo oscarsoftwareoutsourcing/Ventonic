@@ -17,8 +17,7 @@
         </div>
         <div class="form-group">
             <label for="message">Mensaje</label>
-            <textarea id="message" class="form-control" rows="10" v-model="email.message"
-                      placeholder="Agregar un mensaje"></textarea>
+            <ckeditor :editor="ckeditor.editor" v-model="email.message" :config="ckeditor.editorConfig"></ckeditor>
         </div>
         <div class="form-group" v-if="showButtonSave">
             <button type="button" class="btn btn-primary" @click="setEmail">

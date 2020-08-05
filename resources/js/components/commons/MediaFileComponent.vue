@@ -4,12 +4,20 @@
             <label for="documentNote">Nota</label>
             <textarea rows="4" class="form-control" id="documentNote"
                       placeholder="Agregar una nota" v-model="documentNote"></textarea>
+            <!-- Validation messages -->
+            <article class="help-block" v-if="noteError">
+                <i class="text-danger">{{ noteError }}</i>
+            </article>
         </div>
         <div class="form-group">
             <vue-dropzone ref="documentDropzone" id="dropzoneDocuments"
                           :options="dropzoneOptions"
                           @vdropzone-sending="dropzoneSendingEvent"
                           @vdropzone-success="dropzoneSuccessEvent"></vue-dropzone>
+            <!-- Validation messages -->
+            <article class="help-block" v-if="documentError">
+                <i class="text-danger">{{ documentError }}</i>
+            </article>
         </div>
         <div class="form-group" v-if="showButtonSave">
             <button type="button" class="btn btn-primary" @click="setFile">
@@ -76,6 +84,8 @@
                 documentNote: '',
                 documentFiles: [],
                 documents: [],
+                noteError: '',
+                documentError: '',
                 dropzoneOptions: {
                     url: '/components/upload-documents',
                     //thumbnailWidth: 100,
@@ -122,6 +132,8 @@
         methods: {
             setFile() {
                 const vm = this;
+                vm.noteError = '';
+                vm.documentError = '';
 
                 axios.post('/components/set-document', {
                     note: vm.documentNote,
@@ -138,7 +150,12 @@
                     vm.$parent.success = response.data.result;
                 }).catch(error => {
                     vm.$parent.success = false;
-                    console.error(error);
+                    if (typeof(error.response) !="undefined") {
+                        for (var index in error.response.data.errors) {
+                            vm.noteError = (index === 'note') ? error.response.data.errors.note[0] : '';
+                            vm.documentError = (index === 'documents') ? error.response.data.errors.documents[0] : '';
+                        }
+                    }
                 });
             },
             getFiles() {

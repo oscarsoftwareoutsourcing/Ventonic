@@ -5,6 +5,9 @@ import Vuelidate from "vuelidate";
 // Import store modules.
 import store from "./store/index.js";
 import moment from "moment";
+import CKEditor from '@ckeditor/ckeditor5-vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import '@ckeditor/ckeditor5-build-classic/build/translations/es';
 
 
 require("./bootstrap");
@@ -13,6 +16,7 @@ window.Vue = require("vue");
 Vue.use(VueChatScroll);
 Vue.use(Vuelidate);
 Vue.use(PerfectScrollbar);
+Vue.use(CKEditor);
 
 Vue.component("search-sellers", () =>
     import("./components/SearchSellersComponent.vue")
@@ -62,7 +66,20 @@ Vue.component('remember-activity', () => import('./components/commons/RememberAc
 Vue.mixin({
     data() {
         return {
-            errors: {}
+            errors: {},
+            ckeditor: {
+                editor: ClassicEditor,
+                editorConfig: {
+                    toolbar: [
+                        'heading', '|',
+                        'bold', 'italic', 'blockQuote', 'link',
+                        'numberedList', 'bulletedList', '|',
+                        'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
+                        'undo', 'redo'
+                    ],
+                    language: 'es'
+                }
+            }
         };
     },
     methods: {
