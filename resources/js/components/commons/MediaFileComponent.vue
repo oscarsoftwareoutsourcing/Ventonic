@@ -102,7 +102,7 @@ export default {
         //thumbnailWidth: 100,
         addRemoveLinks: true,
         maxFilesize: 10,
-        dictDefaultMessage: "Drop Files Here To Upload",
+        dictDefaultMessage: "Arrastra tus archivos aquí",
         //dictDefaultMessage: "<i class='fa fa-cloud-upload'></i>UPLOAD ME",
         headers: {
           "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
