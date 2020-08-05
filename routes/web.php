@@ -228,6 +228,7 @@ Route::group([
      */
     Route::get('get-emails/{class}/{id}', 'EmailAppController@getEmails');
     Route::post('set-email', 'EmailAppController@setEmail');
+    Route::post('get-contacts-emails', 'EmailAppController@getContactEmails');
 
     /**
      * Gestión de notas

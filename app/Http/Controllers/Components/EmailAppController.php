@@ -83,4 +83,29 @@ class EmailAppController extends Controller
             'result' => true, 'emails' => $record->emails()->orderBy('created_at', 'desc')->get()
         ], 200);
     }
+
+    /**
+     * Obtiene un listado de contactos de acuerdo a los parámetros de búsqueda solicitados
+     *
+     * @method    getContactEmails
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request             $request    Objeto con datos de la petición
+     *
+     * @return    JsonResponse        Objeto JSON con los datos de respuesta a la solicitud
+     */
+    public function getContactEmails(Request $request)
+    {
+        $contacts = auth()->user()->contact()->where('name', 'like', $request->searchText . '%')
+                          ->orWhere('name', 'like', '%' . $request->searchText . '%')
+                          ->orWhere('name', 'like', '%' . $request->searchText)
+                          ->orWhere('last_name', 'like', $request->searchText . '%')
+                          ->orWhere('last_name', 'like', '%' . $request->searchText . '%')
+                          ->orWhere('last_name', 'like', '%' . $request->searchText)
+                          ->orWhere('email', 'like', $request->searchText . '%')
+                          ->orWhere('email', 'like', '%' . $request->searchText . '%')
+                          ->orWhere('email', 'like', '%' . $request->searchText)->get();
+        return response()->json(['result' => 'true', 'contacts' => $contacts], 200);
+    }
 }

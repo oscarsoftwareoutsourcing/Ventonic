@@ -1,11 +1,48 @@
 <template>
     <div>
+        <div class="modal" tabindex="-1" role="dialog" id="modalSearchEmail">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Buscar Email</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <article class="help-block" v-if="searchEmailError">
+                            <i class="text-danger">{{ searchEmailError }}</i>
+                        </article>
+                        <div class="row">
+                            <div class="col-sm-4 mt-2" v-for="emailResult in emailResults">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" :id="'result'+emailResult.id" :name="result"
+                                           class="custom-control-input" :value="emailResult.email"
+                                           v-model="selectedEmail">
+                                    <label class="custom-control-label" :for="'result'+emailResult.id">
+                                        {{ emailResult.name }} {{ emailResult.last_name }}<br>
+                                        {{ emailResult.email }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" @click="addEmail">Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="form-group">
             <label for="searchEmail">Email contacto</label>
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Correo electrónico"
                        aria-describedby="searchEmail" v-model="email.email">
-                <span class="input-group-addon" id="searchEmail">Buscar Email</span>
+                <button type="button" class="input-group-addon btn btn-primary btn-input-group-right" data-toggle="modal"
+                        data-target="#modalSearchEmail" @click="searchEmail">
+                    Buscar Email
+                </button>
             </div>
             <article class="help-block" v-if="errors.email">
                 <i class="text-danger">{{ errors.email }}</i>
@@ -83,7 +120,10 @@
                 emails: [],
                 errors: {
                     email: ''
-                }
+                },
+                emailResults: [],
+                selectedEmail: '',
+                searchEmailError: ''
             }
         },
         props: {
@@ -107,6 +147,42 @@
             }
         },
         methods: {
+            /**
+             * Realiza el procedimiento de consulta de correos de acuerdo a lo indicado por el usuario
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             */
+            searchEmail() {
+                const vm = this;
+                vm.selectedEmail = '';
+                vm.searchEmailError = '';
+                axios.post('/components/get-contacts-emails', {
+                    searchText: vm.email.email
+                }).then(response => {
+                    if (response.data.result) {
+                        vm.emailResults = response.data.contacts;
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
+            },
+            /**
+             * Agrega el correo electrónico seleccionado por el usuario
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             */
+            addEmail() {
+                const vm = this;
+
+                if (!vm.selectedEmail) {
+                    vm.searchEmailError = 'Debe seleccionar un contacto';
+                    return false;
+                }
+
+                vm.email.email = vm.selectedEmail;
+
+                $("#modalSearchEmail").find('.close').click();
+            },
             /**
              * Realiza las acciones necesarias para registrar y enviar un correo electrónico
              *

@@ -8,6 +8,8 @@ import moment from "moment";
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/es';
+import Datepicker from 'vuejs-datepicker';
+import { es } from 'vuejs-datepicker/dist/locale';
 
 
 require("./bootstrap");
@@ -64,6 +66,9 @@ Vue.component('task', () => import("./components/commons/TaskComponent.vue"));
 Vue.component('remember-activity', () => import('./components/commons/RememberActivityComponent.vue'));
 
 Vue.mixin({
+    components: {
+        Datepicker
+    },
     data() {
         return {
             errors: {},
@@ -79,6 +84,11 @@ Vue.mixin({
                     ],
                     language: 'es'
                 }
+            },
+            datepicker: {
+                language: es,
+                format: 'dd-MM-yyyy',
+                class: 'form-control',
             }
         };
     },

@@ -124,6 +124,10 @@
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
         }
+        .btn-input-group-right {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+        }
     </style>
 </head>
 
