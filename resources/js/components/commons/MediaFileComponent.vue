@@ -5,8 +5,8 @@
             <textarea rows="4" class="form-control" id="documentNote"
                       placeholder="Agregar una nota" v-model="documentNote"></textarea>
             <!-- Validation messages -->
-            <article class="help-block" v-if="noteError">
-                <i class="text-danger">{{ noteError }}</i>
+            <article class="help-block" v-if="documentNoteError">
+                <i class="text-danger">{{ documentNoteError }}</i>
             </article>
         </div>
         <div class="form-group">
@@ -84,7 +84,7 @@
                 documentNote: '',
                 documentFiles: [],
                 documents: [],
-                noteError: '',
+                documentNoteError: '',
                 documentError: '',
                 dropzoneOptions: {
                     url: '/components/upload-documents',
@@ -132,7 +132,7 @@
         methods: {
             setFile() {
                 const vm = this;
-                vm.noteError = '';
+                vm.documentNoteError = '';
                 vm.documentError = '';
 
                 axios.post('/components/set-document', {
@@ -151,9 +151,11 @@
                 }).catch(error => {
                     vm.$parent.success = false;
                     if (typeof(error.response) !="undefined") {
-                        for (var index in error.response.data.errors) {
-                            vm.noteError = (index === 'note') ? error.response.data.errors.note[0] : '';
-                            vm.documentError = (index === 'documents') ? error.response.data.errors.documents[0] : '';
+                        if (typeof(error.response.data.errors.note) !== "undefined") {
+                            vm.documentNoteError = error.response.data.errors.note[0];
+                        }
+                        if (typeof(error.response.data.errors.documents) !== "undefined") {
+                            vm.documentError = error.response.data.errors.documents[0];
                         }
                     }
                 });
