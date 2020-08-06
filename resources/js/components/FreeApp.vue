@@ -2,6 +2,7 @@
   <div>
     <div class="content-area-wrapper">
       <section id="basic-examples">
+        <!--
         <div class="row match-height">
           <div class="col-sm-4">
             <div class="card">
@@ -24,6 +25,26 @@
                       data-target="#inlineForm"
                     >Entrar</a>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        -->
+        <div class>
+          <div class="card">
+            <div class="card-ventonic">
+              <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12">
+                  <div class="text-ventonic">Call Me</div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                  <a
+                    class="btn btn-primary text-white"
+                    href="javascript:void(0)"
+                    data-toggle="modal"
+                    data-target="#inlineForm"
+                  >+ Nuevo</a>
                 </div>
               </div>
             </div>

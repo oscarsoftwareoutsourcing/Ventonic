@@ -16,7 +16,8 @@ class AppsSeeder extends Seeder
             'description' => 'Widget para registro de llamadas',
             'type' => 'pub',
             'type_user' => 'E',
-            'widget_type' => 'App\Widget'
+            'widget_type' => 'freeapps',
+            'image' =>'images/pages/apps/call_me.jpeg'
         ]);
     }
 }

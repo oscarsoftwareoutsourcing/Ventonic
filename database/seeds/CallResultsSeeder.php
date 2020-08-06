@@ -13,10 +13,10 @@ class CallResultsSeeder extends Seeder
     {
         $names=[
             'Completada',
-            'No contesto',
+            'No contestó',
             'Número Ocupado',
             'Número Equivocado',
-            'Contestadora'
+            'Contestador'
         ];
         foreach($names as $name){
             DB::table('call_results')->insert([
