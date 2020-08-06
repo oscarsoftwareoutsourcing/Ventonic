@@ -6,7 +6,7 @@
           <a href="#">
             <h5 class="card-title mb-2">Datos Generales</h5>
           </a>
-          <a @click="goBack()" class="btn btn-primary text-white">Volver</a>
+          <a @click="goBack()" class="btn btn-outline-primary text-white">Volver</a>
         </div>
 
         <div class="row">
