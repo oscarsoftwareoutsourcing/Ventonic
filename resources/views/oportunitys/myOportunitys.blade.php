@@ -170,12 +170,12 @@
                             <!-- Data list view end -->
                         </div>
                     </div>
-                </div>
-
             </div>
+
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('extra-js-app')
