@@ -128,6 +128,10 @@
             border-top-left-radius: 0 !important;
             border-bottom-left-radius: 0 !important;
         }
+        .label-font {
+            font-weight: 700 !important;
+            font-size:1.1rem !important;
+        }
     </style>
 </head>
 

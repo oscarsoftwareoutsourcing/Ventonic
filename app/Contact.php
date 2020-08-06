@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
-    protected $fillable = ['name', 'last_name','image','email','web', 'phone',
-                           'company', 'address', 'city', 'province',
-                           'postal_code', 'sector', 'notes', 'share',
-                           'type', 'country_id','user_id', 'favorite',
-                            'cargo', 'address_latitude', 'address_longitude',
-                            'private','type_contact'];
+    protected $fillable = [
+        'name', 'last_name','image','email','web', 'phone', 'company', 'address', 'city', 'province',
+        'postal_code', 'sector', 'notes', 'share', 'type', 'country_id','user_id', 'favorite',
+        'cargo', 'address_latitude', 'address_longitude', 'private','type_contact'
+    ];
 
+    protected $with = ['user'];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\User', 'user_id');
     }
 
@@ -23,35 +24,48 @@ class Contact extends Model
         return $this->belongsTo('App\Country', 'country_id');
     }
 
-    public function contactGroupUser(){
+    public function contactGroupUser()
+    {
         return $this->belongsTo('App\ContactGroupUser', 'contact_id');
     }
 
-    /**
-     * Contact has many CallEvents.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+    public function notes()
+    {
+        return $this->morphMany(Note::class, 'noteable');
+    }
+
+    public function events()
+    {
+        return $this->morphMany(Event::class, 'eventable');
+    }
+
+    public function emails()
+    {
+        return $this->morphMany(Email::class, 'emailable');
+    }
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
+
     public function callEvents()
     {
-        return $this->hasMany(CallEvent::class);
+        return $this->morphMany(CallEvent::class, 'calleventable');
     }
 
-    /**
-     * Contact has many Tasks.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->morphMany(Task::class, 'taskable');
     }
 
-    public static function checkedFavorite($contact){
+    public static function checkedFavorite($contact)
+    {
         $checked='';
-        if(isset($contact) && $contact!="empresa" && $contact!="persona"){
+
+        if (isset($contact) && $contact!="empresa" && $contact!="persona") {
             $contact_favorite=$contact['favorite'];
-            if($contact_favorite==1){
+            if ($contact_favorite==1) {
                 $checked='checked';
             }
         }
@@ -59,9 +73,11 @@ class Contact extends Model
         return $checked;
     }
 
-    public static function getIcon($contact_type){
+    public static function getIcon($contact_type)
+    {
         $icon='fa fa-male';
-        if( $contact_type == 'empresa' ){
+
+        if ($contact_type == 'empresa') {
             $icon='fa fa-building-o';
         }
 

@@ -175,6 +175,7 @@ Route::get(
 Route::get('contacto/editar/{contact_id}', 'ContactController@edit')->name('contact.editForm')->middleware('verified');
 Route::post('contacto/update', 'ContactController@update')->name('contact.update')->middleware('verified');
 Route::get('contacto/get-contacts/{contact_id?}', 'ContactController@getContacts')->middleware('verified');
+Route::get('contacto/detalles/{contact}', 'ContactController@detail')->name('contact.detail')->middleware('verified');
 
 // Rutas para grupos
 

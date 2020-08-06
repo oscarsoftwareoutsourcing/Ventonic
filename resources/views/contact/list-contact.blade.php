@@ -40,7 +40,7 @@
                             {{session('message')}}
                         </div>
                     @endif
-                    
+
                     @if(session('error'))
                     <div class="alert alert-danger">
                         <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
@@ -60,7 +60,7 @@
 
                     <div class="row">
                         <div class="col-6">
-         
+
                             <div class="input-group">
                                 <div class="input-group-append">
                                     {{-- <a href="{{ route('contact.create') }}" class="btn btn-primary btn_right_new" type="button">
@@ -99,14 +99,14 @@
                             </thead>
                             <tbody>
                                 @foreach($contacts as $contact)
-                                    
+
                                 <tr  class="fila" id="fila{{$contact['id']}}">
                                     <td style="text-align:left;" width="20%">
                                         <span><i class="{{App\Contact::getIcon($contact['type_contact'])}} text-primary"></i></span>
                                         @if($contact['private']==1)
                                         <span style="margin-left:5px;margin-right:5px;"><i class="feather icon-eye"></i></span>
                                         @endif
-                                        <span style="margin-left:10px;color:color: #C2C6DC!important;">{{$contact['name']}}</span>                                        
+                                        <span style="margin-left:10px;color:color: #C2C6DC!important;">{{$contact['name']}}</span>
                                     </td>
                                     <td style="text-align:center;" width="20%">{{$contact['last_name']}}</td>
                                     <td style="text-align:center;" width="10%">{{$contact['phone']}}</td>
@@ -120,7 +120,7 @@
                                         @endif
                                     </td>
                                     <td width="15%" style="text-align:center;">
-                                        <a href="{{route('contact.create', ['contact'=>$contact['id']])}}" class="float-left ml-1">
+                                        <a href="{{route('contact.detail', ['contact'=>$contact['id']])}}" class="float-left ml-1">
                                             <i class="feather icon-eye text-white"></i>
                                         </a>
                                         <a href="{{route('contact.editForm',['contact_id'=>$contact['id']])}}" class="float-left  mx-1">
@@ -168,9 +168,9 @@
                         </div>
                     </div>
                 </div>
-            {{--END: Modal--}}          
-            
-            
+            {{--END: Modal--}}
+
+
             </div>
         </div>
     </div>

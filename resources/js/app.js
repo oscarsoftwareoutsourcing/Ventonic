@@ -65,6 +65,9 @@ Vue.component('call-event', () => import("./components/commons/CallEventComponen
 Vue.component('task', () => import("./components/commons/TaskComponent.vue"));
 Vue.component('remember-activity', () => import('./components/commons/RememberActivityComponent.vue'));
 
+/** Gestión de contactos */
+Vue.component('contact-detail', () => import('./components/ContactDetailComponent.vue'));
+
 Vue.mixin({
     components: {
         Datepicker
@@ -124,6 +127,9 @@ Vue.mixin({
          */
         date_format(value) {
             return moment(String(value)).format("MMMM Do YYYY");
+        },
+        shortDateFormat(value) {
+            return moment(String(value)).format("DD-MM-YYYY");
         },
         /**
          * Estableve el formato de hora para una cadena de texto

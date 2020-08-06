@@ -12,6 +12,7 @@ use App\Contact;
 use App\Group;
 use App\ContactGroup;
 use App\GroupUser;
+
 class ContactController extends Controller
 {
     /**
@@ -25,7 +26,7 @@ class ContactController extends Controller
         $contacts=array();
         $contactos_personales=Contact::where('user_id', auth()->user()->id)->get();
         $personales=array();
-        foreach($contactos_personales as $personal){
+        foreach ($contactos_personales as $personal) {
             $personales[]=[
                 'id'=>$personal->id,
                 'user_id'=>$personal->user_id,
@@ -39,7 +40,6 @@ class ContactController extends Controller
                 'type'=>$personal->type,
                 'type_contact'=>$personal->type_contact
             ];
-
         }
 
         // Sacar los usuarios que le han compartido
@@ -47,16 +47,18 @@ class ContactController extends Controller
         $groups=GroupUser::where('user_id', auth()->user()->id)->get();
         $contacts_compartidos=array();
         $compartidos=array();
-        foreach($groups as $group){
+
+        foreach ($groups as $group) {
             $comp=ContactGroup::where('group_id', $group->group_id)->value('contact_id');
             $true=array_search($comp, $compartidos);
-            if(!array_search($comp, $compartidos)){
+
+            if (!array_search($comp, $compartidos)) {
                 $compartidos[]=$comp;
             }
         }
 
-        foreach($compartidos as $i=>$compartido){
-            if ($compartido){
+        foreach ($compartidos as $i => $compartido) {
+            if ($compartido) {
                     $contacts_compartidos[]=[
                         'id'=>$compartido,
                         'user_id'=>Contact::getUserId($compartido),
@@ -73,15 +75,14 @@ class ContactController extends Controller
             }
         }
 
-        if(count($contacts_compartidos)>0){
-            $contacts=array_merge($personales,$contacts_compartidos);
-        }else{
+        if (count($contacts_compartidos)>0) {
+            $contacts=array_merge($personales, $contacts_compartidos);
+        } else {
             $contacts=$personales;
         }
 
 
         return view('contact.list-contact', ['contacts'=>$contacts]);
-
     }
 
 
@@ -90,16 +91,16 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($contact  = null)
+    public function create($contact = null)
     {
-        if(isset($contact) && $contact == 'empresa' || $contact== 'persona'){
+        if (isset($contact) && $contact == 'empresa' || $contact== 'persona') {
             $contact=$contact;
-        }
-        elseif(isset($contact)){
+        } elseif (isset($contact)) {
             $contact=Contact::find((int)$contact);
-        }else{
+        } else {
             $contact='';
         }
+
         $countrys=Country::all();
         $groups=Group::where('user_id', auth()->user()->id)->get();
         $users=User::orderBy('name', 'desc')->get();
@@ -119,7 +120,7 @@ class ContactController extends Controller
             'nombre' => 'required|string|max:255'
         ]);
 
-        if($image){
+        if ($image) {
             $image_path_name = time().$image->getClientOriginalName();
             Storage::disk('public')->put($image_path_name, File::get($image));
         }
@@ -150,55 +151,52 @@ class ContactController extends Controller
             ]
         );
         // Compartir usuario
-        if(isset($request['private']) && is_array($request['private'])){
+        if (isset($request['private']) && is_array($request['private'])) {
             $private = implode($request['private']);
         }
 
 
-        if($contact){
-            if(isset($private) && $private==='para mi'){
+        if ($contact) {
+            if (isset($private) && $private==='para mi') {
                 $contact_id=$contact->id;
                 $contact=Contact::find($contact->id);
                 $contact->private=1;
                 $contact->update();
-            }
-
-            else if(isset($private) && $private==='todos'){
+            } elseif (isset($private) && $private==='todos') {
                 $contact_id=$contact->id;
                 // Sacar todos los grupos de usuarios del contacto
                 $groups=Group::where('user_id', auth()->user()->id)->get();
                 $users=array();
 
                 // Insertar el contacto en la tabla contact_group para hacerlo disponible en todos sus grupos
-                foreach($groups as $group){
+                foreach ($groups as $group) {
                     $contactGroup = ContactGroup::updateOrCreate(
                         ['contact_id' =>$contact_id,
                          'group_id' => $group->id
                         ]
                     );
                 }
-
-            }
-            else if(isset($private) && $private!=='para mi' && $private!=='todos'){
+            } elseif (isset($private) && $private!=='para mi' && $private!=='todos') {
                 $contact_id=$contact->id;
 
                 // Sacar los id de los grupos de que selecciono el usuario
                 $groups=$request->private;
-                foreach($groups as $group){
+
+                foreach ($groups as $group) {
                     $contactGroup = ContactGroup::updateOrCreate(
                         ['contact_id' =>$contact_id,
                          'group_id' => (int)$group
                         ]
                     );
                 }
-
             }
         }
 
         return redirect()->route('contact.list');
     }
 
-    public function getImage($filename){
+    public function getImage($filename)
+    {
         $file=Storage::disk('public')->get($filename);
         return new Response($file, 200);
     }
@@ -214,7 +212,6 @@ class ContactController extends Controller
         $contacts=Contact::where('user_id', auth()->user()->id)->orderByDesc('favorite')->paginate(10);
         //return view('inicio-dashboard', ['contacts'=>$contacts]);
         return view('dashboard.index', ['contacts'=>$contacts]);
-
     }
 
     /**
@@ -234,7 +231,7 @@ class ContactController extends Controller
         ]);
         // var_dump($contact); die();
 
-        if($image){
+        if ($image) {
             $image_path_name = time().$image->getClientOriginalName();
             Storage::disk('public')->put($image_path_name, File::get($image));
         }
@@ -322,7 +319,9 @@ class ContactController extends Controller
         $countrys=Country::all();
         $groups=Group::where('user_id', auth()->user()->id)->get();
         $users=User::orderBy('name', 'desc')->get();
-        return view('contact.form-edit', ['countrys'=>$countrys, 'contact'=>$contact, 'groups'=>$groups, 'users'=>$users]);
+        return view('contact.form-edit', [
+            'countrys'=>$countrys, 'contact'=>$contact, 'groups'=>$groups, 'users'=>$users
+        ]);
     }
 
     /**
@@ -335,27 +334,22 @@ class ContactController extends Controller
     {
 
         $result='';
-        if((int)$user_id == auth()->user()->id){
 
+        if ((int)$user_id == auth()->user()->id) {
             // Buscar el contacto para ver si esta compartido
-            $search=ContactGroup::where('contact_id',(int)$contact_id)->get();
-            if($search){
+            $search=ContactGroup::where('contact_id', (int)$contact_id)->get();
+            if ($search) {
                 ContactGroup::where('contact_id', (int)$contact_id)->delete();
             }
             $delete_contact=Contact::find((int)$contact_id);
             $borrado=$delete_contact->delete();
-                if(isset($borrado)){
-
-                return redirect()->route('contact.list')
-                                    ->with(['message'=>'Contacto eliminado exitosamente']);
-                }else{
-                    return redirect()->route('contact.list')
-                                    ->with(['error'=>'No se ha podido eliminar el contacto']);
-                }
-        }else{
-            return redirect()->route('contact.list')
-            ->with(['error'=>'No esta autorizado para eliminar este contacto']);
-
+            if (isset($borrado)) {
+                return redirect()->route('contact.list')->with(['message'=>'Contacto eliminado exitosamente']);
+            } else {
+                return redirect()->route('contact.list')->with(['error'=>'No se ha podido eliminar el contacto']);
+            }
+        } else {
+            return redirect()->route('contact.list')->with(['error'=>'No esta autorizado para eliminar este contacto']);
         }
     }
 
@@ -377,5 +371,21 @@ class ContactController extends Controller
         }
 
         return response()->json(['result' => true, 'contacts' => auth()->user()->contact], 200);
+    }
+
+    /**
+     * Ver detalles de contactos
+     *
+     * @method    detail
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Contact    $contact    Objeto con información del contacto
+     *
+     * @return    View       Vista con detalles del contacto
+     */
+    public function detail(Contact $contact)
+    {
+        return view('contact.detail', compact('contact'));
     }
 }
