@@ -29,11 +29,12 @@ class EmailAppController extends Controller
             'subject' => ['required'],
             'message' => ['required']
         ]);
+
         $user = User::where('email', $request->email)->first();
 
-        if (!$user) {
+        /*if (!$user) {
             return response()->json(['result' => false, 'message' => 'El contacto no existe'], 200);
-        }
+        }*/
 
         $model = "App\\" . ucfirst($request->modelRelationClass);
 
@@ -41,7 +42,8 @@ class EmailAppController extends Controller
             'subject' => $request->subject,
             'message' => $request->message,
             'from_user_id' => auth()->user()->id,
-            'to_user_id' => $user->id,
+            'to_user_id' => ($user) ? $user->id : null,
+            'destination_email' => $request->email,
             'emailable_type' => $model,
             'emailable_id' => $request->modelRelationId
         ]);
