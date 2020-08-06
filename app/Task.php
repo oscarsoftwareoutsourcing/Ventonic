@@ -13,7 +13,7 @@ class Task extends Model
      */
     protected $fillable = [
         'title', 'description', 'tasked_at', 'tasked_time', 'remember_type', 'remember_at', 'remember_time',
-        'contact_id', 'task_queue_id', 'task_priority_id', 'task_type_id', 'taskable_type', 'taskable_id'
+        'contact_id', 'task_queue_id', 'task_priority_id', 'task_type_id', 'taskable_type', 'taskable_id', 'user_id'
     ];
 
     protected $with = ['contact', 'user'];

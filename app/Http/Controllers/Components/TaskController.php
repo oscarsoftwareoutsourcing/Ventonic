@@ -125,6 +125,9 @@ class TaskController extends Controller
             return response()->json(['result' => true, 'tasks' => []]);
         }
 
-        return response()->json(['result' => true, 'tasks' => $record->tasks], 200);
+        return response()->json([
+            'result' => true,
+            'tasks' => $record->tasks()->orderBy('tasked_at', 'desc')->orderBy('tasked_time', 'desc')->get()
+        ], 200);
     }
 }

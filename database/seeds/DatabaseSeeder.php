@@ -26,9 +26,12 @@ class DatabaseSeeder extends Seeder
         $this->call(CountriesSeeder::class);
         $this->call(ModuleLabelsSeeder::class);
         $this->call(QuestionsSeeder::class);
+        $this->call(TaskPrioritiesSeeder::class);
+        $this->call(TaskQueueSeeder::class);
+        $this->call(TaskTypesSeeder::class);
         // $this->call(GroupSeeder::class);
         // $this->call(AplicantsTableSeeder::class);
     }
 
-    
+
 }

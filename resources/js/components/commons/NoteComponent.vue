@@ -1,9 +1,8 @@
 <template>
     <div>
         <div class="form-group">
-            <label for="note">Nota</label>
-            <textarea rows="4" class="form-control" id="note"
-                      placeholder="Agregar una nota" v-model="note"></textarea>
+            <label for="note">Actividad</label>
+            <ckeditor :editor="ckeditor.editor" v-model="note" :config="ckeditor.editorConfig"></ckeditor>
             <!-- Validation messages -->
             <article class="help-block" v-if="noteError">
                 <i class="text-danger">{{ noteError }}</i>
@@ -49,9 +48,7 @@
                                         {{ n.user.name }} {{ n.user.last_name }} -
                                         {{ n.created_at }}
                                     </h5>
-                                    <p class="mb-0">
-                                        {{ n.description }}
-                                    </p>
+                                    <div class="mb-0" v-html="n.description"></div>
                                 </div>
                             </div>
                         </div>

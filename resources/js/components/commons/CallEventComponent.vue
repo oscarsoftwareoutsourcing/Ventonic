@@ -34,7 +34,9 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <label for="called_at">Fecha</label>
-                    <input type="date" class="form-control" id="called_at" v-model="called_at">
+                    <!--<input type="date" class="form-control" id="called_at" v-model="called_at">-->
+                    <datepicker v-model="called_at" :language="datepicker.language" :format="datepicker.format"
+                                :input-class="datepicker.class"></datepicker>
                     <!-- Validation messages -->
                     <article class="help-block" v-if="calledAtError">
                         <i class="text-danger">{{ calledAtError }}</i>
@@ -44,7 +46,7 @@
             <div class="col-sm-2">
                 <div class="form-group">
                     <label for="called_time">Hora</label>
-                    <input type="text" class="form-control" id="called_time" v-model="called_time">
+                    <input type="time" class="form-control" id="called_time" v-model="called_time">
                     <!-- Validation messages -->
                     <article class="help-block" v-if="calledTimeError">
                         <i class="text-danger">{{ calledTimeError }}</i>
@@ -133,12 +135,6 @@
 </template>
 
 <script>
-    import CKEditor from '@ckeditor/ckeditor5-vue';
-    import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-    import '@ckeditor/ckeditor5-build-classic/build/translations/es';
-
-    Vue.use(CKEditor);
-
     export default {
         data() {
             return {
@@ -158,19 +154,6 @@
                 followTaskError: '',
                 contacts: [],
                 callResults: [],
-                ckeditor: {
-                    editor: ClassicEditor,
-                    editorConfig: {
-                        toolbar: [
-                            'heading', '|',
-                            'bold', 'italic', 'blockQuote', 'link',
-                            'numberedList', 'bulletedList', '|',
-                            'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
-                            'undo', 'redo'
-                        ],
-                        language: 'es'
-                    }
-                }
             }
         },
         props: {

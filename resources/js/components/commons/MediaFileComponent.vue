@@ -9,6 +9,10 @@
         placeholder="Agregar una nota"
         v-model="documentNote"
       ></textarea>
+      <!-- Validation messages -->
+      <article class="help-block" v-if="documentNoteError">
+        <i class="text-danger">{{ documentNoteError }}</i>
+      </article>
     </div>
     <div class="form-group">
       <vue-dropzone
@@ -18,6 +22,10 @@
         @vdropzone-sending="dropzoneSendingEvent"
         @vdropzone-success="dropzoneSuccessEvent"
       ></vue-dropzone>
+      <!-- Validation messages -->
+      <article class="help-block" v-if="documentError">
+        <i class="text-danger">{{ documentError }}</i>
+      </article>
     </div>
     <div class="form-group" v-if="showButtonSave">
       <button type="button" class="btn btn-primary" @click="setFile">Guardar</button>
@@ -87,6 +95,8 @@ export default {
       documentNote: "",
       documentFiles: [],
       documents: [],
+      documentNoteError: "",
+      documentError: "",
       dropzoneOptions: {
         url: "/components/upload-documents",
         //thumbnailWidth: 100,
@@ -133,6 +143,8 @@ export default {
   methods: {
     setFile() {
       const vm = this;
+      vm.documentNoteError = "";
+      vm.documentError = "";
 
       axios
         .post("/components/set-document", {
@@ -152,7 +164,14 @@ export default {
         })
         .catch((error) => {
           vm.$parent.success = false;
-          console.error(error);
+          if (typeof error.response != "undefined") {
+            if (typeof error.response.data.errors.note !== "undefined") {
+              vm.documentNoteError = error.response.data.errors.note[0];
+            }
+            if (typeof error.response.data.errors.documents !== "undefined") {
+              vm.documentError = error.response.data.errors.documents[0];
+            }
+          }
         });
     },
     getFiles() {

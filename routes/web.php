@@ -228,6 +228,7 @@ Route::group([
      */
     Route::get('get-emails/{class}/{id}', 'EmailAppController@getEmails');
     Route::post('set-email', 'EmailAppController@setEmail');
+    Route::post('get-contacts-emails', 'EmailAppController@getContactEmails');
 
     /**
      * Gestión de notas
@@ -277,11 +278,13 @@ Route::get('{uuid}/widget', 'WidgetController@show');
 
 Route::view('dash','inicio-dashboard');
 
-Route::get('apps-gratis','FreeAppController@index')->name('freeapps');
+Route::get('call-me','FreeAppController@index')->name('freeapps');
 Route::get('validate-pin/{pin}','FreeAppController@validatePin')->name('validatepin');
 Route::post('widget/generateWidget','WidgetController@store');
 Route::get('widget/widgetsData','WidgetController@widgetsData')->name('widgets.data');
 Route::get('updateWidgetStatus/{widgetID}/{widgetStatus}','WidgetController@updateWidgetStatus')->name('widgets.update');
 Route::get('{uuid}/widget', 'WidgetController@show');
+
+Route::get('apps-gratis','FreeAppController@apps')->name('apps');
 
 

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Widget;
+use App\Apps;
+use Illuminate\Support\Facades\Auth;
+use DB;
+use Illuminate\Support\Str;
 
 class FreeAppController extends Controller
 {
@@ -24,5 +28,16 @@ class FreeAppController extends Controller
         }else{
             return response()->json(['found'=>'0'], 200);
         }
+    }
+
+    public function apps(){
+        //$type = 
+
+        $user_type = Auth::user()->type;
+
+        $App = Apps::where('type_user', $user_type)->get();
+
+        return view ('apps.index', ['apps' =>$App]);
+
     }
 }

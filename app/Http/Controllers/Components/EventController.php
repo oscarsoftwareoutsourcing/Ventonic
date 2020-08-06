@@ -82,6 +82,8 @@ class EventController extends Controller
             return response()->json(['result' => true, 'events' => []]);
         }
 
-        return response()->json(['result' => true, 'events' => $record->events], 200);
+        return response()->json([
+            'result' => true, 'events' => $record->events()->orderBy('created_at', 'desc')->get()
+        ], 200);
     }
 }

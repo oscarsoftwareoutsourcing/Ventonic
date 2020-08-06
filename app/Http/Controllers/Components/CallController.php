@@ -69,6 +69,9 @@ class CallController extends Controller
             return response()->json(['result' => true, 'calls' => []]);
         }
 
-        return response()->json(['result' => true, 'calls' => $record->callEvents], 200);
+        return response()->json([
+            'result' => true,
+            'calls' => $record->callEvents()->orderBy('called_at', 'desc')->orderBy('called_time', 'desc')->get()
+        ], 200);
     }
 }
