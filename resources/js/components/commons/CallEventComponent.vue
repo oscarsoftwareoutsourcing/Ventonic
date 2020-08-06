@@ -34,9 +34,8 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <label for="called_at">Fecha</label>
-                    <!--<input type="date" class="form-control" id="called_at" v-model="called_at">-->
-                    <datepicker v-model="called_at" :language="datepicker.language" :format="datepicker.format"
-                                :input-class="datepicker.class"></datepicker>
+                    <flat-pickr v-model="called_at" class="form-control" :config="flatPicker.config"
+                                placeholder="dd-mm-yyyy"/>
                     <!-- Validation messages -->
                     <article class="help-block" v-if="calledAtError">
                         <i class="text-danger">{{ calledAtError }}</i>
@@ -46,7 +45,8 @@
             <div class="col-sm-2">
                 <div class="form-group">
                     <label for="called_time">Hora</label>
-                    <input type="time" class="form-control" id="called_time" v-model="called_time">
+                    <flat-pickr :config="flatPicker.configTime" class="form-control" v-model="called_time"
+                                placeholder="00:00" />
                     <!-- Validation messages -->
                     <article class="help-block" v-if="calledTimeError">
                         <i class="text-danger">{{ calledTimeError }}</i>
@@ -78,7 +78,8 @@
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
-                    <input type="date" class="form-control" v-model="follow_task" :disabled="!createTaskFollow">
+                    <flat-pickr v-model="follow_task" class="form-control" :config="flatPicker.config"
+                                placeholder="dd-mm-yyyy" :disabled="!createTaskFollow"/>
                     <!-- Validation messages -->
                     <article class="help-block" v-if="followTaskError">
                         <i class="text-danger">{{ followTaskError }}</i>

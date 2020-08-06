@@ -79,9 +79,11 @@
                     <div class="col-sm-4">
                         <label for="">Fecha de Inicio</label>
                     </div>
-                    <div class="col-sm-7">
-                        <input type="date" class="form-control pickadate"
-                               id="cal-start-date" placeholder="dd-mm-yyyy" v-model="event.start_at">
+                    <div class="col-sm-5">
+                        <flat-pickr v-model="event.start_at" class="form-control" :config="flatPicker.config"
+                                    placeholder="dd-mm-yyyy" />
+                        <!--<input type="date" class="form-control pickadate"
+                               id="cal-start-date" placeholder="dd-mm-yyyy" v-model="event.start_at">-->
                         <!-- Validation messages -->
                         <article class="help-block" v-if="eventStartAtError">
                             <i class="text-danger">{{ eventStartAtError }}</i>
@@ -96,9 +98,9 @@
                     <div class="col-sm-4">
                         <label for="">Hora de Inicio</label>
                     </div>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control pickatime" id="cal-start-time"
-                               placeholder="00:00" v-model="event.start_time">
+                    <div class="col-sm-2">
+                        <flat-pickr :config="flatPicker.configTime" class="form-control" v-model="event.start_time"
+                                    placeholder="00:00" />
                         <!-- Validation messages -->
                         <article class="help-block" v-if="eventStartTimeError">
                             <i class="text-danger">{{ eventStartTimeError }}</i>
@@ -113,9 +115,9 @@
                     <div class="col-sm-4">
                         <label for="">Fecha Final</label>
                     </div>
-                    <div class="col-sm-7">
-                        <input type="date" class="form-control pickadate" id="cal-end-date"
-                               placeholder="dd-mm-yyyyy" v-model="event.end_at">
+                    <div class="col-sm-5">
+                        <flat-pickr v-model="event.end_at" class="form-control" :config="flatPicker.config"
+                                    placeholder="dd-mm-yyyy"/>
                         <!-- Validation messages -->
                         <article class="help-block" v-if="eventEndAtError">
                             <i class="text-danger">{{ eventEndAtError }}</i>
@@ -130,9 +132,9 @@
                     <div class="col-sm-4">
                         <label for="">Hora Final</label>
                     </div>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control pickatime" id="cal-end-time"
-                               placeholder="00:00" v-model="event.end_time">
+                    <div class="col-sm-2">
+                        <flat-pickr :config="flatPicker.configTime" class="form-control" v-model="event.end_time"
+                                    placeholder="00:00" />
                         <!-- Validation messages -->
                         <article class="help-block" v-if="eventEndTimeError">
                             <i class="text-danger">{{ eventEndTimeError }}</i>

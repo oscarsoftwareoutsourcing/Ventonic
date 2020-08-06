@@ -14,7 +14,8 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <label for="tasked_at">Fecha</label>
-                    <input type="date" class="form-control" id="tasked_at" v-model="tasked_at">
+                    <flat-pickr v-model="tasked_at" class="form-control" :config="flatPicker.config"
+                                placeholder="dd-mm-yyyy" id="tasked_at"/>
                     <!-- Validation messages -->
                     <article class="help-block" v-if="taskedAtError">
                         <i class="text-danger">{{ taskedAtError }}</i>
@@ -24,7 +25,8 @@
             <div class="col-sm-2">
                 <div class="form-group">
                     <label for="tasked_time">Hora</label>
-                    <input type="text" class="form-control" id="tasked_time" v-model="tasked_time" placeholder="00:00">
+                    <flat-pickr :config="flatPicker.configTime" class="form-control" v-model="tasked_time"
+                                placeholder="00:00" id="tasked_time"/>
                     <!-- Validation messages -->
                     <article class="help-block" v-if="taskedTimeError">
                         <i class="text-danger">{{ taskedTimeError }}</i>

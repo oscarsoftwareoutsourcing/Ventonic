@@ -3,7 +3,8 @@
         <div class="col-sm-3">
             <div class="form-group">
                 <label for="remember_at">Recordatorio</label>
-                <input type="date" class="form-control" v-model="remember_at">
+                <flat-pickr v-model="remember_at" class="form-control" :config="flatPicker.config"
+                            placeholder="dd-mm-yyyy"/>
                 <!-- Validation messages -->
                 <article class="help-block" v-if="rememberAtError">
                     <i class="text-danger">{{ rememberAtError }}</i>
@@ -13,7 +14,8 @@
         <div class="col-sm-2">
             <div class="form-group">
                 <label for="remember_time">Hora</label>
-                <input type="text" class="form-control" v-model="remember_time" placeholder="00:00">
+                <flat-pickr :config="flatPicker.configTime" class="form-control" v-model="remember_time"
+                            placeholder="00:00" />
                 <!-- Validation messages -->
                 <article class="help-block" v-if="rememberTimeError">
                     <i class="text-danger">{{ rememberTimeError }}</i>

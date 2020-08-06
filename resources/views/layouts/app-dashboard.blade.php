@@ -132,6 +132,26 @@
             font-weight: 700 !important;
             font-size:1.1rem !important;
         }
+        .flatpickr-calendar {
+            background: rgb(38, 44, 73) !important;
+        }
+        .flatpickr-time input:hover, .flatpickr-time .flatpickr-am-pm:hover, .flatpickr-time input:focus,
+        .flatpickr-time .flatpickr-am-pm:focus {
+            background: transparent !important;
+        }
+        .flatpickr-time .numInputWrapper span.arrowUp::after, .numInputWrapper span.arrowUp::after {
+            border-bottom: 4px solid #fff !important;
+            border-bottom-color: #fff !important;
+        }
+
+        .flatpickr-time .numInputWrapper span.arrowDown::after, .numInputWrapper span.arrowDown::after {
+            border-top: 4px solid #fff !important;
+            border-top-color: #fff !important;
+        }
+        .flatpickr-current-month .flatpickr-monthDropdown-months, .flatpickr-time input,
+        .flatpickr-current-month input.cur-year {
+            color: #fff !important;
+        }
     </style>
 </head>
 

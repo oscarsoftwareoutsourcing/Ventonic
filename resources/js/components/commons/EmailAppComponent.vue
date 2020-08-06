@@ -58,7 +58,7 @@
         </div>
         <div class="form-group" v-if="showButtonSave">
             <button type="button" class="btn btn-primary" @click="setEmail">
-                Guardar
+                Enviar
             </button>
         </div>
         <div class="form-group" v-if="showList">

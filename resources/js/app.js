@@ -10,6 +10,9 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/es';
 import Datepicker from 'vuejs-datepicker';
 import { es } from 'vuejs-datepicker/dist/locale';
+import VueFlatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
+import {Spanish} from 'flatpickr/dist/l10n/es.js';
 
 
 require("./bootstrap");
@@ -19,6 +22,7 @@ Vue.use(VueChatScroll);
 Vue.use(Vuelidate);
 Vue.use(PerfectScrollbar);
 Vue.use(CKEditor);
+Vue.use(VueFlatPickr);
 
 Vue.component("search-sellers", () =>
     import("./components/SearchSellersComponent.vue")
@@ -92,6 +96,23 @@ Vue.mixin({
                 language: es,
                 format: 'dd-MM-yyyy',
                 class: 'form-control',
+            },
+            flatPicker: {
+                config: {
+                    wrap: true, // set wrap to true only when using 'input-group'
+                    altFormat: 'd-m-Y',
+                    altInput: true,
+                    dateFormat: 'd-m-Y',
+                    locale: Spanish, // locale for this instance only
+                },
+                configTime: {
+                    enableTime: true,
+                    enableSeconds: false,
+                    noCalendar: true,
+                    time_24hr: true,
+                    defaultHour: 0,
+                    minuteIncrement: 1
+                }
             }
         };
     },
