@@ -76,7 +76,7 @@
 
 
             @if (\Auth::user()->type=="E")
-            <li class=" nav-item"><a href="{{route('freeapps')}}"><i class="feather icon-server"></i><span class="menu-title">Apps Gratis</span></a>
+            <li class=" nav-item"><a href="{{route('apps')}}"><i class="feather icon-server"></i><span class="menu-title">Apps Gratis</span></a>
             </li>
             @endif
 
