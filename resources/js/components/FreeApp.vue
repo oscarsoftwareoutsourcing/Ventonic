@@ -1,101 +1,68 @@
 <template>
-  <div>
-    <div class="content-area-wrapper">
-      <section id="basic-examples">
-        <!--
-        <div class="row match-height">
-          <div class="col-sm-4">
-            <div class="card">
-              <div class="card-content">
-                <img
-                  class="card-img-top img-fluid"
-                  :src="'images/pages/apps/call_me.jpeg'"
-                  alt="Card image cap"
-                />
-                <div class="card-body">
-                  <h5>Call me</h5>
-                  <p class="card-text mb-0">Widget para Resgistro de Llamadas</p>
-                  <span class="card-text"></span>
-                  <div class="card-btns d-flex justify-content-between mt-2">
-                    <a href="#"></a>
-                    <a
-                      class="btn btn-primary text-white"
-                      href="javascript:void(0)"
-                      data-toggle="modal"
-                      data-target="#inlineForm"
-                    >Entrar</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+  <div id="basic-examples" class="container">
+    <div class="card">
+      <div class="card-ventonic">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-12">
+            <div class="text-ventonic">Call Me</div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-12">
+            <a
+              class="btn btn-primary text-white"
+              href="javascript:void(0)"
+              data-toggle="modal"
+              data-target="#inlineForm"
+            >+ Nuevo</a>
           </div>
         </div>
-        -->
-        <div class>
-          <div class="card">
-            <div class="card-ventonic">
-              <div class="row">
-                <div class="col-lg-2 col-md-2 col-sm-12">
-                  <div class="text-ventonic">Call Me</div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                  <a
-                    class="btn btn-primary text-white"
-                    href="javascript:void(0)"
-                    data-toggle="modal"
-                    data-target="#inlineForm"
-                  >+ Nuevo</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      </div>
+    </div>
 
-        <div class="widgets">
-          <div class="row">
-            <div class="col-4" v-for="widget in widgets">
-              <div class="card">
-                <div class="card-content">
-                  <!-- <img class="card-img-top img-fluid" :src="'images/pages/content-img-1.jpg'"
-                  alt="Card image cap">-->
-                  <div class="accordion" id="accordionExample">
-                    <div class="card">
-                      <div class="card-header" id="headingThree">
-                        <h2 class="mb-0">
-                          <button
-                            class="btn btn-link collapsed"
-                            type="button"
-                            data-toggle="collapse"
-                            :data-target="
+    <div class="widgets">
+      <div class="row">
+        <div class="col-4" v-for="widget in widgets">
+          <div class="card">
+            <div class="card-content">
+              <!-- <img class="card-img-top img-fluid" :src="'images/pages/content-img-1.jpg'"
+              alt="Card image cap">-->
+              <div class="accordion" id="accordionExample">
+                <div class="card">
+                  <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                      <button
+                        class="btn btn-link collapsed"
+                        type="button"
+                        data-toggle="collapse"
+                        :data-target="
                                                             '#collapseThree' +
                                                                 widget.id
                                                         "
-                            aria-expanded="false"
-                            aria-controls="collapseThree"
-                          >
-                            <div>
-                              <h5>{{ widget.name }}</h5>
-                              <br />
-                              {{ widget.url }}
-                            </div>
+                        aria-expanded="false"
+                        aria-controls="collapseThree"
+                      >
+                        <div>
+                          <h5>{{ widget.name }}</h5>
+                          <br />
+                          {{ widget.url }}
+                        </div>
 
-                            <span>
-                              <i class="feather icon-chevron-down" aria-hidden="true"></i>
-                            </span>
-                          </button>
-                        </h2>
-                      </div>
-                      <div
-                        :id="
+                        <span>
+                          <i class="feather icon-chevron-down" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    :id="
                         'collapseThree' + widget.id
                         "
-                        class="collapse"
-                        aria-labelledby="headingThree"
-                        data-parent="#accordionExample"
-                      >
-                        <div class="card-body">
-                          <fieldset class="form-group">
-                            <textarea class="form-control" id="basicTextarea" rows="10" disabled>
+                    class="collapse"
+                    aria-labelledby="headingThree"
+                    data-parent="#accordionExample"
+                  >
+                    <div class="card-body">
+                      <fieldset class="form-group">
+                        <textarea class="form-control" id="basicTextarea" rows="10" disabled>
 <!--Start of Ventonic.com Script-->
                                         <script type="text/javascript">
                                         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -113,152 +80,149 @@
                                         </script>
                                         <!--End of Ventonic.com Script-->
                                         </textarea>
-                          </fieldset>
-                        </div>
-                      </div>
+                      </fieldset>
                     </div>
                   </div>
-                  <div class="card-body us-card">
-                    <div class="card-btns d-flex justify-content-between mt-2">
-                      <div class="custom-control custom-switch custom-control-inline">
-                        <input
-                          type="checkbox"
-                          class="custom-control-input"
-                          v-model="widget.status"
-                          :id="widget.id"
-                          @change="
+                </div>
+              </div>
+              <div class="card-body us-card">
+                <div class="card-btns d-flex justify-content-between mt-2">
+                  <div class="custom-control custom-switch custom-control-inline">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      v-model="widget.status"
+                      :id="widget.id"
+                      @change="
                                                         widgetStatusUpdate(
                                                             $event,
                                                             widget.id
                                                         )
                                                     "
-                        />
-                        <label class="custom-control-label" :for="widget.id"></label>
-                        <span class="switch-label">Active</span>
-                      </div>
-                    </div>
+                    />
+                    <label class="custom-control-label" :for="widget.id"></label>
+                    <span class="switch-label">Active</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="modal fade text-left"
-          id="inlineForm"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="myModalLabel33"
-          aria-hidden="true"
-        >
-          <div
-            class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
-            role="document"
-          >
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel33">Asistente de widgets</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form-wizard
-                  title
-                  subtitle
-                  @on-complete="GenerateWidget"
-                  @on-error="handleErrorMessage"
-                  color="#7367F0"
-                  finish-button-text="Generar widget"
-                >
-                  <tab-content title="Obtener PIN del vendedor" icon="fa fa-user-o">
-                    <br class="my-2" />
-                    <p class="text-center">Pide el PIN a tu vendedor</p>
-                    <br class="my-2" />
-                  </tab-content>
-                  <tab-content
-                    title="Validación de PIN"
-                    icon="fa fa-check"
-                    :before-change="beforeTabSwitch"
-                  >
-                    <br class="my-2" />
-                    <div class="row">
-                      <div class="col-12 text-center">
-                        <div class="form-label-group">
-                          <input
-                            v-model="pin"
-                            type="text"
-                            class="form-control col-md-6 offset-md-3"
-                            placeholder="Ingrese su PIN de vendedor aquí"
-                          />
-                        </div>
-                      </div>
-                      <br class="my-2" />
-                    </div>
-                  </tab-content>
-
-                  <tab-content
-                    title="Generar widget"
-                    :before-change="validateWidgetName"
-                    icon="fa fa-cloud-download"
-                  >
-                    <br class="my-2" />
-                    <div class="row">
-                      <div class="col-12 text-center">
-                        <div class="form-label-group">
-                          <input
-                            v-if="!generated"
-                            v-model="widgetname"
-                            type="text"
-                            class="form-control col-md-6 offset-md-3"
-                            placeholder="Ingrese un nombre para su widget"
-                          />
-                        </div>
-                      </div>
-
-                      <div class="col-12 text-center">
-                        <div class="form-label-group">
-                          <input
-                            v-if="!generated"
-                            v-model="url"
-                            type="text"
-                            class="form-control col-md-6 offset-md-3"
-                            placeholder="Ingrese URL del sitio web"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row mt-2" v-if="generated">
-                      <div class="col-12 text-center">
-                        <fieldset class="form-group">
-                          <textarea
-                            class="form-control mx-1 my-1"
-                            v-model="script"
-                            id="basicTextarea"
-                            rows="10"
-                            :disabled="isDisabled"
-                            placeholder="Textarea"
-                          ></textarea>
-                        </fieldset>
-                      </div>
-                    </div>
-                  </tab-content>
-                  <div class="row">
-                    <div class="col-12 text-center">
-                      <div v-if="errorMsg">
-                        <span style="color:rgb(255,99,71)!important;">{{ errorMsg }}</span>
-                      </div>
+      </div>
+    </div>
+    <div
+      class="modal fade text-left"
+      id="inlineForm"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel33"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
+        role="document"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel33">Asistente de widgets</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form-wizard
+              title
+              subtitle
+              @on-complete="GenerateWidget"
+              @on-error="handleErrorMessage"
+              color="#7367F0"
+              finish-button-text="Generar widget"
+            >
+              <tab-content title="Obtener PIN del vendedor" icon="fa fa-user-o">
+                <br class="my-2" />
+                <p class="text-center">Pide el PIN a tu vendedor</p>
+                <br class="my-2" />
+              </tab-content>
+              <tab-content
+                title="Validación de PIN"
+                icon="fa fa-check"
+                :before-change="beforeTabSwitch"
+              >
+                <br class="my-2" />
+                <div class="row">
+                  <div class="col-12 text-center">
+                    <div class="form-label-group">
+                      <input
+                        v-model="pin"
+                        type="text"
+                        class="form-control col-md-6 offset-md-3"
+                        placeholder="Ingrese su PIN de vendedor aquí"
+                      />
                     </div>
                   </div>
-                </form-wizard>
+                  <br class="my-2" />
+                </div>
+              </tab-content>
+
+              <tab-content
+                title="Generar widget"
+                :before-change="validateWidgetName"
+                icon="fa fa-cloud-download"
+              >
+                <br class="my-2" />
+                <div class="row">
+                  <div class="col-12 text-center">
+                    <div class="form-label-group">
+                      <input
+                        v-if="!generated"
+                        v-model="widgetname"
+                        type="text"
+                        class="form-control col-md-6 offset-md-3"
+                        placeholder="Ingrese un nombre para su widget"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-12 text-center">
+                    <div class="form-label-group">
+                      <input
+                        v-if="!generated"
+                        v-model="url"
+                        type="text"
+                        class="form-control col-md-6 offset-md-3"
+                        placeholder="Ingrese URL del sitio web"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-2" v-if="generated">
+                  <div class="col-12 text-center">
+                    <fieldset class="form-group">
+                      <textarea
+                        class="form-control mx-1 my-1"
+                        v-model="script"
+                        id="basicTextarea"
+                        rows="10"
+                        :disabled="isDisabled"
+                        placeholder="Textarea"
+                      ></textarea>
+                    </fieldset>
+                  </div>
+                </div>
+              </tab-content>
+              <div class="row">
+                <div class="col-12 text-center">
+                  <div v-if="errorMsg">
+                    <span style="color:rgb(255,99,71)!important;">{{ errorMsg }}</span>
+                  </div>
+                </div>
               </div>
-            </div>
+            </form-wizard>
           </div>
         </div>
-      </section>
+      </div>
     </div>
-    <!--<widget-wizard></widget-wizard>-->
   </div>
 </template>
 <script>
