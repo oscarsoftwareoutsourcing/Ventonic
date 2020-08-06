@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <label for="tasked_time">Hora</label>
                     <flat-pickr :config="flatPicker.configTime" class="form-control" v-model="tasked_time"
-                                placeholder="00:00" id="tasked_time"/>
+                                placeholder="hh:mm" id="tasked_time"/>
                     <!-- Validation messages -->
                     <article class="help-block" v-if="taskedTimeError">
                         <i class="text-danger">{{ taskedTimeError }}</i>

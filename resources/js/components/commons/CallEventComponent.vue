@@ -46,7 +46,7 @@
                 <div class="form-group">
                     <label for="called_time">Hora</label>
                     <flat-pickr :config="flatPicker.configTime" class="form-control" v-model="called_time"
-                                placeholder="00:00" />
+                                placeholder="hh:mm" />
                     <!-- Validation messages -->
                     <article class="help-block" v-if="calledTimeError">
                         <i class="text-danger">{{ calledTimeError }}</i>

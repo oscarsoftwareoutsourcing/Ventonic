@@ -15,7 +15,7 @@
             <div class="form-group">
                 <label for="remember_time">Hora</label>
                 <flat-pickr :config="flatPicker.configTime" class="form-control" v-model="remember_time"
-                            placeholder="00:00" />
+                            placeholder="hh:mm" />
                 <!-- Validation messages -->
                 <article class="help-block" v-if="rememberTimeError">
                     <i class="text-danger">{{ rememberTimeError }}</i>

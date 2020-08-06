@@ -100,7 +100,7 @@
                     </div>
                     <div class="col-sm-2">
                         <flat-pickr :config="flatPicker.configTime" class="form-control" v-model="event.start_time"
-                                    placeholder="00:00" />
+                                    placeholder="hh:mm" />
                         <!-- Validation messages -->
                         <article class="help-block" v-if="eventStartTimeError">
                             <i class="text-danger">{{ eventStartTimeError }}</i>
@@ -134,7 +134,7 @@
                     </div>
                     <div class="col-sm-2">
                         <flat-pickr :config="flatPicker.configTime" class="form-control" v-model="event.end_time"
-                                    placeholder="00:00" />
+                                    placeholder="hh:mm" />
                         <!-- Validation messages -->
                         <article class="help-block" v-if="eventEndTimeError">
                             <i class="text-danger">{{ eventEndTimeError }}</i>
