@@ -154,6 +154,10 @@
         </div>
     </div>
 </template>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN7QXrQX8mlDNTdtcSY5dzZzrVJ1516hw&libraries=places&callback=initialize" async defer>
+</script>
+<script src="/js/geolocalizacion.js"></script>
 <script>
 export default {
     data() {

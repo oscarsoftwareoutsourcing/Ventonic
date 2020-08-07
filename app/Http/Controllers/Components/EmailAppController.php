@@ -115,7 +115,8 @@ class EmailAppController extends Controller
                           ->orWhere('last_name', 'like', '%' . $request->searchText)
                           ->orWhere('email', 'like', $request->searchText . '%')
                           ->orWhere('email', 'like', '%' . $request->searchText . '%')
-                          ->orWhere('email', 'like', '%' . $request->searchText)->get();
+                          ->orWhere('email', 'like', '%' . $request->searchText)
+                          ->orderBy('name')->orderBy('last_name')->get();
         return response()->json(['result' => 'true', 'contacts' => $contacts], 200);
     }
 }

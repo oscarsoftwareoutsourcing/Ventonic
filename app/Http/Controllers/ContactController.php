@@ -376,7 +376,9 @@ class ContactController extends Controller
             return response()->json(['result' => true, 'contacts' => Contact::find($contact_id)], 200);
         }
 
-        return response()->json(['result' => true, 'contacts' => auth()->user()->contact], 200);
+        return response()->json([
+            'result' => true, 'contacts' => auth()->user()->contact()->orderBy('name', 'asc')->get()
+        ], 200);
     }
 
     /**
