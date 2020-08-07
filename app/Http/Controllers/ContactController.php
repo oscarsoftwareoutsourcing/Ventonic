@@ -237,7 +237,7 @@ class ContactController extends Controller
         }
 
         $favorito = 0;
-        if($request->favorite=='on') {
+        if ($request->favorite=='on') {
             $favorito = 1;
         }
 
@@ -393,5 +393,54 @@ class ContactController extends Controller
     public function detail(Contact $contact)
     {
         return view('contact.detail', compact('contact'));
+    }
+
+    /**
+     * Elimina el contacto desde la vista de detalles
+     *
+     * @method    destroyContact
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Contact           $contact    Objeto con datos del contacto
+     *
+     * @return    JsonResponse      Objeto con datos de respuesta a la petición
+     */
+    public function destroyContact(Contact $contact)
+    {
+        if ($contact->id !== auth()->user()->id) {
+            $search=ContactGroup::where('contact_id', $contact->id)->get();
+
+            if (!$search->isEmpty()) {
+                $search->delete();
+            }
+
+            /** Elimina las notas asociadas al contacto */
+            $contact->notes()->delete();
+            /** Elimina los eventos asociados al contacto */
+            $contact->events()->delete();
+            /** Elimina los correos electrónicos asociados al contacto */
+            $contact->emails()->delete();
+            /** Elimina los documentos asociados al contacto */
+            $contact->documents()->delete();
+            /** Elimina las llamadas asociadas al contacto */
+            $contact->callEvents()->delete();
+            /** Elimina las tareas asociadas al contacto */
+            $contact->tasks()->delete();
+            /** Elimina el contacto en sí */
+            $borrado = $contact->delete();
+
+            if (isset($borrado)) {
+                session()->flash('message', 'Contacto eliminado exitosamente');
+            } else {
+                session()->flash('error', 'No se ha podido eliminar el contacto');
+            }
+
+            return response()->json(['result' => true, 'route' => route('contact.list')], 200);
+        }
+
+        return response()->json([
+            'result' => false, 'message' => 'No esta autorizado para eliminar este contacto'
+        ], 200);
     }
 }

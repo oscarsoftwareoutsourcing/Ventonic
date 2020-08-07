@@ -176,6 +176,7 @@ Route::get('contacto/editar/{contact_id}', 'ContactController@edit')->name('cont
 Route::post('contacto/update', 'ContactController@update')->name('contact.update')->middleware('verified');
 Route::get('contacto/get-contacts/{contact_id?}', 'ContactController@getContacts')->middleware('verified');
 Route::get('contacto/detalles/{contact}', 'ContactController@detail')->name('contact.detail')->middleware('verified');
+Route::delete('contacto/{contact}/delete', 'ContactController@destroyContact')->middleware('verified');
 
 // Rutas para grupos
 
