@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="modal" tabindex="-1" role="dialog" id="modalSearchEmail">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Buscar Email</h5>
@@ -16,14 +16,15 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" v-model="searchText">
+                                    <input type="text" class="form-control" v-model="searchText"
+                                           placeholder="buscar contactos...">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-4 mt-2" v-for="emailResult in emailResults">
+                            <div class="col-sm-4 mt-2" v-for="emailResult in emailResults" v-if="emailResult.email">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" :id="'result'+emailResult.id" :name="result"
+                                    <input type="checkbox" :id="'result'+emailResult.id" name="result"
                                            class="custom-control-input" :value="emailResult.email"
                                            v-model="selectedEmail">
                                     <label class="custom-control-label" :for="'result'+emailResult.id">
@@ -179,7 +180,7 @@
              */
             searchEmail() {
                 const vm = this;
-                vm.selectedEmail = '';
+                vm.selectedEmail = [];
                 vm.searchEmailError = '';
                 axios.post('/components/get-contacts-emails', {
                     searchText: vm.searchText
@@ -199,12 +200,16 @@
             addEmail() {
                 const vm = this;
 
-                if (!vm.selectedEmail) {
+                if (vm.selectedEmail.length === 0) {
                     vm.searchEmailError = 'Debe seleccionar un contacto';
                     return false;
                 }
 
-                vm.email.email = vm.selectedEmail;
+                $.each(vm.selectedEmail, function(index) {
+                    vm.email.email += ((vm.email.email) ? ', ' : '') + vm.selectedEmail[index];
+                });
+
+                //vm.email.email = vm.selectedEmail;
 
                 $("#modalSearchEmail").find('.close').click();
             },

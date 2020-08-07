@@ -25,38 +25,42 @@ class EmailAppController extends Controller
     public function setEmail(Request $request)
     {
         $this->validate($request, [
-            'email' => ['required', 'email'],
+            'email' => ['required'],
             'subject' => ['required'],
             'message' => ['required']
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $emails = explode(",", $request->email);
 
-        /*if (!$user) {
-            return response()->json(['result' => false, 'message' => 'El contacto no existe'], 200);
-        }*/
+        foreach ($emails as $email) {
+            $user = User::where('email', trim($email))->first();
+            /*if (!$user) {
+                return response()->json(['result' => false, 'message' => 'El contacto no existe'], 200);
+            }*/
+            $model = "App\\" . ucfirst($request->modelRelationClass);
 
-        $model = "App\\" . ucfirst($request->modelRelationClass);
+            Email::create([
+                'subject' => $request->subject,
+                'message' => $request->message,
+                'from_user_id' => auth()->user()->id,
+                'to_user_id' => ($user) ? $user->id : null,
+                'destination_email' => trim($email),
+                'emailable_type' => $model,
+                'emailable_id' => $request->modelRelationId
+            ]);
 
-        Email::create([
-            'subject' => $request->subject,
-            'message' => $request->message,
-            'from_user_id' => auth()->user()->id,
-            'to_user_id' => ($user) ? $user->id : null,
-            'destination_email' => $request->email,
-            'emailable_type' => $model,
-            'emailable_id' => $request->modelRelationId
-        ]);
+            Mail::to(($user) ? $user : trim($email))->send(
+                new GenericEmail(
+                    trim($email),
+                    ($user) ? $user->name : '',
+                    $request->subject,
+                    $request->message,
+                    __($request->modelRelationClass)
+                )
+            );
+        }
 
-        Mail::to($user)->send(
-            new GenericEmail(
-                $user->email,
-                $user->name,
-                $request->subject,
-                $request->message,
-                __($request->modelRelationClass)
-            )
-        );
+
 
         return response()->json(['result' => true], 200);
     }

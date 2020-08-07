@@ -299,7 +299,7 @@ export default {
 
     editContact() {
       //window.location.href = "contacto/editar/" + this.contact.id;
-      window.locationf = "contacto/editar/" + this.contact.id;
+      window.location = "/contacto/editar/" + this.contact.id;
     },
   },
 };

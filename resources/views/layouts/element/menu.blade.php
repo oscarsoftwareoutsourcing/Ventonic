@@ -82,7 +82,7 @@
 
             {{-- Contactos --}}
             @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
-                <li class="nav-item {{ App\Helpers\General::setActiveMenu('contact.list') }}">
+                <li class="nav-item {{ App\Helpers\General::setActiveMenu(['contact.list', 'contact.detail']) }}">
                     <a href="{{route('contact.list')}}">
                         <i class="feather icon-users"></i>
                         <span class="menu-title">Contactos</span>
