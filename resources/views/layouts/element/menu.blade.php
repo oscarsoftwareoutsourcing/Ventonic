@@ -18,7 +18,7 @@
             <li class=" navigation-header"><span>Apps</span>
             </li>
 
-            <li class=" nav-item">
+            <li class=" nav-item {{ App\Helpers\General::setActiveMenu('chat') }}">
                 <a href="{{ route('chat') }}">
                     <i class="feather icon-message-square"></i>
                     <span class="menu-title">Chat</span>
@@ -26,25 +26,43 @@
                 </a>
             </li>
 
-            <li class=" nav-item"><a href="{{ route('events.calender') }}"><i class="feather icon-calendar"></i><span class="menu-title">Calendario</span></a>
+            <li class="nav-item {{ App\Helpers\General::setActiveMenu('events.calender') }}">
+                <a href="{{ route('events.calender') }}">
+                    <i class="feather icon-calendar"></i>
+                    <span class="menu-title">Calendario</span>
+                </a>
             </li>
 
-            <li class=" nav-item"><a href="{{ route('email') }}"><i class="feather icon-mail"></i><span class="menu-title">Email</span></a>
+            <li class="nav-item {{ App\Helpers\General::setActiveMenu('email') }}">
+                <a href="{{ route('email') }}">
+                    <i class="feather icon-mail"></i>
+                    <span class="menu-title">Email</span>
+                </a>
             </li>
 
             {{-- Oportunidades --}}
             @if(\Auth::user()->type=="E" || isset(auth()->user()->CompanyProfile))
-            <li class=" nav-item"><a href="#"><i class="feather icon-star"></i><span class="menu-title">Oportunidades</span></a>
-                <ul class="menu-content">
-
-                    <li><a href="{{ route('oportunity.saved') }}"><i class="feather icon-list"></i><span class="menu-item">Mis oportunidades</span></a>
-                    </li>
-
-                    <li><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Otras Empresas</span></a>
-                    </li>
-                </ul>
-            </li>
-           @endif
+                <li class=" nav-item {{ App\Helpers\General::setActiveMenu(['oportunity.saved', 'oportunity.list'], true) }}">
+                    <a href="#">
+                        <i class="feather icon-star"></i>
+                        <span class="menu-title">Oportunidades</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li class="{{ App\Helpers\General::setActiveMenu('oportunity.saved') }}">
+                            <a href="{{ route('oportunity.saved') }}">
+                                <i class="feather icon-list"></i>
+                                <span class="menu-item">Mis oportunidades</span>
+                            </a>
+                        </li>
+                        <li class="{{ App\Helpers\General::setActiveMenu('oportunity.list') }}">
+                            <a href="{{ route('oportunity.list') }}">
+                                <i class="feather icon-list"></i>
+                                <span class="menu-item">Otras Empresas</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
 
            @if(\Auth::user()->type=="V" || isset(auth()->user()->sellerProfile))
                 <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Oportunidades</span></a></li>
@@ -53,41 +71,65 @@
             {{-- No he tocado nada :) --}}
 
             {{-- Negociaciones Company --}}
-           @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
-           <li class=" nav-item"><a href="{{route('negociaciones')}}"><i class="feather icon-users"></i><span class="menu-title">Negociaciones</span></a>
-
-            </li>
+            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
+                <li class=" nav-item {{ App\Helpers\General::setActiveMenu('negociaciones') }}">
+                    <a href="{{route('negociaciones')}}">
+                        <i class="feather icon-users"></i>
+                        <span class="menu-title">Negociaciones</span>
+                    </a>
+                </li>
             @endif
 
             {{-- Contactos --}}
-           @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
-           <li class=" nav-item"><a href="{{route('contact.list')}}"><i class="feather icon-users"></i><span class="menu-title">Contactos</span></a>
-                {{-- <ul class="menu-content">
-                    <li>
-                    <a href="{{ route('contact.list') }}"><i class="feather icon-user"></i><span class="menu-item">Buscar Contacto</span></a>
-                    </li>
-                </ul> --}}
-            </li>
+            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
+                <li class="nav-item {{ App\Helpers\General::setActiveMenu('contact.list') }}">
+                    <a href="{{route('contact.list')}}">
+                        <i class="feather icon-users"></i>
+                        <span class="menu-title">Contactos</span>
+                    </a>
+                    {{-- <ul class="menu-content">
+                        <li>
+                            <a href="{{ route('contact.list') }}">
+                                <i class="feather icon-user"></i>
+                                <span class="menu-item">Buscar Contacto</span>
+                            </a>
+                        </li>
+                    </ul> --}}
+                </li>
             @endif
 
-            <li class=" nav-item"><a href="{{route('todos')}}"><i class="feather icon-check-square"></i><span class="menu-title">Notas Personales</span></a>
+            <li class=" nav-item {{ App\Helpers\General::setActiveMenu('todos') }}">
+                <a href="{{route('todos')}}">
+                    <i class="feather icon-check-square"></i>
+                    <span class="menu-title">Notas Personales</span>
+                </a>
             </li>
-
-
 
             @if (\Auth::user()->type=="E")
-            <li class=" nav-item"><a href="{{route('apps')}}"><i class="feather icon-server"></i><span class="menu-title">Apps Gratis</span></a>
-            </li>
+                <li class=" nav-item {{ App\Helpers\General::setActiveMenu('apps') }}">
+                    <a href="{{route('apps')}}">
+                        <i class="feather icon-server"></i>
+                        <span class="menu-title">Apps Gratis</span>
+                    </a>
+                </li>
             @endif
 
             @if (\Auth::user()->type=="E")
-            <li class=" nav-item"><a href="{{route('widgets.data')}}"><i class="fa fa-tasks"></i><span class="menu-title">Datos de widget</span></a>
-            </li>
+                <li class=" nav-item {{ App\Helpers\General::setActiveMenu('widgets.data') }}">
+                    <a href="{{route('widgets.data')}}">
+                        <i class="fa fa-tasks"></i>
+                        <span class="menu-title">Datos de widget</span>
+                    </a>
+                </li>
             @endif
 
             @if (\Auth::user()->type=="E")
-            <li class=" nav-item"><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item">Buscar Vendedor</span></a>
-            </li>
+                <li class=" nav-item {{ App\Helpers\General::setActiveMenu('search.init') }}">
+                    <a href="{{ route('search.init') }}">
+                        <i class="feather icon-search"></i>
+                        <span class="menu-item">Buscar Vendedor</span>
+                    </a>
+                </li>
             @endif
 
 
@@ -110,27 +152,43 @@
 
              {{-- Oportunidades --}}
             @if(\Auth::user())
-            <li class=" nav-item"><a href="#"><i class="feather icon-bar-chart"></i><span class="menu-title">Informes</span></a>
-                <ul class="menu-content">
-
-                    <!--
-                    <li class="nav-item"><a href="#" ><i class="fa fa-cart-arrow-down"></i><span class="menu-item">Ventas</span></a>
-                        <ul class="menu-content">
-                            <li data-menu="">
-                                <a href="#" ><i class="fa fa-cart-arrow-down"></i><span class="menu-item">Actividad</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                    -->
-                    <li><a href="{{ route('report.sales') }}"><i class="fa fa-cart-arrow-down"></i><span class="menu-item">Ventas</span></a>
-                    </li>
-
-                    <li><a href="{{ route('oportunity.list') }}"><i class="fa fa-bar-chart"></i><span class="menu-item">Actividad</span></a>
-                    </li>
-                </ul>
-            </li>
-
-           @endif
+                <li class=" nav-item {{ App\Helpers\General::setActiveMenu(['report.sales', 'oportunity.list'], true) }}">
+                    <a href="#">
+                        <i class="feather icon-bar-chart"></i>
+                        <span class="menu-title">Informes</span>
+                    </a>
+                    <ul class="menu-content">
+                        <!--
+                        <li class="nav-item">
+                            <a href="#" >
+                                <i class="fa fa-cart-arrow-down"></i>
+                                <span class="menu-item">Ventas</span>
+                            </a>
+                            <ul class="menu-content">
+                                <li data-menu="">
+                                    <a href="#" >
+                                        <i class="fa fa-cart-arrow-down"></i>
+                                        <span class="menu-item">Actividad</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        -->
+                        <li class="{{ App\Helpers\General::setActiveMenu('report.sales') }}">
+                            <a href="{{ route('report.sales') }}">
+                                <i class="fa fa-cart-arrow-down"></i>
+                                <span class="menu-item">Ventas</span>
+                            </a>
+                        </li>
+                        <li class="{{ App\Helpers\General::setActiveMenu('oportunity.list') }}">
+                            <a href="{{ route('oportunity.list') }}">
+                                <i class="fa fa-bar-chart"></i>
+                                <span class="menu-item">Actividad</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
         </ul>
     </div>
 </div>
