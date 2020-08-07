@@ -236,6 +236,12 @@ class ContactController extends Controller
             Storage::disk('public')->put($image_path_name, File::get($image));
         }
 
+        $favorito = 0;
+        if($request->favorite=='on') {
+            $favorito = 1;
+        }
+
+        //dd($request);
         $contact->name=$request->nombre;
         $contact->last_name=$request->apellido ?? null;
         $contact->image=$request->image ? $image_path_name : null;
@@ -249,7 +255,7 @@ class ContactController extends Controller
         $contact->notes= $request->anotaciones ?? null;
         $contact->share=null;
         $contact->type= $request->etiquetas ?? null;
-        $contact->favorite= $request->favorite ?? null;
+        $contact->favorite= $favorito ?? null;
         $contact->cargo= $request->cargo ?? null;
         $contact->address_longitude= $request->address_longitude ?? null;
         $contact->address_latitude= $request->address_latitude ?? null;

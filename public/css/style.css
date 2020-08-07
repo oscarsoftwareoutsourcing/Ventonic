@@ -457,3 +457,8 @@ iframe {
     font-weight: 500;
     letter-spacing: 0.05rem;
 }
+
+.controls {
+    font-size: 1.5rem !important;
+    color: #fff !important;
+}

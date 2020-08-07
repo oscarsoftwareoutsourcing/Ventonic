@@ -2,17 +2,39 @@
   <div class="card">
     <div class="card-content">
       <div class="card-body">
-        <div class="d-flex justify-content-between mt-2">
-          <a href="#">
-            <h5 class="card-title mb-2">Datos Generales</h5>
-          </a>
-          <a @click="goBack()" class="btn btn-outline-primary text-white">Volver</a>
+        <div class="row">
+          <div class="col">
+            <span class="float-left">
+              <h5 class="card-title mb-2">Datos Generales</h5>
+            </span>
+
+            <div class="mr-auto float-right bookmark-wrapper d-flex align-items-center">
+              <ul class="list-inline m-0">
+                <li class="list-inline-item">
+                  <a @click="editContact()">
+                    <i class="feather icon-edit controls"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item controls">
+                  <a>
+                    <i class="feather icon-trash-2 controls"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item controls">
+                  <a @click="goBack()">
+                    <i class="feather icon-arrow-left controls"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <div class="row">
           <div class="col-sm-2">
             <img :src="showImage()" alt="imagen de perfil" class="img-fluid" />
           </div>
+
           <div class="col-sm-5">
             <div class="form-row mb-1">
               <div class="col-sm-4">
@@ -32,6 +54,14 @@
               </div>
               <div class="col-sm-8">{{ contact.email }}</div>
             </div>
+
+            <div class="form-row mb-1">
+              <div class="col-sm-4">
+                <label for class="label-font">Dirección</label>
+              </div>
+              <div class="col-sm-8">{{ contact.address }}</div>
+            </div>
+
             <!--
                         <div class="form-row mb-1">
                             <div class="col-sm-4">
@@ -46,6 +76,7 @@
                         </div>
             -->
           </div>
+
           <div class="col-sm-5">
             <div class="form-row mb-1">
               <div class="col-sm-7">
@@ -65,6 +96,16 @@
                 <label for class="label-font">Fecha de registro</label>
               </div>
               <div class="col-sm-5">{{ getCreatedAt() }}</div>
+            </div>
+            <div class="form-row mb-1">
+              <div class="col-sm-7">
+                <label for class="label-font">Ver mapa</label>
+              </div>
+              <div class="col-sm-5">
+                <a @click="viewMap()">
+                  <i class="feather icon-map"></i>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -251,6 +292,14 @@ export default {
     },
     goBack() {
       return history.go(-1);
+    },
+    viewMap() {
+      //popup con  las coredenadas del mapa
+    },
+
+    editContact() {
+      //window.location.href = "contacto/editar/" + this.contact.id;
+      window.locationf = "contacto/editar/" + this.contact.id;
     },
   },
 };

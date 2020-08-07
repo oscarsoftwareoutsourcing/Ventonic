@@ -47,7 +47,7 @@
                                             <div class="form-group col-12">
                                                 <fieldset class="checkbox">
                                                     <div class="vs-checkbox-con vs-checkbox-primary float-right">
-                                                        <input type="checkbox" name="favorito" id="favorito" {{App\Contact::checkedFavorite($contact) ?? ''}}>
+                                                        <input type="checkbox" name="favorite" id="favorite" {{App\Contact::checkedFavorite($contact) ?? ''}}>
                                                         <span class="vs-checkbox">
                                                             <span class="vs-checkbox--check">
                                                                 <i class="vs-icon feather icon-check"></i>
@@ -132,11 +132,11 @@
 
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="text" min=0 id="cargo-emprea-column" class="form-control @error('cargo_empresa') is-invalid @enderror" 
-                                                    name="cargo_empresa" placeholder="Cargo empresa" value="{{$contact->cargo ?? ''}}">
+                                                    <input type="text" min=0 id="cargo-emprea-column" class="form-control @error('cargo') is-invalid @enderror" 
+                                                    name="cargo" placeholder="Cargo empresa" value="{{$contact->cargo ?? ''}}">
                                                     <label for="company-column">Cargo Empresa</label>
                                                 </div>
-                                                @error('cargo_empresa')
+                                                @error('cargo')
                                                 <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror 
                                             </div>
@@ -242,7 +242,7 @@
 
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-primary mr-1 mb-1">Guardar</button>
-                                                <button type="reset" class="btn btn-outline-warning mr-1 mb-1">Cancelar</button>
+                                                <a href="{{ URL::previous() }}" class="btn btn-outline-warning mr-1 mb-1">Cancelar</a>
                                             </div>
                                         </div>
                                     </div>
