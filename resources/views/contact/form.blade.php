@@ -282,7 +282,7 @@
 @parent
   <script src="{{ asset('js/scripts/forms/select/form-select2.js') }}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN7QXrQX8mlDNTdtcSY5dzZzrVJ1516hw&libraries=places&callback=initialize" async defer>
-<script>
+</script>
 <script src="{{ asset('js/geolocalizacion.js') }}"></script>
 @endsection
 
