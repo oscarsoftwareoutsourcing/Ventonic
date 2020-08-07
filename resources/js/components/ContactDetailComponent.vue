@@ -184,6 +184,7 @@
             <!-- Correos -->
             <email-app
               ref="contactEmail"
+              :default-email="contact.email"
               :model-relation-id="contact.id"
               model-relation-class="contact"
             ></email-app>

@@ -99,6 +99,10 @@ class EmailAppController extends Controller
      */
     public function getContactEmails(Request $request)
     {
+        if (empty($request->searchText)) {
+            return response()->json(['result' => true, 'contacts' => auth()->user()->contact], 200);
+        }
+
         $contacts = auth()->user()->contact()->where('name', 'like', $request->searchText . '%')
                           ->orWhere('name', 'like', '%' . $request->searchText . '%')
                           ->orWhere('name', 'like', '%' . $request->searchText)

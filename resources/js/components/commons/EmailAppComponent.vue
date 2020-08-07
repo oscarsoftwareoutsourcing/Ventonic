@@ -14,9 +14,16 @@
                             <i class="text-danger">{{ searchEmailError }}</i>
                         </article>
                         <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" v-model="searchText">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-4 mt-2" v-for="emailResult in emailResults">
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" :id="'result'+emailResult.id" :name="result"
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" :id="'result'+emailResult.id" :name="result"
                                            class="custom-control-input" :value="emailResult.email"
                                            v-model="selectedEmail">
                                     <label class="custom-control-label" :for="'result'+emailResult.id">
@@ -121,8 +128,9 @@
                 errors: {
                     email: ''
                 },
+                searchText: '',
                 emailResults: [],
-                selectedEmail: '',
+                selectedEmail: [],
                 searchEmailError: ''
             }
         },
@@ -144,6 +152,23 @@
                 type: Boolean,
                 required: false,
                 default: true
+            },
+            defaultEmail: {
+                type: String,
+                required: false,
+                default: ''
+            }
+        },
+        watch: {
+            searchText: function() {
+                const vm = this;
+                vm.searchEmail();
+                /*if (vm.searchText) {
+
+                }
+                else {
+                    vm.emailResults = [];
+                }*/
             }
         },
         methods: {
@@ -157,7 +182,7 @@
                 vm.selectedEmail = '';
                 vm.searchEmailError = '';
                 axios.post('/components/get-contacts-emails', {
-                    searchText: vm.email.email
+                    searchText: vm.searchText
                 }).then(response => {
                     if (response.data.result) {
                         vm.emailResults = response.data.contacts;
@@ -239,6 +264,7 @@
             },
         },
         mounted() {
+            this.email.email = this.defaultEmail;
             this.getEmails();
         },
     };
