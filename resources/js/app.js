@@ -162,9 +162,55 @@ Vue.mixin({
         time_format(value) {
             return moment(String(value)).format("h:mm:ss a");
         },
+        /**
+         * Obtiene el nombre de un archivo a partir del path del mismo
+         *
+         * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+         *
+         * @param     {string}       filePath    Ruta del archivo
+         *
+         * @return    {string}       Nombre del archivo
+         */
         getFileName(filePath) {
             var pathSections = filePath.split("/");
             return pathSections[pathSections.length - 1];
+        },
+        initializeMap(mapContainerId, address, lat, lng) {
+            const geocoder = new google.maps.Geocoder();
+
+            const map = new google.maps.Map(document.getElementById(mapContainerId), {
+                center: {lat: lat || 0, lng: lng || 0},
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            if (!lat && !lng) {
+                const localAddress = address.replace('\n', ' ');
+                var locationLat = 0, locationLng = 0;
+                /*const queryAddress = `https://maps.googleapis.com/maps/api/geocode/json?address=${localAddress}&key=AIzaSyCN7QXrQX8mlDNTdtcSY5dzZzrVJ1516hw`;
+
+                if (queryAddress.results.length === 0) {
+                    return false;
+                }*/
+                geocoder.geocode({'address': localAddress}, function(results, status) {
+                    if (status == 'OK') {
+                        map.setCenter(results[0].geometry.location);
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: results[0].geometry.location
+                        });
+                        marker.setVisible(true);
+                    }
+                });
+            }
+            else {
+                const marker = new google.maps.Marker({
+                    map: map,
+                    position: {lat: lat, lng: lng}
+                });
+            }
+
+            marker.setVisible(true);
         }
     }
 });

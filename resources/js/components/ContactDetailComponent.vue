@@ -51,7 +51,7 @@
                             </div>
                             <div class="col-sm-8">{{ contact.email }}</div>
                         </div>
-                        <div class="form-row mb-1">
+                        <div class="form-row mb-1" v-if="contact.address">
                             <div class="col-sm-4">
                                 <label for class="label-font">Dirección</label>
                             </div>
@@ -69,7 +69,7 @@
                                 </button>
                             </div>
                         </div>
-            -->
+                        -->
                     </div>
                     <div class="col-sm-5">
                         <div class="form-row mb-1">
@@ -90,12 +90,12 @@
                             </div>
                             <div class="col-sm-5">{{ getCreatedAt() }}</div>
                         </div>
-                        <div class="form-row mb-1">
+                        <div class="form-row mb-1" v-if="contact.address">
                             <div class="col-sm-7">
                                 <label for class="label-font">Ver mapa</label>
                             </div>
                             <div class="col-sm-5">
-                                <a @click="viewMap()">
+                                <a @click="viewMap()" data-toggle="modal" data-target="#modalMap">
                                     <i class="feather icon-map"></i>
                                 </a>
                             </div>
@@ -151,83 +151,111 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="modalMap">
+                <div class="modal-dialog modal-lg" role="dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <h4 class="modal-title">Mapa</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <span>{{ contact.address }}</span>
+                            </div>
+                            <div id="address-map-container" style="width:100%;height:400px; ">
+                                <div style="width: 100%; height: 100%" id="address-map"></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
         </div>
     </div>
 </template>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN7QXrQX8mlDNTdtcSY5dzZzrVJ1516hw&libraries=places&callback=initialize" async defer>
-</script>
-<script src="/js/geolocalizacion.js"></script>
 <script>
-export default {
-    data() {
-        return {
-            //
-        };
-    },
-    props: {
-        contact: {
-            type: Object,
-            required: true,
+    export default {
+        data() {
+            return {
+                //
+            };
         },
-    },
-    methods: {
-        showImage() {
-            return this.contact.image ?
-                "/" + this.contact.image :
-                "/images/anonymous-user.png";
+        props: {
+            contact: {
+                type: Object,
+                required: true,
+            },
         },
-        getStatus() {
-            return this.contact.favorite === 1 ?
-                '<i class="ficon feather icon-star warning"></i>' :
-                "";
-        },
-        getRol() {
-            return this.contact.type_contact === "empresa" ?
-                ' <i class="fa fa-building-o text-primary"></i> Empresa' :
-                '<i class="fa fa-male text-primary"></i> Vendedor';
-        },
-        getCreatedAt() {
-            return this.shortDateFormat(this.contact.created_at);
-        },
-        goBack() {
-            return history.go(-1);
-        },
-        viewMap() {
-            //popup con  las coredenadas del mapa
-        },
+        methods: {
+            showImage() {
+                return this.contact.image ?
+                    "/" + this.contact.image :
+                    "/images/anonymous-user.png";
+            },
+            getStatus() {
+                return this.contact.favorite === 1 ?
+                    '<i class="ficon feather icon-star warning"></i>' :
+                    "";
+            },
+            getRol() {
+                return this.contact.type_contact === "empresa" ?
+                    ' <i class="fa fa-building-o text-primary"></i> Empresa' :
+                    '<i class="fa fa-male text-primary"></i> Vendedor';
+            },
+            getCreatedAt() {
+                return this.shortDateFormat(this.contact.created_at);
+            },
+            goBack() {
+                return history.go(-1);
+            },
+            viewMap() {
+                const vm = this;
+                //popup con  las coredenadas del mapa
+                vm.initializeMap(
+                    'address-map-container',
+                    vm.contact.address,
+                    vm.contact.address_latitude,
+                    vm.contact.address_longitude
+                );
+            },
 
-        editContact() {
-            //window.location.href = "contacto/editar/" + this.contact.id;
-            window.location = "/contacto/editar/" + this.contact.id;
-        },
-        /**
-         * Elimina el contacto
-         *
-         * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-         */
-        deleteContact() {
-            const vm = this;
-            bootbox.confirm({
-                size: "small",
-                title: "Eliminar contacto",
-                message: "Está a punto de eliminar este contacto ¿Esta seguro de continuar?",
-                callback: function(result) {
-                    if (result) {
-                        axios.delete(`/contacto/${vm.contact.id}/delete`).then(response => {
-                            if (response.data.result) {
-                                window.location = response.data.route;
-                            }
-                            else {
-                                toastr.warning(response.data.message, "Error!");
-                            }
-                        }).catch(error => {
-                            console.errro(error);
-                        });
+            editContact() {
+                //window.location.href = "contacto/editar/" + this.contact.id;
+                window.location = "/contacto/editar/" + this.contact.id;
+            },
+            /**
+             * Elimina el contacto
+             *
+             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+             */
+            deleteContact() {
+                const vm = this;
+                bootbox.confirm({
+                    size: "small",
+                    title: "Eliminar contacto",
+                    message: "Está a punto de eliminar este contacto ¿Esta seguro de continuar?",
+                    callback: function(result) {
+                        if (result) {
+                            axios.delete(`/contacto/${vm.contact.id}/delete`).then(response => {
+                                if (response.data.result) {
+                                    window.location = response.data.route;
+                                }
+                                else {
+                                    toastr.warning(response.data.message, "Error!");
+                                }
+                            }).catch(error => {
+                                console.errro(error);
+                            });
+                        }
                     }
-                }
-            });
-        }
-    },
-};
+                });
+            }
+        },
+    };
 </script>
