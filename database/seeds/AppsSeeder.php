@@ -13,7 +13,7 @@ class AppsSeeder extends Seeder
     {
         DB::table('apps')->insert([
             'name' => 'Call Me',
-            'description' => 'Widget para registro de llamadas',
+            'description' => 'App para convertir visitas en clientes',
             'type' => 'pub',
             'type_user' => 'E',
             'widget_type' => 'freeapps',

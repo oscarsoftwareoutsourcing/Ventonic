@@ -14,7 +14,7 @@
                 <div class="card-ventonic">
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-sm-12 ">
-                            <div class="text-ventonic">Mis Apps</div> 
+                            <div class="text-ventonic"><strong>Mis Apps<strong></strong>: Aplicaciones que incrementan las ventas de mi empresa</div> 
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                                 alt="Card image cap"
                                 />
                                 <div class="card-body">
-                                <h5>{{ $app->name }}</h5>
+                                <h2>{{ $app->name }}</h2>
                                 <p class="card-text mb-0">{{ $app->description }}</p>
                                 <span class="card-text"></span>
                                 <div class="card-btns d-flex justify-content-between mt-2">

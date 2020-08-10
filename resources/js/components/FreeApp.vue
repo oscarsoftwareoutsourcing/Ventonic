@@ -1,5 +1,5 @@
 <template>
-  <div id="basic-examples" class="container">
+  <div id="basic-examples">
     <div class="card">
       <div class="card-ventonic">
         <div class="row">
@@ -63,14 +63,14 @@
                     <div class="card-body">
                       <fieldset class="form-group">
                         <textarea class="form-control" id="basicTextarea" rows="10" disabled>
-<!--Start of Ventonic.com Script-->
+                        <!--Start of Ventonic.com Script-->
                                         <script type="text/javascript">
                                         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
                                         (function(){
                                         var
                                         s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
                                         s1.async=true;
-                                        s1.src="https://embed.ventonic.com/{{
+                                        s1.src="https://app.ventonic.com/{{
                                                                 widget.token
                                                             }}/default";
                                         s1.charset="UTF-8";
@@ -94,11 +94,11 @@
                       v-model="widget.status"
                       :id="widget.id"
                       @change="
-                                                        widgetStatusUpdate(
-                                                            $event,
-                                                            widget.id
-                                                        )
-                                                    "
+                              widgetStatusUpdate(
+                                            $event,
+                                            widget.id
+                                )
+                              "
                     />
                     <label class="custom-control-label" :for="widget.id"></label>
                     <span class="switch-label">Active</span>
