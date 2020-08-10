@@ -14,7 +14,9 @@ class AddFileToAppsTable extends Migration
     public function up()
     {
         Schema::table('apps', function (Blueprint $table) {
-            //
+            $table->longText('iframe')->nullable()->comment('Iframe para video de explicacion');
+            $table->longText('info')->nullable()->comment('Informacion general de la app');
+            $table->string('code',20)->nullable()->comment('Codigo de la app');
         });
     }
 
@@ -26,7 +28,9 @@ class AddFileToAppsTable extends Migration
     public function down()
     {
         Schema::table('apps', function (Blueprint $table) {
-            //
+            $table->dropColumn('iframe');
+            $table->dropColumn('info');
+            $table->dropColumn('code');
         });
     }
 }

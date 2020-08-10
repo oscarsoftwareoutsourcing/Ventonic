@@ -17,7 +17,8 @@ class AppsSeeder extends Seeder
             'type' => 'pub',
             'type_user' => 'E',
             'widget_type' => 'freeapps',
-            'image' =>'images/pages/apps/call_me.jpeg'
+            'image' =>'images/pages/apps/call_me.jpeg',
+            'code' => 'callme'
         ]);
     }
 }

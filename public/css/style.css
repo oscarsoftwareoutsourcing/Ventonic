@@ -56,7 +56,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     height: 250px;
 }
 
-.container-image-oportunity > img {
+.container-image-oportunity>img {
     width: 100% !important;
     height: 100%;
 }
@@ -69,7 +69,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     margin-bottom: 20px;
 }
 
-.titleOportunity > h4 {
+.titleOportunity>h4 {
     font-size: 18px;
 }
 
@@ -102,7 +102,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     font-size: 14px;
 }
 
-.description_oportunitys > p {
+.description_oportunitys>p {
     text-align: center;
 }
 
@@ -167,7 +167,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     border-top-left-radius: 0.25rem !important;
 }
 
-.search-oportunity > i {
+.search-oportunity>i {
     color: #fff !important;
 }
 
@@ -328,12 +328,12 @@ iframe {
     color: #c2c6dc !important;
 }
 
-.menu-item-principal > h2 > a {
+.menu-item-principal>h2>a {
     cursor: pointer;
 }
 
 @media (max-width: 767px) {
-    .menu-item-principal > h2 {
+    .menu-item-principal>h2 {
         font-size: 1.54rem;
     }
 }
@@ -461,4 +461,13 @@ iframe {
 .controls {
     font-size: 1.5rem !important;
     color: #fff !important;
+}
+
+.nav-component:hover {
+    background: #FFFFFF !important;
+    box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7) !important;
+    color: #0087FF !important;
+    font-weight: 400 !important;
+    border-top-left-radius: 4px !important;
+    border-top-right-radius: 4px !important;
 }

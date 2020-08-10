@@ -18,5 +18,6 @@ class Apps extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'type', 'type_user', 'parameteres', 'widget_type'];
+    protected $fillable = ['name', 'description', 'type', 'type_user', 'parameteres', 
+    'widget_type','image','iframe','info','code'];
 }

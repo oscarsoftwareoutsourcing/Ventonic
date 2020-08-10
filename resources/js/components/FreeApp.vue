@@ -4,7 +4,7 @@
       <div class="card-ventonic">
         <div class="row">
           <div class="col-lg-2 col-md-2 col-sm-12">
-            <div class="text-ventonic">Call Me</div>
+            <div class="text-ventonic">{{ callme.name }}</div>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-12">
             <a
@@ -20,49 +20,51 @@
 
     <div class="widgets">
       <div class="row">
-        <div class="col-4" v-for="widget in widgets">
-          <div class="card">
-            <div class="card-content">
-              <!-- <img class="card-img-top img-fluid" :src="'images/pages/content-img-1.jpg'"
-              alt="Card image cap">-->
-              <div class="accordion" id="accordionExample">
-                <div class="card">
-                  <div class="card-header" id="headingThree">
-                    <h2 class="mb-0">
-                      <button
-                        class="btn btn-link collapsed"
-                        type="button"
-                        data-toggle="collapse"
-                        :data-target="
+        <div class="col-8">
+          <div class="row">
+            <div class="col-6" v-for="widget in widgets">
+              <div class="card">
+                <div class="card-content">
+                  <!-- <img class="card-img-top img-fluid" :src="'images/pages/content-img-1.jpg'"
+                  alt="Card image cap">-->
+                  <div class="accordion" id="accordionExample">
+                    <div class="card">
+                      <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                          <button
+                            class="btn btn-link collapsed"
+                            type="button"
+                            data-toggle="collapse"
+                            :data-target="
                                                             '#collapseThree' +
                                                                 widget.id
                                                         "
-                        aria-expanded="false"
-                        aria-controls="collapseThree"
-                      >
-                        <div>
-                          <h5>{{ widget.name }}</h5>
-                          <br />
-                          {{ widget.url }}
-                        </div>
+                            aria-expanded="false"
+                            aria-controls="collapseThree"
+                          >
+                            <div>
+                              <h5>{{ widget.name }}</h5>
+                              <br />
+                              {{ widget.url }}
+                            </div>
 
-                        <span>
-                          <i class="feather icon-chevron-down" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </h2>
-                  </div>
-                  <div
-                    :id="
+                            <span>
+                              <i class="feather icon-chevron-down" aria-hidden="true"></i>
+                            </span>
+                          </button>
+                        </h2>
+                      </div>
+                      <div
+                        :id="
                         'collapseThree' + widget.id
                         "
-                    class="collapse"
-                    aria-labelledby="headingThree"
-                    data-parent="#accordionExample"
-                  >
-                    <div class="card-body">
-                      <fieldset class="form-group">
-                        <textarea class="form-control" id="basicTextarea" rows="10" disabled>
+                        class="collapse"
+                        aria-labelledby="headingThree"
+                        data-parent="#accordionExample"
+                      >
+                        <div class="card-body">
+                          <fieldset class="form-group">
+                            <textarea class="form-control" id="basicTextarea" rows="10" disabled>
                         <!--Start of Ventonic.com Script-->
                                         <script type="text/javascript">
                                         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -80,36 +82,55 @@
                                         </script>
                                         <!--End of Ventonic.com Script-->
                                         </textarea>
-                      </fieldset>
+                          </fieldset>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="card-body us-card">
-                <div class="card-btns d-flex justify-content-between mt-2">
-                  <div class="custom-control custom-switch custom-control-inline">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      v-model="widget.status"
-                      :id="widget.id"
-                      @change="
+                  <div class="card-body us-card">
+                    <div class="card-btns d-flex justify-content-between mt-2">
+                      <div class="custom-control custom-switch custom-control-inline">
+                        <input
+                          type="checkbox"
+                          class="custom-control-input"
+                          v-model="widget.status"
+                          :id="widget.id"
+                          @change="
                               widgetStatusUpdate(
                                             $event,
                                             widget.id
                                 )
                               "
-                    />
-                    <label class="custom-control-label" :for="widget.id"></label>
-                    <span class="switch-label">Active</span>
+                        />
+                        <label class="custom-control-label" :for="widget.id"></label>
+                        <span class="switch-label">Active</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-4">
+          <div class="card">
+            <div class="card-header mb-1">
+              <h4 class="card-title">{{ callme.name }}</h4>
+            </div>
+            <div class="card-content p-2">
+              <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
+                <div v-html="callme.iframe"></div>
+              </div>
+
+              <div class="card-body">
+                <div v-html="callme.info"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
     <div
       class="modal fade text-left"
       id="inlineForm"
@@ -238,7 +259,7 @@ export default {
   components: {
     //"widget-wizard": widgetWizard,
   },
-  props: ["widgets"],
+  props: ["widgets", "callme"],
   data() {
     return {
       pin: "",
