@@ -15,7 +15,10 @@ class FreeAppController extends Controller
     public function index(){
 
         $Widget = Widget::all();
-        return view('free_apps.index',['widgets'=>$Widget]);
+        $callme = Apps::find(1);
+
+        //dd($callme);
+        return view('free_apps.index',['widgets'=>$Widget, 'callme'=>$callme]);
         
     }
 

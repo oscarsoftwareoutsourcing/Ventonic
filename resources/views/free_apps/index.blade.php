@@ -19,11 +19,11 @@
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
-    <div class="content-area-wrapper">
+    <div class="content-wrapper pt-1">
         {{-- Apps Gratis --}}
 
         <!-- <chat :user="{{ auth()->user() }}" :chat-room-user="{{ json_encode(session('chat_room_user', '')) }}"></chat> -->
-        <free-apps :widgets="{{json_encode($widgets)}}"></free-apps>
+        <free-apps :widgets="{{json_encode($widgets)}}" :callme="{{json_encode($callme)}}"></free-apps>
 
     </div>
 </div>
