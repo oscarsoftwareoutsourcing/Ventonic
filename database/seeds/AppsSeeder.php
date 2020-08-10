@@ -18,7 +18,15 @@ class AppsSeeder extends Seeder
             'type_user' => 'E',
             'widget_type' => 'freeapps',
             'image' =>'images/pages/apps/call_me.jpeg',
-            'code' => 'callme'
+            'code' => 'callme',
+            'iframe' => '<iframe
+                        class="img-thumbnail"
+                        src="https://www.youtube.com/embed/vTlSEMdC5qw"
+                        allowfullscreen
+                        ></iframe>',
+            'info' => '<strong>App para convertir visitas en clientes</strong>
+            <br>
+            <p>Información genral de como instalar el widget Call Me en su página web</p> '
         ]);
     }
 }
