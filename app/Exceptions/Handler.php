@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +52,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof TokenMismatchException) {
+            /** Excepción capturada por inactividad */
+            session()->flash('error', 'Sessión expirada por inactividad.');
+            return redirect()->route('index');
+        }
+
+        if ($exception instanceof MethodNotAllowedHttpException && $request->path() === "logout") {
+            /** Excepción capturada para cuando el método no está permitido */
+            session()->flash('error', 'Usted ha salido del sistema');
+            return redirect()->route('index');
+        }
+
         return parent::render($request, $exception);
     }
 }
