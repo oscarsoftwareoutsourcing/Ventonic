@@ -20,9 +20,9 @@
 
     <div class="widgets">
       <div class="row">
-        <div class="col-8">
+        <div class="col-lg-8 col-md-8 col-sm-12">
           <div class="row">
-            <div class="col-6" v-for="widget in widgets">
+            <div class="col-lg-6 col-md-6 col-sm-12" v-for="widget in widgets">
               <div class="card">
                 <div class="card-content">
                   <!-- <img class="card-img-top img-fluid" :src="'images/pages/content-img-1.jpg'"
@@ -112,7 +112,7 @@
             </div>
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
           <div class="card">
             <div class="card-header mb-1">
               <h4 class="card-title">{{ callme.name }}</h4>
