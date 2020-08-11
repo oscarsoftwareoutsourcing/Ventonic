@@ -144,7 +144,30 @@ class Contact extends Model
         return $contact;
     }
 
+    public static function getImage($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->value('image');
+        return $contact;
+    }
+
+    public static function getIniNames($contact_id){
+
+        $contact=Contact::where('id', (int)$contact_id)->get();
+        return strtoupper(substr($contact->name,0,1).substr($contact->last_name,0,1));
+    }
+
     public function negotiation(){
         return $this->belongsToMany(Negotiation::class);
     }
+
+    public function getIntialsNameAttribute()
+    {
+        return strtoupper(substr($this->name,0,1) . substr($this->last_name,0,1));
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->name.' '. $this->last_name;
+    }
+    
 }

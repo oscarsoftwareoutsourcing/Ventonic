@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="Ventonic" />
     <meta name="description" content="Ventonic" />
-    <meta name="author" content="potenzaglobalsolutions.com" />
+    <meta name="author" content="softwareoutsourcing.es" />
 
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="apple-touch-icon" href="{{ asset('images/ico/apple-icon-120.png') }}">

@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 use App\User;
 use App\Country;
 use App\Contact;
@@ -38,7 +43,10 @@ class ContactController extends Controller
                 'private'=>$personal->private,
                 'favorite'=>$personal->favorite,
                 'type'=>$personal->type,
-                'type_contact'=>$personal->type_contact
+                'type_contact'=>$personal->type_contact,
+                'initials' => $personal->IntialsName,
+                'image' => $personal->image,
+                'fullName' => $personal->FullName,
             ];
         }
 
@@ -71,6 +79,9 @@ class ContactController extends Controller
                         'favorite'=>Contact::getUserFavorite($compartido),
                         'type'=>Contact::getUserType($compartido),
                         'type_contact'=>Contact::getUserTypeContact($compartido),
+                        'initials' => Contact::getIniNames($compartido),
+                        'image' => Contact::getImage($compartido),
+                        'fullName' => Contact::getUserName($compartido).' '.Contact::getUserLastName($compartido), 
                     ];
             }
         }
@@ -80,7 +91,7 @@ class ContactController extends Controller
         } else {
             $contacts=$personales;
         }
-
+        //dd($contacts);
 
         return view('contact.list-contact', ['contacts'=>$contacts]);
     }
