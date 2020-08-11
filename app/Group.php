@@ -32,7 +32,17 @@ class Group extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Group belongs to Contacts.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function contacts()
+    {
+        return $this->belongsToMany(Contacts::class);
     }
 
     public static function getUserByGroup($group_id)

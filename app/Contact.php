@@ -16,17 +16,32 @@ class Contact extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     public function country()
     {
-        return $this->belongsTo('App\Country', 'country_id');
+        return $this->belongsTo(Country::class);
     }
 
-    public function contactGroupUser()
+    /*public function contactGroupUser()
     {
         return $this->belongsTo('App\ContactGroupUser', 'contact_id');
+    }*/
+
+    public function negotiation()
+    {
+        return $this->belongsToMany(Negotiation::class);
+    }
+
+    /**
+     * Contact belongs to Groups.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function groups()
+    {
+        return $this->belongsToMany(Groups::class);
     }
 
     public function notes()
@@ -142,9 +157,5 @@ class Contact extends Model
 
         $contact=Contact::where('id', (int)$contact_id)->value('favorite');
         return $contact;
-    }
-
-    public function negotiation(){
-        return $this->belongsToMany(Negotiation::class);
     }
 }
