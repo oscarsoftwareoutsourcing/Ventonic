@@ -12,19 +12,19 @@
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
-    <div class="content-wrapper">
+    <div class="content-wrapper pt-1">
         <div class="content-header row">
         </div>
-        <div class="container">
+        <div class="">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
 
                           <div class="card-ventonic">
-                            
+
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                    <div class="text-ventonic">Oportunidades</div> 
+                                    <div class="text-ventonic">Oportunidades</div>
                                 </div>
                                 @if(Auth::user()->typeuser=="E")
                                     <div class="col-lg-3 col-md-4 col-sm-12 ">
@@ -77,7 +77,7 @@
                                             <option value="no postulado">No postulado</option>
                                         </select>
                                     </div>
-                                
+
                                 </div>
                                 @endif
 
@@ -89,7 +89,7 @@
                     <div class="row">
                     @if(isset($oportunitys))
                         @foreach($oportunitys as $oportunity)
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"> 
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="card">
                                  <div class="card-body">
                                      <div class="row">
@@ -109,52 +109,52 @@
                                                 <span class="card-text">{{$oportunity->cargo}}</span>
                                                 <p class="card-text  mb-0">{{App\JobType::getType((int)$oportunity->job_type_id)}}</p>
                                                 <p class="card-text  mb-0">{{App\Oportunity::listSectors($oportunity->sectors)}}</p>
-                                        
+
                                          </div>
                                      </div>
-                                 
+
                                     <hr class="my-1">
                                     <div class="card-btns d-flex justify-content-between mt-2">
                                             <a href="#" ></a>
                                             @if((\Auth::user()->typeuser)=="V")
                                                  @if(App\Aplicant::postulationTrue(\Auth::user()->id, $oportunity->id))
-                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}" 
+                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
                                                     class="btn btn-dark mr-1 mb-1 waves-effect waves-light">
                                                         Postulado<br>
                                                         <span class="small">{{App\Aplicant::datePostulation(\Auth::user()->id, $oportunity->id)}}</span>
                                                     </a>
                                                     <input type="text" class="postulado" value="postulado" data-id="{{$oportunity->id}}" hidden>
                                                 @else
-                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}" 
+                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
                                                     class="btn btn-primary mr-1 mb-1 waves-effect waves-light">
                                                         Aplicar
                                                     </a>
                                                 <input type="text" class="postulado" value="no postulado" data-id="{{$oportunity->id}}" hidden>
                                                 @endif
                                             @else
-                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}" 
+                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
                                                     class="btn btn-outline-primary waves-effect waves-light">
                                                         Ver<br>
                                                     </a>
                                             @endif
                                         </div>
-                                </div>    
+                                </div>
                             </div>
 
                         </div>
                         @endforeach
-                    @endif    
+                    @endif
                     </div>
                             <!--
                     <div class="card">
                         <div class="card-header">
-                            
+
                         </div>
                         <div class="card-body">
-                          
-                           
+
+
                             <section id="data-list-view" class="data-list-view-header">
-                              
+
                                 <div class="table-responsive">
                                     <table id="datatable" class="table data-list-view mt-2">
                                         <thead>
@@ -214,9 +214,9 @@
                                         </tbody>
                                     </table>
                                 </div>
-                               
+
                             </section>
-                           
+
                         </div>
                     </div>
 
