@@ -4,8 +4,9 @@
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
-        <div class="content-wrapper">
-            <div class="container">
+        <div class="content-wrapper pt-1">
+            <div class="content-header row">
+            </div>
                 <div class="row justify-content-center">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         @component('components.header-ventonic-blue') Contacto @endcomponent
