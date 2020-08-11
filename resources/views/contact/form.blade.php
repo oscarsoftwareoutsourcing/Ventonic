@@ -317,7 +317,8 @@
                                                 <div class="col-12">
                                                     @if(!isset($contact->id))
                                                     <button type="submit" class="btn btn-primary mr-1 mb-1">Guardar</button>
-                                                    <button type="reset" class="btn btn-outline-warning mr-1 mb-1">Cancelar</button>
+                                                    <button type="reset" class="btn btn-outline-warning mr-1 mb-1"
+                                                            onclick="window.history.back()">Cancelar</button>
                                                     @endif
                                                 </div>
                                             </div>

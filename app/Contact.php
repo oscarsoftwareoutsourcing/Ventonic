@@ -44,6 +44,17 @@ class Contact extends Model
         return $this->belongsToMany(Groups::class);
     }
 
+    /**
+     * Contact has many ContactGroups.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function contactGroups()
+    {
+        // hasMany(RelatedModel, foreignKeyOnRelatedModel = contact_id, localKey = id)
+        return $this->hasMany(ContactGroup::class);
+    }
+
     public function notes()
     {
         return $this->morphMany(Note::class, 'noteable');

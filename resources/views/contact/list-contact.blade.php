@@ -90,9 +90,9 @@
 
                     @include('contact.list')
 
-                
-                    
-                   
+
+
+
                 </div>
                 {{--BEGIN:Modal--}}
                 <div class="modal fade text-left" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
@@ -122,7 +122,7 @@
             {{--END: Modal--}}
 
 
-            
+
         </div>
     </div>
 </div>

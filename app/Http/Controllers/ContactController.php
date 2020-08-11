@@ -7,9 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\User;
 use App\Country;
@@ -28,7 +26,7 @@ class ContactController extends Controller
     public function index()
     {
         // $contacts=Contact::where('user_id', auth()->user()->id)->orderBy('created_at')->paginate(10);
-        $contacts=array();
+        /*$contacts=array();
         $contactos_personales=Contact::where('user_id', auth()->user()->id)->get();
         $personales=array();
         foreach ($contactos_personales as $personal) {
@@ -48,11 +46,11 @@ class ContactController extends Controller
                 'image' => $personal->image,
                 'fullName' => $personal->FullName,
             ];
-        }
+        }*/
 
         // Sacar los usuarios que le han compartido
         // Sacar todos los grupos a los que pertenece el usuario
-        $groups=GroupUser::where('user_id', auth()->user()->id)->get();
+        /*$groups=GroupUser::where('user_id', auth()->user()->id)->get();
         $contacts_compartidos=array();
         $compartidos=array();
 
@@ -81,7 +79,7 @@ class ContactController extends Controller
                         'type_contact'=>Contact::getUserTypeContact($compartido),
                         'initials' => Contact::getIniNames($compartido),
                         'image' => Contact::getImage($compartido),
-                        'fullName' => Contact::getUserName($compartido).' '.Contact::getUserLastName($compartido), 
+                        'fullName' => Contact::getUserName($compartido).' '.Contact::getUserLastName($compartido),
                     ];
             }
         }
@@ -90,12 +88,27 @@ class ContactController extends Controller
             $contacts=array_merge($personales, $contacts_compartidos);
         } else {
             $contacts=$personales;
-        }
+        }*/
         //dd($contacts);
+        //
+
+        /** @var Object Objeto con información de los contactos propios del usuario */
+        $contacts = Contact::where('user_id', auth()->user()->id)->get();
+        /** @var Object Objeto con información de los grupos en los que se encuentra el usuario */
+        $groupUsers=GroupUser::where('user_id', auth()->user()->id)->get();
+        foreach ($groupUsers as $groupUser) {
+            /** @var Object Objeto con información de los contactos compartidos en los grupos */
+            $sharedContacts = Contact::whereHas('contactGroups', function ($query) use ($groupUser) {
+                return $query->where('group_id', $groupUser->group_id);
+            })->get();
+
+            /** Combina los objetos de contactos propios con los contactos compartidos en grupos */
+            $contacts->merge($sharedContacts);
+        }
+        $contacts = $this->paginate($contacts, 5, null, ['path' => 'listado']);
 
         return view('contact.list-contact', ['contacts'=>$contacts]);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -112,10 +125,10 @@ class ContactController extends Controller
             $contact='';
         }
 
-        $countrys=Country::all();
+        //$countrys=Country::all();
         $groups=Group::where('user_id', auth()->user()->id)->get();
-        $users=User::orderBy('name', 'desc')->get();
-        return view('contact.form', ['countrys'=>$countrys, 'contact'=>$contact, 'groups'=>$groups, 'users'=>$users]);
+        //$users=User::orderBy('name', 'desc')->get();
+        return view('contact.form', ['contact'=>$contact, 'groups'=>$groups]);
     }
 
     /**
@@ -169,36 +182,27 @@ class ContactController extends Controller
 
         if ($contact) {
             if (isset($private) && $private==='para mi') {
-                $contact_id=$contact->id;
                 $contact=Contact::find($contact->id);
                 $contact->private=1;
                 $contact->update();
             } elseif (isset($private) && $private==='todos') {
-                $contact_id=$contact->id;
                 // Sacar todos los grupos de usuarios del contacto
                 $groups=Group::where('user_id', auth()->user()->id)->get();
-                $users=array();
 
                 // Insertar el contacto en la tabla contact_group para hacerlo disponible en todos sus grupos
                 foreach ($groups as $group) {
-                    $contactGroup = ContactGroup::updateOrCreate(
-                        ['contact_id' =>$contact_id,
-                         'group_id' => $group->id
-                        ]
-                    );
+                    $contactGroup = ContactGroup::updateOrCreate([
+                        'contact_id' =>$contact->id, 'group_id' => $group->id
+                    ]);
                 }
             } elseif (isset($private) && $private!=='para mi' && $private!=='todos') {
-                $contact_id=$contact->id;
-
                 // Sacar los id de los grupos de que selecciono el usuario
                 $groups=$request->private;
 
                 foreach ($groups as $group) {
-                    $contactGroup = ContactGroup::updateOrCreate(
-                        ['contact_id' =>$contact_id,
-                         'group_id' => (int)$group
-                        ]
-                    );
+                    $contactGroup = ContactGroup::updateOrCreate([
+                        'contact_id' =>$contact->id, 'group_id' => (int)$group
+                    ]);
                 }
             }
         }
