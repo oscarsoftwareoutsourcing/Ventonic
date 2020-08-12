@@ -34,7 +34,15 @@
                         </div>
 
                         <hr>
+                        <div class="card-header">Filtros</div>
                         <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-6' }}">
+                                    <div class="input-group">
+                                        <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar oportunidades..." style="border:1px solid #0087ff;">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                             {{-- BEGIN Filltros --}}
                                 <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
@@ -87,6 +95,11 @@
                                 </div>
                                 @endif
 
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary float-right">Buscar</button>
+                                </div>
                             </div>
 
                         </div>
