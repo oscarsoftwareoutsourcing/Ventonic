@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Components;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Repositories\UploadRepository;
 use App\Document;
 
@@ -101,5 +102,23 @@ class FileController extends Controller
         return response()->json([
             'result' => true, 'documents' => $record->documents()->orderBy('created_at', 'desc')->get()
         ], 200);
+    }
+
+    /**
+     * Elimina un archivo del storage
+     *
+     * @method    deleteDocument
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     Request           $request    Objeto con información de la petición
+     *
+     * @return    JsonResponse      Objeto con datos de respuesta a la petición
+     */
+    public function deleteDocument(Request $request)
+    {
+        $disk = $request->disk ?? 'documents';
+        Storage::disk($disk)->delete($request->file);
+        return response()->json(['result' => true], 200);
     }
 }

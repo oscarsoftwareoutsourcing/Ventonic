@@ -23,7 +23,7 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($filter = null)
     {
         // $contacts=Contact::where('user_id', auth()->user()->id)->orderBy('created_at')->paginate(10);
         /*$contacts=array();

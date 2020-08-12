@@ -165,6 +165,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('upload-documents', 'FileController@uploadDocument');
         Route::post('set-document', 'FileController@setDocument');
         Route::get('get-documents/{class}/{id}', 'FileController@getDocuments');
+        Route::post('delete-document', 'FileController@deleteDocument');
 
         /**
          * Gestión de llamadas

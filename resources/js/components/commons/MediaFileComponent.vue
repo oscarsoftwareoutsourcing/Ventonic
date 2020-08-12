@@ -21,6 +21,7 @@
         :options="dropzoneOptions"
         @vdropzone-sending="dropzoneSendingEvent"
         @vdropzone-success="dropzoneSuccessEvent"
+        @vdropzone-removed-file="dropzoneRemovedEvent"
       ></vue-dropzone>
       <!-- Validation messages -->
       <article class="help-block" v-if="documentError">
@@ -204,11 +205,35 @@ export default {
       const vm = this;
       if (response.result) {
         vm.documentFiles.push({
-          path: response.document_path,
-          url: response.document_url,
+            name: file.name,
+            path: response.document_path,
+            url: response.document_url,
         });
       }
     },
+    /**
+     * Evento que se ejecuta cuando un archivo es eliminado
+     *
+     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+     *
+     * @param     {string}                file     Nombre del archivo a eliminar
+     * @param     {string}                error    Mensaje de error
+     * @param     {object}                xhr      Objeto con información de la petición
+     */
+    dropzoneRemovedEvent(file, error, xhr) {
+        const vm = this;
+        axios.post('/components/delete-document', {
+            file: file.name
+        }).then(response => {
+            if (response.data.result) {
+                vm.documentFiles = JSON.parse(JSON.stringify(vm.documentFiles.filter(function(f) {
+                    return f.name !== file.name;
+                })));
+            }
+        }).catch(error => {
+            console.error(error);
+        })
+    }
   },
   mounted() {
     this.getFiles();
