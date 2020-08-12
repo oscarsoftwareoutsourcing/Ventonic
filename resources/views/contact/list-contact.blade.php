@@ -83,6 +83,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary float-right">Buscar</button>
+                        </div>
+                    </div>
 
                     </div>
 
