@@ -216,7 +216,7 @@ class EmailController extends Controller
 
                     $emails = [];
                     $emailFolders = $emailClient->getFolders();
-
+//                    dd($emailFolders);
                     foreach ($emailFolders as $folder) {
                         $messages = $folder->messages()->all()->get();
                         $emails[strtolower($folder->name)] = [];

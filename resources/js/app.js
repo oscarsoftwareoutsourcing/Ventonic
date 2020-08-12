@@ -13,6 +13,7 @@ import { es } from 'vuejs-datepicker/dist/locale';
 import VueFlatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 import {Spanish} from 'flatpickr/dist/l10n/es.js';
+import VuePaginate from 'vue-paginate';
 
 
 require("./bootstrap");
@@ -23,6 +24,7 @@ Vue.use(Vuelidate);
 Vue.use(PerfectScrollbar);
 Vue.use(CKEditor);
 Vue.use(VueFlatPickr);
+Vue.use(VuePaginate);
 
 Vue.component("search-sellers", () =>
     import("./components/SearchSellersComponent.vue")
