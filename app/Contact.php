@@ -8,8 +8,8 @@ class Contact extends Model
 {
     protected $fillable = [
         'name', 'last_name','image','email','web', 'phone', 'company', 'address', 'city', 'province',
-        'postal_code', 'sector', 'notes', 'share', 'type', 'country_id','user_id', 'favorite',
-        'cargo', 'address_latitude', 'address_longitude', 'private','type_contact'
+        'postal_code', 'sector', 'notes', 'share', 'country_id','user_id', 'favorite',
+        'cargo', 'address_latitude', 'address_longitude', 'private','type_contact', 'contact_type_id'
     ];
 
     protected $with = ['user'];
@@ -83,6 +83,16 @@ class Contact extends Model
     public function tasks()
     {
         return $this->morphMany(Task::class, 'taskable');
+    }
+
+    /**
+     * Contact belongs to ContactType.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function contactType()
+    {
+        return $this->belongsTo(ContactType::class);
     }
 
     public static function checkedFavorite($contact)

@@ -12,4 +12,14 @@ class ContactType extends Model
      * @var array
      */
     protected $fillable = ['name'];
+
+    /**
+     * ContactType has many Contacts.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class);
+    }
 }

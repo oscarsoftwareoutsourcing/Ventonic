@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Input;
 use App\User;
 use App\Country;
 use App\Contact;
+use App\ContactType;
 use App\Group;
 use App\ContactGroup;
 use App\GroupUser;
@@ -107,7 +108,7 @@ class ContactController extends Controller
         }
         $contacts = $this->paginate($contacts, 5, null, ['path' => 'listado']);
 
-        return view('contact.list-contact', ['contacts'=>$contacts]);
+        return view('contact.list-contact', compact('contacts'));
     }
 
     /**
@@ -128,7 +129,8 @@ class ContactController extends Controller
         //$countrys=Country::all();
         $groups=Group::where('user_id', auth()->user()->id)->get();
         //$users=User::orderBy('name', 'desc')->get();
-        return view('contact.form', ['contact'=>$contact, 'groups'=>$groups]);
+        $contactTypes = ContactType::all();
+        return view('contact.form', compact('contact', 'groups', 'contactTypes'));
     }
 
     /**
@@ -165,13 +167,13 @@ class ContactController extends Controller
              'sector' =>  $request->sector ?? null,
              'notes' =>  $request->anotaciones ?? null,
              'share' =>  null,
-             'type' =>  $request->etiquetas ?? null,
              'favorite' =>  $request->favorito ? 1 : 0,
              'cargo' =>  $request->cargo_empresa ?? null,
              'address_longitude' =>  $request->address_longitude ?? null,
              'address_latitude' =>  $request->address_latitude ?? null,
              'user_id' =>  auth()->user()->id,
-             'type_contact'=> $request->type_contact
+             'type_contact'=> $request->type_contact,
+             'contact_type_id' => $request->etiquetas ?? null
             ]
         );
         // Compartir usuario
@@ -269,7 +271,7 @@ class ContactController extends Controller
         $contact->sector=$request->sector ?? null;
         $contact->notes= $request->anotaciones ?? null;
         $contact->share=null;
-        $contact->type= $request->etiquetas ?? null;
+        $contact->contact_type_id = $request->etiquetas ?? null;
         $contact->favorite= $favorito ?? null;
         $contact->cargo= $request->cargo ?? null;
         $contact->address_longitude= $request->address_longitude ?? null;
@@ -340,9 +342,8 @@ class ContactController extends Controller
         $countrys=Country::all();
         $groups=Group::where('user_id', auth()->user()->id)->get();
         $users=User::orderBy('name', 'desc')->get();
-        return view('contact.form-edit', [
-            'countrys'=>$countrys, 'contact'=>$contact, 'groups'=>$groups, 'users'=>$users
-        ]);
+        $contactTypes = ContactType::all();
+        return view('contact.form-edit', compact('countrys', 'contact', 'groups', 'users', 'contactTypes'));
     }
 
     /**

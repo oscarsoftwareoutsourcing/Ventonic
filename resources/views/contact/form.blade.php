@@ -227,13 +227,15 @@
                                                 @if($contact =='persona' || $contact =='empresa')
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-label-group">
-                                                        <select class="form-control @error('etiquetas') is-invalid @enderror" id="etiqueta-column" name="etiquetas" {{$contact =='persona' || $contact =='empresa' ? '' : 'disabled'}}>
-                                                            <option value="Cliente">Cliente</option>
-                                                            <option value="Cliente Potencial">Cliente Potencial</option>
-                                                            <option value="Colaborador">Colaborador</option>
-                                                            <option value="Proveedor">Proveedor</option>
+                                                        <select class="form-control @error('etiquetas') is-invalid @enderror" id="type-column" name="etiquetas" {{$contact =='persona' || $contact =='empresa' ? '' : 'disabled'}}>
+                                                            <option value="">Tipo de contacto</option>
+                                                            @foreach ($contactTypes as $contactType)
+                                                                <option value="{{ $contactType->id }}">
+                                                                    {{ $contactType->name }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
-                                                        <label for="email-id-column">Tipo</label>
+                                                        <label for="type-id-column">Tipo</label>
                                                     </div>
                                                     @error('etiquetas')
                                                     <div class="alert alert-danger">{{ $message }}</div>
