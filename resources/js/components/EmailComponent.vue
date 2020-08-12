@@ -317,7 +317,8 @@
                                     </div>
                                     <div class="email-user-list list-group" style="overflow:auto">
                                         <ul class="users-list-wrapper media-list">
-                                            <paginate name="inbox" :list="emails.inbox" :per="10">
+                                            <paginate name="inbox" :list="emails.inbox" :per="10"
+                                                      v-if="typeof(emails.inbox)!=='undefined'">
                                                 <li class="media" v-for="email in paginated('inbox')" :key="email.id" v-if="showFolder==='inbox'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -369,7 +370,8 @@
                                                     </div>
                                                 </li>
                                             </paginate>
-                                            <paginate name="sent" :list="emails.sent" :per="10">
+                                            <paginate name="sent" :list="emails.sent" :per="10"
+                                                      v-if="typeof(emails.sent)!=='undefined'">
                                                 <li class="media" v-for="email in paginated('sent')" v-if="showFolder==='sent'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -421,7 +423,8 @@
                                                     </div>
                                                 </li>
                                             </paginate>
-                                            <paginate name="draft" :list="emails.draft" :per="10">
+                                            <paginate name="draft" :list="emails.draft" :per="10"
+                                                      v-if="typeof(emails.draft)!=='undefined'">
                                                 <li class="media" v-for="email in paginated('draft')" v-if="showFolder==='draft'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -473,7 +476,8 @@
                                                     </div>
                                                 </li>
                                             </paginate>
-                                            <paginate name="favorites" :list="favorites" :per="10">
+                                            <paginate name="favorites" :list="favorites" :per="10"
+                                                      v-if="typeof(favorites)!=='undefined'">
                                                 <li class="media" v-for="email in paginated('favorites')" v-if="showFolder==='favorites'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -525,7 +529,8 @@
                                                     </div>
                                                 </li>
                                             </paginate>
-                                            <paginate name="spam" :list="emails.spam" :per="10">
+                                            <paginate name="spam" :list="emails.spam" :per="10"
+                                                      v-if="typeof(emails.spam)!=='undefined'">
                                                 <li class="media" v-for="email in paginated('spam')" v-if="showFolder==='spam'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -577,7 +582,8 @@
                                                     </div>
                                                 </li>
                                             </paginate>
-                                            <paginate name="trash" :list="trash" :per="10">
+                                            <paginate name="trash" :list="trash" :per="10"
+                                                      v-if="typeof(trash)!=='undefined'">
                                                 <li class="media" v-for="email in paginated('trash')" v-if="showFolder==='trash'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -632,7 +638,7 @@
                                         </ul>
                                         <nav class="mt-3" style="margin:0 auto;"
                                              v-if="showFolder==='inbox'">
-                                            <paginate-links for="inbox" :show-step-links="true"
+                                            <paginate-links for="inbox" :show-step-links="true" :async="true"
                                                             :classes="{
                                                                 'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
                                                             }"
@@ -640,7 +646,7 @@
                                         </nav>
                                         <nav class="mt-3" style="margin:0 auto;"
                                              v-if="showFolder==='sent'">
-                                            <paginate-links for="sent" :show-step-links="true"
+                                            <paginate-links for="sent" :show-step-links="true" :async="true"
                                                             :classes="{
                                                                 'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
                                                             }"
@@ -648,7 +654,7 @@
                                         </nav>
                                         <nav class="mt-3" style="margin:0 auto;"
                                              v-if="showFolder==='draft'">
-                                            <paginate-links for="draft" :show-step-links="true"
+                                            <paginate-links for="draft" :show-step-links="true" :async="true"
                                                             :classes="{
                                                                 'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
                                                             }"
@@ -656,7 +662,7 @@
                                         </nav>
                                         <nav class="mt-3" style="margin:0 auto;"
                                              v-if="showFolder==='favorites'">
-                                            <paginate-links for="favorites" :show-step-links="true"
+                                            <paginate-links for="favorites" :show-step-links="true" :async="true"
                                                             :classes="{
                                                                 'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
                                                             }"
@@ -664,7 +670,7 @@
                                         </nav>
                                         <nav class="mt-3" style="margin:0 auto;"
                                              v-if="showFolder==='spam'">
-                                            <paginate-links for="spam" :show-step-links="true"
+                                            <paginate-links for="spam" :show-step-links="true" :async="true"
                                                             :classes="{
                                                                 'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
                                                             }"
@@ -672,7 +678,7 @@
                                         </nav>
                                         <nav class="mt-3" style="margin:0 auto;"
                                              v-if="showFolder==='trash'">
-                                            <paginate-links for="trash" :show-step-links="true"
+                                            <paginate-links for="trash" :show-step-links="true" :async="true"
                                                             :classes="{
                                                                 'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
                                                             }"
@@ -919,7 +925,12 @@
                 inboxUnread: 0,
                 draft: [],
                 spam: [],
-                emails: [],
+                emails: {
+                    inbox: [],
+                    sent: [],
+                    draft: [],
+                    spam: []
+                },
                 selectedEmail: {},
                 sent: {
                     to: "",
