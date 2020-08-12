@@ -57,37 +57,45 @@
                             </div>
                         </div>
                     </div> --}}
+                    <form action="{{ route('contact.list') }}" method="GET">
+                        @csrf
+                        <div class="row">
+                            <div class="col-6">
 
-                    <div class="row">
-                        <div class="col-6">
-
-                            <div class="input-group">
-                                <div class="input-group-append">
-                                    {{-- <a href="{{ route('contact.create') }}" class="btn btn-primary btn_right_new" type="button">
-                                        Nueva
-                                    </a> --}}
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        {{-- <a href="{{ route('contact.create') }}" class="btn btn-primary btn_right_new" type="button">
+                                            Nueva
+                                        </a> --}}
+                                    </div>
+                                    <input type="text" id="textSearch" name="oportunitySearch" class="form-control"
+                                           placeholder="Buscar contacto..." style="border:1px solid #0087ff;"
+                                           value="{{ request()->oportunitySearch }}">
                                 </div>
-                                <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar contacto..." style="border:1px solid #0087ff;">
+                            </div>
+                            <div class="col-6">
+                                <div class="form-label-group">
+                                    <select class="form-control" id="type-contact" name="etiquetas">
+                                        <option value="0" {{ request()->etiquetas=='0'?'selected':'' }}>
+                                            Busqueda por tipo de cliente
+                                        </option>
+                                        @foreach ($contactTypes as $contactType)
+                                            <option value="{{ $contactType->id }}"
+                                                    {{ request()->etiquetas==$contactType->id?'selected':'' }}>
+                                                {{ $contactType->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="email-id-column">Tipo</label>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="form-label-group">
-                                <select class="form-control" id="type-contact" name="etiquetas">
-                                    <option>Busqueda por tipo de cliente</option>
-                                    <option value="Cliente">Cliente</option>
-                                    <option value="Cliente Potencial">Cliente Potencial</option>
-                                    <option value="Colaborador">Colaborador</option>
-                                    <option value="Proveedor">Proveedor</option>
-                                </select>
-                                <label for="email-id-column">Tipo</label>
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary float-right">Buscar</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <button type="button" class="btn btn-primary float-right">Buscar</button>
-                        </div>
-                    </div>
+                    </form>
 
                     </div>
 

@@ -24,75 +24,8 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($filter = null)
+    public function index(Request $request)
     {
-        // $contacts=Contact::where('user_id', auth()->user()->id)->orderBy('created_at')->paginate(10);
-        /*$contacts=array();
-        $contactos_personales=Contact::where('user_id', auth()->user()->id)->get();
-        $personales=array();
-        foreach ($contactos_personales as $personal) {
-            $personales[]=[
-                'id'=>$personal->id,
-                'user_id'=>$personal->user_id,
-                'name'=>$personal->name,
-                'last_name'=>$personal->last_name,
-                'email'=>$personal->email,
-                'phone'=>$personal->phone,
-                'company'=>$personal->company,
-                'private'=>$personal->private,
-                'favorite'=>$personal->favorite,
-                'type'=>$personal->type,
-                'type_contact'=>$personal->type_contact,
-                'initials' => $personal->IntialsName,
-                'image' => $personal->image,
-                'fullName' => $personal->FullName,
-            ];
-        }*/
-
-        // Sacar los usuarios que le han compartido
-        // Sacar todos los grupos a los que pertenece el usuario
-        /*$groups=GroupUser::where('user_id', auth()->user()->id)->get();
-        $contacts_compartidos=array();
-        $compartidos=array();
-
-        foreach ($groups as $group) {
-            $comp=ContactGroup::where('group_id', $group->group_id)->value('contact_id');
-            $true=array_search($comp, $compartidos);
-
-            if (!array_search($comp, $compartidos)) {
-                $compartidos[]=$comp;
-            }
-        }
-
-        foreach ($compartidos as $i => $compartido) {
-            if ($compartido) {
-                    $contacts_compartidos[]=[
-                        'id'=>$compartido,
-                        'user_id'=>Contact::getUserId($compartido),
-                        'name'=>Contact::getUserName($compartido),
-                        'last_name'=>Contact::getUserLastName($compartido),
-                        'email'=>Contact::getUserEmail($compartido),
-                        'phone'=>Contact::getUserPhone($compartido),
-                        'company'=>Contact::getUserCompany($compartido),
-                        'private'=>Contact::getUserPrivate($compartido),
-                        'favorite'=>Contact::getUserFavorite($compartido),
-                        'type'=>Contact::getUserType($compartido),
-                        'type_contact'=>Contact::getUserTypeContact($compartido),
-                        'initials' => Contact::getIniNames($compartido),
-                        'image' => Contact::getImage($compartido),
-                        'fullName' => Contact::getUserName($compartido).' '.Contact::getUserLastName($compartido),
-                    ];
-            }
-        }
-
-        if (count($contacts_compartidos)>0) {
-            $contacts=array_merge($personales, $contacts_compartidos);
-        } else {
-            $contacts=$personales;
-        }*/
-        //dd($contacts);
-        //
-
         /** @var Object Objeto con información de los contactos propios del usuario */
         $contacts = Contact::where('user_id', auth()->user()->id)->get();
         /** @var Object Objeto con información de los grupos en los que se encuentra el usuario */
@@ -106,9 +39,41 @@ class ContactController extends Controller
             /** Combina los objetos de contactos propios con los contactos compartidos en grupos */
             $contacts->merge($sharedContacts);
         }
-        $contacts = $this->paginate($contacts, 5, null, ['path' => 'listado']);
 
-        return view('contact.list-contact', compact('contacts'));
+        $path = '';
+        if ($request->_token) {
+            $path = '?_token=' . $request->_token .
+                    '&oportunitySearch=' . str_replace(" ", "+", $request->oportunitySearch) .
+                    '&etiquetas=' . str_replace(" ", "+", $request->etiquetas);
+
+
+            /** Filtro para tipo de contacto si es seleccionado */
+            if ((int)$request->etiquetas !== 0) {
+                //$contacts = $contacts->where('contact_type_id', (int)$request->etiquetas);
+                $contacts = $contacts->filter(function ($contact) use ($request) {
+                    return (int)$request->etiquetas === $contact->contact_type_id;
+                });
+            }
+
+            /** Filtro para buscar contacto de acuerdo al texto suministrado */
+            if ($request->oportunitySearch) {
+                $contacts = $contacts->filter(function ($contact) use ($request) {
+                    return strpos(strtoupper($contact->name), strtoupper($request->oportunitySearch)) !== false ||
+                           strpos(strtoupper($contact->last_name), strtoupper($request->oportunitySearch)) !== false ||
+                           strpos(strtoupper($contact->email), strtoupper($request->oportunitySearch)) !== false ||
+                           strpos(strtoupper($contact->web), strtoupper($request->oportunitySearch)) !== false ||
+                           strpos(strtoupper($contact->company), strtoupper($request->oportunitySearch)) !== false ||
+                           strpos(strtoupper($contact->address), strtoupper($request->oportunitySearch)) !== false ||
+                           strpos(strtoupper($contact->sector), strtoupper($request->oportunitySearch)) !== false ||
+                           strpos(strtoupper($contact->cargo), strtoupper($request->oportunitySearch)) !== false;
+                });
+            }
+        }
+
+        $contacts = $this->paginate($contacts, 5, null, ['path' => 'listado' . $path]);
+        $contactTypes = ContactType::all();
+
+        return view('contact.list-contact', compact('contacts', 'contactTypes'));
     }
 
     /**
