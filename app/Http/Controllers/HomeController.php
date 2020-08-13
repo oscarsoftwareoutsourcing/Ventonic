@@ -125,6 +125,7 @@ class HomeController extends Controller
 
     public static function getDateRange($date)
     {
+        //dd($date);
         $to = date('Y-m-d h:i:s');
         if ($date == 'this month') {
             $date = 'first day of this month';
@@ -138,6 +139,9 @@ class HomeController extends Controller
         $date_range = new stdClass;
         $date_range->to = $to;
         $date_range->from = $from;
+
+        dd($date_range);
+        
         return $date_range;
     }
 
@@ -149,7 +153,7 @@ class HomeController extends Controller
             ->where('created_at', '>=', $date_range->from)
             ->where('created_at', '<=', $date_range->to);
         if ($type) {
-            $contacts = $contacts->where('type', $type);
+            $contacts = $contacts->where('contact_type_id', $type);
         }
         $contacts = $contacts->groupBy('created_at')
             ->orderBy('day_logged')
