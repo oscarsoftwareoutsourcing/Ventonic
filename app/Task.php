@@ -18,6 +18,8 @@ class Task extends Model
 
     protected $with = ['contact', 'user'];
 
+    protected $dates = ['tasked_at'];
+
     /**
      * Task morphs to models in taskable_type.
      *
