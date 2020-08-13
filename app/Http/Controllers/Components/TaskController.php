@@ -83,17 +83,19 @@ class TaskController extends Controller
         ]);
 
         $model = "App\\" . ucfirst($request->modelRelationClass);
+        $taskedAt = explode("-", $request->tasked_at);
+        $rememberAt = explode("-", $request->remember_at);
 
         Task::create([
             'title' => $request->title,
             'description' => $request->description,
-            'tasked_at' => $request->tasked_at,
+            'tasked_at' => "$taskedAt[2]-$taskedAt[1]-$taskedAt[0]",
             'tasked_time' => $request->tasked_time,
             'remember_type' => $request->remember_type ?? 'E',
-            'remember_at' => $request->remember_at,
+            'remember_at' => ($request->remember_at) ? "$rememberAt[2]-$rememberAt[1]-$rememberAt[0]" : null,
             'remember_time' => $request->remember_time,
             'contact_id' => $request->contact_id ?? null,
-            'task_queue_id' => $request->task_queue_id ?? null,
+            'task_queue_id' => ($request->task_queue_id) ? $request->task_queue_id['id'] : null,
             'task_priority_id' => $request->task_priority_id ?? null,
             'task_type_id' => $request->task_type_id ?? null,
             'taskable_type' => $model,
