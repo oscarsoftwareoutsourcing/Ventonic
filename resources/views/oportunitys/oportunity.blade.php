@@ -170,7 +170,7 @@
                                               </div>
                                           </div>
 
-                                          <div class="col-4 justify-content-center content-btn-save-oportunity">
+                                          <div class="col-8 justify-content-center content-btn-save-oportunity mb-3">
                                             @if(\Auth::user()->type !=="V" && $oportunity->user_id ==\Auth::user()->id)
                                               <button type="submit" name="guardar" value="guardar"
                                                       class="btn btn-primary waves-effect waves-light mx-auto mt-1">
@@ -193,7 +193,20 @@
                                                       ACTIVAR
                                                   </a>
                                               @endif
-
+                                              <div class="btn-group" role="group">
+                                                <button id="btnActionStatus" type="button"
+                                                        class="btn btn-primary waves-effect waves-light mx-auto mt-1  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Cambiar Status
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnActionStatus">
+                                                    <a class="dropdown-item" href="{{ route('oportunity.change_status', [
+                                                    'oportunity' => $oportunity->id, 'statusType' => 'cancelada'
+                                                  ]) }}">Cancelada</a>
+                                                    <a class="dropdown-item" href="{{ route('oportunity.change_status', [
+                                                    'oportunity' => $oportunity->id, 'statusType' => 'no+publicada'
+                                                  ]) }}">No publicada</a>
+                                                </div>
+                                              </div>
 
                                             @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)==null)
                                               <button type="button"

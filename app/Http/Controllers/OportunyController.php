@@ -373,7 +373,7 @@ class OportunyController extends Controller
 
     public function changeStatus(Oportunity $oportunity, $statusType)
     {
-        $statusOportunity = StatusOportunity::where('description', $statusType)->first();
+        $statusOportunity = StatusOportunity::where('description', str_replace("+", " ", $statusType))->first();
         if ($statusOportunity) {
             $oportunity->status_id = $statusOportunity->id;
             $oportunity->save();
