@@ -73,10 +73,8 @@
 
             <div class="row">
                 
-                @if($processes)
-                    
-                
-                @else
+                @if(count($processes)>0)
+
                 <div class="col-lg-12 col-md-12 col-sm-12 ">
                      <div class="card">
                         <div class="card-header"></div>
@@ -144,6 +142,18 @@
                         </div>
                     </div>
 
+                </div>
+
+                @else
+
+                <div class="col-lg-12 col-md-12 justify-content-center">
+                     <div class="card">
+                        <div class="card-header mb-2">
+                            <h2 class="card-title">Registros no encontrados</h2>
+                        </div>
+                        <div class="card-content">
+                        </div>
+                    </div>
                 </div>
 
                 @endif
