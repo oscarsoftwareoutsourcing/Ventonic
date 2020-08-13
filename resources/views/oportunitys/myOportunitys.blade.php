@@ -39,6 +39,14 @@
                         <hr>
                         <div class="card-header">Filtros</div>
                         <div class="card-body">
+                            @if (session('message'))
+                                <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
+                                  <p class="mb-0">{{ session('message') }}</p>
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                </div>
+                            @endif
                             <form action="{{ route('oportunity.saved') }}" method="GET">
                                 @csrf
                                 {{-- BEGIN Filltros --}}
@@ -70,14 +78,14 @@
                                     </div>
                                     <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
                                         <div class="form-label-group">
-                                            <select class="form-control" id="antiguedad" name="antiguedad">
-                                                <option value="0" {{ request()->antiguedad=='0'?'selected':'' }}>
-                                                    Busqueda por nivel de antiguedad
+                                            <select class="form-control" id="ubication" name="ubication">
+                                                <option value="0" {{ request()->ubication=='0'?'selected':'' }}>
+                                                    Busqueda por ubicación de oportunidad
                                                 </option>
-                                                @foreach($antiguedad as $antiguo)
-                                                    <option value="{{$antiguo->id}}"
-                                                            {{ request()->antiguedad==$antiguo->id?'selected':'' }}>
-                                                        {{$antiguo->description}}
+                                                @foreach($ubications as $ubication)
+                                                    <option value="{{$ubication->id}}"
+                                                            {{ request()->ubication==$ubication->id?'selected':'' }}>
+                                                        {{$ubication->description}}
                                                     </option>
                                                 @endforeach
                                             </select>

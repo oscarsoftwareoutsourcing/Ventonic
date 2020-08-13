@@ -193,6 +193,7 @@ Route::get(
     'OportunyController@showRegistrationOportunity'
 )->name('oportunity.form')->middleware('verified');
 Route::post('save', 'OportunyController@store')->name('oportunity.save')->middleware('verified');
+Route::post('oportunity/update', 'OportunyController@update')->name('oportunity.update')->middleware('verified');
 Route::get(
     'oportunity/image/{filename}',
     'OportunyController@getImage'

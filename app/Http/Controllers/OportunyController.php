@@ -37,7 +37,7 @@ class OportunyController extends Controller
 
         $oportunitys = Oportunity::where('user_id', $user_id)->orderByDesc('updated_at')->get();
         $sectors=SectorOportunity::all();
-        $antiguedad=UbicationOportunity::all();
+        $ubications=UbicationOportunity::all();
         $jobType=JobType::all();
 
         $path = '';
@@ -46,7 +46,7 @@ class OportunyController extends Controller
             $path = '?_token=' . $request->_token .
                     '&oportunitySearch=' . $text .
                     '&jobType=' . $request->jobType .
-                    '&antiguedad=' . $request->antiguedad .
+                    '&ubication=' . $request->ubication .
                     '&sector=' . $request->sector;
             if ($request->oportunitySearch) {
                 //Filtrar oportunidades por texto en búsqueda
@@ -68,10 +68,10 @@ class OportunyController extends Controller
                     return $oportunity->job_type_id === (int)$request->jobType;
                 });
             }
-            if ((int)$request->antiguedad !== 0) {
-                //Filtrar oportunidades por antiguedad
+            if ((int)$request->ubication !== 0) {
+                //Filtrar oportunidades por ubication
                 $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
-                    return $oportunity->antiguedad === (int)$request->antiguedad;
+                    return $oportunity->ubication_oportunity_id === (int)$request->ubication;
                 });
             }
             if ((int)$request->sector !== 0) {
@@ -95,14 +95,14 @@ class OportunyController extends Controller
 
         $oportunitys = $this->paginate($oportunitys, 5, null, ['path' => 'oportunitys' . $path]);
 
-        return view('oportunitys.myOportunitys', compact('oportunitys', 'sectors', 'antiguedad', 'jobType'));
+        return view('oportunitys.myOportunitys', compact('oportunitys', 'sectors', 'ubications', 'jobType'));
     }
 
     public function showAll(Request $request)
     {
         $oportunitys = Oportunity::where('status_id', 2)->orderByDesc('updated_at')->get();
         $sectors = SectorOportunity::all();
-        $antiguedad = UbicationOportunity::all();
+        $ubications = UbicationOportunity::all();
         $jobType = JobType::all();
 
         $path = '';
@@ -111,7 +111,7 @@ class OportunyController extends Controller
             $path = '?_token=' . $request->_token .
                     '&oportunitySearch=' . $text .
                     '&jobType=' . $request->jobType .
-                    '&antiguedad=' . $request->antiguedad .
+                    '&ubication=' . $request->ubication .
                     '&sector=' . $request->sector;
 
             if ($request->oportunitySearch) {
@@ -134,10 +134,10 @@ class OportunyController extends Controller
                     return $oportunity->job_type_id === (int)$request->jobType;
                 });
             }
-            if ((int)$request->antiguedad !== 0) {
-                //Filtrar oportunidades por antiguedad
+            if ((int)$request->ubication !== 0) {
+                //Filtrar oportunidades por ubication
                 $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
-                    return $oportunity->antiguedad === (int)$request->antiguedad;
+                    return $oportunity->ubication_oportunity_id === (int)$request->ubication;
                 });
             }
             if ((int)$request->sector !== 0) {
@@ -161,7 +161,7 @@ class OportunyController extends Controller
 
         $oportunitys = $this->paginate($oportunitys, 5, null, ['path' => 'oportunitys' . $path]);
 
-        return view('oportunitys.oportunitys', compact('oportunitys', 'sectors', 'antiguedad', 'jobType'));
+        return view('oportunitys.oportunitys', compact('oportunitys', 'sectors', 'ubications', 'jobType'));
     }
 
     public function showRegistrationOportunity($oportunity = null)
@@ -266,6 +266,59 @@ class OportunyController extends Controller
                 'aptitudes'=>$aptitudes,
             ]
         );
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'cargo' => 'required|string|max:255',
+            'ubication' => 'required|string|max:255',
+            'functions' => 'required|string',
+            'jobType' => 'required',
+            'ubicationOportunity' => 'required',
+            'description' => 'required|string',
+            'skills' => 'required',
+            'sectors' => 'required',
+
+        ]);
+
+        $sectors=implode(',', $request->input('sectors'));
+        $skills=implode(',', $request->input('skills'));
+
+        if ($request->has('publicar')) {
+            $estatus=2;
+        } elseif ($request->has('borrador') || $request->has('previa')) {
+            $estatus=1;
+        } elseif ($request->has('newstatus')) {
+            $estatus=$request->input('statusOportunity');
+        }
+
+        $oportunity = Oportunity::find($request->oportunity_id);
+        $oportunity->title = $request->title;
+        $oportunity->job_type_id = $request->jobType;
+        $oportunity->ubication_oportunity_id = $request->ubicationOportunity;
+        if (isset($estatus)) {
+            $oportunity->status_id = (int)$estatus;
+        }
+        $oportunity->description = $request->description;
+        $oportunity->cargo = $request->cargo;
+        $oportunity->sectors = $sectors;
+        $oportunity->skills = $skills;
+        $oportunity->functions = $request->functions;
+        $oportunity->ubication = $request->ubication;
+        $oportunity->email_contact = $request->email_contact;
+        $oportunity->web = $request->web;
+        $oportunity->save();
+
+        session()->flash('message', 'Registro actualizado');
+
+        if ($request->has('previa')) {
+            $id=$oportunity->id;
+            return redirect()->route('oportunity', ['id' => $id]);
+        } else {
+            return redirect()->route('oportunity.saved');
+        }
     }
 
     public function getImage($filename)
