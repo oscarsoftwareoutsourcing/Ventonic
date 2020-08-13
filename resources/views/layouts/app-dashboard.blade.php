@@ -9,7 +9,7 @@
     <meta name="description" content="Ventonic" />
     <meta name="author" content="softwareoutsourcing.es" />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'VENTONIC') }}</title>
     <link rel="apple-touch-icon" href="{{ asset('images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/ico/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
