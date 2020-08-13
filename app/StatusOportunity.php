@@ -8,6 +8,16 @@ class StatusOportunity extends Model
 {
     protected $table = 'status_oportunitys';
 
+    /**
+     * StatusOportunity has many Oportunities.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function oportunities()
+    {
+        return $this->hasMany(Oportunity::class, 'status_id');
+    }
+
     public static function getStatus($id){
         $status=StatusOportunity::where('id',(int)$id)->value('id');
         $nameStatus='';

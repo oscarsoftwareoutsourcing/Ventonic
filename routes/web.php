@@ -193,11 +193,14 @@ Route::get(
     'OportunyController@showRegistrationOportunity'
 )->name('oportunity.form')->middleware('verified');
 Route::post('save', 'OportunyController@store')->name('oportunity.save')->middleware('verified');
+Route::post('oportunity/update', 'OportunyController@update')->name('oportunity.update')->middleware('verified');
 Route::get(
     'oportunity/image/{filename}',
     'OportunyController@getImage'
 )->name('oportunityImage')->middleware('verified');
 Route::get('oportunity/{id}', 'OportunyController@showOportunity')->name('oportunity')->middleware('verified');
+Route::get('oportunity/change-status/{oportunity}/{statusType}', 'OportunyController@changeStatus')
+     ->name('oportunity.change_status')->middleware('verified');
 
 
 /* Rutas para postulaciones */

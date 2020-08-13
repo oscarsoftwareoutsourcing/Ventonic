@@ -36,6 +36,14 @@
                         <hr>
                         <div class="card-header">Filtros</div>
                         <div class="card-body">
+                            @if (session('message'))
+                                <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
+                                  <p class="mb-0">{{ session('message') }}</p>
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                </div>
+                            @endif
                             <form action="{{ route('oportunity.list') }}" method="GET">
                                 @csrf
                                 <div class="row mb-2">
@@ -45,6 +53,13 @@
                                                    class="form-control" placeholder="Buscar oportunidades..."
                                                    style="border:1px solid #0087ff;"
                                                    value="{{ request()->oportunitySearch }}">
+                                        </div>
+                                    </div>
+                                    <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-6' }}">
+                                        <div class="input-group">
+                                            <flat-pickr name="expire_at" id="expire_at" class="form-control"
+                                                    :config="flatPicker.config" placeholder="Fecha de caducidad"
+                                                    value="{{ request()->expire_at }}"/>
                                         </div>
                                     </div>
                                 </div>
@@ -67,14 +82,14 @@
                                     </div>
                                     <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
                                         <div class="form-label-group">
-                                            <select class="form-control" id="antiguedad" name="antiguedad">
-                                                <option value="0" {{ request()->antiguedad=='0'?'selected':'' }}>
-                                                    Busqueda por nivel de antiguedad
+                                            <select class="form-control" id="ubication" name="ubication">
+                                                <option value="0" {{ request()->ubication=='0'?'selected':'' }}>
+                                                    Busqueda por ubicacióin de oportunidad
                                                 </option>
-                                                @foreach($antiguedad as $antiguo)
-                                                    <option value="{{$antiguo->id}}"
-                                                            {{ request()->antiguedad==$antiguo->id?'selected':'' }}>
-                                                        {{$antiguo->description}}
+                                                @foreach($ubications as $ubication)
+                                                    <option value="{{$ubication->id}}"
+                                                            {{ request()->ubication==$ubication->id?'selected':'' }}>
+                                                        {{$ubication->description}}
                                                     </option>
                                                 @endforeach
                                             </select>
