@@ -199,6 +199,8 @@ Route::get(
     'OportunyController@getImage'
 )->name('oportunityImage')->middleware('verified');
 Route::get('oportunity/{id}', 'OportunyController@showOportunity')->name('oportunity')->middleware('verified');
+Route::get('oportunity/change-status/{oportunity}/{statusType}', 'OportunyController@changeStatus')
+     ->name('oportunity.change_status')->middleware('verified');
 
 
 /* Rutas para postulaciones */

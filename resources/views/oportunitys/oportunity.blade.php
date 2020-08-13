@@ -172,13 +172,28 @@
 
                                           <div class="col-4 justify-content-center content-btn-save-oportunity">
                                             @if(\Auth::user()->type !=="V" && $oportunity->user_id ==\Auth::user()->id)
-                                              <button type="submit"
-                                                class="btn btn-primary waves-effect waves-light mx-auto mt-1"
-                                                name="guardar" value="guardar">
-
-                                                GUARDAR
-
+                                              <button type="submit" name="guardar" value="guardar"
+                                                      class="btn btn-primary waves-effect waves-light mx-auto mt-1">
+                                                    GUARDAR
                                               </button>
+                                              @if ($oportunity->statusOportunity->description !== 'cerrada')
+                                                  <a href="{{ route('oportunity.change_status', [
+                                                    'oportunity' => $oportunity->id, 'statusType' => 'cerrada'
+                                                  ]) }}"
+                                                     class="btn btn-primary waves-effect waves-light mx-auto mt-1"
+                                                     data-toggle="tooltip" title="Cerrar oportunidad">
+                                                      CERRAR
+                                                  </a>
+                                              @else
+                                                  <a href="{{ route('oportunity.change_status', [
+                                                    'oportunity' => $oportunity->id, 'statusType' => 'activa'
+                                                  ]) }}"
+                                                     class="btn btn-primary waves-effect waves-light mx-auto mt-1"
+                                                     data-toggle="tooltip" title="Activar oportunidad">
+                                                      ACTIVAR
+                                                  </a>
+                                              @endif
+
 
                                             @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)==null)
                                               <button type="button"

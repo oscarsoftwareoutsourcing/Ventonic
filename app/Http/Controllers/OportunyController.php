@@ -370,4 +370,15 @@ class OportunyController extends Controller
         $file=Storage::disk('oportunitys')->get($filename);
         return new Response($file, 200);
     }
+
+    public function changeStatus(Oportunity $oportunity, $statusType)
+    {
+        $statusOportunity = StatusOportunity::where('description', $statusType)->first();
+        if ($statusOportunity) {
+            $oportunity->status_id = $statusOportunity->id;
+            $oportunity->save();
+            session()->flash('message', 'Oportunidad ' . $statusType);
+        }
+        return redirect()->route('oportunity.saved');
+    }
 }

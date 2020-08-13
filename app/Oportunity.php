@@ -57,6 +57,17 @@ class Oportunity extends Model
         return $this->hasOne('App\Aplicant');
     }
 
+    /**
+     * Oportunity belongs to StatusOportunity.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function statusOportunity()
+    {
+        // belongsTo(RelatedModel, foreignKey = statusOportunity_id, keyOnRelatedModel = id)
+        return $this->belongsTo(StatusOportunity::class, 'status_id');
+    }
+
     //functions estatics
 
     public static function getstatus($id)
