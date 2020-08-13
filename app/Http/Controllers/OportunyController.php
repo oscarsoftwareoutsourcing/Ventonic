@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +15,7 @@ use App\Oportunity;
 use App\SectorOportunity;
 use App\StatusOportunity;
 use App\Aptitud;
+use App\Aplicant;
 
 // use App\User;
 // use App\TimeZoneOportunity;
@@ -51,14 +51,15 @@ class OportunyController extends Controller
             if ($request->oportunitySearch) {
                 //Filtrar oportunidades por texto en búsqueda
                 $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
-                    return strpos(strtoupper($oportunity->title), strtoupper($request->oportunitySearch)) !== false ||
-                           strpos(strtoupper($oportunity->description), strtoupper($request->oportunitySearch)) !== false ||
-                           strpos(strtoupper($oportunity->cargo), strtoupper($request->oportunitySearch)) !== false ||
-                           strpos(strtoupper($oportunity->functions), strtoupper($request->oportunitySearch)) !== false ||
-                           strpos(strtoupper($oportunity->email_contact), strtoupper($request->oportunitySearch)) !== false ||
-                           strpos(strtoupper($oportunity->web), strtoupper($request->oportunitySearch)) !== false ||
-                           strpos(strtoupper($oportunity->jobType->description), strtoupper($request->oportunitySearch)) !== false ||
-                           strpos(strtoupper($oportunity->ubicationOportunity->description), strtoupper($request->oportunitySearch)) !== false;
+                    $text = strtoupper($request->oportunitySearch);
+                    return strpos(strtoupper($oportunity->title), $text) !== false ||
+                           strpos(strtoupper($oportunity->description), $text) !== false ||
+                           strpos(strtoupper($oportunity->cargo), $text) !== false ||
+                           strpos(strtoupper($oportunity->functions), $text) !== false ||
+                           strpos(strtoupper($oportunity->email_contact), $text) !== false ||
+                           strpos(strtoupper($oportunity->web), $text) !== false ||
+                           strpos(strtoupper($oportunity->jobType->description), $text) !== false ||
+                           strpos(strtoupper($oportunity->ubicationOportunity->description), $text) !== false;
                 });
             }
             if ((int)$request->jobType !== 0) {
@@ -79,6 +80,17 @@ class OportunyController extends Controller
                     return strpos($oportunity->sectors, $request->sector) !== false;
                 });
             }
+
+            // Solo aplica a vendedores
+            /*if ($request->status) {
+                $path .= '&status=' . $request->status;
+                $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
+                    return !Aplicant::where([
+                        'oportunity_id' => $oportunity->id,
+                        'status_postulation_id' => $request->status
+                    ])->get()->isEmpty();
+                });
+            }*/
         }
 
         $oportunitys = $this->paginate($oportunitys, 5, null, ['path' => 'oportunitys' . $path]);
@@ -86,20 +98,74 @@ class OportunyController extends Controller
         return view('oportunitys.myOportunitys', compact('oportunitys', 'sectors', 'antiguedad', 'jobType'));
     }
 
-    public function showAll(){
-        $oportunitys=Oportunity::where('status_id',2)->orderByDesc('updated_at')->paginate(25);
-        $sectors=SectorOportunity::all();
-        $antiguedad=UbicationOportunity::all();
-        $jobType=JobType::all();
+    public function showAll(Request $request)
+    {
+        $oportunitys = Oportunity::where('status_id', 2)->orderByDesc('updated_at')->get();
+        $sectors = SectorOportunity::all();
+        $antiguedad = UbicationOportunity::all();
+        $jobType = JobType::all();
 
-        return view('oportunitys.oportunitys',['oportunitys'=> $oportunitys,
-                                               'sectors'=>$sectors ,
-                                               'antiguedad'=>$antiguedad,
-                                               'jobType'=>$jobType]);
+        $path = '';
+        if ($request->_token) {
+            $text = ($request->oportunitySearch!==null) ? str_replace(" ", "+", $request->oportunitySearch) : '';
+            $path = '?_token=' . $request->_token .
+                    '&oportunitySearch=' . $text .
+                    '&jobType=' . $request->jobType .
+                    '&antiguedad=' . $request->antiguedad .
+                    '&sector=' . $request->sector;
+
+            if ($request->oportunitySearch) {
+                //Filtrar oportunidades por texto en búsqueda
+                $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
+                    $text = strtoupper($request->oportunitySearch);
+                    return strpos(strtoupper($oportunity->title), $text) !== false ||
+                           strpos(strtoupper($oportunity->description), $text) !== false ||
+                           strpos(strtoupper($oportunity->cargo), $text) !== false ||
+                           strpos(strtoupper($oportunity->functions), $text) !== false ||
+                           strpos(strtoupper($oportunity->email_contact), $text) !== false ||
+                           strpos(strtoupper($oportunity->web), $text) !== false ||
+                           strpos(strtoupper($oportunity->jobType->description), $text) !== false ||
+                           strpos(strtoupper($oportunity->ubicationOportunity->description), $text) !== false;
+                });
+            }
+            if ((int)$request->jobType !== 0) {
+                //Filtrar oportunidades por tipo de trabajo
+                $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
+                    return $oportunity->job_type_id === (int)$request->jobType;
+                });
+            }
+            if ((int)$request->antiguedad !== 0) {
+                //Filtrar oportunidades por antiguedad
+                $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
+                    return $oportunity->antiguedad === (int)$request->antiguedad;
+                });
+            }
+            if ((int)$request->sector !== 0) {
+                //Filtrar oportunidades por sector
+                $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
+                    return strpos($oportunity->sectors, $request->sector) !== false;
+                });
+            }
+
+            // Solo aplica a vendedores
+            /*if ($request->status) {
+                $path .= '&status=' . $request->status;
+                $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
+                    return !Aplicant::where([
+                        'oportunity_id' => $oportunity->id,
+                        'status_postulation_id' => $request->status
+                    ])->get()->isEmpty();
+                });
+            }*/
+        }
+
+        $oportunitys = $this->paginate($oportunitys, 5, null, ['path' => 'oportunitys' . $path]);
+
+        return view('oportunitys.oportunitys', compact('oportunitys', 'sectors', 'antiguedad', 'jobType'));
     }
 
-    public function showRegistrationOportunity($oportunity = null){
-
+    public function showRegistrationOportunity($oportunity = null)
+    {
         $typeOportunitys = TypeOportunity::all();
         $jobTypes = JobType::all();
         $ubicationOportunitys = UbicationOportunity::all();
@@ -110,20 +176,22 @@ class OportunyController extends Controller
         $aptitudes=Aptitud::all();
 
 
-        return view('oportunitys.oportunityForm',[
-            'typeOportunitys'=>$typeOportunitys,
-            'jobTypes'=>$jobTypes,
-            'ubicationOportunitys'=>$ubicationOportunitys,
-            'statusOportunity'=> $statusOportunity,
-            'sectorsAll'=>$sectorsAll,
-            'oportunity'=> $oportunity,
-            'aptitudes'=>$aptitudes
-
-        ]);
+        return view(
+            'oportunitys.oportunityForm',
+            compact(
+                'typeOportunitys',
+                'jobTypes',
+                'ubicationOportunitys',
+                'statusOportunity',
+                'sectorsAll',
+                'oportunity',
+                'aptitudes'
+            )
+        );
     }
 
-    public function store(Request $request){
-
+    public function store(Request $request)
+    {
         $request->validate([
             'title' => 'required|string|max:255',
             'cargo' => 'required|string|max:255',
@@ -140,11 +208,11 @@ class OportunyController extends Controller
         $sectors=implode(',', $request->input('sectors'));
         $skills=implode(',', $request->input('skills'));
 
-        if ($request->has('publicar')){
+        if ($request->has('publicar')) {
             $estatus=2;
-        }else if ($request->has('borrador') || $request->has('previa')){
+        } elseif ($request->has('borrador') || $request->has('previa')) {
             $estatus=1;
-        }else if($request->has('newstatus')){
+        } elseif ($request->has('newstatus')) {
             $estatus=$request->input('statusOportunity');
         }
 
@@ -167,17 +235,16 @@ class OportunyController extends Controller
             ]
         );
 
-        if($request->has('previa')){
+        if ($request->has('previa')) {
             $id=$oportunity->id;
             return redirect()->route('oportunity', ['id' => $id]);
-        }
-        else{
+        } else {
             return redirect()->route('oportunity.saved');
         }
-
     }
 
-    public function showOportunity($id){
+    public function showOportunity($id)
+    {
         $oportunity=Oportunity::find($id);
         $typeOportunitys = TypeOportunity::all();
         $jobTypes = JobType::all();
@@ -188,7 +255,8 @@ class OportunyController extends Controller
         $aptitudes=Aptitud::all();
 
         return view(
-            'oportunitys.oportunity',[
+            'oportunitys.oportunity',
+            [
                 'typeOportunitys'=>$typeOportunitys,
                 'jobTypes'=>$jobTypes,
                 'ubicationOportunitys'=>$ubicationOportunitys,
@@ -198,12 +266,11 @@ class OportunyController extends Controller
                 'aptitudes'=>$aptitudes,
             ]
         );
-
     }
 
-    public function getImage($filename){
+    public function getImage($filename)
+    {
         $file=Storage::disk('oportunitys')->get($filename);
         return new Response($file, 200);
     }
-
 }

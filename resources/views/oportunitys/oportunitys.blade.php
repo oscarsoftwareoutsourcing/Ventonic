@@ -36,64 +36,93 @@
                         <hr>
                         <div class="card-header">Filtros</div>
                         <div class="card-body">
-                            <div class="row mb-2">
-                                <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-6' }}">
-                                    <div class="input-group">
-                                        <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar oportunidades..." style="border:1px solid #0087ff;">
+                            <form action="{{ route('oportunity.list') }}" method="GET">
+                                @csrf
+                                <div class="row mb-2">
+                                    <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-6' }}">
+                                        <div class="input-group">
+                                            <input type="text" id="textSearch" name="oportunitySearch"
+                                                   class="form-control" placeholder="Buscar oportunidades..."
+                                                   style="border:1px solid #0087ff;"
+                                                   value="{{ request()->oportunitySearch }}">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                            {{-- BEGIN Filltros --}}
-                                <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
-                                    <div class="form-label-group">
-                                        <select class="form-control" id="tipo-empleo" name="etiquetas">
-                                            <option value="0">Busqueda por tipo de Empleo</option>
-                                            @foreach($jobType as $type)
-                                            <option value="{{$type->id}}">{{$type->description}}</option>
-                                            @endforeach
-                                        </select>
+                                <div class="row">
+                                {{-- BEGIN Filltros --}}
+                                    <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
+                                        <div class="form-label-group">
+                                            <select class="form-control" id="tipo-empleo" name="jobType">
+                                                <option value="0" {{ request()->jobType=='0'?'selected':'' }}>
+                                                    Busqueda por tipo de Empleo
+                                                </option>
+                                                @foreach($jobType as $type)
+                                                    <option value="{{$type->id}}"
+                                                            {{ request()->jobType==$type->id?'selected':'' }}>
+                                                        {{$type->description}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
-                                    <div class="form-label-group">
-                                        <select class="form-control" id="antiguedad" name="etiquetas">
-                                            <option value="0">Busqueda por nivel de antiguedad</option>
-                                            @foreach($antiguedad as $antiguo)
-                                            <option value="{{$antiguo->id}}">{{$antiguo->description}}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
+                                        <div class="form-label-group">
+                                            <select class="form-control" id="antiguedad" name="antiguedad">
+                                                <option value="0" {{ request()->antiguedad=='0'?'selected':'' }}>
+                                                    Busqueda por nivel de antiguedad
+                                                </option>
+                                                @foreach($antiguedad as $antiguo)
+                                                    <option value="{{$antiguo->id}}"
+                                                            {{ request()->antiguedad==$antiguo->id?'selected':'' }}>
+                                                        {{$antiguo->description}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
-                                    <div class="form-label-group">
-                                        <select class="select2 form-control" id="sectores" name="etiquetas">
-                                            <option value="0">Busqueda por sector de la empresa</option>
-                                            @foreach($sectors as $sector)
-                                            <option value="{{$sector->id}}">{{$sector->description}}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
+                                        <div class="form-label-group">
+                                            <select class="select2 form-control" id="sectores" name="sector">
+                                                <option value="0" {{ request()->sector=='0'?'selected':'' }}>
+                                                    Busqueda por sector de la empresa
+                                                </option>
+                                                @foreach($sectors as $sector)
+                                                    <option value="{{$sector->id}}"
+                                                            {{ request()->sector==$sector->id?'selected':'' }}>
+                                                        {{$sector->description}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                @if(Auth::user()->typeuser=="V")
-                                <div class="col-lg-3">
-                                    <div class="form-label-group">
-                                        <select class="form-control" id="estatus-postulados" name="etiquetas">
-                                            <option  value="0">Estado</option>
-                                            <option value="postulado">Postulado</option>
-                                            <option value="no postulado">No postulado</option>
-                                        </select>
-                                    </div>
+                                    @if (Auth::user()->typeuser=="V")
+                                        <div class="col-lg-3">
+                                            <div class="form-label-group">
+                                                <select class="form-control" id="estatus-postulados" name="status">
+                                                    <option  value="0" {{ request()->status=='0'?'selected':'' }}>
+                                                        Estado
+                                                    </option>
+                                                    <option value="postulado"
+                                                            {{ request()->status=='postulado'?'selected':'' }}>
+                                                        Postulado
+                                                    </option>
+                                                    <option value="no postulado"
+                                                            {{ request()->status=='no postulado'?'selected':'' }}>
+                                                        No postulado
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    @endif
 
                                 </div>
-                                @endif
-
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <button type="button" class="btn btn-primary float-right">Buscar</button>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary float-right">Buscar</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                     {{-- END Filltros --}}
@@ -155,6 +184,9 @@
                         </div>
                         @endforeach
                     @endif
+                    </div>
+                    <div class="col-lg-4 offset-lg-4">
+                        {{ $oportunitys->links() }}
                     </div>
                             <!--
                     <div class="card">
