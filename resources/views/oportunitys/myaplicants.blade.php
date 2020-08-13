@@ -35,7 +35,7 @@
                                                     </span>
                                                     <span class="">Móvil</span>
                                                 </div>
-                                            </fieldset>    
+                                            </fieldset>
                                         </div>
                                         <div class="col-12">
                                             <fieldset>
@@ -48,7 +48,7 @@
                                                     </span>
                                                     <span class="">Foto</span>
                                                 </div>
-                                            </fieldset>   
+                                            </fieldset>
                                         </div>
                                         <div class="col-12">
                                             <fieldset>
@@ -61,7 +61,7 @@
                                                     </span>
                                                     <span class="">Vídeo</span>
                                                 </div>
-                                            </fieldset>   
+                                            </fieldset>
                                         </div>
                                         <div class="col-12">
                                             <fieldset>
@@ -176,7 +176,7 @@
                                     <table id="datatable" class="table data-list-view mt-2">
                                         <thead>
                                             <tr>
-                                                
+
                                                 <th>FOTO</th>
                                                 <th>NOMBRE</th>
                                                 <th>APELLIDO</th>
@@ -189,13 +189,13 @@
                                             @if(isset($aplicants))
                                             @foreach($aplicants as $aplicant)
                                             <tr class="rowTable" id="row{{$aplicant->id}}" class="filaEntera">
-                                                
+
                                                 <td class="product-name" style="text-align:center;">
                                                     <div class="avatar">
                                                         <img  src="/{{$aplicant->user->sellerProfile->photo}}" height="40" width="40">
                                                         @if($aplicant->user->status==1)
                                                             <span class="avatar-status-online"></span>
-                                                        @else  
+                                                        @else
                                                             <span class="avatar-status-busy"></span>
                                                         </div>
                                                 @endif
@@ -218,16 +218,16 @@
                                                 <td class="product-category" style="text-align:center;">
                                                 <select class="form-control status_postulation" name="estatus_postulation" id="status_postulation" data-id="{{$aplicant->id}}" style="text-align:center;">
                                                     @foreach($status_postulation as $status)
-                                                        <option value="{{$status->id}}">{{$status->description}}</option>
+                                                        <option value="{{$status->id}}" {{ $status->id===$aplicant->status_postulations_id ? 'selected' : '' }}>{{$status->description}}</option>
                                                     @endforeach
                                                 </select>
                                                 </td>
-                                            
-                                                
+
+
                                                 <td class="product-price" style="text-align:center;">
                                                     @if($aplicant->user->status==1)
                                                        <a  href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light"><i class="feather icon-message-square"></i></a>
-                                                    @else  
+                                                    @else
                                                     <a href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light"><i class="ficon feather icon-mail"></i></a>
                                                     @endif
                                                 </td>

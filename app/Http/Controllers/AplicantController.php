@@ -152,10 +152,8 @@ class AplicantController extends Controller
     public function updateStatus($id, $estatus_postulations_id){
         $aplicant=Aplicant::find($id);
         $aplicant->status_postulations_id=(int)$estatus_postulations_id;
-        $aplicant->update();
-        if($aplicant->update()){
-            return response()->json(['status'=>'success','message'=>'Estatus modificado exitosamente']);
-        }
+        $aplicant->save();
+        return response()->json(['status'=>'success','message'=>'Estatus modificado exitosamente']);
     }
 
 }
