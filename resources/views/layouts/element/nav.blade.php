@@ -74,8 +74,19 @@
 
                     {{-- Fin notificaciones --}}
                     </li>
-                    <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
-                            <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">{{ Auth::user()->name.' '. strtoUpper(substr(Auth::user()->last_name,0,1)).'.' }} </span><span class="user-status">Disponible</span></div><span><img class="round" src="/{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }} " height="40" width="40"></span>
+                    <li class="dropdown dropdown-user nav-item">
+                        <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                            <div class="user-nav d-sm-flex d-none">
+                                <span class="user-name text-bold-600">{{ Auth::user()->name.' '. strtoUpper(substr(Auth::user()->last_name,0,1)).'.' }} </span>
+                                <span class="user-status">Disponible</span>
+                            </div>
+                            <span>
+                                @empty(Auth::user()->photo)
+                                    <img class="round" src="/images/anonymous-user.png" alt="{{ Auth::user()->name }} " height="40" width="40"></span>
+                                @else 
+                                    <img class="round" src="/{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }} " height="40" width="40"></span>
+                                @endempty
+
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             

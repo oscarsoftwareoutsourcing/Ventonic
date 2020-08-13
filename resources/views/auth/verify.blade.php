@@ -37,3 +37,14 @@
 </div>
 
 @endsection
+
+
+@section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+@endsection
+
+@section('extra-js')
+<script src="{{ asset('vendors/js/ui/jquery.sticky.js') }}"></script>
+<script src="{{ asset('vendors/js/charts/apexcharts.min.js') }}"></script>
+<script src="{{ asset('js/scripts/charts/chart-sales.js') }}"></script>
+@endsection
