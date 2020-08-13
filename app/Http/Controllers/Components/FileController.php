@@ -64,7 +64,8 @@ class FileController extends Controller
                 'file' => $document['path'],
                 'url' => $document['url'],
                 'documentable_id' => $request->modelRelationId,
-                'documentable_type' => $model
+                'documentable_type' => $model,
+                'user_id' => auth()->user()->id
             ]);
         }
 

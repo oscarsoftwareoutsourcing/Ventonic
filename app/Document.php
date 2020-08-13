@@ -11,7 +11,7 @@ class Document extends Model
      *
      * @var array
      */
-    protected $fillable = ['file', 'url', 'note', 'documentable_type', 'documentable_id'];
+    protected $fillable = ['file', 'url', 'note', 'documentable_type', 'documentable_id', 'user_id'];
 
     /**
      * Document morphs to models in documentable_type.
