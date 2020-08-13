@@ -1,5 +1,5 @@
 @extends('layouts.app-dashboard')
- 
+
 @section('content')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -16,8 +16,8 @@
                     <div class="card-ventonic">
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                    <div class="text-ventonic-white">Oportunidades</div> 
-                                </div> 
+                                    <div class="text-ventonic-white">Oportunidades</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -34,15 +34,23 @@
                             <form method="POST" action="{{ route('oportunity.save') }}" enctype="multipart/form-data">
                                 @csrf
                                     <div class="form-row">
-                                      <div class="col-md-12 col-12 mb-3">
+                                      <div class="col-md-8 col-8 mb-3">
                                         <label for="validationTooltip01">Titulo<span class="obligatorio">*</span></label>
                                         <input type="text" class="form-control  @error('title') is-invalid @enderror" name="title" placeholder="titulo" value="{{$oportunity->title ?? ''}}" required>
+                                          @error('title')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                          @enderror
                                       </div>
-                                      @error('title')
-                                      <div class="alert alert-danger">{{ $message }}</div>
-                                      @enderror 
+                                      <div class="col-md-4 col-4">
+                                        <label for="validationTooltip01">Fecha de caducidad</label>
+                                        <flat-pickr name="expire_at" id="expire_at" class="form-control"
+                                                    :config="flatPicker.config" placeholder="dd-mm-yyyy"/>
+                                        @error('expire_at')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                          @enderror
+                                      </div>
                                     </div>
-                                    
+
                                     <div class="form-row">
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="validationTooltip01">Empresa<span class="obligatorio">*</span></label>
@@ -55,7 +63,7 @@
                                           <input type="text" class="form-control @error('cargo') is-invalid @enderror" name="cargo" value="{{$oportunity->cargo ?? ''}}" placeholder="Cargo" required>
                                           @error('cargo')
                                             <div class="alert alert-danger">{{ $message }}</div>
-                                          @enderror 
+                                          @enderror
                                         </div>
 
                                         <div class="col-md-4 col-12 mb-3">
@@ -63,9 +71,9 @@
                                           <input type="text" class="form-control @error('ubication') is-invalid @enderror" name="ubication" placeholder="Ciudad, Provincia, Pais" value="{{$oportunity->ubication ?? ''}}" required>
                                           @error('ubication')
                                             <div class="alert alert-danger">{{ $message }}</div>
-                                          @enderror 
+                                          @enderror
                                         </div>
-                                        
+
                                     </div>
 
                                     <div class="form-row">
@@ -74,7 +82,7 @@
                                           <input type="text" class="form-control @error('functions') is-invalid @enderror" name="functions" value="{{$oportunity->functions ?? ''}}" required>
                                           @error('functions')
                                             <div class="alert alert-danger">{{ $message }}</div>
-                                          @enderror 
+                                          @enderror
                                         </div>
 
                                         <div class="col-md-4 col-12 mb-3">
@@ -85,14 +93,14 @@
                                             @endforeach
                                             @error('jobType')
                                               <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror  
+                                            @enderror
                                           </select>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-row">
                                         <div class="col-md-8 col-12 mb-3">
-                                          <label for="validationTooltip01">Sector de la empresa (selecciona hasta 3)<span class="obligatorio">*</span></label>                                         
+                                          <label for="validationTooltip01">Sector de la empresa (selecciona hasta 3)<span class="obligatorio">*</span></label>
                                           <select class="select2 form-control max-length @error('sectors') is-invalid @enderror" name="sectors[]" id="sectors" multiple="multiple">
                                             @foreach($sectorsAll as $sector)
                                               <option value="{{$sector->id}}" {{$oportunity ? App\Oportunity::getSector($oportunity->sectors, $sector->id) :''}}>{{$sector->description}}</option>
@@ -101,7 +109,7 @@
                                           @error('sectors')
                                             <div id="errors-sectors" class="alert alert-danger">{{ $message }}</div>
                                           @enderror
-                                            
+
                                         </div>
 
                                         <div class="col-md-4 col-12 mb-3">
@@ -112,7 +120,7 @@
                                             @endforeach
                                             @error('ubicationOportunity')
                                               <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror    
+                                            @enderror
                                           </select>
                                         </div>
 
@@ -124,10 +132,10 @@
                                           <textarea class="form-control ckeditor @error('description') is-invalid @enderror" name="description" rows="3">{{$oportunity->description ?? ''}}</textarea>
                                           @error('description')
                                             <div class="alert alert-danger">{{ $message }}</div>
-                                          @enderror 
+                                          @enderror
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-row">
                                       {{-- Esperando me indiquen el flujo parar programarlo --}}
                                       <div class="col-md-12 col-12 mb-3">
@@ -140,7 +148,7 @@
                                       </div>
                                       @error('skills')
                                         <div class="alert alert-danger">{{ $message }}</div>
-                                      @enderror 
+                                      @enderror
                                     </div>
 
                                 <div class="form-row">
@@ -188,7 +196,7 @@
 
                                 <div class="row">
                                   <div class="col-12">
-                                      
+
                                       <div class="row justify-content-center senForm-step1">
                                           <div class="col-12 justify-content-center">
                                               <div class="divider">
@@ -197,7 +205,7 @@
                                                 @else
                                                 <div class="divider-text">Modifica tu publicacion</div>
                                                 @endif
-                                              </div> 
+                                              </div>
                                           </div>
 
                                           <div class="" id="botonera">

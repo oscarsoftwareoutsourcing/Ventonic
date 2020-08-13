@@ -59,6 +59,13 @@
                                                    value="{{ request()->oportunitySearch }}">
                                         </div>
                                     </div>
+                                    <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-6' }}">
+                                        <div class="input-group">
+                                            <flat-pickr name="expire_at" id="expire_at" class="form-control"
+                                                    :config="flatPicker.config" placeholder="Fecha de caducidad"
+                                                    value="{{ request()->expire_at }}"/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">

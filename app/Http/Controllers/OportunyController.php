@@ -16,6 +16,7 @@ use App\SectorOportunity;
 use App\StatusOportunity;
 use App\Aptitud;
 use App\Aplicant;
+use Carbon\Carbon;
 
 // use App\User;
 // use App\TimeZoneOportunity;
@@ -36,6 +37,10 @@ class OportunyController extends Controller
         $user_id = auth()->user()->id;
 
         $oportunitys = Oportunity::where('user_id', $user_id)->orderByDesc('updated_at')->get();
+        $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
+            return ($oportunity->expire_at!==null && $oportunity->expire_at->format('d-m-Y') >= Carbon::now()) ||
+                   $oportunity->expire_at===null;
+        });
         $sectors=SectorOportunity::all();
         $ubications=UbicationOportunity::all();
         $jobType=JobType::all();
@@ -47,7 +52,8 @@ class OportunyController extends Controller
                     '&oportunitySearch=' . $text .
                     '&jobType=' . $request->jobType .
                     '&ubication=' . $request->ubication .
-                    '&sector=' . $request->sector;
+                    '&sector=' . $request->sector .
+                    '&expire_at=' . $request->expire_at;
             if ($request->oportunitySearch) {
                 //Filtrar oportunidades por texto en búsqueda
                 $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
@@ -78,6 +84,13 @@ class OportunyController extends Controller
                 //Filtrar oportunidades por sector
                 $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
                     return strpos($oportunity->sectors, $request->sector) !== false;
+                });
+            }
+            if ($request->expire_at) {
+                //Filtrar oportunidades por fecha de caducidad
+                $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
+                    return $oportunity->expire_at!==null &&
+                           $oportunity->expire_at->format('d-m-Y') === $request->expire_at;
                 });
             }
 
@@ -100,7 +113,14 @@ class OportunyController extends Controller
 
     public function showAll(Request $request)
     {
-        $oportunitys = Oportunity::where('status_id', 2)->orderByDesc('updated_at')->get();
+        /** @var Object Oportunidades registradas por otros */
+        $oportunitys = Oportunity::where('status_id', 2)
+                                 ->where('user_id', '<>', auth()->user()->id)
+                                 ->orderByDesc('updated_at')->get();
+        $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
+            return ($oportunity->expire_at!==null && $oportunity->expire_at->format('d-m-Y') >= Carbon::now()) ||
+                   $oportunity->expire_at===null;
+        });
         $sectors = SectorOportunity::all();
         $ubications = UbicationOportunity::all();
         $jobType = JobType::all();
@@ -112,7 +132,8 @@ class OportunyController extends Controller
                     '&oportunitySearch=' . $text .
                     '&jobType=' . $request->jobType .
                     '&ubication=' . $request->ubication .
-                    '&sector=' . $request->sector;
+                    '&sector=' . $request->sector .
+                    '&expire_at=' . $request->expire_at;
 
             if ($request->oportunitySearch) {
                 //Filtrar oportunidades por texto en búsqueda
@@ -144,6 +165,13 @@ class OportunyController extends Controller
                 //Filtrar oportunidades por sector
                 $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
                     return strpos($oportunity->sectors, $request->sector) !== false;
+                });
+            }
+            if ($request->expire_at) {
+                //Filtrar por fecha de caducidad de la oportunidad
+                $oportunitys = $oportunitys->filter(function ($oportunity) use ($request) {
+                    return $oportunity->expire_at!==null &&
+                           $oportunity->expire_at->format('d-m-Y') >= $request->expire_at;
                 });
             }
 
@@ -216,22 +244,31 @@ class OportunyController extends Controller
             $estatus=$request->input('statusOportunity');
         }
 
-        $oportunity = Oportunity::updateOrCreate(
-            ['id'=>$request->oportunity_id,
-             'user_id' => auth()->user()->id],
-            ['title' =>  $request->title,
-             'job_type_id' =>  $request->jobType,
-             'ubication_oportunity_id' => $request->ubicationOportunity,
-             'status_id' => (int)$estatus,
-             'description' =>   $request->description,
-             'cargo' =>  $request->cargo,
-             'sectors' =>   $sectors,
-             'skills' =>   $skills,
-             'functions' =>   $request->functions,
-             'ubication' =>  $request->ubication,
-             'email_contact' =>   $request->email_contact,
-             'web' =>   $request->web,
+        $expireAt = null;
+        if ($request->expire_at) {
+            list($day, $month, $year) = explode("-", $request->expire_at);
+            $expireAt = $year . '-' . $month . '-' . $day;
+        }
 
+        $oportunity = Oportunity::updateOrCreate(
+            [
+                'id'=>$request->oportunity_id,
+                'user_id' => auth()->user()->id
+            ],
+            [
+                'title' =>  $request->title,
+                'job_type_id' =>  $request->jobType,
+                'ubication_oportunity_id' => $request->ubicationOportunity,
+                'status_id' => (int)$estatus,
+                'description' =>   $request->description,
+                'cargo' =>  $request->cargo,
+                'sectors' =>   $sectors,
+                'skills' =>   $skills,
+                'functions' =>   $request->functions,
+                'ubication' =>  $request->ubication,
+                'email_contact' =>   $request->email_contact,
+                'web' =>   $request->web,
+                'expite_at' => $expireAt
             ]
         );
 
@@ -294,6 +331,12 @@ class OportunyController extends Controller
             $estatus=$request->input('statusOportunity');
         }
 
+        $expireAt = null;
+        if ($request->expire_at) {
+            list($day, $month, $year) = explode("-", $request->expire_at);
+            $expireAt = $year . '-' . $month . '-' . $day;
+        }
+
         $oportunity = Oportunity::find($request->oportunity_id);
         $oportunity->title = $request->title;
         $oportunity->job_type_id = $request->jobType;
@@ -309,6 +352,7 @@ class OportunyController extends Controller
         $oportunity->ubication = $request->ubication;
         $oportunity->email_contact = $request->email_contact;
         $oportunity->web = $request->web;
+        $oportunity->expire_at = $expireAt;
         $oportunity->save();
 
         session()->flash('message', 'Registro actualizado');

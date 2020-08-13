@@ -18,10 +18,17 @@
                                 @csrf
 
                                     <div class="form-row">
-                                      <div class="col-md-12 col-12 mb-3">
+                                      <div class="col-md-8 col-8 mb-3">
                                         <label for="validationTooltip01">Titulo<span class="obligatorio">*</span></label>
                                         <input type="text" class="form-control" name="title" id="title" placeholder="Titulo" value="{{$oportunity->title ?? ''}}"
                                         {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
+                                      </div>
+                                      <div class="col-md-4 col-4">
+                                        <label for="validationTooltip01">Fecha de caducidad</label>
+                                        <flat-pickr name="expire_at" id="expire_at" class="form-control"
+                                                    :config="flatPicker.config" placeholder="dd-mm-yyyy"
+                                                    value="{{(!is_null($oportunity->expire_at)) ? $oportunity->expire_at->format('d-m-Y') : ''}}"
+                                                    {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}/>
                                       </div>
                                     </div>
 

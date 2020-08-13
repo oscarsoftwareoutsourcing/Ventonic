@@ -26,7 +26,7 @@ class AplicantController extends Controller
         $company_id=$oportunity->user_id;
         $seller=auth()->user()->id;
         $status=1;
-        
+
         // Datos para el email
         $oportunity_title=$oportunity->title;
         $seller_name=auth()->user()->name;
@@ -48,7 +48,7 @@ class AplicantController extends Controller
             ['type-message' =>  $type_message,
              'message' =>  $request->message !== null ? $request->message : null,
              'status_postulations_id' => $status,
-             'favorite' => false             
+             'favorite' => false
             ]
         );
 
@@ -67,8 +67,8 @@ class AplicantController extends Controller
         $sectors=SectorOportunity::all();
         $antiguedad=UbicationOportunity::all();
         $jobType=JobType::all();
-        return view('oportunitys.oportunitys',['oportunitys'=> $oportunitys, 
-                                               'sectors'=>$sectors , 
+        return view('oportunitys.oportunitys',['oportunitys'=> $oportunitys,
+                                               'sectors'=>$sectors ,
                                                'antiguedad'=>$antiguedad,
                                                'jobType'=>$jobType]);
     }
@@ -109,9 +109,9 @@ class AplicantController extends Controller
         $colaboracion=str_replace('\u00f1', 'ñ', $colaboracion);
         $colaboracion_string=str_replace('\u00f3', 'ó', $colaboracion);
         $colaboracionArray=explode(',', $colaboracion_string);
-        
+
         // var_dump($colaboracionArray); die();
-        
+
         return view('oportunitys.myaplicants', [
                     'aplicants'=>$aplicants,
                     'status_postulation'=>$status_postulation,
@@ -125,6 +125,9 @@ class AplicantController extends Controller
 
     public function profilePostulant($id){
         $seller_profile=SellerProfile::where('user_id',(int)$id)->first();
+        if (!$seller_profile) {
+            return abort(404);
+        }
         $array_answered=SellerAnsweredSurvey::where('user_id',$id)->get();
         $questions=Question::where('option_type', 'V')->get();
         $answered=null;
@@ -151,7 +154,7 @@ class AplicantController extends Controller
         $aplicant->status_postulations_id=(int)$estatus_postulations_id;
         $aplicant->update();
         if($aplicant->update()){
-            return response()->json(['status'=>'success','message'=>'Estatus modificado exitosamente']); 
+            return response()->json(['status'=>'success','message'=>'Estatus modificado exitosamente']);
         }
     }
 
