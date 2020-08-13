@@ -37,22 +37,25 @@
                                     <option value="0" {{ request()->etiquetas=='0'?'selected':'' }}>
                                         Busqueda por periodo
                                     </option>
-                                    <option value="1"  {{ request()->etiquetas=='1'?'selected':'' }}>
+                                    <option value="this week"  {{ request()->etiquetas=='this week'?'selected':'' }}>
                                         Esta semana
                                     </option>
-                                    <option value="2"  {{ request()->etiquetas=='2'?'selected':'' }}>
+                                    <option value="this month"  {{ request()->etiquetas=='this month'?'selected':'' }}>
                                         Este mes
                                     </option>
-                                    <option value="3"  {{ request()->etiquetas=='3'?'selected':'' }}>
+                                    <option value="this year"  {{ request()->etiquetas=='this year'?'selected':'' }}>
+                                        Este Año
+                                    </option>
+                                    <option value="7 days ago"  {{ request()->etiquetas=='7 days ago'?'selected':'' }}>
                                         Últimos 7 Días
                                     </option>
-                                    <option value="4"  {{ request()->etiquetas=='4'?'selected':'' }}>
+                                    <option value="30 days ago"  {{ request()->etiquetas=='30 days ago'?'selected':'' }}>
                                         Últimos 30 Días
                                     </option>
-                                    <option value="5"  {{ request()->etiquetas=='5'?'selected':'' }}>
+                                    <option value="90 days ago"  {{ request()->etiquetas=='90 days ago'?'selected':'' }}>
                                         Últimos 90 Días
                                     </option>
-                                    <option value="6"  {{ request()->etiquetas=='6'?'selected':'' }}>
+                                    <option value="last year"  {{ request()->etiquetas=='last year'?'selected':'' }}>
                                         Último Año
                                     </option>
                                 </select>
@@ -70,7 +73,8 @@
 
             <div class="row">
                 
-                
+                @if(count($processes)>0)
+
                 <div class="col-lg-12 col-md-12 col-sm-12 ">
                      <div class="card">
                         <div class="card-header"></div>
@@ -139,6 +143,22 @@
                     </div>
 
                 </div>
+
+                @else
+
+                <div class="col-lg-12 col-md-12 justify-content-center">
+                     <div class="card">
+                        <div class="card-header mb-2">
+                            <h2 class="card-title">Registros no encontrados</h2>
+                        </div>
+                        <div class="card-content">
+                        </div>
+                    </div>
+                </div>
+
+                @endif
+
+
             </div>    
             
       

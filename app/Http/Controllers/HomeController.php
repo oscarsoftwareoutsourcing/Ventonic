@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Question;
 use App\Contact;
+use App\Negotiation;
+use stdClass;
+use DB;
 
 //use App\SellerProfile;
 
@@ -112,5 +115,27 @@ class HomeController extends Controller
         $users = $users->seller();
         
         return response()->json($users->get());
+    }
+
+    public static function getDateRange($date)
+    {
+        //dd($date);
+        $to = date('Y-m-d h:i:s');
+        if ($date == 'this month') {
+            $date = 'first day of this month';
+        } elseif ($date == 'this year') {
+            $date = 'first day of january this year';
+        } elseif ($date == 'last year') {
+            $date = 'last year January 1st';
+            $to =  date("Y-m-d 23:59:59", strtotime("last year December 31st"));
+        }
+        $from = date("Y-m-d 00:00:00", strtotime($date));
+        $date_range = new stdClass;
+        $date_range->to = $to;
+        $date_range->from = $from;
+
+        dd($date_range);
+        
+        return $date_range;
     }
 }

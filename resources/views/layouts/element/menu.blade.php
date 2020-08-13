@@ -180,8 +180,8 @@
                                 <span class="menu-item">Ventas</span>
                             </a>
                         </li>
-                        <li class="{{ App\Helpers\General::setActiveMenu('oportunity.list') }}">
-                            <a href="{{ route('oportunity.list') }}">
+                        <li class="{{ App\Helpers\General::setActiveMenu('report.activities') }}">
+                            <a href="{{ route('report.activities') }}">
                                 <i class="fa fa-bar-chart"></i>
                                 <span class="menu-item">Actividad</span>
                             </a>

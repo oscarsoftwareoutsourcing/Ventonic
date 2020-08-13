@@ -279,6 +279,7 @@ Route::group(['middleware' => ['verified']], function () use ($router) {
 
 /* Routas para reportes */
 Route::get('informes/ventas', 'ReportController@sales')->name('report.sales')->middleware('verified');
+Route::get('informes/actividad', 'ReportController@activities')->name('report.activities')->middleware('verified');
 
 Route::get('calender', 'EventController@index')->name('events.calender');
 
