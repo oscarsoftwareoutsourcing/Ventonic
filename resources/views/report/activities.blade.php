@@ -71,7 +71,23 @@
                 </div>
             </div>
 
-                    </div>
+            <div class="col-lg-12 col-md-12 ">
+                     <div class="card">
+                        <div class="card-header">
+                             <h4 class="card-title">Negociaciones</h4>
+                        </div>
+                        <div class="card-content">
+                              <div class="card-body pl-0">
+                                        <div class="height-300">
+                                            <canvas id="bar-chart"></canvas>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+
+        </div>
     </div>
         
    
@@ -82,5 +98,7 @@
 @endsection
 
 @section('extra-js')
-
+    <script src="{{ asset('vendors/js/charts/chart.min.js') }}"></script>
+    <!-- BEGIN: Page JS-->
+    <script src="{{ asset('js/scripts/charts/chart-chartjs.js') }}"></script>
 @endsection

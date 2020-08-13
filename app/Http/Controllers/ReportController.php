@@ -19,6 +19,14 @@ use App\SectorOportunity;
 use App\StatusOportunity;
 use App\Aptitud;
 use App\Negotiation;
+use App\Note;
+use App\Event;
+use App\Email;
+use App\Document;
+use App\Task;
+use App\CallEvent;
+
+
 
 
 class ReportController extends Controller
@@ -121,6 +129,54 @@ class ReportController extends Controller
 
         $user_id=\Auth::user()->id;
 
+
+        $data_notes = Note::selectRaw('year(created_at) as year, month(created_at) as month, COUNT(*) as qty')
+                        ->whereDate('created_at', '>=', "2019-08-13 10:10:30")
+                        ->whereDate('created_at', '<=', "2020-08-13 10:10:30")
+                        ->where('user_id',$user_id)
+                        ->groupBy(DB::raw('year(created_at)'))
+                        ->groupBy(DB::raw('month(created_at)'))->get();
+        
+        $data_emails = Email::selectRaw('year(created_at) as year, month(created_at) as month, COUNT(*) as qty')
+                        ->whereDate('created_at', '>=', "2019-08-13 10:10:30")
+                        ->whereDate('created_at', '<=', "2020-08-13 10:10:30")
+                        ->where('from_user_id',$user_id)
+                        ->groupBy(DB::raw('year(created_at)'))
+                        ->groupBy(DB::raw('month(created_at)'))->get();
+        
+        $data_task = Task::selectRaw('year(created_at) as year, month(created_at) as month, COUNT(*) as qty')
+                        ->whereDate('created_at', '>=', "2019-08-13 10:10:30")
+                        ->whereDate('created_at', '<=', "2020-08-13 10:10:30")
+                        ->where('user_id',$user_id)
+                        ->groupBy(DB::raw('year(created_at)'))
+                        ->groupBy(DB::raw('month(created_at)'))->get();
+
+        $data_documents = Document::selectRaw('year(created_at) as year, month(created_at) as month, COUNT(*) as qty')
+                        ->whereDate('created_at', '>=', "2019-08-13 10:10:30")
+                        ->whereDate('created_at', '<=', "2020-08-13 10:10:30")
+                        ->where('user_id',$user_id)
+                        ->groupBy(DB::raw('year(created_at)'))
+                        ->groupBy(DB::raw('month(created_at)'))->get();
+
+        $data_callEvent = CallEvent::selectRaw('year(created_at) as year, month(created_at) as month, COUNT(*) as qty')
+                        ->whereDate('created_at', '>=', "2019-08-13 10:10:30")
+                        ->whereDate('created_at', '<=', "2020-08-13 10:10:30")
+                        ->where('user_id',$user_id)
+                        ->groupBy(DB::raw('year(created_at)'))
+                        ->groupBy(DB::raw('month(created_at)'))->get();
+
+
+       
+
+       /* $data_emails = DB::select("SELECT YEAR(created_at), MONTH(created_at), 
+                                    COUNT(*) FROM `emails` 
+                                    where created_at >='". $date_range->from."' and
+                                    created_at <='". $date_range->to."' and
+                                    user_id = ".$user_id."
+                                    GROUP BY YEAR(created_at), MONTH(created_at) 
+                                    ORDER BY `MONTH(created_at)` ASC");*/
+
+        dd($data_notes);
         return view('report.activities',[]);
 
     }
