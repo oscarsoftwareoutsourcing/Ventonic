@@ -46,6 +46,8 @@
                               <h5>{{ widget.name }}</h5>
                               <br />
                               {{ widget.url }}
+                              <br>
+                              {{ (typeof(widget.userReferred)!=="undefined")?widget.userReferred.name:'' }}
                             </div>
 
                             <span>
@@ -146,7 +148,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel33">Asistente de widgets</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" id="modalWidget" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -158,6 +160,8 @@
               @on-error="handleErrorMessage"
               color="#7367F0"
               finish-button-text="Generar widget"
+              next-button-text="Siguiente"
+              back-button-text="Anterior"
             >
               <tab-content title="Obtener PIN del vendedor" icon="fa fa-user-o">
                 <br class="my-2" />
@@ -213,6 +217,9 @@
                         class="form-control col-md-6 offset-md-3"
                         placeholder="Ingrese URL del sitio web"
                       />
+                        <article class="help-block" v-if="errorUrl">
+                            <i class="text-danger">{{ errorUrl }}</i>
+                        </article>
                     </div>
                   </div>
                 </div>
@@ -223,12 +230,16 @@
                       <textarea
                         class="form-control mx-1 my-1"
                         v-model="script"
-                        id="basicTextarea"
+                        id="scriptText"
                         rows="10"
                         :disabled="isDisabled"
                         placeholder="Textarea"
                       ></textarea>
                     </fieldset>
+                  </div>
+                  <div class="col-12">
+                      <input type="button" @click="copyScript" value="Copiar script"
+                             class="btn btn-outline-primary mr-1 mb-1 waves-effect waves-light float-right">
                   </div>
                 </div>
               </tab-content>
@@ -271,9 +282,21 @@ export default {
       generated: false,
       Widgets: this.widgets,
       widgetStatus: false,
+      errorUrl: '',
     };
   },
-
+  watch: {
+    script: function() {
+        if (this.script) {
+            $(".wizard-footer-right").find('.wizard-btn').text('Cerrar');
+            $(".wizard-footer-right").find('.wizard-btn').on('click', function(event) {
+                event.preventDefault();
+                $("#modalWidget").click();
+                location.reload();
+            });
+        }
+    }
+  },
   methods: {
     widgetStatusUpdate(event, widgetID) {
       console.log(event.target.checked, widgetID);
@@ -341,7 +364,7 @@ export default {
           resolve(true);
         } else {
           if (this.widgetname != "") {
-            
+
           }
           if (this.url != "") {
             reject("Ingrese URL del sitio web");
@@ -364,11 +387,31 @@ export default {
           vm.script = response.data.script;
           vm.generated = true;
           vm.isDisabled = false;
+          vm.errorUrl = '';
         })
         .catch((error) => {
-          console.error(error);
+            if (typeof(error.response)!=="undefined") {
+                if (error.response.data.message.search('Integrity constraint violation') >= 0) {
+                    vm.errorUrl = 'Ya ha registrado esta url para el mismo vendedor';
+                }
+            }
+          //console.error(error);
         });
     },
+    copyScript() {
+        var copyPinText = document.getElementById('scriptText').select();
+        document.execCommand("copy");
+        bootbox.confirm(
+            `El script ha sido copiado al portapapeles.
+            Guardelo en un lugar seguro y presione el botón aceptar`,
+            function(result) {
+                if (result) {
+                    $("#modalWidget").click();
+                    location.reload();
+                }
+            }
+        )
+    }
   },
 };
 </script>

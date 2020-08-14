@@ -38,20 +38,20 @@ class WidgetController extends Controller
      */
     public function store(Request $request)
     {
-        $userIDReffered = DB::table('users')->where('uuid',$request->uuid)->pluck('id')->first();
-        
+        $userReffered = User::where('uuid', $request->uuid)->first();
+
         $app_id = 1;
         $user_id = Auth::user()->id;
         $name = $request->widgetName;
         $url = $request->url;
-       
+
         $token = Str::uuid()->toString();
 
         $createdWidget = Widget::create([
             'app_id' => $app_id,
             'user_id' => $user_id,
             'name' => $name,
-            'user_id_referred'=> $userIDReffered,
+            'user_id_referred'=> $userReffered->id,
             'url'=>$url,
             'token'=>$token
         ]);
@@ -70,7 +70,7 @@ class WidgetController extends Controller
         })();
         </script>
         <!--End of Ventonic.com Script-->';
-        
+
         return response()->json(['script'=>$script], 200);
     }
 
@@ -128,12 +128,12 @@ class WidgetController extends Controller
         seller_profiles.
         phone_mobil,
         users.name,'product' as product")->get();
-       
+
         return view('widget_data.widget-data',['data'=>$data]);
     }
 
     public function updateWidgetStatus(Request $request){
-       
+
         $update = Widget::where('id',$request->widgetID)->update([
             'status'=>$request->widgetStatus
         ]);
