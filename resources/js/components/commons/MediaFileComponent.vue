@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div class="form-group">
+        <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
+            <p class="mb-0">Registro almacenado correctamente</p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    </div>
     <div class="form-group" v-if="showNote">
       <label for="documentNote">Nota</label>
       <textarea
@@ -93,6 +101,7 @@ export default {
   },
   data() {
     return {
+        success: false,
       documentNote: "",
       documentFiles: [],
       documents: [],
@@ -161,10 +170,10 @@ export default {
             vm.$refs.documentDropzone.removeAllFiles();
             vm.getFiles();
           }
-          vm.$parent.success = response.data.result;
+          vm.success = response.data.result;
         })
         .catch((error) => {
-          vm.$parent.success = false;
+          vm.success = false;
           if (typeof error.response != "undefined") {
             if (typeof error.response.data.errors.note !== "undefined") {
               vm.documentNoteError = error.response.data.errors.note[0];

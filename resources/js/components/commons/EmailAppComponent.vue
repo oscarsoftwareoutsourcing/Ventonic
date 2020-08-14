@@ -43,6 +43,14 @@
             </div>
         </div>
         <div class="form-group">
+            <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
+                <p class="mb-0">Correo enviado</p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="searchEmail">Email contacto</label>
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Correo electrónico"
@@ -101,7 +109,7 @@
                                 </a>
                                 <div class="media-body">
                                     <h5 class="media-heading">
-                                        {{ e.to_user.name }} {{ e.to_user.last_name }} -
+                                        {{ (e.to_user!==null) ? (e.to_user.name + ' ' + e.to_user.last_name + ' - ') : '' }}
                                         {{ e.created_at }}
                                     </h5>
                                     <h6 class="media-heading">Asunto: {{ e.subject }}</h6>
@@ -120,6 +128,7 @@
     export default {
         data() {
             return {
+                success: false,
                 email: {
                     email: '',
                     subject: '',
@@ -240,7 +249,7 @@
                     else {
                         vm.errors.email = response.data.message;
                     }
-                    vm.$parent.success = response.data.result;
+                    vm.success = response.data.result;
                 }).catch(error => {
                     if (typeof(error.response) !="undefined") {
                         for (var index in error.response.data.errors) {
@@ -249,7 +258,7 @@
                             }
                         }
                     }
-                    vm.$parent.success = false;
+                    vm.success = false;
                 });
             },
             /**

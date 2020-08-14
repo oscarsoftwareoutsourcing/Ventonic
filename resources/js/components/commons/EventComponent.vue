@@ -61,6 +61,14 @@
             <article class="help-block" v-if="eventCategoryError">
                 <i class="text-danger">{{ eventCategoryError }}</i>
             </article>
+            <div class="form-group">
+                <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
+                    <p class="mb-0">Registro almacenado correctamente</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+            </div>
             <!-- Title event -->
             <div class="form-group">
                 <label for="">Evento</label>
@@ -225,6 +233,7 @@
     export default {
         data() {
             return {
+                success: false,
                 event: {
                     category: '',
                     title: '',
@@ -307,9 +316,9 @@
                         vm.eventPlaceError = '';
                         vm.getEvents();
                     }
-                    vm.$parent.success = response.data.result;
+                    vm.success = response.data.result;
                 }).catch(error => {
-                    vm.$parent.success = false;
+                    vm.success = false;
                     if (typeof(error.response) !="undefined") {
                         if (typeof(error.response.data.errors.title) !== "undefined") {
                             vm.eventTitleError = error.response.data.errors.title[0];

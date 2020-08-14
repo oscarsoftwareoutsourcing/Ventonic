@@ -1,6 +1,16 @@
 <template>
     <div>
         <div class="row">
+            <div class="col-12">
+                <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
+                    <p class="mb-0">Registro almacenado correctamente</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="contact_id">Contactado</label>
@@ -139,6 +149,7 @@
     export default {
         data() {
             return {
+                success: false,
                 contact_id: '',
                 call_result_id: '',
                 called_at: '',
@@ -212,9 +223,9 @@
                         vm.followTaskError = '';
                         vm.getCalls();
                     }
-                    vm.$parent.success = response.data.result;
+                    vm.success = response.data.result;
                 }).catch(error => {
-                    vm.$parent.success = false;
+                    vm.success = false;
                     if (typeof(error.response) !="undefined") {
                         for (var index in error.response.data.errors) {
                             if (error.response.data.errors[index]) {

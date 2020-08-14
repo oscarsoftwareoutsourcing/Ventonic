@@ -1,6 +1,16 @@
 <template>
     <div>
         <div class="row">
+            <div class="col-12">
+                <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
+                    <p class="mb-0">Registro almacenado correctamente</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-7">
                 <div class="form-group">
                     <label for="title">Título</label>
@@ -145,6 +155,7 @@
     export default {
         data() {
             return {
+                success: false,
                 title: '',
                 tasked_at: '',
                 tasked_time: '',
@@ -237,9 +248,9 @@
                         vm.reset();
                         vm.getTasks();
                     }
-                    vm.$parent.success = response.data.result;
+                    vm.success = response.data.result;
                 }).catch(error => {
-                    vm.$parent.success = false;
+                    vm.success = false;
                     if (typeof(error.response) !="undefined") {
                         for (var index in error.response.data.errors) {
                             if (error.response.data.errors[index]) {

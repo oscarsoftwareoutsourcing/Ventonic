@@ -1,6 +1,14 @@
 <template>
     <div>
         <div class="form-group">
+            <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
+                <p class="mb-0">Registro almacenado correctamente</p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="note">Actividad</label>
             <ckeditor :editor="ckeditor.editor" v-model="note" :config="ckeditor.editorConfig"></ckeditor>
             <!-- Validation messages -->
@@ -63,6 +71,7 @@
     export default {
         data() {
             return {
+                success: false,
                 note: '',
                 noteError: '',
                 notes: [],
@@ -102,9 +111,9 @@
                         vm.noteError = '';
                         vm.getNotes();
                     }
-                    vm.$parent.success = response.data.result;
+                    vm.success = response.data.result;
                 }).catch(error => {
-                    vm.$parent.success = false;
+                    vm.success = false;
                     if (typeof(error.response) !="undefined") {
                         for (var index in error.response.data.errors) {
                             if (error.response.data.errors[index]) {
