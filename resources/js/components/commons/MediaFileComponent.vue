@@ -48,13 +48,13 @@
                   >Vista detallada</a>
                 </h6>
               </div>
-              <div class="col-sm-6">
+              <!--<div class="col-sm-6">
                 <h6 class="panel-title text-right">
                   <a href="javascript:void(0)">
                     <i class="fa fa-cogs"></i> Más opciones
                   </a>
                 </h6>
-              </div>
+              </div>-->
             </div>
           </div>
           <div
