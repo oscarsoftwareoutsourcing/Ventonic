@@ -15,6 +15,12 @@
             >+ Nuevo</a>
           </div>
         </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-4">
+                <input type="text" placeholder="Buscar..." class="form-control" v-model="searchText">
+            </div>
+        </div>
       </div>
     </div>
 
@@ -22,7 +28,7 @@
       <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-12">
           <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12" v-for="widget in widgets">
+            <div class="col-lg-6 col-md-6 col-sm-12" v-for="widget in Widgets">
               <div class="card">
                 <div class="card-content">
                   <!-- <img class="card-img-top img-fluid" :src="'images/pages/content-img-1.jpg'"
@@ -283,6 +289,7 @@ export default {
       Widgets: this.widgets,
       widgetStatus: false,
       errorUrl: '',
+      searchText:""
     };
   },
   watch: {
@@ -295,6 +302,14 @@ export default {
                 location.reload();
             });
         }
+    },
+    searchText: function() {
+        const vm = this;
+        vm.Widgets = (vm.searchText === '') ? vm.widgets : JSON.parse(JSON.stringify(vm.widgets.filter(function(widget) {
+            return widget.name.search(vm.searchText) >= 0 ||
+                   widget.url.search(vm.searchText) >= 0 ||
+                   (widget.user_referred !== null && widget.user_referred.name.search(vm.searchText) >= 0);
+        })));
     }
   },
   methods: {

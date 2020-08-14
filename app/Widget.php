@@ -40,6 +40,6 @@ class Widget extends Model
      */
     public function userReferred()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id_referred');
     }
 }
