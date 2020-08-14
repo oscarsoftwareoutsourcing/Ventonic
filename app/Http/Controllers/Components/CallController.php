@@ -36,7 +36,7 @@ class CallController extends Controller
         list($day, $month, $year) = explode("-", $request->called_at);
 
         CallEvent::create([
-            'called_at' => "$year-$mont-$day",
+            'called_at' => "$year-$month-$day",
             'called_time' => $request->called_time,
             'description' => $request->description,
             'follow_task' => $request->follow_task ?? null,
