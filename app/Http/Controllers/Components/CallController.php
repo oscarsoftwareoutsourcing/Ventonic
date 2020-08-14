@@ -35,11 +35,13 @@ class CallController extends Controller
 
         list($day, $month, $year) = explode("-", $request->called_at);
 
+        $followTask = ($request->follow_task!==null) ? explode("-", $request->follow_task) : null;
+
         CallEvent::create([
             'called_at' => "$year-$month-$day",
             'called_time' => $request->called_time,
             'description' => $request->description,
-            'follow_task' => $request->follow_task ?? null,
+            'follow_task' => ($followTask!==null) ? "$followTask[2]-$followTask[1]-$followTask[0]" : null,
             'contact_id' => $request->contact_id,
             'call_result_id' => $request->call_result_id ?? null,
             'calleventable_id' => $request->modelRelationId,
