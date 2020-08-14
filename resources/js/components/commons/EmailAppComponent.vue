@@ -97,7 +97,7 @@
                         <div class="media-list media-bordered">
                             <div class="media" v-for="e in emails">
                                 <a class="align-self-start media-left" href="#">
-                                    <img :src="(e.to_user.photo)?e.to_user.photo:'/images/anonymous-user.png'" alt="user avatar" width="64" height="64">
+                                    <img :src="(e.to_user!==null && e.to_user.photo)?e.to_user.photo:'/images/anonymous-user.png'" alt="user avatar" width="64" height="64">
                                 </a>
                                 <div class="media-body">
                                     <h5 class="media-heading">

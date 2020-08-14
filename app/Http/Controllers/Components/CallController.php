@@ -33,8 +33,10 @@ class CallController extends Controller
 
         $model = "App\\" . ucfirst($request->modelRelationClass);
 
+        list($day, $month, $year) = explode("-", $request->called_at);
+
         CallEvent::create([
-            'called_at' => $request->called_at,
+            'called_at' => "$year-$mont-$day",
             'called_time' => $request->called_time,
             'description' => $request->description,
             'follow_task' => $request->follow_task ?? null,
