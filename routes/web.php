@@ -289,7 +289,7 @@ Route::get('{uuid}/widget', 'WidgetController@show');
 
 Route::view('dash', 'inicio-dashboard');
 
-Route::get('call-me', 'FreeAppController@index')->name('freeapps');
+Route::get('call-me', 'FreeAppController@index')->name('freeapps')->middleware('verified');
 Route::get('validate-pin/{pin}', 'FreeAppController@validatePin')->name('validatepin');
 Route::post('widget/generateWidget', 'WidgetController@store');
 Route::get('widget/widgetsData', 'WidgetController@widgetsData')->name('widgets.data');
@@ -299,4 +299,4 @@ Route::get(
 )->name('widgets.update');
 Route::get('{uuid}/widget', 'WidgetController@show');
 
-Route::get('apps-gratis', 'FreeAppController@apps')->name('apps');
+Route::get('apps-gratis', 'FreeAppController@apps')->name('apps')->middleware('verified');
