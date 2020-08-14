@@ -216,7 +216,7 @@ class EmailController extends Controller
 
                     $emails = [];
                     $emailFolders = $emailClient->getFolders();
-
+//                    dd($emailFolders);
                     foreach ($emailFolders as $folder) {
                         $messages = $folder->messages()->all()->get();
                         $emails[strtolower($folder->name)] = [];
@@ -321,7 +321,11 @@ class EmailController extends Controller
                 'message' => 'No ha configurado una cuenta de correo. Verifique'
             ], 200);
         } catch (ConnectionFailedException $e) {
-            return response()->json(['result' => false, 'message' => $e->getMessage()]);
+            $msg = $e->getMessage();
+            if (strpos($msg, 'Can not authenticate')) {
+                $msg = "Fallo la autenticación con el servidor de correo. Verifique la configuración";
+            }
+            return response()->json(['result' => false, 'message' => $msg]);
         }
     }
 

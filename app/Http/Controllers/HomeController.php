@@ -45,7 +45,7 @@ class HomeController extends Controller
         $negs['lost'] = self::getNegotiations($date_term, 2);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
         $daysCount = self::getConvDays($date_term);
-        $convDaysAvg = ($negs['won']['total']>0) ? $daysCount/$negs['won']['total'] : 0; 
+        $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
 
         return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs]);
@@ -140,8 +140,8 @@ class HomeController extends Controller
         $date_range->to = $to;
         $date_range->from = $from;
 
-        dd($date_range);
-        
+        //($date_range);
+
         return $date_range;
     }
 
@@ -177,15 +177,15 @@ class HomeController extends Controller
         $negs['lost'] = self::getNegotiations($date_term, 2);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
         $daysCount = self::getConvDays($date_term);
-        $convDaysAvg = ($negs['won']['total']>0) ? $daysCount/$negs['won']['total'] : 0; //$daysCount/$negs['won']['total']; 
+        $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0; //$daysCount/$negs['won']['total'];
         $negs['convDays'] = number_format($convDaysAvg);
-        
+
         return json_encode(['contacts_data' => $contacts_data, 'negs' => $negs]);
     }
 
     public static function getNegotiations($date, $status_id = null, $process_id = null)
     {
-       
+
 
         // Status_id => process = 3, won = 1,  lost = 2, FALSE = all;
         $date_range = self::getDateRange($date);
@@ -210,20 +210,21 @@ class HomeController extends Controller
         return $data;
     }
 
-    public static function getConvDays($date){
+    public static function getConvDays($date)
+    {
 
         $date_range = self::getDateRange($date);
         //dd($date_range);
-        $convDays = Negotiation::selectRaw('SUM(q1.Diff) as Diff')->fromSub(function ($query) use ($date_range){
+        $convDays = Negotiation::selectRaw('SUM(q1.Diff) as Diff')->fromSub(function ($query) use ($date_range) {
             $query->selectRaw("DATEDIFF( won_status_date, created_at ) AS Diff")
                 ->from('negotiations')
-                ->where('neg_status_id','=',1)
-                ->where('won_status_date','!=',NULL)
+                ->where('neg_status_id', '=', 1)
+                ->where('won_status_date', '!=', NULL)
                 ->where('created_at', '>=', $date_range->from)
                 ->where('created_at', '<=', $date_range->to);
-        },'q1')->first(); 
+        }, 'q1')->first();
 
-        
-        return $convDays->Diff; 
+
+        return $convDays->Diff;
     }
 }

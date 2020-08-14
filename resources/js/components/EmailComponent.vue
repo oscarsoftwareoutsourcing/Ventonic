@@ -317,307 +317,373 @@
                                     </div>
                                     <div class="email-user-list list-group" style="overflow:auto">
                                         <ul class="users-list-wrapper media-list">
-                                            <li class="media" v-for="email in emails.inbox" :key="email.id" v-if="showFolder==='inbox'"
-                                                :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
-                                                <div class="media-left pr-50">
-                                                    <div class="avatar">
-                                                        <img src="/images/anonymous-user.png" alt="avatar img holder" />
-                                                    </div>
-                                                    <div class="user-action">
-                                                        <div class="vs-checkbox-con">
-                                                            <!-- checkbox para seleccionar mensaje -->
-                                                            <input type="checkbox" :value="email.message_id"
-                                                                   v-model="selectedMessages" class="checkboxEmail" />
-                                                            <span class="vs-checkbox vs-checkbox-sm">
-                                                                <span class="vs-checkbox--check">
-                                                                    <i class="vs-icon feather icon-check"></i>
+                                            <paginate name="inbox" :list="emails.inbox" :per="10"
+                                                      v-if="typeof(emails.inbox)!=='undefined'">
+                                                <li class="media" v-for="email in paginated('inbox')" :key="email.id" v-if="showFolder==='inbox'"
+                                                    :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
+                                                    <div class="media-left pr-50">
+                                                        <div class="avatar">
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
+                                                        </div>
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
+                                                                <!-- checkbox para seleccionar mensaje -->
+                                                                <input type="checkbox" :value="email.message_id"
+                                                                       v-model="selectedMessages" class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
                                                                 </span>
+                                                            </div>
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="email.message_id"
+                                                                   @click="setFavorite(email.message_id)"></i>
                                                             </span>
                                                         </div>
-                                                        <span class="favorite">
-                                                            <i class="feather icon-star" :id="email.message_id"
-                                                               @click="setFavorite(email.message_id)"></i>
-                                                        </span>
                                                     </div>
-                                                </div>
-                                                <div class="media-body" @click="openContent(email)">
-                                                    <div class="user-details">
-                                                        <div class="mail-items">
-                                                            <h5 class="list-group-item-heading text-bold-600 mb-25">
-                                                                {{ email.from[0].personal }}
-                                                            </h5>
-                                                            <span class="list-group-item-text text-truncate">
-                                                                {{ email.subject }}
-                                                            </span>
-                                                        </div>
-                                                        <div class="mail-meta-item">
-                                                            <span class="float-right">
-                                                                <span class="mr-1 bullet bullet-success bullet-sm"></span>
-                                                                <span class="mail-date">
-                                                                    {{ datetime_format(email.message_at) }}
+                                                    <div class="media-body" @click="openContent(email)">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
+                                                                    {{ email.from[0].personal }}
+                                                                </h5>
+                                                                <span class="list-group-item-text text-truncate">
+                                                                    {{ email.subject }}
                                                                 </span>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mail-message">
-                                                        <p class="list-group-item-text truncate mb-0">
-                                                            <!--<div v-html="email.body"></div>-->
-                                                            {{ email.body_text }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="media" v-for="email in emails.sent" v-if="showFolder==='sent'"
-                                                :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
-                                                <div class="media-left pr-50">
-                                                    <div class="avatar">
-                                                        <img src="/images/anonymous-user.png" alt="avatar img holder" />
-                                                    </div>
-                                                    <div class="user-action">
-                                                        <div class="vs-checkbox-con">
-                                                            <!-- checkbox para seleccionar mensaje -->
-                                                            <input type="checkbox" :value="email.message_id"
-                                                                   v-model="selectedMessages" class="checkboxEmail" />
-                                                            <span class="vs-checkbox vs-checkbox-sm">
-                                                                <span class="vs-checkbox--check">
-                                                                    <i class="vs-icon feather icon-check"></i>
+                                                            </div>
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
+                                                                        {{ datetime_format(email.message_at) }}
+                                                                    </span>
                                                                 </span>
-                                                            </span>
+                                                            </div>
                                                         </div>
-                                                        <span class="favorite">
-                                                            <i class="feather icon-star" :id="email.message_id"
-                                                               @click="setFavorite(email.message_id)"></i>
-                                                        </span>
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
+                                                                <!--<div v-html="email.body"></div>-->
+                                                                {{ email.body_text }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="media-body" @click="openContent(email)">
-                                                    <div class="user-details">
-                                                        <div class="mail-items">
-                                                            <h5 class="list-group-item-heading text-bold-600 mb-25">
-                                                                {{ email.from[0].personal }}
-                                                            </h5>
-                                                            <span class="list-group-item-text text-truncate">
-                                                                {{ email.subject }}
-                                                            </span>
+                                                </li>
+                                            </paginate>
+                                            <paginate name="sent" :list="emails.sent" :per="10"
+                                                      v-if="typeof(emails.sent)!=='undefined'">
+                                                <li class="media" v-for="email in paginated('sent')" v-if="showFolder==='sent'"
+                                                    :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
+                                                    <div class="media-left pr-50">
+                                                        <div class="avatar">
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div class="mail-meta-item">
-                                                            <span class="float-right">
-                                                                <span class="mr-1 bullet bullet-success bullet-sm"></span>
-                                                                <span class="mail-date">
-                                                                    {{ datetime_format(email.message_at) }}
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
+                                                                <!-- checkbox para seleccionar mensaje -->
+                                                                <input type="checkbox" :value="email.message_id"
+                                                                       v-model="selectedMessages" class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
                                                                 </span>
+                                                            </div>
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="email.message_id"
+                                                                   @click="setFavorite(email.message_id)"></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div class="mail-message">
-                                                        <p class="list-group-item-text truncate mb-0">
-                                                            <!--<div v-html="email.body"></div>-->
-                                                            {{ email.body_text }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="media" v-for="email in emails.draft" v-if="showFolder==='draft'"
-                                                :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
-                                                <div class="media-left pr-50">
-                                                    <div class="avatar">
-                                                        <img src="/images/anonymous-user.png" alt="avatar img holder" />
-                                                    </div>
-                                                    <div class="user-action">
-                                                        <div class="vs-checkbox-con">
-                                                            <!-- checkbox para seleccionar mensaje -->
-                                                            <input type="checkbox" :value="email.message_id"
-                                                                   v-model="selectedMessages" class="checkboxEmail" />
-                                                            <span class="vs-checkbox vs-checkbox-sm">
-                                                                <span class="vs-checkbox--check">
-                                                                    <i class="vs-icon feather icon-check"></i>
+                                                    <div class="media-body" @click="openContent(email)">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
+                                                                    {{ email.from[0].personal }}
+                                                                </h5>
+                                                                <span class="list-group-item-text text-truncate">
+                                                                    {{ email.subject }}
                                                                 </span>
-                                                            </span>
-                                                        </div>
-                                                        <span class="favorite">
-                                                            <i class="feather icon-star" :id="email.message_id"
-                                                               @click="setFavorite(email.message_id)"></i>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body" @click="openContent(email)">
-                                                    <div class="user-details">
-                                                        <div class="mail-items">
-                                                            <h5 class="list-group-item-heading text-bold-600 mb-25">
-                                                                {{ email.from[0].personal }}
-                                                            </h5>
-                                                            <span class="list-group-item-text text-truncate">
-                                                                {{ email.subject }}
-                                                            </span>
-                                                        </div>
-                                                        <div class="mail-meta-item">
-                                                            <span class="float-right">
-                                                                <span class="mr-1 bullet bullet-success bullet-sm"></span>
-                                                                <span class="mail-date">
-                                                                    {{ datetime_format(email.message_at) }}
+                                                            </div>
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
+                                                                        {{ datetime_format(email.message_at) }}
+                                                                    </span>
                                                                 </span>
-                                                            </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
+                                                                <!--<div v-html="email.body"></div>-->
+                                                                {{ email.body_text }}
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                    <div class="mail-message">
-                                                        <p class="list-group-item-text truncate mb-0">
-                                                            <!--<div v-html="email.body"></div>-->
-                                                            {{ email.body_text }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="media" v-for="email in favorites" v-if="showFolder==='favorites'"
-                                                :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
-                                                <div class="media-left pr-50">
-                                                    <div class="avatar">
-                                                        <img src="/images/anonymous-user.png" alt="avatar img holder" />
-                                                    </div>
-                                                    <div class="user-action">
-                                                        <div class="vs-checkbox-con">
-                                                            <!-- checkbox para seleccionar mensaje -->
-                                                            <input type="checkbox" :value="email.message_id"
-                                                                   v-model="selectedMessages" class="checkboxEmail" />
-                                                            <span class="vs-checkbox vs-checkbox-sm">
-                                                                <span class="vs-checkbox--check">
-                                                                    <i class="vs-icon feather icon-check"></i>
+                                                </li>
+                                            </paginate>
+                                            <paginate name="draft" :list="emails.draft" :per="10"
+                                                      v-if="typeof(emails.draft)!=='undefined'">
+                                                <li class="media" v-for="email in paginated('draft')" v-if="showFolder==='draft'"
+                                                    :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
+                                                    <div class="media-left pr-50">
+                                                        <div class="avatar">
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
+                                                        </div>
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
+                                                                <!-- checkbox para seleccionar mensaje -->
+                                                                <input type="checkbox" :value="email.message_id"
+                                                                       v-model="selectedMessages" class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
                                                                 </span>
+                                                            </div>
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="email.message_id"
+                                                                   @click="setFavorite(email.message_id)"></i>
                                                             </span>
                                                         </div>
-                                                        <span class="favorite">
-                                                            <i class="feather icon-star" :id="email.message_id"
-                                                               @click="setFavorite(email.message_id)"></i>
-                                                        </span>
                                                     </div>
-                                                </div>
-                                                <div class="media-body" @click="openContent(email)">
-                                                    <div class="user-details">
-                                                        <div class="mail-items">
-                                                            <h5 class="list-group-item-heading text-bold-600 mb-25">
-                                                                {{ email.from[0].personal }}
-                                                            </h5>
-                                                            <span class="list-group-item-text text-truncate">
-                                                                {{ email.subject }}
-                                                            </span>
-                                                        </div>
-                                                        <div class="mail-meta-item">
-                                                            <span class="float-right">
-                                                                <span class="mr-1 bullet bullet-success bullet-sm"></span>
-                                                                <span class="mail-date">
-                                                                    {{ datetime_format(email.message_at) }}
+                                                    <div class="media-body" @click="openContent(email)">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
+                                                                    {{ email.from[0].personal }}
+                                                                </h5>
+                                                                <span class="list-group-item-text text-truncate">
+                                                                    {{ email.subject }}
                                                                 </span>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mail-message">
-                                                        <p class="list-group-item-text truncate mb-0">
-                                                            <!--<div v-html="email.body"></div>-->
-                                                            {{ email.body_text }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="media" v-for="email in emails.spam" v-if="showFolder==='spam'"
-                                                :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
-                                                <div class="media-left pr-50">
-                                                    <div class="avatar">
-                                                        <img src="/images/anonymous-user.png" alt="avatar img holder" />
-                                                    </div>
-                                                    <div class="user-action">
-                                                        <div class="vs-checkbox-con">
-                                                            <!-- checkbox para seleccionar mensaje -->
-                                                            <input type="checkbox" :value="email.message_id"
-                                                                   v-model="selectedMessages" class="checkboxEmail" />
-                                                            <span class="vs-checkbox vs-checkbox-sm">
-                                                                <span class="vs-checkbox--check">
-                                                                    <i class="vs-icon feather icon-check"></i>
+                                                            </div>
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
+                                                                        {{ datetime_format(email.message_at) }}
+                                                                    </span>
                                                                 </span>
-                                                            </span>
+                                                            </div>
                                                         </div>
-                                                        <span class="favorite">
-                                                            <i class="feather icon-star" :id="email.message_id"
-                                                               @click="setFavorite(email.message_id)"></i>
-                                                        </span>
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
+                                                                <!--<div v-html="email.body"></div>-->
+                                                                {{ email.body_text }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="media-body" @click="openContent(email)">
-                                                    <div class="user-details">
-                                                        <div class="mail-items">
-                                                            <h5 class="list-group-item-heading text-bold-600 mb-25">
-                                                                {{ email.from[0].personal }}
-                                                            </h5>
-                                                            <span class="list-group-item-text text-truncate">
-                                                                {{ email.subject }}
-                                                            </span>
+                                                </li>
+                                            </paginate>
+                                            <paginate name="favorites" :list="favorites" :per="10"
+                                                      v-if="typeof(favorites)!=='undefined'">
+                                                <li class="media" v-for="email in paginated('favorites')" v-if="showFolder==='favorites'"
+                                                    :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
+                                                    <div class="media-left pr-50">
+                                                        <div class="avatar">
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div class="mail-meta-item">
-                                                            <span class="float-right">
-                                                                <span class="mr-1 bullet bullet-success bullet-sm"></span>
-                                                                <span class="mail-date">
-                                                                    {{ datetime_format(email.message_at) }}
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
+                                                                <!-- checkbox para seleccionar mensaje -->
+                                                                <input type="checkbox" :value="email.message_id"
+                                                                       v-model="selectedMessages" class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
                                                                 </span>
+                                                            </div>
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="email.message_id"
+                                                                   @click="setFavorite(email.message_id)"></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div class="mail-message">
-                                                        <p class="list-group-item-text truncate mb-0">
-                                                            <!--<div v-html="email.body"></div>-->
-                                                            {{ email.body_text }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="media" v-for="email in trash" v-if="showFolder==='trash'"
-                                                :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
-                                                <div class="media-left pr-50">
-                                                    <div class="avatar">
-                                                        <img src="/images/anonymous-user.png" alt="avatar img holder" />
-                                                    </div>
-                                                    <div class="user-action">
-                                                        <div class="vs-checkbox-con">
-                                                            <!-- checkbox para seleccionar mensaje -->
-                                                            <input type="checkbox" :value="email.message_id"
-                                                                   v-model="selectedMessages" class="checkboxEmail" />
-                                                            <span class="vs-checkbox vs-checkbox-sm">
-                                                                <span class="vs-checkbox--check">
-                                                                    <i class="vs-icon feather icon-check"></i>
+                                                    <div class="media-body" @click="openContent(email)">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
+                                                                    {{ email.from[0].personal }}
+                                                                </h5>
+                                                                <span class="list-group-item-text text-truncate">
+                                                                    {{ email.subject }}
                                                                 </span>
-                                                            </span>
-                                                        </div>
-                                                        <span class="favorite">
-                                                            <i class="feather icon-star" :id="email.message_id"
-                                                               @click="setFavorite(email.message_id)"></i>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body" @click="openContent(email)">
-                                                    <div class="user-details">
-                                                        <div class="mail-items">
-                                                            <h5 class="list-group-item-heading text-bold-600 mb-25">
-                                                                {{ email.from[0].personal }}
-                                                            </h5>
-                                                            <span class="list-group-item-text text-truncate">
-                                                                {{ email.subject }}
-                                                            </span>
-                                                        </div>
-                                                        <div class="mail-meta-item">
-                                                            <span class="float-right">
-                                                                <span class="mr-1 bullet bullet-success bullet-sm"></span>
-                                                                <span class="mail-date">
-                                                                    {{ datetime_format(email.message_at) }}
+                                                            </div>
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
+                                                                        {{ datetime_format(email.message_at) }}
+                                                                    </span>
                                                                 </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
+                                                                <!--<div v-html="email.body"></div>-->
+                                                                {{ email.body_text }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </paginate>
+                                            <paginate name="spam" :list="emails.spam" :per="10"
+                                                      v-if="typeof(emails.spam)!=='undefined'">
+                                                <li class="media" v-for="email in paginated('spam')" v-if="showFolder==='spam'"
+                                                    :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
+                                                    <div class="media-left pr-50">
+                                                        <div class="avatar">
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
+                                                        </div>
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
+                                                                <!-- checkbox para seleccionar mensaje -->
+                                                                <input type="checkbox" :value="email.message_id"
+                                                                       v-model="selectedMessages" class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="email.message_id"
+                                                                   @click="setFavorite(email.message_id)"></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div class="mail-message">
-                                                        <p class="list-group-item-text truncate mb-0">
-                                                            <!--<div v-html="email.body"></div>-->
-                                                            {{ email.body_text }}
-                                                        </p>
+                                                    <div class="media-body" @click="openContent(email)">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
+                                                                    {{ email.from[0].personal }}
+                                                                </h5>
+                                                                <span class="list-group-item-text text-truncate">
+                                                                    {{ email.subject }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
+                                                                        {{ datetime_format(email.message_at) }}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
+                                                                <!--<div v-html="email.body"></div>-->
+                                                                {{ email.body_text }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </li>
+                                                </li>
+                                            </paginate>
+                                            <paginate name="trash" :list="trash" :per="10"
+                                                      v-if="typeof(trash)!=='undefined'">
+                                                <li class="media" v-for="email in paginated('trash')" v-if="showFolder==='trash'"
+                                                    :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
+                                                    <div class="media-left pr-50">
+                                                        <div class="avatar">
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
+                                                        </div>
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
+                                                                <!-- checkbox para seleccionar mensaje -->
+                                                                <input type="checkbox" :value="email.message_id"
+                                                                       v-model="selectedMessages" class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="email.message_id"
+                                                                   @click="setFavorite(email.message_id)"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-body" @click="openContent(email)">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
+                                                                    {{ email.from[0].personal }}
+                                                                </h5>
+                                                                <span class="list-group-item-text text-truncate">
+                                                                    {{ email.subject }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
+                                                                        {{ datetime_format(email.message_at) }}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
+                                                                <!--<div v-html="email.body"></div>-->
+                                                                {{ email.body_text }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </paginate>
                                         </ul>
+                                        <nav class="mt-3" style="margin:0 auto;"
+                                             v-if="showFolder==='inbox'">
+                                            <paginate-links for="inbox" :show-step-links="true" :async="true"
+                                                            :classes="{
+                                                                'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
+                                                            }"
+                                                            :step-links="{next: '›',prev: '‹'}"></paginate-links>
+                                        </nav>
+                                        <nav class="mt-3" style="margin:0 auto;"
+                                             v-if="showFolder==='sent'">
+                                            <paginate-links for="sent" :show-step-links="true" :async="true"
+                                                            :classes="{
+                                                                'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
+                                                            }"
+                                                            :step-links="{next: '›',prev: '‹'}"></paginate-links>
+                                        </nav>
+                                        <nav class="mt-3" style="margin:0 auto;"
+                                             v-if="showFolder==='draft'">
+                                            <paginate-links for="draft" :show-step-links="true" :async="true"
+                                                            :classes="{
+                                                                'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
+                                                            }"
+                                                            :step-links="{next: '›',prev: '‹'}"></paginate-links>
+                                        </nav>
+                                        <nav class="mt-3" style="margin:0 auto;"
+                                             v-if="showFolder==='favorites'">
+                                            <paginate-links for="favorites" :show-step-links="true" :async="true"
+                                                            :classes="{
+                                                                'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
+                                                            }"
+                                                            :step-links="{next: '›',prev: '‹'}"></paginate-links>
+                                        </nav>
+                                        <nav class="mt-3" style="margin:0 auto;"
+                                             v-if="showFolder==='spam'">
+                                            <paginate-links for="spam" :show-step-links="true" :async="true"
+                                                            :classes="{
+                                                                'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
+                                                            }"
+                                                            :step-links="{next: '›',prev: '‹'}"></paginate-links>
+                                        </nav>
+                                        <nav class="mt-3" style="margin:0 auto;"
+                                             v-if="showFolder==='trash'">
+                                            <paginate-links for="trash" :show-step-links="true" :async="true"
+                                                            :classes="{
+                                                                'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
+                                                            }"
+                                                            :step-links="{next: '›',prev: '‹'}"></paginate-links>
+                                        </nav>
                                         <!--<nav aria-label="Page navigation example">
                                             <ul class="pagination justify-content-center mt-2">
                                                 <li class="page-item prev">
@@ -859,7 +925,12 @@
                 inboxUnread: 0,
                 draft: [],
                 spam: [],
-                emails: [],
+                emails: {
+                    inbox: [],
+                    sent: [],
+                    draft: [],
+                    spam: []
+                },
                 selectedEmail: {},
                 sent: {
                     to: "",
@@ -879,6 +950,7 @@
                 perPage: 10,
                 /** @type {Array} Contiene los elementos a mostrar en cada página */
                 pages: [],
+                paginate: ['inbox', 'sent', 'draft', 'favorites', 'spam', 'trash']
             };
         },
         props: {
@@ -907,7 +979,10 @@
                         console.error(error);
                     });
                 }
-            }
+            },
+            /*showFolder: function() {
+                this.showPagination(this.showFolder, );
+            }*/
         },
         methods: {
             /**
@@ -1206,13 +1281,16 @@
              *
              * @return    {array}    Arreglo con listado de correos de acuerdo a la página seleccionada
              */
-            paginate (mails) {
+            /*paginate (mails) {
                 const vm = this;
                 let page = vm.page;
                 let perPage = vm.perPage;
                 let from = (page * perPage) - perPage;
                 let to = (page * perPage);
                 return  mails.slice(from, to);
+            },*/
+            showPagination(folder, elements) {
+                return this.showFolder === folder && elements.length > 0;
             },
             openContent: function(email = null) {
                 const vm = this;

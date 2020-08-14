@@ -75,6 +75,12 @@ return [
             'url' => env('APP_URL').'/storage/attachments',
             //'visibility' => 'public',
         ],
+        'documents' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/documents'),
+            'url' => env('APP_URL').'/storage/documents',
+            //'visibility' => 'public',
+        ],
 
         'files' => [
             'driver' => 'local',

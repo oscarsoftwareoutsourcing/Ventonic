@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="Ventonic" />
     <meta name="description" content="Ventonic" />
-    <meta name="author" content="potenzaglobalsolutions.com" />
+    <meta name="author" content="softwareoutsourcing.es" />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'VENTONIC') }}</title>
     <link rel="apple-touch-icon" href="{{ asset('images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/ico/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
@@ -92,6 +92,66 @@
             max-height: 250px;
             overflow: auto;
         }
+        .ck.ck-reset, .ck.ck-reset_all, .ck.ck-reset_all * {
+            background: #262C49 !important;
+            color:#C2C6DC !important;
+            border-radius: 5px;
+        }
+        .ck.ck-editor__main > .ck-editor__editable {
+            background: #262C49 !important;
+            color: #C2C6DC !important;
+        }
+        .ck.ck-toolbar {
+            border: none !important;
+        }
+        .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+            border-top: #C2C6DC !important;
+            border-left: none !important;
+            border-right: none !important;
+            border-bottom: none !important;
+        }
+        .ck-editor .ck-editor__main .ck-content {
+            min-height: 250px;
+        }
+        body.dark-layout .nav-tabs .nav-item .nav-link.active,
+        body.dark-layout .nav-tabs.nav-justified .nav-item .nav-link.active,
+        body.dark-layout .nav .nav-item .nav-link.active {
+            background: -webkit-linear-gradient(332deg, #0087FF, rgba(115, 103, 240, 0.7));
+            background: linear-gradient(118deg, #0087FF, rgba(115, 103, 240, 0.7));
+            box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7);
+            color: #FFFFFF;
+            font-weight: 400;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+        .btn-input-group-right {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+        }
+        .label-font {
+            font-weight: 700 !important;
+            font-size:1.1rem !important;
+        }
+        .flatpickr-calendar {
+            background: rgb(38, 44, 73) !important;
+        }
+        .flatpickr-time input:hover, .flatpickr-time .flatpickr-am-pm:hover, .flatpickr-time input:focus,
+        .flatpickr-time .flatpickr-am-pm:focus {
+            background: transparent !important;
+        }
+        .flatpickr-time .numInputWrapper span.arrowUp::after, .numInputWrapper span.arrowUp::after {
+            border-bottom: 4px solid #fff !important;
+            border-bottom-color: #fff !important;
+        }
+
+        .flatpickr-time .numInputWrapper span.arrowDown::after, .numInputWrapper span.arrowDown::after {
+            border-top: 4px solid #fff !important;
+            border-top-color: #fff !important;
+        }
+        .flatpickr-current-month .flatpickr-monthDropdown-months, .flatpickr-time input,
+        .flatpickr-current-month input.cur-year {
+            color: #fff !important;
+        }
     </style>
 </head>
 
@@ -101,7 +161,7 @@
 <!-- BEGIN: Body  vertical-menu-modern-->
 <!-- data-menu="vertical-menu-modern" -->
 <body class="vertical-layout vertical-menu-modern {{ ($type_device=='mobile') ? 'semi-dark-layout':'dark-layout' }}  @yield('extra-style')
-navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="content-left-silderbar" data-layout="dark-layout" data-device="{{ $type_device }}">
+navbar-floating footer-static " data-open="click" data-menu="vertical-menu-modern" data-col="content-left-silderbar" data-layout="dark-layout" data-device="{{ $type_device }}">
     <div id="app">
 
         @include('layouts.element.nav')

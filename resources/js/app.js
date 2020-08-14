@@ -5,6 +5,16 @@ import Vuelidate from "vuelidate";
 // Import store modules.
 import store from "./store/index.js";
 import moment from "moment";
+import CKEditor from '@ckeditor/ckeditor5-vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import '@ckeditor/ckeditor5-build-classic/build/translations/es';
+import Datepicker from 'vuejs-datepicker';
+import { es } from 'vuejs-datepicker/dist/locale';
+import VueFlatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
+import {Spanish} from 'flatpickr/dist/l10n/es.js';
+import VuePaginate from 'vue-paginate';
+
 
 require("./bootstrap");
 
@@ -12,11 +22,16 @@ window.Vue = require("vue");
 Vue.use(VueChatScroll);
 Vue.use(Vuelidate);
 Vue.use(PerfectScrollbar);
+Vue.use(CKEditor);
+Vue.use(VueFlatPickr);
+Vue.use(VuePaginate);
 
 Vue.component("search-sellers", () =>
     import("./components/SearchSellersComponent.vue")
 );
 Vue.component("chat", () => import("./components/ChatComponent.vue"));
+Vue.component("free-apps", () => import("./components/FreeApp.vue"));
+
 Vue.component("email-setting", () =>
     import("./components/EmailSettingComponent.vue")
 );
@@ -47,10 +62,60 @@ Vue.component("negotiation-event-modal", () => import("./components/NegEventModa
 Vue.component("negotiation-file-modal", () => import("./components/NegFileModal.vue"));
 Vue.component("negotiation-confirm-modal", () => import("./components/NegConfirmModal.vue"));
 
+/** Componentes comúnes */
+Vue.component("email-app", () => import("./components/commons/EmailAppComponent.vue"));
+Vue.component('note', () => import("./components/commons/NoteComponent.vue"));
+Vue.component('event', () => import("./components/commons/EventComponent.vue"));
+Vue.component('media-file', () => import("./components/commons/MediaFileComponent.vue"));
+Vue.component('call-event', () => import("./components/commons/CallEventComponent.vue"));
+Vue.component('task', () => import("./components/commons/TaskComponent.vue"));
+Vue.component('remember-activity', () => import('./components/commons/RememberActivityComponent.vue'));
+
+/** Gestión de contactos */
+Vue.component('contact-detail', () => import('./components/ContactDetailComponent.vue'));
+
 Vue.mixin({
+    components: {
+        Datepicker
+    },
     data() {
         return {
-            errors: {}
+            errors: {},
+            ckeditor: {
+                editor: ClassicEditor,
+                editorConfig: {
+                    toolbar: [
+                        'heading', '|',
+                        'bold', 'italic', 'blockQuote', 'link',
+                        'numberedList', 'bulletedList', '|',
+                        'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
+                        'undo', 'redo'
+                    ],
+                    language: 'es'
+                }
+            },
+            datepicker: {
+                language: es,
+                format: 'dd-MM-yyyy',
+                class: 'form-control',
+            },
+            flatPicker: {
+                config: {
+                    wrap: true, // set wrap to true only when using 'input-group'
+                    altFormat: 'd-m-Y',
+                    altInput: true,
+                    dateFormat: 'd-m-Y',
+                    locale: Spanish, // locale for this instance only
+                },
+                configTime: {
+                    enableTime: true,
+                    enableSeconds: false,
+                    noCalendar: true,
+                    time_24hr: true,
+                    defaultHour: 0,
+                    minuteIncrement: 1
+                }
+            }
         };
     },
     methods: {
@@ -86,6 +151,9 @@ Vue.mixin({
         date_format(value) {
             return moment(String(value)).format("MMMM Do YYYY");
         },
+        shortDateFormat(value) {
+            return moment(String(value)).format("DD-MM-YYYY");
+        },
         /**
          * Estableve el formato de hora para una cadena de texto
          *
@@ -95,6 +163,56 @@ Vue.mixin({
          */
         time_format(value) {
             return moment(String(value)).format("h:mm:ss a");
+        },
+        /**
+         * Obtiene el nombre de un archivo a partir del path del mismo
+         *
+         * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
+         *
+         * @param     {string}       filePath    Ruta del archivo
+         *
+         * @return    {string}       Nombre del archivo
+         */
+        getFileName(filePath) {
+            var pathSections = filePath.split("/");
+            return pathSections[pathSections.length - 1];
+        },
+        initializeMap(mapContainerId, address, lat, lng) {
+            const geocoder = new google.maps.Geocoder();
+
+            const map = new google.maps.Map(document.getElementById(mapContainerId), {
+                center: {lat: lat || 0, lng: lng || 0},
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            if (!lat && !lng) {
+                const localAddress = address.replace('\n', ' ');
+                var locationLat = 0, locationLng = 0;
+                /*const queryAddress = `https://maps.googleapis.com/maps/api/geocode/json?address=${localAddress}&key=AIzaSyCN7QXrQX8mlDNTdtcSY5dzZzrVJ1516hw`;
+
+                if (queryAddress.results.length === 0) {
+                    return false;
+                }*/
+                geocoder.geocode({'address': localAddress}, function(results, status) {
+                    if (status == 'OK') {
+                        map.setCenter(results[0].geometry.location);
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: results[0].geometry.location
+                        });
+                        marker.setVisible(true);
+                    }
+                });
+            }
+            else {
+                const marker = new google.maps.Marker({
+                    map: map,
+                    position: {lat: lat, lng: lng}
+                });
+            }
+
+            marker.setVisible(true);
         }
     }
 });

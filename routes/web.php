@@ -51,14 +51,6 @@ Route::get('correo/verificar', 'Auth\VerificationController@show')->name('verifi
 Route::get('correo/verificar/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
 Route::post('correo/reenviar', 'Auth\VerificationController@resend')->name('verification.resend');
 
-Route::get('/inicio', 'HomeController@index')->name('home')->middleware('verified');
-Route::get('buscar-vendedores', 'HomeController@searchSeller')->name('search.init')->middleware('verified');
-
-Route::post('filtro', 'HomeController@filterSearch')->name('filter.search')->middleware('verified');
-Route::resource('perfil', 'ProfileController')->middleware('verified');
-//Route::resource('questions', 'QuestionController')->middleware('verified');
-Route::get('get-users', 'HomeController@getUsers')->name('get-users')->middleware('verified');
-Route::get('get-surveys', 'HomeController@getSurveys')->name('get-surveys')->middleware('verified');
 
 /** Rutas para chat */
 Route::get('chat', 'ChatController@index')->name('chat');
@@ -66,6 +58,8 @@ Route::post('chat', 'ChatController@peerToPeer');
 Route::get('messages', 'ChatController@fetchMessages');
 Route::post('messages', 'ChatController@sendMessage');
 
+
+/** Rutas del backend de la aplicación */
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('storage/files/{file}', function ($file) {
         $path = storage_path('files/' . $file);
@@ -80,6 +74,27 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         return $response;
     });
+    Route::get('storage/documents/{file}', function ($file) {
+        $path = storage_path('app/documents/' . $file);
+        if (!File::exists($path)) {
+            abort(404);
+        }
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
+    });
+    Route::get('inicio', 'HomeController@index')->name('home');
+    Route::get('buscar-vendedores', 'HomeController@searchSeller')->name('search.init');
+    Route::post('filtro', 'HomeController@filterSearch')->name('filter.search');
+    Route::resource('perfil', 'ProfileController');
+    //Route::resource('questions', 'QuestionController');
+    Route::get('get-users', 'HomeController@getUsers')->name('get-users');
+    Route::get('get-surveys', 'HomeController@getSurveys')->name('get-surveys');
+
     Route::resource('events', 'EventController');
     Route::get('ultimos-eventos', 'EventController@lastEvents')->name('events.list');
     Route::post('get-country-flag', 'ProfileController@getCountryFlag')->name('get-country-flag');
@@ -94,17 +109,80 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::delete('chatroom/{id}/delete', 'ChatController@destroyChatRoom');
     Route::post('notification-time/update', 'NotificationController@updateTime');
 
-  /** Rutas para la gestión de correos */
-    Route::get('email', 'EmailController@index')->name('email');
-    Route::get('email/settings', 'EmailController@getSetting');
-    Route::post('email/settings', 'EmailController@setSetting');
-    Route::get('email/messages/{download?}', 'EmailController@getMessages')->name('email.get-messages');
-    Route::post('email/sent', 'EmailController@sentMessage')->name('email.sent-message');
-    Route::post('email/messages/delete', 'EmailController@destroyMessages');
-    Route::post('email/set-favorite', 'EmailController@setFavorite');
-    Route::post('email/save-draft', 'EmailController@saveDraft');
-    Route::post('email/mark-read', 'EmailController@markRead');
-    Route::post('email/upload-attachment', 'EmailController@uploadAttachment');
+    /** Rutas para la gestión de correos */
+    Route::group(['prefix' => 'email'], function () {
+        Route::get('/', 'EmailController@index')->name('email');
+        Route::get('settings', 'EmailController@getSetting');
+        Route::post('settings', 'EmailController@setSetting');
+        Route::get('messages/{download?}', 'EmailController@getMessages')->name('email.get-messages');
+        Route::post('sent', 'EmailController@sentMessage')->name('email.sent-message');
+        Route::post('messages/delete', 'EmailController@destroyMessages');
+        Route::post('set-favorite', 'EmailController@setFavorite');
+        Route::post('save-draft', 'EmailController@saveDraft');
+        Route::post('mark-read', 'EmailController@markRead');
+        Route::post('upload-attachment', 'EmailController@uploadAttachment');
+    });
+
+    /** Rutas para la gestión de contactos */
+    Route::group(['prefix' => 'contacto'], function () {
+        Route::get('listado', 'ContactController@index')->name('contact.list');
+        Route::get('crear/{contact?}', 'ContactController@create')->name('contact.create');
+        Route::post('save', 'ContactController@store')->name('contact.save');
+        Route::get('widget/{contacts?}', 'ContactController@show')->name('contact.show');
+        Route::get('image/{filename}', 'ContactController@getImage')->name('contact.image');
+        Route::get('eliminar/{contact_id}/{user_id}', 'ContactController@destroy')->name('contact.destroy');
+        Route::get('editar/{contact_id}', 'ContactController@edit')->name('contact.editForm');
+        Route::post('update', 'ContactController@update')->name('contact.update');
+        Route::get('get-contacts/{contact_id?}', 'ContactController@getContacts');
+        Route::get('detalles/{contact}', 'ContactController@detail')->name('contact.detail');
+        Route::delete('{contact}/delete', 'ContactController@destroyContact');
+    });
+
+    /** Rutas de componentes generales de la aplicación */
+    Route::group(['namespace' => 'Components', 'prefix' => 'components'], function () {
+        /**
+         * Gestión de correos
+         */
+        Route::get('get-emails/{class}/{id}', 'EmailAppController@getEmails');
+        Route::post('set-email', 'EmailAppController@setEmail');
+        Route::post('get-contacts-emails', 'EmailAppController@getContactEmails');
+
+        /**
+         * Gestión de notas
+         */
+        Route::get('get-notes/{class}/{id}', 'NoteController@getNotes');
+        Route::post('set-note', 'NoteController@setNote');
+
+        /**
+         * Gestión de eventos
+         */
+        Route::get('get-events/{class}/{id}', 'EventController@getEvents');
+        Route::post('set-event', 'EventController@setEvent');
+
+        /**
+         * Gestión de archivos
+         */
+        Route::post('upload-documents', 'FileController@uploadDocument');
+        Route::post('set-document', 'FileController@setDocument');
+        Route::get('get-documents/{class}/{id}', 'FileController@getDocuments');
+        Route::post('delete-document', 'FileController@deleteDocument');
+
+        /**
+         * Gestión de llamadas
+         */
+        Route::get('get-call-results', 'CallResultController@getCallResults');
+        Route::get('get-calls/{class}/{id}', 'CallController@getCalls');
+        Route::post('set-call', 'CallController@setCall');
+
+        /**
+         * Gestión de tareas
+         */
+        Route::get('get-task-types', 'TaskController@getTaskTypes');
+        Route::get('get-task-priorities', 'TaskController@getTaskPriorities');
+        Route::get('get-task-queues', 'TaskController@getTaskQueues');
+        Route::get('get-tasks/{class}/{id}', 'TaskController@getTasks');
+        Route::post('set-task', 'TaskController@setTask');
+    });
 });
 
 /* Routas para oportunidades */
@@ -115,11 +193,14 @@ Route::get(
     'OportunyController@showRegistrationOportunity'
 )->name('oportunity.form')->middleware('verified');
 Route::post('save', 'OportunyController@store')->name('oportunity.save')->middleware('verified');
+Route::post('oportunity/update', 'OportunyController@update')->name('oportunity.update')->middleware('verified');
 Route::get(
     'oportunity/image/{filename}',
     'OportunyController@getImage'
 )->name('oportunityImage')->middleware('verified');
 Route::get('oportunity/{id}', 'OportunyController@showOportunity')->name('oportunity')->middleware('verified');
+Route::get('oportunity/change-status/{oportunity}/{statusType}', 'OportunyController@changeStatus')
+     ->name('oportunity.change_status')->middleware('verified');
 
 
 /* Rutas para postulaciones */
@@ -148,19 +229,7 @@ Route::get('markAsRead', function () {
 //     return "Event has been sent!";
 // });
 
-// Rutas para contacto
-Route::get('contacto/listado', 'ContactController@index')->name('contact.list')->middleware('verified');
-Route::get('contacto/crear/{contact?}', 'ContactController@create')->name('contact.create')->middleware('verified');
-Route::post('contacto/save', 'ContactController@store')->name('contact.save')->middleware('verified');
-Route::get('contacto/widget/{contacts?}', 'ContactController@show')->name('contact.show')->middleware('verified');
-Route::get('contacto/image/{filename}', 'ContactController@getImage')->name('contact.image')->middleware('verified');
-Route::get(
-    'contacto/eliminar/{contact_id}/{user_id}',
-    'ContactController@destroy'
-)->name('contact.destroy')->middleware('verified');
 
-Route::get('contacto/editar/{contact_id}', 'ContactController@edit')->name('contact.editForm')->middleware('verified');
-Route::post('contacto/update', 'ContactController@update')->name('contact.update')->middleware('verified');
 
 // Rutas para grupos
 
@@ -200,20 +269,34 @@ Route::group(['middleware' => ['verified']], function () use ($router) {
     // Negotiations
     // Rutas para negociaciones Company
     Route::get('negociaciones', 'NegotiationController@index')->name('negociaciones');
-    Route::get('negociaciones/get-notes/{negotiation}', 'NegotiationController@getNotes');
-    Route::post('negociaciones/set-note', 'NegotiationController@setNote');
-    Route::get('negociaciones/get-events/{negotiation}', 'NegotiationController@getEvents');
-    Route::post('negociaciones/set-event', 'NegotiationController@setEvent');
-    Route::get('negociaciones/get-emails/{negotiation}', 'NegotiationController@getEmails');
-    Route::post('negociaciones/set-email', 'NegotiationController@setEmail');
+
     // $router->get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{producto}/{responsable}/{estimado}',
     // 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');
 });
 
 
+
+
 /* Routas para reportes */
 Route::get('informes/ventas', 'ReportController@sales')->name('report.sales')->middleware('verified');
+Route::get('informes/actividad', 'ReportController@activities')->name('report.activities')->middleware('verified');
 
 Route::get('calender', 'EventController@index')->name('events.calender');
 
 Route::view('dash', 'inicio-dashboard');
+
+Route::get('{uuid}/widget', 'WidgetController@show');
+
+Route::view('dash', 'inicio-dashboard');
+
+Route::get('call-me', 'FreeAppController@index')->name('freeapps')->middleware('verified');
+Route::get('validate-pin/{pin}', 'FreeAppController@validatePin')->name('validatepin');
+Route::post('widget/generateWidget', 'WidgetController@store');
+Route::get('widget/widgetsData', 'WidgetController@widgetsData')->name('widgets.data');
+Route::get(
+    'updateWidgetStatus/{widgetID}/{widgetStatus}',
+    'WidgetController@updateWidgetStatus'
+)->name('widgets.update');
+Route::get('{uuid}/widget', 'WidgetController@show');
+
+Route::get('apps-gratis', 'FreeAppController@apps')->name('apps')->middleware('verified');

@@ -11,7 +11,10 @@ class Email extends Model
      *
      * @var array
      */
-    protected $fillable = ['subject', 'message', 'from_user_id', 'to_user_id', 'emailable_type', 'emailable_id'];
+    protected $fillable = [
+        'subject', 'message', 'from_user_id', 'to_user_id', 'destination_email',
+        'emailable_type', 'emailable_id'
+    ];
     protected $with = ['fromUser', 'toUser'];
 
     /**

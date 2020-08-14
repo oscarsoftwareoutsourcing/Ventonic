@@ -17,6 +17,9 @@
         .email-user-list {
             overflow-x: hidden !important;
         }
+        .email-user-list .media {
+                max-width: 900px;
+        }
         nav {
             z-index: 1;
         }

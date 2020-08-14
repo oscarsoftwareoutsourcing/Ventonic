@@ -14,13 +14,21 @@
                     <div class="card card-oportunity">
                         <div class="card-header"></div>
                         <div class="card-body">
-                            {{-- <form method="" action="" enctype="multipart/form-data"> --}}
+                            <form method="POST" action="{{ route('oportunity.update') }}" enctype="multipart/form-data">
                                 @csrf
 
                                     <div class="form-row">
-                                      <div class="col-md-12 col-12 mb-3">
+                                      <div class="col-md-8 col-8 mb-3">
                                         <label for="validationTooltip01">Titulo<span class="obligatorio">*</span></label>
-                                        <input type="text" class="form-control" name="title" id="title" placeholder="Titulo" value="{{$oportunity->title ?? ''}}" disabled>
+                                        <input type="text" class="form-control" name="title" id="title" placeholder="Titulo" value="{{$oportunity->title ?? ''}}"
+                                        {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
+                                      </div>
+                                      <div class="col-md-4 col-4">
+                                        <label for="validationTooltip01">Fecha de caducidad</label>
+                                        <flat-pickr name="expire_at" id="expire_at" class="form-control"
+                                                    :config="flatPicker.config" placeholder="dd-mm-yyyy"
+                                                    value="{{(!is_null($oportunity->expire_at)) ? $oportunity->expire_at->format('d-m-Y') : ''}}"
+                                                    {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}/>
                                       </div>
                                     </div>
 
@@ -28,12 +36,14 @@
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="validationTooltip01">Empresa<span class="obligatorio">*</span></label>
                                           <input type="text" class="form-control" name="oportunity_id" placeholder="oportunity_id" value="{{$oportunity->id ?? ''}}" hidden>
-                                          <input type="text" class="form-control" name="empresa" placeholder="Empresa" value="{{$oportunity->user->name}}" required disabled>
+                                          <input type="text" class="form-control" name="empresa" placeholder="Empresa" value="{{$oportunity->user->name}}" required
+                                          {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                         </div>
 
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="cargo">Cargo<span class="obligatorio">*</span></label>
-                                          <input type="text" class="form-control @error('cargo') is-invalid @enderror" name="cargo" value="{{$oportunity->cargo ?? ''}}" placeholder="Cargo" disabled>
+                                          <input type="text" class="form-control @error('cargo') is-invalid @enderror" name="cargo" value="{{$oportunity->cargo ?? ''}}" placeholder="Cargo"
+                                          {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                           @error('cargo')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
@@ -41,7 +51,7 @@
 
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="validationTooltip03">Ubicacion<span class="obligatorio">*</span></label>
-                                          <input type="text" class="form-control @error('ubication') is-invalid @enderror" name="ubication" placeholder="Ciudad, Provincia, Pais" value="{{$oportunity->ubication ?? ''}}" disabled>
+                                          <input type="text" class="form-control @error('ubication') is-invalid @enderror" name="ubication" placeholder="Ciudad, Provincia, Pais" value="{{$oportunity->ubication ?? ''}}" {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                           @error('ubication')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
@@ -52,7 +62,8 @@
                                     <div class="form-row">
                                         <div class="col-md-8 col-12 mb-3">
                                           <label for="validationTooltip01">Funcion laboral (añade hasta 3)<span class="obligatorio">*</span></label>
-                                          <input type="text" class="form-control @error('functions') is-invalid @enderror" name="functions" value="{{$oportunity->functions ?? ''}}" disabled>
+                                          <input type="text" class="form-control @error('functions') is-invalid @enderror" name="functions" value="{{$oportunity->functions ?? ''}}"
+                                          {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                           @error('functions')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
@@ -60,7 +71,7 @@
 
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="validationTooltip02">Tipo de Empleo<span class="obligatorio">*</span></label>
-                                          <select class="form-control  @error('jobType') is-invalid @enderror" id="jobType" name="jobType" disabled>
+                                          <select class="form-control  @error('jobType') is-invalid @enderror" id="jobType" name="jobType" {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                             @foreach($jobTypes as $jobType)
                                               <option value="{{$jobType->id}}" {{$oportunity && $jobType->id==$oportunity->job_type_id ? 'selected' : ''}}>{{$jobType->description}}</option>
                                             @endforeach
@@ -71,7 +82,8 @@
                                     <div class="form-row">
                                         <div class="col-md-8 col-12 mb-3">
                                           <label for="validationTooltip01">Sector de la empresa<span class="obligatorio">*</span></label>
-                                          <select class="select2 form-control max-length @error('sectors') is-invalid @enderror" name="sectors[]" id="sectors" multiple="multiple" disabled>
+                                          <select class="select2 form-control max-length @error('sectors') is-invalid @enderror" name="sectors[]" id="sectors" multiple="multiple"
+                                          {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                             @foreach($sectorsAll as $sector)
                                               <option value="{{$sector->id}}" {{$oportunity ? App\Oportunity::getSector($oportunity->sectors, $sector->id) :''}}>{{$sector->description}}</option>
                                             @endforeach
@@ -80,7 +92,8 @@
 
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="validationTooltip02">Nivel de antiguedad<span class="obligatorio">*</span></label>
-                                          <select class="form-control" name="ubicationOportunity" disabled>
+                                          <select class="form-control" name="ubicationOportunity"
+                                                  {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                             <option>Selecciona una opcion</option>
                                             @foreach($ubicationOportunitys as $ubicationOportunity)
                                               <option value="{{$ubicationOportunity->id}}" {{$oportunity && $ubicationOportunity->id==$oportunity->ubication_oportunity_id ? 'selected' : ''}}>{{$ubicationOportunity->description}}</option>
@@ -93,14 +106,15 @@
                                     <div class="form-row">
                                         <div class="col-md-12 col-12 mb-3">
                                           <label for="validationTooltip01">Descripcion del empleo<span class="obligatorio">*</span></label>
-                                          <textarea class="form-control" name="description" rows="3" disabled>{{App\Oportunity::strTags($oportunity->description)}}</textarea>
+                                          <textarea class="form-control" name="description" rows="3"
+                                                    {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>{{App\Oportunity::strTags($oportunity->description)}}</textarea>
                                         </div>
                                     </div>
 
                                     <div class="form-row">
                                       <div class="col-md-12 col-12 mb-3">
                                         <label for="validationTooltip01">Aptitudes requeridas</label>
-                                        <select class="select2 form-control @error('skills') is-invalid @enderror" name="skills[]" multiple="multiple" disabled>
+                                        <select class="select2 form-control @error('skills') is-invalid @enderror" name="skills[]" multiple="multiple" {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                           @foreach($aptitudes as $aptitud)
                                             <option value="{{$aptitud->id}}"  {{$oportunity ? App\Oportunity::getAptitudes($oportunity->skills, $aptitud->id) :''}}>{{$aptitud->description}}</option>
                                           @endforeach
@@ -112,7 +126,7 @@
                                 <div class="form-row">
                                   <div class="col-md-12 col-12 mb-3">
                                     <label for="validationTooltip01">Recibiré solicitudes a través de LikeInd al siguiente correo:</label>
-                                    <input type="email" class="form-control" name="email_contact" placeholder="ejemplo@ejemplo.com" value="{{$oportunity->email_contact}}" disable>
+                                    <input type="email" class="form-control" name="email_contact" placeholder="ejemplo@ejemplo.com" value="{{$oportunity->email_contact}}" {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                   </div>
                                 </div>
                                 @endif
@@ -121,16 +135,16 @@
                                 <div class="form-row">
                                   <div class="col-md-12 col-12 mb-3">
                                     <label for="validationTooltip01">Sitio Web</label>
-                                    <input type="text" class="form-control" name="web" value="{{$oportunity->web}}" placeholder="web@web.com" disable>
+                                    <input type="text" class="form-control" name="web" value="{{$oportunity->web}}" placeholder="web@web.com" {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                   </div>
                                 </div>
                                 @endif
 
-                                @if($oportunity!=NULL)
+                                @if($oportunity!=null)
                                 <div class="form-row" hidden>
                                   <div class="col-md-12 col-12 mb-3 rounded border border-secondary">
                                     <label class="mb-1" for="validationTooltip01">Elige un nuevo estatus para tu publicacion</label>
-                                    <select class="form-control mb-2" name="statusOportunity">
+                                    <select class="form-control mb-2" name="statusOportunity" {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                       @foreach($statusOportunity as $status)
                                         <option value="{{$status->id}}" {{$oportunity && $status->id==$oportunity->status_id ? 'selected' : ''}}>{{App\StatusOportunity::getStatus((int)$status->id)}}</option>
                                       @endforeach
@@ -156,23 +170,51 @@
                                               </div>
                                           </div>
 
-                                          <div class="col-4 justify-content-center content-btn-save-oportunity">
+                                          <div class="col-8 justify-content-center content-btn-save-oportunity mb-3">
                                             @if(\Auth::user()->type !=="V" && $oportunity->user_id ==\Auth::user()->id)
-                                              <button type="submit" 
-                                                class="btn btn-primary waves-effect waves-light mx-auto mt-1" 
-                                                name="guardar" value="guardar">
-                                                <a href="{{ route('oportunity.saved') }}" class="text-white">
-                                                GUARDAR
-                                                </a>
+                                              <button type="submit" name="guardar" value="guardar"
+                                                      class="btn btn-primary waves-effect waves-light mx-auto mt-1">
+                                                    GUARDAR
                                               </button>
+                                              @if ($oportunity->statusOportunity->description !== 'cerrada')
+                                                  <a href="{{ route('oportunity.change_status', [
+                                                    'oportunity' => $oportunity->id, 'statusType' => 'cerrada'
+                                                  ]) }}"
+                                                     class="btn btn-primary waves-effect waves-light mx-auto mt-1"
+                                                     data-toggle="tooltip" title="Cerrar oportunidad">
+                                                      CERRAR
+                                                  </a>
+                                              @else
+                                                  <a href="{{ route('oportunity.change_status', [
+                                                    'oportunity' => $oportunity->id, 'statusType' => 'activa'
+                                                  ]) }}"
+                                                     class="btn btn-primary waves-effect waves-light mx-auto mt-1"
+                                                     data-toggle="tooltip" title="Activar oportunidad">
+                                                      ACTIVAR
+                                                  </a>
+                                              @endif
+                                              <div class="btn-group" role="group">
+                                                <button id="btnActionStatus" type="button"
+                                                        class="btn btn-primary waves-effect waves-light mx-auto mt-1  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Cambiar Status
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnActionStatus">
+                                                    <a class="dropdown-item" href="{{ route('oportunity.change_status', [
+                                                    'oportunity' => $oportunity->id, 'statusType' => 'cancelada'
+                                                  ]) }}">Cancelada</a>
+                                                    <a class="dropdown-item" href="{{ route('oportunity.change_status', [
+                                                    'oportunity' => $oportunity->id, 'statusType' => 'no+publicada'
+                                                  ]) }}">No publicada</a>
+                                                </div>
+                                              </div>
 
                                             @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)==null)
-                                              <button type="button" 
-                                                      class="btn btn-primary waves-effect waves-light mx-auto mt-1" 
-                                                      name="candidatura" 
-                                                      data-toggle="modal" 
-                                                      data-target="#primary" 
-                                                      id="postularseBtn" 
+                                              <button type="button"
+                                                      class="btn btn-primary waves-effect waves-light mx-auto mt-1"
+                                                      name="candidatura"
+                                                      data-toggle="modal"
+                                                      data-target="#primary"
+                                                      id="postularseBtn"
                                                       value="candidatura"
                                               >
                                                 PRESENTAR MI CANDIDATURA
@@ -221,7 +263,7 @@
                                       </div>
                                   </div>
                               </div>
-                            {{-- </form> --}}
+                            </form>
                         </div>
                     </div>
                 </div>

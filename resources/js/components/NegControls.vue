@@ -21,11 +21,34 @@
         </li>
       </ul>
       <ul class="navbar-nav p-1">
+        <!--
         <li class="nav-item">
           <button
             type="button"
             class="btn btn-dark btn btn-block waves-effect waves-light"
           >Gestionar listas</button>
+        </li>
+       
+        <li>
+          <button
+            class="waves-light"
+            type="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+            @click="openFilter"
+          >
+            <i class="feather icon-settings fa fa-spin fa-fw white"></i>
+          </button>
+        </li>
+        -->
+        <li class="nav-item">
+          <button
+            type="button"
+            class="btn btn-dark btn btn-block waves-effect waves-light"
+            @click="openFilter"
+          >
+            <i class="feather icon-settings fa fa-spin fa-fw white"></i>
+          </button>
         </li>
       </ul>
     </div>
@@ -43,6 +66,9 @@ export default {
     newNegotiation() {
       this.toggleLists();
       this.toggleForm();
+    },
+    openFilter: function () {
+      $(".customizer").toggleClass("open");
     },
   },
 };

@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+
+    
 });
     
 // Todos routes
@@ -45,3 +47,12 @@ $router->group(['prefix' => 'negotiations'], function() use ($router) {
     // Update todos.
     // $router->post('update-todos', ['uses' => 'TodoController@updateTodos']);
 });
+
+$router->group(['prefix' => 'widget','middleware' => 'auth:api'], function() use ($router) {
+// Route::group(['prefix' => 'widget'], function () {
+    $router->post('generateWidget',['uses'=>'WidgetController@store']);
+});
+
+Route::post('/apps', 'AppsController@store');
+Route::post('widget', 'WidgetController@store');
+Route::post('widget/data', 'WidgetDataController@store');

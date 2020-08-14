@@ -12,19 +12,19 @@
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
-    <div class="content-wrapper">
+    <div class="content-wrapper pt-1">
         <div class="content-header row">
         </div>
-        <div class="container">
+        <div class="">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
 
                           <div class="card-ventonic">
-                            
+
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                    <div class="text-ventonic">Oportunidades</div> 
+                                    <div class="text-ventonic">Oportunidades</div>
                                 </div>
                                 @if(Auth::user()->typeuser=="E")
                                     <div class="col-lg-3 col-md-4 col-sm-12 ">
@@ -36,60 +36,115 @@
                         <hr>
                         <div class="card-header">Filtros</div>
                         <div class="card-body">
-                            <div class="row">
-                            {{-- BEGIN Filltros --}}
-                                <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
-                                    <div class="form-label-group">
-                                        <select class="form-control" id="tipo-empleo" name="etiquetas">
-                                            <option value="0">Busqueda por tipo de Empleo</option>
-                                            @foreach($jobType as $type)
-                                            <option value="{{$type->id}}">{{$type->description}}</option>
-                                            @endforeach
-                                        </select>
+                            @if (session('message'))
+                                <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
+                                  <p class="mb-0">{{ session('message') }}</p>
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                </div>
+                            @endif
+                            <form action="{{ route('oportunity.list') }}" method="GET">
+                                @csrf
+                                <div class="row mb-2">
+                                    <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-6' }}">
+                                        <div class="input-group">
+                                            <input type="text" id="textSearch" name="oportunitySearch"
+                                                   class="form-control" placeholder="Buscar oportunidades..."
+                                                   style="border:1px solid #0087ff;"
+                                                   value="{{ request()->oportunitySearch }}">
+                                        </div>
+                                    </div>
+                                    <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-6' }}">
+                                        <div class="input-group">
+                                            <flat-pickr name="expire_at" id="expire_at" class="form-control"
+                                                    :config="flatPicker.config" placeholder="Fecha de caducidad"
+                                                    value="{{ request()->expire_at }}"/>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
-                                    <div class="form-label-group">
-                                        <select class="form-control" id="antiguedad" name="etiquetas">
-                                            <option value="0">Busqueda por nivel de antiguedad</option>
-                                            @foreach($antiguedad as $antiguo)
-                                            <option value="{{$antiguo->id}}">{{$antiguo->description}}</option>
-                                            @endforeach
-                                        </select>
+                                <div class="row">
+                                {{-- BEGIN Filltros --}}
+                                    <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
+                                        <div class="form-label-group">
+                                            <select class="form-control" id="tipo-empleo" name="jobType">
+                                                <option value="0" {{ request()->jobType=='0'?'selected':'' }}>
+                                                    Busqueda por tipo de Empleo
+                                                </option>
+                                                @foreach($jobType as $type)
+                                                    <option value="{{$type->id}}"
+                                                            {{ request()->jobType==$type->id?'selected':'' }}>
+                                                        {{$type->description}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
-                                    <div class="form-label-group">
-                                        <select class="select2 form-control" id="sectores" name="etiquetas">
-                                            <option value="0">Busqueda por sector de la empresa</option>
-                                            @foreach($sectors as $sector)
-                                            <option value="{{$sector->id}}">{{$sector->description}}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
+                                        <div class="form-label-group">
+                                            <select class="form-control" id="ubication" name="ubication">
+                                                <option value="0" {{ request()->ubication=='0'?'selected':'' }}>
+                                                    Busqueda por ubicacióin de oportunidad
+                                                </option>
+                                                @foreach($ubications as $ubication)
+                                                    <option value="{{$ubication->id}}"
+                                                            {{ request()->ubication==$ubication->id?'selected':'' }}>
+                                                        {{$ubication->description}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                @if(Auth::user()->typeuser=="V")
-                                <div class="col-lg-3">
-                                    <div class="form-label-group">
-                                        <select class="form-control" id="estatus-postulados" name="etiquetas">
-                                            <option  value="0">Estado</option>
-                                            <option value="postulado">Postulado</option>
-                                            <option value="no postulado">No postulado</option>
-                                        </select>
+                                    <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-3' }}">
+                                        <div class="form-label-group">
+                                            <select class="select2 form-control" id="sectores" name="sector">
+                                                <option value="0" {{ request()->sector=='0'?'selected':'' }}>
+                                                    Busqueda por sector de la empresa
+                                                </option>
+                                                @foreach($sectors as $sector)
+                                                    <option value="{{$sector->id}}"
+                                                            {{ request()->sector==$sector->id?'selected':'' }}>
+                                                        {{$sector->description}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                
-                                </div>
-                                @endif
+                                    @if (Auth::user()->typeuser=="V")
+                                        <div class="col-lg-3">
+                                            <div class="form-label-group">
+                                                <select class="form-control" id="estatus-postulados" name="status">
+                                                    <option  value="0" {{ request()->status=='0'?'selected':'' }}>
+                                                        Estado
+                                                    </option>
+                                                    <option value="postulado"
+                                                            {{ request()->status=='postulado'?'selected':'' }}>
+                                                        Postulado
+                                                    </option>
+                                                    <option value="no postulado"
+                                                            {{ request()->status=='no postulado'?'selected':'' }}>
+                                                        No postulado
+                                                    </option>
+                                                </select>
+                                            </div>
 
-                            </div>
+                                        </div>
+                                    @endif
 
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary float-right">Buscar</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     {{-- END Filltros --}}
                     <div class="row">
                     @if(isset($oportunitys))
                         @foreach($oportunitys as $oportunity)
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"> 
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="card">
                                  <div class="card-body">
                                      <div class="row">
@@ -109,52 +164,55 @@
                                                 <span class="card-text">{{$oportunity->cargo}}</span>
                                                 <p class="card-text  mb-0">{{App\JobType::getType((int)$oportunity->job_type_id)}}</p>
                                                 <p class="card-text  mb-0">{{App\Oportunity::listSectors($oportunity->sectors)}}</p>
-                                        
+
                                          </div>
                                      </div>
-                                 
+
                                     <hr class="my-1">
                                     <div class="card-btns d-flex justify-content-between mt-2">
                                             <a href="#" ></a>
                                             @if((\Auth::user()->typeuser)=="V")
                                                  @if(App\Aplicant::postulationTrue(\Auth::user()->id, $oportunity->id))
-                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}" 
+                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
                                                     class="btn btn-dark mr-1 mb-1 waves-effect waves-light">
                                                         Postulado<br>
                                                         <span class="small">{{App\Aplicant::datePostulation(\Auth::user()->id, $oportunity->id)}}</span>
                                                     </a>
                                                     <input type="text" class="postulado" value="postulado" data-id="{{$oportunity->id}}" hidden>
                                                 @else
-                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}" 
+                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
                                                     class="btn btn-primary mr-1 mb-1 waves-effect waves-light">
                                                         Aplicar
                                                     </a>
                                                 <input type="text" class="postulado" value="no postulado" data-id="{{$oportunity->id}}" hidden>
                                                 @endif
                                             @else
-                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}" 
+                                                    <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
                                                     class="btn btn-outline-primary waves-effect waves-light">
                                                         Ver<br>
                                                     </a>
                                             @endif
                                         </div>
-                                </div>    
+                                </div>
                             </div>
 
                         </div>
                         @endforeach
-                    @endif    
+                    @endif
+                    </div>
+                    <div class="col-lg-4 offset-lg-4">
+                        {{ $oportunitys->links() }}
                     </div>
                             <!--
                     <div class="card">
                         <div class="card-header">
-                            
+
                         </div>
                         <div class="card-body">
-                          
-                           
+
+
                             <section id="data-list-view" class="data-list-view-header">
-                              
+
                                 <div class="table-responsive">
                                     <table id="datatable" class="table data-list-view mt-2">
                                         <thead>
@@ -214,9 +272,9 @@
                                         </tbody>
                                     </table>
                                 </div>
-                               
+
                             </section>
-                           
+
                         </div>
                     </div>
 

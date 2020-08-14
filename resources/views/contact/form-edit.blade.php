@@ -17,8 +17,8 @@
                     <div class="card-ventonic">
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                    <div class="text-ventonic-white">Contacto</div> 
-                                </div> 
+                                    <div class="text-ventonic-white">Contacto</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="card-content">
                             <div class="card-body">
                                 <form action="{{route('contact.update')}}" method="POST" class="form" enctype="multipart/form-data">
@@ -47,7 +47,7 @@
                                             <div class="form-group col-12">
                                                 <fieldset class="checkbox">
                                                     <div class="vs-checkbox-con vs-checkbox-primary float-right">
-                                                        <input type="checkbox" name="favorito" id="favorito" {{App\Contact::checkedFavorite($contact) ?? ''}}>
+                                                        <input type="checkbox" name="favorite" id="favorite" {{App\Contact::checkedFavorite($contact) ?? ''}}>
                                                         <span class="vs-checkbox">
                                                             <span class="vs-checkbox--check">
                                                                 <i class="vs-icon feather icon-check"></i>
@@ -57,47 +57,47 @@
                                                     </div>
                                                 </fieldset>
                                             </div>
-                                            
+
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                <input type="text" id="nombre-column" class="form-control @error('nombre') is-invalid @enderror" 
+                                                <input type="text" id="nombre-column" class="form-control @error('nombre') is-invalid @enderror"
                                                        placeholder="Nombre" name="nombre" value="{{$contact->name ?? ''}}" required>
                                                     <label for="first-name-column">Nombre</label>
                                                 </div>
                                                 @error('nombre')
                                                 <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror 
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="text" id="apellido-column" class="form-control @error('apellido') is-invalid @enderror" placeholder="Apellido" 
+                                                    <input type="text" id="apellido-column" class="form-control @error('apellido') is-invalid @enderror" placeholder="Apellido"
                                                     name="apellido" value="{{$contact->last_name ?? ''}}">
                                                     <label for="last-name-column">Apellido</label>
                                                 </div>
                                                 @error('apellido')
                                                 <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror 
+                                                @enderror
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="file" id="image-column" class="form-control @error('image') is-invalid @enderror" placeholder="Imagen del contacto" 
+                                                    <input type="file" id="image-column" class="form-control @error('image') is-invalid @enderror" placeholder="Imagen del contacto"
                                                     name="image">
                                                     <label for="last-name-column">Foto</label>
                                                 </div>
                                                 @error('image')
                                                 <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror 
+                                                @enderror
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="email" id="email-column" class="form-control @error('email') is-invalid @enderror" placeholder="Email" 
+                                                    <input type="email" id="email-column" class="form-control @error('email') is-invalid @enderror" placeholder="Email"
                                                     name="email" value="{{$contact->email ?? ''}}">
                                                     <label for="city-column">Email</label>
                                                 </div>
                                                 @error('email')
                                                 <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror 
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-6 col-12">
@@ -108,12 +108,12 @@
                                                 </div>
                                                 @error('web')
                                                 <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror 
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="number" min=0 id="telefono-column" class="form-control" name="telefono" placeholder="Telefono"  
+                                                    <input type="number" min=0 id="telefono-column" class="form-control" name="telefono" placeholder="Telefono"
                                                     value="{{$contact->phone ?? ''}}">
                                                     <label for="company-column">Telefono</label>
                                                 </div>
@@ -127,55 +127,60 @@
                                                 </div>
                                                 @error('empresa')
                                                 <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror 
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="text" min=0 id="cargo-emprea-column" class="form-control @error('cargo_empresa') is-invalid @enderror" 
-                                                    name="cargo_empresa" placeholder="Cargo empresa" value="{{$contact->cargo ?? ''}}">
+                                                    <input type="text" min=0 id="cargo-emprea-column" class="form-control @error('cargo') is-invalid @enderror"
+                                                    name="cargo" placeholder="Cargo empresa" value="{{$contact->cargo ?? ''}}">
                                                     <label for="company-column">Cargo Empresa</label>
                                                 </div>
-                                                @error('cargo_empresa')
+                                                @error('cargo')
                                                 <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror 
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="text" id="codigo-postal-column" class="form-control @error('codigo_postal') is-invalid @enderror" 
+                                                    <input type="text" id="codigo-postal-column" class="form-control @error('codigo_postal') is-invalid @enderror"
                                                     name="codigo_postal" placeholder="Código Postal" value="{{$contact->postal_code ?? ''}}">
                                                     <label for="email-id-column">Código Postal</label>
                                                 </div>
                                                 @error('codigo_postal')
                                                 <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror 
+                                                @enderror
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="text" id="sector2-column" class="form-control @error('sector') is-invalid @enderror" 
+                                                    <input type="text" id="sector2-column" class="form-control @error('sector') is-invalid @enderror"
                                                     name="sector" placeholder="Sector" value="{{$contact->sector ?? ''}}">
                                                     <label for="email-id-column">Sector</label>
                                                 </div>
                                                 @error('sector')
                                                 <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror 
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-6 col-12">
                                                 <div class="form-label-group">
                                                     <select class="form-control @error('etiquetas') is-invalid @enderror" id="etiqueta-column" name="etiquetas">
-                                                        <option {{$contact->type=="Cliente" ? 'selected': ''}} value="Cliente">Cliente</option>
-                                                        <option {{$contact->type=="Cliente" ? 'selected': ''}} value="Cliente Perdido">Cliente Perdido</option>
-                                                        <option {{$contact->type=="Cliente Potencial" ? 'selected': ''}} value="Cliente Potencial">Cliente Potencial</option>
-                                                        <option {{$contact->type=="Colaborador" ? 'selected': ''}} value="Colaborador">Colaborador</option>
-                                                        <option {{$contact->type=="Proveedor" ? 'selected': ''}} value="Proveedor">Proveedor</option>
+                                                        <option value="">Tipo de contacto</option>
+                                                        @foreach ($contactTypes as $contactType)
+                                                            @php
+                                                                $selected = $contact->contact_type_id===$contactType->id
+                                                                            ? 'selected' : '';
+                                                            @endphp
+                                                            <option value="{{ $contactType->id }}" {{ $selected }}>
+                                                                {{ $contactType->name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                     <label for="email-id-column">Tipo</label>
                                                 </div>
                                                 @error('etiquetas')
                                                 <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror 
+                                                @enderror
                                             </div>
 
                                             {{-- <div class="col-md-6 col-12">
@@ -196,7 +201,7 @@
 
                                             <div class="col-md-12 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="text" id="sector-column" class="form-control" name="type_contact" 
+                                                    <input type="text" id="sector-column" class="form-control" name="type_contact"
                                                     value="{{$contact=="empresa" || $contact=="persona" ? $contact : $contact->type_contact}}" hidden>
                                                     <textarea cols="3" id="anotaciones-column" class="form-control" name="anotaciones" placeholder="Anotaciones" >{{$contact->notes ?? ''}}
                                                     </textarea>
@@ -204,10 +209,10 @@
                                                 </div>
                                             </div>
 
- 
+
                                             <div class="col-md-12 col-12">
                                                 <div class="form-label-group">
-                                                    <input type="text" id="address-input" class="form-control map-input" 
+                                                    <input type="text" id="address-input" class="form-control map-input"
                                                     name="direccion_empresa" placeholder="Dirección Empresa" value="{{$contact->address ?? ''}}">
                                                     <input type="text" class="form-control" id="address-latitude" value="{{$contact->address_latitude ?? ''}}" name="address_latitude" hidden>
                                                     <input type="text" class="form-control" id="address-longitude" value="{{$contact->address_longitude ?? ''}}" name="address_longitude" hidden>
@@ -217,7 +222,7 @@
                                                 </div>
                                                 @error('direccion_empresa')
                                                 <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror 
+                                                @enderror
                                             </div>
                                             {{-- <div class="form-group col-12">
                                                 <fieldset class="checkbox">
@@ -232,7 +237,7 @@
                                                     </div>
                                                 </fieldset>
                                             </div> --}}
-                                            
+
                                             {{-- BEGIN Mapa --}}
                                             <div class="form-group col-12">
                                                 <div id="address-map-container" style="width:100%;height:400px; ">
@@ -243,7 +248,7 @@
 
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-primary mr-1 mb-1">Guardar</button>
-                                                <button type="reset" class="btn btn-outline-warning mr-1 mb-1">Cancelar</button>
+                                                <a href="{{ URL::previous() }}" class="btn btn-outline-warning mr-1 mb-1">Cancelar</a>
                                             </div>
                                         </div>
                                     </div>
