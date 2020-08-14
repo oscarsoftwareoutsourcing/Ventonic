@@ -113,7 +113,31 @@
                                         {{ e.created_at }}
                                     </h5>
                                     <h6 class="media-heading">Asunto: {{ e.subject }}</h6>
-                                    <p class="mb-0">Mensaje: {{ e.message }}</p>
+                                    <div class="accordion" :id="'accordionMsg_'+e.id">
+                                        <div class="card">
+                                            <div class="card-header" :id="'headingMsg_'+e.id" style="padding:0">
+                                                <h2 class="mb-0">
+                                                    <button class="btn btn-link" type="button"
+                                                            data-toggle="collapse" :data-target="'#collapseMsg_'+e.id"
+                                                            aria-expanded="true" :aria-controls="'collapseMsg_'+e.id"
+                                                            style="padding:0;color:#FFFFFF;">
+                                                        Mensaje
+                                                        <i aria-hidden="true" class="feather icon-chevron-down ml-3"
+                                                           style="color:#ffffff"></i>
+                                                    </button>
+                                                </h2>
+                                            </div>
+                                            <div :id="'collapseMsg_'+e.id" class="collapse"
+                                                 :aria-labelledby="'headingMsg_'+e.id"
+                                                 :data-parent="'#accordionMsg_'+e.id">
+                                                <div class="card-body">
+                                                    <p class="mb-0">
+                                                        <div v-html="e.message"></div>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
