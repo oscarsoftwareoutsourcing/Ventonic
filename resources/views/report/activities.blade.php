@@ -4,26 +4,24 @@
 @section('content')
 
     <!-- BEGIN: Content-->
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
-        <div class="content-wrapper">
-            <div class="content-header row">
-            </div>
-            <div class="card">
-                <div class="card-ventonic">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-12 ">
-                            <div class="text-ventonic" data-type="{{ Auth::user()->typeuser }}">Reporte de Actividades</div> 
-                        </div>
-                    </div>
+<div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+        <div class="content-header row">
+        </div>
+        <div class="card">
+            <div class="card-ventonic">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-12 ">
+                        <div class="text-ventonic" data-type="{{ Auth::user()->typeuser }}">Reporte de Actividades</div> 
+                     </div>
                 </div>
+            </div>
 
-                <hr>
-                <div class="card-body">
-                    
-
-                    <div class="row mb-1">
+            <hr>
+            <div class="card-body">
+                <div class="row mb-1">
                     <div class="col-lg-12 col-md-12 col-sm-12 ">
                         <form action="{{ route('report.activities') }}" method="GET">
                         @csrf
@@ -69,36 +67,85 @@
                     </div>
                     </div>
                 </div>
-            </div>
+        </div>
 
+        
+        <div class="card">
             <div class="col-lg-12 col-md-12 ">
-                     <div class="card">
-                        <div class="card-header">
-                             <h4 class="card-title">Negociaciones</h4>
-                        </div>
-                        <div class="card-content">
-                              <div class="card-body pl-0">
-                                        <div class="height-300">
-                                            <canvas id="bar-chart"></canvas>
-                                        </div>
-                                    </div>
+                    <div class="card-header">
+                        <h4 class="card-title">Informe de actividades</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="height-300">
+                                <canvas id="bar-chart"></canvas>
                             </div>
                         </div>
-                     </div>
+                    </div>
                 </div>
-
         </div>
+
+        <div class="card">
+            <div class="col-lg-12 col-md-12 ">
+                
+                    <div class="card-header">
+                        <h4 class="card-title">Informe de actividades</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                             <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        
+                                            <tr>
+                                                <td class="head-table"></td>
+                                                <td class="text-center head-table">Total</td>
+                                                <td class="text-center head-table">Media</td>
+                                               
+                                            </tr>
+                                        
+
+                                          <td colspan="4"><hr class="hr-report"></td>
+                                         @foreach($data as $dt)
+                                            <tr>
+                                                <td scope="row" class="info-table">{{ $dt['type'] }}</td>
+                                                <td class="text-center">{{ $dt['qty'] }}</td>
+                                                <td class="text-center"> 0 </td>
+                                                
+                                            </tr>
+                                        @endforeach
+                                        
+                                     
+
+                                    </table>
+                                </div>
+
+
+
+                            
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
     </div>
+
+</div>
+
         
    
 @endsection
 
 @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script type="text/javascript">
+        var pro_label = {!! $pro_label !!};
+        var pro_qty = {!! $pro_qty !!};
+    </script>
 @endsection
 
 @section('extra-js')
     <script src="{{ asset('vendors/js/charts/chart.min.js') }}"></script>
     <!-- BEGIN: Page JS-->
-    <script src="{{ asset('js/scripts/charts/chart-chartjs.js') }}"></script>
+    <script src="{{ asset('js/scripts/charts/chart-activities.js') }}"></script>
 @endsection

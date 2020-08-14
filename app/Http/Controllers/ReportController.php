@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use stdClass;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 use App\Http\Controllers\Controller;
 use App\JobType;
@@ -127,57 +129,82 @@ class ReportController extends Controller
             $date_range = self::getDateRange("90 days ago");
         }
 
+        //dd($date_range);
         $user_id=\Auth::user()->id;
 
 
         $data_notes = Note::selectRaw('year(created_at) as year, month(created_at) as month, COUNT(*) as qty')
-                        ->whereDate('created_at', '>=', "2019-08-13 10:10:30")
-                        ->whereDate('created_at', '<=', "2020-08-13 10:10:30")
+                        ->whereDate('created_at', '>=', $date_range->from)
+                        ->whereDate('created_at', '<=', $date_range->to)
                         ->where('user_id',$user_id)
                         ->groupBy(DB::raw('year(created_at)'))
                         ->groupBy(DB::raw('month(created_at)'))->get();
         
         $data_emails = Email::selectRaw('year(created_at) as year, month(created_at) as month, COUNT(*) as qty')
-                        ->whereDate('created_at', '>=', "2019-08-13 10:10:30")
-                        ->whereDate('created_at', '<=', "2020-08-13 10:10:30")
+                        ->whereDate('created_at', '>=', $date_range->from)
+                        ->whereDate('created_at', '<=', $date_range->to)
                         ->where('from_user_id',$user_id)
                         ->groupBy(DB::raw('year(created_at)'))
                         ->groupBy(DB::raw('month(created_at)'))->get();
         
         $data_task = Task::selectRaw('year(created_at) as year, month(created_at) as month, COUNT(*) as qty')
-                        ->whereDate('created_at', '>=', "2019-08-13 10:10:30")
-                        ->whereDate('created_at', '<=', "2020-08-13 10:10:30")
+                        ->whereDate('created_at', '>=', $date_range->from)
+                        ->whereDate('created_at', '<=', $date_range->to)
                         ->where('user_id',$user_id)
                         ->groupBy(DB::raw('year(created_at)'))
                         ->groupBy(DB::raw('month(created_at)'))->get();
 
         $data_documents = Document::selectRaw('year(created_at) as year, month(created_at) as month, COUNT(*) as qty')
-                        ->whereDate('created_at', '>=', "2019-08-13 10:10:30")
-                        ->whereDate('created_at', '<=', "2020-08-13 10:10:30")
+                        ->whereDate('created_at', '>=', $date_range->from)
+                        ->whereDate('created_at', '<=', $date_range->to)
                         ->where('user_id',$user_id)
                         ->groupBy(DB::raw('year(created_at)'))
                         ->groupBy(DB::raw('month(created_at)'))->get();
 
         $data_callEvent = CallEvent::selectRaw('year(created_at) as year, month(created_at) as month, COUNT(*) as qty')
-                        ->whereDate('created_at', '>=', "2019-08-13 10:10:30")
-                        ->whereDate('created_at', '<=', "2020-08-13 10:10:30")
+                        ->whereDate('created_at', '>=', $date_range->from)
+                        ->whereDate('created_at', '<=', $date_range->to)
+                        ->where('user_id',$user_id)
+                        ->groupBy(DB::raw('year(created_at)'))
+                        ->groupBy(DB::raw('month(created_at)'))->get();
+        $data_event = Event::selectRaw('year(created_at) as year, month(created_at) as month, COUNT(*) as qty')
+                        ->whereDate('created_at', '>=', $date_range->from)
+                        ->whereDate('created_at', '<=', $date_range->to)
                         ->where('user_id',$user_id)
                         ->groupBy(DB::raw('year(created_at)'))
                         ->groupBy(DB::raw('month(created_at)'))->get();
 
+        $pro_label = null;
+        $pro_qty = null;
 
-       
+        $data[0]        = array('type'=>'Email' ,'qty' => $data_emails->sum->qty);
+        $pro_label[0]   = 'Email';
+        $pro_qty[0]     = $data_emails->sum->qty;
+        $data[1]        = array('type'=>'Actividades' ,'qty' => $data_notes->sum->qty);
+        $pro_label[1]   = 'Actividades';
+        $pro_qty[1]     = $data_notes->sum->qty;
+        $data[2]        = array('type'=>'Tareas' ,'qty' => $data_task->sum->qty);
+        $pro_label[2]   = 'Tareas';
+        $pro_qty[2]     = $data_task->sum->qty;
+        $data[3]        = array('type'=>'Documentos' ,'qty' => $data_documents->sum->qty);
+        $pro_label[3]   = 'Documentos';
+        $pro_qty[3]     = $data_documents->sum->qty;
+        $data[4]        = array('type'=>'Llamadas' ,'qty' => $data_callEvent->sum->qty);
+        $pro_label[4]   = 'Llamadas';
+        $pro_qty[4]     = $data_callEvent->sum->qty;
+        $data[5]        = array('type'=>'Eventos' ,'qty' => $data_event->sum->qty);
+        $pro_label[5]   = 'Eventos';
+        $pro_qty[5]     = $data_event->sum->qty;
 
-       /* $data_emails = DB::select("SELECT YEAR(created_at), MONTH(created_at), 
-                                    COUNT(*) FROM `emails` 
-                                    where created_at >='". $date_range->from."' and
-                                    created_at <='". $date_range->to."' and
-                                    user_id = ".$user_id."
-                                    GROUP BY YEAR(created_at), MONTH(created_at) 
-                                    ORDER BY `MONTH(created_at)` ASC");*/
+        $dt_prolabel = \json_encode($pro_label);
+        $dt_proqty = \json_encode($pro_qty);
 
-        dd($data_notes);
-        return view('report.activities',[]);
+
+        //dd($data);
+
+        return view('report.activities',['data' => $data,
+                                            'pro_label' => $dt_prolabel,
+                                            'pro_qty' => $dt_proqty]);
 
     }
 
@@ -202,5 +229,28 @@ class ReportController extends Controller
         
         return $date_range;
     }
+
+
+
+
+     /* $data_emails = DB::select("SELECT YEAR(created_at), MONTH(created_at), 
+                                    COUNT(*) FROM `emails` 
+                                    where created_at >='". $date_range->from."' and
+                                    created_at <='". $date_range->to."' and
+                                    user_id = ".$user_id."
+                                    GROUP BY YEAR(created_at), MONTH(created_at) 
+                                    ORDER BY `MONTH(created_at)` ASC");*/
+
+        //$collection_note = collect($data_notes);
+        //$collection_email = collect($data_notes);
+        //$collection_document = collect($data_notes);
+        //$collection_task = collect($data_notes);
+        //$collection_evetnt = collect($data_notes);
+        //$collection_note = collect($data_notes);
+
+        //$collection->dd();
+        //$collection->count()
+        //$data_notes->count()
+        //$data_notes->sum->qty;
 
 }
