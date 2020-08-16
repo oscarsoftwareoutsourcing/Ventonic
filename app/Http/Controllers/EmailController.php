@@ -216,7 +216,7 @@ class EmailController extends Controller
 
                     $emails = [];
                     $emailFolders = $emailClient->getFolders();
-//                    dd($emailFolders);
+
                     foreach ($emailFolders as $folder) {
                         $messages = $folder->messages()->all()->get();
                         $emails[strtolower($folder->name)] = [];
@@ -606,5 +606,57 @@ class EmailController extends Controller
         }
 
         return response()->json(['result' => false], 200);
+    }
+
+    /**
+     * Establece la(s) etiqueta(s) de un mensaje de correo
+     *
+     * @method    setTags
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request    $request    Objeto con datos de la petición
+     *
+     * @return    JsonResponse               Objeto con datos de respuesta a la petición
+     */
+    public function setTags(Request $request)
+    {
+        $emails = EmailMessage::whereIn('message_id', $request->emails)->get();
+        foreach ($emails as $email) {
+            $email->labels = (($email->labels !== null && !empty($email->labels)) ? $email->labels . ',' : '') .
+                             strtolower($request->tag);
+            $email->save();
+        }
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
+     * Obtiene listado de mensajes etiquetados
+     *
+     * @method    getTaggedMessages
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @return    JsonResponse               Objeto con datos de respuesta a la petición
+     */
+    public function getTaggedMessages()
+    {
+        $emails = EmailMessage::whereNotNull('labels')->get();
+
+        $tagged = [
+            'pe' => [],
+            'co' => [],
+            'im' => [],
+            'pr' => []
+        ];
+
+        foreach ($emails as $email) {
+            $tags = explode(",", $email->labels);
+            foreach ($tags as $tag) {
+                array_push($tagged[$tag], $email);
+            }
+        }
+
+        return response()->json(['result' => true, 'tagged' => $tagged], 200);
     }
 }
