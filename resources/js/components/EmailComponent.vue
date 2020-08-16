@@ -316,9 +316,10 @@
                                         </div>
                                     </div>
                                     <div class="email-user-list list-group" style="overflow:auto">
-                                        <ul class="users-list-wrapper media-list">
+                                        <!--<ul class="users-list-wrapper media-list">-->
                                             <paginate name="inbox" :list="emails.inbox" :per="10"
-                                                      v-if="typeof(emails.inbox)!=='undefined'">
+                                                      v-if="typeof(emails.inbox)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('inbox')" :key="email.id" v-if="showFolder==='inbox'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -371,7 +372,8 @@
                                                 </li>
                                             </paginate>
                                             <paginate name="sent" :list="emails.sent" :per="10"
-                                                      v-if="typeof(emails.sent)!=='undefined'">
+                                                      v-if="typeof(emails.sent)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('sent')" v-if="showFolder==='sent'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -424,7 +426,8 @@
                                                 </li>
                                             </paginate>
                                             <paginate name="draft" :list="emails.draft" :per="10"
-                                                      v-if="typeof(emails.draft)!=='undefined'">
+                                                      v-if="typeof(emails.draft)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('draft')" v-if="showFolder==='draft'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -477,7 +480,8 @@
                                                 </li>
                                             </paginate>
                                             <paginate name="favorites" :list="favorites" :per="10"
-                                                      v-if="typeof(favorites)!=='undefined'">
+                                                      v-if="typeof(favorites)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('favorites')" v-if="showFolder==='favorites'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -530,7 +534,8 @@
                                                 </li>
                                             </paginate>
                                             <paginate name="spam" :list="emails.spam" :per="10"
-                                                      v-if="typeof(emails.spam)!=='undefined'">
+                                                      v-if="typeof(emails.spam)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('spam')" v-if="showFolder==='spam'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -583,7 +588,8 @@
                                                 </li>
                                             </paginate>
                                             <paginate name="trash" :list="trash" :per="10"
-                                                      v-if="typeof(trash)!=='undefined'">
+                                                      v-if="typeof(trash)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('trash')" v-if="showFolder==='trash'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -635,7 +641,7 @@
                                                     </div>
                                                 </li>
                                             </paginate>
-                                        </ul>
+                                        <!--</ul>-->
                                         <nav class="mt-3" style="margin:0 auto;"
                                              v-if="showFolder==='inbox'">
                                             <paginate-links for="inbox" :show-step-links="true" :async="true"

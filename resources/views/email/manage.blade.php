@@ -18,7 +18,7 @@
             overflow-x: hidden !important;
         }
         .email-user-list .media {
-                max-width: 900px;
+                /*max-width: 900px;*/
         }
         nav {
             z-index: 1;
@@ -31,6 +31,9 @@
           .custom-file-label::after {
             content: "Examinar" !important;
           }
+        .content-right .content-wrapper {
+            min-width:941px !important;
+        }
     </style>
 @endsection
 
