@@ -37,6 +37,16 @@ class Negotiation extends Model
         return $this->belongsTo(NegotiationStatus::class, 'neg_status_id');
     }
 
+    /**
+     * Negotiation belongs to NegotiationProcess.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function negotiationProcess()
+    {
+        return $this->belongsTo(NegotiationProcess::class, 'neg_process_id');
+    }
+
     // Related users
     public function related_users()
     {
