@@ -49,8 +49,8 @@ class NegotiationController extends Controller
                         ["id" => 6, "title" => "Venta / Cerrado"],
                     ]
                 ]);
-                $userModuleLabel->created_at = date('Y-m-d H:i:s');
-                $userModuleLabel->updated_at = null;
+                /*$userModuleLabel->created_at = date('Y-m-d H:i:s');
+                $userModuleLabel->updated_at = null;*/
 
                 $userModuleLabel->save();
 

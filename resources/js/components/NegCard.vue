@@ -117,7 +117,7 @@
       </div>
 
       <!-- Add extra data menu -->
-      <div class="float-right">
+      <!--<div class="float-right">
         <div class="dropdown">
           <button
             type="button"
@@ -140,7 +140,7 @@
             </a>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </li>
 </template>

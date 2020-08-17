@@ -18,6 +18,13 @@
             display:block !important;
             color: #0087FF !important;
         }
+        #searchAndListsCol .list {
+            width:100%;
+        }
+        #searchAndListsCol .list.col-lg-2, #searchAndListsCol .list.col-sm-4 {
+            padding-right: 4px;
+            padding-left: 4px;
+        }
     </style>
 @endsection
 
