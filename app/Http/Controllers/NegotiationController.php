@@ -12,6 +12,7 @@ use App\User;
 use App\UserModuleLabel;
 use App\NegotiationType;
 use App\NegotiationStatus;
+use App\NegotiationProcess;
 use App\Negotiation;
 use App\Group;
 use App\Note;
@@ -116,8 +117,8 @@ class NegotiationController extends Controller
             $negotiation->amount = str_replace(',', '.', $request->amount);
             $negotiation->active = $request->active;
             $negotiation->deadline = Carbon::parse($request->deadline)->toDateTimeString();
-            $negotiation->created_at = date('Y-m-d H:i:s');
-            $negotiation->updated_at = null;
+            /*$negotiation->created_at = date('Y-m-d H:i:s');
+            $negotiation->updated_at = null;*/
 
             // Save negotiation.
             $negotiation->save();
@@ -143,8 +144,10 @@ class NegotiationController extends Controller
     public function updateList(Request $request, $id)
     {
         try {
+            $process = NegotiationProcess::find($request->processId);
             $negotiation = Negotiation::find($id);
-            $negotiation->neg_process_id = $request->processId;
+            $negotiation->neg_process_id = $process->id;
+            $negotiation->won_status_date = ($process->conversion === 1) ? Carbon::now() : null;
             $negotiation->save();
 
             return response()->json([

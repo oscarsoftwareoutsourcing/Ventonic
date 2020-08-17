@@ -151,8 +151,8 @@ Vue.mixin({
         date_format(value) {
             return moment(String(value)).format("MMMM Do YYYY");
         },
-        shortDateFormat(value) {
-            return moment(String(value)).format("DD-MM-YYYY");
+        shortDateFormat(value, separator = '-') {
+            return moment(String(value)).format(`DD${separator}MM${separator}YYYY`);
         },
         /**
          * Estableve el formato de hora para una cadena de texto
