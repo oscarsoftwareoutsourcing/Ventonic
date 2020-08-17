@@ -34,6 +34,12 @@ class UploadRepository
             $this->name = ($originalName)?$file->getClientOriginalName():uniqid('', true) .
                                 '.' . $this->extension;
 
+            /** si esta configurada la opción de Amazon Web Sevice Storage */
+            if (!empty(env('AWS_BUCKET', ''))) {
+                $store = 's3';
+                $this->name = auth()->user()->uuid . '/' . $this->name;
+            }
+
             if (in_array($this->extension, $this->allowed_upload) || !$checkAllowed) {
                 if ($verifySize == true && !$this->verifySize($file)) {
                     $this->error_msg = __(
@@ -52,6 +58,13 @@ class UploadRepository
                         //$this->stored = 'storage/files/'. $this->name;
                         $this->stored = 'storage/'. $store . '/' . $this->name;
                         $this->storedPath = config('filesystems.disks.' . $store . '.root') . '/' . $this->name;
+
+                        /** si esta configurada la opción de Amazon Web Sevice Storage */
+                        if (!empty(env('AWS_BUCKET', ''))) {
+                            $this->stored = Storage::disk('s3')->url($upload);
+                            $this->storedPath = $upload;
+                        }
+
                         return true;
                     } else {
                         $this->error_msg = __('Error al subir el archivo, verifique e intente de nuevo');
