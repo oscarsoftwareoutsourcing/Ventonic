@@ -19,7 +19,8 @@
         <!-- Filters bar -->
         <negotiations-filters />
         <!-- Search and lists -->
-        <div id="searchAndListsCol" class="col-lg-auto d-none d-lg-block h-100">
+        <!--<div id="searchAndListsCol" class="col-lg-auto d-none d-lg-block h-100">-->
+        <div id="searchAndListsCol" class="col-lg-auto d-lg-block h-100">
           <div class="content-body">
             <div id="searchSection" class="row my-1">
               <!-- Total of negotiations -->
@@ -73,9 +74,9 @@
             </div>
             <!-- Lists -->
             <perfect-scrollbar class="ps-width">
-              <div id="listsContainer" class="lists">
+              <div id="listsContainer" class="lists row">
                 <negotiations-list
-                  class="list"
+                  class="list col-xs-12 col-sm-4 col-lg-2 mb-2" style="margin-left:0"
                   v-for="(proc) in getProcesses"
                   :key="proc.id"
                   :process="proc"

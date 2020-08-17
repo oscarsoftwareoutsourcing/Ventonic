@@ -16,9 +16,10 @@
         }
         .email-user-list {
             overflow-x: hidden !important;
+            /*max-width: calc(100vh * 2.3) !important;*/
         }
         .email-user-list .media {
-                max-width: 900px;
+                /*max-width: 900px;*/
         }
         nav {
             z-index: 1;
@@ -31,6 +32,16 @@
           .custom-file-label::after {
             content: "Examinar" !important;
           }
+        .content-right .content-wrapper {
+            min-width:941px !important;
+        }
+        /* Estilo para establecer el ancho del listado de mensajes */
+        .email-application .app-content .content-area-wrapper .email-user-list .users-list-wrapper li.media .media-body {
+            max-width: 980px;
+        }
+        .chip .chip-body a {
+            color:#ffffff;
+        }
     </style>
 @endsection
 
@@ -56,11 +67,11 @@
     <script src="{{ asset('js/app.js') }}"></script>
 @endsection
 @section('extra-js')
-    <script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}"></script>
+    <!--<script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}"></script>-->
     <script src="{{ asset('js/scripts/pages/app-email.js') }}"></script>
-    <script src="{{ asset('vendors/js/pagination/jquery.bootpag.min.js') }}"></script>
+    <!--<script src="{{ asset('vendors/js/pagination/jquery.bootpag.min.js') }}"></script>
     <script src="{{ asset('vendors/js/pagination/jquery.twbsPagination.min.js') }}"></script>
-    <script src="{{ asset('js/scripts/pagination/pagination.js') }}"></script>
+    <script src="{{ asset('js/scripts/pagination/pagination.js') }}"></script>-->
     <!--
     <script src="{{ asset('vendors/js/editors/quill/katex.min.js') }}"></script>
     <script src="{{ asset('vendors/js/editors/quill/highlight.min.js') }}"></script>

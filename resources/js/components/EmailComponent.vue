@@ -82,19 +82,19 @@
                                 <h5 class="my-2 pt-25">Etiquetas</h5>
                                 <div class="list-group list-group-labels font-medium-1">
                                     <a class="list-group-item list-group-item-action border-0 d-flex align-items-center"
-                                       href="javascript:void(0)">
+                                       href="javascript:void(0)" @click="setFolder('tag_pe')">
                                         <span class="bullet bullet-success mr-1"></span> Personal
                                     </a>
                                     <a class="list-group-item list-group-item-action border-0 d-flex align-items-center"
-                                       href="javascript:void(0)">
+                                       href="javascript:void(0)" @click="setFolder('tag_co')">
                                         <span class="bullet bullet-primary mr-1"></span> Compañía
                                     </a>
                                     <a class="list-group-item list-group-item-action border-0 d-flex align-items-center"
-                                       href="javascript:void(0)">
+                                       href="javascript:void(0)" @click="setFolder('tag_im')">
                                         <span class="bullet bullet-warning mr-1"></span> Importante
                                     </a>
                                     <a class="list-group-item list-group-item-action border-0 d-flex align-items-center"
-                                       href="javascript:void(0)">
+                                       href="javascript:void(0)" @click="setFolder('tag_pr')">
                                         <span class="bullet bullet-danger mr-1"></span> Privado
                                     </a>
                                 </div>
@@ -281,19 +281,23 @@
                                                             <i class="feather icon-tag"></i>
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="tag">
-                                                            <a href="#" class="dropdown-item font-medium-1">
+                                                            <a href="javascript:void(0)" @click="tagMessage('PE')"
+                                                               class="dropdown-item font-medium-1">
                                                                 <span class="mr-1 bullet bullet-success bullet-sm"></span>
                                                                 Personal
                                                             </a>
-                                                            <a href="#" class="dropdown-item font-medium-1">
+                                                            <a href="javascript:void(0)" @click="tagMessage('CO')"
+                                                               class="dropdown-item font-medium-1">
                                                                 <span class="mr-1 bullet bullet-primary bullet-sm"></span>
                                                                 Compañía
                                                             </a>
-                                                            <a href="#" class="dropdown-item font-medium-1">
+                                                            <a href="javascript:void(0)" @click="tagMessage('IM')"
+                                                               class="dropdown-item font-medium-1">
                                                                 <span class="mr-1 bullet bullet-warning bullet-sm"></span>
                                                                 Importante
                                                             </a>
-                                                            <a href="#" class="dropdown-item font-medium-1">
+                                                            <a href="javascript:void(0)" @click="tagMessage('PR')"
+                                                               class="dropdown-item font-medium-1">
                                                                 <span class="mr-1 bullet bullet-danger bullet-sm"></span>
                                                                 Privado
                                                             </a>
@@ -316,9 +320,10 @@
                                         </div>
                                     </div>
                                     <div class="email-user-list list-group" style="overflow:auto">
-                                        <ul class="users-list-wrapper media-list">
+                                        <!--<ul class="users-list-wrapper media-list">-->
                                             <paginate name="inbox" :list="emails.inbox" :per="10"
-                                                      v-if="typeof(emails.inbox)!=='undefined'">
+                                                      v-if="typeof(emails.inbox)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('inbox')" :key="email.id" v-if="showFolder==='inbox'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -371,7 +376,8 @@
                                                 </li>
                                             </paginate>
                                             <paginate name="sent" :list="emails.sent" :per="10"
-                                                      v-if="typeof(emails.sent)!=='undefined'">
+                                                      v-if="typeof(emails.sent)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('sent')" v-if="showFolder==='sent'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -424,7 +430,8 @@
                                                 </li>
                                             </paginate>
                                             <paginate name="draft" :list="emails.draft" :per="10"
-                                                      v-if="typeof(emails.draft)!=='undefined'">
+                                                      v-if="typeof(emails.draft)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('draft')" v-if="showFolder==='draft'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -477,7 +484,8 @@
                                                 </li>
                                             </paginate>
                                             <paginate name="favorites" :list="favorites" :per="10"
-                                                      v-if="typeof(favorites)!=='undefined'">
+                                                      v-if="typeof(favorites)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('favorites')" v-if="showFolder==='favorites'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -530,7 +538,8 @@
                                                 </li>
                                             </paginate>
                                             <paginate name="spam" :list="emails.spam" :per="10"
-                                                      v-if="typeof(emails.spam)!=='undefined'">
+                                                      v-if="typeof(emails.spam)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('spam')" v-if="showFolder==='spam'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -583,7 +592,8 @@
                                                 </li>
                                             </paginate>
                                             <paginate name="trash" :list="trash" :per="10"
-                                                      v-if="typeof(trash)!=='undefined'">
+                                                      v-if="typeof(trash)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
                                                 <li class="media" v-for="email in paginated('trash')" v-if="showFolder==='trash'"
                                                     :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
                                                     <div class="media-left pr-50">
@@ -635,7 +645,231 @@
                                                     </div>
                                                 </li>
                                             </paginate>
-                                        </ul>
+                                            <!-- Tag Personal -->
+                                            <paginate name="tag_pe" :list="taggedMessages.pe" :per="10"
+                                                      v-if="typeof(taggedMessages.pe)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
+                                                <li class="media" v-for="email in paginated('tag_pe')"
+                                                    v-if="showFolder==='tag_pe'"
+                                                    :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
+                                                    <div class="media-left pr-50">
+                                                        <div class="avatar">
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
+                                                        </div>
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
+                                                                <!-- checkbox para seleccionar mensaje -->
+                                                                <input type="checkbox" :value="email.message_id"
+                                                                       v-model="selectedMessages" class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="email.message_id"
+                                                                   @click="setFavorite(email.message_id)"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-body" @click="openContent(email)">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
+                                                                    {{ email.from[0].personal }}
+                                                                </h5>
+                                                                <span class="list-group-item-text text-truncate">
+                                                                    {{ email.subject }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
+                                                                        {{ datetime_format(email.message_at) }}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
+                                                                <!--<div v-html="email.body"></div>-->
+                                                                {{ email.body_text }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </paginate>
+                                            <!-- Tag Compañía -->
+                                            <paginate name="tag_co" :list="taggedMessages.co" :per="10"
+                                                      v-if="typeof(taggedMessages.co)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
+                                                <li class="media" v-for="email in paginated('tag_co')"
+                                                    v-if="showFolder==='tag_co'"
+                                                    :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
+                                                    <div class="media-left pr-50">
+                                                        <div class="avatar">
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
+                                                        </div>
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
+                                                                <!-- checkbox para seleccionar mensaje -->
+                                                                <input type="checkbox" :value="email.message_id"
+                                                                       v-model="selectedMessages" class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="email.message_id"
+                                                                   @click="setFavorite(email.message_id)"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-body" @click="openContent(email)">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
+                                                                    {{ email.from[0].personal }}
+                                                                </h5>
+                                                                <span class="list-group-item-text text-truncate">
+                                                                    {{ email.subject }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
+                                                                        {{ datetime_format(email.message_at) }}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
+                                                                <!--<div v-html="email.body"></div>-->
+                                                                {{ email.body_text }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </paginate>
+                                            <!-- Tag Importante -->
+                                            <paginate name="tag_im" :list="taggedMessages.im" :per="10"
+                                                      v-if="typeof(taggedMessages.im)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
+                                                <li class="media" v-for="email in paginated('tag_im')"
+                                                    v-if="showFolder==='tag_im'"
+                                                    :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
+                                                    <div class="media-left pr-50">
+                                                        <div class="avatar">
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
+                                                        </div>
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
+                                                                <!-- checkbox para seleccionar mensaje -->
+                                                                <input type="checkbox" :value="email.message_id"
+                                                                       v-model="selectedMessages" class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="email.message_id"
+                                                                   @click="setFavorite(email.message_id)"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-body" @click="openContent(email)">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
+                                                                    {{ email.from[0].personal }}
+                                                                </h5>
+                                                                <span class="list-group-item-text text-truncate">
+                                                                    {{ email.subject }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
+                                                                        {{ datetime_format(email.message_at) }}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
+                                                                <!--<div v-html="email.body"></div>-->
+                                                                {{ email.body_text }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </paginate>
+                                            <!-- Tag Privado -->
+                                            <paginate name="tag_pr" :list="taggedMessages.pr" :per="10"
+                                                      v-if="typeof(taggedMessages.pr)!=='undefined'"
+                                                      :class="'users-list-wrapper media-list'">
+                                                <li class="media" v-for="email in paginated('tag_pr')"
+                                                    v-if="showFolder==='tag_pr'"
+                                                    :class="{'mail-read':(typeof(email.read)!=='undefined')?email.read:false}">
+                                                    <div class="media-left pr-50">
+                                                        <div class="avatar">
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
+                                                        </div>
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
+                                                                <!-- checkbox para seleccionar mensaje -->
+                                                                <input type="checkbox" :value="email.message_id"
+                                                                       v-model="selectedMessages" class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="email.message_id"
+                                                                   @click="setFavorite(email.message_id)"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-body" @click="openContent(email)">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
+                                                                    {{ email.from[0].personal }}
+                                                                </h5>
+                                                                <span class="list-group-item-text text-truncate">
+                                                                    {{ email.subject }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
+                                                                        {{ datetime_format(email.message_at) }}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
+                                                                <!--<div v-html="email.body"></div>-->
+                                                                {{ email.body_text }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </paginate>
+                                        <!--</ul>-->
                                         <nav class="mt-3" style="margin:0 auto;"
                                              v-if="showFolder==='inbox'">
                                             <paginate-links for="inbox" :show-step-links="true" :async="true"
@@ -679,6 +913,42 @@
                                         <nav class="mt-3" style="margin:0 auto;"
                                              v-if="showFolder==='trash'">
                                             <paginate-links for="trash" :show-step-links="true" :async="true"
+                                                            :classes="{
+                                                                'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
+                                                            }"
+                                                            :step-links="{next: '›',prev: '‹'}"></paginate-links>
+                                        </nav>
+                                        <!-- Tag Personal -->
+                                        <nav class="mt-3" style="margin:0 auto;"
+                                             v-if="showFolder==='tag_pe'">
+                                            <paginate-links for="tag_pe" :show-step-links="true" :async="true"
+                                                            :classes="{
+                                                                'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
+                                                            }"
+                                                            :step-links="{next: '›',prev: '‹'}"></paginate-links>
+                                        </nav>
+                                        <!-- Tag Compañía -->
+                                        <nav class="mt-3" style="margin:0 auto;"
+                                             v-if="showFolder==='tag_co'">
+                                            <paginate-links for="tag_co" :show-step-links="true" :async="true"
+                                                            :classes="{
+                                                                'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
+                                                            }"
+                                                            :step-links="{next: '›',prev: '‹'}"></paginate-links>
+                                        </nav>
+                                        <!-- Tag Importante -->
+                                        <nav class="mt-3" style="margin:0 auto;"
+                                             v-if="showFolder==='tag_im'">
+                                            <paginate-links for="tag_im" :show-step-links="true" :async="true"
+                                                            :classes="{
+                                                                'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
+                                                            }"
+                                                            :step-links="{next: '›',prev: '‹'}"></paginate-links>
+                                        </nav>
+                                        <!-- Tag Privado -->
+                                        <nav class="mt-3" style="margin:0 auto;"
+                                             v-if="showFolder==='tag_pr'">
+                                            <paginate-links for="tag_pr" :show-step-links="true" :async="true"
                                                             :classes="{
                                                                 'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'
                                                             }"
@@ -749,24 +1019,28 @@
                                             </li>
                                             <li class="list-inline-item">
                                                 <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle" data-toggle="dropdown"
-                                                       aria-haspopup="true" aria-expanded="false" href="javascript:void(0)">
+                                                    <a id="tag" class="dropdown-toggle" data-toggle="dropdown"
+                                                       aria-haspopup="true" aria-expanded="false" href="#">
                                                         <i class="feather icon-tag font-medium-5"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="tag">
-                                                        <a href="javascript:void(0)" class="dropdown-item font-medium-1">
+                                                        <a href="javascript:void(0)" class="dropdown-item font-medium-1"
+                                                           @click="tagMessage('PE')">
                                                             <span class="mr-1 bullet bullet-success bullet-sm"></span>
                                                             Personal
                                                         </a>
-                                                        <a href="javascript:void(0)" class="dropdown-item font-medium-1">
+                                                        <a href="javascript:void(0)" class="dropdown-item font-medium-1"
+                                                           @click="tagMessage('CO')">
                                                             <span class="mr-1 bullet bullet-primary bullet-sm"></span>
                                                             Company
                                                         </a>
-                                                        <a href="javascript:void(0)" class="dropdown-item font-medium-1">
+                                                        <a href="javascript:void(0)" class="dropdown-item font-medium-1"
+                                                           @click="tagMessage('IM')">
                                                             <span class="mr-1 bullet bullet-warning bullet-sm"></span>
                                                             Important
                                                         </a>
-                                                        <a href="javascript:void(0)" class="dropdown-item font-medium-1">
+                                                        <a href="javascript:void(0)" class="dropdown-item font-medium-1"
+                                                           @click="tagMessage('PR')">
                                                             <span class="mr-1 bullet bullet-danger bullet-sm"></span>
                                                             Private
                                                         </a>
@@ -862,10 +1136,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="mail-files py-2" v-if="selectedEmail.attachments"
-                                                     v-for="attachments in selectedEmail.attachments">
-                                                    <div class="chip chip-primary mr-2" v-for="attach in attachments">
+                                                     v-for="attach in selectedEmail.attachments">
+                                                    <div class="chip chip-primary mr-2">
                                                         <div class="chip-body py-50">
-                                                            <span class="chip-text">{{ getAttachName(attach) }}</span>
+                                                            <a :href="getAttachLink(attach)" target="_blank"
+                                                               :download="getAttachName(attach)">
+                                                                <i class="fa fa-paperclip font-medium-2 mr-50"></i>
+                                                                <span class="chip-text">{{ getAttachName(attach) }}</span>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -944,13 +1222,21 @@
                 favorites: [],
                 messages_send: [],
                 newEmailAttachments: [],
+                taggedMessages: {
+                    pe: [],
+                    co: [],
+                    im: [],
+                    pr: []
+                },
                 /** @type {Number} Indica el número de página actual en la paginación del correo */
                 page: 1,
                 /** @type {Number} Indica el número de elementos a mostrar por cada página */
                 perPage: 10,
                 /** @type {Array} Contiene los elementos a mostrar en cada página */
                 pages: [],
-                paginate: ['inbox', 'sent', 'draft', 'favorites', 'spam', 'trash']
+                paginate: [
+                    'inbox', 'sent', 'draft', 'favorites', 'spam', 'trash', 'tag_pe', 'tag_im', 'tag_co', 'tag_pr'
+                ]
             };
         },
         props: {
@@ -1074,6 +1360,10 @@
                     vm.$loading(false);
                 });
             },
+            getAttachLink(attachmentPath) {
+                const vm = this;
+                return `/attachment/${vm.getAttachName(attachmentPath)}`;
+            },
             /**
              * Obtiene el nombre del archivo adjunto en un correo
              *
@@ -1084,6 +1374,7 @@
              * @return    {string}         Nombre del archivo adjunto
              */
             getAttachName(attachmentPath) {
+                console.log(attachmentPath)
                 var pathSections = attachmentPath.split("/");
                 return pathSections[pathSections.length - 1];
             },
@@ -1217,6 +1508,13 @@
             setting() {
                 this.settingUpdate = true;
             },
+            /**
+             * Establece un correo como favorito
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             *
+             * @param     {integer}       message_id    Identificador del correo a marcar como favorito
+             */
             setFavorite(message_id) {
                 const vm = this;
                 axios
@@ -1237,8 +1535,6 @@
             /**
              * Responder mensaje
              *
-             * @method    replyMessage
-             *
              * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             replyMessage() {
@@ -1250,8 +1546,6 @@
             },
             /**
              * Reenviar mensaje
-             *
-             * @method    replyMessage
              *
              * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
@@ -1271,6 +1565,61 @@
                 for (let index = 1; index <= numberOfPages; index++) {
                     vm.pages.push(index);
                 }
+            },
+            /**
+             * Establecer etiquetas de mensajes
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             *
+             * @param     {string}      tag    Etiqueta a establecer
+             */
+            tagMessage(tag) {
+                const vm = this;
+                if (vm.selectedMessages.length === 0 || !vm.selectedEmail) {
+                    return false;
+                }
+
+                var tagName = '';
+                if (tag === 'PE') {
+                    tagName = 'personal(es)';
+                }
+                else if (tag === 'CO'){
+                    tagName = 'compañía(s)';
+                }
+                else if (tag === 'IM') {
+                    tagName = 'importante(s)';
+                }
+                else if (tag === 'PR') {
+                    tagName = 'privado(s)';
+                }
+
+                axios.post('/email/set-tags', {
+                    tag: tag,
+                    emails: (vm.selectedEmail) ? [vm.selectedEmail.message_id] : vm.selectedMessages
+                }).then(response => {
+                    if (response.data.result) {
+                        toastr.success(`Se ha etiquetado como ${tagName} el(los) mensaje(s) seleccionado(s)`);
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
+            },
+            /**
+             * Obtiene listados de mensajes etiquetados
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             */
+            getTaggedMessages() {
+                const vm = this;
+
+                axios.get('/email/get-tagged-messages').then(response => {
+                    vm.taggedMessages.pe = response.data.tagged.pe;
+                    vm.taggedMessages.co = response.data.tagged.co;
+                    vm.taggedMessages.im = response.data.tagged.im;
+                    vm.taggedMessages.pr = response.data.tagged.pr;
+                }).catch(error => {
+                    console.error(error);
+                });
             },
             /**
              * Establece el contenido de la página seleccionada en el paginador de correos
@@ -1328,6 +1677,7 @@
             if (vm.download_messages) {
                 vm.getEmails();
             }
+            vm.getTaggedMessages();
 
             $(".selectAll")
                 .find("input[type=checkbox]")

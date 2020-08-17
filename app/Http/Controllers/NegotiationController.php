@@ -12,6 +12,7 @@ use App\User;
 use App\UserModuleLabel;
 use App\NegotiationType;
 use App\NegotiationStatus;
+use App\NegotiationProcess;
 use App\Negotiation;
 use App\Group;
 use App\Note;
@@ -48,8 +49,8 @@ class NegotiationController extends Controller
                         ["id" => 6, "title" => "Venta / Cerrado"],
                     ]
                 ]);
-                $userModuleLabel->created_at = date('Y-m-d H:i:s');
-                $userModuleLabel->updated_at = null;
+                /*$userModuleLabel->created_at = date('Y-m-d H:i:s');
+                $userModuleLabel->updated_at = null;*/
 
                 $userModuleLabel->save();
 
@@ -117,17 +118,21 @@ class NegotiationController extends Controller
             $negotiation->amount = str_replace(',', '.', $request->amount);
             $negotiation->active = $request->active;
             $negotiation->deadline = Carbon::parse($request->deadline)->toDateTimeString();
-            $negotiation->created_at = date('Y-m-d H:i:s');
-            $negotiation->updated_at = null;
+            /*$negotiation->created_at = date('Y-m-d H:i:s');
+            $negotiation->updated_at = null;*/
 
             // Save negotiation.
             $negotiation->save();
+
+            $negotiation->negotiationProcessHistories()->sync($negotiation->neg_process_id);
+            $negotiation->negotiationStatusHistories()->sync($negotiation->neg_status_id);
 
             // We check if we need to relate users.
             if (count($request->groups) > 0) {
                 $ids = $this->getIdsInGroup($request->groups);
 
                 $negotiation->related_users()->sync($ids);
+                $negotiation->groups()->sync($this->getGroupIds($request->groups));
             } else {
                 $negotiation->related_users()->sync([]);
             }
@@ -144,9 +149,13 @@ class NegotiationController extends Controller
     public function updateList(Request $request, $id)
     {
         try {
+            $process = NegotiationProcess::find($request->processId);
             $negotiation = Negotiation::find($id);
-            $negotiation->neg_process_id = $request->processId;
+            $negotiation->neg_process_id = $process->id;
+            $negotiation->won_status_date = ($process->conversion === 1) ? Carbon::now() : null;
             $negotiation->save();
+
+            $negotiation->negotiationProcessHistories()->sync($negotiation->neg_process_id);
 
             return response()->json([
                 'result' => true,
@@ -165,9 +174,12 @@ class NegotiationController extends Controller
 
             if ($request->statusId === 1) {
                 $negotiation->neg_process_id = 6;
+                $negotiation->negotiationProcessHistories()->sync($negotiation->neg_process_id);
             }
 
             $negotiation->save();
+
+            $negotiation->negotiationStatusHistories()->sync($negotiation->neg_status_id);
 
             return response()->json([
                 'result' => true,
@@ -207,5 +219,15 @@ class NegotiationController extends Controller
 
         $userIds = array_unique($userIds);
         return $userIds;
+    }
+
+    private function getGroupIds($arr)
+    {
+        $groupIds = [];
+        foreach ($arr as $group) {
+            array_push($groupIds, $group['id']);
+        }
+
+        return $groupIds;
     }
 }

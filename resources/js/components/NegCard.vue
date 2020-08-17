@@ -117,7 +117,7 @@
       </div>
 
       <!-- Add extra data menu -->
-      <div class="float-right">
+      <!--<div class="float-right">
         <div class="dropdown">
           <button
             type="button"
@@ -140,7 +140,7 @@
             </a>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </li>
 </template>
@@ -214,7 +214,8 @@ export default {
       return this.negotiation.owner.id !== this.getUserId ? true : false;
     },
     createdAt() {
-      return this.formatDate(this.negotiation.created_at);
+      //return this.formatDate(this.negotiation.created_at);
+      return this.shortDateFormat(this.negotiation.created_at, '/');
     },
     isActive() {
       return this.negotiation.active;
@@ -241,7 +242,7 @@ export default {
     },
     deadline() {
       return this.negotiation.deadline !== null
-        ? this.formatDate(this.negotiation.deadline)
+        ? this.shortDateFormat(this.negotiation.deadline, '/')
         : "N/A";
     },
     owner() {

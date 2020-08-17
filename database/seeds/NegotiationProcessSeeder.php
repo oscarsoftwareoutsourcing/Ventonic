@@ -23,7 +23,8 @@ class NegotiationProcessSeeder extends Seeder
 
          foreach($processes as $process){
             DB::table('negotiation_process')->insert([
-                'name' => $process
+                'name' => $process,
+                'conversion' => ($process === 'Venta / Cerrado') ? 1 : 0
             ]);
         }
     }
