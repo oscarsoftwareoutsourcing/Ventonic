@@ -22,7 +22,7 @@
             <!-- Dashboard Analytics Start -->
             <section id="dashboard-analytics">
                 <div class="dropdown chart-dropdown text-right">
-                    <button class="btn btn-sm border-0 dropdown-toggle px-0" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-sm border-0 dropdown-toggle px-0 text-white controls-date" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Últimos 7 Días
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem3">
