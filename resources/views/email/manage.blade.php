@@ -39,6 +39,9 @@
         .email-application .app-content .content-area-wrapper .email-user-list .users-list-wrapper li.media .media-body {
             max-width: 980px;
         }
+        .chip .chip-body a {
+            color:#ffffff;
+        }
     </style>
 @endsection
 
