@@ -123,6 +123,9 @@ class NegotiationController extends Controller
             // Save negotiation.
             $negotiation->save();
 
+            $negotiation->negotiationProcessHistories()->sync($negotiation->neg_process_id);
+            $negotiation->negotiationStatusHistories()->sync($negotiation->neg_status_id);
+
             // We check if we need to relate users.
             if (count($request->groups) > 0) {
                 $ids = $this->getIdsInGroup($request->groups);
@@ -151,6 +154,8 @@ class NegotiationController extends Controller
             $negotiation->won_status_date = ($process->conversion === 1) ? Carbon::now() : null;
             $negotiation->save();
 
+            $negotiation->negotiationProcessHistories()->sync($negotiation->neg_process_id);
+
             return response()->json([
                 'result' => true,
                 'updated_neg' => new NegotiationsResource($negotiation)
@@ -168,9 +173,12 @@ class NegotiationController extends Controller
 
             if ($request->statusId === 1) {
                 $negotiation->neg_process_id = 6;
+                $negotiation->negotiationProcessHistories()->sync($negotiation->neg_process_id);
             }
 
             $negotiation->save();
+
+            $negotiation->negotiationStatusHistories()->sync($negotiation->neg_status_id);
 
             return response()->json([
                 'result' => true,

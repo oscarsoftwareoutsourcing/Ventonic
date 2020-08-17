@@ -24,4 +24,9 @@ class NegotiationProcess extends Model
     {
         return $this->hasMany(Negotiation::class, 'neg_process_id');
     }
+
+    public function negotiationHistories()
+    {
+        return $this->belongsToMany(Negotiation::class, 'negotiation_process_history')->withTimestamps();
+    }
 }

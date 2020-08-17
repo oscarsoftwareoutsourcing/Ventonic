@@ -58,6 +58,16 @@ class Negotiation extends Model
         return $this->belongsToMany(Group::class);
     }
 
+    public function negotiationProcessHistories()
+    {
+        return $this->belongsToMany(NegotiationProcess::class, 'negotiation_process_history')->withTimestamps();
+    }
+
+    public function negotiationStatusHistories()
+    {
+        return $this->belongsToMany(NegotiationStatus::class, 'negotiation_statuses_history')->withTimestamps();
+    }
+
     public function notes()
     {
         return $this->morphMany(Note::class, 'noteable');
