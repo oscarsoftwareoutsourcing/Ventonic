@@ -128,6 +128,7 @@ class NegotiationController extends Controller
                 $ids = $this->getIdsInGroup($request->groups);
 
                 $negotiation->related_users()->sync($ids);
+                $negotiation->groups()->sync($this->getGroupIds($request->groups));
             } else {
                 $negotiation->related_users()->sync([]);
             }
@@ -209,5 +210,15 @@ class NegotiationController extends Controller
 
         $userIds = array_unique($userIds);
         return $userIds;
+    }
+
+    private function getGroupIds($arr)
+    {
+        $groupIds = [];
+        foreach ($arr as $group) {
+            array_push($groupIds, $group['id']);
+        }
+
+        return $groupIds;
     }
 }

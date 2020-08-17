@@ -100,7 +100,7 @@ export const getters = {
     getUserGroups: state => { return state.data.userGroups },
     getNegotiation: state => { return state.negotiation },
     getOwners: state => { return state.data.owners },
-    
+
     // getNegGroups: state => { return state.negotiation.groups },
 };
 
@@ -115,15 +115,15 @@ export const actions = {
             const response = await axios.post(`${window.api_url}/api/negotiations/save-negotiation`, state.negotiation);
 
             if(response.data.result) {
-                
+                location.reload();
                 // Add or update negotiation into arrays.
-                await commit('HANDLE_CHANGE', response.data.negotiation);
-                
+                //await commit('HANDLE_CHANGE', response.data.negotiation);
+
                 // Reset Negotiation in state
-                commit('RESET_NEGOTIATION');
+                //commit('RESET_NEGOTIATION');
 
                 // Toggle form (hide it)
-                commit('TOGGLE_FORM');
+                //commit('TOGGLE_FORM');
             }
         } catch (error) {
             // Render error message
@@ -138,14 +138,14 @@ export const actions = {
             const response = await axios.put(`${window.api_url}/api/negotiations/change-negotiation-list/${value.id}`, {processId: value.processId});
 
             if(response.data.result) {
-                
+
                 // Change store todos
                 await commit('UPDATE_NEGOTIATION', response.data.updated_neg);
 
                 // Reset todo
                 commit('RESET_NEGOTIATION');
             }
-            
+
         } catch (error) {
             console.log(error);
         }
@@ -157,11 +157,11 @@ export const actions = {
             const response = await axios.post(`${window.api_url}/api/negotiations/toggle-active-negotiation`, {id: state.negotiation.id, active: state.negotiation.active});
 
             if(response.data.result) {
-                
+
                 // Change store todos
                 commit('UPDATE_NEGOTIATION', response.data.archivedNeg);
             }
-            
+
         } catch (error) {
             console.log(error);
         }
@@ -173,14 +173,14 @@ export const actions = {
             const response = await axios.put(`${window.api_url}/api/negotiations/change-negotiation-status/${value.id}`, {statusId: value.stateId});
 
             if(response.data.result) {
-                
+
                 // Change store todos
                 commit('UPDATE_NEGOTIATION', response.data.updated_neg);
 
                 // Reset todo
                 commit('RESET_NEGOTIATION');
             }
-            
+
         } catch (error) {
             console.log(error);
         }
@@ -275,7 +275,7 @@ export const mutations = {
         // Convert date in Date object format.
         nn.created_at = new Date(nn.created_at);
         nn.deadline = new Date(nn.deadline);
-        
+
         const index = state.data.negotiations.findIndex(neg => neg.id === nn.id);
 
         if(index !== -1) {
