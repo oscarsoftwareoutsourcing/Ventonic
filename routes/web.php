@@ -300,3 +300,6 @@ Route::get(
 Route::get('{uuid}/widget', 'WidgetController@show');
 
 Route::get('apps-gratis', 'FreeAppController@apps')->name('apps')->middleware('verified');
+
+/*Route DashBoard */
+Route::post('filterDashbaord', 'HomeController@filterDashbaord')->middleware('verified');
