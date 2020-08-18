@@ -471,3 +471,8 @@ iframe {
     border-top-left-radius: 4px !important;
     border-top-right-radius: 4px !important;
 }
+
+.controls-date {
+    font-size: 1.5rem !important;
+    color: #fff !important;
+}
