@@ -30,7 +30,21 @@
         </div>
         <div class="row">
           <div class="col-sm-2">
-            <img :src="showImage()" alt="imagen de perfil" class="img-fluid" />
+            <img :src="picture" alt="imagen de perfil" class="img-fluid" />
+            <div v-if="contact.allow_change_image">
+                <input type="file" id="contactPicture" class="d-none" @change="setPicture">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-warning btn-sm dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" id="btnManagePhoto"
+                            style="padding-left: 8px;padding-right: 12px;position:absolute;bottom:-6px;left:60px;">
+                        <i class="feather icon-camera"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnManagePhoto">
+                        <a class="dropdown-item" href="javascript:void(0)" @click="selectPicture">Cambiar imagen</a>
+                        <a class="dropdown-item" href="javascript:void(0)" @click="removePicture">Eliminar imagen</a>
+                    </div>
+                </div>
+            </div>
           </div>
           <div class="col-sm-5">
             <div class="form-row mb-1">
@@ -281,7 +295,7 @@
 export default {
   data() {
     return {
-      //
+      picture: ''
     };
   },
   props: {
@@ -292,8 +306,9 @@ export default {
   },
   methods: {
     showImage() {
-      return this.contact.image
-        ? "/" + this.contact.image
+        const vm = this;
+      return vm.contact.image
+        ? `/${vm.contact.image}`
         : "/images/anonymous-user.png";
     },
     getStatus() {
@@ -357,6 +372,57 @@ export default {
         },
       });
     },
+    /**
+     * Muestra la ventana de dialogo para seleccionar la imagen
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     */
+    selectPicture() {
+        $("#contactPicture").click();
+    },
+    /**
+     * Establece la imagen seleccionada
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     */
+    setPicture() {
+        const vm = this;
+        var formData = new FormData();
+        var picture = document.querySelector(`#contactPicture`);
+        formData.append("picture", picture.files[0]);
+        formData.append("contact_id", vm.contact.id);
+        axios.post('/contacto/change-picture', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        }).then(response => {
+            if (response.data.result) {
+                vm.picture = `/${response.data.picture}`;
+            }
+        }).catch(error => {
+            console.error(error);
+        });
+    },
+    /**
+     * Elimina la imagen actual
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     */
+    removePicture() {
+        const vm = this;
+        axios.post('/contacto/remove-picture', {
+            contact_id: vm.contact.id
+        }).then(response => {
+            if (response.data.result) {
+                vm.picture = `/${response.data.picture}`;
+            }
+        }).catch(error => {
+            console.error(error);
+        });
+    }
   },
+  created() {
+    this.picture = this.showImage();
+  }
 };
 </script>

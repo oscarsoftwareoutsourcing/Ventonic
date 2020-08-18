@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-
 use Illuminate\Support\Facades\Input;
+use App\Repositories\UploadRepository;
 
 use App\User;
 use App\Country;
@@ -16,6 +16,7 @@ use App\ContactType;
 use App\Group;
 use App\ContactGroup;
 use App\GroupUser;
+use Carbon\Carbon;
 
 class ContactController extends Controller
 {
@@ -425,5 +426,54 @@ class ContactController extends Controller
         return response()->json([
             'result' => false, 'message' => 'No esta autorizado para eliminar este contacto'
         ], 200);
+    }
+
+    /**
+     * Método que permite modificar la imagen de un contacto
+     *
+     * @method    changePicture
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request             $request    Objeto con datos de la petición
+     * @param     UploadRepository    $up         Objeto con instrucciones para la carga de archivo en el servidor
+     *
+     * @return    JsonResponse        Objeto JSON con datos de respuesta a la petición
+     */
+    public function changePicture(Request $request, UploadRepository $up)
+    {
+        if ($request->file('picture')) {
+            if ($up->upload($request->file('picture'), 'contacts')) {
+                $picture = $up->getStored();
+                $contact = Contact::find($request->contact_id);
+                $contact->image = $picture;
+                $contact->image_updated_at = Carbon::now();
+                $contact->change_image_user_id = auth()->user()->id;
+                $contact->save();
+                return response()->json(['result' => true, 'picture' => $picture], 200);
+            }
+        }
+        return response()->json(['result' => true, 'picture' => 'images/anonymous-user.png'], 200);
+    }
+
+    /**
+     * Método que elimina la imagen del contacto
+     *
+     * @method    removePicture
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request          $request    Objeto con datos de la petición
+     *
+     * @return    JsonResponse     Objeto con datos de respuesta a la petición
+     */
+    public function removePicture(Request $request)
+    {
+        $contact = Contact::find($request->contact_id);
+        $contact->image = null;
+        $contact->image_updated_at = Carbon::now();
+        $contact->change_image_user_id = auth()->user()->id;
+        $contact->save();
+        return response()->json(['result' => true, 'picture' => 'images/anonymous-user.png'], 200);
     }
 }

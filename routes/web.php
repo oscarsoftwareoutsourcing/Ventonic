@@ -87,6 +87,19 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         return $response;
     });
+    Route::get('storage/contacts/{file}', function ($file) {
+        $path = storage_path('app/contacts/' . $file);
+        if (!File::exists($path)) {
+            abort(404);
+        }
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
+    });
     Route::get('attachment/{file}', function ($file) {
         $path = storage_path('app/attachments/' . $file);
         if (!File::exists($path)) {
@@ -151,6 +164,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('get-contacts/{contact_id?}', 'ContactController@getContacts');
         Route::get('detalles/{contact}', 'ContactController@detail')->name('contact.detail');
         Route::delete('{contact}/delete', 'ContactController@destroyContact');
+        Route::post('change-picture', 'ContactController@changePicture');
+        Route::post('remove-picture', 'ContactController@removePicture');
     });
 
     /** Rutas de componentes generales de la aplicación */
