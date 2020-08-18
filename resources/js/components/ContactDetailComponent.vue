@@ -277,6 +277,9 @@
               <div id="address-map-container" style="width:100%;height:400px; ">
                 <div style="width: 100%; height: 100%" id="address-map"></div>
               </div>
+              <div class="form-group mt-2 font-weight-bold" v-if="distance" style="font-size:1.8rem">
+                  <span>{{ distance.toFixed(2) }} Km</span>
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -334,7 +337,8 @@ export default {
         "address-map-container",
         vm.contact.address,
         vm.contact.address_latitude,
-        vm.contact.address_longitude
+        vm.contact.address_longitude,
+        true
       );
     },
 

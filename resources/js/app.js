@@ -80,6 +80,7 @@ Vue.mixin({
     },
     data() {
         return {
+            distance: '', //Distancia entre 2 puntos de un mapa
             errors: {},
             ckeditor: {
                 editor: ClassicEditor,
@@ -177,8 +178,22 @@ Vue.mixin({
             var pathSections = filePath.split("/");
             return pathSections[pathSections.length - 1];
         },
-        initializeMap(mapContainerId, address, lat, lng) {
+        /**
+         * Inicializa los datos del mapa
+         *
+         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+         *
+         * @param     {string}         mapContainerId    Identificador del contenedor del mapa
+         * @param     {string}         address           Dirección bajo la cual establecer un marcador en el mapa
+         * @param     {float}          lat               Coordenada de latitud de la dirección
+         * @param     {float}          lng               Coordenada de longitud de la dirección
+         * @param     {Boolean}        otherLocation     Establece si se va a mostrar otra ubicación a partir de la
+         *                                               localización del usuario autenticado
+         */
+        initializeMap(mapContainerId, address, lat, lng, otherLocation = false) {
+            const vm = this;
             const geocoder = new google.maps.Geocoder();
+            let marker = null;
 
             const map = new google.maps.Map(document.getElementById(mapContainerId), {
                 center: {lat: lat || 0, lng: lng || 0},
@@ -197,7 +212,7 @@ Vue.mixin({
                 geocoder.geocode({'address': localAddress}, function(results, status) {
                     if (status == 'OK') {
                         map.setCenter(results[0].geometry.location);
-                        var marker = new google.maps.Marker({
+                        marker = new google.maps.Marker({
                             map: map,
                             position: results[0].geometry.location
                         });
@@ -206,13 +221,65 @@ Vue.mixin({
                 });
             }
             else {
-                const marker = new google.maps.Marker({
+                marker = new google.maps.Marker({
                     map: map,
                     position: {lat: lat, lng: lng}
                 });
+                marker.setVisible(true);
             }
 
-            marker.setVisible(true);
+
+            /**
+             * Si se ha indicado que existe otra localización bajo la cual se debe establecer una distancia
+             * entre ambas localizaciones
+             */
+            if (otherLocation && navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var latlng = {
+                        lat: parseFloat(position.coords.latitude),
+                        lng: parseFloat(position.coords.longitude)
+                    };
+                    geocoder.geocode({ 'location': latlng }, function (results, status) {
+                        if (status === 'OK') {
+                            var myMarker = new google.maps.Marker({
+                                map: map,
+                                position: results[0].geometry.location
+                            });
+                            myMarker.setVisible(true);
+                            var line = new google.maps.Polyline({
+                                map: map,
+                                path: [
+                                    {lat: lat, lng: lng}, //posición 1
+                                    {lat: latlng.lat, lng: latlng.lng} // posición actual del usuario
+                                ]
+                            });
+                            vm.distance = vm.measureGeometryDistance(marker, myMarker);
+                        }
+                    });
+                });
+            }
+        },
+        /**
+         * Calcula la distancia entre dos marcadores del mapa
+         *
+         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+         *
+         * @param     {object}                   mk1    Objeto con datos del marcador 1
+         * @param     {object}                   mk2    Objeto con datos del marcador 2
+         *
+         * @return    {float}                    Distancia calculada en kilómetros
+         */
+        measureGeometryDistance(mk1, mk2) {
+            var R = 3958.8; // Radius of the Earth in miles
+              var rlat1 = mk1.position.lat() * (Math.PI/180); // Convert degrees to radians
+              var rlat2 = mk2.position.lat() * (Math.PI/180); // Convert degrees to radians
+              var difflat = rlat2-rlat1; // Radian difference (latitudes)
+              var difflon = (mk2.position.lng()-mk1.position.lng()) * (Math.PI/180); // Radian difference (longitudes)
+
+              /** @type {float} Distancia en millas */
+              var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
+              // retorna la distancia en kilómetros
+              return d * 1.609344;
         }
     }
 });
