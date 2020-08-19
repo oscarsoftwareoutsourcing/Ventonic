@@ -131,8 +131,11 @@ class WidgetController extends Controller
                     seller_profiles.
                     phone_mobil,
                     users.name,
+                    users.last_name,
                     'Call Me' as product")
-        ->where('widget.user_id',$user_id)->get();
+        ->where('widget.user_id',$user_id)
+        ->orWhere('widget.user_id_referred',$user_id)
+        ->orderBy('widget_data.created_at', 'desc')->get();
 
         return view('widget_data.widget-data',['data'=>$data]);
     }

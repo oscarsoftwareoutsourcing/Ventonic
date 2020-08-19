@@ -114,14 +114,14 @@
                 </li>
             @endif
 
-            @if (\Auth::user()->type=="E")
-                <li class=" nav-item {{ App\Helpers\General::setActiveMenu('widgets.data') }}">
-                    <a href="{{route('widgets.data')}}">
-                        <i class="fa fa-tasks"></i>
-                        <span class="menu-title">Datos de widget</span>
-                    </a>
-                </li>
-            @endif
+            
+            <li class=" nav-item {{ App\Helpers\General::setActiveMenu('widgets.data') }}">
+                <a href="{{route('widgets.data')}}">
+                    <i class="fa fa-tasks"></i>
+                    <span class="menu-title">Datos de Call Me</span>
+                </a>
+            </li>
+            
 
             @if (\Auth::user()->type=="E")
                 <li class=" nav-item {{ App\Helpers\General::setActiveMenu('search.init') }}">
