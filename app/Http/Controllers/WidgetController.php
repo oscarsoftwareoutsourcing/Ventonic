@@ -132,7 +132,7 @@ class WidgetController extends Controller
         phone_mobil,
         users.name,'Call Me' as product")
         ->where('widget.user_id','=',$user_id)->get();
-        //dd($data);
+        dd($data);
 
         return view('widget_data.widget-data',['data'=>$data]);
     }
