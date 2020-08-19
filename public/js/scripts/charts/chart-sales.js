@@ -6,19 +6,22 @@
     Author: Ing Oscar Lobo
 ==========================================================================================*/
 
-$(document).ready(function() {
+$(document).ready(function () {
     //console.log(user_id);
     //console.log(stat_pie);
 
-    var $primary = "#0087FF",
+
+    var $yellow = '#f0db4e',
+        $red = '#fe1605',
+        $primary = "#0087FF",
         $success = "#28C76F",
         $danger = "#EA5455",
         $warning = "#FF9F43",
         $info = "#00cfe8",
         $label_color_light = "#dae1e7";
 
-    var themeColors = [$primary, $success, $danger, $warning, $info];
-
+    var themeColors = [$primary, $yellow, $red, $warning, $info];
+    var themeColors2 = [$primary, $success, $danger, $warning, $warning, $info];
     // RTL Support
     var yaxis_opposite = false;
     if ($("html").data("textdirection") == "rtl") {
@@ -32,7 +35,7 @@ $(document).ready(function() {
             height: 350,
             type: "bar"
         },
-        colors: themeColors,
+        colors: themeColors2,
         plotOptions: {
             bar: {
                 horizontal: true
@@ -41,11 +44,9 @@ $(document).ready(function() {
         dataLabels: {
             enabled: false
         },
-        series: [
-            {
-                data: pro_qty
-            }
-        ],
+        series: [{
+            data: pro_qty
+        }],
         xaxis: {
             categories: pro_label,
             tickAmount: 5
@@ -75,19 +76,17 @@ $(document).ready(function() {
                 horizontal: 2
             }
         },
-        responsive: [
-            {
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 350
-                    },
-                    legend: {
-                        position: "bottom"
-                    }
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 350
+                },
+                legend: {
+                    position: "bottom"
                 }
             }
-        ]
+        }]
     };
     var pieChart = new ApexCharts(
         document.querySelector("#pie-chart"),
@@ -103,8 +102,8 @@ $(document).ready(function() {
         while (i < count) {
             var x = "w" + (i + 1).toString(),
                 y =
-                    Math.floor(Math.random() * (yrange.max - yrange.min + 1)) +
-                    yrange.min;
+                Math.floor(Math.random() * (yrange.max - yrange.min + 1)) +
+                yrange.min;
 
             series.push({
                 x: x,
