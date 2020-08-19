@@ -15,11 +15,11 @@
             >+ Nuevo</a>
           </div>
         </div>
-        <hr>
+        <hr />
         <div class="row">
-            <div class="col-sm-4">
-                <input type="text" placeholder="Buscar..." class="form-control" v-model="searchText">
-            </div>
+          <div class="col-sm-4">
+            <input type="text" placeholder="Buscar..." class="form-control" v-model="searchText" />
+          </div>
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@
                               <h5>{{ widget.name }}</h5>
                               <br />
                               {{ widget.url }}
-                              <br>
+                              <br />
                               {{ (typeof(widget.userReferred)!=="undefined")?widget.userReferred.name:'' }}
                             </div>
 
@@ -71,9 +71,14 @@
                         data-parent="#accordionExample"
                       >
                         <div class="card-body">
+                          <div class="text-center mb-2">
+                            Para instalar
+                            <strong>Call Me</strong> debes introducir este código dentro de las etiquetas
+                            <strong>body</strong> en tu página web
+                          </div>
                           <fieldset class="form-group">
                             <textarea class="form-control" id="basicTextarea" rows="10" disabled>
-                        <!--Start of Ventonic.com Script-->
+                                        <!--Start of Ventonic.com Script-->
                                         <script type="text/javascript">
                                         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
                                         (function(){
@@ -90,6 +95,20 @@
                                         </script>
                                         <!--End of Ventonic.com Script-->
                                         </textarea>
+                          </fieldset>
+                          <div
+                            class="text-center"
+                          >Como segundo paso debes insertar las siguientes etiquetas en la sección de tu web donde quieras que se muestre</div>
+                          <fieldset class="form-group mb-2">
+                            <textarea
+                              class="form-control"
+                              id="labelHtml"
+                              rows="3"
+                              :disabled="isDisabled"
+                              placeholder="Textarea"
+                            >
+                      <div class="widget-vendedores" id="widget-vendedores"></div>
+                      </textarea>
                           </fieldset>
                         </div>
                       </div>
@@ -154,7 +173,13 @@
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel33">Asistente de widgets</h4>
-            <button type="button" id="modalWidget" class="close" data-dismiss="modal" aria-label="Close">
+            <button
+              type="button"
+              id="modalWidget"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -200,8 +225,8 @@
                 :before-change="validateWidgetName"
                 icon="fa fa-cloud-download"
               >
-                <br class="my-2" />
-                <div class="row">
+                <br class="my-2" v-if="!generated" />
+                <div class="row" v-if="!generated">
                   <div class="col-12 text-center">
                     <div class="form-label-group">
                       <input
@@ -223,30 +248,51 @@
                         class="form-control col-md-6 offset-md-3"
                         placeholder="Ingrese URL del sitio web"
                       />
-                        <article class="help-block" v-if="errorUrl">
-                            <i class="text-danger">{{ errorUrl }}</i>
-                        </article>
+                      <article class="help-block" v-if="errorUrl">
+                        <i class="text-danger">{{ errorUrl }}</i>
+                      </article>
                     </div>
                   </div>
                 </div>
 
                 <div class="row mt-2" v-if="generated">
                   <div class="col-12 text-center">
+                    <h4>
+                      Para instalar
+                      <strong>Call Me</strong> debes introducir este código dentro de las etiquetas
+                      <strong>body</strong> en tu página web
+                    </h4>
                     <fieldset class="form-group">
                       <textarea
                         class="form-control mx-1 my-1"
                         v-model="script"
                         id="scriptText"
-                        rows="10"
+                        rows="7"
                         :disabled="isDisabled"
                         placeholder="Textarea"
                       ></textarea>
                     </fieldset>
+                    <h4>Como segundo paso debes insertar las siguientes etiquetas en la sección de tu web donde quieras que se muestre</h4>
+                    <fieldset class="form-group">
+                      <textarea
+                        class="form-control mx-1 my-1"
+                        id="labelHtml"
+                        rows="1"
+                        :disabled="isDisabled"
+                        placeholder="Textarea"
+                      >
+                      <div class="widget-vendedores" id="widget-vendedores"></div>
+                      </textarea>
+                    </fieldset>
+
+                    <input
+                      type="button"
+                      @click="copyScript"
+                      value="Copiar script"
+                      class="btn btn-outline-primary mr-1 mb-1 waves-effect waves-light float-right"
+                    />
                   </div>
-                  <div class="col-12">
-                      <input type="button" @click="copyScript" value="Copiar script"
-                             class="btn btn-outline-primary mr-1 mb-1 waves-effect waves-light float-right">
-                  </div>
+                  <div class="col-12 text-center"></div>
                 </div>
               </tab-content>
               <div class="row">
@@ -288,29 +334,41 @@ export default {
       generated: false,
       Widgets: this.widgets,
       widgetStatus: false,
-      errorUrl: '',
-      searchText:""
+      errorUrl: "",
+      searchText: "",
     };
   },
   watch: {
-    script: function() {
-        if (this.script) {
-            $(".wizard-footer-right").find('.wizard-btn').text('Cerrar');
-            $(".wizard-footer-right").find('.wizard-btn').on('click', function(event) {
-                event.preventDefault();
-                $("#modalWidget").click();
-                location.reload();
-            });
-        }
+    script: function () {
+      if (this.script) {
+        $(".wizard-footer-right").find(".wizard-btn").text("Cerrar");
+        $(".wizard-footer-right")
+          .find(".wizard-btn")
+          .on("click", function (event) {
+            event.preventDefault();
+            $("#modalWidget").click();
+            location.reload();
+          });
+      }
     },
-    searchText: function() {
-        const vm = this;
-        vm.Widgets = (vm.searchText === '') ? vm.widgets : JSON.parse(JSON.stringify(vm.widgets.filter(function(widget) {
-            return widget.name.search(vm.searchText) >= 0 ||
-                   widget.url.search(vm.searchText) >= 0 ||
-                   (widget.user_referred !== null && widget.user_referred.name.search(vm.searchText) >= 0);
-        })));
-    }
+    searchText: function () {
+      const vm = this;
+      vm.Widgets =
+        vm.searchText === ""
+          ? vm.widgets
+          : JSON.parse(
+              JSON.stringify(
+                vm.widgets.filter(function (widget) {
+                  return (
+                    widget.name.search(vm.searchText) >= 0 ||
+                    widget.url.search(vm.searchText) >= 0 ||
+                    (widget.user_referred !== null &&
+                      widget.user_referred.name.search(vm.searchText) >= 0)
+                  );
+                })
+              )
+            );
+    },
   },
   methods: {
     widgetStatusUpdate(event, widgetID) {
@@ -402,31 +460,35 @@ export default {
           vm.script = response.data.script;
           vm.generated = true;
           vm.isDisabled = false;
-          vm.errorUrl = '';
+          vm.errorUrl = "";
         })
         .catch((error) => {
-            if (typeof(error.response)!=="undefined") {
-                if (error.response.data.message.search('Integrity constraint violation') >= 0) {
-                    vm.errorUrl = 'Ya ha registrado esta url para el mismo vendedor';
-                }
+          if (typeof error.response !== "undefined") {
+            if (
+              error.response.data.message.search(
+                "Integrity constraint violation"
+              ) >= 0
+            ) {
+              vm.errorUrl = "Ya ha registrado esta url para el mismo vendedor";
             }
+          }
           //console.error(error);
         });
     },
     copyScript() {
-        var copyPinText = document.getElementById('scriptText').select();
-        document.execCommand("copy");
-        bootbox.confirm(
-            `El script ha sido copiado al portapapeles.
+      var copyPinText = document.getElementById("scriptText").select();
+      document.execCommand("copy");
+      bootbox.confirm(
+        `El script ha sido copiado al portapapeles.
             Guardelo en un lugar seguro y presione el botón aceptar`,
-            function(result) {
-                if (result) {
-                    $("#modalWidget").click();
-                    location.reload();
-                }
-            }
-        )
-    }
+        function (result) {
+          if (result) {
+            $("#modalWidget").click();
+            location.reload();
+          }
+        }
+      );
+    },
   },
 };
 </script>
