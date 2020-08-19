@@ -135,8 +135,9 @@ class WidgetController extends Controller
                     'Call Me' as product")
         ->where('widget.user_id',$user_id)
         ->orWhere('widget.user_id_referred',$user_id)
-        ->orderBy('widget_data.created_at', 'desc')->get();
+        ->orderBy('widget_data.created_at', 'DESC')->get();
 
+        //dd($data);
         return view('widget_data.widget-data',['data'=>$data]);
     }
 
