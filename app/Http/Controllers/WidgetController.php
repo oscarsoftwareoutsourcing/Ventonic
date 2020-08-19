@@ -120,14 +120,19 @@ class WidgetController extends Controller
     }
 
     public function widgetsData(){
+
+        $user_id = Auth::user()->id;
+
         $data = Widget::join('widget_data','widget.id','=','widget_data.widget_id')
-        ->join('seller_profiles','seller_profiles.user_id','=','widget.user_id_referred')
-        ->join('users','users.id','=','seller_profiles.user_id')
+        ->Leftjoin('seller_profiles','seller_profiles.user_id','=','widget.user_id_referred')
+        ->join('users','users.id','=','widget.user_id_referred')
         ->selectRaw("widget_data.created_at,
         widget_data.origin as url,
         seller_profiles.
         phone_mobil,
-        users.name,'product' as product")->get();
+        users.name,'Call Me' as product")
+        ->where('widget.user_id','=',$user_id)->get();
+        //dd($data);
 
         return view('widget_data.widget-data',['data'=>$data]);
     }
