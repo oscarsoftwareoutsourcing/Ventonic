@@ -150,6 +150,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('set-tags', 'EmailController@setTags');
         Route::get('get-tagged-messages', 'EmailController@getTaggedMessages');
         Route::post('check-auto-config', 'EmailController@checkAutoConfig');
+        Route::post('mark-as', 'EmailController@markMessagesAs');
     });
 
     /** Rutas para la gestión de contactos */

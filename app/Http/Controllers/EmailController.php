@@ -660,6 +660,17 @@ class EmailController extends Controller
         return response()->json(['result' => true, 'tagged' => $tagged], 200);
     }
 
+    /**
+     * Determina la configuración a aplicar de acuerdo al dominio de la cuenta de correo suministrada
+     *
+     * @method    checkAutoConfig
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request            $request    Objeto con datos de la petición
+     *
+     * @return    JsonResponse                   Objeto con datos de respuesta a la petición
+     */
     public function checkAutoConfig(Request $request)
     {
         try {
@@ -697,7 +708,22 @@ class EmailController extends Controller
         return response()->json(['result' => true, 'serverInfo' => $config], 200);
     }
 
-    private function typeAccounts($email, $username, $pass, $protocol = 'imap')
+    /**
+     * Determina los datos de conexión al servidor de correo de acuerdo al dominio de la cuenta de correo
+     *
+     * @method    typeAccounts
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     string          $email       Dirección de correo electrónico
+     * @param     string          $username    Nombre de usuario con acceso a la cuenta de correo electrónico
+     * @param     string          $pass        Contraseña de acceso a la cuenta de correo electrónico
+     * @param     string          $protocol    Tipo de protocolo a implementar. Este parámetro es opcional,
+     *                                         si no se especifica el valor por defecto es el protocolo IMAP
+     *
+     * @return    array           Arreglo con información de acceso al servidor de correo
+     */
+    private function typeAccounts($email, $username, $pass, $protocol = 'imap') : Array
     {
         list($usr, $domain) = explode("@", $email);
         $type = explode(".", $domain)[0];
@@ -768,5 +794,43 @@ class EmailController extends Controller
         ];
 
         return $accounts[(isset($accounts[$type])) ? $type : 'default'];
+    }
+
+    /**
+     * Permite marcar los mensajes de correo de acuerdo al tipo especificado. Ej. draft, spam, trash, readed o unreaded
+     *
+     * @method    markMessagesAs
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request           $request    Objeto con datos de la petición
+     *
+     * @return    JsonResponse                  Objeto con datos de respuesta a la petición
+     */
+    public function markMessagesAs(Request $request)
+    {
+        $emails = $request->emails;
+        $emailList = [];
+
+        foreach ($emails as $email_id) {
+            $em = EmailMessage::where(['message_id' => $email_id])->first();
+            if ($em) {
+                $oldFolder = $em->folder_type;
+                if ($request->type === 'unreaded') {
+                    $em->read = false;
+                } elseif ($request->type === 'readed') {
+                    $em->read = true;
+                } else {
+                    $em->folder_type = $request->type;
+                }
+                $em->save();
+                $newFolder = $em->folder_type;
+                array_push($emailList, $em);
+            }
+        }
+        return response()->json([
+            'result' => true, 'oldFolder' => $oldFolder, 'newFolder' => $newFolder,
+            'emails' => $emails, 'emailList' => $emailList
+        ], 200);
     }
 }

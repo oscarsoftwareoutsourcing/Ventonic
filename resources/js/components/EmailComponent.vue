@@ -63,7 +63,7 @@
                                             {{ countUnread(spam) }}
                                         </span>
                                         <span class="badge badge-default badge-pill float-right">
-                                            {{ countMessages(spam) }}
+                                            {{ emails.spam.length }}
                                         </span>
                                     </a>
                                     <a href="javascript:void(0)" class="list-group-item list-group-item-action border-0"
@@ -258,15 +258,18 @@
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-right"
                                                              aria-labelledby="folder">
-                                                            <a class="dropdown-item d-flex font-medium-1" href="#">
+                                                            <a class="dropdown-item d-flex font-medium-1"
+                                                               href="javascript:void(0)" @click="markAs('draft')">
                                                                 <i class="font-medium-3 feather icon-edit-2 mr-50"></i>
                                                                 Borrador
                                                             </a>
-                                                            <a class="dropdown-item d-flex font-medium-1" href="#">
+                                                            <a class="dropdown-item d-flex font-medium-1"
+                                                               href="javascript:void(0)" @click="markAs('spam')">
                                                                 <i class="font-medium-3 feather icon-info mr-50"></i>
                                                                 Spam
                                                             </a>
-                                                            <a class="dropdown-item d-flex font-medium-1" href="#">
+                                                            <a class="dropdown-item d-flex font-medium-1"
+                                                               href="javascript:void(0)" @click="deleteMessage()">
                                                                 <i class="font-medium-3 feather icon-trash mr-50"></i>
                                                                 Papelera
                                                             </a>
@@ -305,9 +308,25 @@
                                                     </div>
                                                 </li>
                                                 <li class="list-inline-item mail-unread">
-                                                    <span class="action-icon">
-                                                        <i class="feather icon-mail"></i>
-                                                    </span>
+                                                    <div class="dropdown">
+                                                        <a class="dropdown-toggle" id="envelop" data-toggle="dropdown"
+                                                           aria-haspopup="true" aria-expanded="false"
+                                                           href="javascript:void(0)">
+                                                            <i class="feather icon-mail"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="envelop">
+                                                            <a href="javascript:void(0)" @click="markAs('readed')"
+                                                               class="dropdown-item font-medium-1">
+                                                                <i class="far fa-envelope-open mr-2"></i>
+                                                                Marcar como leído
+                                                            </a>
+                                                            <a href="javascript:void(0)" @click="markAs('unreaded')"
+                                                               class="dropdown-item font-medium-1">
+                                                                <i class="far fa-envelope mr-2"></i>
+                                                                Marcar como no leído
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </li>
                                                 <li class="list-inline-item mail-delete">
                                                     <a href="javascript:void(0)" @click="deleteMessage()">
@@ -1005,14 +1024,20 @@
                                                         <i class="feather icon-folder font-medium-5"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="folder">
-                                                        <a class="dropdown-item d-flex font-medium-1" href="#">
-                                                            <i class="font-medium-3 feather icon-edit-2 mr-50"></i> Draft
+                                                        <a class="dropdown-item d-flex font-medium-1"
+                                                           href="javascript:void(0)" @click="markAs('draft')">
+                                                            <i class="font-medium-3 feather icon-edit-2 mr-50"></i>
+                                                            Borrador
                                                         </a>
-                                                        <a class="dropdown-item d-flex font-medium-1" href="#">
-                                                            <i class="font-medium-3 feather icon-info mr-50"></i> Spam
+                                                        <a class="dropdown-item d-flex font-medium-1"
+                                                           href="javascript:void(0)" @click="markAs('spam')">
+                                                            <i class="font-medium-3 feather icon-info mr-50"></i>
+                                                            Spam
                                                         </a>
-                                                        <a class="dropdown-item d-flex font-medium-1" href="#">
-                                                            <i class="font-medium-3 feather icon-trash mr-50"></i> Trash
+                                                        <a class="dropdown-item d-flex font-medium-1"
+                                                           href="javascript:void(0)" @click="deleteMessage()">
+                                                            <i class="font-medium-3 feather icon-trash mr-50"></i>
+                                                            Papelera
                                                         </a>
                                                     </div>
                                                 </div>
@@ -1048,14 +1073,30 @@
                                                 </div>
                                             </li>
                                             <li class="list-inline-item">
-                                                <span class="action-icon">
-                                                    <i class="feather icon-mail font-medium-5"></i>
-                                                </span>
+                                                <div class="dropdown no-arrow">
+                                                    <a class="dropdown-toggle" id="envelop" data-toggle="dropdown"
+                                                       aria-haspopup="true" aria-expanded="false"
+                                                       href="javascript:void(0)">
+                                                        <i class="feather icon-mail font-medium-5"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="envelop">
+                                                        <a href="javascript:void(0)" @click="markAs('readed')"
+                                                           class="dropdown-item font-medium-1">
+                                                            <i class="far fa-envelope-open mr-2"></i>
+                                                            Marcar como leído
+                                                        </a>
+                                                        <a href="javascript:void(0)" @click="markAs('unreaded')"
+                                                           class="dropdown-item font-medium-1">
+                                                            <i class="far fa-envelope mr-2"></i>
+                                                            Marcar como no leído
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </li>
                                             <li class="list-inline-item mail-delete">
                                                 <a href="javascript:void(0)" @click="deleteMessage()">
                                                     <span class="action-icon">
-                                                        <i class="feather icon-trash"></i>
+                                                        <i class="feather icon-trash font-medium-5"></i>
                                                     </span>
                                                 </a>
                                             </li>
@@ -1617,6 +1658,67 @@
                     vm.taggedMessages.co = response.data.tagged.co;
                     vm.taggedMessages.im = response.data.tagged.im;
                     vm.taggedMessages.pr = response.data.tagged.pr;
+                }).catch(error => {
+                    console.error(error);
+                });
+            },
+            /**
+             * Marca un mensaje de acuerdo a la opción indicada por el usuario
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             *
+             * @param     {string}    type    Tipo de acción para marcar el mensaje. Las opciones son:
+             *                                draft, spam, trash, readed o unreaded
+             */
+            markAs(type) {
+                const vm = this;
+                axios.post('/email/mark-as', {
+                    emails: vm.selectedMessages.length > 0
+                            ? vm.selectedMessages
+                            : (typeof(vm.selectedEmail.message_id) !== null ? [vm.selectedEmail.message_id] : []),
+                    type: type
+                }).then(response => {
+                    if (response.data.result) {
+                        if (type !== 'unreaded' && type !== 'readed') {
+                            var oldFolder = response.data.oldFolder;
+                            var newFolder = response.data.newFolder;
+                            vm.emails[oldFolder] = JSON.parse(JSON.stringify(vm.emails[oldFolder].filter(function(em) {
+                                return !response.data.emails.includes(em.message_id);
+                            })));
+
+                            response.data.emailList.forEach(function(em) {
+                                vm.emails[newFolder].push(em);
+                            });
+                        }
+                        else {
+                            email.inbox.forEach(function(inbox) {
+                                if (response.data.emails.includes(inbox.message_id)) {
+                                    inbox.read = (type === 'readed') ? 1 : 0;
+                                }
+                            });
+                            emails.sent.forEach(function(sent) {
+                                if (response.data.emails.includes(sent.message_id)) {
+                                    sent.read = (type === 'readed') ? 1 : 0;
+                                }
+                            });
+                            emails.draft.forEach(function(draft) {
+                                if (response.data.emails.includes(draft.message_id)) {
+                                    draft.read = (type === 'readed') ? 1 : 0;
+                                }
+                            });
+                            emails.spam.forEach(function(spam) {
+                                if (response.data.emails.includes(spam.message_id)) {
+                                    spam.read = (type === 'readed') ? 1 : 0;
+                                }
+                            });
+                            favorites.forEach(function(favorite) {
+                                if (response.data.emails.includes(favorite.message_id)) {
+                                    favorite.read = (type === 'readed') ? 1 : 0;
+                                }
+                            });
+                        }
+                        vm.selectedMessages = [];
+                    }
                 }).catch(error => {
                     console.error(error);
                 });
