@@ -152,6 +152,9 @@
         .flatpickr-current-month input.cur-year {
             color: #fff !important;
         }
+        .bootbox-body {
+            color:#ffffff;
+        }
     </style>
 </head>
 

@@ -149,6 +149,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('upload-attachment', 'EmailController@uploadAttachment');
         Route::post('set-tags', 'EmailController@setTags');
         Route::get('get-tagged-messages', 'EmailController@getTaggedMessages');
+        Route::post('check-auto-config', 'EmailController@checkAutoConfig');
     });
 
     /** Rutas para la gestión de contactos */

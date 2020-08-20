@@ -62,79 +62,6 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <h6 class="font-weight-bold">Información del servidor</h6>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-xs-12">
-                                            <div class="form-group">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                           id="autoConfig" v-model="autoConfig">
-                                                    <label class="form-check-label" for="autoConfig">
-                                                        Configuración automática
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="">Tipo de cuenta</label>
-                                                <select class="custom-select" v-model="protocol"
-                                                        :class="{'has-error': hasErrors('protocol')}">
-                                                    <option value="imap">IMAP</option>
-                                                    <option value="pop3">POP3</option>
-                                                </select>
-                                                <span class="invalid-feedback mb-3" role="alert"
-                                                      v-if="hasErrors('protocol')">
-                                                    <strong>{{ errors.protocol }}</strong>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="">Servidor de correo entrante</label>
-                                                <input type="text" class="form-control" v-model="incoming_server_host"
-                                                       :class="{'has-error': hasErrors('incoming_server_host')}">
-                                                <span class="invalid-feedback mb-3" role="alert"
-                                                      v-if="hasErrors('incoming_server_host')">
-                                                    <strong>{{ errors.incoming_server_host }}</strong>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="">Puerto</label>
-                                                <input type="text" class="form-control" v-model="incoming_server_port"
-                                                       :class="{'has-error': hasErrors('incoming_server_port')}">
-                                                <span class="invalid-feedback mb-3" role="alert"
-                                                      v-if="hasErrors('incoming_server_port')">
-                                                    <strong>{{ errors.incoming_server_port }}</strong>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="">Servidor de correo saliente (SMTP)</label>
-                                                <input type="text" class="form-control" v-model="outgoing_server_host"
-                                                       :class="{'has-error': hasErrors('outgoing_server_host')}">
-                                                <span class="invalid-feedback mb-3" role="alert"
-                                                      v-if="hasErrors('outgoing_server_host')">
-                                                    <strong>{{ errors.outgoing_server_host }}</strong>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="">Puerto</label>
-                                                <input type="text" class="form-control" v-model="outgoing_server_port"
-                                                       :class="{'has-error': hasErrors('outgoing_server_port')}">
-                                                <span class="invalid-feedback mb-3" role="alert"
-                                                      v-if="hasErrors('outgoing_server_port')">
-                                                    <strong>{{ errors.outgoing_server_port }}</strong>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr>
                                     <h6 class="font-weight-bold">Información de inicio de sesión</h6>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-xs-12">
@@ -156,6 +83,85 @@
                                                 <span class="invalid-feedback mb-3" role="alert"
                                                       v-if="hasErrors('password')">
                                                     <strong>{{ errors.password }}</strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <h6 class="font-weight-bold">Información del servidor</h6>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-xs-12">
+                                            <div class="form-group">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           id="autoConfig" v-model="autoConfig">
+                                                    <label class="form-check-label" for="autoConfig">
+                                                        Configuración automática
+                                                        <i class="fa fa-info-circle" style="cursor:pointer"
+                                                           @click=""></i>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="">Tipo de cuenta</label>
+                                                <select class="custom-select" v-model="protocol"
+                                                        :class="{'has-error': hasErrors('protocol')}" :disabled="autoConfig">
+                                                    <option value="imap">IMAP</option>
+                                                    <option value="pop3">POP3</option>
+                                                </select>
+                                                <span class="invalid-feedback mb-3" role="alert"
+                                                      v-if="hasErrors('protocol')">
+                                                    <strong>{{ errors.protocol }}</strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="">Servidor de correo entrante</label>
+                                                <input type="text" class="form-control" v-model="incoming_server_host"
+                                                       :class="{'has-error': hasErrors('incoming_server_host')}"
+                                                       :readonly="autoConfig">
+                                                <span class="invalid-feedback mb-3" role="alert"
+                                                      v-if="hasErrors('incoming_server_host')">
+                                                    <strong>{{ errors.incoming_server_host }}</strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="">Puerto</label>
+                                                <input type="text" class="form-control" v-model="incoming_server_port"
+                                                       :class="{'has-error': hasErrors('incoming_server_port')}"
+                                                       :readonly="autoConfig">
+                                                <span class="invalid-feedback mb-3" role="alert"
+                                                      v-if="hasErrors('incoming_server_port')">
+                                                    <strong>{{ errors.incoming_server_port }}</strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="">Servidor de correo saliente (SMTP)</label>
+                                                <input type="text" class="form-control" v-model="outgoing_server_host"
+                                                       :class="{'has-error': hasErrors('outgoing_server_host')}"
+                                                       :readonly="autoConfig">
+                                                <span class="invalid-feedback mb-3" role="alert"
+                                                      v-if="hasErrors('outgoing_server_host')">
+                                                    <strong>{{ errors.outgoing_server_host }}</strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="">Puerto</label>
+                                                <input type="text" class="form-control" v-model="outgoing_server_port"
+                                                       :class="{'has-error': hasErrors('outgoing_server_port')}"
+                                                       :readonly="autoConfig">
+                                                <span class="invalid-feedback mb-3" role="alert"
+                                                      v-if="hasErrors('outgoing_server_port')">
+                                                    <strong>{{ errors.outgoing_server_port }}</strong>
                                                 </span>
                                             </div>
                                         </div>
@@ -235,6 +241,68 @@
                     vm.incoming_server_port = 995;
                     vm.outgoing_server_port = 465;
                 }
+            },
+            autoConfig: function() {
+                const vm = this;
+                if (vm.autoConfig) {
+                    if (vm.name === '' || !vm.email === '' || vm.username === '' || vm.password === '') {
+                        bootbox.alert({
+                            title: 'Alerta!',
+                            message: 'Debe indicar la información del usuario y del inicio de sesión antes de continuar',
+                            callback: function() {
+                                $("#autoConfig").click();
+                            }
+                        });
+                        return true;
+                    }
+                    bootbox.confirm({
+                        title: 'Configuración automática',
+                        message: `Esta opción permite establecer la configuración mas adecuada para su cuenta de correo.
+                                  El proceso puede tardar algunos minutos. Esta usted de acuerdo en continuar?
+                                  ${vm.layerSecurityMsg()}`,
+                        buttons: {
+                            cancel: {
+                                label: 'cancelar'
+                            },
+                            confirm: {
+                                label: 'continuar'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                vm.$loading(true);
+                                axios.post('/email/check-auto-config', {
+                                    email: vm.email,
+                                    username: vm.username,
+                                    pass: vm.password
+                                }).then(response => {
+                                    if (!response.data.result) {
+                                        $("#autoConfig").click();
+                                        bootbox.alert({
+                                            title: 'Alerta!',
+                                            message: response.data.message ||
+                                                     `No se ha podido obtener datos del servidor.
+                                                      Debe agregar manualmente la información`
+                                        });
+                                        vm.$loading(false);
+                                        return true;
+                                    }
+                                    vm.incoming_server_host = response.data.serverInfo.host;
+                                    vm.outgoing_server_host = response.data.serverInfo.out_host;
+                                    vm.incoming_server_port = response.data.serverInfo.port;
+                                    vm.outgoing_server_port = response.data.serverInfo.out_port;
+                                    vm.protocol = response.data.serverInfo.protocol;
+                                    vm.$loading(false);
+                                }).catch(error => {
+                                    console.error(error);
+                                    vm.$loading(false);
+                                });
+                                return true;
+                            }
+                            vm.autoConfig = false;
+                        }
+                    });
+                }
             }
         },
         methods: {
@@ -282,6 +350,40 @@
                     }
                     vm.$loading(false);
                 });
+            },
+            layerSecurityMsg: function() {
+                const vm = this;
+                var msg = '';
+
+                if (vm.email !== '') {
+                    if (vm.email.includes('@gmail')) {
+                        msg = `<hr><p>Gmail cuenta con una capa de seguridad extra por lo que es necesario realizar algunos
+                               ajustes desde su cuenta de correo antes de proceder a la configuración automática.
+                               Para esto acceda a su cuenta de correo y siga los siguientes pasos:</p>
+                               <ul>
+                                    <li>Haga clic en el ícono del perfil de la cuenta ubicado en la parte superior derecha</li>
+                                    <li>Presione sobre el botón "Gestionar tu cuenta de google"</li>
+                                    <li>En la siguiente página, presionar sobre la opción "Seguridad" del menú lateral izquierdo</li>
+                                    <li>En el listado de opciones presentado, hacer clic en la opción "Acceso de apps menos segura" y darle a la opción de habilitar</li>
+                               </ul>`;
+                    }
+                    else if (vm.email.includes('@yahoo') || vm.email.includes('@aol')) {
+                        msg = `<hr><p>Yahoo / Aol, cuentan con una capa de seguridad extra por lo que es necesario realizar algunos
+                               ajustes desde su cuenta de correo antes de proceder a la configuración automática.
+                               Para esto acceda a su cuenta de correo y siga los siguientes pasos:</p>
+                               <ul>
+                                    <li>Haga clic en el ícono del perfil de la cuenta ubicado en la parte superior derecha</li>
+                                    <li>Presione sobre el botón "Información de la cuenta"</li>
+                                    <li>En la siguiente página, presionar sobre la opción "Seguridad de la cuenta" del menú lateral izquierdo</li>
+                                    <li>En el listado de opciones presentado, hacer clic en la opción "Administrar contraseñas de aplicaciones"</li>
+                                    <li>Posteriormente se debe seleccionar el tipo de aplicación, en cuyo caso se selecciona la opción "otras aplicaciones"</li>
+                                    <li>Presionar sobre el botón "generar contraseña"</li>
+                                    <li>Copiar la contraseña generada ya que esta será la que se utilizará en el proceso de configuración de correo en Ventonic en lugar de la contraseña normal del usuario</li>
+                               </ul>`;
+                    }
+                }
+
+                return msg;
             }
         },
         mounted() {

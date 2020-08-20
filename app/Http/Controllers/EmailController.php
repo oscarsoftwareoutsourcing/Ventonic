@@ -659,4 +659,114 @@ class EmailController extends Controller
 
         return response()->json(['result' => true, 'tagged' => $tagged], 200);
     }
+
+    public function checkAutoConfig(Request $request)
+    {
+        try {
+            //Verificar conexión con el servidor para determinar si todo esta correcto y es posible establecer
+            //la conexión
+            /*$emailClient = new Client([
+                'host'          => $request->incoming_server_host,
+                'port'          => $request->incoming_server_port ?? 993,
+                'encryption'    => 'ssl',
+                'validate_cert' => true,
+                'username'      => $request->username,
+                'password'      => $request->password,
+                'protocol'      => $request->protocol
+            ]);*/
+
+            $config = $this->typeAccounts($request->email, $request->username, $request->pass);
+            //dd($config);
+            $client = new Client($config);
+            $client->connect();
+
+            if (!$client->isConnected()) {
+                return response()->json([
+                    'result' => false,
+                    'message' => 'No se pudo establecer la conexión con el servidor, ' .
+                                 'verifique la configuración e intente de nuevo'
+                ], 200);
+            }
+        } catch (ConnectionFailedException $e) {
+            return response()->json([
+                'result' => false,
+                'message' => `Ocurrió un error al tratar de conectar con el servidor. Debe ingresar los datos del
+                              servidor manualmente`
+            ], 200);
+        }
+        return response()->json(['result' => true, 'serverInfo' => $config], 200);
+    }
+
+    private function typeAccounts($email, $username, $pass, $protocol = 'imap')
+    {
+        list($usr, $domain) = explode("@", $email);
+        $type = explode(".", $domain)[0];
+        $extension = explode(".", $domain)[1];
+        $host = $protocol . '.' .$domain;
+        $outHost = 'mail' . '.' . $domain;
+
+        if (in_array($type, ['hotmail', 'outlook'])) {
+            $type = 'microsoft';
+        }
+
+        $accounts = [
+            'default' => [
+                'host'  => $host,
+                'port'  => 993,
+                'protocol'  => $protocol,
+                'encryption'    => 'ssl',
+                'validate_cert' => true,
+                'username' => $username,
+                'password' => $pass,
+                'out_host' => $outHost,
+                'out_port' => 465,
+            ],
+            'gmail' => [
+                'host' => 'pop.gmail.com',
+                'port' => 995,
+                'protocol' => 'pop3',
+                'encryption' => 'ssl',
+                'validate_cert' => true,
+                'username' => $username,
+                'password' => $pass,
+                'out_host' => 'smtp.gmail.com',
+                'out_port' => 587,
+            ],
+            'yahoo' => [
+                'host' => 'imap.mail.yahoo.' . $extension,
+                'port' => 993,
+                'protocol' => 'imap',
+                'encryption' => 'ssl',
+                'validate_cert' => true,
+                'username' => $username,
+                'password' => $pass,
+                'out_host' => 'smtp.mail.yahoo.' . $extension,
+                'out_port' => 465,
+            ],
+            'microsoft' => [
+                'host' => 'imap-mail.outlook.com',
+                'port' => 993,
+                'protocol' => 'imap',
+                'encryption' => 'ssl',
+                'validate_cert' => true,
+                'username' => $username,
+                'password' => $pass,
+                'out_host' => 'smtp-mail.outlook.com',
+                'out_port' => 587,
+            ],
+            'aol' => [
+                'host' => 'imap.aol.com',
+                'port' => 993,
+                'protocol' => 'imap',
+                'encryption' => 'ssl',
+                'validate_cert' => true,
+                'username' => $username,
+                'password' => $pass,
+                'out_host' => 'smtp.aol.com',
+                'out_port' => 465,
+            ],
+        ];
+
+        return $accounts[(isset($accounts[$type])) ? $type : 'default'];
+    }
 }
