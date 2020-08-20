@@ -97,8 +97,6 @@
                                                            id="autoConfig" v-model="autoConfig">
                                                     <label class="form-check-label" for="autoConfig">
                                                         Configuración automática
-                                                        <i class="fa fa-info-circle" style="cursor:pointer"
-                                                           @click=""></i>
                                                     </label>
                                                 </div>
                                             </div>
@@ -381,6 +379,13 @@
                                     <li>Copiar la contraseña generada ya que esta será la que se utilizará en el proceso de configuración de correo en Ventonic en lugar de la contraseña normal del usuario</li>
                                </ul>`;
                     }
+                }
+
+                if (msg !== '') {
+                    msg += `<p>
+                                Una vez realizada esta configuración en su cuenta de correo,
+                                regrese a esta página y presione el botón continuar.
+                            </p>`;
                 }
 
                 return msg;
