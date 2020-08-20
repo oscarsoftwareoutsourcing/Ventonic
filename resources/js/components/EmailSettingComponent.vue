@@ -385,6 +385,12 @@
                     msg += `<p>
                                 Una vez realizada esta configuración en su cuenta de correo,
                                 regrese a esta página y presione el botón continuar.
+                            </p>
+                            <p>
+                                Si no se puede determinar la configuración del servidor de correo,
+                                por favor revise en su cuenta la existencia de un correo de alerta enviado
+                                por su proveedor indicando el bloqueo de acceso y permita el mismo,
+                                luego intente de nuevo la configuración automática.
                             </p>`;
                 }
 
