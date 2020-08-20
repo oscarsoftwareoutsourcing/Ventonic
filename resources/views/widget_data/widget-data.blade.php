@@ -21,7 +21,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h2>Datos de widget</h2>
+                                <h2>Listado de solicitudes Call Me</h2>
                             </div>
                             <div class="card-content">
                                 <div class="card-body card-dashboard">
@@ -41,8 +41,8 @@
                                            <tbody>
                                                @foreach($data as $dt)
                                                <tr>
-                                                   <td align="center">{{$dt->created_at->format('d-m-Y')}}</td>
-                                                   <td align="center">{{$dt->name}}</td>
+                                                   <td align="center">{{$dt->created_at->format('d-m-Y H:m')}}</td>
+                                                   <td align="center">{{$dt->name}} {{$dt->last_name}}</td>
                                                    <td align="center">{{$dt->product}}</td>
                                                    <td align="center">{{$dt->phone_mobil}}</td>
                                                    <td align="center">{{$dt->url}}</td>
@@ -71,13 +71,14 @@
     </div>
 </div>
 @endsection
+
+@section('extra-js-app')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    
+@endsection
+
 @section('extra-js')
 <script src="{{ asset('vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
-    
-   
-    
-    
-   
 <script src="{{ asset('vendors/js/tables/datatable/datatables.min.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
@@ -88,7 +89,7 @@
 <script src="{{ asset('js/scripts/ui/data-list-view.js') }}"></script>
 <script src="{{ asset('/js/scripts/modal/components-modal.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/buttons.html5.min.js')}}"></script>
-    <script src="{{ asset('vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
+<script src="{{ asset('vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
 <script>
     $("#datatable").DataTable();
 

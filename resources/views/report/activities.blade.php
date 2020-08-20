@@ -31,7 +31,7 @@
                                 <span>Periodo</span>
                             </div>
                             <div class="col-md-5">
-                                <select class="form-control" id="periodo" name="etiquetas">
+                                <select class="form-control" id="periodo" name="etiquetas"  onchange="selectDate()">
                                     <option value="0" {{ request()->etiquetas=='0'?'selected':'' }}>
                                         Busqueda por periodo
                                     </option>
@@ -60,7 +60,7 @@
                             </div>
 
                             <div class="col-md-2">
-                                 <button type="submit" class="btn btn-primary">Buscar</button>
+                                 <button type="submit" class="btn btn-primary" id="search" style="display:none;">Buscar</button>
                             </div>
                         </div>
                         </form>
@@ -141,6 +141,12 @@
     <script type="text/javascript">
         var pro_label = {!! $pro_label !!};
         var pro_qty = {!! $pro_qty !!};
+        
+        function selectDate(e){
+            var obj = document.getElementById('search');
+            obj.click();
+        }
+
     </script>
 @endsection
 
