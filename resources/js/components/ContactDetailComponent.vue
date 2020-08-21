@@ -211,7 +211,7 @@ export default {
         showImage() {
             const vm = this;
             return vm.contact.image ?
-                `/${vm.contact.image}` :
+                `${vm.contact.image.indexOf('http') < 0 ? '/' : ''}${vm.contact.image}` :
                 "/images/anonymous-user.png";
         },
         getStatus() {
@@ -303,7 +303,7 @@ export default {
                 },
             }).then(response => {
                 if (response.data.result) {
-                    vm.picture = `/${response.data.picture}`;
+                    vm.picture = `${response.data.picture.indexOf('http') < 0 ? '/' : ''}${response.data.picture}`;
                 }
             }).catch(error => {
                 console.error(error);

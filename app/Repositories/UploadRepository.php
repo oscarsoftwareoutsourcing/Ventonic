@@ -61,7 +61,7 @@ class UploadRepository
 
                         /** si esta configurada la opción de Amazon Web Sevice Storage */
                         if (!empty(env('AWS_BUCKET', ''))) {
-                            $this->stored = Storage::disk('s3')->url($upload);
+                            $this->stored = Storage::disk('s3')->url($this->name);
                             $this->storedPath = $upload;
                         }
 
