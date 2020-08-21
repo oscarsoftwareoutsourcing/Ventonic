@@ -10,7 +10,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         @component('components.header-ventonic-blue') Contacto @endcomponent
-                        <contact-detail :contact="{{ $contact }}"></contact-detail>
+                        <contact-detail :contact="{{ $contact }}" url-list="{!! route('contact.list') !!}"></contact-detail>
                     </div>
                 </div>
             </div>

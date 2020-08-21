@@ -89,7 +89,7 @@
                                         </div>
                                     </div>
                                     <h2 class="text-bold-700 mt-1 mb-25" id="total_billed">@money($negs['won']['amount'])€</h2>
-                                    
+
                                     <p class="mb-0">Facturacion Total</p>
                                 </div>
                                 <div class="card-content">
@@ -194,7 +194,7 @@
                     <div class="card-header d-flex justify-content-between pb-0">
                         <h4 class="card-title">Ofertas</h4>
                     </div>
-                
+
                     <div class="card-content">
                         <div class="card-body py-0">
                             <div id="offers_chart"></div>
@@ -513,7 +513,7 @@
                     subscribe_gain.series[0].data.push(response.contacts_data.all.contacts[i].total);
                 }
                 new ApexCharts(document.querySelector("#subscribe_gain_chart"), subscribe_gain).render();
-                
+
                 let contactBilling = moneyFormat(response.negs.closed.amount)+'€';
                 let contactNegotiation = moneyFormat(response.negs.in_process.amount)+'€';
                 $('#contact_billing').html(contactBilling);

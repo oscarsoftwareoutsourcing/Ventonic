@@ -155,6 +155,25 @@
         .bootbox-body {
             color:#ffffff;
         }
+        .capitalize {
+          text-transform: capitalize;
+        }
+        .text-display-5 {
+            font-size:1.5rem;
+        }
+        .avatar.avatar-xxl [class*="avatar-status-"] {
+            width: 30px;
+            height: 30px;
+            right: 5px;
+            bottom: 10px;
+            border: 1px solid #256EE1;
+            background-color: rgba(16,22,58,.9);
+            padding: 4%;
+        }
+        .avatar.avatar-xxl img {
+            width: 140px;
+            height: 140px;
+        }
     </style>
 </head>
 
