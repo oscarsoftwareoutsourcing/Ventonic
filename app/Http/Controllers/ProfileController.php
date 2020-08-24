@@ -107,7 +107,7 @@ class ProfileController extends Controller
                         'mimes:jpeg,jpg,png,svg', 'file', 'max:2048'
                     ]
                 ]);
-                if ($up->upload($request->file('photo'), 'files')) {
+                if ($up->upload($request->file('photo'), 'files', false, false, false, false)) {
                     $photo = $up->getStored();
                 }
             }
@@ -139,7 +139,7 @@ class ProfileController extends Controller
             ]);
 
             if ($request->file('photo')) {
-                if ($up->upload($request->file('photo'), 'files')) {
+                if ($up->upload($request->file('photo'), 'files', false, false, false, false)) {
                     $photo = $up->getStored();
                 }
             }

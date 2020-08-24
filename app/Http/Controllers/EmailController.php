@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Mail\Mailer;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Webklex\IMAP\Client;
 use Webklex\IMAP\Facades\Client as PresetClient;
 use Webklex\IMAP\Exceptions\ConnectionFailedException;
@@ -222,19 +224,37 @@ class EmailController extends Controller
                         $emails[strtolower($folder->name)] = [];
                         foreach ($messages as $message) {
                             $aAttachment = $message->getAttachments();
+                            $attachments = [];
                             $aAttachment->each(function ($oAttachment) {
+
+                                /** Si no esta configurado el servicio de AWS */
                                 $path = config('filesystems.disks.attachments.root');
                                 /** @var \Webklex\IMAP\Attachment $oAttachment */
                                 $oAttachment->save($path);
+                                /** Si esta configurado el servicio de AWS */
+                                if (!empty(env('AWS_BUCKET', ''))) {
+                                    $upload = Storage::disk('s3')->put(
+                                        auth()->user()->uuid . '/' . $oAttachment->getName(),
+                                        File::get($path . '/' . $oAttachment->getName())
+                                    );
+                                    $file = Storage::disk('s3')->url($oAttachment->getName());
+                                    return $file;
+                                }
                                 return $path . '/' . $oAttachment->getName();
                             });
 
-                            $attachments = [];
                             foreach ($message->getAttachments() as $attachFile) {
-                                $path = config('filesystems.disks.attachments.root');
-                                $file = $path . '/' . $attachFile->getName();
+                                if (empty(env('AWS_BUCKET', ''))) {
+                                    $path = config('filesystems.disks.attachments.root');
+                                    $file = $path . '/' . $attachFile->getName();
+                                } else {
+                                    $file = Storage::disk('s3')->url(
+                                        auth()->user()->uuid . '/' . $attachFile->getName()
+                                    );
+                                }
                                 array_push($attachments, $file);
                             }
+
                             $alreadyMessage = EmailMessage::where('message_id', $message->message_id)->first();
 
 

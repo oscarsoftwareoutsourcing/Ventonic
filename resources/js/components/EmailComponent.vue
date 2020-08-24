@@ -63,7 +63,7 @@
                                             {{ countUnread(spam) }}
                                         </span>
                                         <span class="badge badge-default badge-pill float-right">
-                                            {{ emails.spam.length }}
+                                            {{ (typeof(emails.spam)!=="undefined") ? emails.spam.length : 0 }}
                                         </span>
                                     </a>
                                     <a href="javascript:void(0)" class="list-group-item list-group-item-action border-0"
@@ -1176,7 +1176,7 @@
                                                         <span>Archivos adjuntos</span>
                                                     </div>
                                                 </div>
-                                                <div class="mail-files py-2" v-if="selectedEmail.attachments"
+                                                <div class="mail-files py-2" v-if="selectedEmail.attachments.length > 0"
                                                      v-for="attach in selectedEmail.attachments">
                                                     <div class="chip chip-primary mr-2">
                                                         <div class="chip-body py-50">
@@ -1401,9 +1401,21 @@
                     vm.$loading(false);
                 });
             },
+            /**
+             * Obtiene el enlace de descarga del archivo adjunto
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             *
+             * @param     {string}         attachmentPath    Ruta en donde se ubica el archivo
+             *
+             * @return    {string}         Url para la descarga del archivo adjunto
+             */
             getAttachLink(attachmentPath) {
                 const vm = this;
-                return `/attachment/${vm.getAttachName(attachmentPath)}`;
+
+                return (!attachmentPath.startsWith("http"))
+                       ? `/attachment/${vm.getAttachName(attachmentPath)}`
+                       : attachmentPath;
             },
             /**
              * Obtiene el nombre del archivo adjunto en un correo
@@ -1415,7 +1427,6 @@
              * @return    {string}         Nombre del archivo adjunto
              */
             getAttachName(attachmentPath) {
-                console.log(attachmentPath)
                 var pathSections = attachmentPath.split("/");
                 return pathSections[pathSections.length - 1];
             },
@@ -1691,27 +1702,27 @@
                             });
                         }
                         else {
-                            email.inbox.forEach(function(inbox) {
+                            vm.email.inbox.forEach(function(inbox) {
                                 if (response.data.emails.includes(inbox.message_id)) {
                                     inbox.read = (type === 'readed') ? 1 : 0;
                                 }
                             });
-                            emails.sent.forEach(function(sent) {
+                            vm.emails.sent.forEach(function(sent) {
                                 if (response.data.emails.includes(sent.message_id)) {
                                     sent.read = (type === 'readed') ? 1 : 0;
                                 }
                             });
-                            emails.draft.forEach(function(draft) {
+                            vm.emails.draft.forEach(function(draft) {
                                 if (response.data.emails.includes(draft.message_id)) {
                                     draft.read = (type === 'readed') ? 1 : 0;
                                 }
                             });
-                            emails.spam.forEach(function(spam) {
+                            vm.emails.spam.forEach(function(spam) {
                                 if (response.data.emails.includes(spam.message_id)) {
                                     spam.read = (type === 'readed') ? 1 : 0;
                                 }
                             });
-                            favorites.forEach(function(favorite) {
+                            vm.favorites.forEach(function(favorite) {
                                 if (response.data.emails.includes(favorite.message_id)) {
                                     favorite.read = (type === 'readed') ? 1 : 0;
                                 }
@@ -1747,6 +1758,8 @@
                 const vm = this;
                 if (email !== null) {
                     vm.selectedEmail = email;
+                    vm.selectedEmail.attachments = (email.attachments.length > 0)
+                                                   ? JSON.parse(JSON.stringify(email.attachments)) : [];
                     $(".app-content .email-app-details").toggleClass("show");
                 }
             },
