@@ -12,10 +12,8 @@
 */
 
 Route::get('/', function () {
-    if (auth()->check() && auth()->user()->type === "E") {
-        // return view('search-result');
-        //return view('inicio-dashboard');
-        return view('dashboard.index');
+    if (auth()->check()) {
+        return redirect()->route('home');
     }
     return view('welcome');
 });
@@ -151,6 +149,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('get-tagged-messages', 'EmailController@getTaggedMessages');
         Route::post('check-auto-config', 'EmailController@checkAutoConfig');
         Route::post('mark-as', 'EmailController@markMessagesAs');
+        Route::resource('templates', 'EmailTemplateController');
     });
 
     /** Rutas para la gestión de contactos */
