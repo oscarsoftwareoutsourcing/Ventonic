@@ -95,14 +95,13 @@ class RegisterController extends Controller
 
         $user=User::first();
         $email_register=User::where('email', $user->email)->get();
-
     }
 
-    public function addGroup($type, $code_verificacion=null){
+    public function addGroup($type, $code_verificacion = null)
+    {
         if ($type === 'empresa') {
             return view('auth.register-company');
         }
         return view('auth.register');
-
     }
 }

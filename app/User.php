@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\VerifyEmail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -41,6 +42,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'filterable_seller' => 'array',
         'last_login' => 'datetime:d/m/Y h:i:s A'
     ];
+
+    /**
+    * Reescribe el método que permite enviar la notificación de verificación de registro
+    *
+    * @return void
+    */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
+    }
 
     /**
      * User has many ChatRoomUsers.
@@ -148,22 +159,26 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     // User notes
-    public function todos() {
+    public function todos()
+    {
         return $this->hasMany(Todo::class);
     }
 
     // User negotiations
-    public function negotiations() {
+    public function negotiations()
+    {
         return $this->hasMany(Negotiation::class);
     }
 
     // User related negotiations
-    public function related_negotiations() {
+    public function related_negotiations()
+    {
         return $this->belongsToMany(Negotiation::class);
     }
 
     // User moduleLabels
-    public function negotiation_processes() {
+    public function negotiation_processes()
+    {
         return $this->hasMany(UserModuleLabel::class);
     }
 
@@ -178,11 +193,13 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     // User groups
-    public function groups() {
+    public function groups()
+    {
         return $this->hasMany(Group::class);
     }
 
-    public function related_groups() {
+    public function related_groups()
+    {
         // return $this->hasManyThrough(Group::class, GroupUser::class);
         return $this->hasMany('App\GroupUser', 'user_id');
     }
@@ -251,7 +268,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
 
-     public function getTypeuserAttribute()
+    public function getTypeuserAttribute()
     {
         return ($this->sellerProfile!==null) ? 'V' : (($this->companyProfile!==null) ? 'E' : '');
     }
@@ -413,7 +430,7 @@ class User extends Authenticatable implements MustVerifyEmail
                      ->orWhere('email', 'like', $text . '%');
     }
 
-     public function scopeOrByEmail($query, $text)
+    public function scopeOrByEmail($query, $text)
     {
         if (empty($text)) {
             return $query;
@@ -452,14 +469,15 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
-    public static function getAnsweredAnios($user_id, $question_id){
-        $sellerAnswer=SellerAnsweredSurvey::where('user_id',(int)$user_id)
+    public static function getAnsweredAnios($user_id, $question_id)
+    {
+        $sellerAnswer=SellerAnsweredSurvey::where('user_id', (int)$user_id)
                                             ->where('question_id', (int)$question_id)
                                             ->get();
 
         $result='';
         $option_index='';
-        foreach($sellerAnswer as $seller){
+        foreach ($sellerAnswer as $seller) {
             $result=$seller->user_id;
             $option_index=$seller->option_index;
         }
@@ -468,126 +486,121 @@ class User extends Authenticatable implements MustVerifyEmail
         //     return 'Por completar en el perfil';
         // }
 
-        if(isset($result) && $result == $user_id){
+        if (isset($result) && $result == $user_id) {
             $answered=Question::where('id', $question_id)->value('options');
-            $answered=ltrim($answered,'[');
-            $answered=rtrim($answered,']');
+            $answered=ltrim($answered, '[');
+            $answered=rtrim($answered, ']');
             $answered=str_replace('\u00f1', 'ñ', $answered);
             $answered=str_replace('\u00e1', 'á', $answered);
             $answered_string=str_replace('"', '', $answered);
 
             $answeredArray=explode(',', $answered_string);
             $respuesta='';
-            foreach($answeredArray as $i=>$answer){
-                if ($i==$option_index){
+            foreach ($answeredArray as $i => $answer) {
+                if ($i==$option_index) {
                     $respuesta=$answer;
                 }
             }
-
-        }else{
+        } else {
             $respuesta="Sin respuesta registrada en el perfil";
         }
         return $respuesta;
-
     }
 
-    public static function getExperiencie($user_id, $question_id){
-        $sellerAnswer=SellerAnsweredSurvey::where('user_id',(int)$user_id)
+    public static function getExperiencie($user_id, $question_id)
+    {
+        $sellerAnswer=SellerAnsweredSurvey::where('user_id', (int)$user_id)
                                             ->where('question_id', (int)$question_id)
                                             ->get();
 
         $result='';
         $option_index='';
-        foreach($sellerAnswer as $seller){
+        foreach ($sellerAnswer as $seller) {
             $result=$seller->user_id;
             $option_index=$seller->option_index;
         }
 
-        if(isset($result) && $result == $user_id){
+        if (isset($result) && $result == $user_id) {
             $answered=Question::where('id', $question_id)->value('options');
-            $answered=ltrim($answered,'[');
-            $answered=rtrim($answered,']');
+            $answered=ltrim($answered, '[');
+            $answered=rtrim($answered, ']');
             $answered=str_replace('"', '', $answered);
             $answered=str_replace('\u00e9', 'é', $answered);
             $answered_string=str_replace('\u00ed', 'í', $answered);
 
             $answeredArray=explode(',', $answered_string);
             $respuesta='';
-            foreach($answeredArray as $i=>$answer){
-                if ($i==$option_index){
+            foreach ($answeredArray as $i => $answer) {
+                if ($i==$option_index) {
                     $respuesta=$answer;
                 }
             }
-
-        }else{
+        } else {
             $respuesta="Sin respuesta registrada en el perfil";
         }
         return $respuesta;
-
     }
 
-    public static function getDisponibilidad($user_id, $question_id){
-        $sellerAnswer=SellerAnsweredSurvey::where('user_id',(int)$user_id)
+    public static function getDisponibilidad($user_id, $question_id)
+    {
+        $sellerAnswer=SellerAnsweredSurvey::where('user_id', (int)$user_id)
                                             ->where('question_id', (int)$question_id)
                                             ->get();
         $result='';
         $option_index='';
-        foreach($sellerAnswer as $seller){
+        foreach ($sellerAnswer as $seller) {
             $result=$seller->user_id;
             $option_index=$seller->option_index;
         }
 
 
-        if(isset($result) && $result == $user_id){
+        if (isset($result) && $result == $user_id) {
             $answered=Question::where('id', $question_id)->value('options');
-            $answered=ltrim($answered,'[');
-            $answered=rtrim($answered,']');
+            $answered=ltrim($answered, '[');
+            $answered=rtrim($answered, ']');
             $answered=str_replace('"', '', $answered);
             $answered_string=str_replace('\u00f1', 'ñ', $answered);
             $answeredArray=explode(',', $answered_string);
             $respuesta='';
-            foreach($answeredArray as $i=>$answer){
-                if ($i==$option_index){
+            foreach ($answeredArray as $i => $answer) {
+                if ($i==$option_index) {
                     $respuesta=$answer;
                 }
             }
-
-        }else{
+        } else {
             $respuesta="Sin respuesta registrada en el perfil";
         }
         return $respuesta;
-
     }
 
-    public static function getTipoColaboration($user_id, $question_id){
-        $sellerAnswer=SellerAnsweredSurvey::where('user_id',(int)$user_id)
+    public static function getTipoColaboration($user_id, $question_id)
+    {
+        $sellerAnswer=SellerAnsweredSurvey::where('user_id', (int)$user_id)
                                             ->where('question_id', (int)$question_id)
                                             ->get();
 
         $result='';
         $option_index='';
-        foreach($sellerAnswer as $seller){
+        foreach ($sellerAnswer as $seller) {
             $result=$seller->user_id;
             $option_index=$seller->option_index;
         }
 
-        if(isset($result) && $result == $user_id){
-
+        if (isset($result) && $result == $user_id) {
             $answered=Question::where('id', $question_id)->value('options');
-            $answered=ltrim($answered,'[');
-            $answered=rtrim($answered,']');
+            $answered=ltrim($answered, '[');
+            $answered=rtrim($answered, ']');
             $answered=str_replace('"', '', $answered);
             $answered=str_replace('\u00f1', 'ñ', $answered);
             $anios_string=str_replace('\u00f3', 'ó', $answered);
             $answeredArray=explode(',', $anios_string);
             $respuesta='';
-            foreach($answeredArray as $i=>$answer){
-                if ($i==$option_index){
+            foreach ($answeredArray as $i => $answer) {
+                if ($i==$option_index) {
                     $respuesta=$answer;
                 }
             }
-
-        }else{
+        } else {
             $respuesta="Sin respuesta registrada en el perfil";
         }
         return $respuesta;

@@ -43,15 +43,15 @@ class Welcome extends Notification
     {
         return (new MailMessage)
                     ->from(config('mail.from.address'), config('mail.from.name'))
-                    ->subject(__('Bienvenido') . ' - ' . config('app.name'))
-                    ->line(__('Bienvenido :user, has sido verificado correctamente en nuestro sistema.', [
-                        'user' => $this->user
+                    ->subject(__('Bienvenido a ') . config('app.name'))
+                    ->line(__('¡Bienvenido :user!, has sido verificado correctamente en nuestro sistema.', [
+                        'user' => ucfirst($this->user)
                     ]))
                     ->line('Ya puede hacer uso de todas las funcionalidades.')
-                    ->line('Gracias por usar nuestra aplicación!')
+                    ->line('¡Gracias por usar nuestra aplicación!')
                     ->line(
-                        'Este correo es enviado de manera automática por la aplicación y no esta siendo ' .
-                        'monitoreado. Por favor no responda a este correo!'
+                        'Este correo es enviado de manera automática por la aplicación y no está siendo ' .
+                        'monitoreado. Por favor, no responda a este correo.'
                     );
     }
 

@@ -43,12 +43,13 @@ class ProfileIncompleted extends Notification
     {
         return (new MailMessage)
                     ->from(config('mail.from.address'), config('mail.from.name'))
+                    ->greeting("¡Hola ".$notifiable->name."!,")
                     ->subject(__('Perfil incompleto') . ' - ' . config('app.name'))
                     ->line('Su perfil se encuentra en '.$this->status.' %.')
-                    ->line('Gracias por usar nuestra aplicación!')
+                    ->line('¡Gracias por usar nuestra aplicación!')
                     ->line(
-                        'Este correo es enviado de manera automática por la aplicación y no esta siendo ' .
-                        'monitoreado. Por favor no responda a este correo!'
+                        'Este correo es enviado de manera automática por la aplicación y no está siendo ' .
+                        'monitoreado. Por favor, no responda a este correo!'
                     );
     }
 

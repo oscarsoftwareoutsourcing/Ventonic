@@ -41,12 +41,13 @@ class ProfileCompleted extends Notification
     {
         return (new MailMessage)
                     ->from(config('mail.from.address'), config('mail.from.name'))
+                    ->greeting("¡Hola ".$notifiable->name."!,")
                     ->subject(__('Perfil completo') . ' - ' . config('app.name'))
                     ->line('Su perfil ha sido completado correctamente.')
-                    ->line('Gracias por usar nuestra aplicación!')
+                    ->line('¡Gracias por usar nuestra aplicación!')
                     ->line(
-                        'Este correo es enviado de manera automática por la aplicación y no esta siendo ' .
-                        'monitoreado. Por favor no responda a este correo!'
+                        'Este correo es enviado de manera automática por la aplicación y no está siendo ' .
+                        'monitoreado. Por favor, no responda a este correo!'
                     );
     }
 
