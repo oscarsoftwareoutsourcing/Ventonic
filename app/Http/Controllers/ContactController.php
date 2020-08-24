@@ -443,7 +443,7 @@ class ContactController extends Controller
     public function changePicture(Request $request, UploadRepository $up)
     {
         if ($request->file('picture')) {
-            if ($up->upload($request->file('picture'), 'contacts')) {
+            if ($up->upload($request->file('picture'), 'contacts', false, false, false, false)) {
                 $picture = $up->getStored();
                 $contact = Contact::find($request->contact_id);
                 $contact->image = $picture;

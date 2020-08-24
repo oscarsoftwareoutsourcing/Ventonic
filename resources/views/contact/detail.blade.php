@@ -9,7 +9,18 @@
             </div>
                 <div class="row justify-content-center">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        @component('components.header-ventonic-blue') Contacto @endcomponent
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <span style="font-size:2rem;" class="font-weight-bold mr-2">Mis Contactos</span>
+                                @php
+                                    $newContact = (auth()->user()->type === 'E') ? 'persona' : 'empresa';
+                                @endphp
+                                <a href="{{ route('contact.create', ['contact' => $newContact]) }}" type="button"
+                                   class="btn btn-ventonic mr-1 mb-1 waves-effect waves-light">
+                                    Agregar Contacto
+                                </a>
+                            </div>
+                        </div>
                         <contact-detail :contact="{{ $contact }}" url-list="{!! route('contact.list') !!}"></contact-detail>
                     </div>
                 </div>

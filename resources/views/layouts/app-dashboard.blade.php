@@ -174,6 +174,18 @@
             width: 140px;
             height: 140px;
         }
+        .btn-ventonic {
+            background: -webkit-linear-gradient(332deg, #0087FF, rgba(115, 103, 240, 0.7));
+            background: linear-gradient(118deg, #0087FF, rgba(115, 103, 240, 0.7));
+            box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7);
+            color: #FFFFFF;
+            font-weight: 400;
+            border-radius: 4px;
+        }
+        .btn-ventonic:hover {
+            color:#ffffff !important;
+            font-weight: bold;
+        }
     </style>
 </head>
 

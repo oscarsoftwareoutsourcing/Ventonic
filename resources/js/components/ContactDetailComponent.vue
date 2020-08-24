@@ -2,14 +2,14 @@
     <div class="card">
         <div class="card-content">
             <div class="card-body">
-                <!--<div class="row">
+                <div class="row">
                     <div class="col">
-                        <span class="float-left">
+                        <!--<span class="float-left">
                             <h5 class="card-title mb-2">Datos Generales</h5>
-                        </span>
+                        </span>-->
                         <div class="mr-auto float-right bookmark-wrapper d-flex align-items-center">
                             <ul class="list-inline m-0">
-                                <li class="list-inline-item">
+                                <!--<li class="list-inline-item">
                                     <a @click="editContact()">
                                         <i class="feather icon-edit controls"></i>
                                     </a>
@@ -18,7 +18,7 @@
                                     <a @click="deleteContact">
                                         <i class="feather icon-trash-2 controls"></i>
                                     </a>
-                                </li>
+                                </li>-->
                                 <li class="list-inline-item controls">
                                     <a @click="goBack()">
                                         <i class="feather icon-arrow-left controls"></i>
@@ -27,7 +27,7 @@
                             </ul>
                         </div>
                     </div>
-                </div>-->
+                </div>
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="avatar mr-1 avatar-xxl">
@@ -174,7 +174,8 @@
                                 <div style="width: 100%; height: 100%" id="address-map"></div>
                             </div>
                             <div class="form-group mt-2 font-weight-bold" v-if="distance" style="font-size:1.8rem">
-                                <span>{{ distance.toFixed(2) }} Km</span>
+                                <span class="mr-2">{{ distance.toFixed(2) }} Km</span>
+                                <a :href="linkGmap" style="font-size:1rem" target="_blank">Ver en GoogleMaps</a>
                             </div>
                         </div>
                         <div class="modal-footer">

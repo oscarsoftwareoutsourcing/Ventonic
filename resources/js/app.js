@@ -81,6 +81,7 @@ Vue.mixin({
     data() {
         return {
             distance: '', //Distancia entre 2 puntos de un mapa
+            linkGmap: '',
             errors: {},
             ckeditor: {
                 editor: ClassicEditor,
@@ -217,6 +218,7 @@ Vue.mixin({
                             position: results[0].geometry.location
                         });
                         marker.setVisible(true);
+                        vm.linkGmap = `https://www.google.com/maps/dir/${marker.getPosition().lat()},${marker.getPosition().lng()}/`;
                     }
                 });
             }
@@ -226,6 +228,7 @@ Vue.mixin({
                     position: {lat: lat, lng: lng}
                 });
                 marker.setVisible(true);
+                vm.linkGmap = `https://www.google.com/maps/dir/${marker.getPosition().lat()},${marker.getPosition().lng()}/`;
             }
 
 
@@ -253,7 +256,13 @@ Vue.mixin({
                                     {lat: latlng.lat, lng: latlng.lng} // posición actual del usuario
                                 ]
                             });
+
                             vm.distance = vm.measureGeometryDistance(marker, myMarker);
+                            const myLat = myMarker.getPosition().lat();
+                            const myLng = myMarker.getPosition().lng();
+                            const contactLat = marker.getPosition().lat();
+                            const contactLng = marker.getPosition().lng();
+                            vm.linkGmap = `https://www.google.com/maps/dir/${myLat},${myLng}/${contactLat},${contactLng}/`;
                         }
                     });
                 });

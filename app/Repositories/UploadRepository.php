@@ -27,7 +27,8 @@ class UploadRepository
         $store,
         $originalName = false,
         $verifySize = false,
-        $checkAllowed = false
+        $checkAllowed = false,
+        $aws = true
     ) {
         if (!$file->getError()) {
             $this->extension = strtolower($file->getClientOriginalExtension());
@@ -35,7 +36,7 @@ class UploadRepository
                                 '.' . $this->extension;
 
             /** si esta configurada la opción de Amazon Web Sevice Storage */
-            if (!empty(env('AWS_BUCKET', ''))) {
+            if (!empty(env('AWS_BUCKET', '')) && $aws) {
                 $store = 's3';
                 $this->name = auth()->user()->uuid . '/' . $this->name;
             }
@@ -60,7 +61,7 @@ class UploadRepository
                         $this->storedPath = config('filesystems.disks.' . $store . '.root') . '/' . $this->name;
 
                         /** si esta configurada la opción de Amazon Web Sevice Storage */
-                        if (!empty(env('AWS_BUCKET', ''))) {
+                        if (!empty(env('AWS_BUCKET', '')) && $aws) {
                             $this->stored = Storage::disk('s3')->url($this->name);
                             $this->storedPath = $upload;
                         }
