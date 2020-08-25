@@ -16,94 +16,74 @@
         <div class="content-header row">
         </div>
         <div class="">
+            <div class="row">
+                <div class="new-header mb-1">
+                <span  class="title">Contactos</span>
+                <a href="{{ route('contact.create', ['contact'=>'persona']) }}" type="button" class="btn bg-gradient-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Persona</a>
+                <a href="{{ route('contact.create', ['contact'=>'empresa']) }}" type="button" class="btn bg-gradient-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Empresa</a>
+                </div>
+            </div>
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    {{-- BEGIN botones nuevo --}}
-                    <div class="card">
-                        <div class="card-header">
-                            <h1 class="text-ventonic">Contactos</h1>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-body">
-                                <a href="{{ route('contact.create', ['contact'=>'persona']) }}" type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Persona</a>
-                                <a href="{{ route('contact.create', ['contact'=>'empresa']) }}" type="button" class="btn btn-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Empresa</a>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- END botones nuevo --}}
-                    <div class="card card-oportunity">
-                        <div class="card-header">Mis contactos</div>
-                     <div class="card-body">
-                    @if(session('message'))
-                        <div class="alert alert-success">
-                            <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
-                            {{session('message')}}
-                        </div>
-                    @endif
+                    
+                    <div class="card card-oportunity mb-1">
+                      
+                        <div class="card-body">
+                            @if(session('message'))
+                                <div class="alert alert-success">
+                                    <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                    {{session('message')}}
+                                </div>
+                            @endif
 
-                    @if(session('error'))
-                    <div class="alert alert-danger">
-                        <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
-                        {{session('error')}}
-                    </div>
-                    @endif
-                    {{-- <div class="row">
-                        <div class="col-12">
-                            <div class="alert alert-success" style="display:none">
+                            @if(session('error'))
+                            <div class="alert alert-danger">
                                 <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
-                                <span>Contacto eliminado exitosamente</span>
+                                {{session('error')}}
                             </div>
-                            <div class="input-group">
-                            </div>
-                        </div>
-                    </div> --}}
-                    <form action="{{ route('contact.list') }}" method="GET">
-                        @csrf
-                        <div class="row">
-                            <div class="col-6">
+                            @endif
+                    
+                        <form action="{{ route('contact.list') }}" method="GET">
+                            @csrf
+                            <div class="row">
+                                <div class="col-5">
+                                    <fieldset class="form-label-group form-group position-relative has-icon-left">
+                                        <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar contacto..." value="{{ request()->oportunitySearch }}">
+                                        <div class="form-control-position">
+                                            <i class="feather icon-search"></i>
+                                        </div>
+                                                        
+                                    </fieldset>
 
-                                <div class="input-group">
-                                    <div class="input-group-append">
-                                        {{-- <a href="{{ route('contact.create') }}" class="btn btn-primary btn_right_new" type="button">
-                                            Nueva
-                                        </a> --}}
-                                    </div>
-                                    <input type="text" id="textSearch" name="oportunitySearch" class="form-control"
-                                           placeholder="Buscar contacto..." style="border:1px solid #0087ff;"
-                                           value="{{ request()->oportunitySearch }}">
+                                
                                 </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-label-group">
-                                    <select class="form-control" id="type-contact" name="etiquetas">
-                                        <option value="0" {{ request()->etiquetas=='0'?'selected':'' }}>
-                                            Busqueda por tipo de cliente
-                                        </option>
-                                        @foreach ($contactTypes as $contactType)
-                                            <option value="{{ $contactType->id }}"
-                                                    {{ request()->etiquetas==$contactType->id?'selected':'' }}>
-                                                {{ $contactType->name }}
+                                <div class="col-5">
+                                    <div class="form-label-group">
+                                        <select class="form-control" id="type-contact" name="etiquetas">
+                                            <option value="0" {{ request()->etiquetas=='0'?'selected':'' }}>
+                                                Busqueda por tipo de cliente
                                             </option>
-                                        @endforeach
-                                    </select>
-                                    <label for="email-id-column">Tipo</label>
+                                            @foreach ($contactTypes as $contactType)
+                                                <option value="{{ $contactType->id }}"
+                                                        {{ request()->etiquetas==$contactType->id?'selected':'' }}>
+                                                    {{ $contactType->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="email-id-column">Tipo</label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-primary float-right">Buscar</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary float-right">Buscar</button>
-                            </div>
-                        </div>
-                    </form>
+                        
+                        </form>
 
-                    </div>
-
+                        </div>
                     </div>
 
                     @include('contact.list')
-
-
 
 
                 </div>
@@ -133,12 +113,9 @@
                     </div>
                 </div>
             {{--END: Modal--}}
-
-
-
-        </div>
     </div>
 </div>
+ </div>
  </div>
 
 @endsection
