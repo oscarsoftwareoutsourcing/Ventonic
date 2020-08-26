@@ -19,6 +19,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "pragmarx/countries-laravel": "^0.7.0",
         "pusher/pusher-php-server": "~3.0",
+        "spatie/laravel-database-mail-templates": "^3.3",
         "torann/geoip": "^1.2",
         "webklex/laravel-imap": "^1.4"
     },

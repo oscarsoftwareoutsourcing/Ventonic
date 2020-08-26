@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
+use App\Mail\Generic;
 
 class ChatRoom extends Notification
 {
@@ -50,12 +51,26 @@ class ChatRoom extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->greeting("Hola ".$notifiable->name.",")
-                    ->subject('Nuevo mensaje de chat recibido')
-                    ->line('Has recibido un nuevo mensaje de ' . $this->fromUser->name)
-                    ->line('"'.$this->message.'"')
-                    ->line('Puedes ver el mensaje desde la plataforma de Ventonic en el apartado chat.');
+        try {
+            /** Envía la notificación usando la plantilla guardada en base de datos */
+            return (
+                new Generic(
+                    $this->fromUser->name,
+                    $this->fromUser->email,
+                    'Nuevo mensaje de chat recibido',
+                    'Has recibido un nuevo mensaje de ' . $this->fromUser->name .
+                    '\nPuedes ver el mensaje desde la plataforma de Ventonic en el apartado chat.'
+                )
+            )->to($notifiable->email);
+        } catch (Exception $e) {
+            /** Si ocurre un error enviando el correo con la plantilla, lo hace por medio de la clase MailMessage */
+            return (new MailMessage)
+                        ->greeting("Hola ".$notifiable->name.",")
+                        ->subject('Nuevo mensaje de chat recibido')
+                        ->line('Has recibido un nuevo mensaje de ' . $this->fromUser->name)
+                        ->line('"'.$this->message.'"')
+                        ->line('Puedes ver el mensaje desde la plataforma de Ventonic en el apartado chat.');
+        }
     }
 
     /**

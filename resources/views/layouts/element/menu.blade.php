@@ -18,6 +18,21 @@
             <li class=" navigation-header"><span>Apps</span>
             </li>
 
+            <li class=" nav-item">
+                <a href="#">
+                    <i class="feather icon-settings"></i>
+                    <span class="menu-title">Sistema</span>
+                </a>
+                <ul class="menu-content">
+                    <li class="">
+                        <a href="{{ route('app.email_templates.index') }}">
+                            <i class="feather icon-file"></i>
+                            <span class="menu-item">Plantillas de email</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <li class=" nav-item {{ App\Helpers\General::setActiveMenu('chat') }}">
                 <a href="{{ route('chat') }}">
                     <i class="feather icon-message-square"></i>
@@ -114,14 +129,14 @@
                 </li>
             @endif
 
-            
+
             <li class=" nav-item {{ App\Helpers\General::setActiveMenu('widgets.data') }}">
                 <a href="{{route('widgets.data')}}">
                     <i class="fa fa-tasks"></i>
                     <span class="menu-title">Datos de Call Me</span>
                 </a>
             </li>
-            
+
 
             @if (\Auth::user()->type=="E")
                 <li class=" nav-item {{ App\Helpers\General::setActiveMenu('search.init') }}">

@@ -149,7 +149,21 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('get-tagged-messages', 'EmailController@getTaggedMessages');
         Route::post('check-auto-config', 'EmailController@checkAutoConfig');
         Route::post('mark-as', 'EmailController@markMessagesAs');
-        Route::resource('templates', 'EmailTemplateController');
+    });
+
+    /** Rutas para la gestión del sistema */
+    Route::group(['prefix' => 'sistema'], function () {
+        /** Rutas para la gestión de correos */
+        Route::group(['prefix' => 'correo'], function () {
+            Route::resource('plantillas', 'EmailTemplateController', [
+                'as' => 'app',
+                'names' => 'email_templates',
+                'except' => ['show']
+            ]);
+            Route::post('plantillas/get-variables', 'EmailTemplateController@getVariables');
+            Route::get('plantillas/get-mailables', 'EmailTemplateController@getMailables');
+            Route::get('plantillas/get-modules', 'EmailTemplateController@getModules');
+        });
     });
 
     /** Rutas para la gestión de contactos */

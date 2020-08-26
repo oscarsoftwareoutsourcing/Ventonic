@@ -6,15 +6,23 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Spatie\MailTemplates\TemplateMailable;
+use App\EmailTemplate;
 
-class Generic extends Mailable
+class Generic extends TemplateMailable
 {
-    use Queueable, SerializesModels;
+    // usa el modelo personalizado para el registro de plantillas
+    protected static $templateModelClass = EmailTemplate::class;
 
+    /** @var string */
     public $fromUserName;
+    /** @var string */
     public $fromUserEmail;
+    /** @var string */
     public $subject;
+    /** @var string */
     public $msg;
+    /** @var string */
     public $module;
 
     /**
@@ -29,15 +37,5 @@ class Generic extends Mailable
         $this->subject = $subject;
         $this->msg = $msg;
         $this->module = ($module) ? ucfirst($module) : '';
-    }
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        return $this->from($this->fromUserEmail)->view('mails.generic');
     }
 }

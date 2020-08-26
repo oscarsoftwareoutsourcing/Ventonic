@@ -74,6 +74,9 @@ Vue.component('remember-activity', () => import('./components/commons/RememberAc
 /** Gestión de contactos */
 Vue.component('contact-detail', () => import('./components/ContactDetailComponent.vue'));
 
+/** Componentes de configuración */
+Vue.component('email-template', () => import('./components/settings/EmailTemplateComponent.vue'));
+
 Vue.mixin({
     components: {
         Datepicker
