@@ -9,6 +9,17 @@
         <div class="text-ventonic-white mb-1">Negociaciones</div>
 
         <div class="col-12 header-ventonic mb-1">
+          <!--
+          <div class="mr-auto float-right bookmark-wrapper d-flex align-items-center">
+            <ul class="list-inline m-0">
+              <li class="list-inline-item controls">
+                <a @click="returnList">
+                  <i class="feather icon-arrow-left controls"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          -->
           <div class="row">
             <div class="col-3">
               <div class="search-results text-white my-1">
