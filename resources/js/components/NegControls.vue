@@ -1,47 +1,14 @@
 <template>
-  <nav id="navControls" class="navbar navbar-expand-lg navbar-dark bg-primary negNavbar">
-    <a class="text_ventonic-title" href="#">Negociaciones</a>
-
-    <button
-      class="navbar-toggler actionsToggler collapsed"
-      type="button"
-      data-toggle="collapse"
-      data-target="#optionsMenu"
-      aria-controls="navbarColor02"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div id="optionsMenu" class="navbar-collapse collapse justify-content-between">
-      <ul class="navbar-nav p-1">
-        <li class="nav-item">
-          <button type="button" class="btn btn-primary" @click="newNegotiation">+ Nueva</button>
-        </li>
-      </ul>
-      <ul class="navbar-nav p-1">
-        <!--
-        <li class="nav-item">
-          <button
-            type="button"
-            class="btn btn-dark btn btn-block waves-effect waves-light"
-          >Gestionar listas</button>
-        </li>
-       
-        <li>
-          <button
-            class="waves-light"
-            type="button"
-            aria-haspopup="true"
-            aria-expanded="false"
-            @click="openFilter"
-          >
-            <i class="feather icon-settings fa fa-spin fa-fw white"></i>
-          </button>
-        </li>
-        -->
-        <li class="nav-item">
+  <div>
+    <div class="row">
+      <div class="new-header mb-0">
+        <span class="title">Negociaciones</span>
+        <button
+          type="button"
+          class="btn bg-gradient-primary mr-1 mb-1 waves-effect waves-light"
+          @click="newNegotiation"
+        >+ Nueva</button>
+        <div class="mr-auto float-right bookmark-wrapper d-flex align-items-center">
           <button
             type="button"
             class="btn btn-dark btn btn-block waves-effect waves-light"
@@ -49,10 +16,10 @@
           >
             <i class="feather icon-settings fa fa-spin fa-fw white"></i>
           </button>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
-  </nav>
+  </div>
 </template>
 
 <script>

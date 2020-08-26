@@ -37,7 +37,8 @@ class EmailTemplateController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'mailable' => ['required', 'unique:email_templates,mailable'],
+            //'mailable' => ['required', 'unique:email_templates,mailable'],
+            'mailable' => ['required'],
             'name' => ['required'],
             'type' => ['required'],
             'subject' => ['required'],
@@ -140,9 +141,17 @@ class EmailTemplateController extends Controller
         //notificaciones, registros, bienvenida, recuperar clave, oportunidades, negociaciones, widget
         $modules = [
             ['text' => 'Aplicación en general', 'class' => ''],
+            ['text' => 'Registro de usuario', 'class' => ''],
+            ['text' => 'Bienvenida de usuario', 'class' => ''],
+            ['text' => 'Recuperar contraseña', 'class' => ''],
+            ['text' => 'Perfil incompleto', 'class' => ''],
+            ['text' => 'Perfil completo', 'class' => ''],
+            ['text' => 'Invitación a grupo', 'class' => ''],
+            ['text' => 'Mensajes del chat', 'class' => ''],
             ['text' => 'Notificaciones', 'class' => \App\Notification::class],
             ['text' => 'Oportunidades', 'class' => \App\Oportunity::class],
-            ['text' => 'Negociaciones', 'class' => \App\Negotiation::class]
+            ['text' => 'Negociaciones', 'class' => \App\Negotiation::class],
+            ['text' => 'Widgets', 'class' => \App\Widget::class],
         ];
         return response()->json(['modules' => $modules], 200);
     }

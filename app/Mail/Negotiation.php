@@ -6,10 +6,14 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Spatie\MailTemplates\TemplateMailable;
+use App\EmailTemplate;
 
-class Negotiation extends Mailable
+class Negotiation extends TemplateMailable
 {
-    use Queueable, SerializesModels;
+    //use Queueable, SerializesModels;
+    // usa el modelo personalizado para el registro de plantillas
+    protected static $templateModelClass = EmailTemplate::class;
 
     public $fromUserName;
     public $fromUserEmail;

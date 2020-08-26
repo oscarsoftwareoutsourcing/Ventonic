@@ -56,7 +56,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     height: 250px;
 }
 
-.container-image-oportunity>img {
+.container-image-oportunity > img {
     width: 100% !important;
     height: 100%;
 }
@@ -69,7 +69,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     margin-bottom: 20px;
 }
 
-.titleOportunity>h4 {
+.titleOportunity > h4 {
     font-size: 18px;
 }
 
@@ -102,7 +102,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     font-size: 14px;
 }
 
-.description_oportunitys>p {
+.description_oportunitys > p {
     text-align: center;
 }
 
@@ -167,7 +167,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     border-top-left-radius: 0.25rem !important;
 }
 
-.search-oportunity>i {
+.search-oportunity > i {
     color: #fff !important;
 }
 
@@ -328,12 +328,12 @@ iframe {
     color: #c2c6dc !important;
 }
 
-.menu-item-principal>h2>a {
+.menu-item-principal > h2 > a {
     cursor: pointer;
 }
 
 @media (max-width: 767px) {
-    .menu-item-principal>h2 {
+    .menu-item-principal > h2 {
         font-size: 1.54rem;
     }
 }
@@ -354,6 +354,9 @@ iframe {
     margin-bottom: 2.2rem;
     border: none;
     box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding-right: 14px;
+    padding-left: 14px;
 }
 
 .header-ventonic-blue {
@@ -381,6 +384,15 @@ iframe {
 
 .text_vetonic-description {
     color: #0087ff;
+    text-decoration: none;
+    background-color: transparent;
+    margin-right: 1.5rem;
+    font-size: 1rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+.text_vetonic-description1 {
+    color: #fff;
     text-decoration: none;
     background-color: transparent;
     margin-right: 1.5rem;
@@ -464,9 +476,9 @@ iframe {
 }
 
 .nav-component:hover {
-    background: #FFFFFF !important;
+    background: #ffffff !important;
     box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7) !important;
-    color: #0087FF !important;
+    color: #0087ff !important;
     font-weight: 400 !important;
     border-top-left-radius: 4px !important;
     border-top-right-radius: 4px !important;
@@ -475,4 +487,102 @@ iframe {
 .controls-date {
     font-size: 1.5rem !important;
     color: #fff !important;
+}
+
+.new-header {
+    position: relative;
+    width: 100%;
+    padding-right: 14px;
+    padding-left: 14px;
+    /*display: flex;*/
+}
+.new-header1 {
+    position: relative;
+    width: 100%;
+    /*padding-right: 14px;
+    padding-left: 14px;*/
+    /*display: flex;*/
+}
+
+.new-header .title {
+    color: #fff;
+    font-size: 2rem;
+    padding-right: 15px;
+    font-weight: bold;
+}
+
+.mb-05 {
+    margin-bottom: 0.4rem !important;
+}
+
+.list-contact {
+    font-size: 2.2rem !important;
+}
+
+.title-contact {
+    padding-top: 10px;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.filtros {
+    overflow-y: scroll;
+    height: 90vh;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+
+::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e1e1e1;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #000000;
+}
+
+::-webkit-scrollbar-track {
+    background: #666666;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+}
+
+::-webkit-scrollbar-track:hover {
+    background: #666666;
+}
+
+::-webkit-scrollbar-track:active {
+    background: #333333;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+.neg_create {
+    color: #666666 !important; /* #C2C6DC;*/
+    font-size: smaller;
+    font-weight: 400;
+}
+
+.neg_archive {
+    color: #c2c6dc !important;
+}
+
+.neg_foot {
+    width: 100%;
+    height: 5px;
 }

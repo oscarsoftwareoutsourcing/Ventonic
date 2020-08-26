@@ -23,7 +23,6 @@ class CompanyAplicantOportunity extends Notification
         $this->oportunity_title =$oportunity_title;
         $this->seller_name =$seller_name;
         $this->time =$time;
-
     }
 
     /**
@@ -49,7 +48,10 @@ class CompanyAplicantOportunity extends Notification
                     ->greeting("Hola ".$notifiable->name.",")
                     ->subject('Nueva postulacion recibida')
                     ->line('Un nuevo candidato se ha inscrito a la Oportunidad '.$this->oportunity_title)
-                    ->line('Puede consultar el perfil del desde la plataforma de Ventonic en el apartado Oportunidades/Mis candidaturas.');
+                    ->line(
+                        'Puede consultar el perfil del desde la plataforma de Ventonic en el apartado
+                        Oportunidades/Mis candidaturas.'
+                    );
                     // ->action('Notification Action', url('/'))
                     // ->line('Un saludo,')
                     // ->line('Equipo de Ventonic.');
@@ -99,5 +101,4 @@ class CompanyAplicantOportunity extends Notification
             'time'=>$this->time
         ]);
     }
-
 }

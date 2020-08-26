@@ -47,28 +47,123 @@
         <!-- Owner -->
         <h5 v-if="isShared" class="text-primary">{{ owner }}</h5>
       </div>
+
+      <div class="mr-auto float-right bookmark-wrapper d-flex align-items-center">
+        <div class="avatar bg-danger mr-1" v-if="negotiation.status.id === 2">
+          <div class="avatar-content">
+            <i class="fa fa-thumbs-o-down" title="Perdida"></i>
+          </div>
+        </div>
+
+        <div class="avatar bg-primary mr-1" v-if="negotiation.status.id === 3">
+          <div class="avatar-content">
+            <i title="En proceso" class="feather icon-loader"></i>
+          </div>
+        </div>
+
+        <div class="avatar bg-success mr-1" v-if="negotiation.status.id === 1">
+          <div class="avatar-content">
+            <i class="fa fa-trophy" title="Ganada"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card footer -->
+      <div class="d-flex justify-content-between" v-if="isActive">
+        <!-- Toggle status -->
+        <div class="float-left statusContainer">
+          <div class="dropdown">
+            <button
+              v-if="negotiation.status.id === 3"
+              class="btn btn-flat-primary dropdown-toggle waves-effect waves-light"
+              type="button"
+              @click.stop.prevent="toggleStateMenu"
+            >
+              En Proceso
+              <i title="En proceso" class="feather icon-loader ml-1"></i>
+            </button>
+            <button
+              v-if="negotiation.status.id === 1"
+              class="btn btn-flat-success dropdown-toggle waves-effect waves-light"
+              type="button"
+              @click.stop.prevent="toggleStateMenu"
+            >
+              Ganada
+              <i class="fa fa-trophy ml-1" title="Ganada"></i>
+            </button>
+            <button
+              v-if="negotiation.status.id === 2"
+              class="btn btn-flat-danger dropdown-toggle waves-effect waves-light"
+              type="button"
+              @click.stop.prevent="toggleStateMenu"
+            >
+              Perdida
+              <i class="fa fa-thumbs-o-down ml-1" title="Perdida"></i>
+            </button>
+            <div
+              class="dropdown-menu"
+              x-placement="bottom-start"
+              style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -105px, 0px);"
+            >
+              <a
+                @click.stop.prevent="changeState(negotiation.id, 3)"
+                v-if="negotiation.status.id !== 3"
+                class="dropdown-item text-primary"
+                title="En proceso"
+              >
+                Cambiar a En Proceso
+                <i class="feather icon-loader text-primary ml-2"></i>
+              </a>
+              <a
+                @click.stop.prevent="changeState(negotiation.id, 1)"
+                v-if="negotiation.status.id !== 1"
+                class="dropdown-item text-success"
+                title="Ganada"
+              >
+                Cambiar a Ganada
+                <i class="fa fa-trophy text-success ml-2"></i>
+              </a>
+              <a
+                @click.stop.prevent="changeState(negotiation.id, 2)"
+                v-if="negotiation.status.id !== 2"
+                class="dropdown-item text-danger"
+                title="Perdida"
+              >
+                Cambiar a Perdida
+                <i class="fa fa-thumbs-o-down text-danger ml-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add extra data menu -->
+        <!--<div class="float-right">
+        <div class="dropdown">
+          <button
+            type="button"
+            class="btn btn-flat-dark dropdown-toggle waves-effect waves-light"
+            @click.stop.prevent="toggleAddMenu"
+          >Agregar</button>
+          <div
+            class="dropdown-menu"
+            x-placement="bottom-start"
+            style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -140px, 0px);"
+          >
+            <a class="dropdown-item" @click.stop.prevent>
+              <i class="feather icon-check-square text-primary"></i> Nota
+            </a>
+            <a class="dropdown-item" @click.stop.prevent>
+              <i class="feather icon-calendar text-primary"></i> Evento
+            </a>
+            <a class="dropdown-item" @click.stop.prevent>
+              <i class="fa fa-files-o text-primary"></i> Archivo
+            </a>
+          </div>
+        </div>
+        </div>-->
+      </div>
     </div>
-
-    <div class="float-right neg_status">
-      <div class="avatar bg-danger mr-1" v-if="negotiation.status.id === 2">
-        <div class="avatar-content">
-          <i class="fa fa-thumbs-o-down" title="Perdida"></i>
-        </div>
-      </div>
-
-      <div class="avatar bg-warning mr-1" v-if="negotiation.status.id === 3">
-        <div class="avatar-content">
-          <i title="En proceso" class="fa fa-history"></i>
-        </div>
-      </div>
-
-      <div class="avatar bg-success mr-1" v-if="negotiation.status.id === 1">
-        <div class="avatar-content">
-          <i class="fa fa-trophy" title="Ganada"></i>
-        </div>
-      </div>
-    </div>
-    <div class="neg_foot bg-gradient-warning" v-if="negotiation.status.id === 3"></div>
+    <div class="neg_foot bg-gradient-primary" v-if="negotiation.status.id === 3"></div>
     <div class="neg_foot bg-gradient-danger" v-if="negotiation.status.id === 2"></div>
     <div class="neg_foot bg-gradient-success" v-if="negotiation.status.id === 1"></div>
   </li>

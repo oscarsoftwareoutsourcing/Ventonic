@@ -5,31 +5,11 @@
     <div id="contentWrapper" class="content-wrapper pt-1">
       <!-- Module control -->
       <negotiations-controls v-if="!getShowForm && !getShowDetails" />
-      <div class="new-header1" v-else>
-        <div class="text-ventonic-white mb-1">Negociaciones</div>
-
-        <div class="col-12 header-ventonic mb-1">
-          <!--
-          <div class="mr-auto float-right bookmark-wrapper d-flex align-items-center">
-            <ul class="list-inline m-0">
-              <li class="list-inline-item controls">
-                <a @click="returnList">
-                  <i class="feather icon-arrow-left controls"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-          -->
+      <div class="header-ventonic-blue" v-else>
+        <div class="card-ventonic">
           <div class="row">
-            <div class="col-3">
-              <div class="search-results text-white my-1">
-                <div class="avatar bg-primary mr-1">
-                  <div class="avatar-content">
-                    <i class="avatar-icon feather icon-bell text-white"></i>
-                  </div>
-                </div>
-                Tiene {{ totalNegotiations }} negociaciones en total
-              </div>
+            <div class="col-lg-3 col-md-4 col-sm-12">
+              <div class="text-ventonic-white">Negociaciones</div>
             </div>
           </div>
         </div>
@@ -92,7 +72,7 @@
             </div>
             <!-- Lists -->
             <perfect-scrollbar class="ps-width">
-              <div id="listsContainer" class="lists row p-1">
+              <div id="listsContainer" class="lists row">
                 <negotiations-list
                   class="list col-xs-12 col-sm-4 col-lg-2 mb-2"
                   style="margin-left:0"
@@ -182,9 +162,96 @@ export default {
       separateNegotiations: "SEPARATE_NEGOTIATIONS",
       setSearch: "SET_SEARCH",
     }),
-    handleResize() {},
-    updateModuleSizes() {},
-    setFooterStyles() {},
+    handleResize() {
+      // Get window height and width.
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+
+      if (document.body.querySelector("#navControls") !== null) {
+        this.updateModuleSizes();
+      }
+    },
+    updateModuleSizes() {
+      // Ventonic ppal menu options.
+      let ventonicMenuWidth = document.body.querySelector("div.main-menu")
+        .offsetWidth;
+      // Header navbar shadow.
+      let headerNavbarShadowHeight = document.body.querySelector(
+        "#headerNavbarShadow"
+      ).offsetHeight;
+      // Nav Controls.
+      let navControlsHeight = 10; //document.body.querySelector("#navControls").offsetHeight;
+      // App Footer.
+      let appFooterHeight = document.body.querySelector("#appFooter")
+        .offsetHeight;
+      // Filters bar.
+      let lgFiltersBarWidth = null;
+      // let lgFiltersBarWidth = document.querySelector('#lgFiltersBar').offsetWidth; // Filters bar.
+      // Filters bar.
+      let lgFiltersBarHeight = null;
+      let searchAndListsColWidth = null;
+      let listsContainerHeight = null;
+
+      let listViewHeight =
+        this.window.height -
+        (headerNavbarShadowHeight + navControlsHeight + appFooterHeight);
+
+      // Set list view height.
+      document.body.querySelector("#listView").style.height =
+        listViewHeight + "px";
+      document.body.querySelector("#listView").style.maxHeight =
+        listViewHeight + "px";
+
+      // Filters width.
+      document.querySelector("#lgFiltersBar").style.width = "370px";
+      document.querySelector("#lgFiltersBar").style.maxWidth = "370px";
+      // Filters bar.
+      lgFiltersBarWidth = document.querySelector("#lgFiltersBar").offsetWidth;
+      // Filters height.
+      document.querySelector("#lgFiltersBar").style.height =
+        listViewHeight + "px";
+      lgFiltersBarHeight = document.querySelector("#lgFiltersBar").offsetHeight;
+
+      // Set filters card height.
+      document.body.querySelector("#filtersCard").style.height = "85vh";
+
+      console.log(document.body.querySelector("#filtersCard").style.height);
+
+      // Set search & bar width.
+      document.body.querySelector("#searchAndListsCol").style.width =
+        this.window.width - 56 + "px";
+      searchAndListsColWidth = document.querySelector("#searchAndListsCol")
+        .offsetWidth;
+      document.body.querySelector("#listsContainer").style.width =
+        searchAndListsColWidth - 28 + "px";
+      document.body.querySelector("#listsContainer").style.height =
+        document.querySelector("#searchAndListsCol").offsetHeight -
+        (document.body.querySelector("#searchSection").offsetHeight + 32) +
+        "px";
+
+      listsContainerHeight = document.body.querySelector("#listsContainer")
+        .offsetHeight;
+
+      // Cards height
+      let listHeaderHeight = document.body.querySelector(".headerList")
+        .offsetHeight;
+      let listFooterHeight = document.body.querySelector(".footerList")
+        .offsetHeight;
+
+      document.body.querySelectorAll(".dragElements").forEach((ul) => {
+        ul.style.height =
+          listsContainerHeight -
+          15 -
+          (listHeaderHeight + listFooterHeight) +
+          "px";
+      });
+    },
+    setFooterStyles() {
+      let footer = document.body.querySelector("#appFooter");
+      footer.style.position = "absolute";
+      footer.style.bottom = 0;
+      footer.style.right = 0;
+    },
   },
   computed: {
     ...mapGetters([
@@ -234,9 +301,6 @@ $list-bg-color: #10163a;
   margin: 0px 0px 5px 0px !important;
 }
 
-.neg_status {
-  margin-top: -45px;
-}
 .ps-width {
   width: max-content;
 }
@@ -262,7 +326,7 @@ $list-bg-color: #10163a;
     background-color: $list-bg-color;
     color: #c2c6dc;
 
-    /*padding: 0 $gap;*/
+    padding: 0 $gap;
   }
 
   .headerList {
@@ -278,18 +342,13 @@ $list-bg-color: #10163a;
     color: #888;
   }
 
-  .neg_content {
-    padding: $gap;
-  }
-
   .dragElements {
     list-style: none;
     margin: 0;
 
     li {
-      /*background-color: #262c49 !important;*/
-      background-color: #fff !important;
-      /*padding: 10 10 0 10;*/
+      background-color: #262c49 !important;
+      padding: $gap;
 
       &:not(:last-child) {
         margin-bottom: $gap;
@@ -320,12 +379,6 @@ $list-bg-color: #10163a;
 
 .vdp-datepicker__calendar header .up:not(.disabled):hover {
   background: transparent !important;
-}
-
-.badge-up1 {
-  position: absolute;
-  top: -0.1rem;
-  right: 0.2rem;
 }
 
 @media (min-width: 992px) {
