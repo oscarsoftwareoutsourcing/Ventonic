@@ -5,11 +5,20 @@
     <div id="contentWrapper" class="content-wrapper pt-1">
       <!-- Module control -->
       <negotiations-controls v-if="!getShowForm && !getShowDetails" />
-      <div class="header-ventonic-blue" v-else>
-        <div class="card-ventonic">
+      <div class="new-header1" v-else>
+        <div class="text-ventonic-white mb-1">Negociaciones</div>
+
+        <div class="col-12 header-ventonic mb-1">
           <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-12">
-              <div class="text-ventonic-white">Negociaciones</div>
+            <div class="col-3">
+              <div class="search-results text-white my-1">
+                <div class="avatar bg-primary mr-1">
+                  <div class="avatar-content">
+                    <i class="avatar-icon feather icon-bell text-white"></i>
+                  </div>
+                </div>
+                Tiene {{ totalNegotiations }} negociaciones en total
+              </div>
             </div>
           </div>
         </div>

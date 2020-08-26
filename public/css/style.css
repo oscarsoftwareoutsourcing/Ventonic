@@ -391,6 +391,15 @@ iframe {
     line-height: inherit;
     white-space: nowrap;
 }
+.text_vetonic-description1 {
+    color: #fff;
+    text-decoration: none;
+    background-color: transparent;
+    margin-right: 1.5rem;
+    font-size: 1rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
 
 .card-ventonic {
     /* display: flex; */
@@ -485,6 +494,13 @@ iframe {
     width: 100%;
     padding-right: 14px;
     padding-left: 14px;
+    /*display: flex;*/
+}
+.new-header1 {
+    position: relative;
+    width: 100%;
+    /*padding-right: 14px;
+    padding-left: 14px;*/
     /*display: flex;*/
 }
 
