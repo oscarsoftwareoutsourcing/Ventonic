@@ -1758,7 +1758,7 @@
                 const vm = this;
                 if (email !== null) {
                     vm.selectedEmail = email;
-                    vm.selectedEmail.attachments = (email.attachments.length > 0)
+                    vm.selectedEmail.attachments = (email.attachments !== null && email.attachments.length > 0)
                                                    ? JSON.parse(JSON.stringify(email.attachments)) : [];
                     $(".app-content .email-app-details").toggleClass("show");
                 }
