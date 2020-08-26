@@ -331,7 +331,7 @@
       <button
         v-if="negId !== null"
         type="button"
-        class="btn btn-gradient-warning waves-effect waves-light mr-1 btn-lg"
+        class="btn bg-gradient-warning waves-effect waves-light mr-1 btn-lg"
         @click.stop="archiveModal()"
       >Archivar</button>
       <button
