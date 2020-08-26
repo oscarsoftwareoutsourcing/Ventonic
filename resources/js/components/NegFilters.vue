@@ -14,7 +14,7 @@
       <small>Negociaciones</small>
       <hr />
       <!-- Big screens -->
-      <div id="lgFiltersBar" class="col-lg-auto d-none d-lg-block">
+      <div id="lgFiltersBar" class="col-lg-auto d-none d-lg-block filtros">
         <div class="row my-1">
           <div class="col-12 d-flex justify-content-between">
             <div class="search-results text-white"></div>

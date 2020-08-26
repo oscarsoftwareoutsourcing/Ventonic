@@ -1,12 +1,15 @@
 <template>
   <div>
     <!-- Header -->
-    <header class="d-flex w-100 justify-content-between headerList p-1">
+    <header class="d-flex w-100 justify-content-between headerList p-1 bg-gradient-primary">
       <a @click="toggleSort" style="text-decoration: none">
         {{ process.title }}
-        <i class="fa ml-1" v-bind:class="{'fa-chevron-up':sort, 'fa-chevron-down':!sort}"></i>
+        <i
+          class="fa ml-1"
+          v-bind:class="{'fa-chevron-up':sort, 'fa-chevron-down':!sort}"
+        ></i>
       </a>
-      <span>{{ negotiations.length }}</span>
+      <span class="badge badge-pill badge-dark badge-up1">{{ negotiations.length }}</span>
     </header>
 
     <perfect-scrollbar>
