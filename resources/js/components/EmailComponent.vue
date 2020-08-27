@@ -1322,6 +1322,8 @@
                 vm.getEmails();
                 if (folder === "inbox") {}
                 vm.showFolder = folder;
+                vm.selectedEmail = {};
+                $('.go-back').click();
             },
             /**
              * Almacena los archivos a adjuntar para un nuevo correo
