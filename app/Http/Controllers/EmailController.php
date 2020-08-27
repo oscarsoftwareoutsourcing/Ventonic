@@ -619,7 +619,7 @@ class EmailController extends Controller
     public function uploadAttachment(Request $request, UploadRepository $up)
     {
         if ($request->file('attachmentEmail')) {
-            if ($up->upload($request->file('attachmentEmail'), 'attachments', true, false, false, true)) {
+            if ($up->upload($request->file('attachmentEmail'), 'attachments', true, false, false, false)) {
                 $attach = $up->getStoredPath();
                 return response()->json(['result' => true, 'attach' => $attach], 200);
             }
