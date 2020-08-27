@@ -1336,7 +1336,7 @@
                 var formData = new FormData();
                 var attachment = document.querySelector(`#emailAttach`);
                 formData.append("attachmentEmail", attachment.files[0]);
-
+                vm.$loading(true);
                 axios.post('/email/upload-attachment', formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -1347,8 +1347,10 @@
                         $("#emailAttach").val('').change();
                         $('.custom-file-label').text('');
                     }
+                    vm.$loading(false);
                 }).catch(error => {
                     console.error(error);
+                    vm.$loading(false);
                 });
             },
             /**
