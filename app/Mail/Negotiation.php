@@ -15,9 +15,13 @@ class Negotiation extends TemplateMailable
     // usa el modelo personalizado para el registro de plantillas
     protected static $templateModelClass = EmailTemplate::class;
 
+    /** @var string Nombre del usuario que envía el correo */
     public $fromUserName;
+    /** @var string Correo electrónico del usuario que envía */
     public $fromUserEmail;
+    /** @var string Asunto del correo */
     public $subject;
+    /** @var string Mensaje del correo */
     public $msg;
 
     /**
@@ -31,15 +35,5 @@ class Negotiation extends TemplateMailable
         $this->fromUserName = $fromUserName;
         $this->subject = $subject;
         $this->msg = $msg;
-    }
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        return $this->from($this->fromUserEmail)->view('mails.negotiation');
     }
 }

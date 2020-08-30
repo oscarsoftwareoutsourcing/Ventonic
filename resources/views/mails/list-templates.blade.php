@@ -12,7 +12,7 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-lg-2 col-md-4 col-sm-12 ">
                     <span class="font-weight-bold" style="font-size: 2rem">Plantillas</span>
                 </div>
@@ -22,7 +22,7 @@
                         Agregar plantilla
                     </a>
                 </div>
-            </div>
+            </div> --}}
             {{-- listado de plantillas --}}
             <div class="row mt-2">
                 <div class="col-12">
@@ -35,7 +35,7 @@
                                         <tr>
                                             <th class="text-center" width="35%">Nombre</th>
                                             <th class="text-center" width="35%">Opción del sistema</th>
-                                            <th class="text-center" width="15%">Tipo</th>
+                                            {{-- <th class="text-center" width="15%">Tipo</th> --}}
                                             <th class="text-center" width="15%">Acción</th>
                                         </tr>
                                     </thead>
@@ -43,8 +43,8 @@
                                         @foreach ($emailTemplates as $template)
                                             <tr>
                                                 <td>{{ $template->name }}</td>
-                                                <td>{{ $template->module_name ?? 'Aplicación general' }}</td>
-                                                <td>
+                                                <td>{{ $template->module ?? 'General' }}</td>
+                                                {{-- <td>
                                                     @php
                                                         if ($template->type === 'C') {
                                                             echo 'Campaña';
@@ -58,16 +58,16 @@
                                                             echo 'N/A';
                                                         }
                                                     @endphp
-                                                </td>
+                                                </td> --}}
                                                 <td class="text-center">
-                                                    <a href="javascript:void(0)" data-toggle="tooltip" class="mr-1"
-                                                       title="Modificar plantilla">
+                                                    <a href="{{ route('app.email_templates.edit', ['plantilla' => $template->id]) }}"
+                                                       data-toggle="tooltip" class="mr-1" title="Modificar plantilla">
                                                        <i class="feather icon-edit-2 font-medium-4 ml-2"></i>
                                                     </a>
-                                                    <a href="javascript:void(0)" data-toggle="tooltip"
+                                                    {{-- <a href="javascript:void(0)" data-toggle="tooltip"
                                                        title="Eliminar plantilla">
                                                         <i class="feather icon-trash"></i>
-                                                    </a>
+                                                    </a> --}}
                                                 </td>
                                             </tr>
                                         @endforeach

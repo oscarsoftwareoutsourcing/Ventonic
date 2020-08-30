@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Support\HtmlString;
+use App\Mail\GroupInvitation;
 
 class NewInvitationGroup extends Notification
 {
@@ -50,15 +51,21 @@ class NewInvitationGroup extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->greeting("¡Hola ".$notifiable->name."! Ha sido invitado a unirse al grupo " . $this->name_group)
-                    ->subject('Nueva invitación recibida')
-                    ->line(
-                        'Si desea unirse haga click en '.
-                        new HtmlString('<a href="'.$this->url.'">este enlace</a>') .
-                        ' para registrarse en nuestra plataforma. Una vez registrado encontrarás
-                        la invitación en tu perfil.'
-                    );
+        try {
+            return (new GroupInvitation($notifiable->name, $this->name_group, $this->url))->to($notifiable->email);
+        } catch (Exception $e) {
+            return (new MailMessage)
+                        ->greeting(
+                            "¡Hola ".$notifiable->name."! Ha sido invitado a unirse al grupo " . $this->name_group
+                        )
+                        ->subject('Nueva invitación recibida')
+                        ->line(
+                            'Si desea unirse haga click en '.
+                            new HtmlString('<a href="'.$this->url.'">este enlace</a>') .
+                            ' para registrarse en nuestra plataforma. Una vez registrado encontrarás
+                            la invitación en tu perfil.'
+                        );
+        }
     }
 
     /**

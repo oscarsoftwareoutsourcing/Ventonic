@@ -5,6 +5,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Mail\Auth\WelcomeEmail;
 
 class Welcome extends Notification
 {
@@ -41,18 +42,22 @@ class Welcome extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->from(config('mail.from.address'), config('mail.from.name'))
-                    ->subject(__('Bienvenido a ') . config('app.name'))
-                    ->line(__('¡Bienvenido :user!, has sido verificado correctamente en nuestro sistema.', [
-                        'user' => ucfirst($this->user)
-                    ]))
-                    ->line('Ya puede hacer uso de todas las funcionalidades.')
-                    ->line('¡Gracias por usar nuestra aplicación!')
-                    ->line(
-                        'Este correo es enviado de manera automática por la aplicación y no está siendo ' .
-                        'monitoreado. Por favor, no responda a este correo.'
-                    );
+        try {
+            return (new WelcomeEmail(config('app.name'), $this->user))->to($notifiable->email);
+        } catch (Exception $e) {
+            return (new MailMessage)
+                        ->from(config('mail.from.address'), config('mail.from.name'))
+                        ->subject(__('Bienvenido a ') . config('app.name'))
+                        ->line(__('¡Bienvenido :user!, has sido verificado correctamente en nuestro sistema.', [
+                            'user' => ucfirst($this->user)
+                        ]))
+                        ->line('Ya puede hacer uso de todas las funcionalidades.')
+                        ->line('¡Gracias por usar nuestra aplicación!')
+                        ->line(
+                            'Este correo es enviado de manera automática por la aplicación y no está siendo ' .
+                            'monitoreado. Por favor, no responda a este correo.'
+                        );
+        }
     }
 
     /**

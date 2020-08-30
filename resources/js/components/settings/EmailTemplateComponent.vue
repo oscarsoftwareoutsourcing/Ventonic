@@ -83,7 +83,7 @@
                 <div class="col">
                     <fieldset>
                         <legend>Variables:</legend>
-                        <p>A continuación se muestra un listado de variables a incorporar en la plantilla, así como una descripción de las mismas.<span v-if="!mailable" class="ml-1">(Debe seleccionar el tipo de plantilla de correo para mostrar las variables disponibles)</span></p>
+                        <p>A continuación se muestra un listado de variables a incorporar en la plantilla.</p>
                         <div v-for="variable in variables">
                             <b class="mr-2">
                                 <span v-html="'{{ '"></span>{{ variable.name }}<span v-html="' }}'"></span>
@@ -131,6 +131,15 @@
             listUrl: {
                 type: String,
                 required: true
+            },
+            emailTemplate: {
+                type: Object,
+                required: true
+            },
+            variables: {
+                type: Array,
+                required: true,
+                default: []
             }
         },
         methods: {
@@ -229,9 +238,18 @@
                 location.href = this.listUrl;
             }
         },
+        created() {
+            const vm = this;
+            vm.name = vm.emailTemplate.name;
+            vm.subject = vm.emailTemplate.subject;
+            vm.body = vm.emailTemplate.html_template;
+            vm.variables = vm.variables;
+        },
         mounted() {
+            const vm = this;
             this.getMailables();
             this.getModules();
+
         }
     };
 </script>

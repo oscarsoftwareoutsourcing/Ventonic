@@ -15,7 +15,9 @@
             <div class="row">
                 <div class="col">
                     @component('components.header-ventonic-blue') Plantilla @endcomponent
-                    <email-template list-url="{{ route('app.email_templates.index') }}"></email-template>
+                    <email-template list-url="{{ route('app.email_templates.index') }}"
+                                    :email-template="{{ $emailTemplate }}"
+                                    :variables={!! json_encode($templateVariables) !!}></email-template>
                 </div>
             </div>
         </div>

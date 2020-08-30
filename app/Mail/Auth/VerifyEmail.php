@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Auth;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,21 +9,26 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\MailTemplates\TemplateMailable;
 use App\EmailTemplate;
 
-class NuevaInvitacionRecibida extends TemplateMailable
+class VerifyEmail extends TemplateMailable
 {
     use Queueable, SerializesModels;
+
     // usa el modelo personalizado para el registro de plantillas
     protected static $templateModelClass = EmailTemplate::class;
 
-    // public $codigo_confirmacion;
-    /** @var string Nombre del grupo */
-    public $name_group;
-    /** @var string URL de invitación al grupo */
+    /** @var string Nombre del usuario registrado */
+    public $name;
+    /** @var string URL de verificación */
     public $url;
 
-    public function __construct($name_group, $url)
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
+    public function __construct($name, $url)
     {
-        $this->name_group = $name_group;
+        $this->name = $name;
         $this->url = $url;
     }
 }

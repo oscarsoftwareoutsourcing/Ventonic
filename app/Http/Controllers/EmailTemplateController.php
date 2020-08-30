@@ -25,7 +25,7 @@ class EmailTemplateController extends Controller
      */
     public function create()
     {
-        return view('mails.create-edit-template');
+        return view('mails.edit-template');
     }
 
     /**
@@ -76,9 +76,18 @@ class EmailTemplateController extends Controller
      * @param  \App\EmailTemplate  $emailTemplate
      * @return \Illuminate\Http\Response
      */
-    public function edit(EmailTemplate $emailTemplate)
+    public function edit($id)
     {
-        //
+        $emailTemplate = EmailTemplate::find($id);
+        $mailable = $emailTemplate->mailable;
+        $templateVariables = [];
+        foreach ($mailable::getVariables() as $variable) {
+            array_push($templateVariables, [
+                'name' => $variable,
+                'description' => ''
+            ]);
+        }
+        return view('mails.edit-template', compact('emailTemplate', 'templateVariables'));
     }
 
     /**
@@ -106,7 +115,6 @@ class EmailTemplateController extends Controller
 
     public function getVariables(Request $request)
     {
-        dd($request->mailable);
         $mailable = $request->mailable;
         $variables = [];
         foreach ($mailable::getVariables() as $variable) {
