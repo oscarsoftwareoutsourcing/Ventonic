@@ -7,25 +7,25 @@
                         <li class="nav-item mobile-menu d-xl-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon feather icon-menu"></i></a></li>
                     </ul>
                     <ul class="nav navbar-nav bookmark-icons">
-                        
+
                         <!-- li.nav-item.mobile-menu.d-xl-none.mr-auto-->
                         <!--   a.nav-link.nav-menu-main.menu-toggle.hidden-xs(href='#')-->
                         <!--     i.ficon.feather.icon-menu-->
                         <li class="nav-item d-none d-lg-block">
                             <a class="nav-link" href="{{route('todos')}}" data-toggle="tooltip" data-placement="top" title="Notas Personales"><i class="ficon feather icon-check-square"></i></a>
                         </li>
-                        
+
                         <li class="nav-item d-none d-lg-block">
                             <a class="nav-link" href="{{ route('chat') }}" data-toggle="tooltip" data-placement="top" title="Chat"><i class="ficon feather icon-message-square"></i></a>
                         </li>
-                        
+
                         <li class="nav-item d-none d-lg-block">
                             <a class="nav-link" href="{{ route('email') }}" data-toggle="tooltip" data-placement="top" title="Email"><i class="ficon feather icon-mail"></i></a>
                         </li>
-                        
+
                         <li class="nav-item d-none d-lg-block">
                             <a class="nav-link" href="calender" data-toggle="tooltip" data-placement="top" title="Calendario"><i class="ficon feather icon-calendar"></i></a></li>
-                        
+
                         @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
                         <li class="nav-item d-none d-lg-block">
                             <a class="nav-link" href="{{ route('oportunity.list') }}" data-toggle="tooltip" data-placement="top" title="Oportunidades"><i class="ficon feather icon-star warning"></i></a>
@@ -83,20 +83,22 @@
                             <span>
                                 @empty(Auth::user()->photo)
                                     <img class="round" src="/images/anonymous-user.png" alt="{{ Auth::user()->name }} " height="40" width="40"></span>
-                                @else 
+                                @else
                                     <img class="round" src="/{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }} " height="40" width="40"></span>
                                 @endempty
 
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            
+
                             <a class="dropdown-item" href="{{ route('perfil.index') }}"><i class="fa fa-id-badge"></i> Mi Perfil</a>
-                             @if (auth()->user()->email_verified_at !== null) 
-                                <a class="dropdown-item" href="#"><i class="fa fa-id-card"></i> Mi Cuenta</a>
+                             @if (auth()->user()->email_verified_at !== null)
+                                <a class="dropdown-item" href="{{ route('myaccount') }}">
+                                    <i class="fa fa-id-card"></i> Mi Cuenta
+                                </a>
                                 <a class="dropdown-item" href="#"><i class="feather icon-user"></i> Usuarios</a>
                                 <a class="dropdown-item" href="{{ route('group.show') }}"><i class="feather icon-users"></i> Grupo de Usuarios</a>
 
-                            @endif 
+                            @endif
                             <div class="dropdown-divider"></div>
 
                             <a class="dropdown-item" href="{{ route('logout') }}"

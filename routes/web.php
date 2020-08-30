@@ -132,6 +132,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('filter-chat-users', 'ChatController@filterUserChatRooms');
     Route::delete('chatroom/{id}/delete', 'ChatController@destroyChatRoom');
     Route::post('notification-time/update', 'NotificationController@updateTime');
+    Route::get('mi-cuenta', function () {
+        return view('auth.my-account');
+    })->name('myaccount');
+    Route::get('get-account-data', 'UserController@getAccountData');
+    Route::post('update-account', 'UserController@update');
 
     /** Rutas para la gestión de correos */
     Route::group(['prefix' => 'email'], function () {
