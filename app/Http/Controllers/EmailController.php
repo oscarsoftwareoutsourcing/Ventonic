@@ -629,6 +629,29 @@ class EmailController extends Controller
     }
 
     /**
+     * Elimina archivos adjuntos de un correo a ser enviado
+     *
+     * @method    destroyAttachment
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request              $request    Objeto con datos de la petición
+     *
+     * @return    JsonResponse         Objeto Json con datos de respuesta a la petición
+     */
+    public function destroyAttachment(Request $request)
+    {
+        if (empty(env('AWS_BUCKET', '')) && strpos($request->attachFile, 'http') !== false) {
+            //Lo elimina de AWS storage
+            Storage::disk('s3')->delete(auth()->user()->uuid . '/' . $request->attachFile);
+        } else {
+            //Lo elimina del storage local en el servidor de la aplicación
+            Storage::disk('attachments')->delete($request->attachFile);
+        }
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
      * Establece la(s) etiqueta(s) de un mensaje de correo
      *
      * @method    setTags

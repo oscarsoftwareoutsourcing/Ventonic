@@ -179,6 +179,9 @@
                                                     <span class="chip-text">
                                                         {{ getAttachName(attach) }}
                                                     </span>
+                                                    <div class="chip-closeable" @click="deleteAttach(attach)">
+                                                        <i class="feather icon-x"></i>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1353,6 +1356,26 @@
                 }).catch(error => {
                     console.error(error);
                     vm.$loading(false);
+                });
+            },
+            /**
+             * Elimina un archivo adjunto
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             *
+             * @param     {string}        attach    Ubicación del archivo a eliminar
+             */
+            deleteAttach(attach) {
+                const vm = this;
+                vm.newEmailAttachments = JSON.parse(JSON.stringify(vm.newEmailAttachments.filter(function (adj) {
+                    return adj !== attach;
+                })));
+                axios.post('/email/delete-attachment', {
+                    attachFile: vm.getAttachName(attach)
+                }).then(response => {
+                    //
+                }).catch(error => {
+                    console.error(error);
                 });
             },
             /**

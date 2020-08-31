@@ -150,6 +150,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('save-draft', 'EmailController@saveDraft');
         Route::post('mark-read', 'EmailController@markRead');
         Route::post('upload-attachment', 'EmailController@uploadAttachment');
+        Route::post('delete-attachment', 'EmailController@destroyAttachment');
         Route::post('set-tags', 'EmailController@setTags');
         Route::get('get-tagged-messages', 'EmailController@getTaggedMessages');
         Route::post('check-auto-config', 'EmailController@checkAutoConfig');
