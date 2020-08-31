@@ -27,6 +27,14 @@
             <div class="row mt-2">
                 <div class="col-12">
                     <div class="card">
+                        @if (session('updateTemplate'))
+                            <div class="alert alert-success">
+                                <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">
+                                    &times;
+                                </button>
+                                {{ session('updateTemplate') }}
+                            </div>
+                        @endif
                         <div class="card-header"></div>
                         <div class="card-body">
                             <div class="table-responsive">

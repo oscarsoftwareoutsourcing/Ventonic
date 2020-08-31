@@ -129,10 +129,9 @@ class EmailTemplatesSeeder extends Seeder
                                                 'de correo electrónico.' .
                                             '</p>' .
                                             '<p>' .
-                                                '<button type="button" onclick="location.href={{ url }}" ' .
-                                                        'style="margin:0 auto">' .
+                                                '<a href="{{ url }}" style="margin:0 auto">' .
                                                     'Verificar dirección de correo' .
-                                                '</button>' .
+                                                '</a>' .
                                             '</p>' .
                                             '<p>' .
                                                 'Si tiene problemas para hacer clic en el botón ' .

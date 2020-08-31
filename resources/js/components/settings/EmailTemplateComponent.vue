@@ -3,7 +3,7 @@
         <div class="header_ventonic-description">
             <div class="card_vetonic-description">
                 <div class="text_vetonic-description">
-                    Crear Plantilla
+                    Editar Plantilla
                 </div>
             </div>
         </div>
@@ -12,43 +12,48 @@
                 <div class="col">
                     <div class="form-group">
                         <label class="mb-1">Plantilla de correo</label>
-                        <select class="form-control" :class="{'is-invalid': mailableError}" v-model="mailable"
+                        <!--<select class="form-control" :class="{'is-invalid': mailableError}" v-model="mailable"
                                 data-toggle="tooltip" title="Seleccione el tipo de plantilla a implementar">
                             <option value="">Seleccione...</option>
                             <option :value="mail.class" v-for="mail in mailables" @click="setVariables(mail.variables)">
                                 {{ mail.text }}
                             </option>
-                        </select>
-                        <div class="alert alert-danger" v-if="mailableError">{{ mailableError }}</div>
+                        </select>-->
+                        <div class="col-12">{{ emailTemplate.mailable }}</div>
+                        <!--<div class="alert alert-danger" v-if="mailableError">{{ mailableError }}</div>-->
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label class="mb-1">Módulo o Sección</label>
-                        <select class="form-control" :class="{'is-invalid': moduleError}" v-model="module"
+                        <!--<select class="form-control" :class="{'is-invalid': moduleError}" v-model="module"
                                 title="Seleccione el módulo u opción del sistema para el cual aplicar la plantilla"
                                 data-toggle="tooltip">
                             <option value="">Seleccione...</option>
                             <option :value="mod.class" v-for="mod in modules">
                                 {{ mod.text }}
                             </option>
-                        </select>
-                        <div class="alert alert-danger" v-if="moduleError">{{ moduleError }}</div>
+                        </select>-->
+                        <div class="col-12">{{ (emailTemplate.module) ? emailTemplate.module : 'General' }}</div>
+                        <!--<div class="alert alert-danger" v-if="moduleError">{{ moduleError }}</div>-->
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col">
                     <div class="form-group">
                         <label class="mb-1">Tipo</label>
-                        <select class="form-control" :class="{'is-invalid': typeError}" v-model="type"
+                        <!--<select class="form-control" :class="{'is-invalid': typeError}" v-model="type"
                                 data-toggle="tooltip" title="Seleccione el tipo de correo al cual aplicar la plantilla">
                             <option value="">Seleccione...</option>
                             <option :value="tp.id" v-for="tp in types">{{ tp.text }}</option>
                         </select>
-                        <div class="alert alert-danger" v-if="typeError">{{ typeError }}</div>
+                        <div class="alert alert-danger" v-if="typeError">{{ typeError }}</div>-->
+                        <div class="col-12" v-if="emailTemplate.type==='N'">Notificación</div>
+                        <div class="col-12" v-if="emailTemplate.type==='E'">Evento</div>
+                        <div class="col-12" v-if="emailTemplate.type==='O'">Otro</div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col">
                     <div class="form-group">
                         <label class="mb-1">Nombre</label>
@@ -118,10 +123,9 @@
                     {id: 'O', text: 'Otro'},
                 ],
                 body: '',
-                variables: [],
-                mailableError: '',
+                /*mailableError: '',
                 moduleError: '',
-                typeError: '',
+                typeError: '',*/
                 nameError: '',
                 subjectError: '',
                 bodyError: ''
@@ -148,14 +152,14 @@
              *
              * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
-            getMailables() {
+            /*getMailables() {
                 const vm = this;
                 axios.get('/sistema/correo/plantillas/get-mailables').then(response => {
                     vm.mailables = response.data.mailables;
                 }).catch(error => {
                     console.error(error);
                 });
-            },
+            },*/
             /**
              * Establece las variables a mostrar para su incorporación en la plantilla
              *
@@ -163,15 +167,15 @@
              *
              * @param     {array}        variables    Arreglo con información de las variables
              */
-            setVariables(variables) {
+            /*setVariables(variables) {
                 this.variables = variables;
-            },
+            },*/
             /**
              * Obtiene un listado de variables asociadas al tipo de plantilla seleccionada
              *
              * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
-            getVariables() {
+            /*getVariables() {
                 const vm = this;
                 if (!vm.mailable) {
                     vm.variables = [];
@@ -182,18 +186,18 @@
                 }).catch(error => {
                     console.error(error);
                 });
-            },
+            },*/
             /**
              * Obtiene un listado de módulos u opciones del sistema
              *
              * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
-            getModules() {
+            /*getModules() {
                 const vm = this;
                 axios.get('/sistema/correo/plantillas/get-modules').then(response => {
                     vm.modules = response.data.modules;
                 })
-            },
+            },*/
             /**
              * Registra la información de la plantila
              *
@@ -202,10 +206,10 @@
             setTemplate() {
                 const vm = this;
                 axios.post('/sistema/correo/plantillas', {
-                    mailable: vm.mailable,
+                    mailable: vm.emailTemplate.mailable,
                     name: vm.name,
-                    module: vm.module,
-                    type: vm.type,
+                    module: vm.emailTemplate.module,
+                    type: vm.emailTemplate.type,
                     subject: vm.subject,
                     body: vm.body
                 }).then(response => {
@@ -216,15 +220,16 @@
                     vm.errors = {};
 
                     if (typeof error.response != "undefined") {
-                        if (error.response.data.errors['mailable']) {
+                        /*if (error.response.data.errors['mailable']) {
                             vm.mailableError = error.response.data.errors['mailable'][0];
                         }
-                        else if (error.response.data.errors['name']) {
+                        else*/
+                        if (error.response.data.errors['name']) {
                             vm.nameError = error.response.data.errors['name'][0];
                         }
-                        else if (error.response.data.errors['type']) {
+                        /*else if (error.response.data.errors['type']) {
                             vm.typeError = error.response.data.errors['type'][0];
-                        }
+                        }*/
                         else if (error.response.data.errors['subject']) {
                             vm.subjectError = error.response.data.errors['subject'][0];
                         }
@@ -247,8 +252,8 @@
         },
         mounted() {
             const vm = this;
-            this.getMailables();
-            this.getModules();
+            //this.getMailables();
+            //this.getModules();
 
         }
     };

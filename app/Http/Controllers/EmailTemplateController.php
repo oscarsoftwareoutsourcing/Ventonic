@@ -37,7 +37,6 @@ class EmailTemplateController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            //'mailable' => ['required', 'unique:email_templates,mailable'],
             'mailable' => ['required'],
             'name' => ['required'],
             'type' => ['required'],
@@ -55,6 +54,8 @@ class EmailTemplateController extends Controller
                 'html_template' => $request->body
             ]
         );
+
+        session()->flash('updateTemplate', 'Plantilla actualizada con éxito');
 
         return response()->json(['result' => true], 200);
     }
