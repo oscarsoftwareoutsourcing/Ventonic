@@ -177,6 +177,24 @@ class EmailController extends Controller
     }
 
     /**
+     * Elimina la configuración de la cuenta de correo
+     *
+     * @method    destroySetting
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request           $request    Objeto con datos de la petición
+     *
+     * @return    JsonResponse      Objeto Json con datos de respuesta a la petición
+     */
+    public function destroySetting(Request $request)
+    {
+        $emailSetting = EmailSetting::where('user_id', auth()->user()->id)->first();
+        $emailSetting->delete();
+        return response()->json(['result' => true], 200);
+    }
+
+    /**
      * Obtiene los mensajes del servidor de correo
      *
      * @method    getMessages

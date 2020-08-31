@@ -168,6 +168,11 @@
                                 <div class="card-footer">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <button type="button" class="btn btn-primary btn-sm float-left"
+                                                    title="Pulse sobre el botón para desvincular la cuenta configurada"
+                                                    data-toggle="tooltip" @click="removeSettings" v-if="update">
+                                                Eliminar
+                                            </button>
                                             <button type="button" class="btn btn-primary btn-sm float-right"
                                                     title="Pulse sobre el botón para establecer la configuración"
                                                     data-toggle="tooltip" @click="setSettings">
@@ -335,7 +340,7 @@
                     else {
                         vm.settingError = response.data.message;
                     }
-                    vm.$loading(false)
+                    vm.$loading(false);
                 }).catch(error => {
                     vm.errors = {};
 
@@ -349,6 +354,52 @@
                     vm.$loading(false);
                 });
             },
+            /**
+             * Remueve y desvincula la cuenta de correo electrónico
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             */
+            removeSettings() {
+                const vm = this;
+                bootbox.confirm({
+                    title: '¿Desvincular cuenta?',
+                    message: `Esta a punto de desvincular la cuenta de correo configurada, esto eliminará toda la
+                              información de correos gestionados a través de la plataforma.
+                              ¿Está totalmente seguro de continuar?`,
+                    buttons: {
+                        cancel: {
+                            label: 'Cancelar',
+                            className: 'btn-light float-left'
+                        },
+                        confirm: {
+                            label: 'Eliminar',
+                            className: 'btn-primary float-right'
+                        }
+                    },
+                    callback: function(result) {
+                        if (result) {
+                            vm.$loading(true);
+                            axios.post('/email/remove-settings').then(response => {
+                                if (response.data.result) {
+                                    vm.configStarted = false;
+                                }
+                                vm.$loading(false);
+                            }).catch(error => {
+                                console.error(error);
+                                vm.$loading(false);
+                            });
+                        }
+                    }
+                });
+            },
+            /**
+             * Mensajes sobre consideraciones a tomar en cuenta para algunas cuentas de correo
+             *
+             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+             *
+             * @return    {string}            Mensaje al usuario con las consideraciones a realizar en la respectiva
+             *                                cuenta de correo
+             */
             layerSecurityMsg: function() {
                 const vm = this;
                 var msg = '';
@@ -400,6 +451,7 @@
         mounted() {
             const vm = this;
             if (vm.update) {
+                vm.configStarted = vm.update;
                 axios.get('/email/settings').then(response => {
                     if (response.data.result) {
                         vm.name = response.data.name;
