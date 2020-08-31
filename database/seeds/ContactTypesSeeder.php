@@ -19,7 +19,8 @@ class ContactTypesSeeder extends Seeder
             'Cliente',
             'Cliente potencial',
             'Colaborador',
-            'Proveedor'
+            'Proveedor',
+            'Cliente Perdido',
         ];
 
         DB::transaction(function () use ($types) {

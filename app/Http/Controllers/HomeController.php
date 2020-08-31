@@ -37,8 +37,8 @@ class HomeController extends Controller
         //$questions = $this->getQuestions();
         // return view('search-result');
         $contacts_data['all'] = self::getContacts($date_term);
-        $contacts_data['new'] = self::getContacts($date_term, 'Cliente');
-        $contacts_data['lost'] = self::getContacts($date_term, 'Cliente Perdido');
+        $contacts_data['new'] = self::getContacts($date_term);
+        $contacts_data['lost'] = self::getContacts($date_term, '5');
         $negs['all'] = self::getNegotiations($date_term);
         $negs['in_process'] = self::getNegotiations($date_term, 3);
         $negs['won'] = self::getNegotiations($date_term, 1);
@@ -126,7 +126,7 @@ class HomeController extends Controller
     public static function getDateRange($date)
     {
         //dd($date);
-        $to = date('Y-m-d h:i:s');
+        $to = date('Y-m-d 23:59:59');
         if ($date == 'this month') {
             $date = 'first day of this month';
         } elseif ($date == 'this year') {
@@ -140,13 +140,15 @@ class HomeController extends Controller
         $date_range->to = $to;
         $date_range->from = $from;
 
-        //($date_range);
+        //dd($date_range);
 
         return $date_range;
     }
 
     public static function getContacts($date, $type = null)
     {
+        //dd(auth()->user()->id);
+        //DB::connection()->enableQueryLog();
         $date_range = self::getDateRange($date);
         $contacts = Contact::selectRaw("count(*) as total, DATE_FORMAT(created_at, '%Y-%m-%d') AS day_logged")
             ->where('user_id', auth()->user()->id)
@@ -162,6 +164,9 @@ class HomeController extends Controller
         $data['total'] = array_sum(array_column($contacts, 'total'));
         $data['contacts'] = $contacts;
         $data['percent'] = round(($data['total'] / Contact::count()) * 100, 2);
+
+        //$queries = DB::getQueryLog(); 
+        //dd($queries);
         return $data;
     }
 
@@ -169,8 +174,8 @@ class HomeController extends Controller
     {
         $date_term = $request->date_range;
         $contacts_data['all'] = self::getContacts($date_term);
-        $contacts_data['new'] = self::getContacts($date_term, 'Cliente');
-        $contacts_data['lost'] = self::getContacts($date_term, 'Cliente Perdido');
+        $contacts_data['new'] = self::getContacts($date_term);
+        $contacts_data['lost'] = self::getContacts($date_term, '6');
         $negs['all'] = self::getNegotiations($date_term);
         $negs['in_process'] = self::getNegotiations($date_term, 3);
         $negs['won'] = self::getNegotiations($date_term, 1);
