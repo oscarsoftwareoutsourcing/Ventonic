@@ -321,6 +321,7 @@ Route::group(['middleware' => ['verified']], function () use ($router) {
     // Negotiations
     // Rutas para negociaciones Company
     Route::get('negociaciones', 'NegotiationController@index')->name('negociaciones');
+    Route::get('negotiation/change-status/{negotiation}/{stateId}', 'NegotiationController@changeState');
 
     // $router->get('negociacion/save/{seller_profile_id}/{status_negociations_id}/{producto}/{responsable}/{estimado}',
     // 'NegociationCompanyController@store')->name('negociationCompany.store')->middleware('verified');

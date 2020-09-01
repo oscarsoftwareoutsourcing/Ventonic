@@ -183,7 +183,8 @@ class NegotiationController extends Controller
 
             return response()->json([
                 'result' => true,
-                'updated_neg' => new NegotiationsResource($negotiation)
+                'updated_neg' => new NegotiationsResource($negotiation),
+                'currentStatus' => $negotiation->status
             ]);
         } catch (\Throwable $th) {
             echo $th;

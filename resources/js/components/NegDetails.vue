@@ -189,14 +189,22 @@
           <h4>Acerca de la negociación</h4>
           <!-- <i class="feather icon-more-horizontal cursor-pointer"></i> -->
         </div>
+        <div class="alert alert-success" v-if="negUpdated">
+            <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">
+                &times;
+            </button>
+            Negociación actualizada
+        </div>
         <div class="card-body">
           <!-- Description -->
           <p>{{ description }}</p>
           <hr />
           <!-- Status -->
-          <div class="mt-1">
-            <strong>Estado:</strong>
-            <span v-if="status.id === 3" class="text-primary">
+          <div class="row mt-1">
+            <div class="col-sm-3 py-1">
+                <strong>Estado:</strong>
+            </div>
+            <!--<span v-if="status.id === 3" class="text-primary">
               En Proceso
               <i title="En proceso" class="feather icon-loader ml-1"></i>
             </span>
@@ -207,7 +215,45 @@
             <span v-if="status.id === 2" class="text-danger">
               Perdida
               <i class="fa fa-thumbs-o-down ml-1" title="Perdida"></i>
-            </span>
+            </span>-->
+            <div class="col-sm-9">
+                <div class="statusContainer">
+                    <div class="dropdown">
+                        <button v-if="status.id === 3" class="btn btn-flat-primary dropdown-toggle waves-effect waves-light"
+                                type="button" @click.stop.prevent="toggleStateMenu">
+                            En Proceso
+                            <i title="En proceso" class="feather icon-loader ml-1"></i>
+                        </button>
+                        <button v-if="status.id === 1" class="btn btn-flat-success dropdown-toggle waves-effect waves-light"
+                                type="button" @click.stop.prevent="toggleStateMenu">
+                            Ganada
+                            <i class="fa fa-trophy ml-1" title="Ganada"></i>
+                        </button>
+                        <button v-if="status.id === 2" class="btn btn-flat-danger dropdown-toggle waves-effect waves-light"
+                                type="button" @click.stop.prevent="toggleStateMenu">
+                            Perdida
+                            <i class="fa fa-thumbs-o-down ml-1" title="Perdida"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-ventonic" x-placement="bottom-start">
+                            <a @click.stop.prevent="changeState(getDetailedNeg.id, 3)" v-if="status.id !== 3"
+                               class="dropdown-item text-primary" title="En proceso">
+                                En Proceso
+                                <i class="feather icon-loader text-primary ml-2"></i>
+                            </a>
+                            <a @click.stop.prevent="changeState(getDetailedNeg.id, 1)" v-if="status.id !== 1"
+                               class="dropdown-item text-success" title="Ganada">
+                                Ganada
+                                <i class="fa fa-trophy text-success ml-2"></i>
+                            </a>
+                            <a @click.stop.prevent="changeState(getDetailedNeg.id, 2)" v-if="status.id !== 2"
+                               class="dropdown-item text-danger" title="Perdida">
+                                Perdida
+                                <i class="fa fa-thumbs-o-down text-danger ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <hr />
           </div>
 
@@ -267,6 +313,7 @@ export default {
     return {
       negGroups: [],
       success: false,
+      negUpdated: false,
     };
   },
   mounted() {
@@ -308,6 +355,33 @@ export default {
       this.toggleLists();
       this.toggleDetails();
     },
+    toggleStateMenu(event) {
+        let element = event.target;
+        element.parentElement.classList.toggle('show');
+        element.nextElementSibling.classList.toggle('show');
+    },
+    async changeState(negId, state) {
+        let values = {
+            id: negId,
+            stateId: state
+        }
+        await this.changeStatus(values);
+        document.querySelector('.statusContainer div.dropdown.show').classList.remove('show');
+        document.querySelector('.statusContainer div.dropdown-menu.show').classList.remove('show');
+    },
+    changeStatus(values) {
+        const vm = this;
+        axios.put(`/api/negotiations/change-negotiation-status/${values.id}`, {
+            statusId: values.stateId
+        }).then(response => {
+            if (response.data.result) {
+                vm.negUpdated = true;
+                vm.getDetailedNeg.status = response.data.currentStatus;
+            }
+        });
+        //console.log(this.getDetailedNeg, values)
+        //this.getDetailedNeg.status = values.stateId;
+    }
   },
   computed: {
     ...mapGetters([

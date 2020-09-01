@@ -186,6 +186,9 @@
             color:#ffffff !important;
             font-weight: bold;
         }
+        .dropdown-ventonic {
+            position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -105px, 0px);
+        }
     </style>
 </head>
 
