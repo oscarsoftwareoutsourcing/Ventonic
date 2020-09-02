@@ -42,4 +42,14 @@ class Widget extends Model
     {
         return $this->belongsTo(User::class, 'user_id_referred');
     }
+
+    /**
+     * Widget has many WidgetDatas.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function widgetDatas()
+    {
+        return $this->hasMany(WidgetData::class);
+    }
 }

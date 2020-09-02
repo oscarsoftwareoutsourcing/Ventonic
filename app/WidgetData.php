@@ -19,4 +19,16 @@ class WidgetData extends Model
      * @var array
      */
     protected $fillable = ['widget_id', 'origin', 'info_data'];
+
+    protected $with = ['widget'];
+
+    /**
+     * WidgetData belongs to Widget.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function widget()
+    {
+        return $this->belongsTo(Widget::class);
+    }
 }

@@ -345,7 +345,7 @@ Route::view('dash', 'inicio-dashboard');
 Route::get('call-me', 'FreeAppController@index')->name('freeapps')->middleware('verified');
 Route::get('validate-pin/{pin}', 'FreeAppController@validatePin')->name('validatepin');
 Route::post('widget/generateWidget', 'WidgetController@store');
-Route::get('widget/widgetsData', 'WidgetController@widgetsData')->name('widgets.data');
+Route::get('widget/widgetsData/{id?}', 'WidgetController@widgetsData')->name('widgets.data');
 Route::get(
     'updateWidgetStatus/{widgetID}/{widgetStatus}',
     'WidgetController@updateWidgetStatus'

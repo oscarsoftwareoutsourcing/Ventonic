@@ -11,7 +11,7 @@
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="col-12">
-               
+
             </div>
         </div>
         <div class="content-body">
@@ -41,11 +41,31 @@
                                            <tbody>
                                                @foreach($data as $dt)
                                                <tr>
-                                                   <td align="center">{{$dt->created_at->format('d-m-Y H:m')}}</td>
-                                                   <td align="center">{{$dt->name}} {{$dt->last_name}}</td>
-                                                   <td align="center">{{$dt->product}}</td>
-                                                   <td align="center">{{$dt->phone_mobil}}</td>
-                                                   <td align="center">{{$dt->url}}</td>
+                                                   <td align="center">{{ $dt->created_at->format('d-m-Y H:m') }}</td>
+                                                   <td align="center">
+                                                        @if (auth()->user()->id === $dt->widget->user_id)
+                                                            {{ $dt->widget->user->name }}
+                                                            {{ $dt->widget->user->last_name }}
+                                                        @else
+                                                            {{ $dt->widget->userReferred->name }}
+                                                            {{ $dt->widget->userReferred->last_name }}
+                                                        @endif
+                                                    </td>
+                                                   <td align="center">{{ $dt->product }}</td>
+                                                   <td align="center">
+                                                        @php
+                                                            $sellerProfile = $dt->widget->user->sellerProfile ?? $dt->widget->userReferred->sellerProfile;
+                                                        @endphp
+                                                        @if ($sellerProfile !== null)
+                                                            {{ $sellerProfile->phone_mobil_country }}
+                                                            {{ $sellerProfile->phone_mobil }}
+                                                        @else
+                                                            NO POSEE
+                                                        @endif
+                                                    </td>
+                                                   <td align="center">
+                                                        {{ (!is_null($dt->origin) && $dt->origin!=='null') ? $dt->origin : $dt->widget->url }}
+                                                    </td>
                                                </tr>
                                                @endforeach
                                            </tbody>
@@ -74,7 +94,7 @@
 
 @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}" defer></script>
-    
+
 @endsection
 
 @section('extra-js')

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Widget;
+use App\WidgetData;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Str;
+
 class WidgetController extends Controller
 {
     /**
@@ -119,13 +121,14 @@ class WidgetController extends Controller
         //
     }
 
-    public function widgetsData(){
+    public function widgetsData($id = null)
+    {
 
-        $user_id = Auth::user()->id;
-        
-        $data = Widget::join('widget_data','widget.id','=','widget_data.widget_id')
-        ->join('users','users.id','=','widget.user_id_referred')
-        ->Leftjoin('seller_profiles','seller_profiles.user_id','=','widget.user_id_referred')
+        $user_id = auth()->user()->id;
+
+        /*$data = Widget::join('widget_data', 'widget.id', '=', 'widget_data.widget_id')
+        ->join('users', 'users.id', '=', 'widget.user_id_referred')
+        ->Leftjoin('seller_profiles', 'seller_profiles.user_id', '=', 'widget.user_id_referred')
         ->selectRaw("widget_data.created_at,
                     widget_data.origin as url,
                     seller_profiles.
@@ -133,21 +136,26 @@ class WidgetController extends Controller
                     users.name,
                     users.last_name,
                     'Call Me' as product")
-        ->where('widget.user_id',$user_id)
-        ->orWhere('widget.user_id_referred',$user_id)
-        ->orderBy('widget_data.created_at', 'DESC')->get();
+        ->where('widget.user_id', $user_id)
+        ->orWhere('widget.user_id_referred', $user_id)
+        ->orderBy('widget_data.created_at', 'DESC')->get();*/
 
-        //dd($data);
-        return view('widget_data.widget-data',['data'=>$data]);
+        $data = WidgetData::where('widget_id', $id)->whereHas('widget', function ($query) use ($user_id) {
+            return $query->where('user_id', $user_id)->orWhere('user_id_referred', $user_id);
+        })->addSelect(
+            DB::raw("*, 'Call Me' as product")
+        )->get();
+
+        return view('widget_data.widget-data', ['data' => $data]);
     }
 
-    public function updateWidgetStatus(Request $request){
+    public function updateWidgetStatus(Request $request)
+    {
 
-        $update = Widget::where('id',$request->widgetID)->update([
+        $update = Widget::where('id', $request->widgetID)->update([
             'status'=>$request->widgetStatus
         ]);
 
         return response()->json($update, 200);
-
     }
 }
