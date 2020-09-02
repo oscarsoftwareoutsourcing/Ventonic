@@ -140,7 +140,9 @@ class WidgetController extends Controller
         ->orWhere('widget.user_id_referred', $user_id)
         ->orderBy('widget_data.created_at', 'DESC')->get();*/
 
-        $data = WidgetData::where('widget_id', $id)->whereHas('widget', function ($query) use ($user_id) {
+        $data = ($id!==null) ? WidgetData::where('widget_id', $id) : new WidgetData;
+
+        $data = $data->whereHas('widget', function ($query) use ($user_id) {
             return $query->where('user_id', $user_id)->orWhere('user_id_referred', $user_id);
         })->addSelect(
             DB::raw("*, 'Call Me' as product")
