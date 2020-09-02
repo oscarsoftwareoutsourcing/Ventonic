@@ -53,15 +53,21 @@
                                                     </td>
                                                    <td align="center">{{ $dt->product }}</td>
                                                    <td align="center">
-                                                        @php
-                                                            $sellerProfile = $dt->widget->user->sellerProfile ?? $dt->widget->userReferred->sellerProfile;
-                                                        @endphp
-                                                        @if ($sellerProfile !== null)
-                                                            {{ $sellerProfile->phone_mobil_country }}
-                                                            {{ $sellerProfile->phone_mobil }}
+                                                        @if (!empty($dt->info_data))
+                                                            @php
+                                                                $phone = json_decode($dt->info_data)->phone;
+                                                            @endphp
                                                         @else
-                                                            NO POSEE
+                                                            @php
+                                                                $sellerProfile = $dt->widget->user->sellerProfile
+                                                                                 ?? $dt->widget->userReferred->sellerProfile;
+                                                                $phone = ($sellerProfile !== null)
+                                                                         ? $sellerProfile->phone_mobil_country . ' ' .
+                                                                           $sellerProfile->phone_mobil
+                                                                         : 'NO POSEE';
+                                                            @endphp
                                                         @endif
+                                                        {{ $phone }}
                                                     </td>
                                                    <td align="center">
                                                         {{ (!is_null($dt->origin) && $dt->origin!=='null') ? $dt->origin : $dt->widget->url }}
