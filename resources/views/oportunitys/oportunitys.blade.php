@@ -15,26 +15,28 @@
     <div class="content-wrapper pt-1">
         <div class="content-header row">
         </div>
+
+        <div class="row">
+                <div class="new-header mb-1">
+                <span  class="title">Oportunidades</span>
+                @if(Auth::user()->typeuser=="E")
+                    <a href="{{ route('oportunity.form') }}"  
+                    type="button" class="btn bg-gradient-primary btn-sm mr-1 mb-1 waves-effect waves-light">
+                    Crear nueva oportunidad</a>
+                @endif
+                </div>
+        </div>
         <div class="">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
 
-                          <div class="card-ventonic">
-
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                    <div class="text-ventonic">Oportunidades</div>
-                                </div>
-                                @if(Auth::user()->typeuser=="E")
-                                    <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                        <a class="btn btn-primary" type="button" href="{{ route('oportunity.form') }}">+ Nueva</a>
-                                    </div>
-                                @endif
+                         
+                         <div class="bg-gradient-primary">
+                            <div class="card_vetonic-description">
+                                <div class="text_vetonic-description1">Filtros</div>
                             </div>
                         </div>
-                        <hr>
-                        <div class="card-header">Filtros</div>
                         <div class="card-body">
                             @if (session('message'))
                                 <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
@@ -133,8 +135,8 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary float-right">Buscar</button>
+                                     <div class="col-12 text-center">
+                                        <button type="submit" class="btn bg-gradient-primary btn-lg mr-1 mb-1 waves-effect waves-light">Buscar</button>
                                     </div>
                                 </div>
                             </form>
@@ -146,53 +148,64 @@
                         @foreach($oportunitys as $oportunity)
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="card">
-                                 <div class="card-body">
+                                 <div class="">
                                      <div class="row">
-                                         <div class="col-lg-3 col-md-3 col-sm-3 center">
-                                             <div class="mx-auto text-center mx-auto">
-                                                <div class="avatar avatar-xl">
-                                                    <img class="img-fluid" src="/{{$oportunity->user->photo}}" alt="{{$oportunity->user->name}}">
+                                         <div class="col-lg-3 col-md-3 col-sm-3">
+                                            
+                                                 <div class="box-avatar">
+                                                     <div class="div-box">
+                                                    <div class="avatar avatar-xl">
+                                                        <img class="img-fluid" src="/{{$oportunity->user->photo}}" alt="{{$oportunity->user->name}}">
+                                                    </div>
+                                                    </div>
                                                 </div>
-                                             </div>
+                                             
                                          </div>
-                                         <div class="col-lg-9 col-md-9 col-sm-9" >
-                                                <h5>{{$oportunity->title}}</h5>
+                                         <div class="col-lg-9 col-md-9 col-sm-9 divide-white" >
+                                             <div class="card-body">
+                                                <h3>{{$oportunity->title}}</h3>
                                                 <input type="text" class="jobType" value="{{$oportunity->job_type_id}}" data-id="{{$oportunity->id}}" hidden>
                                                 <input type="text" class="antiguedad" value="{{$oportunity->ubication_oportunity_id}}" data-id="{{$oportunity->id}}" hidden>
                                                 <input type="text" class="sector" value="{{$oportunity->sectors}}" data-id="{{$oportunity->id}}" hidden>
-                                                <p class="card-text  mb-0">{{$oportunity->user->name}}</p>
+                                                <p class="card-text  mb-0"><span class="flag-icon flag-icon-es"></span> {{$oportunity->user->name}}</p>
                                                 <span class="card-text">{{$oportunity->cargo}}</span>
+                                                <!--
                                                 <p class="card-text  mb-0">{{App\JobType::getType((int)$oportunity->job_type_id)}}</p>
+                                                -->
                                                 <p class="card-text  mb-0">{{App\Oportunity::listSectors($oportunity->sectors)}}</p>
 
-                                         </div>
-                                     </div>
-
-                                    <hr class="my-1">
-                                    <div class="card-btns d-flex justify-content-between mt-2">
+                                             <div class="card-btns justify-content-between mt-2">
                                             <a href="#" ></a>
                                             @if((\Auth::user()->typeuser)=="V")
                                                  @if(App\Aplicant::postulationTrue(\Auth::user()->id, $oportunity->id))
                                                     <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
-                                                    class="btn btn-dark mr-1 mb-1 waves-effect waves-light">
+                                                    class="btn bg-gradient-dark btn-lg mr-1 mb-1 waves-effect waves-light">
                                                         Postulado<br>
                                                         <span class="small">{{App\Aplicant::datePostulation(\Auth::user()->id, $oportunity->id)}}</span>
                                                     </a>
                                                     <input type="text" class="postulado" value="postulado" data-id="{{$oportunity->id}}" hidden>
                                                 @else
                                                     <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
-                                                    class="btn btn-primary mr-1 mb-1 waves-effect waves-light">
+                                                    class="btn bg-gradient-primary btn-lg mr-1 mb-1 waves-effect waves-light">
                                                         Aplicar
                                                     </a>
                                                 <input type="text" class="postulado" value="no postulado" data-id="{{$oportunity->id}}" hidden>
                                                 @endif
                                             @else
                                                     <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
-                                                    class="btn btn-outline-primary waves-effect waves-light">
+                                                    class="btn bg-gradient-primary mr-1 mb-1 waves-effect waves-light">
                                                         Ver<br>
                                                     </a>
                                             @endif
+
+                                            <span class="my-0">Oportunidades similares</span>
                                         </div>
+                                        </div>
+                                         </div>
+                                     </div>
+
+                                   
+                                   
                                 </div>
                             </div>
 

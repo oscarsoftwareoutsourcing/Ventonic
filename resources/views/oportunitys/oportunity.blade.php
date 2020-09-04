@@ -8,15 +8,31 @@
         <div class="content-header row">
         </div>
 
-        <div class="container">
+        <div class="row">
+                <div class="new-header mb-1">
+                <span  class="title">Oportunidades</span>
+                
+                </div>
+        </div>
+
+        <div class="">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
+                  <form method="POST" action="{{ route('oportunity.update') }}" enctype="multipart/form-data">
                     <div class="card card-oportunity">
-                        <div class="card-header"></div>
+                        <div class="bg-gradient-primary">
+                            <div class="card_vetonic-description">
+                                <div class="text_vetonic-description1">Detalle de oportunidad</div>
+                            </div>
+                        </div>
                         <div class="card-body">
-                            <form method="POST" action="{{ route('oportunity.update') }}" enctype="multipart/form-data">
+                            
                                 @csrf
-
+                                  <span class="float-right mb-2">
+                                   <a href="{{ url()->previous() }}" title="Cerrar" class="closed-view">
+                                    X
+                                  </a>
+                                </span>
                                     <div class="form-row">
                                       <div class="col-md-8 col-8 mb-3">
                                         <label for="validationTooltip01">Titulo<span class="obligatorio">*</span></label>
@@ -152,11 +168,12 @@
                                   </div>
                                 </div>
                                 @endif
-
+             </div>
+                    </div>
                                 <div class="row">
                                   <div class="col-12">
 
-                                      <div class="row justify-content-center senForm-step1">
+                                      <div class="row justify-content-center">
                                           <div class="col-12 justify-content-center">
                                               <div class="divider">
                                                 @if(\Auth::user()->type !=="V" && $oportunity->user_id==\Auth::user()->id)
@@ -170,38 +187,43 @@
                                               </div>
                                           </div>
 
-                                          <div class="col-8 justify-content-center content-btn-save-oportunity mb-3">
+                                          <div class="col-12 justify-content-center content-btn-save-oportunity">
+                                            <div id="botonera">
                                             @if(\Auth::user()->type !=="V" && $oportunity->user_id ==\Auth::user()->id)
                                               <button type="submit" name="guardar" value="guardar"
-                                                      class="btn btn-primary waves-effect waves-light mx-auto mt-1">
+                                                      class="btn bg-gradient-primary waves-effect waves-light mr-1 mb-1">
                                                     GUARDAR
                                               </button>
                                               @if ($oportunity->statusOportunity->description !== 'cerrada')
+                                              <!--
                                                   <a href="{{ route('oportunity.change_status', [
                                                     'oportunity' => $oportunity->id, 'statusType' => 'cerrada'
                                                   ]) }}"
-                                                     class="btn btn-primary waves-effect waves-light mx-auto mt-1"
+                                                     class="btn bg-gradient-danger waves-effect waves-light mx-auto mt-1"
                                                      data-toggle="tooltip" title="Cerrar oportunidad">
-                                                      CERRAR
-                                                  </a>
+                                                      CERRAR OPORTUNIDAD
+                                                  </a> -->
                                               @else
                                                   <a href="{{ route('oportunity.change_status', [
                                                     'oportunity' => $oportunity->id, 'statusType' => 'activa'
                                                   ]) }}"
-                                                     class="btn btn-primary waves-effect waves-light mx-auto mt-1"
+                                                     class="btn bg-gradient-warning waves-effect waves-light mr-1 mb-1"
                                                      data-toggle="tooltip" title="Activar oportunidad">
                                                       ACTIVAR
                                                   </a>
                                               @endif
-                                              <div class="btn-group" role="group">
+                                              <div class="btn-group mr-1 mb-1" role="group">
                                                 <button id="btnActionStatus" type="button"
-                                                        class="btn btn-primary waves-effect waves-light mx-auto mt-1  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        class="btn btn-flat-primary border-primary text-primary  waves-effect waves-light mx-auto   dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Cambiar Status
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="btnActionStatus">
+                                                  <a class="dropdown-item" href="{{ route('oportunity.change_status', [
+                                                    'oportunity' => $oportunity->id, 'statusType' => 'cerrada'
+                                                  ]) }}">Cerrar Oportunidad</a>
                                                     <a class="dropdown-item" href="{{ route('oportunity.change_status', [
                                                     'oportunity' => $oportunity->id, 'statusType' => 'cancelada'
-                                                  ]) }}">Cancelada</a>
+                                                  ]) }}">Cancelada Publicacion</a>
                                                     <a class="dropdown-item" href="{{ route('oportunity.change_status', [
                                                     'oportunity' => $oportunity->id, 'statusType' => 'no+publicada'
                                                   ]) }}">No publicada</a>
@@ -223,6 +245,8 @@
                                             @elseif(\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)!=null)
                                               <span> Ya te has postulado para esta oportunidad</span>
                                              @endif
+
+                                             </div>
                                               {{--BEGIN:Modal--}}
                                                 <div class="modal fade text-left" id="primary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
                                                   <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -263,9 +287,9 @@
                                       </div>
                                   </div>
                               </div>
+                   
                             </form>
-                        </div>
-                    </div>
+                      
                 </div>
             </div>
         </div>

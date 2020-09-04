@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="card">
         <div class="card-header">Filtros</div>
         <div class="card-body">
@@ -54,7 +54,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-8">
       <div class="row">
         <div class="col-3">
           <div class="title-sales my-1">Vendedores</div>
@@ -76,7 +76,7 @@
       </div>
 
       <div class="row">
-        <div v-for="seller in sellers" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div v-for="seller in sellers">
           <div class="card">
             <div class="card-body">
               <div class="row">
@@ -106,8 +106,101 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-9">
-                  <span class="float-right">
+                <div class="col-lg-7 col-md-7 col-sm-7">
+                   <h3>{{ seller.name }} {{ seller.last_name }}</h3>
+                   <div>{{ seller.email }}</div>
+                   <p class="card-text  mb-0">Última Conexión {{ seller.last_login }}</p>
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-2">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <!--
+          <div class="row">
+            <div class="col-12">
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar vendedor..."
+                  v-model="searchSeller"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="button" @click="search()">Buscar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          -->
+          <div class="table-responsive">
+            <table
+              class="table table-hover table-striped dt-responsive nowrap display datatable"
+              style="font-size:.758rem"
+            >
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Correo</th>
+                  <th>Perfil</th>
+                  <th>Última Conexión</th>
+
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="seller in sellers">
+                  <td>
+                    <div class="avatar">
+                      <img
+                        :src="seller.photo"
+                        :alt="seller.name"
+                        class="img-fluid"
+                        v-if="seller.photo"
+                        height="40"
+                        width="40"
+                      />
+                      <img
+                        src="/images/anonymous-user.png"
+                        class="media-object rounded-circle"
+                        :alt="seller.name"
+                        height="40"
+                        width="40"
+                        v-else
+                      />
+                      <div v-if="seller.seller_profile">
+                        <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
+                      </div>
+                      <div v-else>
+                        <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{ seller.name }}</td>
+                  <td>{{ seller.last_name }}</td>
+                  <td>{{ seller.email }}</td>
+                  <td style="text-align:center;">
+                    <div v-if="seller.seller_profile">
+                      <a
+                        class="btn btn-primary btn-md text-white"
+                        :href="'profile/aplicant/'+ seller.id "
+                      >Ver</a>
+                    </div>
+                    <div v-else>No Disponible</div>
+                  </td>
+
+                  <td>{{ seller.last_login }}</td>
+
+                  <td>
                     <div v-if="seller.seller_profile">
                       <button
                         @click="contactSeller(seller.id)"
@@ -141,22 +234,10 @@
                         ></i>
                       </button>
                     </div>
-                  </span>
-
-                  <h3>{{ seller.name }} {{ seller.last_name }}</h3>
-                  <div class="email-sales">{{ seller.email }}</div>
-                  <p class="card-text mb-1">Última Conexión {{ seller.last_login }}</p>
-
-                  <div v-if="seller.seller_profile">
-                    <a
-                      class="byn bg-gradient-primary waves-effect waves-light text-white btn-sm"
-                      :href="'profile/aplicant/'+ seller.id "
-                    >Ver perfil</a>
-                  </div>
-                  <div v-else>Perfil No Disponible</div>
-                </div>
-              </div>
-            </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

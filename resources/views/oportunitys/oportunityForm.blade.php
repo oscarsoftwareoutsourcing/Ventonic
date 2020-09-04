@@ -8,31 +8,31 @@
         <div class="content-header row">
         </div>
 
-        <div class="container">
+        <div class="row">
+          <div class="new-header mb-1">
+            <span  class="title">Mis Oportunidades</span>
+          </div>
+        </div>
+
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
 
-                  <div class="header-ventonic-blue">
-                    <div class="card-ventonic">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                    <div class="text-ventonic-white">Oportunidades</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="card card-oportunity">
-                        <div class="header_ventonic-description">
+                      <div class="bg-gradient-primary">
                             <div class="card_vetonic-description">
-                                <div class="text_vetonic-description">
-                                    Crear Oportunidad
-                                </div>
+                                <div class="text_vetonic-description1">Nueva Oportunidad</div>
+
+                               
                             </div>
                         </div>
                         <div class="card-body">
                             <form method="POST" action="{{ route('oportunity.save') }}" enctype="multipart/form-data">
                                 @csrf
+                                 <span class="float-right mb-2">
+                                   <a href="{{ url()->previous() }}" title="Cerrar" class="closed-view">
+                                    X
+                                  </a>
+                                </span>
                                     <div class="form-row">
                                       <div class="col-md-8 col-8 mb-3">
                                         <label for="validationTooltip01">Titulo<span class="obligatorio">*</span></label>
@@ -210,11 +210,11 @@
 
                                           <div class="" id="botonera">
 
-                                          <button type="submit" class="btn btn-primary waves-effect waves-light mt-1 actions" name="{{$oportunity ? 'newstatus' : 'borrador'}}" value="{{$oportunity ? 'newstatus' : 'borrador'}}">{{$oportunity ? 'GUARDAR' : 'BORRADOR'}}</button>
+                                          <button type="submit" class="btn bg-gradient-primary mb-1 waves-effect waves-light actions" name="{{$oportunity ? 'newstatus' : 'borrador'}}" value="{{$oportunity ? 'newstatus' : 'borrador'}}">{{$oportunity ? 'GUARDAR' : 'BORRADOR'}}</button>
 
                                           @if(!isset($oportunity->id))
-                                          <button type="submit" class="btn btn-primary waves-effect waves-light mt-1 actions" name="previa" value="previa">VISTA PREVIA</button>
-                                          <button type="submit" class="btn btn-primary waves-effect waves-light mt-1 actions" name="publicar" value="publicar">PUBLICAR</button>
+                                          <button type="submit" class="btn bg-gradient-primary mb-1 waves-effect waves-light actions" name="previa" value="previa">VISTA PREVIA</button>
+                                          <button type="submit" class="btn bg-gradient-primary mb-1 waves-effect waves-light actions" name="publicar" value="publicar">PUBLICAR</button>
 
                                           @endif
                                         </div>
@@ -226,7 +226,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        
 
     </div>
 </div>

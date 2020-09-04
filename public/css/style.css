@@ -56,7 +56,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     height: 250px;
 }
 
-.container-image-oportunity > img {
+.container-image-oportunity>img {
     width: 100% !important;
     height: 100%;
 }
@@ -69,7 +69,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     margin-bottom: 20px;
 }
 
-.titleOportunity > h4 {
+.titleOportunity>h4 {
     font-size: 18px;
 }
 
@@ -102,7 +102,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     font-size: 14px;
 }
 
-.description_oportunitys > p {
+.description_oportunitys>p {
     text-align: center;
 }
 
@@ -167,7 +167,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     border-top-left-radius: 0.25rem !important;
 }
 
-.search-oportunity > i {
+.search-oportunity>i {
     color: #fff !important;
 }
 
@@ -328,12 +328,12 @@ iframe {
     color: #c2c6dc !important;
 }
 
-.menu-item-principal > h2 > a {
+.menu-item-principal>h2>a {
     cursor: pointer;
 }
 
 @media (max-width: 767px) {
-    .menu-item-principal > h2 {
+    .menu-item-principal>h2 {
         font-size: 1.54rem;
     }
 }
@@ -391,6 +391,7 @@ iframe {
     line-height: inherit;
     white-space: nowrap;
 }
+
 .text_vetonic-description1 {
     color: #fff;
     text-decoration: none;
@@ -496,6 +497,7 @@ iframe {
     padding-left: 14px;
     /*display: flex;*/
 }
+
 .new-header1 {
     position: relative;
     width: 100%;
@@ -573,7 +575,8 @@ iframe {
 }
 
 .neg_create {
-    color: #666666 !important; /* #C2C6DC;*/
+    color: #666666 !important;
+    /* #C2C6DC;*/
     font-size: smaller;
     font-weight: 400;
 }
@@ -585,4 +588,36 @@ iframe {
 .neg_foot {
     width: 100%;
     height: 5px;
+}
+
+.divide-white {
+    border-left: 1px solid #fff;
+}
+
+.box-avatar {
+    -ms-display: flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.div-box {
+    position: absolute;
+    top: 30%;
+}
+
+.closed-view {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.title-sales {
+    color: #fff;
+    font-size: 2rem;
+    padding-right: 15px;
+    font-weight: bold;
+}
+
+.email-sales {
+    color: #0087FF;
 }

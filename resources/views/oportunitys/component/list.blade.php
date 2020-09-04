@@ -1,4 +1,4 @@
-
+<div class="card">
 <ul class="list-group list-group-flush">
     @if(isset($oportunitys))
         @foreach($oportunitys as $oportunity)
@@ -47,3 +47,4 @@
         @endforeach
     @endif
 </ul>
+</div>

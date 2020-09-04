@@ -8,6 +8,11 @@
     <div class="content-wrapper">
         <div class="content-header row">
         </div>
+        <div class="row">
+            <div class="new-header mb-1">
+                <span  class="title">Buscar vendedor</span>
+            </div>
+        </div>
 
         
             <search-sellers></search-sellers>
@@ -112,7 +117,8 @@
 @section('extra-js')
     @parent
     <script>
-
+        let $body = $('body');
+        $body.addClass('menu-collapsed');
     </script>
 @endsection
 

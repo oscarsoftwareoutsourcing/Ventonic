@@ -16,28 +16,24 @@
         <div class="content-wrapper pt-1">
             <div class="content-header row"></div>
 
+            <div class="row">
+                <div class="new-header mb-1">
+                <span  class="title">Mis Oportunidades</span>
+                <a href="{{ route('oportunity.form') }}"  
+                type="button" class="btn bg-gradient-primary btn-sm mr-1 mb-1 waves-effect waves-light">
+                Crear nueva oportunidad</a>
+                </div>
+            </div>
+
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
-                        <div class="card-ventonic">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                    <div class="text-ventonic" data-type="{{ Auth::user()->typeuser }}">
-                                        Oportunidades
-                                    </div>
-                                </div>
-                                @if (Auth::user()->typeuser=="E")
-                                    <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                        <a class="btn btn-primary" type="button" href="{{ route('oportunity.form') }}">
-                                            + Nueva
-                                        </a>
-                                    </div>
-                                @endif
+                        <div class="bg-gradient-primary">
+                            <div class="card_vetonic-description">
+                                <div class="text_vetonic-description1">Filtros</div>
                             </div>
                         </div>
-
-                        <hr>
-                        <div class="card-header">Filtros</div>
+   
                         <div class="card-body">
                             @if (session('message'))
                                 <div class="alert alert-success alert-dismissible" role="alert" v-if="success">
@@ -142,17 +138,17 @@
                                     @endif
                                 </div>
                                 <div class="row">
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary float-right">Buscar</button>
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn bg-gradient-primary btn-lg mr-1 mb-1 waves-effect waves-light">Buscar</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
 
-                    <div class="card">
-                        @include('oportunitys.component.list')
-                    </div>
+                    
+                        @include('oportunitys.component.card')
+                    
                     {{ $oportunitys->links() }}
             </div>
         </div>
