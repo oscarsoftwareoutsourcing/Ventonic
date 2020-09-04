@@ -2,7 +2,11 @@
   <div class="row justify-content-center">
     <div class="col-md-4">
       <div class="card">
-        <div class="card-header">Filtros</div>
+        <div class="bg-gradient-primary">
+          <div class="card_vetonic-description">
+            <div class="text_vetonic-description1">Filtros</div>
+          </div>
+        </div>
         <div class="card-body">
           <div class="row">
             <div class="col-12 mb-4">
@@ -59,7 +63,7 @@
         <div class="col-3">
           <div class="title-sales my-1">Vendedores</div>
         </div>
-        <div class="col-6 header-ventonic">
+        <div class="col-9 header-ventonic">
           <fieldset class="form-group position-relative has-icon-left my-1">
             <input
               type="text"
@@ -107,14 +111,12 @@
                   </div>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-7">
-                   <h3>{{ seller.name }} {{ seller.last_name }}</h3>
-                   <div>{{ seller.email }}</div>
-                   <p class="card-text  mb-0">Última Conexión {{ seller.last_login }}</p>
+                  <h3>{{ seller.name }} {{ seller.last_name }}</h3>
+                  <div>{{ seller.email }}</div>
+                  <p class="card-text mb-0">Última Conexión {{ seller.last_login }}</p>
                 </div>
 
-                <div class="col-lg-2 col-md-2 col-sm-2">
-
-                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2"></div>
               </div>
             </div>
           </div>

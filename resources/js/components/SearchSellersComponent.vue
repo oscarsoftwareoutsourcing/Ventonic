@@ -2,7 +2,11 @@
   <div class="row justify-content-center">
     <div class="col-md-3">
       <div class="card">
-        <div class="card-header">Filtros</div>
+        <div class="bg-gradient-primary">
+          <div class="card_vetonic-description">
+            <div class="text_vetonic-description1">Filtros</div>
+          </div>
+        </div>
         <div class="card-body">
           <div class="row">
             <div class="col-12 mb-4">
@@ -59,7 +63,7 @@
         <div class="col-3">
           <div class="title-sales my-1">Vendedores</div>
         </div>
-        <div class="col-6 header-ventonic">
+        <div class="col-9 header-ventonic">
           <fieldset class="form-group position-relative has-icon-left my-1">
             <input
               type="text"
