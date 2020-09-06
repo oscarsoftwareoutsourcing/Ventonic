@@ -20,7 +20,7 @@
           <perfect-scrollbar>
             <div class="row">
               <div class="col-12 mb-4">
-                <b>Estado de conexión</b>
+                <h4>Estado de conexión</h4>
                 <div class="row">
                   <div class="col-12">
                     <div class="form-check">
@@ -50,7 +50,7 @@
 
             <div class="row">
               <div class="col-12 mb-4" v-for="survey in surveys">
-                <b>{{ survey.name }}</b>
+                <h4>{{ survey.name }}</h4>
                 <div class="row" v-for="(question, index) in getOptions(survey.options)">
                   <div class="col-12">
                     <div class="form-check">
@@ -75,7 +75,11 @@
       <div class="col-md-12">
         <div class="row header-ventonic">
           <div class="col-3">
-            <div class="title-sales my-1">Vendedores</div>
+            <div class="title-sales my-1">
+              <div class="avatar bg-primary mr-1">
+                <div class="avatar-content">{{ sellers.length }}</div>
+              </div>Vendedores
+            </div>
           </div>
           <div class="col-7">
             <fieldset class="form-group position-relative has-icon-left my-1">
