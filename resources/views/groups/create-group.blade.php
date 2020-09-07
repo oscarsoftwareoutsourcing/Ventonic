@@ -6,7 +6,13 @@
     <div class="content-wrapper">
         <div class="content-header row">
         </div>
-        <div class="container">
+
+        <div class="row">
+            <div class="new-header mb-1">
+                <span  class="title"> Gestion de grupos de usuarios</span>
+            </div>
+        </div>
+        <div class="">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
@@ -23,21 +29,12 @@
                             {{session('error')}}
                         </div>
                     @endif
-                        <div class="card-header">
-                            <!--
-                            <h6 class="alert alert-primary float-left display-block"><i class="feather icon-users "></i> <span class="text-white">Gestion de grupos de usuarios</span></h6>
-                            -->
-
-                            <div class="text-ventonic">
-                                Gestion de grupos de usuarios
-                            </div>
-
-                        </div>
+                      
 
 
                         <div class="card-header">
                             <div>
-                                <a type="button" href="{{route('group.form')}}" class="btn btn-primary btn-md text-white"><i class="feather icon-users text-white"></i> Nuevo grupo </a><span>  o puedes <a href="{{route('contact.list')}}" class="text-primary">gestionar los contactos</a> de tu cuenta</span>
+                                <a type="button" href="{{route('group.form')}}" class="btn bg-gradient-primary btn-md text-white"><i class="feather icon-users text-white"></i> Nuevo grupo </a><span>  o puedes <a href="{{route('contact.list')}}" class="text-primary">gestionar los contactos</a> de tu cuenta</span>
                             </div>
                         </div>
                         @if($groups!=null)

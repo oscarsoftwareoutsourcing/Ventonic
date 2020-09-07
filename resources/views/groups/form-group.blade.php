@@ -6,27 +6,22 @@
     <div class="content-wrapper">
         <div class="content-header row">
         </div>
-        <div class="container">
+
+        <div class="new-header mb-1">
+                <span  class="title"> Grupos de usuarios</span>
+            </div>
+        <div class="">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="header-ventonic-blue">
-                    <div class="card-ventonic">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 col-sm-12 ">
-                                    <div class="text-ventonic-white">Grupo de Usuarios</div> 
-                                </div> 
-                            </div>
-                        </div>
-                    </div>
+                   
 
                     <div class="card">
-                        <div class="header_ventonic-description">
+                         <div class="bg-gradient-primary">
                             <div class="card_vetonic-description">
-                                <div class="text_vetonic-description">
-                                   Crear grupo de usuarios
-                                </div>
+                                <div class="text_vetonic-description1"> Crear grupo de usuarios</div>
                             </div>
                         </div>
+                       
                        
                         <div class="card-content">
                             <div class="card-body">
@@ -68,7 +63,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <button type="submit" class="btn btn-primary mr-1 mb-1 float-right">Guardar Cambios</button>
+                                                <button type="submit" class="btn bg-gradient-primary mr-1 mb-1 float-right">Guardar Cambios</button>
                                                 <a href="{{route('group.show')}}" type="button" class="btn btn-outline-warning mr-1 mb-1 float-left">Cancelar</a>
                                             </div>
                                         </div>
