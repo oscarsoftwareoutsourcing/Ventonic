@@ -14,7 +14,11 @@ class FreeAppController extends Controller
 {
     public function index(){
 
-        $Widget = Widget::all();
+        $user_id=\Auth::user()->id;
+
+        //dd($user_id);
+
+        $Widget = Widget::where('user_id',$user_id)->get();;
         $callme = Apps::find(1);
 
         //dd($callme);
