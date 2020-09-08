@@ -88,14 +88,14 @@
             {{-- No he tocado nada :) --}}
 
             {{-- Negociaciones Company --}}
-            @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
+            
                 <li class=" nav-item {{ App\Helpers\General::setActiveMenu('negociaciones') }}">
                     <a href="{{route('negociaciones')}}">
                         <i class="feather icon-users"></i>
                         <span class="menu-title">Negociaciones</span>
                     </a>
                 </li>
-            @endif
+            
 
             {{-- Contactos --}}
             @if(isset(auth()->user()->sellerProfile) || isset(auth()->user()->CompanyProfile))
