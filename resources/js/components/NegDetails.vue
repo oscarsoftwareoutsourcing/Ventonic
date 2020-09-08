@@ -232,8 +232,8 @@
                     type="button"
                     @click.stop.prevent="toggleStateMenu"
                   >
-                    Ganada
-                    <i class="fa fa-trophy ml-1" title="Ganada"></i>
+                    Exitosa
+                    <i class="fa fa-trophy ml-1" title="Exitosa"></i>
                   </button>
                   <button
                     v-if="status.id === 2"

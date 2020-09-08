@@ -64,7 +64,7 @@
 
       <div class="avatar bg-success mr-1" v-if="negotiation.status.id === 1">
         <div class="avatar-content">
-          <i class="fa fa-trophy" title="Ganada"></i>
+          <i class="fa fa-trophy" title="Exitosa"></i>
         </div>
       </div>
     </div>
