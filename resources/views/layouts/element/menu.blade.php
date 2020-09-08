@@ -81,7 +81,7 @@
                 </li>
             @endif
 
-           @if(\Auth::user()->type=="V" || isset(auth()->user()->sellerProfile))
+           @if(\Auth::user()->type=="V")
                 <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Oportunidades</span></a></li>
            @endif
 
