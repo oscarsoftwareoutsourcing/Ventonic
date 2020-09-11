@@ -95,9 +95,10 @@
                                 <a class="dropdown-item" href="{{ route('myaccount') }}">
                                     <i class="fa fa-id-card"></i> Mi Cuenta
                                 </a>
+                                <!--
                                 <a class="dropdown-item" href="#"><i class="feather icon-user"></i> Usuarios</a>
                                 <a class="dropdown-item" href="{{ route('group.show') }}"><i class="feather icon-users"></i> Grupo de Usuarios</a>
-
+                                -->
                             @endif
                             <div class="dropdown-divider"></div>
 
