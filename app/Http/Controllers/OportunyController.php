@@ -230,6 +230,8 @@ class OportunyController extends Controller
             'description' => 'required|string',
             'skills' => 'required',
             'sectors' => 'required',
+            'amount' => 'numeric|min:0',
+            'leads' => 'numeric|min:0',
 
         ]);
 
@@ -268,7 +270,10 @@ class OportunyController extends Controller
                 'ubication' =>  $request->ubication,
                 'email_contact' =>   $request->email_contact,
                 'web' =>   $request->web,
-                'expite_at' => $expireAt
+                'expite_at' => $expireAt,
+                'amount' => $request->amount,
+                'leads' => $request->leads,
+                'id_funnel' => $request->is_funnel ? 1 : 0,
             ]
         );
 
@@ -317,7 +322,8 @@ class OportunyController extends Controller
             'description' => 'required|string',
             'skills' => 'required',
             'sectors' => 'required',
-
+            'amount' => 'numeric|min:0',
+            'leads' => 'numeric|min:0',
         ]);
 
         $sectors=implode(',', $request->input('sectors'));
@@ -353,6 +359,9 @@ class OportunyController extends Controller
         $oportunity->email_contact = $request->email_contact;
         $oportunity->web = $request->web;
         $oportunity->expire_at = $expireAt;
+        $oportunity->amount = $request->amount;
+        $oportunity->leads = $request->leads;
+        $oportunity->is_funnel = $request->is_funnel ? 1 : 0;
         $oportunity->save();
 
         session()->flash('message', 'Registro actualizado');

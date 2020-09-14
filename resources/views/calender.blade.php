@@ -232,7 +232,15 @@
 @stop
 
 @section('extra-js-app')
+<script defer>
+        
+       // $('#usermenu-link').on("click", function (e) {
+        //    console.log(e);
+        //    $(".dropdown .dropdown-user .nav-item").addClass("show");
+        //});
+    </script>
     <script src="{{ asset('js/app.js') }}" defer></script>
+    
 @endsection
 
 @section('extra-js')

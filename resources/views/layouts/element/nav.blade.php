@@ -75,7 +75,7 @@
                     {{-- Fin notificaciones --}}
                     </li>
                     <li class="dropdown dropdown-user nav-item">
-                        <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                        <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown" id="usermenu-link">
                             <div class="user-nav d-sm-flex d-none">
                                 <span class="user-name text-bold-600">{{ Auth::user()->name.' '. strtoUpper(substr(Auth::user()->last_name,0,1)).'.' }} </span>
                                 <span class="user-status">Disponible</span>
@@ -88,7 +88,7 @@
                                 @endempty
 
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-menu dropdown-menu-right" id="usermenu-nav">
 
                             <a class="dropdown-item" href="{{ route('perfil.index') }}"><i class="fa fa-id-badge"></i> Mi Perfil</a>
                              @if (auth()->user()->email_verified_at !== null)

@@ -14,12 +14,12 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-12 col-md-12 col-sm-12">
 
-                        <div class="card mb-2">
+                        <div class="card">
                             <div class="bg-gradient-primary">
-                                <div class="card_vetonic-description">
-                                    <div class="text_vetonic-description1"> Editar grupo de usuarios</div>
-                                </div>
+                            <div class="card_vetonic-description">
+                                <div class="text_vetonic-description1"> Editar grupo de usuarios</div>
                             </div>
+                        </div>
                             
                             <div class="card-content">
                                 <div class="card-body">
@@ -29,6 +29,7 @@
                                         {{session('message')}}
                                     </div>
                                 @endif
+
                                 @if(session('error'))
                                     <div class="alert alert-danger">
                                         <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
@@ -56,6 +57,16 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!--<div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="email-id-icon">Usuarios en este grupo</label>
+                                                        <select class="custom-select form-control" id="" name="users[]">
+                                                            @foreach($userGroup as $user)
+                                                                <option value="{{$user->id}}">{{$user->user->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>-->
                                                 @if($group->user_id == auth()->user()->id)
                                                     <div class="col-12">
                                                         <div class="form-group">
@@ -79,33 +90,20 @@
                                                     @if($group->user_id == auth()->user()->id)
                                                     <button type="submit" class="btn bg-gradient-primary mr-1 mb-1 float-right">Invitar al Grupo</button>
                                                     <a href="{{route('group.show')}}" class="btn btn-outline-warning mr-1 mb-1 float-left">Cancelar</a>
+                
                                                     @endif
-                                                    </div>
+                                                </div>
+                                               
                                                 @endif
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!--  -->
 
-                        <div class="card">
-                            <div class="bg-gradient-primary">
-                                <div class="card_vetonic-description">
-                                    <div class="text_vetonic-description1">Usuarios en este grupo</div>
-                                </div>
-                            </div>
-                            
-                            <div class="card-content">
-                                <div class="card-body">
-                                    <form action="{{route('group.update')}}" class="form form-vertical" method="POST">
-                                        @csrf
-                                        <div class="form-body">
-                                            <div class="row">
+                                                <!--  -->
                                                 <div class="col-12">
+                                                    <br>
+                                                     <hr>
                                                     <div class="form-group">
+                                                        
+                                                        <h3 for="email-id-icon">Usuarios en este grupo</h3>
                                                         <!-- DataTable starts -->
                                                         {{-- <div class="table-responsive"> --}}
                                                             <table id="datatable" class="table data-list-view mt-2" width="100%">
@@ -149,31 +147,12 @@
                                                         {{-- </div> --}}
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
 
-
-                        <div class="card">
-                            <div class="bg-gradient-primary">
-                                <div class="card_vetonic-description">
-                                    <div class="text_vetonic-description1">Estatus de invitaciones</div>
-                                </div>
-                            </div>
-                            
-                            <div class="card-content">
-                                <div class="card-body">
-                                    <form action="{{route('group.update')}}" class="form form-vertical" method="POST">
-                                        @csrf
-                                        <div class="form-body">
-                                            <div class="row">
                                                 <!--  -->
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                         <!-- DataTable starts -->
+                                                        <label for="email-id-icon">Estatus de invitaciones</label>
+                                                        <!-- DataTable starts -->
                                                         {{-- <div class="table-responsive"> --}}
                                                             <table id="datatable" class="table data-list-view mt-2" width="100%">
                                                                 <thead>
@@ -197,11 +176,15 @@
                                                 <!-- DataTable ends -->
                                                 <div class="col-12">
                                                     @if($group->user_id == auth()->user()->id)
+                                                    <button type="submit" class="btn bg-gradient-primary mr-1 mb-1 float-right">Guardar Cambios</button>
                                                     <a href="{{route('group.show')}}" class="btn btn-outline-warning mr-1 mb-1 float-left">Cancelar</a>
                                                     @else
                                                     <a href="{{route('group.show')}}" class="btn btn-outline-warning mr-1 mb-1 float-left">Regresar</a>
                                                     @endif
                                                 </div>
+
+
+
                                             </div>
                                         </div>
                                     </form>
@@ -212,7 +195,6 @@
                 </div>
             </div>
         </div>
-
         <div class="modal fade text-left" id="deleteModalUser" tabindex="-1" role="dialog"
              aria-labelledby="myModalLabel160" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">

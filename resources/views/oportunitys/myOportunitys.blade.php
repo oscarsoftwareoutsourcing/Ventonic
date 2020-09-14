@@ -20,7 +20,7 @@
                 <div class="new-header mb-1">
                 <span  class="title">Mis Oportunidades</span>
                 <a href="{{ route('oportunity.form') }}"  
-                type="button" class="btn bg-gradient-primary btn-sm mr-1 mb-1 waves-effect waves-light">
+                type="button" class="btn bg-gradient-primary mr-1 mb-1 waves-effect waves-light">
                 Crear nueva oportunidad</a>
                 </div>
             </div>

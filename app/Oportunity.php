@@ -13,7 +13,7 @@ class Oportunity extends Model
         'user_id', 'job_type_id', 'ubication_oportunity_id',
         'status_id', 'description', 'cargo','sectors',
         'skills', 'functions', 'antiguedad', 'ubication',
-        'image', 'email_contact', 'web', 'title', 'expire_at'
+        'image', 'email_contact', 'web', 'title', 'expire_at','amount','leads','is_funnel'
     ];
     protected $dates = ['expire_at'];
 
