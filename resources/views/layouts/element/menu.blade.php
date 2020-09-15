@@ -82,7 +82,7 @@
             @endif
 
            @if(\Auth::user()->type=="V")
-                <li class=" nav-item"><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Oportunidades</span></a></li>
+                <li class=" nav-item {{ App\Helpers\General::setActiveMenu('oportunity.list') }}"><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Oportunidades</span></a></li>
            @endif
 
             {{-- No he tocado nada :) --}}

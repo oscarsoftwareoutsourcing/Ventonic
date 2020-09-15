@@ -187,7 +187,7 @@
                                                 @else
                                                     <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
                                                     class="btn bg-gradient-primary btn-lg mr-1 mb-1 waves-effect waves-light">
-                                                        Aplicar
+                                                        Ver
                                                     </a>
                                                 <input type="text" class="postulado" value="no postulado" data-id="{{$oportunity->id}}" hidden>
                                                 @endif
