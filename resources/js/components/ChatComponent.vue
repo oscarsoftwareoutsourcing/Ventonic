@@ -208,10 +208,18 @@
               v-if="!selectedUser || typeof(selectedUser.user) === 'undefined'"
             >
               <span class="mb-1 start-chat-icon feather icon-message-square"></span>
-              <h4
-                class="py-50 px-1 sidebar-toggle start-chat-text"
-                v-on:click="openContent"
-              >Iniciar conversación</h4>
+              <h4 class="py-50 px-1 sidebar-toggle start-chat-text" v-on:click="openContent">
+                <div class="text-center" v-if="user.type =='V'">
+                  En esta sección podrás chatear con usuarios
+                  <br />que tengan un perfil de Empresa cuando ellos inicien
+                  <br />una conversación contigo
+                </div>
+
+                <div class="text-center" v-else>
+                  Aquí podrás ver un listado de todas las conversaciones
+                  <br />que hayas tenido con Vendedores
+                </div>
+              </h4>
             </div>
             <div class="active-chat" v-else>
               <div class="chat_navbar">
@@ -344,7 +352,7 @@ export default {
       typingTimer: false,
       selectedUser: {},
       chatOrigins: [],
-      searchText: ""
+      searchText: "",
     };
   },
   created() {
@@ -367,10 +375,10 @@ export default {
       const vm = this;
       axios
         .get("/get-chat-users")
-        .then(response => {
+        .then((response) => {
           vm.chatOrigins = response.data.chatOrigins;
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
     },
@@ -384,10 +392,10 @@ export default {
       const vm = this;
       axios
         .get("/messages")
-        .then(response => {
+        .then((response) => {
           vm.messages = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
     },
@@ -407,18 +415,18 @@ export default {
 
       vm.messages.push({
         user: vm.user,
-        message: vm.newMessage
+        message: vm.newMessage,
       });
 
       axios
         .post("/messages", {
-          message: vm.newMessage
+          message: vm.newMessage,
         })
-        .then(response => {
+        .then((response) => {
           /** Obtiene nuevamente la lista de usuarios reordenada por la conversación mas reciente */
           vm.getChatUsers();
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
 
@@ -449,10 +457,10 @@ export default {
 
       axios
         .post("/filter-chat-users", { filter: vm.searchText })
-        .then(response => {
+        .then((response) => {
           vm.chatOrigins = response.data.chatOrigins;
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
       //console.log(filterChat);
@@ -464,7 +472,7 @@ export default {
                           console.error(error);
                       });*/
     },
-    closeContent: function() {
+    closeContent: function () {
       //console.log("Cerrar");
       if ($(window).width() < 992) {
         $(".chat-profile-sidebar").removeClass("show");
@@ -473,7 +481,7 @@ export default {
         $(".chat-overlay").removeClass("show");
       }
     },
-    openContent: function() {
+    openContent: function () {
       if ($(window).width() < 992) {
         //console.log("inicia conversacion");
         $(".chat-overlay").addClass("show");
@@ -487,24 +495,24 @@ export default {
         size: "small",
         message:
           "Está a punto de eliminar este chat ¿Esta seguro de continuar?",
-        callback: function(result) {
+        callback: function (result) {
           if (result) {
             axios
               .delete(`/chatroom/${chatRoomId}/delete`)
-              .then(response => {
+              .then((response) => {
                 if (response.data.result) {
                   vm.getChatUsers();
                   vm.selectedUser = {};
                   bootbox.alert("Chat eliminado");
                 }
               })
-              .catch(error => {
+              .catch((error) => {
                 console.errro(error);
               });
           }
-        }
+        },
       });
-    }
+    },
   },
   watch: {
     /**
@@ -513,7 +521,7 @@ export default {
      *
      * @return    {object}        Objeto con datos del usuario seleccionado
      */
-    selectedUser: function() {
+    selectedUser: function () {
       const vm = this;
       if ($.isEmptyObject(vm.selectedUser)) {
         return false;
@@ -527,31 +535,31 @@ export default {
         //Echo.leave(`chatroom.${chat_room_id}`);
         axios
           .get(`/set-chat-room/${chat_room_id}/${vm.selectedUser.user_id}`)
-          .then(response => {
+          .then((response) => {
             if (response.data.result) {
               $(`#unreaded_${vm.selectedUser.user_id}`).html("");
               vm.fetchMessages();
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
 
         Echo.join(`chatroom.${chat_room_id}`)
-          .here(user => {
+          .here((user) => {
             vm.users = user;
           })
-          .joining(user => {
+          .joining((user) => {
             vm.users.push(user);
           })
-          .leaving(user => {
-            vm.users = vm.users.filter(u => u.id != user.id);
+          .leaving((user) => {
+            vm.users = vm.users.filter((u) => u.id != user.id);
           })
-          .listen("MessageSent", event => {
+          .listen("MessageSent", (event) => {
             //console.log(event.message.user_id)
             vm.messages.push(event.message);
           })
-          .listenForWhisper("typing", user => {
+          .listenForWhisper("typing", (user) => {
             vm.activeUser = user;
 
             if (vm.typingTimer) {
@@ -564,9 +572,9 @@ export default {
           });
       }
     },
-    searchText: function() {
+    searchText: function () {
       this.searchInChat(this.searchText);
-    }
-  }
+    },
+  },
 };
 </script>
