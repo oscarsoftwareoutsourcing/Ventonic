@@ -31,8 +31,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $date_term = "7 days ago";
+        //validamos si esta en demo
 
+        $date_term = "7 days ago";
         // if (auth()->user()->type === "E") {
         //$questions = $this->getQuestions();
         // return view('search-result');
@@ -48,9 +49,9 @@ class HomeController extends Controller
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
 
-        return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs]);
+        //return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs]);
         // }
-        // return view('dashboard.index');  //home
+         return view('dashboard.demo' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
     }
 
     public function searchSeller()
