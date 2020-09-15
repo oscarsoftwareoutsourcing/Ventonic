@@ -31,7 +31,7 @@
 
 @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN7QXrQX8mlDNTdtcSY5dzZzrVJ1516hw&libraries=places&callback=initialize" async defer>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYrS-17BDDkWPgbjRS-hgmk24dyAOiBQk&libraries=places&callback=initialize" async defer>
 </script>
 <script src="{{ asset('js/geolocalizacion.js') }}"></script>
 @endsection

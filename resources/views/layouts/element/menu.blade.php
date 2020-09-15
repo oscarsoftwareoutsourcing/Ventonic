@@ -206,6 +206,20 @@
                     </ul>
                 </li>
             @endif
+
+
+            {{-- Grupos de Usuarios --}}
+            @if(\Auth::user())
+                <li class=" nav-item {{ App\Helpers\General::setActiveMenu('group.show') }}">
+                    <a href="{{ route('group.show') }}">
+                        <i class="feather icon-users"></i>
+                        <span class="menu-item">Grupo de Usuarios</span>
+                    </a>
+                </li>
+            @endif
+
+
+            
         </ul>
     </div>
 </div>

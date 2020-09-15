@@ -119,6 +119,56 @@
 
                                     </div>
 
+
+                                     <div class="form-row">
+                                      <div class="col-md-4 col-12 mb-3">
+                                          <label for="amount">Valor del producto/servicio</label>
+                                          <input type="number" id="userinput" pattern="[0-9]*" 
+                                          class="form-control @error('amount') is-invalid @enderror" 
+                                          name="amount" value="{{$oportunity->amount ?? '0'}}" 
+                                          placeholder="Valor del producto/servicio" 
+                                          {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}
+                                          value="{{$oportunity->amount ?? '0'}}"
+                                          >
+                                          @error('amount')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                          @enderror
+                                        </div>
+
+
+                                         <div class="col-md-4 col-12 mb-3 ">
+                                          <label for="leads">Nº de Leads</label>
+                                          <input type="number" pattern="[0-9]"  min="0" 
+                                          class="form-control @error('leads') is-invalid @enderror" 
+                                          name="leads" value="{{$oportunity->leads ?? '0'}}" 
+                                          placeholder="Nº de Leads" 
+                                          {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}
+                                          >
+                                          @error('leads')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                          @enderror
+                                        </div>
+
+                                         <div class="col-md-4 col-12 mb-3 my-2">
+
+                                          <fieldset class="checkbox">
+                                            <div class="vs-checkbox-con vs-checkbox-primary ">
+                                              <input type="checkbox" name="is_funnel" id="is_funnel"
+                                                {{ $oportunity->is_funnel ==1 ? 'checked' : ''}}
+                                                {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}
+                                                >
+                                                <span class="vs-checkbox">
+                                                  <span class="vs-checkbox--check">
+                                                    <i class="vs-icon feather icon-check"></i>
+                                                  </span>
+                                                </span>
+                                                <span class="">Embudo de ventas</span>
+                                            </div>
+                                          </fieldset>
+                                        </div>
+                                    </div>
+
+
                                     <div class="form-row">
                                         <div class="col-md-12 col-12 mb-3">
                                           <label for="validationTooltip01">Descripcion del empleo<span class="obligatorio">*</span></label>

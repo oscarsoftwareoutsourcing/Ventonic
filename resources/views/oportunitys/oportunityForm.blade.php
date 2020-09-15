@@ -21,8 +21,6 @@
                       <div class="bg-gradient-primary">
                             <div class="card_vetonic-description">
                                 <div class="text_vetonic-description1">Nueva Oportunidad</div>
-
-                               
                             </div>
                         </div>
                         <div class="card-body">
@@ -36,7 +34,7 @@
                                     <div class="form-row">
                                       <div class="col-md-8 col-8 mb-3">
                                         <label for="validationTooltip01">Titulo<span class="obligatorio">*</span></label>
-                                        <input type="text" class="form-control  @error('title') is-invalid @enderror" name="title" placeholder="titulo" value="{{$oportunity->title ?? ''}}" required>
+                                        <input type="text" class="form-control  @error('title') is-invalid @enderror" name="title" placeholder="titulo" value="{{$oportunity->title ?? old('title')}}" required>
                                           @error('title')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
@@ -44,7 +42,7 @@
                                       <div class="col-md-4 col-4">
                                         <label for="validationTooltip01">Fecha de caducidad</label>
                                         <flat-pickr name="expire_at" id="expire_at" class="form-control"
-                                                    :config="flatPicker.config" placeholder="dd-mm-yyyy"/>
+                                                    :config="flatPicker.config" placeholder="dd-mm-yyyy" value="{{ old('expire_at') }}"/>
                                         @error('expire_at')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
@@ -60,7 +58,7 @@
 
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="cargo">Cargo<span class="obligatorio">*</span></label>
-                                          <input type="text" class="form-control @error('cargo') is-invalid @enderror" name="cargo" value="{{$oportunity->cargo ?? ''}}" placeholder="Cargo" required>
+                                          <input type="text" class="form-control @error('cargo') is-invalid @enderror" name="cargo" value="{{$oportunity->cargo ??  old('cargo')}}" placeholder="Cargo" required>
                                           @error('cargo')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
@@ -68,7 +66,7 @@
 
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="validationTooltip03">Ubicacion<span class="obligatorio">*</span></label>
-                                          <input type="text" class="form-control @error('ubication') is-invalid @enderror" name="ubication" placeholder="Ciudad, Provincia, Pais" value="{{$oportunity->ubication ?? ''}}" required>
+                                          <input type="text" class="form-control @error('ubication') is-invalid @enderror" name="ubication" placeholder="Ciudad, Provincia, Pais" value="{{$oportunity->ubication ??  old('ubication')}}" required>
                                           @error('ubication')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
@@ -79,7 +77,7 @@
                                     <div class="form-row">
                                         <div class="col-md-8 col-12 mb-3">
                                           <label for="validationTooltip01">Funcion laboral (añade hasta 3)<span class="obligatorio">*</span></label>
-                                          <input type="text" class="form-control @error('functions') is-invalid @enderror" name="functions" value="{{$oportunity->functions ?? ''}}" required>
+                                          <input type="text" class="form-control @error('functions') is-invalid @enderror" name="functions" value="{{$oportunity->functions ?? old('functions')}}" required>
                                           @error('functions')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
@@ -125,11 +123,45 @@
                                         </div>
 
                                     </div>
+                                    <div class="form-row">
+                                      <div class="col-md-4 col-12 mb-3">
+                                          <label for="amount">Valor del producto/servicio</label>
+                                          <input type="number" id="userinput" pattern="[0-9]*" class="form-control @error('amount') is-invalid @enderror" name="amount" value="{{$oportunity->amount ?? old('amount')}}" placeholder="Valor del producto/servicio">
+                                          @error('amount')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                          @enderror
+                                        </div>
+
+
+                                         <div class="col-md-4 col-12 mb-3">
+                                          <label for="leads">Nº de Leads</label>
+                                          <input type="number" pattern="[0-9]"  min="0" class="form-control @error('leads') is-invalid @enderror" name="leads" value="{{$oportunity->leads ?? old('leads')}}" placeholder="Nº de Leads">
+                                          @error('leads')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                          @enderror
+                                        </div>
+
+                                         <div class="col-md-4 col-12 mb-3 my-2">
+
+                                          <fieldset class="checkbox">
+                                            <div class="vs-checkbox-con vs-checkbox-primary ">
+                                              <input type="checkbox" name="is_funnel" id="is_funnel"
+                                                {{$oportunity->is_funnel ?? ''}}>
+                                                <span class="vs-checkbox">
+                                                  <span class="vs-checkbox--check">
+                                                    <i class="vs-icon feather icon-check"></i>
+                                                  </span>
+                                                </span>
+                                                <span class="">Embudo de ventas</span>
+                                            </div>
+                                          </fieldset>
+                                        </div>
+                                    </div>
 
                                     <div class="form-row">
                                         <div class="col-md-12 col-12 mb-3">
                                           <label for="validationTooltip01">Descripcion del empleo<span class="obligatorio">*</span></label>
-                                          <textarea class="form-control ckeditor @error('description') is-invalid @enderror" name="description" rows="3">{{$oportunity->description ?? ''}}</textarea>
+                                          <textarea class="form-control ckeditor @error('description') is-invalid @enderror" name="description" rows="3">{{$oportunity->description ?? old('description')}}</textarea>
                                           @error('description')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
@@ -162,7 +194,7 @@
                                       </span>
                                       <span class="">Permitir a los candidatos solicitar empleos con sus perfiles de likeInd y notificarme por email</span>
                                     </div>
-                                  <input type="email" class="form-control" name="email_contact" placeholder="ejemplo@ejemplo.com" value="{{$oportunity->email_contact ?? ''}}">
+                                  <input type="email" class="form-control" name="email_contact" placeholder="ejemplo@ejemplo.com" value="{{$oportunity->email_contact ?? old('email_contact')}}">
                                   </div>
                                 </div>
 
