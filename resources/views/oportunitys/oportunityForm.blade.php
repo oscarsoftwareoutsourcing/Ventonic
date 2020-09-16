@@ -147,7 +147,7 @@
                                           @enderror
                                           </div>
                                           <div class="col-2 my-2">
-                                            <a href="#" data-title="Valor" data-content="Costo de producto" data-placement="top">
+                                            <a href="#" data-title="Valor" data-content="Costo de producto" data-placement="top" id="pop1">
                                                     <i class="feather icon-info mr-50 font-medium-3"></i>
                                                   </a>
                                           </div>
@@ -166,7 +166,7 @@
                                                 @enderror
                                             </div>
                                             <div class="col-2 my-2">
-                                              <a href="#" data-title="Leads" data-content="Nº de Leads" data-placement="top">
+                                              <a href="#" data-title="Leads" data-content="Nº de Leads" data-placement="top" id="pop2">
                                                     <i class="feather icon-info mr-50 font-medium-3"></i>
                                               </a>
                                             </div>
@@ -190,7 +190,7 @@
                                               </fieldset>
                                             </div>
                                             <div class="col-2">
-                                              <a href="#" data-title="Info" data-content="Embudo de ventas" data-placement="top">
+                                              <a href="#" data-title="Info" data-content="Embudo de ventas" data-placement="top" id="pop3">
                                                     <i class="feather icon-info mr-50 font-medium-3"></i>
                                               </a>
                                             </div>
@@ -310,6 +310,8 @@
 @section('extra-js')   
  <script src="{{ asset('js/jquery/jquery.webui-popover.min.js') }}"></script>
  <script>
-   $('a').webuiPopover({style:'inverse'});
+   $('#pop1').webuiPopover({style:'inverse'});
+   $('#pop2').webuiPopover({style:'inverse'});
+   $('#pop3').webuiPopover({style:'inverse'});
  </script>
 @endsection
