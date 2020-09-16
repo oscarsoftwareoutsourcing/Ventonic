@@ -4,14 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Mail\Mailer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Webklex\IMAP\Client;
-use Webklex\IMAP\Facades\Client as PresetClient;
 use Webklex\IMAP\Exceptions\ConnectionFailedException;
 use Swift_SmtpTransport;
-use Swift_Mailer;
 use App\EmailSetting;
 use App\EmailMessage;
 use App\Mail\UserManageMail;
@@ -784,7 +781,7 @@ class EmailController extends Controller
      *
      * @return    array           Arreglo con información de acceso al servidor de correo
      */
-    private function typeAccounts($email, $username, $pass, $protocol = 'imap') : Array
+    private function typeAccounts($email, $username, $pass, $protocol = 'imap') : array
     {
         list($usr, $domain) = explode("@", $email);
         $type = explode(".", $domain)[0];

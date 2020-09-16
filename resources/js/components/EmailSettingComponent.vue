@@ -34,7 +34,7 @@
                                                  subtitle="Configura tú dirección de correo en nuestra plataforma"
                                                  nextButtonText="Siguiente" backButtonText="Atrás"
                                                  finishButtonText="Configurar" @on-complete="setSettings">
-                                        <tab-content title="Proveedor de correo">
+                                        <tab-content title="Proveedor de correo" :before-change="validateWizardFirst">
                                             <div class="row">
                                                 <div class="col-3" v-for="provider in providers">
                                                     <div class="custom-control custom-radio">
@@ -93,7 +93,7 @@
                                                 </div>
                                             </div>
                                         </tab-content>
-                                        <tab-content title="Información de acceso">
+                                        <tab-content title="Información de acceso" :before-change="validateWizardSecond">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-xs-12">
                                                     <div class="form-group">
@@ -351,7 +351,7 @@ Vue.use(VueLoading, {
 export default {
     updated() {
         const vm = this;
-        if (vm.configured) {
+        if (vm.configured && typeof(vm.$refs.manage) !== "undefined") {
             vm.$refs.manage.emails = vm.emails_list;
         }
     },
@@ -392,6 +392,7 @@ export default {
             const vm = this;
             vm.autoConfig = (vm.typeProvider!=='' && vm.typeProvider!=='others');
             vm.setAutoConfig();
+            vm.settingError = (vm.typeProvider) ? '' : vm.settingError;
         },
         protocol: function() {
             const vm = this;
@@ -444,46 +445,65 @@ export default {
                 });*/
             }
         },
-        setAutoConfig: function() {
-            const vm = this;
-            vm.$loading(true);
-            axios.post("/email/check-auto-config", {
-                email: vm.email,
-                username: vm.username,
-                pass: vm.password,
-            }).then((response) => {
-                if (!response.data.result) {
-                    $("#autoConfig").click();
-                    bootbox.alert({
-                        title: "Alerta!",
-                        message: response.data.message ||
-                            `No se ha podido obtener datos del servidor.
-                                  Debe agregar manualmente la información`,
-                    });
-                    vm.$loading(false);
-                    return true;
-                }
-                vm.incoming_server_host = response.data.serverInfo.host;
-                vm.outgoing_server_host = response.data.serverInfo.out_host;
-                vm.incoming_server_port = response.data.serverInfo.port;
-                vm.outgoing_server_port = response.data.serverInfo.out_port;
-                vm.protocol = response.data.serverInfo.protocol;
-                vm.$loading(false);
-            })
-            .catch((error) => {
-                console.error(error);
-                vm.$loading(false);
-            });
-        }
     },
     methods: {
-        validateWizard(step) {
+        validateWizardFirst() {
             const vm = this;
-            if (step === '1') {
-                console.log("entro")
-                return (vm.typeProvider !== '');
+            let validate = (vm.typeProvider !== '');
+            if (!validate) {
+                vm.settingError = 'Debe seleccionar un proveedor de correo';
             }
-            return true;
+            return validate;
+        },
+        validateWizardSecond() {
+            const vm = this;
+            vm.settingError = '';
+            let validate = (vm.name !== '' && vm.email !== '' && vm.username !== '' && vm.password !== '');
+
+            if (!validate) {
+                vm.settingError = 'Debe indicar los datos de acceso';
+                vm.errors.name = (!vm.name) ? 'Indique su nombre' : '';
+                vm.errors.email = (!vm.email) ? 'Indique su dirección de correo' : '';
+                vm.errors.username = (!vm.username) ? 'Indique su usuario de acceso' : '';
+                vm.errors.password = (!vm.password) ? 'Indique su contraseña de acceso' : '';
+            } else {
+                vm.setAutoConfig();
+            }
+
+            return validate;
+        },
+        setAutoConfig: function() {
+            const vm = this;
+            if (vm.email && vm.username && vm.password) {
+                vm.$loading(true);
+                axios.post("/email/check-auto-config", {
+                    email: vm.email,
+                    username: vm.username,
+                    pass: vm.password,
+                }).then((response) => {
+                    if (!response.data.result) {
+                        $("#autoConfig").click();
+                        bootbox.alert({
+                            title: "Alerta!",
+                            message: response.data.message ||
+                                     `No se ha podido obtener datos del servidor.
+                                     Debe agregar manualmente la información`,
+                        });
+                        vm.$loading(false);
+                        return true;
+                    }
+                    vm.incoming_server_host = response.data.serverInfo.host;
+                    vm.outgoing_server_host = response.data.serverInfo.out_host;
+                    vm.incoming_server_port = response.data.serverInfo.port;
+                    vm.outgoing_server_port = response.data.serverInfo.out_port;
+                    vm.protocol = response.data.serverInfo.protocol;
+                    vm.$loading(false);
+                })
+                .catch((error) => {
+                    console.error(error);
+                    vm.$loading(false);
+                });
+            }
         },
         /**
          * Establece la configuración del servidor de correos del usuario
