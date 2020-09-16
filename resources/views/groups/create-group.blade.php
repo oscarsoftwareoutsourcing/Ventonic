@@ -14,7 +14,7 @@
         </div>
         <div class="">
             <div class="row justify-content-center">
-                <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="col-lg-8 col-md-8 col-sm-12">
                     <div class="card">
                     @if(session('message'))
                         <div class="alert alert-success">
@@ -85,6 +85,27 @@
                         @endif
                     </div>
 
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="card">
+                        <div class="card-header mb-1">
+                        <h4 class="card-title">Grupo de Usuarios</h4>
+                        </div>
+                        <div class="card-content p-2">
+                        <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
+                            <!-- <div v-html="callme.iframe"></div> -->
+                            <video id="sampleMovie" width="100%" preload controls>
+                            <source src="{{ asset('video/grupos.mp4') }}" />
+                            <source src="{{ asset('video/grupos.mp4') }}" />
+                            <source src="{{ asset('video/grupos.mp4') }}" />
+                            </video>
+                        </div>
+                        <div class="card-body">
+                            <div></div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
