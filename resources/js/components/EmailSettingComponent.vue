@@ -406,7 +406,7 @@ export default {
         autoConfig: function() {
             const vm = this;
             if (vm.autoConfig) {
-                if (
+                /*if (
                     vm.name === "" ||
                     !vm.email === "" ||
                     vm.username === "" ||
@@ -420,7 +420,7 @@ export default {
                         },
                     });
                     return true;
-                }
+                }*/
                 /*bootbox.confirm({
                     title: "Configuración automática",
                     message: `Esta opción permite establecer la configuración más adecuada para su cuenta de correo.
