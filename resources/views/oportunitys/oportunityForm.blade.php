@@ -1,6 +1,6 @@
 @extends('layouts.app-dashboard')
 @section('extra-css')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.webui-popover/1.2.1/jquery.webui-popover.min.css">
+<link rel="stylesheet" href="{{ asset('css/plugins/popover/jquery.webui-popover.min.css') }}">
 @endsection
 
 @section('content')
@@ -308,7 +308,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
 @endsection
 @section('extra-js')   
- <script src="https://cdn.jsdelivr.net/jquery.webui-popover/1.2.1/jquery.webui-popover.min.js"></script>
+ <script src="{{ asset('js/jquery/jquery.webui-popover.min.js') }}"></script>
  <script>
    $('a').webuiPopover({style:'inverse'});
  </script>
