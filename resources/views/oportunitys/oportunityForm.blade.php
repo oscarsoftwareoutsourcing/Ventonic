@@ -166,7 +166,7 @@
                                                 @enderror
                                             </div>
                                             <div class="col-2 my-2">
-                                              <a href="#" data-title="Leads" data-content="Nº de Leads" data-placement="top" id="pop2">
+                                              <a href="#" data-title="Leads" data-content="Número de Leads generados por la empresa para este producto/servicio." data-placement="top" id="pop2">
                                                     <i class="feather icon-info mr-50 font-medium-3"></i>
                                               </a>
                                             </div>
@@ -190,7 +190,7 @@
                                               </fieldset>
                                             </div>
                                             <div class="col-2">
-                                              <a href="#" data-title="Info" data-content="Embudo de ventas" data-placement="top" id="pop3">
+                                              <a href="#" data-title="Embudo de ventas" data-content="¿La Empresa utiliza Embudo de ventas?" data-placement="top" id="pop3">
                                                     <i class="feather icon-info mr-50 font-medium-3"></i>
                                               </a>
                                             </div>
