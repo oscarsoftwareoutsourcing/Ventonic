@@ -147,7 +147,7 @@
                                           @enderror
                                           </div>
                                           <div class="col-2 my-2">
-                                            <a href="#" data-title="Valor" data-content="Costo de producto" data-placement="top" id="pop1">
+                                            <a href="#" data-title="Valor" data-content="Importe de los productos/servicios que se quieren vender" data-placement="top" id="pop1">
                                                     <i class="feather icon-info mr-50 font-medium-3"></i>
                                                   </a>
                                           </div>
