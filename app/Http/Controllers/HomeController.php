@@ -48,10 +48,57 @@ class HomeController extends Controller
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
-
-        //return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs]);
-        // }
+        
+        if(auth()->user()->dash_demo==1) { 
+            return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs]);
+        } else { 
          return view('dashboard.demo' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
+        }
+    }
+
+     public function demo()
+    {
+        //validamos si esta en demo
+        $date_term = "7 days ago";
+           $contacts_data['all'] = self::getContacts($date_term);
+        $contacts_data['new'] = self::getContacts($date_term);
+        $contacts_data['lost'] = self::getContacts($date_term, '5');
+        $negs['all'] = self::getNegotiations($date_term);
+        $negs['in_process'] = self::getNegotiations($date_term, 3);
+        $negs['won'] = self::getNegotiations($date_term, 1);
+        $negs['lost'] = self::getNegotiations($date_term, 2);
+        $negs['closed'] = self::getNegotiations($date_term, null, 6);
+        $daysCount = self::getConvDays($date_term);
+        $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
+        $negs['convDays'] = number_format($convDaysAvg);
+         return view('dashboard.demo' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
+    }
+
+         public function midash()
+    {
+        //validamos si esta en demo
+        $user_id = auth()->user()->id;
+
+        
+        $user_up = User::where('id', $user_id)->first();
+        
+        //dd($user_up);
+        $user_up->dash_demo = 1;
+        $user_up->save();
+
+        $date_term = "7 days ago";
+           $contacts_data['all'] = self::getContacts($date_term);
+        $contacts_data['new'] = self::getContacts($date_term);
+        $contacts_data['lost'] = self::getContacts($date_term, '5');
+        $negs['all'] = self::getNegotiations($date_term);
+        $negs['in_process'] = self::getNegotiations($date_term, 3);
+        $negs['won'] = self::getNegotiations($date_term, 1);
+        $negs['lost'] = self::getNegotiations($date_term, 2);
+        $negs['closed'] = self::getNegotiations($date_term, null, 6);
+        $daysCount = self::getConvDays($date_term);
+        $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
+        $negs['convDays'] = number_format($convDaysAvg);
+         return view('dashboard.index' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
     }
 
     public function searchSeller()

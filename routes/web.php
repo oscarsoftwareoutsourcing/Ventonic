@@ -336,8 +336,6 @@ Route::get('informes/actividad', 'ReportController@activities')->name('report.ac
 
 Route::get('calender', 'EventController@index')->name('events.calender');
 
-//Route::view('dash', 'inicio-dashboard');
-
 Route::get('{uuid}/widget', 'WidgetController@show');
 
 //Route::view('dash', 'inicio-dashboard');
@@ -356,3 +354,8 @@ Route::get('apps-gratis', 'FreeAppController@apps')->name('apps')->middleware('v
 
 /*Route DashBoard */
 Route::post('filterDashbaord', 'HomeController@filterDashbaord')->middleware('verified');
+
+Route::get('dashdemo', 'HomeController@demo')->name('dash.demo')->middleware('verified');
+Route::get('mi-dash', 'HomeController@midash')->name('me.dash')->middleware('verified');
+
+
