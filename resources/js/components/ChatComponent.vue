@@ -363,6 +363,19 @@ export default {
     if (vm.chatRoomUser) {
       vm.selectUser(vm.chatRoomUser);
     }
+    /** Elimina las notificaciones no leídas del chat al acceder al módulo */
+    $(".chat-menu-notifications").text("");
+    $(".chat-menu-notifications").addClass("d-none");
+    axios.get("/markAsRead/chat");
+    vm.$parent.$children[0].unreadNotifications = JSON.parse(JSON.stringify(
+        vm.$parent.$children[0].unreadNotifications.filter(notification => {
+            return notification.data.icon !== "icon-message-square";
+        })
+    ));
+    //console.log(vm.$parent.$children[0].unreadNotifications);
+    /*var chatCount = vm.unreadNotifications.filter(notification => {
+        return notification.data.icon === "icon-message-square";
+      })*/
   },
   mounted() {},
   props: ["user", "chatRoomUser"],

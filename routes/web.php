@@ -272,8 +272,14 @@ Route::get(
 
 
 /*Notificaciones */
-Route::get('markAsRead', function () {
-    auth()->user()->unreadNotifications->markAsRead();
+Route::get('markAsRead/{type?}', function ($type = null) {
+    if ($type !== null) {
+        if ($type === 'chat') {
+            auth()->user()->unreadNotifications->where('type', 'App\Notifications\ChatRoom')->markAsRead();
+        }
+    } else {
+        auth()->user()->unreadNotifications->markAsRead();
+    }
 });
 
 // Route::get('test', function () {
@@ -357,5 +363,3 @@ Route::post('filterDashbaord', 'HomeController@filterDashbaord')->middleware('ve
 
 Route::get('dashdemo', 'HomeController@demo')->name('dash.demo')->middleware('verified');
 Route::get('mi-dash', 'HomeController@midash')->name('me.dash')->middleware('verified');
-
-
