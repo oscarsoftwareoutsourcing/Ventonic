@@ -1,4 +1,7 @@
 @extends('layouts.app-dashboard')
+@section('extra-css')
+<link rel="stylesheet" href="{{ asset('css/plugins/popover/jquery.webui-popover.min.css') }}">
+@endsection
 
 @section('content')
 <div class="app-content content">
@@ -134,38 +137,64 @@
                                     </div>
                                     <div class="form-row">
                                       <div class="col-md-4 col-12 mb-3">
-                                          <label for="amount">Valor del producto/servicio</label>
+                                        <div class="row">
+                                          <div class="col-8">
+                                            <label for="amount">Valor del producto/servicio</label>
                                           <input type="number" id="userinput" pattern="[0-9]*" class="form-control @error('amount') is-invalid @enderror" 
                                           name="amount" value="{{old('amount') ?? 0}}" placeholder="Valor del producto/servicio">
                                           @error('amount')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
+                                          </div>
+                                          <div class="col-2 my-2">
+                                            <a href="#" data-title="Valor" data-content="Costo de producto" data-placement="top">
+                                                    <i class="feather icon-info mr-50 font-medium-3"></i>
+                                                  </a>
+                                          </div>
                                         </div>
+                                      </div>
 
 
-                                         <div class="col-md-4 col-12 mb-3">
-                                          <label for="leads">Nº de Leads</label>
-                                          <input type="number" pattern="[0-9]"  min="0" class="form-control @error('leads') is-invalid @enderror" 
-                                          name="leads" value="{{ old('leads') ?? 0 }}" placeholder="Nº de Leads">
-                                          @error('leads')
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                          @enderror
-                                        </div>
+                                      <div class="col-md-4 col-12 mb-3">
+                                          <div class="row">
+                                            <div class="col-8">
+                                              <label for="leads">Nº de Leads</label>
+                                                <input type="number" pattern="[0-9]"  min="0" class="form-control @error('leads') is-invalid @enderror" 
+                                                name="leads" value="{{ old('leads') ?? 0 }}" placeholder="Nº de Leads">
+                                                @error('leads')
+                                                  <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-2 my-2">
+                                              <a href="#" data-title="Leads" data-content="Nº de Leads" data-placement="top">
+                                                    <i class="feather icon-info mr-50 font-medium-3"></i>
+                                              </a>
+                                            </div>
+                                          </div>
+                                      </div>
 
                                          <div class="col-md-4 col-12 mb-3 my-2">
-
-                                          <fieldset class="checkbox">
-                                            <div class="vs-checkbox-con vs-checkbox-primary ">
-                                              <input type="checkbox" name="is_funnel" id="is_funnel"
-                                                {{$oportunity->is_funnel ?? ''}}>
-                                                <span class="vs-checkbox">
-                                                  <span class="vs-checkbox--check">
-                                                    <i class="vs-icon feather icon-check"></i>
-                                                  </span>
-                                                </span>
-                                                <span class="">Embudo de ventas</span>
+                                           <div class="row">
+                                            <div class="col-6">
+                                              <fieldset class="checkbox">
+                                                <div class="vs-checkbox-con vs-checkbox-primary ">
+                                                  <input type="checkbox" name="is_funnel" id="is_funnel"
+                                                    {{$oportunity->is_funnel ?? ''}}>
+                                                    <span class="vs-checkbox">
+                                                      <span class="vs-checkbox--check">
+                                                        <i class="vs-icon feather icon-check"></i>
+                                                      </span>
+                                                    </span>
+                                                    <span class="">Embudo de ventas</span>
+                                                </div>
+                                              </fieldset>
                                             </div>
-                                          </fieldset>
+                                            <div class="col-2">
+                                              <a href="#" data-title="Info" data-content="Embudo de ventas" data-placement="top">
+                                                    <i class="feather icon-info mr-50 font-medium-3"></i>
+                                              </a>
+                                            </div>
+                                          </div>
                                         </div>
                                     </div>
 
@@ -277,4 +306,10 @@
 
 @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}"></script>
+@endsection
+@section('extra-js')   
+ <script src="{{ asset('js/jquery/jquery.webui-popover.min.js') }}"></script>
+ <script>
+   $('a').webuiPopover({style:'inverse'});
+ </script>
 @endsection

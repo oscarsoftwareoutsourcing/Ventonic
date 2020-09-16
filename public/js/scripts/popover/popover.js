@@ -7,8 +7,8 @@
     Author: PIXINVENT
     Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
-(function(window, document, $) {
-'use strict';
+(function (window, document, $) {
+    'use strict';
     $('[data-toggle="popover"]').popover();
 
 
@@ -22,8 +22,8 @@
         content: 'Bonbon chocolate cake. Pudding halvah pie apple pie topping marzipan pastry marzipan cupcake.',
         trigger: 'click',
         placement: 'right'
-        }).on('show.bs.popover', function() {
-            alert('Show event fired.');
+    }).on('show.bs.popover', function () {
+        alert('Show event fired.');
     });
 
     // onShown event
@@ -32,7 +32,7 @@
         content: 'Bonbon chocolate cake. Pudding halvah pie apple pie topping marzipan pastry marzipan cupcake.',
         trigger: 'click',
         placement: 'bottom'
-    }).on('shown.bs.popover', function() {
+    }).on('shown.bs.popover', function () {
         alert('Shown event fired.');
     });
 
@@ -42,7 +42,7 @@
         content: 'Bonbon chocolate cake. Pudding halvah pie apple pie topping marzipan pastry marzipan cupcake.',
         trigger: 'click',
         placement: 'bottom'
-    }).on('hide.bs.popover', function() {
+    }).on('hide.bs.popover', function () {
         alert('Hide event fired.');
     });
 
@@ -52,7 +52,7 @@
         content: 'Bonbon chocolate cake. Pudding halvah pie apple pie topping marzipan pastry marzipan cupcake.',
         trigger: 'click',
         placement: 'left'
-    }).on('hidden.bs.popover', function() {
+    }).on('hidden.bs.popover', function () {
         alert('Hidden event fired.');
     });
 
@@ -61,31 +61,31 @@
     /*******************/
 
     // Show method
-    $('#show-method').on('click', function() {
+    $('#show-method').on('click', function () {
         $(this).popover('show');
     });
     // Hide method
-    $('#hide-method').on('mouseenter', function() {
+    $('#hide-method').on('mouseenter', function () {
         $(this).popover('show');
     });
-    $('#hide-method').on('click', function() {
+    $('#hide-method').on('click', function () {
         $(this).popover('hide');
     });
     // Toggle method
-    $('#toggle-method').on('click', function() {
+    $('#toggle-method').on('click', function () {
         $(this).popover('toggle');
     });
     // Dispose method
-    $('#dispose').on('click', function() {
+    $('#dispose').on('click', function () {
         $('#dispose-method').popover('dispose');
     });
 
 
     /* Trigger*/
-    $('.manual').on('click', function() {
+    $('.manual').on('click', function () {
         $(this).popover('show');
     });
-    $('.manual').on('mouseout', function() {
+    $('.manual').on('mouseout', function () {
         $(this).popover('hide');
     });
 
