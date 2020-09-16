@@ -39,9 +39,10 @@
         .email-application .app-content .content-area-wrapper .email-user-list .users-list-wrapper li.media .media-body {
             max-width: 980px;
         }
-        .chip .chip-body a {
-            color:#ffffff;
+        .chip .chip-body a, .wizard-title {
+            color:#ffffff !important;
         }
+
     </style>
 @endsection
 
@@ -65,7 +66,7 @@
 
 @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}"></script>
-    
+
 @endsection
 @section('extra-js')
     <!--<script src="{{ asset('web/js/bootstrap/bootstrap.min.js') }}"></script>-->
