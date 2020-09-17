@@ -188,6 +188,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::delete('{contact}/delete', 'ContactController@destroyContact');
         Route::post('change-picture', 'ContactController@changePicture');
         Route::post('remove-picture', 'ContactController@removePicture');
+        Route::post('simple-save', 'ContactController@simpleStore');
     });
 
     /** Rutas de componentes generales de la aplicación */

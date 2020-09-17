@@ -61,6 +61,7 @@ Vue.component("negotiation-details", () => import("./components/NegDetails.vue")
 Vue.component("negotiation-event-modal", () => import("./components/NegEventModal.vue"));
 Vue.component("negotiation-file-modal", () => import("./components/NegFileModal.vue"));
 Vue.component("negotiation-confirm-modal", () => import("./components/NegConfirmModal.vue"));
+Vue.component("negotiation-new-contact-modal", () => import("./components/NegNewContactModal.vue"));
 
 /** Componentes comúnes */
 Vue.component("email-app", () => import("./components/commons/EmailAppComponent.vue"));

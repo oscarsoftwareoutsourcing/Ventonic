@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Input;
 use App\Repositories\UploadRepository;
 
 use App\User;
@@ -320,7 +319,6 @@ class ContactController extends Controller
      */
     public function destroy($contact_id, $user_id)
     {
-
         $result='';
 
         if ((int)$user_id == auth()->user()->id) {
@@ -475,5 +473,34 @@ class ContactController extends Controller
         $contact->change_image_user_id = auth()->user()->id;
         $contact->save();
         return response()->json(['result' => true, 'picture' => 'images/anonymous-user.png'], 200);
+    }
+
+    /**
+     * Agrega un contacto solo con la información del nombre y el apellido
+     *
+     * @method    simpleStore
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request        $request    Datos de la petición
+     *
+     * @return    JsonResponse   Devuelve un objeto con el resultado de la petición
+     */
+    public function simpleStore(Request $request)
+    {
+        $this->validate($request, [
+            'type' => ['required'],
+            'name' => ['required']
+        ]);
+
+        $contactType = ($request->type === 'P') ? 'persona' : 'empresa';
+        $contact = Contact::create([
+            'name' => $request->name,
+            'last_name' => $request->lastName ?? null,
+            'user_id' =>  auth()->user()->id,
+            'type_contact'=> $contactType,
+        ]);
+
+        return response()->json(['result' => true, 'contact' => $contact], 200);
     }
 }

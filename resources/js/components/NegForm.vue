@@ -107,15 +107,15 @@
                         class="form-control"
                         v-model="contactId"
                       >
-                        <option :value="null">- Ecoger un contacto -</option>
-                        <option :value="New">- Crear nuevo contacto -</option>
+                        <option value="null">- Ecoger un contacto -</option>
+                        <option value="new" data-toggle="modal" data-target="#newContactModal">- Crear nuevo contacto -</option>
                         <option
                           v-for="(contact, index) in getContacts"
                           :key="index"
                           :value="contact.id"
                         >{{ getName(contact) }}</option>
                       </select>
-
+                      <negotiation-new-contact-modal></negotiation-new-contact-modal>
                       <!-- Validation messages -->
                       <article class="help-block" v-if="$v.contactId.$error">
                         <i class="text-danger">Dato requerido</i>
