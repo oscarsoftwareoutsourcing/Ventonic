@@ -105,16 +105,18 @@
                         name="cboContact"
                         id="cboContact"
                         class="form-control"
-                        v-model="contactId"
+                        v-model="contactId" @click="newContact"
                       >
                         <option value="null">- Ecoger un contacto -</option>
-                        <option value="new" data-toggle="modal" data-target="#newContactModal">- Crear nuevo contacto -</option>
+                        <option value="new">- Crear nuevo contacto -</option>
                         <option
                           v-for="(contact, index) in getContacts"
                           :key="index"
                           :value="contact.id"
                         >{{ getName(contact) }}</option>
                       </select>
+                      <button type="button" class="btn btn-primary btn-new-contact" data-toggle="modal"
+                              data-target="#newContactModal" style="display:none">nuevo contacto</button>
                       <negotiation-new-contact-modal></negotiation-new-contact-modal>
                       <!-- Validation messages -->
                       <article class="help-block" v-if="$v.contactId.$error">
@@ -485,6 +487,12 @@ export default {
       this.resetNeg();
       this.$v.$reset();
     },
+    newContact() {
+        console.log('entro')
+        if (this.getNegotiation.contact_id === 'new') {
+            $('.btn-new-contact').click();
+        }
+    }
   },
   computed: {
     ...mapGetters([
