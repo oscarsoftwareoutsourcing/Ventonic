@@ -10,12 +10,16 @@
         <div class="content-wrapper">
             <div class="content-header row">
             </div>
+
+            <div class="row">
+                <div class="new-header mb-1">
+                    <span  class="title">Mis Apps</span>
+                </div>
+            </div>
             <div class="card">
-                <div class="card-ventonic">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-12 ">
-                            <div class="text-ventonic"><strong>Mis Apps<strong></strong>: Aplicaciones que incrementan las ventas de mi empresa</div> 
-                        </div>
+                 <div class="bg-gradient-primary">
+                    <div class="card_vetonic-description">
+                        <div class="text_vetonic-description1">Aplicaciones que incrementan las ventas de mi empresa</div>
                     </div>
                 </div>
             </div>

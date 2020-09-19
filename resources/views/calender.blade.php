@@ -21,6 +21,11 @@
 
         <div class="content-wrapper">
             <div class="content-header row"></div>
+            <div class="row">
+                <div class="new-header mb-1">
+                    <span  class="title">Mi Calendario</span>
+                </div>
+            </div>
             <div class="content-body">
 
                 {{-- Full calendar start --}}

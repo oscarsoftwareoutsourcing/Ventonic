@@ -1,8 +1,5 @@
 @extends('layouts.app-dashboard')
-
-
 @section('content')
-
     <!-- BEGIN: Content-->
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -10,18 +7,14 @@
     <div class="content-wrapper">
         <div class="content-header row">
         </div>
-        <div class="card">
-            <div class="card-ventonic">
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-12 ">
-                        <div class="text-ventonic" data-type="{{ Auth::user()->typeuser }}">Reporte de Actividades</div> 
-                     </div>
+        <div class="row">
+                <div class="new-header mb-1">
+                    <span  class="title">Informe de de Actividades</span>
                 </div>
             </div>
-
-            <hr>
+        <div class="card">
             <div class="card-body">
-                <div class="row mb-1">
+                <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 ">
                         <form action="{{ route('report.activities') }}" method="GET">
                         @csrf
@@ -59,7 +52,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2">
+                            <div style="display:none;">
                                  <button type="submit" class="btn btn-primary" id="search" style="display:none;">Buscar</button>
                             </div>
                         </div>
@@ -69,71 +62,44 @@
                 </div>
         </div>
 
-        
-        <div class="card">
-            <div class="col-lg-12 col-md-12 ">
-                    <div class="card-header">
-                        <h4 class="card-title">Informe de actividades</h4>
+        <div class="row">
+            <div class="col-12">
+                <div class="bg-gradient-primary">
+                    <div class="card_vetonic-description">
+                        <div class="text_vetonic-description1">Informe de actividades</div>
                     </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="height-300">
-                                <canvas id="bar-chart"></canvas>
+                </div>
+            </div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="height-300">
+                                    <canvas id="bar-chart"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-        </div>
 
-        <div class="card">
-            <div class="col-lg-12 col-md-12 ">
-                
-                    <div class="card-header">
-                        <h4 class="card-title">Informe de actividades</h4>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                             <div class="table-responsive">
-                                    <table class="table table-hover mb-0">
-                                        
-                                            <tr>
-                                                <td class="head-table"></td>
-                                                <td class="text-center head-table">Total</td>
-                                                <td class="text-center head-table">Media</td>
-                                               
-                                            </tr>
-                                        
-
-                                          <td colspan="4"><hr class="hr-report"></td>
-                                         @foreach($data as $dt)
-                                            <tr>
-                                                <td scope="row" class="info-table">{{ $dt['type'] }}</td>
-                                                <td class="text-center">{{ $dt['qty'] }}</td>
-                                                <td class="text-center"> 0 </td>
-                                                
-                                            </tr>
-                                        @endforeach
-                                        
-                                     
-
-                                    </table>
-                                </div>
-
-
-
-                            
+                <div class="col-6">
+                    <div class="card">
+                         <div class="card-body">
+                            <br>
+                            @foreach($data as $dt)
+                            <div class="row">
+                                <div class="col-8">{{ $dt['type'] }}</div>
+                                <div class="col-2">{{ $dt['qty'] }}</div>
+                                <div class="col-2">%</div>
+                            </div>
+                            <hr>
+                            @endforeach
                         </div>
                     </div>
                 </div>
         </div>
-
-
     </div>
-
 </div>
-
-        
-   
 @endsection
 
 @section('extra-js-app')

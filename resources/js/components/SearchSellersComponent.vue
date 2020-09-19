@@ -73,10 +73,10 @@
 
     <div class="row justify-content-center">
       <div class="col-md-12">
-        <div class="row header-ventonic">
+        <div class="row bg-gradient-primary mb-2">
           <div class="col-3">
             <div class="title-sales my-1">
-              <div class="avatar bg-primary mr-1">
+              <div class="avatar mr-1">
                 <div class="avatar-content">{{ sellers.length }}</div>
               </div>Vendedores
             </div>

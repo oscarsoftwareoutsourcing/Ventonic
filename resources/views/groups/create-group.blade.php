@@ -12,6 +12,13 @@
                 <span  class="title"> Gestion de grupos de usuarios</span>
             </div>
         </div>
+        <div class="card">
+            <div class="bg-gradient-primary">
+                <div class="card_vetonic-description">
+                    <div class="text_vetonic-description1">Gestión de grupos de usuarios</div>
+                </div>
+            </div>
+        </div>
         <div class="">
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-8 col-sm-12">

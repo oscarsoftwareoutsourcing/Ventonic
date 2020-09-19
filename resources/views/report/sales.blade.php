@@ -10,24 +10,17 @@
         <div class="content-wrapper">
             <div class="content-header row">
             </div>
-            <div class="card">
-                <div class="card-ventonic">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-12 ">
-                            <div class="text-ventonic" data-type="{{ Auth::user()->typeuser }}">Reporte de Ventas</div> 
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="new-header mb-1">
+                    <span  class="title">Ventas</span>
                 </div>
-
-                <hr>
+            </div>
+            <div class="card">
                 <div class="card-body">
-                    
-
-                    <div class="row mb-1">
+                    <div class="row ">
                     <div class="col-lg-12 col-md-12 col-sm-12 ">
                         <form action="{{ route('report.sales') }}" method="GET">
                         @csrf
-
                         <div class="form-group row">
                             <div class="col-md-1">
                                 <span>Periodo</span>
@@ -61,7 +54,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2">
+                            <div style="display:none;">
                                  <button type="submit" class="btn btn-primary" id="search" style="display:none;">Buscar</button>
                             </div>
                         </div>
@@ -77,50 +70,48 @@
 
                 <div class="col-lg-12 col-md-12 col-sm-12 ">
                      <div class="card">
-                        <div class="card-header"></div>
+                        <div class="bg-gradient-primary">
+                            <div class="card_vetonic-description">
+                                <div class="text_vetonic-description1">Resultados</div>
+                            </div>
+                        </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                    <table class="table table-hover mb-0">
-                                        
-                                            <tr>
-                                                <td class="head-table"></td>
-                                                <td class="text-center head-table">Negociación</td>
-                                                <td class="text-center head-table">Conversión</td>
-                                                <td class="text-center head-table">Total</td>
-                                            </tr>
-                                        
 
-                                          <td colspan="4"><hr class="hr-report"></td>
-                                         @foreach($processes as $process)
-                                            <tr>
-                                                <td scope="row" class="info-table">{{ $process->desc }}</td>
-                                                <td class="text-center">{{ $process->qty }}</td>
-                                                <td class="text-center"> % </td>
-                                                <td class="text-right">{{ $process->tot }} €</td>
-                                            </tr>
-                                        @endforeach
-                                        
-                                        <td colspan="4"><hr class="hr-report"></td>
-
-                                        @foreach($totals as $total)
-                                            <tr >
-                                                <td scope="row" class="info-table">{{ $total->desc }}</td>
-                                                <td class="text-center">{{ $total->qty }}</td>
-                                                <td class="text-center"> % </td>
-                                                <td class="text-right">{{ $total->tot }} €</td>
-                                            </tr>
-                                        @endforeach
-
-                                    </table>
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-12">
+                                    @foreach($processes as $process)
+                                    <div class="row">
+                                        <div class="col-8">{{ $process->desc }}</div>
+                                        <div class="col-2">{{ $process->qty }}</div>
+                                        <div class="col-2">%</div>
+                                    </div>
+                                    <hr>
+                                    @endforeach
                                 </div>
+                                <div class="col-lg-6 col-sm-12">
+                                    <br>
+                                     @foreach($totals as $total)
+                                    <div class="row">
+                                        <div class="col-8">{{ $total->desc }}</div>
+                                        <div class="col-2">{{ $total->qty }}</div>
+                                        <div class="col-2">%</div>
+                                    </div>
+                                    <hr>
+                                    @endforeach
+                                    <br>
+                                </div>
+                            </div>
+                           
                         </div>
                      </div>
                 </div>
 
                 <div class="col-lg-6 col-md-12 ">
                      <div class="card">
-                        <div class="card-header">
-                             <h4 class="card-title">Negociaciones</h4>
+                        <div class="bg-gradient-primary">
+                            <div class="card_vetonic-description">
+                                <div class="text_vetonic-description1">Negociaciones</div>
+                            </div>
                         </div>
                         <div class="card-body">
                              <div class="card-body">
@@ -132,8 +123,10 @@
 
                 <div class="col-lg-6 col-md-12 ">
                      <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Estatus</h4>
+                        <div class="bg-gradient-primary">
+                            <div class="card_vetonic-description">
+                                <div class="text_vetonic-description1">Estatus</div>
+                            </div>
                         </div>
                         <div class="card-content">
                             <div class="card-body">

@@ -20,7 +20,7 @@ $(document).ready(function () {
         $info = "#00cfe8",
         $label_color_light = "#dae1e7";
 
-    var themeColors = [$primary, $yellow, $red, $warning, $info];
+    var themeColors = [$success, $yellow, $red, $warning, $info];
     var themeColors2 = [$primary, $success, $danger, $warning, $warning, $info];
     // RTL Support
     var yaxis_opposite = false;
