@@ -371,4 +371,8 @@ Route::group(['middleware' => ['verified'], 'prefix' => 'google-calendar'], func
     Route::resource('/', 'GoogleCalendarController');
     Route::get('oauth', 'GoogleCalendarController@oauth');
     Route::get('callback', 'GoogleCalendarController@oauth');
+    Route::get('get-calendars', 'GoogleCalendarController@getAllCalendarList');
+    Route::post('event/create', 'GoogleCalendarController@store');
+    Route::post('event/update', 'GoogleCalendarController@update');
+    Route::post('event/delete', 'GoogleCalendarController@destroy');
 });

@@ -81,6 +81,9 @@ Vue.component('email-template', () => import('./components/settings/EmailTemplat
 /** Componente para configuración de cuenta del usuario */
 Vue.component('my-account', () => import('./components/MyAccountComponent.vue'));
 
+/** Componente para la configuración de datos de conexión a calendario externo */
+Vue.component('calender-setting', () => import('./components/CalenderSettingComponent.vue'));
+
 Vue.mixin({
     components: {
         Datepicker

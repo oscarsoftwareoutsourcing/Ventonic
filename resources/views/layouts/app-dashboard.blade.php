@@ -189,6 +189,9 @@
         .dropdown-ventonic {
             position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -105px, 0px);
         }
+        .img-sel {
+            max-width: 120px;
+        }
     </style>
 </head>
 

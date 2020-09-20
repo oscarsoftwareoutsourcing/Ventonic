@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client as GuzzleClient;
 use Google_Client;
 use Google_Service_Calendar;
-
-//use Google_Service_Calendar_Event;
-//use Google_Service_Calendar_EventDateTime;
+use Google_Service_Calendar_Event;
+use Google_Service_Calendar_EventDateTime;
+use Carbon\Carbon;
 
 class GoogleCalendarController extends Controller
 {
@@ -46,20 +46,17 @@ class GoogleCalendarController extends Controller
      */
     public function index()
     {
-        if (session()->has('access_token') && count(session()->get('access_token')) > 0) {
-            //$this->checkToken();
-            $this->client->setAccessToken(session()->get('access_token')['access_token']);
+        if (session()->has('access_token') && session('access_token')) {
+            $this->client->setAccessToken(session()->get('access_token'));
 
             $service = new Google_Service_Calendar($this->client);
-            //dd(session()->get('access_token'));
             $results = $service->events->listEvents('primary');
-            //dd("entro");
 
             return response()->json(['result' => true, 'events' => $results->getItems()], 200);
         }
 
-        //return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
-        return redirect('/google-calendar/oauth');
+        return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
+        //return redirect('/google-calendar/oauth');
     }
 
     public function oauth()
@@ -94,7 +91,51 @@ class GoogleCalendarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => ['required'],
+            'start_at' => ['required', 'date'],
+            'start_time' => ['required'],
+            'end_at' => ['required', 'date', 'after_or_equal:start_at'],
+            'end_time' => ['required', 'after_or_equal:start_time']
+        ], [
+            'title.required' => 'Dato requerido',
+            'start_at.required' => 'Dato requerido',
+            'start_at.date' => 'Debe tener un formato válido',
+            'start_time.required' => 'Dato requerido',
+            'end_at.required' => 'Dato requerido',
+            'end_at.date' => 'Debe tener un formato válido',
+            'end_at.after_or_equal' => 'Debe ser posterior a Fecha de Inicio',
+            'end_time.required' => 'Dato requerido',
+            'end_time.after_or_equal' => 'Debe ser posterior a Hora de Inicio'
+        ]);
+
+        $startDateTime = $request->start_at . ' ' . $request->start_time;
+        $endDateTime = $request->end_at . ' ' . $request->end_time;
+
+        if (session()->has('access_token') && session('access_token')) {
+            $this->client->setAccessToken(session('access_token'));
+            $service = new Google_Service_Calendar($this->client);
+
+            $event = new Google_Service_Calendar_Event([
+                'summary' => $request->title,
+                'description' => $request->notes ?? '',
+                'start' => ['dateTime' => $startDateTime],
+                'end' => ['dateTime' => $endDateTime],
+                'reminders' => ['useDefault' => true]
+            ]);
+
+            $results = $service->events->insert('primary', $event);
+
+            if (!$results) {
+                return response()->json([
+                    'result' => false, 'error' => 'Error al registra el evento en google calendar'
+                ], 200);
+            }
+
+            return response()->json(['result' => true], 200);
+        }
+
+        return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
     }
 
     /**
@@ -128,7 +169,52 @@ class GoogleCalendarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => ['required'],
+            'start_at' => ['required', 'date'],
+            'start_time' => ['required'],
+            'end_at' => ['required', 'date', 'after_or_equal:start_at'],
+            'end_time' => ['required', 'after_or_equal:start_time']
+        ], [
+            'title.required' => 'Dato requerido',
+            'start_at.required' => 'Dato requerido',
+            'start_at.date' => 'Debe tener un formato válido',
+            'start_time.required' => 'Dato requerido',
+            'end_at.required' => 'Dato requerido',
+            'end_at.date' => 'Debe tener un formato válido',
+            'end_at.after_or_equal' => 'Debe ser posterior a Fecha de Inicio',
+            'end_time.required' => 'Dato requerido',
+            'end_time.after_or_equal' => 'Debe ser posterior a Hora de Inicio'
+        ]);
+
+        if (session()->has('access_token') && session('access_token')) {
+            $this->client->setAccessToken(session('access_token'));
+            $service = new Google_Service_Calendar($this->client);
+
+            $startDateTime = Carbon::parse($request->start_at . ' ' . $request->start_time)->toRfc3339String();
+            $endDateTime = Carbon::parse($request->end_at . ' ' . $request->end_time)->toRfc3339String();
+            $eventDuration = 30;
+
+            $event = $service->events->get('primary', $id);
+            $event->setSummary($request->title);
+            $event->setDescription($request->notes ?? '');
+            $start = new Google_Service_Calendar_EventDateTime();
+            $start->setDateTime($startDateTime);
+            $event->setStart($start);
+            $end = new Google_Service_Calendar_EventDateTime();
+            $end->setDateTime($endDateTime);
+            $event->setEnd($end);
+
+            $updatedEvent = $service->events->update('primary', $event->getId(), $event);
+
+            if (!$event) {
+                return response()->json(['result' => false, 'error' => 'Error al actualizar el evento']);
+            }
+
+            return response()->json(['result' => true, 'data' => $updatedEvent]);
+        }
+
+        return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
     }
 
     /**
@@ -139,6 +225,25 @@ class GoogleCalendarController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (session()->has('access_token') && session('access_token')) {
+            $this->client->setAccessToken(session('access_token'));
+            $service = new Google_Service_Calendar($this->client);
+            $service->events->delete('primary', $id);
+            return response()->json(['result' => true], 200);
+        }
+
+        return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
+    }
+
+    public function getAllCalendarList()
+    {
+        if (session()->has('access_token') && session('access_token')) {
+            $this->client->setAccessToken(session('access_token'));
+            $service = new Google_Service_Calendar($this->client);
+
+            return response()->json(['result' => true, 'calendars' => $service->calendarList->listCalendarList()], 200);
+        }
+
+        return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
     }
 }

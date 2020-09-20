@@ -30,6 +30,9 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
+                                <div class="card-header">
+                                    <calender-setting></calender-setting>
+                                </div>
                                 <div class="card-content">
                                     <div class="card-body">
 
@@ -77,7 +80,7 @@
                                         <span aria-hidden="true">×</span>
                                     </button>
                                 </div>
-                                
+
                                 <div class="modal-body">
 
                                     {{-- Labels Dropdown --}}
@@ -133,8 +136,8 @@
                                         </div>
 
                                         {{-- Starts at time --}}
-                                        <div class="form-group">   
-                                            <div class="row">    
+                                        <div class="form-group">
+                                            <div class="row">
                                                 <div class="col-sm-4">
                                                     <label for="">Hora de Inicio</label>
                                                 </div>
@@ -233,14 +236,14 @@
 
 @section('extra-js-app')
 <script defer>
-        
+
        // $('#usermenu-link').on("click", function (e) {
         //    console.log(e);
         //    $(".dropdown .dropdown-user .nav-item").addClass("show");
         //});
     </script>
     <script src="{{ asset('js/app.js') }}" defer></script>
-    
+
 @endsection
 
 @section('extra-js')
