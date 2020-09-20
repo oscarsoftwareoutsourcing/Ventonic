@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\EventsResource;
 
-use DateTime;
 use App\User;
 use App\Event;
 use Illuminate\Http\Request;
@@ -20,9 +19,8 @@ class EventController extends Controller
     {
         try {
             if (auth()->check()) {
-                
                 $events = User::find(auth()->user()->id)->events;
-                
+
                 /* Return data with view */
                 return view('calender')->with(['events' => json_encode(EventsResource::collection($events))]);
             }
@@ -31,7 +29,7 @@ class EventController extends Controller
         }
 
         return view('welcome');
-        
+
         // return response()->json($calendarEvents);
     }
 
@@ -72,7 +70,6 @@ class EventController extends Controller
         ]);
 
         try {
-
             $start = strtotime($request->start_at. ' '.$request->start_time);
             $end = strtotime($request->end_at. ' '.$request->end_time);
 
@@ -126,7 +123,6 @@ class EventController extends Controller
         ]);
 
         try {
-
             $event = Event::find($id);
             $start = strtotime($request->start_at. ' '.$request->start_time);
             $end = strtotime($request->end_at. ' '.$request->end_time);

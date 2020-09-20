@@ -9,6 +9,7 @@ use Google_Service_Calendar;
 use Google_Service_Calendar_Event;
 use Google_Service_Calendar_EventDateTime;
 use Carbon\Carbon;
+use App\Event;
 
 class GoogleCalendarController extends Controller
 {
@@ -49,8 +50,28 @@ class GoogleCalendarController extends Controller
         if (session()->has('access_token') && session('access_token')) {
             $this->client->setAccessToken(session()->get('access_token'));
 
+            //$this->client->authenticate(session('google-calendar-code'));
             $service = new Google_Service_Calendar($this->client);
             $results = $service->events->listEvents('primary');
+
+            foreach ($results->getItems() as $result) {
+                $startAt = str_replace("T", " ", $result->getStart()->dateTime);
+                $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
+
+                $event = Event::updateOrCreate(
+                    [
+                        'title' => $result->getSummary(),
+                        'start_at' => substr($startAt, 0, -6),
+                        'end_at' => substr($endAt, 0, -6),
+                        'user_id' => auth()->user()->id
+                    ],
+                    [
+                        'category' => 'O',
+                        'notes' => $result->getDescription() ?? '',
+                        'place' => null,
+                    ]
+                );
+            }
 
             return response()->json(['result' => true, 'events' => $results->getItems()], 200);
         }
@@ -68,6 +89,7 @@ class GoogleCalendarController extends Controller
         }
 
         $this->client->authenticate($_GET['code']);
+        session()->put('google-calendar-code', $_GET['code']);
         session()->put('access_token', $this->client->getAccessToken());
 
         return redirect('/google-calendar');
@@ -241,9 +263,61 @@ class GoogleCalendarController extends Controller
             $this->client->setAccessToken(session('access_token'));
             $service = new Google_Service_Calendar($this->client);
 
-            return response()->json(['result' => true, 'calendars' => $service->calendarList->listCalendarList()], 200);
+            foreach ($service->calendarList->listCalendarList()->getItems() as $calendarListEntry) {
+                //dd($calendarListEntry->getSummary());
+            }
+
+            return response()->json(['result' => true, 'calendars' => $service->calendarList->listCalendarList()->getItems()], 200);
         }
 
         return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
+    }
+
+    public function syncGoogleCalendar()
+    {
+        if (session()->has('access_token') && session('access_token')) {
+            $this->client->setAccessToken(session()->get('access_token'));
+
+            //$this->client->authenticate(session('google-calendar-code'));
+            $service = new Google_Service_Calendar($this->client);
+            $results = $service->events->listEvents('primary');
+
+            /** Agrega los eventos locales al calendario de google */
+            foreach (Event::all() as $evt) {
+                $googleEvent = new Google_Service_Calendar_Event([
+                    'summary' => $evt->title,
+                    'description' => $evt->notes ?? '',
+                    'start' => ['dateTime' => str_replace(" ", "T", $evt->start_at).'-00:00'],
+                    'end' => ['dateTime' => str_replace(" ", "T", $evt->end_at).'-00:00'],
+                    'reminders' => ['useDefault' => true]
+                ]);
+
+                $service->events->insert('primary', $googleEvent);
+            }
+
+            /** agrega los eventos de google al calendario local */
+            foreach ($results->getItems() as $result) {
+                $startAt = str_replace("T", " ", $result->getStart()->dateTime);
+                $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
+
+                $event = Event::updateOrCreate(
+                    [
+                        'title' => $result->getSummary(),
+                        'start_at' => substr($startAt, 0, -6),
+                        'end_at' => substr($endAt, 0, -6),
+                        'user_id' => auth()->user()->id
+                    ],
+                    [
+                        'category' => 'O',
+                        'notes' => $result->getDescription() ?? '',
+                        'place' => null,
+                    ]
+                );
+            }
+
+            return redirect()->route('events.index');
+        }
+
+        return redirect('/google-calendar/oauth');
     }
 }

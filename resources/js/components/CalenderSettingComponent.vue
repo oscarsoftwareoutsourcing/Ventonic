@@ -1,8 +1,11 @@
 <template>
-    <div class="col-sm-2 offset-sm-10">
-        <a href="javascript:void(0)" class="float-right" data-toggle="modal" data-target="#modalSetting"
+    <div class="col-sm-4 offset-sm-8">
+        <a href="javascript:void(0)" class="float-right ml-1" data-toggle="modal" data-target="#modalSetting"
            title="Configuración de calendario externo">
             <i class="feather icon-settings"></i>
+        </a>
+        <a href="/google-calendar/sync" class="float-right ml-1 mr-1" title="Sincronizar calendario externo">
+            <i class="feather icon-refresh-cw"></i>
         </a>
         <div class="modal fade" id="modalSetting">
             <div class="modal-dialog modal-lg" role="document">
