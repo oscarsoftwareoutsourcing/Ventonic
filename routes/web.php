@@ -364,3 +364,11 @@ Route::post('filterDashbaord', 'HomeController@filterDashbaord')->middleware('ve
 
 Route::get('dashdemo', 'HomeController@demo')->name('dash.demo')->middleware('verified');
 Route::get('mi-dash', 'HomeController@midash')->name('me.dash')->middleware('verified');
+
+
+
+Route::group(['middleware' => ['verified'], 'prefix' => 'google-calendar'], function () {
+    Route::resource('/', 'GoogleCalendarController');
+    Route::get('oauth', 'GoogleCalendarController@oauth');
+    Route::get('callback', 'GoogleCalendarController@oauth');
+});
