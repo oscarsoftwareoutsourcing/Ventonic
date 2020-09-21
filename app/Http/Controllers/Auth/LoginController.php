@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Jenssegers\Agent\Agent;
 
 class LoginController extends Controller
 {
@@ -45,6 +46,13 @@ class LoginController extends Controller
      */
     public function showLoginForm($type = 'vendedor')
     {
+         $agent = new Agent();
+      
+        $browser = strtolower($agent->browser());
+        $type_device = $agent->isDesktop() ? 'desktop' : 'mobile';
+        $application = request()->is('*app*') ? 'app' : 'browser';
+        $app_user_agent = $browser.'-'.$type_device.'-'.$application;
+        
         return view('auth.login', compact('type'));
     }
 
