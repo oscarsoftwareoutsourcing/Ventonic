@@ -132,10 +132,16 @@
                         v-else
                       />
                       <div v-if="seller.seller_profile">
-                        <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
+                        <span
+                          :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"
+                          :title="seller.status ? 'Conectado' : 'Desconectado'"
+                        ></span>
                       </div>
                       <div v-else>
-                        <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"></span>
+                        <span
+                          :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'"
+                          :title="seller.status ? 'Conectado' : 'Desconectado'"
+                        ></span>
                       </div>
                     </div>
                   </div>
@@ -149,7 +155,7 @@
                           :title="seller.status ? 'Contactar a este vendedor' : 'Dejar un mensaje al vendedor'"
                         >
                           <i
-                            :class="seller.status ? 'ficon feather icon-message-square' : 'ficon feather icon-mail'"
+                            :class="seller.status ? 'ficon feather icon-message-square' : 'ficon feather icon-message-square'"
                           ></i>
                         </button>
                         <form

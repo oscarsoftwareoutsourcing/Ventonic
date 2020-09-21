@@ -68,7 +68,7 @@
                           <div class="text-center mb-2">
                             Para instalar
                             <strong>Call Me</strong> debes introducir este código dentro de las etiquetas
-                            <strong>body</strong> en tu página web
+                            <strong>head</strong> en tu página web
                           </div>
                           <fieldset class="form-group">
                             <textarea class="form-control" id="basicTextarea" rows="10" disabled>
@@ -247,6 +247,9 @@
                 </div>
                 <div class="row mt-2" v-if="generated">
                   <div class="col-12 text-center">
+                    <h3>
+                      <strong>Si quieres que lo instalemos por ti escríbenos a soporte@ventonic.com</strong>
+                    </h3>
                     <h4>
                       Para instalar
                       <strong>Call Me</strong> debes introducir este código dentro de las etiquetas
