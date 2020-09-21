@@ -57,7 +57,15 @@
         <div class="app-content content">
             <div class="content-overlay"></div>
             <div class="header-navbar-shadow"></div>
-            <div class="content-area-wrapper">
+            <div class="content-wrapper">
+                <div class="content-header row"></div>
+                <div class="row">
+                    <div class="new-header mb-1">
+                        <span  class="title">Email</span>
+                    </div>
+                </div>
+            </div>
+            <div class="content-area-wrapper mg-top">
                 <email :download_messages="true"></email>
             </div>
         </div>

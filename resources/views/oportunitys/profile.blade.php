@@ -7,15 +7,23 @@
     <div class="content-wrapper">
         <div class="content-header row">
         </div>
-        <div class="container">
+        <div class="row">
+                <div class="new-header mb-1">
+                    <span  class="title">Contacts</span>
+                </div>
+        </div>
+        <div >
             <section class="page-users-view">
                 <div class="row">
                     <!-- account start -->
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">Datos Generales</div>
+                            <div class="bg-gradient-primary">
+                                <div class="card_vetonic-description">
+                                    <div class="text_vetonic-description1">Datos Generales</div>
+                                </div>
                             </div>
+                           
                             <div class="card-body">
                                 <div class="row">
                                     <div class="users-view-image">
@@ -83,9 +91,12 @@
                     <!-- information start -->
                     <div class="col-md-6 col-12 ">
                         <div class="card information-card">
-                            <div class="card-header">
-                                <div class="card-title mb-2">Informacion de Contacto</div>
+                            <div class="bg-gradient-primary">
+                                <div class="card_vetonic-description">
+                                    <div class="text_vetonic-description1">Informacion de Contacto</div>
+                                </div>
                             </div>
+
                             <div class="card-body">
                                 <table>
                                     {{-- <tr>
@@ -123,9 +134,12 @@
                     <!-- social links end -->
                     <div class="col-md-6 col-12 ">
                         <div class="card information-card">
-                            <div class="card-header">
-                                <div class="card-title">Video Perfil</div>
+                            <div class="bg-gradient-primary">
+                                <div class="card_vetonic-description">
+                                    <div class="text_vetonic-description1">Video Perfil</div>
+                                </div>
                             </div>
+
                             <div class="card-body" style="overflow:hidden; padding-bottom:5px;">
                                 @if($seller_profile->video)
                                     <video id="sampleMovie" width="500" height="260" preload controls>
@@ -142,9 +156,10 @@
                     <!-- permissions start -->
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header border-bottom mx-2 px-0">
-                                <h6 class="py-1 mb-0 font-medium-2"><i class="feather icon-user "></i>Experiencia
-                                </h6>
+                            <div class="bg-gradient-primary">
+                                <div class="card_vetonic-description">
+                                    <div class="text_vetonic-description1"><i class="feather icon-user "></i>Experiencia</div>
+                                </div>
                             </div>
                             <div class="card-body px-75">
                                 <div class="list-group">
