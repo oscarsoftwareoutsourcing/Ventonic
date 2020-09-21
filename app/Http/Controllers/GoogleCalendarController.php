@@ -94,7 +94,7 @@ class GoogleCalendarController extends Controller
         $this->client->authenticate($_GET['code']);
         session()->put('google-calendar-code', $_GET['code']);
         session()->put('access_token', $this->client->getAccessToken());
-        CalendarSetting::updateOrCreate(['appType' => 'gCalendar'], ['token' => session('access_token')]);
+        CalendarSetting::updateOrCreate(['appType' => 'gCalendar'], ['token' => json_encode(session('access_token'))]);
 
         return redirect('/google-calendar');
     }
