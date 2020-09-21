@@ -6,6 +6,7 @@ use App\Http\Resources\EventsResource;
 
 use App\User;
 use App\Event;
+use App\CalendarSetting;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -188,5 +189,12 @@ class EventController extends Controller
         $events = Event::orderBy('start_at', 'desc')->get()->take(10);
 
         return view('events', compact('events'));
+    }
+
+    public function hasExternalCalendars()
+    {
+        $calendarSettings = CalendarSetting::where('user_id', auth()->user()->id)->get();
+        $hasCalendars = (!$calendarSettings->isEmpty());
+        return response()->json(['result' => true, 'hasCalendars' => $hasCalendars], 200);
     }
 }

@@ -4,7 +4,8 @@
            title="Configuración de calendario externo">
             <i class="feather icon-settings"></i>
         </a>
-        <a href="/google-calendar/sync" class="float-right ml-1 mr-1" title="Sincronizar calendario externo">
+        <a href="/google-calendar/sync" class="float-right ml-1 mr-1" title="Sincronizar calendario externo"
+           v-if="hasCalendars">
             <i class="feather icon-refresh-cw"></i>
         </a>
         <div class="modal fade" id="modalSetting">
@@ -21,7 +22,8 @@
                         <div class="row">
                             <div class="col-12 text-center">
                                 <!-- Opción para seleccionar google calendar -->
-                                <div class="custom-control custom-radio custom-control-inline">
+                                <div class="custom-control custom-radio custom-control-inline" data-toggle="tooltip"
+                                     title="Google Calendar">
                                     <input type="radio" id="googleCalendar" name="externalCalendar"
                                            class="custom-control-input" v-model="appCalendar" value="gCalendar">
                                     <label class="custom-control-label" for="googleCalendar">
@@ -29,7 +31,8 @@
                                              class="img-sel img-fluid">
                                     </label>
                                 </div>
-                                <div class="custom-control custom-radio custom-control-inline">
+                                <div class="custom-control custom-radio custom-control-inline" data-toggle="tooltip"
+                                     title="iCal (próximamente)">
                                     <input type="radio" name="externalCalendar" id="iCal" class="custom-control-input"
                                            v-model="appCalendar" value="iCal" disabled>
                                     <label class="custom-control-label" for="iCal">
@@ -37,7 +40,8 @@
                                              class="img-sel img-fluid">
                                     </label>
                                 </div>
-                                <div class="custom-control custom-radio custom-control-inline">
+                                <div class="custom-control custom-radio custom-control-inline" data-toggle="tooltip"
+                                     title="Outloock Calendar (próximamente)">
                                     <input type="radio" name="externalCalendar" id="outlookCalendar"
                                            class="custom-control-input" v-model="appCalendar" value="outlook" disabled>
                                     <label class="custom-control-label" for="outlookCalendar">
@@ -66,7 +70,8 @@
                 calendarId: '',
                 apiKey: '',
                 secretKey: '',
-                token: ''
+                token: '',
+                hasCalendars: false,
             }
         },
         methods: {
@@ -95,6 +100,16 @@
                     console.error(error);
                 });
             }
+        },
+        mounted() {
+            const vm = this;
+            axios.get('/has-calendars').then(response => {
+                if (response.data.result) {
+                    vm.hasCalendars = response.data.hasCalendars;
+                }
+            }).catch(error => {
+                console.error(error);
+            });
         }
     };
 </script>

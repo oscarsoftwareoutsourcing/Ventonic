@@ -10,6 +10,7 @@ use Google_Service_Calendar_Event;
 use Google_Service_Calendar_EventDateTime;
 use Carbon\Carbon;
 use App\Event;
+use App\CalendarSetting;
 
 class GoogleCalendarController extends Controller
 {
@@ -73,7 +74,9 @@ class GoogleCalendarController extends Controller
                 );
             }
 
-            return response()->json(['result' => true, 'events' => $results->getItems()], 200);
+            //return response()->json(['result' => true, 'events' => $results->getItems()], 200);
+            session()->flash('message', 'Calendario de google configurado con éxito');
+            return redirect()->route('events.index');
         }
 
         return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
@@ -91,6 +94,7 @@ class GoogleCalendarController extends Controller
         $this->client->authenticate($_GET['code']);
         session()->put('google-calendar-code', $_GET['code']);
         session()->put('access_token', $this->client->getAccessToken());
+        CalendarSetting::updateOrCreate(['appType' => 'gCalendar'], ['token' => session('access_token')]);
 
         return redirect('/google-calendar');
     }
@@ -314,6 +318,8 @@ class GoogleCalendarController extends Controller
                     ]
                 );
             }
+
+            session()->flash('message', 'Calendario sincronizado con éxito');
 
             return redirect()->route('events.index');
         }

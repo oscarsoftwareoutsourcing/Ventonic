@@ -144,6 +144,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Event::class);
     }
 
+    /**
+     * User has many CalendarSettings.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function calendarSettings()
+    {
+        return $this->hasMany(CalendarSetting::class);
+    }
 
     public function oportunity()
     {
@@ -274,8 +283,8 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     //public function getTypeAttribute()
     //{
-        //return ($this->sellerProfile!==null) ? 'Vendedor' : (($this->companyProfile!==null) ? 'Empresa' : '');
-        //return $this->type;
+    //return ($this->sellerProfile!==null) ? 'Vendedor' : (($this->companyProfile!==null) ? 'Empresa' : '');
+    //return $this->type;
     //}
 
 

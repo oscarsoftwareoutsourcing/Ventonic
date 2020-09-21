@@ -22,7 +22,14 @@
         <div class="content-wrapper">
             <div class="content-header row"></div>
             <div class="content-body">
-
+                @if (session('message'))
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        {{ session('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 {{-- Full calendar start --}}
                 <section id="calendarSection">
 

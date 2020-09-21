@@ -120,6 +120,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('get-surveys', 'HomeController@getSurveys')->name('get-surveys');
 
     Route::resource('events', 'EventController');
+    Route::get('has-calendars', 'EventController@hasExternalCalendars');
     Route::get('ultimos-eventos', 'EventController@lastEvents')->name('events.list');
     Route::post('get-country-flag', 'ProfileController@getCountryFlag')->name('get-country-flag');
     Route::get('contact-seller/{id}', 'ChatController@contactSeller');
