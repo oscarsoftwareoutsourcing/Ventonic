@@ -58,6 +58,7 @@ class GoogleCalendarController extends Controller
             foreach ($results->getItems() as $result) {
                 $startAt = str_replace("T", " ", $result->getStart()->dateTime);
                 $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
+                dd($startAt);
 
                 $event = Event::updateOrCreate(
                     [
