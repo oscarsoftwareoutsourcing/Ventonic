@@ -29,6 +29,13 @@
                                     <label class="custom-control-label" for="googleCalendar">
                                         <img src="/images/calendar/google-calendar.png" alt="Google Calendar"
                                              class="img-sel img-fluid">
+                                        <div class="row" v-if="configuredCalendars.gCalendar">
+                                            <div class="col-12">
+                                                <div class="alert alert-success" role="alert">
+                                                    Configurado
+                                                </div>
+                                            </div>
+                                        </div>
                                     </label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline" data-toggle="tooltip"
@@ -72,6 +79,11 @@
                 secretKey: '',
                 token: '',
                 hasCalendars: false,
+                configuredCalendars: {
+                    gCalendar: false,
+                    iCal: false,
+                    outlook: false
+                }
             }
         },
         methods: {
@@ -106,6 +118,7 @@
             axios.get('/has-calendars').then(response => {
                 if (response.data.result) {
                     vm.hasCalendars = response.data.hasCalendars;
+                    vm.configuredCalendars.gCalendar = response.data.gCalendar;
                 }
             }).catch(error => {
                 console.error(error);

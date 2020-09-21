@@ -195,6 +195,9 @@ class EventController extends Controller
     {
         $calendarSettings = CalendarSetting::where('user_id', auth()->user()->id)->get();
         $hasCalendars = (!$calendarSettings->isEmpty());
-        return response()->json(['result' => true, 'hasCalendars' => $hasCalendars], 200);
+        $gCalendar = (!$calendarSettings->isEmpty());
+        return response()->json([
+            'result' => true, 'hasCalendars' => $hasCalendars, 'gCalendar' => $gCalendar
+        ], 200);
     }
 }
