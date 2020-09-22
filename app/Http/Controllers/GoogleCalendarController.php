@@ -271,6 +271,15 @@ class GoogleCalendarController extends Controller
         return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
     }
 
+    /**
+     * Obtiene un listado de los calendarios del usuario
+     *
+     * @method    getAllCalendarList
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @return    JsonResponse                Listado de calendarios
+     */
     public function getAllCalendarList()
     {
         if (session()->has('access_token') && session('access_token')) {
@@ -286,6 +295,7 @@ class GoogleCalendarController extends Controller
             return response()->json(['result' => true, 'calendars' => $service->calendarList->listCalendarList()->getItems()], 200);
         }
 
+        //return redirect('/google-calendar/oauth');
         return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
     }
 
