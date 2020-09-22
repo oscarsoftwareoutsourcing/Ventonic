@@ -86,10 +86,19 @@ class GoogleCalendarController extends Controller
             return redirect()->route('events.index');
         }
 
-        return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
         //return redirect('/google-calendar/oauth');
+        return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
     }
 
+    /**
+     * Realiza la autenticación con Google
+     *
+     * @method    oauth
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @return    Response    Redirecciona de acuerdo a la petición solicitada
+     */
     public function oauth()
     {
         if (!isset($_GET['code'])) {
@@ -107,6 +116,26 @@ class GoogleCalendarController extends Controller
         );
 
         return redirect('/google-calendar');
+    }
+
+    /**
+     * Actualiza los datos de autenticación con Google
+     *
+     * @method    updateOauth
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     */
+    public function updateOauth()
+    {
+        if (!isset($_GET['code'])) {
+            $authUrl = $this->client->createAuthUrl();
+            $filteredUrl = filter_var($authUrl, FILTER_SANITIZE_URL);
+            return redirect($filteredUrl);
+        }
+
+        $this->client->authenticate($_GET['code']);
+        session()->put('google-calendar-code', $_GET['code']);
+        session()->put('access_token', $this->client->getAccessToken());
     }
 
     /**
@@ -284,21 +313,39 @@ class GoogleCalendarController extends Controller
     {
         if (session()->has('access_token') && session('access_token')) {
             $this->client->setAccessToken(session('access_token'));
+            if ($this->client->isAccessTokenExpired()) {
+                $this->updateOauth();
+            }
 
             $service = new Google_Service_Calendar($this->client);
 
+            $calendars = [];
+
             foreach ($service->calendarList->listCalendarList()->getItems() as $calendarListEntry) {
-                //echo $calendarListEntry->getSummary() . "<br><br>";
-                //echo $calendarListEntry->getSummary() . "<br><br>";
+                $primaryCalendar = $calendarListEntry->getPrimary();
+                array_push($calendars, [
+                    'id' => $calendarListEntry->getId(),
+                    'name' => ($primaryCalendar === true) ? 'Primario' : $calendarListEntry->getSummary(),
+                    'color' => $calendarListEntry->getBackgroundColor()
+                ]);
             }
 
-            return response()->json(['result' => true, 'calendars' => $service->calendarList->listCalendarList()->getItems()], 200);
+            return response()->json(['result' => true, 'calendars' => $calendars], 200);
         }
 
         //return redirect('/google-calendar/oauth');
         return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
     }
 
+    /**
+     * Sincroniza el calendario de Google
+     *
+     * @method    syncGoogleCalendar
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @return    Response                Redirecciona a la página solicitada
+     */
     public function syncGoogleCalendar()
     {
         if (session()->has('access_token') && session('access_token')) {
@@ -349,34 +396,41 @@ class GoogleCalendarController extends Controller
         return redirect('/google-calendar/oauth');
     }
 
+    /**
+     * Desconecta la cuenta de Google Calendar con el calendario de eventos local
+     *
+     * @method    disconnect
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @return    JsonResponse        Json con los datos de respuesta
+     */
     public function disconnect()
     {
         $calendarSetting = CalendarSetting::where(['user_id' => auth()->user()->id, 'appType' => 'gCalendar'])->first();
 
         if ($calendarSetting) {
-            /*$this->client->setAccessToken(
-                (session()->has('access_token') && session('access_token'))
-                ? session()->get('access_token')
-                : $calendarSetting->token
-            );
+            if (session()->has('access_token') && session('access_token')) {
+                $this->client->setAccessToken(session()->get('access_token'));
+                $service = new Google_Service_Calendar($this->client);
+                $results = $service->events->listEvents('primary');
+                foreach ($results->getItems() as $result) {
+                    $startAt = str_replace("T", " ", $result->getStart()->dateTime);
+                    $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
 
-            $service = new Google_Service_Calendar($this->client);
-            $results = $service->events->listEvents('primary');
-            foreach ($results->getItems() as $result) {
-                $startAt = str_replace("T", " ", $result->getStart()->dateTime);
-                $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
+                    $event = Event::where([
+                        'title' => $result->getSummary(),
+                        'start_at' => substr($startAt, 0, -6),
+                        'end_at' => substr($endAt, 0, -6),
+                        'user_id' => auth()->user()->id
+                    ])->first();
 
-                $event = Event::where([
-                    'title' => $result->getSummary(),
-                    'start_at' => substr($startAt, 0, -6),
-                    'end_at' => substr($endAt, 0, -6),
-                    'user_id' => auth()->user()->id
-                ])->first();
-
-                if ($event) {
-                    $event->delete();
+                    if ($event) {
+                        $event->delete();
+                    }
                 }
-            }*/
+            }
+
             $calendarSetting->delete();
             session()->forget(['google-calendar-code', 'access_token']);
             session()->flash('message', 'Calendario de Google eliminado con éxito');

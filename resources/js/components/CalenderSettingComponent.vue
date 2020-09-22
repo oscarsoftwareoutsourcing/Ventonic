@@ -1,13 +1,26 @@
 <template>
-    <div class="col-sm-4 offset-sm-8">
-        <a href="javascript:void(0)" class="float-right ml-1" data-toggle="modal" data-target="#modalSetting"
-           title="Configuración de calendario externo">
-            <i class="feather icon-settings"></i>
-        </a>
-        <a href="/google-calendar/sync" class="float-right ml-1 mr-1" title="Sincronizar calendario externo"
-           v-if="hasCalendars">
-            <i class="feather icon-refresh-cw"></i>
-        </a>
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-4 offset-sm-6" v-if="showCalendars">
+                <label for="">Calendarios</label>
+                <select class="custom-select custom-select-sm" v-model="selectedCalendars" multiple>
+                    <option :value="calendar.id" v-for="calendar in calendars">
+                        <i class="fas fa-square"></i>{{ calendar.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-sm-1 text-right" v-if="hasCalendars" :class="{'offset-sm-10': !showCalendars}">
+                <a href="/google-calendar/sync" title="Sincronizar calendario externo">
+                    <i class="feather icon-refresh-cw"></i>
+                </a>
+            </div>
+            <div class="col-sm-1 text-right" :class="{'offset-sm-11': !hasCalendars}">
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#modalSetting"
+                   title="Configuración de calendario externo">
+                    <i class="feather icon-settings"></i>
+                </a>
+            </div>
+        </div>
         <div class="modal fade" id="modalSetting">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -81,6 +94,8 @@
                 secretKey: '',
                 token: '',
                 hasCalendars: false,
+                calendars: [],
+                selectedCalendars: [],
                 configuredCalendars: {
                     gCalendar: false,
                     iCal: false,
@@ -143,6 +158,21 @@
                         }
                     }
                 });
+            },
+            getCalendars() {
+                const vm = this;
+                if (vm.appCalendar === 'gCalendar') {
+                    axios.get('/google-calendar/get-calendars').then(response => {
+                        if (response.data.result) {
+                            vm.calendars = response.data.calendars;
+                        }
+                    }).catch(error => {
+                        console.error(error);
+                    });
+                }
+            },
+            showCalendars() {
+                return (this.configuredCalendars.gCalendar && this.calendars.length > 0);
             }
         },
         mounted() {
@@ -151,6 +181,7 @@
                 if (response.data.result) {
                     vm.hasCalendars = response.data.hasCalendars;
                     vm.configuredCalendars.gCalendar = response.data.gCalendar;
+                    vm.getCalendars();
                 }
             }).catch(error => {
                 console.error(error);
