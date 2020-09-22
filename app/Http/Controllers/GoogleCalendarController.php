@@ -275,10 +275,12 @@ class GoogleCalendarController extends Controller
     {
         if (session()->has('access_token') && session('access_token')) {
             $this->client->setAccessToken(session('access_token'));
+
             $service = new Google_Service_Calendar($this->client);
 
             foreach ($service->calendarList->listCalendarList()->getItems() as $calendarListEntry) {
-                //dd($calendarListEntry->getSummary());
+                //echo $calendarListEntry->getSummary() . "<br><br>";
+                //echo $calendarListEntry->getSummary() . "<br><br>";
             }
 
             return response()->json(['result' => true, 'calendars' => $service->calendarList->listCalendarList()->getItems()], 200);
@@ -335,5 +337,42 @@ class GoogleCalendarController extends Controller
         }
 
         return redirect('/google-calendar/oauth');
+    }
+
+    public function disconnect()
+    {
+        $calendarSetting = CalendarSetting::where(['user_id' => auth()->user()->id, 'appType' => 'gCalendar'])->first();
+
+        if ($calendarSetting) {
+            /*$this->client->setAccessToken(
+                (session()->has('access_token') && session('access_token'))
+                ? session()->get('access_token')
+                : $calendarSetting->token
+            );
+
+            $service = new Google_Service_Calendar($this->client);
+            $results = $service->events->listEvents('primary');
+            foreach ($results->getItems() as $result) {
+                $startAt = str_replace("T", " ", $result->getStart()->dateTime);
+                $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
+
+                $event = Event::where([
+                    'title' => $result->getSummary(),
+                    'start_at' => substr($startAt, 0, -6),
+                    'end_at' => substr($endAt, 0, -6),
+                    'user_id' => auth()->user()->id
+                ])->first();
+
+                if ($event) {
+                    $event->delete();
+                }
+            }*/
+            $calendarSetting->delete();
+            session()->forget(['google-calendar-code', 'access_token']);
+            session()->flash('message', 'Calendario de Google eliminado con éxito');
+            return response()->json(['result' => true], 200);
+        }
+
+        return response()->json(['result' => false], 200);
     }
 }

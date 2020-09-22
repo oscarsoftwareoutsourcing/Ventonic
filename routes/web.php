@@ -377,4 +377,5 @@ Route::group(['middleware' => ['verified'], 'prefix' => 'google-calendar'], func
     Route::post('event/update', 'GoogleCalendarController@update');
     Route::post('event/delete', 'GoogleCalendarController@destroy');
     Route::get('sync', 'GoogleCalendarController@syncGoogleCalendar')->name('google-calendar-sync');
+    Route::post('disconnect', 'GoogleCalendarController@disconnect');
 });

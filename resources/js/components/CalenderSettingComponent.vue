@@ -61,6 +61,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-warning" @click="disconnectSetting"
+                                v-if="hasCalendars">Eliminar</button>
                         <button type="button" class="btn btn-primary" @click="setSetting">Guardar</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -110,6 +112,36 @@
                     }
                 }).catch(error => {
                     console.error(error);
+                });
+            },
+            disconnectSetting() {
+                const vm = this;
+                bootbox.confirm({
+                    title: 'Eliminar calendario',
+                    message: '¿Esta seguro de eliminar el calendario configurado?',
+                    buttons: {
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-secondary'
+                        },
+                        confirm: {
+                            label: 'Sí',
+                            className: 'btn-warning'
+                        }
+                    },
+                    callback: function(result) {
+                        if (result) {
+                            if (vm.appCalendar === 'gCalendar') {
+                                axios.post('/google-calendar/disconnect').then(response => {
+                                    if (response.data.result) {
+                                        location.reload();
+                                    }
+                                }).catch(error => {
+                                    console.error(error);
+                                });
+                            }
+                        }
+                    }
                 });
             }
         },
