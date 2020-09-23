@@ -117,12 +117,12 @@
                     });
                 }
             },
-            syncEvents() {
+            syncEvents(reload = true) {
                 const vm = this;
                 axios.post('/calendar/sync-events', {
                     appCalendar: vm.appCalendar
                 }).then(response => {
-                    if (response.data.result) {
+                    if (response.data.result && reload) {
                         location.reload();
                     }
                 }).catch(error => {
@@ -182,6 +182,8 @@
                     vm.hasCalendars = response.data.hasCalendars;
                     vm.configuredCalendars.gCalendar = response.data.gCalendar;
                     vm.getCalendars();
+                    vm.appCalendar = 'gCalendar';
+                    vm.syncEvents(false);
                 }
             }).catch(error => {
                 console.error(error);

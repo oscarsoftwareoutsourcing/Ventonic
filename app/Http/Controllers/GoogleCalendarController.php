@@ -373,6 +373,13 @@ class GoogleCalendarController extends Controller
                 $startAt = str_replace("T", " ", $result->getStart()->dateTime);
                 $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
 
+                if (empty($startAt)) {
+                    $startAt = $result->getStart()->date . ' 00:00:00-00:00';
+                }
+                if (empty($endAt)) {
+                    $endAt = $result->getStart()->date . ' 23:59:59-00:00';
+                }
+
                 $event = Event::updateOrCreate(
                     [
                         'title' => $result->getSummary(),
