@@ -154,6 +154,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(CalendarSetting::class);
     }
 
+    /**
+     * User has many GoogleCalendars.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function googleCalendars()
+    {
+        return $this->hasMany(GoogleCalendar::class);
+    }
+
     public function oportunity()
     {
         return $this->hasMany('App\Oportunity');

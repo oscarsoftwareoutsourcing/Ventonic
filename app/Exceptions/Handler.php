@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Google_Service_Exception;
 
 class Handler extends ExceptionHandler
 {
@@ -52,6 +53,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if (auth()->check() && $exception instanceof Google_Service_Exception) {
+            /** Acceso no autorizado */
+            if ($exception->getCode() === 401) {
+                session()->flash('returnUrl', $request->route()->getName());
+                return redirect()->route('google.oauth');
+            }
+        }
         if ($exception instanceof TokenMismatchException) {
             /** Excepción capturada por inactividad */
             session()->flash('error', 'Sessión expirada por inactividad.');

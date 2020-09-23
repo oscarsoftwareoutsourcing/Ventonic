@@ -13,7 +13,7 @@ class Event extends Model
      */
     protected $fillable = [
         'title', 'start_at', 'end_at', 'notes', 'category', 'private', 'place', 'user_id',
-        'eventable_type', 'eventable_id'
+        'external_key', 'external_calendar', 'eventable_type', 'eventable_id'
     ];
     protected $with = ['user'];
     protected $hidden = ['created_at', 'updated_at'];

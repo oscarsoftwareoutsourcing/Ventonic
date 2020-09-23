@@ -11,6 +11,7 @@ use Google_Service_Calendar_EventDateTime;
 use Carbon\Carbon;
 use App\Event;
 use App\CalendarSetting;
+use App\GoogleCalendar;
 
 class GoogleCalendarController extends Controller
 {
@@ -53,35 +54,55 @@ class GoogleCalendarController extends Controller
 
             //$this->client->authenticate(session('google-calendar-code'));
             $service = new Google_Service_Calendar($this->client);
-            $results = $service->events->listEvents('primary');
+            foreach ($service->calendarList->listCalendarList()->getItems() as $calendar) {
+                $results = $service->events->listEvents($calendar->getId());
 
-            foreach ($results->getItems() as $result) {
-                $startAt = str_replace("T", " ", $result->getStart()->dateTime);
-                $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
+                $primaryCalendar = $calendar->getPrimary();
+                $calendarName = ($primaryCalendar === true) ? 'Primario' : $calendar->getSummary();
 
-                if (empty($startAt)) {
-                    $startAt = $result->getStart()->date . ' 00:00:00-00:00';
-                }
-                if (empty($endAt)) {
-                    $endAt = $result->getStart()->date . ' 23:59:59-00:00';
-                }
-
-                $event = Event::updateOrCreate(
+                $gCalendar = GoogleCalendar::updateOrCreate(
+                    ['google_id' => $calendar->getId(), 'user_id' => auth()->user()->id],
                     [
-                        'title' => $result->getSummary(),
-                        'start_at' => substr($startAt, 0, -6),
-                        'end_at' => substr($endAt, 0, -6),
-                        'user_id' => auth()->user()->id
-                    ],
-                    [
-                        'category' => 'O',
-                        'notes' => $result->getDescription() ?? '',
-                        'place' => null,
+                        'name' => $calendarName,
+                        'description' => $calendar->getDescription() ?? null,
+                        'color' => $calendar->getBackgroundColor()
                     ]
                 );
+
+                foreach ($results->getItems() as $result) {
+                    /** Condición para evaluar solamente eventos futuros */
+                    if (!empty($result->getStart()->dateTime) && Carbon::parse($result->getEnd()->dateTime) > Carbon::now()) {
+                        $startAt = str_replace("T", " ", $result->getStart()->dateTime);
+                        $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
+
+                        if (empty($startAt)) {
+                            $startAt = $result->getStart()->date . ' 00:00:00-00:00';
+                        }
+                        if (empty($endAt)) {
+                            $endAt = $result->getStart()->date . ' 23:59:59-00:00';
+                        }
+
+                        $event = Event::updateOrCreate(
+                            [
+                                'external_key' => $result->getId(),
+                                'external_calendar' => 'gCalendar',
+                                'eventable_type' => GoogleCalendar::class,
+                                'eventable_id' => $gCalendar->id
+                            ],
+                            [
+                                'title' => $result->getSummary(),
+                                'start_at' => substr($startAt, 0, -6),
+                                'end_at' => substr($endAt, 0, -6),
+                                'user_id' => auth()->user()->id,
+                                'category' => 'O',
+                                'notes' => $result->getDescription() ?? '',
+                                'place' => null,
+                            ]
+                        );
+                    }
+                }
             }
 
-            //return response()->json(['result' => true, 'events' => $results->getItems()], 200);
             session()->flash('message', 'Calendario de google configurado con éxito');
             return redirect()->route('events.index');
         }
@@ -114,6 +135,11 @@ class GoogleCalendarController extends Controller
             ['appType' => 'gCalendar', 'user_id' => auth()->user()->id],
             ['token' => json_encode(session('access_token'))]
         );
+
+        /** si se ha indicado una url a la cual redirigir la petición */
+        if (session('returnUrl')) {
+            return redirect()->route(session('returnUrl'));
+        }
 
         return redirect('/google-calendar');
     }
@@ -323,12 +349,19 @@ class GoogleCalendarController extends Controller
 
             foreach ($service->calendarList->listCalendarList()->getItems() as $calendarListEntry) {
                 $primaryCalendar = $calendarListEntry->getPrimary();
-                array_push($calendars, [
-                    'id' => $calendarListEntry->getId(),
-                    'name' => ($primaryCalendar === true) ? 'Primario' : $calendarListEntry->getSummary(),
-                    'color' => $calendarListEntry->getBackgroundColor()
-                ]);
+                $calendarName = ($primaryCalendar === true) ? 'Primario' : $calendarListEntry->getSummary();
+
+                $gCalendar = GoogleCalendar::updateOrCreate(
+                    ['google_id' => $calendarListEntry->getId(), 'user_id' => auth()->user()->id],
+                    [
+                        'name' => $calendarName,
+                        'description' => $calendarListEntry->getDescription() ?? null,
+                        'color' => $calendarListEntry->getBackgroundColor()
+                    ]
+                );
             }
+
+            $calendars = GoogleCalendar::where('user_id', auth()->user()->id)->get();
 
             return response()->json(['result' => true, 'calendars' => $calendars], 200);
         }
@@ -353,46 +386,66 @@ class GoogleCalendarController extends Controller
 
             //$this->client->authenticate(session('google-calendar-code'));
             $service = new Google_Service_Calendar($this->client);
-            $results = $service->events->listEvents('primary');
+            foreach ($service->calendarList->listCalendarList()->getItems() as $calendar) {
+                $results = $service->events->listEvents($calendar->getId());
 
-            /** Agrega los eventos locales al calendario de google */
-            foreach (Event::all() as $evt) {
-                $googleEvent = new Google_Service_Calendar_Event([
-                    'summary' => $evt->title,
-                    'description' => $evt->notes ?? '',
-                    'start' => ['dateTime' => str_replace(" ", "T", $evt->start_at).'-00:00'],
-                    'end' => ['dateTime' => str_replace(" ", "T", $evt->end_at).'-00:00'],
-                    'reminders' => ['useDefault' => true]
-                ]);
+                $primaryCalendar = $calendar->getPrimary();
+                $calendarName = ($primaryCalendar === true) ? 'Primario' : $calendar->getSummary();
 
-                $service->events->insert('primary', $googleEvent);
-            }
-
-            /** agrega los eventos de google al calendario local */
-            foreach ($results->getItems() as $result) {
-                $startAt = str_replace("T", " ", $result->getStart()->dateTime);
-                $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
-
-                if (empty($startAt)) {
-                    $startAt = $result->getStart()->date . ' 00:00:00-00:00';
-                }
-                if (empty($endAt)) {
-                    $endAt = $result->getStart()->date . ' 23:59:59-00:00';
-                }
-
-                $event = Event::updateOrCreate(
+                $gCalendar = GoogleCalendar::updateOrCreate(
+                    ['google_id' => $calendar->getId(), 'user_id' => auth()->user()->id],
                     [
-                        'title' => $result->getSummary(),
-                        'start_at' => substr($startAt, 0, -6),
-                        'end_at' => substr($endAt, 0, -6),
-                        'user_id' => auth()->user()->id
-                    ],
-                    [
-                        'category' => 'O',
-                        'notes' => $result->getDescription() ?? '',
-                        'place' => null,
+                        'name' => $calendarName,
+                        'description' => $calendar->getDescription() ?? null,
+                        'color' => $calendar->getBackgroundColor()
                     ]
                 );
+
+                /** Agrega los eventos locales al calendario de google */
+                foreach (Event::all() as $evt) {
+                    $googleEvent = new Google_Service_Calendar_Event([
+                        'summary' => $evt->title,
+                        'description' => $evt->notes ?? '',
+                        'start' => ['dateTime' => str_replace(" ", "T", $evt->start_at).'-00:00'],
+                        'end' => ['dateTime' => str_replace(" ", "T", $evt->end_at).'-00:00'],
+                        'reminders' => ['useDefault' => true]
+                    ]);
+
+                    $service->events->insert('primary', $googleEvent);
+                }
+
+                /** agrega los eventos de google al calendario local */
+                foreach ($results->getItems() as $result) {
+                    if (!empty($result->getStart()->dateTime) && Carbon::parse($result->getEnd()->dateTime) > Carbon::now()) {
+                        $startAt = str_replace("T", " ", $result->getStart()->dateTime);
+                        $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
+
+                        if (empty($startAt)) {
+                            $startAt = $result->getStart()->date . ' 00:00:00-00:00';
+                        }
+                        if (empty($endAt)) {
+                            $endAt = $result->getStart()->date . ' 23:59:59-00:00';
+                        }
+
+                        $event = Event::updateOrCreate(
+                            [
+                                'external_key' => $result->getId(),
+                                'external_calendar' => 'gCalendar',
+                                'eventable_type' => GoogleCalendar::class,
+                                'eventable_id' => $gCalendar->id
+                            ],
+                            [
+                                'title' => $result->getSummary(),
+                                'start_at' => substr($startAt, 0, -6),
+                                'end_at' => substr($endAt, 0, -6),
+                                'user_id' => auth()->user()->id,
+                                'category' => 'O',
+                                'notes' => $result->getDescription() ?? '',
+                                'place' => null,
+                            ]
+                        );
+                    }
+                }
             }
 
             session()->flash('message', 'Calendario sincronizado con éxito');

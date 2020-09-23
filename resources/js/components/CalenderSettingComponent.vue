@@ -4,7 +4,7 @@
             <div class="col-sm-4 offset-sm-6" v-if="showCalendars">
                 <label for="">Calendarios</label>
                 <select id="myCalendars" class="custom-select custom-select-sm" v-model="selectedCalendars" multiple>
-                    <option :value="calendar.id" v-for="calendar in calendars">
+                    <option :value="calendar.google_id" v-for="calendar in calendars">
                         <i class="fas fa-square"></i>{{ calendar.name }}
                     </option>
                 </select>
@@ -117,17 +117,19 @@
                     });
                 }
             },
-            syncEvents(reload = true) {
+            syncEvents() {
                 const vm = this;
-                axios.post('/calendar/sync-events', {
-                    appCalendar: vm.appCalendar
-                }).then(response => {
-                    if (response.data.result && reload) {
-                        location.reload();
-                    }
-                }).catch(error => {
-                    console.error(error);
-                });
+                if (vm.appCalendar === 'gCalendar') {
+                    axios.post('/google-calendar/sync', {
+                        appCalendar: vm.appCalendar
+                    }).then(response => {
+                        if (response.data.result) {
+                            location.reload();
+                        }
+                    }).catch(error => {
+                        console.error(error);
+                    });
+                }
             },
             disconnectSetting() {
                 const vm = this;
@@ -183,7 +185,7 @@
                     vm.configuredCalendars.gCalendar = response.data.gCalendar;
                     vm.getCalendars();
                     vm.appCalendar = 'gCalendar';
-                    vm.syncEvents(false);
+                    //vm.syncEvents();
                 }
             }).catch(error => {
                 console.error(error);

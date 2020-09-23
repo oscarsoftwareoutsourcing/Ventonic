@@ -370,7 +370,7 @@ Route::get('mi-dash', 'HomeController@midash')->name('me.dash')->middleware('ver
 
 Route::group(['middleware' => ['verified'], 'prefix' => 'google-calendar'], function () {
     Route::resource('/', 'GoogleCalendarController');
-    Route::get('oauth', 'GoogleCalendarController@oauth');
+    Route::get('oauth', 'GoogleCalendarController@oauth')->name('google.oauth');
     Route::get('callback', 'GoogleCalendarController@oauth');
     Route::get('get-calendars', 'GoogleCalendarController@getAllCalendarList');
     Route::post('event/create', 'GoogleCalendarController@store');
