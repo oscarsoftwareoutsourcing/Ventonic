@@ -47,7 +47,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
                 $('#updateBtn, #deleteBtn').addClass('d-none');
                 $("#cal-start-date").val(calDate);
                 $("#cal-end-date").val(calDate);
-                
+
                 // Set actual time.
                 pickerSetStartsAt.set( 'select', moment(calDate).format('hh:mm a'));
                 pickerSetEndsAt.set( 'select', moment(calDate).format('hh:mm a'));
@@ -71,7 +71,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 
         $("#calendarForm #cal-start-date").val(moment(info.dateStr).format('DD-MM-YYYY'));
         $("#calendarForm #cal-end-date").val(moment(info.dateStr).format('DD-MM-YYYY'));
-        
+
         // Set actual time.
         if(info.view.type === 'dayGridMonth') {
             pickerSetStartsAt.set( 'select', moment(calDate).format('hh:mm a'));
@@ -89,7 +89,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
         $('#saveBtn, #deleteBtn').addClass('d-none');
         $('#updateBtn, #deleteBtn').removeClass('d-none');
         info.event._def.hasEnd = true;
-        
+
         $('#cal-event-id').val(info.event.id);
         $('#cal-event-title').val(info.event.title);
         $('#cal-start-date').val(moment(info.event.start).format('DD-MM-YYYY'));
@@ -98,7 +98,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
         pickerSetEndsAt.set( 'select', moment(info.event.end).format('hh:mm a'));
         $('#cal-description').val(info.event.extendedProps.description);
         $('#cal-event-place').val(info.event.extendedProps.place);
-        
+
         let key = info.event.extendedProps.category;
         renderBullet(key);
         $("#modalForm").modal("show");
@@ -121,12 +121,12 @@ $('.bulletOpt').on('click', function(event) {
 
 /* Closing modal */
 $('.closeBtn').on('click', function() {
-    resetModal();    
+    resetModal();
 });
 
 // calendar add event
 $('#saveBtn').on('click', function() {
-    
+
     var errors = {};
     axios.post('/events', {
         title: $('#cal-event-title').val(),
@@ -186,6 +186,11 @@ $("#updateBtn").on("click", function() {
             }
         }
     });
+});
+
+//Filtrar eventos por calendarios seleccionados
+$("#myCalendars").on('change', function() {
+    console.log($(this).val());
 });
 
 // Remove Event

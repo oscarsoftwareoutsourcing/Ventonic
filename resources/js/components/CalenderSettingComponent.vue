@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-4 offset-sm-6" v-if="showCalendars">
                 <label for="">Calendarios</label>
-                <select class="custom-select custom-select-sm" v-model="selectedCalendars" multiple>
+                <select id="myCalendars" class="custom-select custom-select-sm" v-model="selectedCalendars" multiple>
                     <option :value="calendar.id" v-for="calendar in calendars">
                         <i class="fas fa-square"></i>{{ calendar.name }}
                     </option>
