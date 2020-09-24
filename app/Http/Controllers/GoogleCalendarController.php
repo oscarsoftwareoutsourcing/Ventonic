@@ -479,7 +479,11 @@ class GoogleCalendarController extends Controller
         if (count($request->selectedCalendars) > 0) {
             $calendars = GoogleCalendar::whereIn('google_id', $request->selectedCalendars)->get('id');
             $events = auth()->user()->events()->where('eventable_type', GoogleCalendar::class)
-                            ->whereIn('eventable_id', $calendars)->get();
+                            ->whereIn('eventable_id', $calendars);
+            if (in_array("0", $request->selectedCalendars)) {
+                $events = $events->orWhereNull('external_calendar');
+            }
+            $events = $events->get();
         } else {
             $events = auth()->user()->events;
         }

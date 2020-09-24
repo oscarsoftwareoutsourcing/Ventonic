@@ -4,6 +4,9 @@
             <div class="col-sm-4 offset-sm-6" v-if="showCalendars">
                 <label for="">Calendarios</label>
                 <select id="myCalendars" class="custom-select custom-select-sm" v-model="selectedCalendars" multiple>
+                    <option value="0">
+                        <i class="fas fa-square"></i>Ventonic
+                    </option>
                     <option :value="calendar.google_id" v-for="calendar in calendars">
                         <i class="fas fa-square"></i>{{ calendar.name }}
                     </option>
