@@ -48,7 +48,7 @@ class GoogleCalendarController extends Controller
 
             //$this->client->authenticate(session('google-calendar-code'));
             $service = new Google_Service_Calendar($this->client);
-            dd($service);
+
             foreach ($service->calendarList->listCalendarList()->getItems() as $calendar) {
                 $results = $service->events->listEvents($calendar->getId());
 
