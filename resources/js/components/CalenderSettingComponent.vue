@@ -103,6 +103,11 @@
                 }
             }
         },
+        watch: {
+            selectedCalendars: function() {
+                this.filterEvents();
+            }
+        },
         methods: {
             setSetting() {
                 const vm = this;
@@ -120,11 +125,9 @@
             syncEvents() {
                 const vm = this;
                 if (vm.appCalendar === 'gCalendar') {
-                    axios.post('/google-calendar/sync', {
-                        appCalendar: vm.appCalendar
-                    }).then(response => {
+                    axios.get('/google-calendar/sync').then(response => {
                         if (response.data.result) {
-                            location.reload();
+                            //location.reload();
                         }
                     }).catch(error => {
                         console.error(error);
@@ -168,6 +171,9 @@
                         if (response.data.result) {
                             vm.calendars = response.data.calendars;
                         }
+                        else {
+                            location.href = response.data.redirect;
+                        }
                     }).catch(error => {
                         console.error(error);
                     });
@@ -175,6 +181,22 @@
             },
             showCalendars() {
                 return (this.configuredCalendars.gCalendar && this.calendars.length > 0);
+            },
+            filterEvents() {
+                const vm = this;
+                if (vm.appCalendar === 'gCalendar') {
+                    axios.post('/google-calendar/filter-events', {
+                        selectedCalendars: vm.selectedCalendars
+                    }).then(response => {
+                        if (response.data.result) {
+                            //actualizar eventos del calendario
+                            window.calendar.removeAllEvents();
+                            window.calendar.addEventSource(response.data.events);
+                        }
+                    }).catch(error => {
+                        console.error(error);
+                    });
+                }
             }
         },
         mounted() {
@@ -183,9 +205,9 @@
                 if (response.data.result) {
                     vm.hasCalendars = response.data.hasCalendars;
                     vm.configuredCalendars.gCalendar = response.data.gCalendar;
-                    vm.getCalendars();
                     vm.appCalendar = 'gCalendar';
                     //vm.syncEvents();
+                    vm.getCalendars();
                 }
             }).catch(error => {
                 console.error(error);

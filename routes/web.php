@@ -369,7 +369,7 @@ Route::get('mi-dash', 'HomeController@midash')->name('me.dash')->middleware('ver
 
 
 Route::group(['middleware' => ['verified'], 'prefix' => 'google-calendar'], function () {
-    Route::resource('/', 'GoogleCalendarController');
+    Route::resource('/', 'GoogleCalendarController', ['except' => ['create', 'show', 'edit']]);
     Route::get('oauth', 'GoogleCalendarController@oauth')->name('google.oauth');
     Route::get('callback', 'GoogleCalendarController@oauth');
     Route::get('get-calendars', 'GoogleCalendarController@getAllCalendarList');
@@ -378,4 +378,5 @@ Route::group(['middleware' => ['verified'], 'prefix' => 'google-calendar'], func
     Route::post('event/delete', 'GoogleCalendarController@destroy');
     Route::get('sync', 'GoogleCalendarController@syncGoogleCalendar')->name('google-calendar-sync');
     Route::post('disconnect', 'GoogleCalendarController@disconnect');
+    Route::post('filter-events', 'GoogleCalendarController@filterEvents');
 });

@@ -35,7 +35,7 @@ var pickerSetStartsAt = $('#cal-start-time').pickatime( 'picker' ),
 pickerSetEndsAt = $('#cal-end-time').pickatime( 'picker' );
 
 /* Configure the calendar */
-var calendar = new FullCalendar.Calendar(calendarEl, {
+window.calendar = new FullCalendar.Calendar(calendarEl, {
     locale: 'es',
     events: data,
     plugins: ["dayGrid", "timeGrid", "interaction"],
@@ -106,7 +106,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 });
 
 // render calendar
-calendar.render();
+window.calendar.render();
 
 // appends bullets to left class of header
 $("#calendarSection .fc-right").append(categoryBullets);
@@ -140,8 +140,8 @@ $('#saveBtn').on('click', function() {
     }).then(response => {
         if (response.data.result) {
 
-            calendar.removeAllEvents();
-            calendar.addEventSource(response.data.events);
+            window.calendar.removeAllEvents();
+            window.calendar.addEventSource(response.data.events);
             resetModal();
         }
     }).catch(error => {
@@ -172,8 +172,8 @@ $("#updateBtn").on("click", function() {
         category: $('#categoriesContainer .selected').data('key')
     }).then(response => {
         if (response.data.result) {
-            calendar.removeAllEvents();
-            calendar.addEventSource(response.data.events);
+            window.calendar.removeAllEvents();
+            window.calendar.addEventSource(response.data.events);
             resetModal();
         }
     }).catch(error => {
@@ -186,11 +186,6 @@ $("#updateBtn").on("click", function() {
             }
         }
     });
-});
-
-//Filtrar eventos por calendarios seleccionados
-$("#myCalendars").on('change', function() {
-    console.log($(this).val());
 });
 
 // Remove Event
@@ -206,8 +201,8 @@ $("#confirmDelete").on("click", function() {
         axios.delete('/events/' + id).then(response => {
             if (response.data.result) {
 
-                calendar.removeAllEvents();
-                calendar.addEventSource(response.data.events);
+                window.calendar.removeAllEvents();
+                window.calendar.addEventSource(response.data.events);
                 resetModal();
             }
         }).catch(error => {

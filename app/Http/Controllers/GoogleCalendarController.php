@@ -12,6 +12,9 @@ use Carbon\Carbon;
 use App\Event;
 use App\CalendarSetting;
 use App\GoogleCalendar;
+use App\Http\Resources\EventsResource;
+
+//use App\User;
 
 class GoogleCalendarController extends Controller
 {
@@ -33,15 +36,6 @@ class GoogleCalendarController extends Controller
         $this->client = $client;
     }
 
-    /*public function checkToken()
-    {
-        $client = new GuzzleClient();
-        $response = $client->request('GET', 'https://www.googleapis.com/drive/v2/files', [
-            'access_token' => session('access_token')['access_token']
-        ]);
-        dd($response->getBody());
-    }*/
-
     /**
      * Display a listing of the resource.
      *
@@ -54,6 +48,7 @@ class GoogleCalendarController extends Controller
 
             //$this->client->authenticate(session('google-calendar-code'));
             $service = new Google_Service_Calendar($this->client);
+            dd($service);
             foreach ($service->calendarList->listCalendarList()->getItems() as $calendar) {
                 $results = $service->events->listEvents($calendar->getId());
 
@@ -103,7 +98,7 @@ class GoogleCalendarController extends Controller
                 }
             }
 
-            session()->flash('message', 'Calendario de google configurado con éxito');
+            session()->flash('message', 'Calendario de google sincronizado');
             return redirect()->route('events.index');
         }
 
@@ -165,16 +160,6 @@ class GoogleCalendarController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -227,28 +212,6 @@ class GoogleCalendarController extends Controller
         }
 
         return response()->json(['result' => false, 'redirect' => '/google-calendar/oauth']);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -498,5 +461,28 @@ class GoogleCalendarController extends Controller
         }
 
         return response()->json(['result' => false], 200);
+    }
+
+    /**
+     * Filtrar eventos de acuerdo a calendario seleccionado
+     *
+     * @method    filterEvents
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     Request         $request    Objeto con información de la petición
+     *
+     * @return    JsonResponse    Json con datos de los eventos asociados a uno o mas calendarios seleccionados
+     */
+    public function filterEvents(Request $request)
+    {
+        if (count($request->selectedCalendars) > 0) {
+            $calendars = GoogleCalendar::whereIn('google_id', $request->selectedCalendars)->get('google_id');
+            $events = auth()->user()->events()->where('eventable_type', GoogleCalendar::class)
+                            ->whereIn('eventable_id', $calendars)->get();
+        } else {
+            $events = auth()->user()->events;
+        }
+        return response()->json(['result' => true, 'events' => EventsResource::collection($events)], 200);
     }
 }
