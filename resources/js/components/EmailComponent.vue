@@ -1,7 +1,9 @@
 <template>
     <div>
         <div v-if="settingUpdate">
-            <email-setting :update="true"></email-setting>
+            <div class="content-area-wrapper">
+                <email-setting :update="true"></email-setting>
+            </div>
         </div>
         <div v-else>
             <div class="content-area-wrapper mg-top">
