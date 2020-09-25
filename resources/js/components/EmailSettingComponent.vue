@@ -1,38 +1,56 @@
 <template>
-  <div class="app-content content" style="overflow:auto;">
+  <div class="app-content content" style="overflow: auto">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
+
     <div class="content-area-wrapper" v-if="configured">
       <email ref="manage"></email>
     </div>
     <div class="content-wrapper" v-else>
       <div class="content-header row"></div>
-      <div class="container">
+      <div class="row">
+        <div class="new-header mb-1">
+          <span class="title">Email</span>
+        </div>
+      </div>
+      <div class="">
         <div class="row justify-content-center">
-          <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="col-lg-8 col-md-8 col-sm-12">
             <div class="card">
               <div v-if="!configStarted">
-                <div class="card-header">Configuración</div>
-                <div
-                  class="card-body"
-                >Conecta tu dirección de correo electrónico para disfrutar de todo el potencial de Ventonic</div>
+                <div class="bg-gradient-primary">
+                  <div class="card_vetonic-description">
+                    <div class="text_vetonic-description1">Configuración</div>
+                  </div>
+                </div>
+
+                <div class="card-body">
+                  Conecta tu dirección de correo electrónico para disfrutar de
+                  todo el potencial de Ventonic
+                </div>
                 <div class="card-footer">
                   <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                       <button
                         type="button"
-                        class="btn btn-primary btn-sm float-right"
+                        class="btn bg-gradient-primary btn-md text-white float-right"
                         title="Pulse sobre el botón para iniciar el proceso de configuración"
                         data-toggle="tooltip"
-                        @click="configStarted=true"
-                      >Iniciar</button>
+                        @click="configStarted = true"
+                      >
+                        Iniciar
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
               <div v-else>
                 <div class="card-body">
-                  <div class="alert alert-danger" role="alert" v-if="settingError">
+                  <div
+                    class="alert alert-danger"
+                    role="alert"
+                    v-if="settingError"
+                  >
                     <h4 class="alert-heading">Error</h4>
                     <p class="mb-0">{{ settingError }}</p>
                   </div>
@@ -45,62 +63,127 @@
                     finishButtonText="Configurar"
                     @on-complete="setSettings"
                   >
-                    <tab-content title="Proveedor de correo" :before-change="validateWizardFirst">
+                    <tab-content
+                      title="Proveedor de correo"
+                      :before-change="validateWizardFirst"
+                    >
                       <div class="row">
                         <div class="col-3" v-for="provider in providers">
                           <div class="custom-control custom-radio">
                             <input
                               type="radio"
-                              :id="'sel'+provider.name"
+                              :id="'sel' + provider.name"
                               name="providerSelected"
                               :value="provider.name"
                               class="custom-control-input"
                               v-model="typeProvider"
                             />
-                            <label class="custom-control-label" :for="'sel'+provider.name">
-                              <img :src="provider.image" :alt="provider.name" class="img-fluid" />
+                            <label
+                              class="custom-control-label"
+                              :for="'sel' + provider.name"
+                            >
+                              <img
+                                :src="provider.image"
+                                :alt="provider.name"
+                                class="img-fluid"
+                              />
                             </label>
                           </div>
                         </div>
                       </div>
                       <div class="row" v-if="typeProvider">
-                        <div class="col-12" v-if="typeProvider==='google'">
+                        <div class="col-12" v-if="typeProvider === 'google'">
                           <hr />
-                          <p>Gmail cuenta con una capa de seguridad extra por lo que es necesario realizar algunos ajustes desde su cuenta de correo antes de proceder a la configuración automática. Para esto acceda a su cuenta de correo y siga los siguientes pasos:</p>
+                          <p>
+                            Gmail cuenta con una capa de seguridad extra por lo
+                            que es necesario realizar algunos ajustes desde su
+                            cuenta de correo antes de proceder a la
+                            configuración automática. Para esto acceda a su
+                            cuenta de correo y siga los siguientes pasos:
+                          </p>
                           <ul>
                             <li>
-                              Haga clic en el icono del perfil de la cuenta ubicado en la parte superior derecha Presione sobre el botón
+                              Haga clic en el icono del perfil de la cuenta
+                              ubicado en la parte superior derecha Presione
+                              sobre el botón
                               <strong>"Gestionar tu cuenta de Google"</strong>
                             </li>
                             <li>
                               En la siguiente página, presionar sobre la opción
-                              <strong>"Seguridad"</strong> del menú lateral izquierdo
+                              <strong>"Seguridad"</strong> del menú lateral
+                              izquierdo
                             </li>
                             <li>
-                              En el listado de opciones presentado, hacer clic en la opción
-                              <strong>"Acceso de apps menos segura"</strong> y darle a la opción de habilitar
+                              En el listado de opciones presentado, hacer clic
+                              en la opción
+                              <strong>"Acceso de apps menos segura"</strong> y
+                              darle a la opción de habilitar
                             </li>
                           </ul>
                         </div>
-                        <div class="col-12" v-if="typeProvider==='yahoo'">
+                        <div class="col-12" v-if="typeProvider === 'yahoo'">
                           <hr />
-                          <p>Yahoo / Aol, cuentan con una capa de seguridad extra por lo que es necesario realizar algunos ajustes desde su cuenta de correo antes de proceder a la configuración automática. Para esto acceda a su cuenta de correo y siga los siguientes pasos:</p>
+                          <p>
+                            Yahoo / Aol, cuentan con una capa de seguridad extra
+                            por lo que es necesario realizar algunos ajustes
+                            desde su cuenta de correo antes de proceder a la
+                            configuración automática. Para esto acceda a su
+                            cuenta de correo y siga los siguientes pasos:
+                          </p>
                           <ul>
-                            <li>Haga clic en el ícono del perfil de la cuenta ubicado en la parte superior derecha</li>
-                            <li>Presione sobre el botón "Información de la cuenta"</li>
-                            <li>En la siguiente página, presionar sobre la opción "Seguridad de la cuenta" del menú lateral izquierdo</li>
-                            <li>En el listado de opciones presentado, hacer clic en la opción "Administrar contraseñas de aplicaciones"</li>
-                            <li>Posteriormente se debe seleccionar el tipo de aplicación, en cuyo caso se selecciona la opción "otras aplicaciones"</li>
-                            <li>Presionar sobre el botón "generar contraseña"</li>
-                            <li>Copiar la contraseña generada ya que esta será la que se utilizará en el proceso de configuración de correo en Ventonic en lugar de la contraseña normal del usuario</li>
+                            <li>
+                              Haga clic en el ícono del perfil de la cuenta
+                              ubicado en la parte superior derecha
+                            </li>
+                            <li>
+                              Presione sobre el botón "Información de la cuenta"
+                            </li>
+                            <li>
+                              En la siguiente página, presionar sobre la opción
+                              "Seguridad de la cuenta" del menú lateral
+                              izquierdo
+                            </li>
+                            <li>
+                              En el listado de opciones presentado, hacer clic
+                              en la opción "Administrar contraseñas de
+                              aplicaciones"
+                            </li>
+                            <li>
+                              Posteriormente se debe seleccionar el tipo de
+                              aplicación, en cuyo caso se selecciona la opción
+                              "otras aplicaciones"
+                            </li>
+                            <li>
+                              Presionar sobre el botón "generar contraseña"
+                            </li>
+                            <li>
+                              Copiar la contraseña generada ya que esta será la
+                              que se utilizará en el proceso de configuración de
+                              correo en Ventonic en lugar de la contraseña
+                              normal del usuario
+                            </li>
                           </ul>
                         </div>
                         <div
                           class="col-12"
-                          v-if="typeProvider==='google' || typeProvider==='yahoo'"
+                          v-if="
+                            typeProvider === 'google' ||
+                            typeProvider === 'yahoo'
+                          "
                         >
-                          <p>Una vez realizada esta configuración en su cuenta de correo, regrese a esta página y presione el botón continuar.</p>
-                          <p>Si no se puede determinar la configuración del servidor de correo, por favor revise en su cuenta la existencia de un correo de alerta enviado por su proveedor indicando el bloqueo de acceso y permita el mismo, luego intente de nuevo la configuración automática.</p>
+                          <p>
+                            Una vez realizada esta configuración en su cuenta de
+                            correo, regrese a esta página y presione el botón
+                            continuar.
+                          </p>
+                          <p>
+                            Si no se puede determinar la configuración del
+                            servidor de correo, por favor revise en su cuenta la
+                            existencia de un correo de alerta enviado por su
+                            proveedor indicando el bloqueo de acceso y permita
+                            el mismo, luego intente de nuevo la configuración
+                            automática.
+                          </p>
                         </div>
                       </div>
                     </tab-content>
@@ -116,7 +199,7 @@
                               type="text"
                               class="form-control"
                               v-model="name"
-                              :class="{'has-error': hasErrors('name')}"
+                              :class="{ 'has-error': hasErrors('name') }"
                             />
                             <span
                               class="invalid-feedback mb-3"
@@ -134,7 +217,7 @@
                               type="email"
                               class="form-control"
                               v-model="email"
-                              :class="{'has-error': hasErrors('email')}"
+                              :class="{ 'has-error': hasErrors('email') }"
                             />
                             <span
                               class="invalid-feedback mb-3"
@@ -147,7 +230,9 @@
                         </div>
                       </div>
                       <hr />
-                      <h6 class="font-weight-bold">Información de inicio de sesión</h6>
+                      <h6 class="font-weight-bold">
+                        Información de inicio de sesión
+                      </h6>
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-xs-12">
                           <div class="form-group">
@@ -156,7 +241,7 @@
                               type="text"
                               class="form-control"
                               v-model="username"
-                              :class="{'has-error': hasErrors('username')}"
+                              :class="{ 'has-error': hasErrors('username') }"
                             />
                             <span
                               class="invalid-feedback mb-3"
@@ -174,7 +259,7 @@
                               type="password"
                               class="form-control"
                               v-model="password"
-                              :class="{'has-error': hasErrors('password')}"
+                              :class="{ 'has-error': hasErrors('password') }"
                             />
                             <span
                               class="invalid-feedback mb-3"
@@ -203,7 +288,7 @@
                             <select
                               class="custom-select"
                               v-model="protocol"
-                              :class="{'has-error': hasErrors('protocol')}"
+                              :class="{ 'has-error': hasErrors('protocol') }"
                               :disabled="autoConfig"
                             >
                               <option value="imap">IMAP</option>
@@ -225,7 +310,9 @@
                               type="text"
                               class="form-control"
                               v-model="incoming_server_host"
-                              :class="{'has-error': hasErrors('incoming_server_host')}"
+                              :class="{
+                                'has-error': hasErrors('incoming_server_host'),
+                              }"
                               :readonly="autoConfig"
                             />
                             <span
@@ -244,7 +331,9 @@
                               type="text"
                               class="form-control"
                               v-model="incoming_server_port"
-                              :class="{'has-error': hasErrors('incoming_server_port')}"
+                              :class="{
+                                'has-error': hasErrors('incoming_server_port'),
+                              }"
                               :readonly="autoConfig"
                             />
                             <span
@@ -258,12 +347,16 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-xs-12">
                           <div class="form-group">
-                            <label for>Servidor de correo saliente (SMTP)</label>
+                            <label for
+                              >Servidor de correo saliente (SMTP)</label
+                            >
                             <input
                               type="text"
                               class="form-control"
                               v-model="outgoing_server_host"
-                              :class="{'has-error': hasErrors('outgoing_server_host')}"
+                              :class="{
+                                'has-error': hasErrors('outgoing_server_host'),
+                              }"
                               :readonly="autoConfig"
                             />
                             <span
@@ -282,7 +375,9 @@
                               type="text"
                               class="form-control"
                               v-model="outgoing_server_port"
-                              :class="{'has-error': hasErrors('outgoing_server_port')}"
+                              :class="{
+                                'has-error': hasErrors('outgoing_server_port'),
+                              }"
                               :readonly="autoConfig"
                             />
                             <span
@@ -411,13 +506,38 @@
                         title="Pulse sobre el botón para desvincular la cuenta configurada"
                         data-toggle="tooltip"
                         @click="removeSettings"
-                      >Eliminar</button>
+                      >
+                        Eliminar
+                      </button>
                       <!--<button type="button" class="btn btn-primary btn-sm float-right" title="Pulse sobre el botón para establecer la configuración" data-toggle="tooltip" @click="setSettings">Configurar</button>-->
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <!-- -->
+            <div class="card">
+              <div class="card-header mb-1">
+                <h4 class="card-title">Configuración de Email</h4>
+              </div>
+              <div class="card-content p-2">
+                <div
+                  class="embed-responsive embed-responsive-item embed-responsive-16by9"
+                >
+                  <video id="sampleMovie" width="100%" preload controls>
+                    <source src="video/email.mp4" />
+                    <source src="video/email.mp4" />
+                    <source src="video/email.mp4" />
+                  </video>
+                </div>
+                <div class="card-body">
+                  <div></div>
+                </div>
+              </div>
+            </div>
+            <!-- -->
           </div>
         </div>
       </div>

@@ -1,9 +1,12 @@
 <template>
     <div>
         <div v-if="settingUpdate">
+
             <email-setting :update="true"></email-setting>
+            
         </div>
         <div v-else>
+            <div class="content-area-wrapper mg-top">
             <div class="sidebar-left">
                 <div class="sidebar">
                     <div class="sidebar-content email-app-sidebar d-flex">
@@ -1226,6 +1229,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>

@@ -65,9 +65,9 @@
                     </div>
                 </div>
             </div>
-            <div class="content-area-wrapper mg-top">
+            
                 <email :download_messages="true"></email>
-            </div>
+            
         </div>
     @endif
 @endsection
