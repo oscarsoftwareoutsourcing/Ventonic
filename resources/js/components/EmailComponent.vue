@@ -3,7 +3,7 @@
         <div v-if="settingUpdate">
             <email-setting :update="true"></email-setting>
         </div>
-        <div class="content-area-wrapper" v-else>
+        <div v-else>
             <div class="content-area-wrapper mg-top">
                 <div class="sidebar-left">
                     <div class="sidebar">
