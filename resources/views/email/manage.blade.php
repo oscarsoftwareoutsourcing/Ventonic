@@ -52,7 +52,12 @@
 
 @section('content')
     @if (isset($hasEmailConfig) && !$hasEmailConfig)
+    <div class="app-content content" style="overflow: auto">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        
         <email-setting></email-setting>
+    </div>
     @else
         <div class="app-content content">
             <div class="content-overlay"></div>
