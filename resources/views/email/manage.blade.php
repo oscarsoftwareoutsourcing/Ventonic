@@ -55,8 +55,11 @@
     <div class="app-content content" style="overflow: auto">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
-        
-        <email-setting></email-setting>
+        <div class="content-wrapper">
+            <div class="content-header row"></div>
+            <div class="">
+            <email-setting></email-setting>
+        </div>
     </div>
     @else
         <div class="app-content content">
