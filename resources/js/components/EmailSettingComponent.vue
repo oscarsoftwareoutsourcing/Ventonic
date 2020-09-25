@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="content-area-wrapper" v-if="configured">
+        <div v-if="configured">
             <email ref="manage"></email>
         </div>
         <div class="content-wrapper" v-else>
