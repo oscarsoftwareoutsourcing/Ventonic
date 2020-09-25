@@ -1,7 +1,7 @@
 <template>
   <div class="col-sm-12">
     <div class="row">
-      <div class="col-sm-4 offset-sm-6" v-if="showCalendars">
+      <div class="col-sm-4 offset-sm-6" v-if="showCalendars()">
         <fieldset class="form-group">
           <select id="myCalendars" class="form-control" v-model="selectedCalendars">
             <option value="0">
@@ -265,22 +265,25 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
     const vm = this;
     axios
       .get("/has-calendars")
       .then((response) => {
-        if (response.data.result) {
+        if (response.data.result && response.data.gCalendar) {
           vm.hasCalendars = response.data.hasCalendars;
           vm.configuredCalendars.gCalendar = response.data.gCalendar;
           vm.appCalendar = "gCalendar";
           //vm.syncEvents();
           vm.getCalendars();
         }
+        vm.showCalendars();
       })
       .catch((error) => {
         console.error(error);
       });
+  },
+  mounted() {
   },
 };
 </script>
