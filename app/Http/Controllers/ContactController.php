@@ -239,6 +239,9 @@ class ContactController extends Controller
                     $gContact =new Google_Service_PeopleService_Person();
                     $name = new Google_Service_PeopleService_Name();
                     $name->setGivenName($request->nombre);
+                    if ($request->apellido) {
+                        $name->setFamilyName($request->apellido);
+                    }
                     $gContact->setNames([$name]);
                     if ($request->telefono) {
                         $number = new  Google_Service_PeopleService_PhoneNumber();
@@ -338,6 +341,9 @@ class ContactController extends Controller
                 $gContact =new Google_Service_PeopleService_Person();
                 $name = new Google_Service_PeopleService_Name();
                 $name->setGivenName($request->nombre);
+                if ($request->apellido) {
+                    $name->setFamilyName($request->apellido);
+                }
                 $gContact->setNames([$name]);
                 if ($request->telefono) {
                     $number = new  Google_Service_PeopleService_PhoneNumber();
