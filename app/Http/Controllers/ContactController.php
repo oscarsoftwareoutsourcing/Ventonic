@@ -19,6 +19,10 @@ use Carbon\Carbon;
 
 use Google_Client;
 use Google_Service_PeopleService;
+use Google_Service_PeopleService_Person;
+use Google_Service_PeopleService_Name;
+use Google_Service_PeopleService_PhoneNumber;
+use Google_Service_PeopleService_EmailAddress;
 use GuzzleHttp\Client as GuzzleClient;
 use App\CalendarSetting;
 
@@ -50,7 +54,7 @@ class ContactController extends Controller
         $gContact = false;
         session()->put('returnUrl', 'contact.list');
 
-        if (!CalendarSetting::where('appType', 'gContact')->get()->isEmpty()) {
+        if (!CalendarSetting::where(['appType' => 'gContact', 'user_id' => auth()->user()->id])->get()->isEmpty()) {
             if (session()->has('access_token') && session('access_token')) {
                 $this->client->setAccessToken(session()->get('access_token'));
                 $service1 = new Google_Service_PeopleService($this->client);
@@ -225,6 +229,33 @@ class ContactController extends Controller
                     ]);
                 }
             }
+
+            /** Si esta configurado con google Contact */
+            $contactSetting = CalendarSetting::where(['appType' => 'gContact', 'user_id' => auth()->user()->id])->first();
+            if ($contactSetting) {
+                $service = new Google_Service_PeopleService($this->client);
+                if (session()->has('access_token') && session('access_token')) {
+                    $this->client->setAccessToken(session()->get('access_token'));
+                    $gContact =new Google_Service_PeopleService_Person();
+                    $name = new Google_Service_PeopleService_Name();
+                    $name->setGivenName($request->nombre);
+                    $gContact->setNames([$name]);
+                    if ($request->telefono) {
+                        $number = new  Google_Service_PeopleService_PhoneNumber();
+                        $number->setValue($request->telefono);
+                        $gContact->setPhoneNumbers($number);
+                    }
+                    if ($request->email) {
+                        $email=new Google_Service_PeopleService_EmailAddress();
+                        $email->setValue($request->email);
+                        $gContact->setEmailAddresses($email);
+                    }
+                    $service->people->createContact($gContact);
+                }
+            } else {
+                session()->put('returnUrl', 'contact.list');
+                return redirect('/google-calendar/oauth');
+            }
         }
 
         return redirect()->route('contact.list');
@@ -297,6 +328,37 @@ class ContactController extends Controller
         // $contact->user_id= $request->user_id ?? null;
         $contact->type_contact= $request->type_contact ?? null;
         $contact->update();
+
+        /** Si esta configurado con google Contact */
+        $contactSetting = CalendarSetting::where(['appType' => 'gContact', 'user_id' => auth()->user()->id])->first();
+        if ($contactSetting && !is_null($contact->external_key) && $contact->external_contact === 'gContact') {
+            $service = new Google_Service_PeopleService($this->client);
+            if (session()->has('access_token') && session('access_token')) {
+                $this->client->setAccessToken(session()->get('access_token'));
+                $gContact =new Google_Service_PeopleService_Person();
+                $name = new Google_Service_PeopleService_Name();
+                $name->setGivenName($request->nombre);
+                $gContact->setNames([$name]);
+                if ($request->telefono) {
+                    $number = new  Google_Service_PeopleService_PhoneNumber();
+                    $number->setValue($request->telefono);
+                    $gContact->setPhoneNumbers($number);
+                }
+                if ($request->email) {
+                    $email=new Google_Service_PeopleService_EmailAddress();
+                    $email->setValue($request->email);
+                    $gContact->setEmailAddresses($email);
+                }
+                $service->people->updateContact(
+                    $contact->external_key,
+                    $gContact,
+                    ['updatePersonFields' => 'names,phoneNumbers,emailAddresses']
+                );
+            }
+        } else {
+            session()->put('returnUrl', 'contact.list');
+            return redirect('/google-calendar/oauth');
+        }
 
         // if(isset($request['private']) && is_array($request['private'])){
         //     $private = implode($request['private']);
@@ -383,6 +445,15 @@ class ContactController extends Controller
             $delete_contact=Contact::find((int)$contact_id);
             $borrado=$delete_contact->delete();
             if (isset($borrado)) {
+                /** Si esta configurado con google Contact */
+                $contactSetting = CalendarSetting::where(['appType' => 'gContact', 'user_id' => auth()->user()->id])->first();
+                if ($contactSetting && !is_null($delete_contact->external_key) && $delete_contact->external_contact === 'gContact') {
+                    $service = new Google_Service_PeopleService($this->client);
+                    if (session()->has('access_token') && session('access_token')) {
+                        $this->client->setAccessToken(session()->get('access_token'));
+                        $service->people->deletecontact($delete_contact->external_key);
+                    }
+                }
                 return redirect()->route('contact.list')->with(['message'=>'Contacto eliminado exitosamente']);
             } else {
                 return redirect()->route('contact.list')->with(['error'=>'No se ha podido eliminar el contacto']);
