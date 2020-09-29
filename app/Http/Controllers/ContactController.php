@@ -72,9 +72,11 @@ class ContactController extends Controller
                         ],
                         [
                             'name' => $gContact->names[0]->givenName,
-                            'last_name' => $gContact->names[0]->familyName,
-                            'email' => $gContact->emailAddresses[0]->value,
-                            'phone' => $gContact->phoneNumbers[0]->canonicalForm
+                            'last_name' => $gContact->names[0]->familyName ?? null,
+                            'email' => (property_exists($gContact, 'emailAddresses') && count($gContact->emailAddresses) > 0)
+                                       ? $gContact->emailAddresses[0]->value : null,
+                            'phone' => (property_exists($gContact, 'phoneNumbers') && count($gContact->phoneNumbers) > 0)
+                                       ? $gContact->phoneNumbers[0]->canonicalForm : null
                         ]
                     );
                 }
