@@ -10,7 +10,7 @@ class Contact extends Model
         'name', 'last_name','image','email','web', 'phone', 'company', 'address', 'city', 'province',
         'postal_code', 'sector', 'notes', 'share', 'country_id','user_id', 'favorite',
         'cargo', 'address_latitude', 'address_longitude', 'private','type_contact', 'contact_type_id',
-        'allow_change_image', 'image_updated_at', 'change_image_user_id'
+        'allow_change_image', 'image_updated_at', 'change_image_user_id', 'external_key', 'external_contact'
     ];
 
     protected $with = ['user'];

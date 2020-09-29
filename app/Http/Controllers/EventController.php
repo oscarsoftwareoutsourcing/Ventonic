@@ -20,6 +20,7 @@ class EventController extends Controller
     {
         try {
             if (auth()->check()) {
+                session()->forget('returnUrl');
                 $events = User::find(auth()->user()->id)->events;
 
                 /* Return data with view */

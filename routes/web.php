@@ -190,6 +190,13 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('change-picture', 'ContactController@changePicture');
         Route::post('remove-picture', 'ContactController@removePicture');
         Route::post('simple-save', 'ContactController@simpleStore');
+        Route::get('set-external-contacts/{type}', function ($type) {
+            if ($type === 'gContact') {
+                return redirect()->route('google.oauth');
+            }
+
+            return redirect()->back();
+        });
     });
 
     /** Rutas de componentes generales de la aplicación */

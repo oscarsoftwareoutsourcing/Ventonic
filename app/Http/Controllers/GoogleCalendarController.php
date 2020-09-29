@@ -14,6 +14,8 @@ use App\CalendarSetting;
 use App\GoogleCalendar;
 use App\Http\Resources\EventsResource;
 
+use Google_Service_PeopleService;
+
 //use App\User;
 
 class GoogleCalendarController extends Controller
@@ -27,6 +29,7 @@ class GoogleCalendarController extends Controller
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/client_id.json'));
         $client->addScope(Google_Service_Calendar::CALENDAR);
+        $client->addScope(Google_Service_PeopleService::CONTACTS);
 
         $guzzleClient = new GuzzleClient([
             'curl' => [CURLOPT_SSL_VERIFYPEER => false]
@@ -127,12 +130,16 @@ class GoogleCalendarController extends Controller
         session()->put('google-calendar-code', $_GET['code']);
         session()->put('access_token', $this->client->getAccessToken());
         CalendarSetting::updateOrCreate(
-            ['appType' => 'gCalendar', 'user_id' => auth()->user()->id],
+            [
+                'appType' => (session()->has('returnUrl') && session('returnUrl') === 'contact.list') ? 'gContact' : 'gCalendar',
+                'user_id' => auth()->user()->id
+            ],
             ['token' => json_encode(session('access_token'))]
         );
 
         /** si se ha indicado una url a la cual redirigir la petición */
         if (session('returnUrl')) {
+            session()->flash('message', 'Datos configurados correctamente');
             return redirect()->route(session('returnUrl'));
         }
 

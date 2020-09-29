@@ -25,9 +25,9 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    
+
                     <div class="card card-oportunity mb-1">
-                      
+
                         <div class="card-body">
                             @if(session('message'))
                                 <div class="alert alert-success">
@@ -37,48 +37,109 @@
                             @endif
 
                             @if(session('error'))
-                            <div class="alert alert-danger">
-                                <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
-                                {{session('error')}}
-                            </div>
-                            @endif
-                    
-                        <form action="{{ route('contact.list') }}" method="GET">
-                            @csrf
-                            <div class="row">
-                                <div class="col-5">
-                                    <fieldset class="form-label-group form-group position-relative has-icon-left">
-                                        <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar contacto..." value="{{ request()->oportunitySearch }}">
-                                        <div class="form-control-position">
-                                            <i class="feather icon-search"></i>
-                                        </div>
-                                                        
-                                    </fieldset>
-
-                                
+                                <div class="alert alert-danger">
+                                    <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                    {{session('error')}}
                                 </div>
-                                <div class="col-5">
-                                    <div class="form-label-group">
-                                        <select class="form-control" id="type-contact" name="etiquetas">
-                                            <option value="0" {{ request()->etiquetas=='0'?'selected':'' }}>
-                                                Busqueda por tipo de cliente
-                                            </option>
-                                            @foreach ($contactTypes as $contactType)
-                                                <option value="{{ $contactType->id }}"
-                                                        {{ request()->etiquetas==$contactType->id?'selected':'' }}>
-                                                    {{ $contactType->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <label for="email-id-column">Tipo</label>
+                            @endif
+
+                            <div class="row mb-2">
+                                <div class="col-sm-1 offset-sm-11">
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modalSetting"
+                                       title="Configuración de contactos externos">
+                                        <i class="feather icon-settings"></i>
+                                    </a>
+                                    <div class="modal fade" id="modalSetting">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Configuración</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        <span class="sr-only">Close</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-12 text-center">
+                                                            <!-- Opción para seleccionar contactos de google -->
+                                                            <div class="custom-control custom-radio custom-control-inline"
+                                                                 data-toggle="tooltip" title="Contactos de Google">
+                                                                <input type="radio" id="googleContact" name="externalContact"
+                                                                       class="custom-control-input" value="gContact" checked/>
+                                                                <label class="custom-control-label" for="googleContact">
+                                                                    <img src="/images/contact/google-contacts.png"
+                                                                         alt="Google Contacts" class="img-sel img-fluid"/>
+                                                                    @if ($gContact)
+                                                                        <div class="row">
+                                                                            <div class="col-12">
+                                                                                <div class="alert alert-success" role="alert">
+                                                                                    Configurado
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                        Cerrar
+                                                    </button>
+                                                    @if ($gContact)
+                                                        <button type="button" class="btn btn-warning"
+                                                                onclick="disconnectSetting()">
+                                                            Eliminar
+                                                        </button>
+                                                    @endif
+                                                    <button type="button" class="btn btn-primary" onclick="setSetting()">
+                                                        Guardar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <button type="submit" class="btn btn-primary float-right">Buscar</button>
-                                </div>
                             </div>
-                        
-                        </form>
+
+                            <form action="{{ route('contact.list') }}" method="GET">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-5">
+                                        <fieldset class="form-label-group form-group position-relative has-icon-left">
+                                            <input type="text" id="textSearch" name="oportunitySearch" class="form-control" placeholder="Buscar contacto..." value="{{ request()->oportunitySearch }}">
+                                            <div class="form-control-position">
+                                                <i class="feather icon-search"></i>
+                                            </div>
+
+                                        </fieldset>
+
+
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="form-label-group">
+                                            <select class="form-control" id="type-contact" name="etiquetas">
+                                                <option value="0" {{ request()->etiquetas=='0'?'selected':'' }}>
+                                                    Busqueda por tipo de cliente
+                                                </option>
+                                                @foreach ($contactTypes as $contactType)
+                                                    <option value="{{ $contactType->id }}"
+                                                            {{ request()->etiquetas==$contactType->id?'selected':'' }}>
+                                                        {{ $contactType->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <label for="email-id-column">Tipo</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" class="btn btn-primary float-right">Buscar</button>
+                                    </div>
+                                </div>
+
+                            </form>
 
                         </div>
                     </div>
@@ -134,4 +195,10 @@
 <script src="{{ asset('js/scripts/ui/data-list-view.js') }}"></script>
 <script src="{{ asset('/js/scripts/modal/components-modal.js') }}"></script>
 <script>$("#datatable").DataTable();</script>
+<script>
+    var setSetting = function() {
+        let type = $('#googleContact').val();
+        location.href = `/contacto/set-external-contacts/${type}`;
+    }
+</script>
 @endsection

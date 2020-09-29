@@ -17,8 +17,29 @@ use App\ContactGroup;
 use App\GroupUser;
 use Carbon\Carbon;
 
+use Google_Client;
+use Google_Service_PeopleService;
+use GuzzleHttp\Client as GuzzleClient;
+use App\CalendarSetting;
+
 class ContactController extends Controller
 {
+    public function __construct()
+    {
+        $rurl = action('GoogleCalendarController@oauth');
+
+        $client = new Google_Client();
+        $client->setAuthConfig(storage_path('app/google-calendar/client_id.json'));
+        $client->addScope(Google_Service_PeopleService::CONTACTS);
+
+        $guzzleClient = new GuzzleClient([
+            'curl' => [CURLOPT_SSL_VERIFYPEER => false]
+        ]);
+        $client->setHttpClient($guzzleClient);
+
+        $this->client = $client;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,6 +47,38 @@ class ContactController extends Controller
      */
     public function index(Request $request)
     {
+        $gContact = false;
+        session()->put('returnUrl', 'contact.list');
+
+        if (!CalendarSetting::where('appType', 'gContact')->get()->isEmpty()) {
+            if (session()->has('access_token') && session('access_token')) {
+                $this->client->setAccessToken(session()->get('access_token'));
+                $service1 = new Google_Service_PeopleService($this->client);
+                $optParams = [
+                      'pageSize' => 2000,
+                      'personFields' => 'names,emailAddresses,phoneNumbers,emailAddresses',
+                    ];
+                $resultsPeople = $service1->people_connections->listPeopleConnections('people/me', $optParams);
+                foreach ($resultsPeople as $key => $gContact) {
+                    Contact::updateOrCreate(
+                        [
+                            'external_key' => $gContact->resourceName,
+                            'external_contact' => 'gContact',
+                            'user_id' => auth()->user()->id
+                        ],
+                        [
+                            'name' => $gContact->names[0]->givenName,
+                            'last_name' => $gContact->names[0]->familyName,
+                            'email' => $gContact->emailAddresses[0]->value,
+                            'phone' => $gContact->phoneNumbers[0]->canonicalForm
+                        ]
+                    );
+                }
+            } else {
+                return redirect('/google-calendar/oauth');
+            }
+            $gContact = true;
+        }
         /** @var Object Objeto con información de los contactos propios del usuario */
         $contacts = Contact::where('user_id', auth()->user()->id)->get();
         /** @var Object Objeto con información de los grupos en los que se encuentra el usuario */
@@ -73,7 +126,7 @@ class ContactController extends Controller
         $contacts = $this->paginate($contacts, 5, null, ['path' => 'listado' . $path]);
         $contactTypes = ContactType::all();
 
-        return view('contact.list-contact', compact('contacts', 'contactTypes'));
+        return view('contact.list-contact', compact('contacts', 'contactTypes', 'gContact'));
     }
 
     /**
