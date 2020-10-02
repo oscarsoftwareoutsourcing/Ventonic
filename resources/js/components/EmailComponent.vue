@@ -10,205 +10,103 @@
                 <div class="sidebar-left">
                     <div class="sidebar">
                         <div class="sidebar-content email-app-sidebar d-flex">
-                            <span
-                                class="sidebar-close-icon"
-                                @click="closeContentFolder"
-                            >
+                            <span class="sidebar-close-icon" @click="closeContentFolder">
                                 <i class="feather icon-x"></i>
                             </span>
                             <div class="email-app-menu">
-                                <div
-                                    class="form-group form-group-compose text-center compose-btn"
-                                >
-                                    <button
-                                        type="button"
-                                        class="btn btn-primary btn-block my-2"
-                                        data-toggle="modal"
-                                        data-target="#composeForm"
-                                        id="composeEmail"
-                                    >
+                                <div class="form-group form-group-compose text-center compose-btn">
+                                    <button type="button" class="btn btn-primary btn-block my-2" data-toggle="modal" data-target="#composeForm" id="composeEmail">
                                         <i class="feather icon-edit"></i> Nuevo
                                     </button>
                                 </div>
-                                <div
-                                    class="sidebar-menu-list"
-                                    style="overflow:auto"
-                                >
-                                    <div
-                                        class="list-group list-group-messages font-medium-1"
-                                    >
-                                        <a
-                                            href="javascript:void(0)"
-                                            @click="setFolder('inbox')"
-                                            class="list-group-item list-group-item-action border-0 pt-0 active"
-                                        >
-                                            <i
-                                                class="font-medium-5 feather icon-mail mr-50"
-                                            ></i>
+                                <div class="sidebar-menu-list" style="overflow:auto">
+                                    <div class="list-group list-group-messages font-medium-1">
+                                        <a href="javascript:void(0)" @click="setFolder('inbox')" class="list-group-item list-group-item-action border-0 pt-0 active">
+                                            <i class="font-medium-5 feather icon-mail mr-50"></i>
                                             Entrada
-                                            <span
-                                                class="badge badge-danger badge-pill float-right ml-2"
-                                                v-if="
+                                            <span class="badge badge-danger badge-pill float-right ml-2" v-if="
                                                     countUnread(emails.inbox) >
                                                         0
-                                                "
-                                            >
+                                                ">
                                                 {{ countUnread(emails.inbox) }}
                                             </span>
-                                            <span
-                                                class="badge badge-default badge-pill float-right"
-                                            >
+                                            <span class="badge badge-default badge-pill float-right">
                                                 {{
-                                                    countMessages(emails.inbox)
+                                                countMessages(emails.inbox)
                                                 }}
                                             </span>
                                         </a>
-                                        <a
-                                            href="javascript:void(0)"
-                                            class="list-group-item list-group-item-action border-0"
-                                            @click="setFolder('sent')"
-                                        >
-                                            <i
-                                                class="font-medium-5 feather icon-navigation mr-50"
-                                            ></i>
+                                        <a href="javascript:void(0)" class="list-group-item list-group-item-action border-0" @click="setFolder('sent')">
+                                            <i class="font-medium-5 feather icon-navigation mr-50"></i>
                                             Enviados
-                                            <span
-                                                class="badge badge-default badge-pill float-right"
-                                            >
+                                            <span class="badge badge-default badge-pill float-right">
                                                 {{
-                                                    countMessages(messages_send)
+                                                countMessages(messages_send)
                                                 }}
                                             </span>
                                         </a>
-                                        <a
-                                            href="javascript:void(0)"
-                                            class="list-group-item list-group-item-action border-0"
-                                            @click="setFolder('draft')"
-                                        >
-                                            <i
-                                                class="font-medium-5 feather icon-edit-2 mr-50"
-                                            ></i>
+                                        <a href="javascript:void(0)" class="list-group-item list-group-item-action border-0" @click="setFolder('draft')">
+                                            <i class="font-medium-5 feather icon-edit-2 mr-50"></i>
                                             Borradores
-                                            <span
-                                                class="badge badge-default badge-pill float-right"
-                                            >
+                                            <span class="badge badge-default badge-pill float-right">
                                                 {{ countMessages(draft) }}
                                             </span>
                                         </a>
-                                        <a
-                                            href="javascript:void(0)"
-                                            class="list-group-item list-group-item-action border-0"
-                                            @click="setFolder('favorites')"
-                                        >
-                                            <i
-                                                class="font-medium-5 feather icon-star mr-50"
-                                            ></i>
+                                        <a href="javascript:void(0)" class="list-group-item list-group-item-action border-0" @click="setFolder('favorites')">
+                                            <i class="font-medium-5 feather icon-star mr-50"></i>
                                             Favoritos
-                                            <span
-                                                class="badge badge-danger badge-pill float-right ml-2"
-                                                v-if="
+                                            <span class="badge badge-danger badge-pill float-right ml-2" v-if="
                                                     countUnread(favorites) > 0
-                                                "
-                                            >
+                                                ">
                                                 {{ countUnread(favorites) }}
                                             </span>
-                                            <span
-                                                class="badge badge-default badge-pill float-right"
-                                            >
+                                            <span class="badge badge-default badge-pill float-right">
                                                 {{ countMessages(favorites) }}
                                             </span>
                                         </a>
-                                        <a
-                                            href="javascript:void(0)"
-                                            class="list-group-item list-group-item-action border-0"
-                                            @click="setFolder('spam')"
-                                        >
-                                            <i
-                                                class="font-medium-5 feather icon-info mr-50"
-                                            ></i>
+                                        <a href="javascript:void(0)" class="list-group-item list-group-item-action border-0" @click="setFolder('spam')">
+                                            <i class="font-medium-5 feather icon-info mr-50"></i>
                                             Spam
-                                            <span
-                                                class="badge badge-danger badge-pill float-right ml-2"
-                                                v-if="countUnread(spam) > 0"
-                                            >
+                                            <span class="badge badge-danger badge-pill float-right ml-2" v-if="countUnread(spam) > 0">
                                                 {{ countUnread(spam) }}
                                             </span>
-                                            <span
-                                                class="badge badge-default badge-pill float-right"
-                                            >
+                                            <span class="badge badge-default badge-pill float-right">
                                                 {{
-                                                    typeof emails.spam !==
-                                                    "undefined"
-                                                        ? emails.spam.length
-                                                        : 0
+                                                typeof emails.spam !==
+                                                "undefined"
+                                                ? emails.spam.length
+                                                : 0
                                                 }}
                                             </span>
                                         </a>
-                                        <a
-                                            href="javascript:void(0)"
-                                            class="list-group-item list-group-item-action border-0"
-                                            @click="setFolder('trash')"
-                                        >
-                                            <i
-                                                class="font-medium-5 feather icon-trash mr-50"
-                                            ></i>
+                                        <a href="javascript:void(0)" class="list-group-item list-group-item-action border-0" @click="setFolder('trash')">
+                                            <i class="font-medium-5 feather icon-trash mr-50"></i>
                                             Papelera
-                                            <span
-                                                class="badge badge-danger badge-pill float-right ml-2"
-                                                v-if="countUnread(trash) > 0"
-                                            >
+                                            <span class="badge badge-danger badge-pill float-right ml-2" v-if="countUnread(trash) > 0">
                                                 {{ countUnread(trash) }}
                                             </span>
-                                            <span
-                                                class="badge badge-default badge-pill float-right"
-                                            >
+                                            <span class="badge badge-default badge-pill float-right">
                                                 {{ countMessages(trash) }}
                                             </span>
                                         </a>
                                     </div>
                                     <hr />
                                     <h5 class="my-2 pt-25">Etiquetas</h5>
-                                    <div
-                                        class="list-group list-group-labels font-medium-1"
-                                    >
-                                        <a
-                                            class="list-group-item list-group-item-action border-0 d-flex align-items-center"
-                                            href="javascript:void(0)"
-                                            @click="setFolder('tag_pe')"
-                                        >
-                                            <span
-                                                class="bullet bullet-success mr-1"
-                                            ></span>
+                                    <div class="list-group list-group-labels font-medium-1">
+                                        <a class="list-group-item list-group-item-action border-0 d-flex align-items-center" href="javascript:void(0)" @click="setFolder('tag_pe')">
+                                            <span class="bullet bullet-success mr-1"></span>
                                             Personal
                                         </a>
-                                        <a
-                                            class="list-group-item list-group-item-action border-0 d-flex align-items-center"
-                                            href="javascript:void(0)"
-                                            @click="setFolder('tag_co')"
-                                        >
-                                            <span
-                                                class="bullet bullet-primary mr-1"
-                                            ></span>
+                                        <a class="list-group-item list-group-item-action border-0 d-flex align-items-center" href="javascript:void(0)" @click="setFolder('tag_co')">
+                                            <span class="bullet bullet-primary mr-1"></span>
                                             Compañía
                                         </a>
-                                        <a
-                                            class="list-group-item list-group-item-action border-0 d-flex align-items-center"
-                                            href="javascript:void(0)"
-                                            @click="setFolder('tag_im')"
-                                        >
-                                            <span
-                                                class="bullet bullet-warning mr-1"
-                                            ></span>
+                                        <a class="list-group-item list-group-item-action border-0 d-flex align-items-center" href="javascript:void(0)" @click="setFolder('tag_im')">
+                                            <span class="bullet bullet-warning mr-1"></span>
                                             Importante
                                         </a>
-                                        <a
-                                            class="list-group-item list-group-item-action border-0 d-flex align-items-center"
-                                            href="javascript:void(0)"
-                                            @click="setFolder('tag_pr')"
-                                        >
-                                            <span
-                                                class="bullet bullet-danger mr-1"
-                                            ></span>
+                                        <a class="list-group-item list-group-item-action border-0 d-flex align-items-center" href="javascript:void(0)" @click="setFolder('tag_pr')">
+                                            <span class="bullet bullet-danger mr-1"></span>
                                             Privado
                                         </a>
                                     </div>
@@ -216,214 +114,100 @@
                             </div>
                         </div>
                         <!-- Modal -->
-                        <div
-                            class="modal fade text-left"
-                            id="composeForm"
-                            tabindex="-1"
-                            role="dialog"
-                            aria-labelledby="emailCompose"
-                            aria-hidden="true"
-                        >
+                        <div class="modal fade text-left" id="composeForm" tabindex="-1" role="dialog" aria-labelledby="emailCompose" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h3
-                                            class="modal-title text-text-bold-600"
-                                            id="emailCompose"
-                                        >
+                                        <h3 class="modal-title text-text-bold-600" id="emailCompose">
                                             {{ titleSentMessage }}
                                         </h3>
-                                        <button
-                                            type="button"
-                                            class="close"
-                                            data-dismiss="modal"
-                                            aria-label="Close"
-                                        >
-                                            <span aria-hidden="true"
-                                                >&times;</span
-                                            >
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body pt-1">
                                         <div class="form-label-group mt-3">
-                                            <input
-                                                type="text"
-                                                id="emailTo"
-                                                class="form-control"
-                                                placeholder="Para"
-                                                name="fname-floating"
-                                                v-model="sent.to"
-                                                data-toggle="tooltip"
-                                                title="dirección de correo electrónico de la persona a la cual enviar"
-                                                :class="{
+                                            <input type="text" id="emailTo" class="form-control" placeholder="Para" name="fname-floating" v-model="sent.to" data-toggle="tooltip" title="dirección de correo electrónico de la persona a la cual enviar" :class="{
                                                     'has-error': hasErrors('to')
-                                                }"
-                                            />
+                                                }" />
                                             <label for="emailTo">Para</label>
-                                            <span
-                                                class="invalid-feedback mb-3"
-                                                role="alert"
-                                                v-if="hasErrors('to')"
-                                            >
+                                            <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('to')">
                                                 <strong>{{ errors.to }}</strong>
                                             </span>
                                         </div>
                                         <div class="form-label-group">
-                                            <input
-                                                type="text"
-                                                id="emailSubject"
-                                                class="form-control"
-                                                placeholder="Asunto"
-                                                name="fname-floating"
-                                                v-model="sent.subject"
-                                                data-toggle="tooltip"
-                                                title="Asunto del correo electrónico"
-                                                :class="{
+                                            <input type="text" id="emailSubject" class="form-control" placeholder="Asunto" name="fname-floating" v-model="sent.subject" data-toggle="tooltip" title="Asunto del correo electrónico" :class="{
                                                     'has-error': hasErrors(
                                                         'subject'
                                                     )
-                                                }"
-                                            />
-                                            <label for="emailSubject"
-                                                >Asunto</label
-                                            >
-                                            <span
-                                                class="invalid-feedback mb-3"
-                                                role="alert"
-                                                v-if="hasErrors('subject')"
-                                            >
+                                                }" />
+                                            <label for="emailSubject">Asunto</label>
+                                            <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('subject')">
                                                 <strong>{{
                                                     errors.subject
-                                                }}</strong>
+                                                    }}</strong>
                                             </span>
                                         </div>
                                         <div class="form-label-group">
-                                            <input
-                                                type="text"
-                                                id="emailCC"
-                                                class="form-control"
-                                                placeholder="CC"
-                                                name="fname-floating"
-                                                v-model="sent.cc"
-                                                data-title="tooltip"
-                                                title="correo electrónico a quién enviar una copia"
-                                                :class="{
+                                            <input type="text" id="emailCC" class="form-control" placeholder="CC" name="fname-floating" v-model="sent.cc" data-title="tooltip" title="correo electrónico a quién enviar una copia" :class="{
                                                     'has-error': hasErrors('cc')
-                                                }"
-                                            />
+                                                }" />
                                             <label for="emailCC">CC</label>
-                                            <span
-                                                class="invalid-feedback mb-3"
-                                                role="alert"
-                                                v-if="hasErrors('cc')"
-                                            >
+                                            <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('cc')">
                                                 <strong>{{ errors.cc }}</strong>
                                             </span>
                                         </div>
                                         <div class="form-label-group">
-                                            <input
-                                                type="text"
-                                                id="emailBCC"
-                                                class="form-control"
-                                                placeholder="BCC"
-                                                name="fname-floating"
-                                                v-model="sent.bcc"
-                                                data-toggle="tooltip"
-                                                title="dirección de correo a quién enviar una copia oculta"
-                                                :class="{
+                                            <input type="text" id="emailBCC" class="form-control" placeholder="BCC" name="fname-floating" v-model="sent.bcc" data-toggle="tooltip" title="dirección de correo a quién enviar una copia oculta" :class="{
                                                     'has-error': hasErrors(
                                                         'bcc'
                                                     )
-                                                }"
-                                            />
+                                                }" />
                                             <label for="emailBCC">BCC</label>
-                                            <span
-                                                class="invalid-feedback mb-3"
-                                                role="alert"
-                                                v-if="hasErrors('bcc')"
-                                            >
+                                            <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('bcc')">
                                                 <strong>{{
                                                     errors.bcc
-                                                }}</strong>
+                                                    }}</strong>
                                             </span>
                                         </div>
                                         <div id="email-container">
                                             <!--<div class="editor" data-placeholder="Message" v-model="sent.message"></div>-->
-                                            <textarea
-                                                class="form-control"
-                                                cols="30"
-                                                rows="4"
-                                                v-model="sent.message"
-                                                placeholder="Mensaje"
-                                                data-toggle="tooltip"
-                                                title="Mensaje del correo electrónico"
-                                                :class="{
+                                            <textarea class="form-control" cols="30" rows="4" v-model="sent.message" placeholder="Mensaje" data-toggle="tooltip" title="Mensaje del correo electrónico" :class="{
                                                     'has-error': hasErrors(
                                                         'message'
                                                     )
-                                                }"
-                                            ></textarea>
-                                            <span
-                                                class="invalid-feedback mb-3"
-                                                role="alert"
-                                                v-if="hasErrors('message')"
-                                            >
+                                                }"></textarea>
+                                            <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('message')">
                                                 <strong>{{
                                                     errors.message
-                                                }}</strong>
+                                                    }}</strong>
                                             </span>
                                         </div>
                                         <div class="form-group mt-2">
                                             <div class="custom-file">
-                                                <input
-                                                    type="file"
-                                                    class="custom-file-input"
-                                                    id="emailAttach"
-                                                    data-toggle="tooltip"
-                                                    title="archivo adjunto"
-                                                    @change="uploadAttachment"
-                                                />
-                                                <label
-                                                    class="custom-file-label"
-                                                    for="emailAttach"
-                                                    >Archivo adjunto</label
-                                                >
+                                                <input type="file" class="custom-file-input" id="emailAttach" data-toggle="tooltip" title="archivo adjunto" @change="uploadAttachment" />
+                                                <label class="custom-file-label" for="emailAttach">Archivo adjunto</label>
                                             </div>
-                                            <div
-                                                class="mail-files py-2"
-                                                v-if="
+                                            <div class="mail-files py-2" v-if="
                                                     newEmailAttachments.length >
                                                         0
-                                                "
-                                            >
-                                                <div
-                                                    class="chip chip-primary mr-2"
-                                                    v-for="attach in newEmailAttachments"
-                                                >
-                                                    <div
-                                                        class="chip-body py-50"
-                                                    >
-                                                        <i
-                                                            class="fa fa-paperclip font-medium-2 mr-50"
-                                                        ></i>
+                                                ">
+                                                <div class="chip chip-primary mr-2" v-for="attach in newEmailAttachments">
+                                                    <div class="chip-body py-50">
+                                                        <i class="fa fa-paperclip font-medium-2 mr-50"></i>
                                                         <span class="chip-text">
                                                             {{
-                                                                getAttachName(
-                                                                    attach
-                                                                )
+                                                            getAttachName(
+                                                            attach
+                                                            )
                                                             }}
                                                         </span>
-                                                        <div
-                                                            class="chip-closeable"
-                                                            @click="
+                                                        <div class="chip-closeable" @click="
                                                                 deleteAttach(
                                                                     attach
                                                                 )
-                                                            "
-                                                        >
-                                                            <i
-                                                                class="feather icon-x"
-                                                            ></i>
+                                                            ">
+                                                            <i class="feather icon-x"></i>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -431,31 +215,9 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <input
-                                            type="button"
-                                            value="Enviar"
-                                            class="btn btn-primary"
-                                            data-toggle="tooltip"
-                                            title="Enviar correo electrónico"
-                                            @click="sentMessage"
-                                        />
-                                        <input
-                                            type="button"
-                                            value="Guardar"
-                                            class="btn btn-primary"
-                                            data-toggle="tooltip"
-                                            title="Guardar correo electrónico en borradores"
-                                            @click="saveDraft"
-                                        />
-                                        <input
-                                            type="Reset"
-                                            value="Cancelar"
-                                            class="btn btn-white"
-                                            data-dismiss="modal"
-                                            data-toggle="tooltip"
-                                            title="Cancelar envio de correo"
-                                            @click="resetMessage"
-                                        />
+                                        <input type="button" value="Enviar" class="btn btn-primary" data-toggle="tooltip" title="Enviar correo electrónico" @click="sentMessage" />
+                                        <input type="button" value="Guardar" class="btn btn-primary" data-toggle="tooltip" title="Guardar correo electrónico en borradores" @click="saveDraft" />
+                                        <input type="Reset" value="Cancelar" class="btn btn-white" data-dismiss="modal" data-toggle="tooltip" title="Cancelar envio de correo" @click="resetMessage" />
                                     </div>
                                 </div>
                             </div>
@@ -466,1201 +228,683 @@
                     <div class="content-wrapper">
                         <div class="content-header row"></div>
                         <div class="content-body">
-                            <div
-                                class="app-content-overlay"
-                                @click="closeContentFolder"
-                            ></div>
+                            <div class="app-content-overlay" @click="closeContentFolder"></div>
                             <div class="email-app-area">
                                 <!-- Email list Area -->
                                 <div class="email-app-list-wrapper">
                                     <div class="email-app-list">
                                         <div class="app-fixed-search">
-                                            <div
-                                                class="sidebar-toggle d-block d-lg-none"
-                                                @click="openContentFolder"
-                                            >
-                                                <i
-                                                    class="feather icon-menu"
-                                                ></i>
+                                            <div class="sidebar-toggle d-block d-lg-none" @click="openContentFolder">
+                                                <i class="feather icon-menu"></i>
                                             </div>
-                                            <fieldset
-                                                class="form-group position-relative has-icon-left m-0"
-                                            >
-                                                <input
-                                                    type="text"
-                                                    class="form-control"
-                                                    id="email-search"
-                                                    placeholder="Buscar email"
-                                                />
-                                                <div
-                                                    class="form-control-position"
-                                                >
-                                                    <i
-                                                        class="feather icon-search"
-                                                    ></i>
+                                            <fieldset class="form-group position-relative has-icon-left m-0">
+                                                <input type="text" class="form-control" id="email-search" placeholder="Buscar email" />
+                                                <div class="form-control-position">
+                                                    <i class="feather icon-search"></i>
                                                 </div>
                                             </fieldset>
                                         </div>
                                         <div class="app-action">
                                             <div class="action-left">
-                                                <div
-                                                    class="vs-checkbox-con selectAll"
-                                                >
+                                                <div class="vs-checkbox-con selectAll">
                                                     <input type="checkbox" />
                                                     <span class="vs-checkbox">
-                                                        <span
-                                                            class="vs-checkbox--check"
-                                                        >
-                                                            <i
-                                                                class="vs-icon feather icon-minus"
-                                                            ></i>
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-minus"></i>
                                                         </span>
                                                     </span>
-                                                    <span
-                                                        >Seleccionar todos</span
-                                                    >
+                                                    <span>Seleccionar todos</span>
                                                 </div>
                                             </div>
                                             <div class="action-right">
                                                 <ul class="list-inline m-0">
-                                                    <li
-                                                        class="list-inline-item"
-                                                    >
-                                                        <a
-                                                            href="javascript:void(0)"
-                                                            data-toggle="tooltip"
-                                                            title="verificar correos nuevos"
-                                                            @click="
+                                                    <li class="list-inline-item">
+                                                        <a href="javascript:void(0)" data-toggle="tooltip" title="verificar correos nuevos" @click="
                                                                 getEmails(1)
-                                                            "
-                                                        >
-                                                            <span
-                                                                class="action-icon"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-refresh-cw"
-                                                                ></i>
+                                                            ">
+                                                            <span class="action-icon">
+                                                                <i class="feather icon-refresh-cw"></i>
                                                             </span>
                                                         </a>
                                                     </li>
-                                                    <li
-                                                        class="list-inline-item"
-                                                    >
-                                                        <a
-                                                            href="javascript:void(0)"
-                                                            @click="setting()"
-                                                            data-toggle="tooltip"
-                                                            title="reconfigurar correo"
-                                                        >
-                                                            <span
-                                                                class="action-icon"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-settings"
-                                                                ></i>
+                                                    <li class="list-inline-item">
+                                                        <a href="javascript:void(0)" @click="setting()" data-toggle="tooltip" title="reconfigurar correo">
+                                                            <span class="action-icon">
+                                                                <i class="feather icon-settings"></i>
                                                             </span>
                                                         </a>
                                                     </li>
-                                                    <li
-                                                        class="list-inline-item"
-                                                    >
+                                                    <li class="list-inline-item">
                                                         <div class="dropdown">
-                                                            <a
-                                                                class="dropdown-toggle"
-                                                                id="folder"
-                                                                data-toggle="dropdown"
-                                                                aria-haspopup="true"
-                                                                aria-expanded="false"
-                                                                href="javascript:void(0)"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-folder"
-                                                                ></i>
+                                                            <a class="dropdown-toggle" id="folder" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="javascript:void(0)">
+                                                                <i class="feather icon-folder"></i>
                                                             </a>
-                                                            <div
-                                                                class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="folder"
-                                                            >
-                                                                <a
-                                                                    class="dropdown-item d-flex font-medium-1"
-                                                                    href="javascript:void(0)"
-                                                                    @click="
+                                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="folder">
+                                                                <a class="dropdown-item d-flex font-medium-1" href="javascript:void(0)" @click="
                                                                         markAs(
                                                                             'draft'
                                                                         )
-                                                                    "
-                                                                >
-                                                                    <i
-                                                                        class="font-medium-3 feather icon-edit-2 mr-50"
-                                                                    ></i>
+                                                                    ">
+                                                                    <i class="font-medium-3 feather icon-edit-2 mr-50"></i>
                                                                     Borrador
                                                                 </a>
-                                                                <a
-                                                                    class="dropdown-item d-flex font-medium-1"
-                                                                    href="javascript:void(0)"
-                                                                    @click="
+                                                                <a class="dropdown-item d-flex font-medium-1" href="javascript:void(0)" @click="
                                                                         markAs(
                                                                             'spam'
                                                                         )
-                                                                    "
-                                                                >
-                                                                    <i
-                                                                        class="font-medium-3 feather icon-info mr-50"
-                                                                    ></i>
+                                                                    ">
+                                                                    <i class="font-medium-3 feather icon-info mr-50"></i>
                                                                     Spam
                                                                 </a>
-                                                                <a
-                                                                    class="dropdown-item d-flex font-medium-1"
-                                                                    href="javascript:void(0)"
-                                                                    @click="
+                                                                <a class="dropdown-item d-flex font-medium-1" href="javascript:void(0)" @click="
                                                                         deleteMessage()
-                                                                    "
-                                                                >
-                                                                    <i
-                                                                        class="font-medium-3 feather icon-trash mr-50"
-                                                                    ></i>
+                                                                    ">
+                                                                    <i class="font-medium-3 feather icon-trash mr-50"></i>
                                                                     Papelera
                                                                 </a>
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    <li
-                                                        class="list-inline-item"
-                                                    >
+                                                    <li class="list-inline-item">
                                                         <div class="dropdown">
-                                                            <a
-                                                                class="dropdown-toggle"
-                                                                id="tag"
-                                                                data-toggle="dropdown"
-                                                                aria-haspopup="true"
-                                                                aria-expanded="false"
-                                                                href="javascript:void(0)"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-tag"
-                                                                ></i>
+                                                            <a class="dropdown-toggle" id="tag" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="javascript:void(0)">
+                                                                <i class="feather icon-tag"></i>
                                                             </a>
-                                                            <div
-                                                                class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="tag"
-                                                            >
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                    @click="
+                                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="tag">
+                                                                <a href="javascript:void(0)" @click="
                                                                         tagMessage(
                                                                             'PE'
                                                                         )
-                                                                    "
-                                                                    class="dropdown-item font-medium-1"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-success bullet-sm"
-                                                                    ></span>
+                                                                    " class="dropdown-item font-medium-1">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
                                                                     Personal
                                                                 </a>
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                    @click="
+                                                                <a href="javascript:void(0)" @click="
                                                                         tagMessage(
                                                                             'CO'
                                                                         )
-                                                                    "
-                                                                    class="dropdown-item font-medium-1"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-primary bullet-sm"
-                                                                    ></span>
+                                                                    " class="dropdown-item font-medium-1">
+                                                                    <span class="mr-1 bullet bullet-primary bullet-sm"></span>
                                                                     Compañía
                                                                 </a>
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                    @click="
+                                                                <a href="javascript:void(0)" @click="
                                                                         tagMessage(
                                                                             'IM'
                                                                         )
-                                                                    "
-                                                                    class="dropdown-item font-medium-1"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-warning bullet-sm"
-                                                                    ></span>
+                                                                    " class="dropdown-item font-medium-1">
+                                                                    <span class="mr-1 bullet bullet-warning bullet-sm"></span>
                                                                     Importante
                                                                 </a>
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                    @click="
+                                                                <a href="javascript:void(0)" @click="
                                                                         tagMessage(
                                                                             'PR'
                                                                         )
-                                                                    "
-                                                                    class="dropdown-item font-medium-1"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-danger bullet-sm"
-                                                                    ></span>
+                                                                    " class="dropdown-item font-medium-1">
+                                                                    <span class="mr-1 bullet bullet-danger bullet-sm"></span>
                                                                     Privado
                                                                 </a>
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    <li
-                                                        class="list-inline-item mail-unread"
-                                                    >
+                                                    <li class="list-inline-item mail-unread">
                                                         <div class="dropdown">
-                                                            <a
-                                                                class="dropdown-toggle"
-                                                                id="envelop"
-                                                                data-toggle="dropdown"
-                                                                aria-haspopup="true"
-                                                                aria-expanded="false"
-                                                                href="javascript:void(0)"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-mail"
-                                                                ></i>
+                                                            <a class="dropdown-toggle" id="envelop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="javascript:void(0)">
+                                                                <i class="feather icon-mail"></i>
                                                             </a>
-                                                            <div
-                                                                class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="envelop"
-                                                            >
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                    @click="
+                                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="envelop">
+                                                                <a href="javascript:void(0)" @click="
                                                                         markAs(
                                                                             'readed'
                                                                         )
-                                                                    "
-                                                                    class="dropdown-item font-medium-1"
-                                                                >
-                                                                    <i
-                                                                        class="far fa-envelope-open mr-2"
-                                                                    ></i>
+                                                                    " class="dropdown-item font-medium-1">
+                                                                    <i class="far fa-envelope-open mr-2"></i>
                                                                     Marcar como
                                                                     leído
                                                                 </a>
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                    @click="
+                                                                <a href="javascript:void(0)" @click="
                                                                         markAs(
                                                                             'unreaded'
                                                                         )
-                                                                    "
-                                                                    class="dropdown-item font-medium-1"
-                                                                >
-                                                                    <i
-                                                                        class="far fa-envelope mr-2"
-                                                                    ></i>
+                                                                    " class="dropdown-item font-medium-1">
+                                                                    <i class="far fa-envelope mr-2"></i>
                                                                     Marcar como
                                                                     no leído
                                                                 </a>
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    <li
-                                                        class="list-inline-item mail-delete"
-                                                    >
-                                                        <a
-                                                            href="javascript:void(0)"
-                                                            @click="
+                                                    <li class="list-inline-item mail-delete">
+                                                        <a href="javascript:void(0)" @click="
                                                                 deleteMessage()
-                                                            "
-                                                        >
-                                                            <span
-                                                                class="action-icon"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-trash"
-                                                                ></i>
+                                                            ">
+                                                            <span class="action-icon">
+                                                                <i class="feather icon-trash"></i>
                                                             </span>
                                                         </a>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div
-                                            class="email-user-list list-group"
-                                            style="overflow:auto"
-                                        >
+                                        <div class="email-user-list list-group" style="overflow:auto">
                                             <!--<ul class="users-list-wrapper media-list">-->
-                                            <paginate
-                                                name="inbox"
-                                                :list="emails.inbox"
-                                                :per="10"
-                                                v-if="
+                                            <paginate name="inbox" :list="emails.inbox" :per="10" v-if="
                                                     typeof emails.inbox !==
                                                         'undefined'
-                                                "
-                                                :class="
+                                                " :class="
                                                     'users-list-wrapper media-list'
-                                                "
-                                            >
-                                                <li
-                                                    class="media"
-                                                    v-for="email in paginated(
+                                                ">
+                                                <li class="media" v-for="email in paginated(
                                                         'inbox'
-                                                    )"
-                                                    :key="email.id"
-                                                    v-if="
+                                                    )" :key="email.id" v-if="
                                                         showFolder === 'inbox'
-                                                    "
-                                                    :class="{
+                                                    " :class="{
                                                         'mail-read':
                                                             typeof email.read !==
                                                             'undefined'
                                                                 ? email.read
                                                                 : false
-                                                    }"
-                                                >
-                                                    <div
-                                                        class="media-left pr-50"
-                                                    >
+                                                    }">
+                                                    <div class="media-left pr-50">
                                                         <div class="avatar">
-                                                            <img
-                                                                src="/images/anonymous-user.png"
-                                                                alt="avatar img holder"
-                                                            />
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div
-                                                            class="user-action"
-                                                        >
-                                                            <div
-                                                                class="vs-checkbox-con"
-                                                            >
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
                                                                 <!-- checkbox para seleccionar mensaje -->
-                                                                <input
-                                                                    type="checkbox"
-                                                                    :value="
+                                                                <input type="checkbox" :value="
                                                                         email.message_id
-                                                                    "
-                                                                    v-model="
+                                                                    " v-model="
                                                                         selectedMessages
-                                                                    "
-                                                                    class="checkboxEmail"
-                                                                />
-                                                                <span
-                                                                    class="vs-checkbox vs-checkbox-sm"
-                                                                >
-                                                                    <span
-                                                                        class="vs-checkbox--check"
-                                                                    >
-                                                                        <i
-                                                                            class="vs-icon feather icon-check"
-                                                                        ></i>
+                                                                    " class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
                                                                     </span>
                                                                 </span>
                                                             </div>
-                                                            <span
-                                                                class="favorite"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-star"
-                                                                    :id="
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :class="{'text-warning': email.favorite}" :id="
                                                                         email.message_id
-                                                                    "
-                                                                    @click="
+                                                                    " @click="
                                                                         setFavorite(
                                                                             email.message_id
                                                                         )
-                                                                    "
-                                                                ></i>
+                                                                    "></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="media-body"
-                                                        @click="
+                                                    <div class="media-body" @click="
                                                             openContent(email)
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="user-details"
-                                                        >
-                                                            <div
-                                                                class="mail-items"
-                                                            >
-                                                                <h5
-                                                                    class="list-group-item-heading text-bold-600 mb-25"
-                                                                >
+                                                        ">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
                                                                     {{
-                                                                        email
-                                                                            .from[0]
-                                                                            .personal
+                                                                    email
+                                                                    .from[0]
+                                                                    .personal
                                                                     }}
                                                                 </h5>
-                                                                <span
-                                                                    class="list-group-item-text text-truncate"
-                                                                >
+                                                                <span class="list-group-item-text text-truncate">
                                                                     {{
-                                                                        email.subject
+                                                                    email.subject
                                                                     }}
                                                                 </span>
                                                             </div>
-                                                            <div
-                                                                class="mail-meta-item"
-                                                            >
-                                                                <span
-                                                                    class="float-right"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-success bullet-sm"
-                                                                    ></span>
-                                                                    <span
-                                                                        class="mail-date"
-                                                                    >
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
                                                                         {{
-                                                                            datetime_format(
-                                                                                email.message_at
-                                                                            )
+                                                                        datetime_format(
+                                                                        email.message_at
+                                                                        )
                                                                         }}
                                                                     </span>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="mail-message"
-                                                        >
-                                                            <p
-                                                                class="list-group-item-text truncate mb-0"
-                                                            >
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
                                                                 <!--<div v-html="email.body"></div>-->
                                                                 {{
-                                                                    email.body_text
+                                                                email.body_text
                                                                 }}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </li>
                                             </paginate>
-                                            <paginate
-                                                name="sent"
-                                                :list="emails.sent"
-                                                :per="10"
-                                                v-if="
+                                            <paginate name="sent" :list="emails.sent" :per="10" v-if="
                                                     typeof emails.sent !==
                                                         'undefined'
-                                                "
-                                                :class="
+                                                " :class="
                                                     'users-list-wrapper media-list'
-                                                "
-                                            >
-                                                <li
-                                                    class="media"
-                                                    v-for="email in paginated(
+                                                ">
+                                                <li class="media" v-for="email in paginated(
                                                         'sent'
-                                                    )"
-                                                    v-if="showFolder === 'sent'"
-                                                    :class="{
+                                                    )" v-if="showFolder === 'sent'" :class="{
                                                         'mail-read':
                                                             typeof email.read !==
                                                             'undefined'
                                                                 ? email.read
                                                                 : false
-                                                    }"
-                                                >
-                                                    <div
-                                                        class="media-left pr-50"
-                                                    >
+                                                    }">
+                                                    <div class="media-left pr-50">
                                                         <div class="avatar">
-                                                            <img
-                                                                src="/images/anonymous-user.png"
-                                                                alt="avatar img holder"
-                                                            />
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div
-                                                            class="user-action"
-                                                        >
-                                                            <div
-                                                                class="vs-checkbox-con"
-                                                            >
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
                                                                 <!-- checkbox para seleccionar mensaje -->
-                                                                <input
-                                                                    type="checkbox"
-                                                                    :value="
+                                                                <input type="checkbox" :value="
                                                                         email.message_id
-                                                                    "
-                                                                    v-model="
+                                                                    " v-model="
                                                                         selectedMessages
-                                                                    "
-                                                                    class="checkboxEmail"
-                                                                />
-                                                                <span
-                                                                    class="vs-checkbox vs-checkbox-sm"
-                                                                >
-                                                                    <span
-                                                                        class="vs-checkbox--check"
-                                                                    >
-                                                                        <i
-                                                                            class="vs-icon feather icon-check"
-                                                                        ></i>
+                                                                    " class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
                                                                     </span>
                                                                 </span>
                                                             </div>
-                                                            <span
-                                                                class="favorite"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-star"
-                                                                    :id="
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="
                                                                         email.message_id
-                                                                    "
-                                                                    @click="
+                                                                    " @click="
                                                                         setFavorite(
                                                                             email.message_id
                                                                         )
-                                                                    "
-                                                                ></i>
+                                                                    "></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="media-body"
-                                                        @click="
+                                                    <div class="media-body" @click="
                                                             openContent(email)
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="user-details"
-                                                        >
-                                                            <div
-                                                                class="mail-items"
-                                                            >
-                                                                <h5
-                                                                    class="list-group-item-heading text-bold-600 mb-25"
-                                                                >
+                                                        ">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
                                                                     {{
-                                                                        email
-                                                                            .from[0]
-                                                                            .personal
+                                                                    email
+                                                                    .from[0]
+                                                                    .personal
                                                                     }}
                                                                 </h5>
-                                                                <span
-                                                                    class="list-group-item-text text-truncate"
-                                                                >
+                                                                <span class="list-group-item-text text-truncate">
                                                                     {{
-                                                                        email.subject
+                                                                    email.subject
                                                                     }}
                                                                 </span>
                                                             </div>
-                                                            <div
-                                                                class="mail-meta-item"
-                                                            >
-                                                                <span
-                                                                    class="float-right"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-success bullet-sm"
-                                                                    ></span>
-                                                                    <span
-                                                                        class="mail-date"
-                                                                    >
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
                                                                         {{
-                                                                            datetime_format(
-                                                                                email.message_at
-                                                                            )
+                                                                        datetime_format(
+                                                                        email.message_at
+                                                                        )
                                                                         }}
                                                                     </span>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="mail-message"
-                                                        >
-                                                            <p
-                                                                class="list-group-item-text truncate mb-0"
-                                                            >
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
                                                                 <!--<div v-html="email.body"></div>-->
                                                                 {{
-                                                                    email.body_text
+                                                                email.body_text
                                                                 }}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </li>
                                             </paginate>
-                                            <paginate
-                                                name="draft"
-                                                :list="emails.draft"
-                                                :per="10"
-                                                v-if="
+                                            <paginate name="draft" :list="emails.draft" :per="10" v-if="
                                                     typeof emails.draft !==
                                                         'undefined'
-                                                "
-                                                :class="
+                                                " :class="
                                                     'users-list-wrapper media-list'
-                                                "
-                                            >
-                                                <li
-                                                    class="media"
-                                                    v-for="email in paginated(
+                                                ">
+                                                <li class="media" v-for="email in paginated(
                                                         'draft'
-                                                    )"
-                                                    v-if="
+                                                    )" v-if="
                                                         showFolder === 'draft'
-                                                    "
-                                                    :class="{
+                                                    " :class="{
                                                         'mail-read':
                                                             typeof email.read !==
                                                             'undefined'
                                                                 ? email.read
                                                                 : false
-                                                    }"
-                                                >
-                                                    <div
-                                                        class="media-left pr-50"
-                                                    >
+                                                    }">
+                                                    <div class="media-left pr-50">
                                                         <div class="avatar">
-                                                            <img
-                                                                src="/images/anonymous-user.png"
-                                                                alt="avatar img holder"
-                                                            />
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div
-                                                            class="user-action"
-                                                        >
-                                                            <div
-                                                                class="vs-checkbox-con"
-                                                            >
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
                                                                 <!-- checkbox para seleccionar mensaje -->
-                                                                <input
-                                                                    type="checkbox"
-                                                                    :value="
+                                                                <input type="checkbox" :value="
                                                                         email.message_id
-                                                                    "
-                                                                    v-model="
+                                                                    " v-model="
                                                                         selectedMessages
-                                                                    "
-                                                                    class="checkboxEmail"
-                                                                />
-                                                                <span
-                                                                    class="vs-checkbox vs-checkbox-sm"
-                                                                >
-                                                                    <span
-                                                                        class="vs-checkbox--check"
-                                                                    >
-                                                                        <i
-                                                                            class="vs-icon feather icon-check"
-                                                                        ></i>
+                                                                    " class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
                                                                     </span>
                                                                 </span>
                                                             </div>
-                                                            <span
-                                                                class="favorite"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-star"
-                                                                    :id="
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="
                                                                         email.message_id
-                                                                    "
-                                                                    @click="
+                                                                    " @click="
                                                                         setFavorite(
                                                                             email.message_id
                                                                         )
-                                                                    "
-                                                                ></i>
+                                                                    "></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="media-body"
-                                                        @click="
+                                                    <div class="media-body" @click="
                                                             openContent(email)
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="user-details"
-                                                        >
-                                                            <div
-                                                                class="mail-items"
-                                                            >
-                                                                <h5
-                                                                    class="list-group-item-heading text-bold-600 mb-25"
-                                                                >
+                                                        ">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
                                                                     {{
-                                                                        email
-                                                                            .from[0]
-                                                                            .personal
+                                                                    email
+                                                                    .from[0]
+                                                                    .personal
                                                                     }}
                                                                 </h5>
-                                                                <span
-                                                                    class="list-group-item-text text-truncate"
-                                                                >
+                                                                <span class="list-group-item-text text-truncate">
                                                                     {{
-                                                                        email.subject
+                                                                    email.subject
                                                                     }}
                                                                 </span>
                                                             </div>
-                                                            <div
-                                                                class="mail-meta-item"
-                                                            >
-                                                                <span
-                                                                    class="float-right"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-success bullet-sm"
-                                                                    ></span>
-                                                                    <span
-                                                                        class="mail-date"
-                                                                    >
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
                                                                         {{
-                                                                            datetime_format(
-                                                                                email.message_at
-                                                                            )
+                                                                        datetime_format(
+                                                                        email.message_at
+                                                                        )
                                                                         }}
                                                                     </span>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="mail-message"
-                                                        >
-                                                            <p
-                                                                class="list-group-item-text truncate mb-0"
-                                                            >
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
                                                                 <!--<div v-html="email.body"></div>-->
                                                                 {{
-                                                                    email.body_text
+                                                                email.body_text
                                                                 }}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </li>
                                             </paginate>
-                                            <paginate
-                                                name="favorites"
-                                                :list="favorites"
-                                                :per="10"
-                                                v-if="
+                                            <paginate name="favorites" :list="favorites" :per="10" v-if="
                                                     typeof favorites !==
                                                         'undefined'
-                                                "
-                                                :class="
+                                                " :class="
                                                     'users-list-wrapper media-list'
-                                                "
-                                            >
-                                                <li
-                                                    class="media"
-                                                    v-for="email in paginated(
+                                                ">
+                                                <li class="media" v-for="email in paginated(
                                                         'favorites'
-                                                    )"
-                                                    v-if="
+                                                    )" v-if="
                                                         showFolder ===
                                                             'favorites'
-                                                    "
-                                                    :class="{
+                                                    " :class="{
                                                         'mail-read':
                                                             typeof email.read !==
                                                             'undefined'
                                                                 ? email.read
                                                                 : false
-                                                    }"
-                                                >
-                                                    <div
-                                                        class="media-left pr-50"
-                                                    >
+                                                    }">
+                                                    <div class="media-left pr-50">
                                                         <div class="avatar">
-                                                            <img
-                                                                src="/images/anonymous-user.png"
-                                                                alt="avatar img holder"
-                                                            />
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div
-                                                            class="user-action"
-                                                        >
-                                                            <div
-                                                                class="vs-checkbox-con"
-                                                            >
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
                                                                 <!-- checkbox para seleccionar mensaje -->
-                                                                <input
-                                                                    type="checkbox"
-                                                                    :value="
+                                                                <input type="checkbox" :value="
                                                                         email.message_id
-                                                                    "
-                                                                    v-model="
+                                                                    " v-model="
                                                                         selectedMessages
-                                                                    "
-                                                                    class="checkboxEmail"
-                                                                />
-                                                                <span
-                                                                    class="vs-checkbox vs-checkbox-sm"
-                                                                >
-                                                                    <span
-                                                                        class="vs-checkbox--check"
-                                                                    >
-                                                                        <i
-                                                                            class="vs-icon feather icon-check"
-                                                                        ></i>
+                                                                    " class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
                                                                     </span>
                                                                 </span>
                                                             </div>
-                                                            <span
-                                                                class="favorite"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-star"
-                                                                    :id="
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="
                                                                         email.message_id
-                                                                    "
-                                                                    @click="
+                                                                    " @click="
                                                                         setFavorite(
                                                                             email.message_id
                                                                         )
-                                                                    "
-                                                                ></i>
+                                                                    "></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="media-body"
-                                                        @click="
+                                                    <div class="media-body" @click="
                                                             openContent(email)
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="user-details"
-                                                        >
-                                                            <div
-                                                                class="mail-items"
-                                                            >
-                                                                <h5
-                                                                    class="list-group-item-heading text-bold-600 mb-25"
-                                                                >
+                                                        ">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
                                                                     {{
-                                                                        email
-                                                                            .from[0]
-                                                                            .personal
+                                                                    email
+                                                                    .from[0]
+                                                                    .personal
                                                                     }}
                                                                 </h5>
-                                                                <span
-                                                                    class="list-group-item-text text-truncate"
-                                                                >
+                                                                <span class="list-group-item-text text-truncate">
                                                                     {{
-                                                                        email.subject
+                                                                    email.subject
                                                                     }}
                                                                 </span>
                                                             </div>
-                                                            <div
-                                                                class="mail-meta-item"
-                                                            >
-                                                                <span
-                                                                    class="float-right"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-success bullet-sm"
-                                                                    ></span>
-                                                                    <span
-                                                                        class="mail-date"
-                                                                    >
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
                                                                         {{
-                                                                            datetime_format(
-                                                                                email.message_at
-                                                                            )
+                                                                        datetime_format(
+                                                                        email.message_at
+                                                                        )
                                                                         }}
                                                                     </span>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="mail-message"
-                                                        >
-                                                            <p
-                                                                class="list-group-item-text truncate mb-0"
-                                                            >
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
                                                                 <!--<div v-html="email.body"></div>-->
                                                                 {{
-                                                                    email.body_text
+                                                                email.body_text
                                                                 }}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </li>
                                             </paginate>
-                                            <paginate
-                                                name="spam"
-                                                :list="emails.spam"
-                                                :per="10"
-                                                v-if="
+                                            <paginate name="spam" :list="emails.spam" :per="10" v-if="
                                                     typeof emails.spam !==
                                                         'undefined'
-                                                "
-                                                :class="
+                                                " :class="
                                                     'users-list-wrapper media-list'
-                                                "
-                                            >
-                                                <li
-                                                    class="media"
-                                                    v-for="email in paginated(
+                                                ">
+                                                <li class="media" v-for="email in paginated(
                                                         'spam'
-                                                    )"
-                                                    v-if="showFolder === 'spam'"
-                                                    :class="{
+                                                    )" v-if="showFolder === 'spam'" :class="{
                                                         'mail-read':
                                                             typeof email.read !==
                                                             'undefined'
                                                                 ? email.read
                                                                 : false
-                                                    }"
-                                                >
-                                                    <div
-                                                        class="media-left pr-50"
-                                                    >
+                                                    }">
+                                                    <div class="media-left pr-50">
                                                         <div class="avatar">
-                                                            <img
-                                                                src="/images/anonymous-user.png"
-                                                                alt="avatar img holder"
-                                                            />
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div
-                                                            class="user-action"
-                                                        >
-                                                            <div
-                                                                class="vs-checkbox-con"
-                                                            >
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
                                                                 <!-- checkbox para seleccionar mensaje -->
-                                                                <input
-                                                                    type="checkbox"
-                                                                    :value="
+                                                                <input type="checkbox" :value="
                                                                         email.message_id
-                                                                    "
-                                                                    v-model="
+                                                                    " v-model="
                                                                         selectedMessages
-                                                                    "
-                                                                    class="checkboxEmail"
-                                                                />
-                                                                <span
-                                                                    class="vs-checkbox vs-checkbox-sm"
-                                                                >
-                                                                    <span
-                                                                        class="vs-checkbox--check"
-                                                                    >
-                                                                        <i
-                                                                            class="vs-icon feather icon-check"
-                                                                        ></i>
+                                                                    " class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
                                                                     </span>
                                                                 </span>
                                                             </div>
-                                                            <span
-                                                                class="favorite"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-star"
-                                                                    :id="
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="
                                                                         email.message_id
-                                                                    "
-                                                                    @click="
+                                                                    " @click="
                                                                         setFavorite(
                                                                             email.message_id
                                                                         )
-                                                                    "
-                                                                ></i>
+                                                                    "></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="media-body"
-                                                        @click="
+                                                    <div class="media-body" @click="
                                                             openContent(email)
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="user-details"
-                                                        >
-                                                            <div
-                                                                class="mail-items"
-                                                            >
-                                                                <h5
-                                                                    class="list-group-item-heading text-bold-600 mb-25"
-                                                                >
+                                                        ">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
                                                                     {{
-                                                                        email
-                                                                            .from[0]
-                                                                            .personal
+                                                                    email
+                                                                    .from[0]
+                                                                    .personal
                                                                     }}
                                                                 </h5>
-                                                                <span
-                                                                    class="list-group-item-text text-truncate"
-                                                                >
+                                                                <span class="list-group-item-text text-truncate">
                                                                     {{
-                                                                        email.subject
+                                                                    email.subject
                                                                     }}
                                                                 </span>
                                                             </div>
-                                                            <div
-                                                                class="mail-meta-item"
-                                                            >
-                                                                <span
-                                                                    class="float-right"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-success bullet-sm"
-                                                                    ></span>
-                                                                    <span
-                                                                        class="mail-date"
-                                                                    >
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
                                                                         {{
-                                                                            datetime_format(
-                                                                                email.message_at
-                                                                            )
+                                                                        datetime_format(
+                                                                        email.message_at
+                                                                        )
                                                                         }}
                                                                     </span>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="mail-message"
-                                                        >
-                                                            <p
-                                                                class="list-group-item-text truncate mb-0"
-                                                            >
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
                                                                 <!--<div v-html="email.body"></div>-->
                                                                 {{
-                                                                    email.body_text
+                                                                email.body_text
                                                                 }}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </li>
                                             </paginate>
-                                            <paginate
-                                                name="trash"
-                                                :list="trash"
-                                                :per="10"
-                                                v-if="
+                                            <paginate name="trash" :list="trash" :per="10" v-if="
                                                     typeof trash !== 'undefined'
-                                                "
-                                                :class="
+                                                " :class="
                                                     'users-list-wrapper media-list'
-                                                "
-                                            >
-                                                <li
-                                                    class="media"
-                                                    v-for="email in paginated(
+                                                ">
+                                                <li class="media" v-for="email in paginated(
                                                         'trash'
-                                                    )"
-                                                    v-if="
+                                                    )" v-if="
                                                         showFolder === 'trash'
-                                                    "
-                                                    :class="{
+                                                    " :class="{
                                                         'mail-read':
                                                             typeof email.read !==
                                                             'undefined'
                                                                 ? email.read
                                                                 : false
-                                                    }"
-                                                >
-                                                    <div
-                                                        class="media-left pr-50"
-                                                    >
+                                                    }">
+                                                    <div class="media-left pr-50">
                                                         <div class="avatar">
-                                                            <img
-                                                                src="/images/anonymous-user.png"
-                                                                alt="avatar img holder"
-                                                            />
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div
-                                                            class="user-action"
-                                                        >
-                                                            <div
-                                                                class="vs-checkbox-con"
-                                                            >
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
                                                                 <!-- checkbox para seleccionar mensaje -->
-                                                                <input
-                                                                    type="checkbox"
-                                                                    :value="
+                                                                <input type="checkbox" :value="
                                                                         email.message_id
-                                                                    "
-                                                                    v-model="
+                                                                    " v-model="
                                                                         selectedMessages
-                                                                    "
-                                                                    class="checkboxEmail"
-                                                                />
-                                                                <span
-                                                                    class="vs-checkbox vs-checkbox-sm"
-                                                                >
-                                                                    <span
-                                                                        class="vs-checkbox--check"
-                                                                    >
-                                                                        <i
-                                                                            class="vs-icon feather icon-check"
-                                                                        ></i>
+                                                                    " class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
                                                                     </span>
                                                                 </span>
                                                             </div>
-                                                            <span
-                                                                class="favorite"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-star"
-                                                                    :id="
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="
                                                                         email.message_id
-                                                                    "
-                                                                    @click="
+                                                                    " @click="
                                                                         setFavorite(
                                                                             email.message_id
                                                                         )
-                                                                    "
-                                                                ></i>
+                                                                    "></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="media-body"
-                                                        @click="
+                                                    <div class="media-body" @click="
                                                             openContent(email)
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="user-details"
-                                                        >
-                                                            <div
-                                                                class="mail-items"
-                                                            >
-                                                                <h5
-                                                                    class="list-group-item-heading text-bold-600 mb-25"
-                                                                >
+                                                        ">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
                                                                     {{
-                                                                        email
-                                                                            .from[0]
-                                                                            .personal
+                                                                    email
+                                                                    .from[0]
+                                                                    .personal
                                                                     }}
                                                                 </h5>
-                                                                <span
-                                                                    class="list-group-item-text text-truncate"
-                                                                >
+                                                                <span class="list-group-item-text text-truncate">
                                                                     {{
-                                                                        email.subject
+                                                                    email.subject
                                                                     }}
                                                                 </span>
                                                             </div>
-                                                            <div
-                                                                class="mail-meta-item"
-                                                            >
-                                                                <span
-                                                                    class="float-right"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-success bullet-sm"
-                                                                    ></span>
-                                                                    <span
-                                                                        class="mail-date"
-                                                                    >
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
                                                                         {{
-                                                                            datetime_format(
-                                                                                email.message_at
-                                                                            )
+                                                                        datetime_format(
+                                                                        email.message_at
+                                                                        )
                                                                         }}
                                                                     </span>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="mail-message"
-                                                        >
-                                                            <p
-                                                                class="list-group-item-text truncate mb-0"
-                                                            >
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
                                                                 <!--<div v-html="email.body"></div>-->
                                                                 {{
-                                                                    email.body_text
+                                                                email.body_text
                                                                 }}
                                                             </p>
                                                         </div>
@@ -1668,148 +912,88 @@
                                                 </li>
                                             </paginate>
                                             <!-- Tag Personal -->
-                                            <paginate
-                                                name="tag_pe"
-                                                :list="taggedMessages.pe"
-                                                :per="10"
-                                                v-if="
+                                            <paginate name="tag_pe" :list="taggedMessages.pe" :per="10" v-if="
                                                     typeof taggedMessages.pe !==
                                                         'undefined'
-                                                "
-                                                :class="
+                                                " :class="
                                                     'users-list-wrapper media-list'
-                                                "
-                                            >
-                                                <li
-                                                    class="media"
-                                                    v-for="email in paginated(
+                                                ">
+                                                <li class="media" v-for="email in paginated(
                                                         'tag_pe'
-                                                    )"
-                                                    v-if="
+                                                    )" v-if="
                                                         showFolder === 'tag_pe'
-                                                    "
-                                                    :class="{
+                                                    " :class="{
                                                         'mail-read':
                                                             typeof email.read !==
                                                             'undefined'
                                                                 ? email.read
                                                                 : false
-                                                    }"
-                                                >
-                                                    <div
-                                                        class="media-left pr-50"
-                                                    >
+                                                    }">
+                                                    <div class="media-left pr-50">
                                                         <div class="avatar">
-                                                            <img
-                                                                src="/images/anonymous-user.png"
-                                                                alt="avatar img holder"
-                                                            />
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div
-                                                            class="user-action"
-                                                        >
-                                                            <div
-                                                                class="vs-checkbox-con"
-                                                            >
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
                                                                 <!-- checkbox para seleccionar mensaje -->
-                                                                <input
-                                                                    type="checkbox"
-                                                                    :value="
+                                                                <input type="checkbox" :value="
                                                                         email.message_id
-                                                                    "
-                                                                    v-model="
+                                                                    " v-model="
                                                                         selectedMessages
-                                                                    "
-                                                                    class="checkboxEmail"
-                                                                />
-                                                                <span
-                                                                    class="vs-checkbox vs-checkbox-sm"
-                                                                >
-                                                                    <span
-                                                                        class="vs-checkbox--check"
-                                                                    >
-                                                                        <i
-                                                                            class="vs-icon feather icon-check"
-                                                                        ></i>
+                                                                    " class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
                                                                     </span>
                                                                 </span>
                                                             </div>
-                                                            <span
-                                                                class="favorite"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-star"
-                                                                    :id="
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="
                                                                         email.message_id
-                                                                    "
-                                                                    @click="
+                                                                    " @click="
                                                                         setFavorite(
                                                                             email.message_id
                                                                         )
-                                                                    "
-                                                                ></i>
+                                                                    "></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="media-body"
-                                                        @click="
+                                                    <div class="media-body" @click="
                                                             openContent(email)
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="user-details"
-                                                        >
-                                                            <div
-                                                                class="mail-items"
-                                                            >
-                                                                <h5
-                                                                    class="list-group-item-heading text-bold-600 mb-25"
-                                                                >
+                                                        ">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
                                                                     {{
-                                                                        email
-                                                                            .from[0]
-                                                                            .personal
+                                                                    email
+                                                                    .from[0]
+                                                                    .personal
                                                                     }}
                                                                 </h5>
-                                                                <span
-                                                                    class="list-group-item-text text-truncate"
-                                                                >
+                                                                <span class="list-group-item-text text-truncate">
                                                                     {{
-                                                                        email.subject
+                                                                    email.subject
                                                                     }}
                                                                 </span>
                                                             </div>
-                                                            <div
-                                                                class="mail-meta-item"
-                                                            >
-                                                                <span
-                                                                    class="float-right"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-success bullet-sm"
-                                                                    ></span>
-                                                                    <span
-                                                                        class="mail-date"
-                                                                    >
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
                                                                         {{
-                                                                            datetime_format(
-                                                                                email.message_at
-                                                                            )
+                                                                        datetime_format(
+                                                                        email.message_at
+                                                                        )
                                                                         }}
                                                                     </span>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="mail-message"
-                                                        >
-                                                            <p
-                                                                class="list-group-item-text truncate mb-0"
-                                                            >
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
                                                                 <!--<div v-html="email.body"></div>-->
                                                                 {{
-                                                                    email.body_text
+                                                                email.body_text
                                                                 }}
                                                             </p>
                                                         </div>
@@ -1817,148 +1001,88 @@
                                                 </li>
                                             </paginate>
                                             <!-- Tag Compañía -->
-                                            <paginate
-                                                name="tag_co"
-                                                :list="taggedMessages.co"
-                                                :per="10"
-                                                v-if="
+                                            <paginate name="tag_co" :list="taggedMessages.co" :per="10" v-if="
                                                     typeof taggedMessages.co !==
                                                         'undefined'
-                                                "
-                                                :class="
+                                                " :class="
                                                     'users-list-wrapper media-list'
-                                                "
-                                            >
-                                                <li
-                                                    class="media"
-                                                    v-for="email in paginated(
+                                                ">
+                                                <li class="media" v-for="email in paginated(
                                                         'tag_co'
-                                                    )"
-                                                    v-if="
+                                                    )" v-if="
                                                         showFolder === 'tag_co'
-                                                    "
-                                                    :class="{
+                                                    " :class="{
                                                         'mail-read':
                                                             typeof email.read !==
                                                             'undefined'
                                                                 ? email.read
                                                                 : false
-                                                    }"
-                                                >
-                                                    <div
-                                                        class="media-left pr-50"
-                                                    >
+                                                    }">
+                                                    <div class="media-left pr-50">
                                                         <div class="avatar">
-                                                            <img
-                                                                src="/images/anonymous-user.png"
-                                                                alt="avatar img holder"
-                                                            />
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div
-                                                            class="user-action"
-                                                        >
-                                                            <div
-                                                                class="vs-checkbox-con"
-                                                            >
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
                                                                 <!-- checkbox para seleccionar mensaje -->
-                                                                <input
-                                                                    type="checkbox"
-                                                                    :value="
+                                                                <input type="checkbox" :value="
                                                                         email.message_id
-                                                                    "
-                                                                    v-model="
+                                                                    " v-model="
                                                                         selectedMessages
-                                                                    "
-                                                                    class="checkboxEmail"
-                                                                />
-                                                                <span
-                                                                    class="vs-checkbox vs-checkbox-sm"
-                                                                >
-                                                                    <span
-                                                                        class="vs-checkbox--check"
-                                                                    >
-                                                                        <i
-                                                                            class="vs-icon feather icon-check"
-                                                                        ></i>
+                                                                    " class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
                                                                     </span>
                                                                 </span>
                                                             </div>
-                                                            <span
-                                                                class="favorite"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-star"
-                                                                    :id="
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="
                                                                         email.message_id
-                                                                    "
-                                                                    @click="
+                                                                    " @click="
                                                                         setFavorite(
                                                                             email.message_id
                                                                         )
-                                                                    "
-                                                                ></i>
+                                                                    "></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="media-body"
-                                                        @click="
+                                                    <div class="media-body" @click="
                                                             openContent(email)
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="user-details"
-                                                        >
-                                                            <div
-                                                                class="mail-items"
-                                                            >
-                                                                <h5
-                                                                    class="list-group-item-heading text-bold-600 mb-25"
-                                                                >
+                                                        ">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
                                                                     {{
-                                                                        email
-                                                                            .from[0]
-                                                                            .personal
+                                                                    email
+                                                                    .from[0]
+                                                                    .personal
                                                                     }}
                                                                 </h5>
-                                                                <span
-                                                                    class="list-group-item-text text-truncate"
-                                                                >
+                                                                <span class="list-group-item-text text-truncate">
                                                                     {{
-                                                                        email.subject
+                                                                    email.subject
                                                                     }}
                                                                 </span>
                                                             </div>
-                                                            <div
-                                                                class="mail-meta-item"
-                                                            >
-                                                                <span
-                                                                    class="float-right"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-success bullet-sm"
-                                                                    ></span>
-                                                                    <span
-                                                                        class="mail-date"
-                                                                    >
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
                                                                         {{
-                                                                            datetime_format(
-                                                                                email.message_at
-                                                                            )
+                                                                        datetime_format(
+                                                                        email.message_at
+                                                                        )
                                                                         }}
                                                                     </span>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="mail-message"
-                                                        >
-                                                            <p
-                                                                class="list-group-item-text truncate mb-0"
-                                                            >
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
                                                                 <!--<div v-html="email.body"></div>-->
                                                                 {{
-                                                                    email.body_text
+                                                                email.body_text
                                                                 }}
                                                             </p>
                                                         </div>
@@ -1966,148 +1090,88 @@
                                                 </li>
                                             </paginate>
                                             <!-- Tag Importante -->
-                                            <paginate
-                                                name="tag_im"
-                                                :list="taggedMessages.im"
-                                                :per="10"
-                                                v-if="
+                                            <paginate name="tag_im" :list="taggedMessages.im" :per="10" v-if="
                                                     typeof taggedMessages.im !==
                                                         'undefined'
-                                                "
-                                                :class="
+                                                " :class="
                                                     'users-list-wrapper media-list'
-                                                "
-                                            >
-                                                <li
-                                                    class="media"
-                                                    v-for="email in paginated(
+                                                ">
+                                                <li class="media" v-for="email in paginated(
                                                         'tag_im'
-                                                    )"
-                                                    v-if="
+                                                    )" v-if="
                                                         showFolder === 'tag_im'
-                                                    "
-                                                    :class="{
+                                                    " :class="{
                                                         'mail-read':
                                                             typeof email.read !==
                                                             'undefined'
                                                                 ? email.read
                                                                 : false
-                                                    }"
-                                                >
-                                                    <div
-                                                        class="media-left pr-50"
-                                                    >
+                                                    }">
+                                                    <div class="media-left pr-50">
                                                         <div class="avatar">
-                                                            <img
-                                                                src="/images/anonymous-user.png"
-                                                                alt="avatar img holder"
-                                                            />
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div
-                                                            class="user-action"
-                                                        >
-                                                            <div
-                                                                class="vs-checkbox-con"
-                                                            >
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
                                                                 <!-- checkbox para seleccionar mensaje -->
-                                                                <input
-                                                                    type="checkbox"
-                                                                    :value="
+                                                                <input type="checkbox" :value="
                                                                         email.message_id
-                                                                    "
-                                                                    v-model="
+                                                                    " v-model="
                                                                         selectedMessages
-                                                                    "
-                                                                    class="checkboxEmail"
-                                                                />
-                                                                <span
-                                                                    class="vs-checkbox vs-checkbox-sm"
-                                                                >
-                                                                    <span
-                                                                        class="vs-checkbox--check"
-                                                                    >
-                                                                        <i
-                                                                            class="vs-icon feather icon-check"
-                                                                        ></i>
+                                                                    " class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
                                                                     </span>
                                                                 </span>
                                                             </div>
-                                                            <span
-                                                                class="favorite"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-star"
-                                                                    :id="
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="
                                                                         email.message_id
-                                                                    "
-                                                                    @click="
+                                                                    " @click="
                                                                         setFavorite(
                                                                             email.message_id
                                                                         )
-                                                                    "
-                                                                ></i>
+                                                                    "></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="media-body"
-                                                        @click="
+                                                    <div class="media-body" @click="
                                                             openContent(email)
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="user-details"
-                                                        >
-                                                            <div
-                                                                class="mail-items"
-                                                            >
-                                                                <h5
-                                                                    class="list-group-item-heading text-bold-600 mb-25"
-                                                                >
+                                                        ">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
                                                                     {{
-                                                                        email
-                                                                            .from[0]
-                                                                            .personal
+                                                                    email
+                                                                    .from[0]
+                                                                    .personal
                                                                     }}
                                                                 </h5>
-                                                                <span
-                                                                    class="list-group-item-text text-truncate"
-                                                                >
+                                                                <span class="list-group-item-text text-truncate">
                                                                     {{
-                                                                        email.subject
+                                                                    email.subject
                                                                     }}
                                                                 </span>
                                                             </div>
-                                                            <div
-                                                                class="mail-meta-item"
-                                                            >
-                                                                <span
-                                                                    class="float-right"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-success bullet-sm"
-                                                                    ></span>
-                                                                    <span
-                                                                        class="mail-date"
-                                                                    >
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
                                                                         {{
-                                                                            datetime_format(
-                                                                                email.message_at
-                                                                            )
+                                                                        datetime_format(
+                                                                        email.message_at
+                                                                        )
                                                                         }}
                                                                     </span>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="mail-message"
-                                                        >
-                                                            <p
-                                                                class="list-group-item-text truncate mb-0"
-                                                            >
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
                                                                 <!--<div v-html="email.body"></div>-->
                                                                 {{
-                                                                    email.body_text
+                                                                email.body_text
                                                                 }}
                                                             </p>
                                                         </div>
@@ -2115,148 +1179,88 @@
                                                 </li>
                                             </paginate>
                                             <!-- Tag Privado -->
-                                            <paginate
-                                                name="tag_pr"
-                                                :list="taggedMessages.pr"
-                                                :per="10"
-                                                v-if="
+                                            <paginate name="tag_pr" :list="taggedMessages.pr" :per="10" v-if="
                                                     typeof taggedMessages.pr !==
                                                         'undefined'
-                                                "
-                                                :class="
+                                                " :class="
                                                     'users-list-wrapper media-list'
-                                                "
-                                            >
-                                                <li
-                                                    class="media"
-                                                    v-for="email in paginated(
+                                                ">
+                                                <li class="media" v-for="email in paginated(
                                                         'tag_pr'
-                                                    )"
-                                                    v-if="
+                                                    )" v-if="
                                                         showFolder === 'tag_pr'
-                                                    "
-                                                    :class="{
+                                                    " :class="{
                                                         'mail-read':
                                                             typeof email.read !==
                                                             'undefined'
                                                                 ? email.read
                                                                 : false
-                                                    }"
-                                                >
-                                                    <div
-                                                        class="media-left pr-50"
-                                                    >
+                                                    }">
+                                                    <div class="media-left pr-50">
                                                         <div class="avatar">
-                                                            <img
-                                                                src="/images/anonymous-user.png"
-                                                                alt="avatar img holder"
-                                                            />
+                                                            <img src="/images/anonymous-user.png" alt="avatar img holder" />
                                                         </div>
-                                                        <div
-                                                            class="user-action"
-                                                        >
-                                                            <div
-                                                                class="vs-checkbox-con"
-                                                            >
+                                                        <div class="user-action">
+                                                            <div class="vs-checkbox-con">
                                                                 <!-- checkbox para seleccionar mensaje -->
-                                                                <input
-                                                                    type="checkbox"
-                                                                    :value="
+                                                                <input type="checkbox" :value="
                                                                         email.message_id
-                                                                    "
-                                                                    v-model="
+                                                                    " v-model="
                                                                         selectedMessages
-                                                                    "
-                                                                    class="checkboxEmail"
-                                                                />
-                                                                <span
-                                                                    class="vs-checkbox vs-checkbox-sm"
-                                                                >
-                                                                    <span
-                                                                        class="vs-checkbox--check"
-                                                                    >
-                                                                        <i
-                                                                            class="vs-icon feather icon-check"
-                                                                        ></i>
+                                                                    " class="checkboxEmail" />
+                                                                <span class="vs-checkbox vs-checkbox-sm">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
                                                                     </span>
                                                                 </span>
                                                             </div>
-                                                            <span
-                                                                class="favorite"
-                                                            >
-                                                                <i
-                                                                    class="feather icon-star"
-                                                                    :id="
+                                                            <span class="favorite">
+                                                                <i class="feather icon-star" :id="
                                                                         email.message_id
-                                                                    "
-                                                                    @click="
+                                                                    " @click="
                                                                         setFavorite(
                                                                             email.message_id
                                                                         )
-                                                                    "
-                                                                ></i>
+                                                                    "></i>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="media-body"
-                                                        @click="
+                                                    <div class="media-body" @click="
                                                             openContent(email)
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="user-details"
-                                                        >
-                                                            <div
-                                                                class="mail-items"
-                                                            >
-                                                                <h5
-                                                                    class="list-group-item-heading text-bold-600 mb-25"
-                                                                >
+                                                        ">
+                                                        <div class="user-details">
+                                                            <div class="mail-items">
+                                                                <h5 class="list-group-item-heading text-bold-600 mb-25">
                                                                     {{
-                                                                        email
-                                                                            .from[0]
-                                                                            .personal
+                                                                    email
+                                                                    .from[0]
+                                                                    .personal
                                                                     }}
                                                                 </h5>
-                                                                <span
-                                                                    class="list-group-item-text text-truncate"
-                                                                >
+                                                                <span class="list-group-item-text text-truncate">
                                                                     {{
-                                                                        email.subject
+                                                                    email.subject
                                                                     }}
                                                                 </span>
                                                             </div>
-                                                            <div
-                                                                class="mail-meta-item"
-                                                            >
-                                                                <span
-                                                                    class="float-right"
-                                                                >
-                                                                    <span
-                                                                        class="mr-1 bullet bullet-success bullet-sm"
-                                                                    ></span>
-                                                                    <span
-                                                                        class="mail-date"
-                                                                    >
+                                                            <div class="mail-meta-item">
+                                                                <span class="float-right">
+                                                                    <span class="mr-1 bullet bullet-success bullet-sm"></span>
+                                                                    <span class="mail-date">
                                                                         {{
-                                                                            datetime_format(
-                                                                                email.message_at
-                                                                            )
+                                                                        datetime_format(
+                                                                        email.message_at
+                                                                        )
                                                                         }}
                                                                     </span>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="mail-message"
-                                                        >
-                                                            <p
-                                                                class="list-group-item-text truncate mb-0"
-                                                            >
+                                                        <div class="mail-message">
+                                                            <p class="list-group-item-text truncate mb-0">
                                                                 <!--<div v-html="email.body"></div>-->
                                                                 {{
-                                                                    email.body_text
+                                                                email.body_text
                                                                 }}
                                                             </p>
                                                         </div>
@@ -2264,211 +1268,111 @@
                                                 </li>
                                             </paginate>
                                             <!--</ul>-->
-                                            <nav
-                                                class="mt-3"
-                                                style="margin:0 auto;"
-                                                v-if="showFolder === 'inbox'"
-                                            >
-                                                <paginate-links
-                                                    for="inbox"
-                                                    :show-step-links="true"
-                                                    :async="true"
-                                                    :classes="{
+                                            <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'inbox'">
+                                                <paginate-links for="inbox" :show-step-links="true" :async="true" :classes="{
                                                         ul: 'pagination',
                                                         li: 'page-item',
                                                         a: 'page-link'
-                                                    }"
-                                                    :step-links="{
+                                                    }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"
-                                                ></paginate-links>
+                                                    }"></paginate-links>
                                             </nav>
-                                            <nav
-                                                class="mt-3"
-                                                style="margin:0 auto;"
-                                                v-if="showFolder === 'sent'"
-                                            >
-                                                <paginate-links
-                                                    for="sent"
-                                                    :show-step-links="true"
-                                                    :async="true"
-                                                    :classes="{
+                                            <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'sent'">
+                                                <paginate-links for="sent" :show-step-links="true" :async="true" :classes="{
                                                         ul: 'pagination',
                                                         li: 'page-item',
                                                         a: 'page-link'
-                                                    }"
-                                                    :step-links="{
+                                                    }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"
-                                                ></paginate-links>
+                                                    }"></paginate-links>
                                             </nav>
-                                            <nav
-                                                class="mt-3"
-                                                style="margin:0 auto;"
-                                                v-if="showFolder === 'draft'"
-                                            >
-                                                <paginate-links
-                                                    for="draft"
-                                                    :show-step-links="true"
-                                                    :async="true"
-                                                    :classes="{
+                                            <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'draft'">
+                                                <paginate-links for="draft" :show-step-links="true" :async="true" :classes="{
                                                         ul: 'pagination',
                                                         li: 'page-item',
                                                         a: 'page-link'
-                                                    }"
-                                                    :step-links="{
+                                                    }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"
-                                                ></paginate-links>
+                                                    }"></paginate-links>
                                             </nav>
-                                            <nav
-                                                class="mt-3"
-                                                style="margin:0 auto;"
-                                                v-if="
+                                            <nav class="mt-3" style="margin:0 auto;" v-if="
                                                     showFolder === 'favorites'
-                                                "
-                                            >
-                                                <paginate-links
-                                                    for="favorites"
-                                                    :show-step-links="true"
-                                                    :async="true"
-                                                    :classes="{
+                                                ">
+                                                <paginate-links for="favorites" :show-step-links="true" :async="true" :classes="{
                                                         ul: 'pagination',
                                                         li: 'page-item',
                                                         a: 'page-link'
-                                                    }"
-                                                    :step-links="{
+                                                    }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"
-                                                ></paginate-links>
+                                                    }"></paginate-links>
                                             </nav>
-                                            <nav
-                                                class="mt-3"
-                                                style="margin:0 auto;"
-                                                v-if="showFolder === 'spam'"
-                                            >
-                                                <paginate-links
-                                                    for="spam"
-                                                    :show-step-links="true"
-                                                    :async="true"
-                                                    :classes="{
+                                            <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'spam'">
+                                                <paginate-links for="spam" :show-step-links="true" :async="true" :classes="{
                                                         ul: 'pagination',
                                                         li: 'page-item',
                                                         a: 'page-link'
-                                                    }"
-                                                    :step-links="{
+                                                    }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"
-                                                ></paginate-links>
+                                                    }"></paginate-links>
                                             </nav>
-                                            <nav
-                                                class="mt-3"
-                                                style="margin:0 auto;"
-                                                v-if="showFolder === 'trash'"
-                                            >
-                                                <paginate-links
-                                                    for="trash"
-                                                    :show-step-links="true"
-                                                    :async="true"
-                                                    :classes="{
+                                            <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'trash'">
+                                                <paginate-links for="trash" :show-step-links="true" :async="true" :classes="{
                                                         ul: 'pagination',
                                                         li: 'page-item',
                                                         a: 'page-link'
-                                                    }"
-                                                    :step-links="{
+                                                    }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"
-                                                ></paginate-links>
+                                                    }"></paginate-links>
                                             </nav>
                                             <!-- Tag Personal -->
-                                            <nav
-                                                class="mt-3"
-                                                style="margin:0 auto;"
-                                                v-if="showFolder === 'tag_pe'"
-                                            >
-                                                <paginate-links
-                                                    for="tag_pe"
-                                                    :show-step-links="true"
-                                                    :async="true"
-                                                    :classes="{
+                                            <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'tag_pe'">
+                                                <paginate-links for="tag_pe" :show-step-links="true" :async="true" :classes="{
                                                         ul: 'pagination',
                                                         li: 'page-item',
                                                         a: 'page-link'
-                                                    }"
-                                                    :step-links="{
+                                                    }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"
-                                                ></paginate-links>
+                                                    }"></paginate-links>
                                             </nav>
                                             <!-- Tag Compañía -->
-                                            <nav
-                                                class="mt-3"
-                                                style="margin:0 auto;"
-                                                v-if="showFolder === 'tag_co'"
-                                            >
-                                                <paginate-links
-                                                    for="tag_co"
-                                                    :show-step-links="true"
-                                                    :async="true"
-                                                    :classes="{
+                                            <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'tag_co'">
+                                                <paginate-links for="tag_co" :show-step-links="true" :async="true" :classes="{
                                                         ul: 'pagination',
                                                         li: 'page-item',
                                                         a: 'page-link'
-                                                    }"
-                                                    :step-links="{
+                                                    }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"
-                                                ></paginate-links>
+                                                    }"></paginate-links>
                                             </nav>
                                             <!-- Tag Importante -->
-                                            <nav
-                                                class="mt-3"
-                                                style="margin:0 auto;"
-                                                v-if="showFolder === 'tag_im'"
-                                            >
-                                                <paginate-links
-                                                    for="tag_im"
-                                                    :show-step-links="true"
-                                                    :async="true"
-                                                    :classes="{
+                                            <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'tag_im'">
+                                                <paginate-links for="tag_im" :show-step-links="true" :async="true" :classes="{
                                                         ul: 'pagination',
                                                         li: 'page-item',
                                                         a: 'page-link'
-                                                    }"
-                                                    :step-links="{
+                                                    }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"
-                                                ></paginate-links>
+                                                    }"></paginate-links>
                                             </nav>
                                             <!-- Tag Privado -->
-                                            <nav
-                                                class="mt-3"
-                                                style="margin:0 auto;"
-                                                v-if="showFolder === 'tag_pr'"
-                                            >
-                                                <paginate-links
-                                                    for="tag_pr"
-                                                    :show-step-links="true"
-                                                    :async="true"
-                                                    :classes="{
+                                            <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'tag_pr'">
+                                                <paginate-links for="tag_pr" :show-step-links="true" :async="true" :classes="{
                                                         ul: 'pagination',
                                                         li: 'page-item',
                                                         a: 'page-link'
-                                                    }"
-                                                    :step-links="{
+                                                    }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"
-                                                ></paginate-links>
+                                                    }"></paginate-links>
                                             </nav>
                                             <!--<nav aria-label="Page navigation example">
                                             <ul class="pagination justify-content-center mt-2">
@@ -2500,468 +1404,262 @@
                                 <!-- Detailed Email View -->
                                 <div class="email-app-details">
                                     <div class="email-detail-header">
-                                        <div
-                                            class="email-header-left d-flex align-items-center mb-1"
-                                        >
-                                            <span
-                                                class="go-back mr-1"
-                                                @click="closeContent"
-                                            >
-                                                <i
-                                                    class="feather icon-arrow-left font-medium-4"
-                                                ></i>
+                                        <div class="email-header-left d-flex align-items-center mb-1">
+                                            <span class="go-back mr-1" @click="closeContent">
+                                                <i class="feather icon-arrow-left font-medium-4"></i>
                                             </span>
                                             <h3>{{ selectedEmail.subject }}</h3>
                                         </div>
-                                        <div
-                                            class="email-header-right mb-1 ml-2 pl-1"
-                                        >
+                                        <div class="email-header-right mb-1 ml-2 pl-1">
                                             <ul class="list-inline m-0">
                                                 <li class="list-inline-item">
-                                                    <span
-                                                        class="action-icon favorite"
-                                                    >
-                                                        <i
-                                                            class="feather icon-star font-medium-5"
-                                                        ></i>
+                                                    <span class="action-icon favorite">
+                                                        <i class="feather icon-star font-medium-5"
+                                                           :class="{'text-warning': selectedEmail.favorite}"
+                                                           :id="selectedEmail.message_id"
+                                                           @click="setFavorite(selectedEmail.message_id)"></i>
                                                     </span>
                                                 </li>
                                                 <li class="list-inline-item">
-                                                    <div
-                                                        class="dropdown no-arrow"
-                                                    >
-                                                        <a
-                                                            class="dropdown-toggle"
-                                                            data-toggle="dropdown"
-                                                            aria-haspopup="true"
-                                                            aria-expanded="false"
-                                                            href="javascript:void(0)"
-                                                        >
-                                                            <i
-                                                                class="feather icon-folder font-medium-5"
-                                                            ></i>
+                                                    <div class="dropdown no-arrow">
+                                                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="javascript:void(0)">
+                                                            <i class="feather icon-folder font-medium-5"></i>
                                                         </a>
-                                                        <div
-                                                            class="dropdown-menu dropdown-menu-right"
-                                                            aria-labelledby="folder"
-                                                        >
-                                                            <a
-                                                                class="dropdown-item d-flex font-medium-1"
-                                                                href="javascript:void(0)"
-                                                                @click="
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="folder">
+                                                            <a class="dropdown-item d-flex font-medium-1" href="javascript:void(0)" @click="
                                                                     markAs(
                                                                         'draft'
                                                                     )
-                                                                "
-                                                            >
-                                                                <i
-                                                                    class="font-medium-3 feather icon-edit-2 mr-50"
-                                                                ></i>
+                                                                ">
+                                                                <i class="font-medium-3 feather icon-edit-2 mr-50"></i>
                                                                 Borrador
                                                             </a>
-                                                            <a
-                                                                class="dropdown-item d-flex font-medium-1"
-                                                                href="javascript:void(0)"
-                                                                @click="
+                                                            <a class="dropdown-item d-flex font-medium-1" href="javascript:void(0)" @click="
                                                                     markAs(
                                                                         'spam'
                                                                     )
-                                                                "
-                                                            >
-                                                                <i
-                                                                    class="font-medium-3 feather icon-info mr-50"
-                                                                ></i>
+                                                                ">
+                                                                <i class="font-medium-3 feather icon-info mr-50"></i>
                                                                 Spam
                                                             </a>
-                                                            <a
-                                                                class="dropdown-item d-flex font-medium-1"
-                                                                href="javascript:void(0)"
-                                                                @click="
+                                                            <a class="dropdown-item d-flex font-medium-1" href="javascript:void(0)" @click="
                                                                     deleteMessage()
-                                                                "
-                                                            >
-                                                                <i
-                                                                    class="font-medium-3 feather icon-trash mr-50"
-                                                                ></i>
+                                                                ">
+                                                                <i class="font-medium-3 feather icon-trash mr-50"></i>
                                                                 Papelera
                                                             </a>
                                                         </div>
                                                     </div>
                                                 </li>
                                                 <li class="list-inline-item">
-                                                    <div
-                                                        class="dropdown no-arrow"
-                                                    >
-                                                        <a
-                                                            id="tag"
-                                                            class="dropdown-toggle"
-                                                            data-toggle="dropdown"
-                                                            aria-haspopup="true"
-                                                            aria-expanded="false"
-                                                            href="#"
-                                                        >
-                                                            <i
-                                                                class="feather icon-tag font-medium-5"
-                                                            ></i>
+                                                    <div class="dropdown no-arrow">
+                                                        <a id="tag" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                                                            <i class="feather icon-tag font-medium-5"></i>
                                                         </a>
-                                                        <div
-                                                            class="dropdown-menu dropdown-menu-right"
-                                                            aria-labelledby="tag"
-                                                        >
-                                                            <a
-                                                                href="javascript:void(0)"
-                                                                class="dropdown-item font-medium-1"
-                                                                @click="
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="tag">
+                                                            <a href="javascript:void(0)" class="dropdown-item font-medium-1" @click="
                                                                     tagMessage(
                                                                         'PE'
                                                                     )
-                                                                "
-                                                            >
-                                                                <span
-                                                                    class="mr-1 bullet bullet-success bullet-sm"
-                                                                ></span>
+                                                                ">
+                                                                <span class="mr-1 bullet bullet-success bullet-sm"></span>
                                                                 Personal
                                                             </a>
-                                                            <a
-                                                                href="javascript:void(0)"
-                                                                class="dropdown-item font-medium-1"
-                                                                @click="
+                                                            <a href="javascript:void(0)" class="dropdown-item font-medium-1" @click="
                                                                     tagMessage(
                                                                         'CO'
                                                                     )
-                                                                "
-                                                            >
-                                                                <span
-                                                                    class="mr-1 bullet bullet-primary bullet-sm"
-                                                                ></span>
+                                                                ">
+                                                                <span class="mr-1 bullet bullet-primary bullet-sm"></span>
                                                                 Company
                                                             </a>
-                                                            <a
-                                                                href="javascript:void(0)"
-                                                                class="dropdown-item font-medium-1"
-                                                                @click="
+                                                            <a href="javascript:void(0)" class="dropdown-item font-medium-1" @click="
                                                                     tagMessage(
                                                                         'IM'
                                                                     )
-                                                                "
-                                                            >
-                                                                <span
-                                                                    class="mr-1 bullet bullet-warning bullet-sm"
-                                                                ></span>
+                                                                ">
+                                                                <span class="mr-1 bullet bullet-warning bullet-sm"></span>
                                                                 Important
                                                             </a>
-                                                            <a
-                                                                href="javascript:void(0)"
-                                                                class="dropdown-item font-medium-1"
-                                                                @click="
+                                                            <a href="javascript:void(0)" class="dropdown-item font-medium-1" @click="
                                                                     tagMessage(
                                                                         'PR'
                                                                     )
-                                                                "
-                                                            >
-                                                                <span
-                                                                    class="mr-1 bullet bullet-danger bullet-sm"
-                                                                ></span>
+                                                                ">
+                                                                <span class="mr-1 bullet bullet-danger bullet-sm"></span>
                                                                 Private
                                                             </a>
                                                         </div>
                                                     </div>
                                                 </li>
                                                 <li class="list-inline-item">
-                                                    <div
-                                                        class="dropdown no-arrow"
-                                                    >
-                                                        <a
-                                                            class="dropdown-toggle"
-                                                            id="envelop"
-                                                            data-toggle="dropdown"
-                                                            aria-haspopup="true"
-                                                            aria-expanded="false"
-                                                            href="javascript:void(0)"
-                                                        >
-                                                            <i
-                                                                class="feather icon-mail font-medium-5"
-                                                            ></i>
+                                                    <div class="dropdown no-arrow">
+                                                        <a class="dropdown-toggle" id="envelop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="javascript:void(0)">
+                                                            <i class="feather icon-mail font-medium-5"></i>
                                                         </a>
-                                                        <div
-                                                            class="dropdown-menu dropdown-menu-right"
-                                                            aria-labelledby="envelop"
-                                                        >
-                                                            <a
-                                                                href="javascript:void(0)"
-                                                                @click="
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="envelop">
+                                                            <a href="javascript:void(0)" @click="
                                                                     markAs(
                                                                         'readed'
                                                                     )
-                                                                "
-                                                                class="dropdown-item font-medium-1"
-                                                            >
-                                                                <i
-                                                                    class="far fa-envelope-open mr-2"
-                                                                ></i>
+                                                                " class="dropdown-item font-medium-1">
+                                                                <i class="far fa-envelope-open mr-2"></i>
                                                                 Marcar como
                                                                 leído
                                                             </a>
-                                                            <a
-                                                                href="javascript:void(0)"
-                                                                @click="
+                                                            <a href="javascript:void(0)" @click="
                                                                     markAs(
                                                                         'unreaded'
                                                                     )
-                                                                "
-                                                                class="dropdown-item font-medium-1"
-                                                            >
-                                                                <i
-                                                                    class="far fa-envelope mr-2"
-                                                                ></i>
+                                                                " class="dropdown-item font-medium-1">
+                                                                <i class="far fa-envelope mr-2"></i>
                                                                 Marcar como no
                                                                 leído
                                                             </a>
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <li
-                                                    class="list-inline-item mail-delete"
-                                                >
-                                                    <a
-                                                        href="javascript:void(0)"
-                                                        @click="deleteMessage()"
-                                                    >
-                                                        <span
-                                                            class="action-icon"
-                                                        >
-                                                            <i
-                                                                class="feather icon-trash font-medium-5"
-                                                            ></i>
+                                                <li class="list-inline-item mail-delete">
+                                                    <a href="javascript:void(0)" @click="deleteMessage()">
+                                                        <span class="action-icon">
+                                                            <i class="feather icon-trash font-medium-5"></i>
                                                         </span>
                                                     </a>
                                                 </li>
-                                                <li
-                                                    class="list-inline-item email-prev"
-                                                >
+                                                <li class="list-inline-item email-prev">
                                                     <span class="action-icon">
-                                                        <i
-                                                            class="feather icon-chevrons-left font-medium-5"
-                                                        ></i>
+                                                        <i class="feather icon-chevrons-left font-medium-5"></i>
                                                     </span>
                                                 </li>
-                                                <li
-                                                    class="list-inline-item email-next"
-                                                >
+                                                <li class="list-inline-item email-next">
                                                     <span class="action-icon">
-                                                        <i
-                                                            class="feather icon-chevrons-right font-medium-5"
-                                                        ></i>
+                                                        <i class="feather icon-chevrons-right font-medium-5"></i>
                                                     </span>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
-                                    <div
-                                        class="email-scroll-area"
-                                        style="overflow:auto"
-                                    >
+                                    <div class="email-scroll-area" style="overflow:auto">
                                         <div class="row">
                                             <div class="col-12">
-                                                <div
-                                                    class="email-label ml-2 my-2 pl-1"
-                                                >
-                                                    <span
-                                                        class="mr-1 bullet bullet-primary bullet-sm"
-                                                    ></span>
-                                                    <small class="mail-label"
-                                                        >Company</small
-                                                    >
+                                                <div class="email-label ml-2 my-2 pl-1">
+                                                    <span class="mr-1 bullet bullet-primary bullet-sm"></span>
+                                                    <small class="mail-label">Company</small>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="card px-1">
-                                                    <div
-                                                        class="card-header email-detail-head ml-75"
-                                                        v-if="
+                                                    <div class="card-header email-detail-head ml-75" v-if="
                                                             Object.keys(
                                                                 selectedEmail
                                                             ).length > 0 &&
                                                                 selectedEmail.constructor ===
                                                                     Object
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="user-details d-flex justify-content-between align-items-center flex-wrap"
-                                                        >
-                                                            <div
-                                                                class="avatar mr-75"
-                                                            >
-                                                                <img
-                                                                    src="/images/anonymous-user.png"
-                                                                    alt="avtar img holder"
-                                                                    width="61"
-                                                                    height="61"
-                                                                />
+                                                        ">
+                                                        <div class="user-details d-flex justify-content-between align-items-center flex-wrap">
+                                                            <div class="avatar mr-75">
+                                                                <img src="/images/anonymous-user.png" alt="avtar img holder" width="61" height="61" />
                                                             </div>
-                                                            <div
-                                                                class="mail-items"
-                                                            >
-                                                                <h4
-                                                                    class="list-group-item-heading mb-0"
-                                                                >
+                                                            <div class="mail-items">
+                                                                <h4 class="list-group-item-heading mb-0">
                                                                     {{
-                                                                        selectedEmail
-                                                                            .from[0]
-                                                                            .personal
+                                                                    selectedEmail
+                                                                    .from[0]
+                                                                    .personal
                                                                     }}
                                                                 </h4>
-                                                                <div
-                                                                    class="email-info-dropup dropdown"
-                                                                >
-                                                                    <span
-                                                                        class="dropdown-toggle font-small-3"
-                                                                        id="dropdownMenuButton200"
-                                                                        data-toggle="dropdown"
-                                                                        aria-haspopup="true"
-                                                                        aria-expanded="false"
-                                                                    >
+                                                                <div class="email-info-dropup dropdown">
+                                                                    <span class="dropdown-toggle font-small-3" id="dropdownMenuButton200" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                         {{
-                                                                            selectedEmail
-                                                                                .from[0]
-                                                                                .mail
+                                                                        selectedEmail
+                                                                        .from[0]
+                                                                        .mail
                                                                         }}
                                                                     </span>
-                                                                    <div
-                                                                        class="dropdown-menu dropdown-menu-right p-50"
-                                                                        aria-labelledby="dropdownMenuButton200"
-                                                                    >
-                                                                        <div
-                                                                            class="px-25 dropdown-item"
-                                                                        >
+                                                                    <div class="dropdown-menu dropdown-menu-right p-50" aria-labelledby="dropdownMenuButton200">
+                                                                        <div class="px-25 dropdown-item">
                                                                             From:
-                                                                            <strong
-                                                                                >{{
-                                                                                    selectedEmail
-                                                                                        .from[0]
-                                                                                        .mail
-                                                                                }}</strong
-                                                                            >
+                                                                            <strong>{{
+                                                                                selectedEmail
+                                                                                .from[0]
+                                                                                .mail
+                                                                                }}</strong>
                                                                         </div>
-                                                                        <div
-                                                                            class="px-25 dropdown-item"
-                                                                        >
+                                                                        <div class="px-25 dropdown-item">
                                                                             To:
-                                                                            <strong
-                                                                                >{{
-                                                                                    selectedEmail
-                                                                                        .to[0]
-                                                                                        .mail
-                                                                                }}</strong
-                                                                            >
+                                                                            <strong>{{
+                                                                                selectedEmail
+                                                                                .to[0]
+                                                                                .mail
+                                                                                }}</strong>
                                                                         </div>
-                                                                        <div
-                                                                            class="px-25 dropdown-item"
-                                                                        >
+                                                                        <div class="px-25 dropdown-item">
                                                                             Date:
-                                                                            <strong
-                                                                                >{{
-                                                                                    datetime_format(
-                                                                                        selectedEmail.message_at
-                                                                                    )
-                                                                                }}</strong
-                                                                            >
+                                                                            <strong>{{
+                                                                                datetime_format(
+                                                                                selectedEmail.message_at
+                                                                                )
+                                                                                }}</strong>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="mail-meta-item"
-                                                        >
-                                                            <div
-                                                                class="mail-time mb-1"
-                                                            >
+                                                        <div class="mail-meta-item">
+                                                            <div class="mail-time mb-1">
                                                                 {{
-                                                                    time_format(
-                                                                        selectedEmail.message_at
-                                                                    )
+                                                                time_format(
+                                                                selectedEmail.message_at
+                                                                )
                                                                 }}
                                                             </div>
-                                                            <div
-                                                                class="mail-date"
-                                                            >
+                                                            <div class="mail-date">
                                                                 {{
-                                                                    date_format(
-                                                                        selectedEmail.message_at
-                                                                    )
+                                                                date_format(
+                                                                selectedEmail.message_at
+                                                                )
                                                                 }}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="card-body mail-message-wrapper pt-2 mb-0"
-                                                    >
-                                                        <div
-                                                            class="mail-message"
-                                                        >
-                                                            <div
-                                                                v-html="
+                                                    <div class="card-body mail-message-wrapper pt-2 mb-0">
+                                                        <div class="mail-message">
+                                                            <div v-html="
                                                                     selectedEmail.body
-                                                                "
-                                                            ></div>
+                                                                "></div>
                                                         </div>
-                                                        <div
-                                                            class="mail-attachements d-flex"
-                                                            v-if="
+                                                        <div class="mail-attachements d-flex" v-if="
                                                                 selectedEmail.attachments
-                                                            "
-                                                        >
-                                                            <i
-                                                                class="feather icon-paperclip font-medium-5 mr-50"
-                                                            ></i>
-                                                            <span
-                                                                >Archivos
-                                                                adjuntos</span
-                                                            >
+                                                            ">
+                                                            <i class="feather icon-paperclip font-medium-5 mr-50"></i>
+                                                            <span>Archivos
+                                                                adjuntos</span>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="mail-files py-2"
-                                                        v-if="
+                                                    <div class="mail-files py-2" v-if="
                                                             selectedEmail
                                                                 .attachments
                                                                 .length > 0
-                                                        "
-                                                        v-for="attach in selectedEmail.attachments"
-                                                    >
-                                                        <div
-                                                            class="chip chip-primary mr-2"
-                                                        >
-                                                            <div
-                                                                class="chip-body py-50"
-                                                            >
-                                                                <a
-                                                                    :href="
+                                                        " v-for="attach in selectedEmail.attachments">
+                                                        <div class="chip chip-primary mr-2">
+                                                            <div class="chip-body py-50">
+                                                                <a :href="
                                                                         getAttachLink(
                                                                             attach
                                                                         )
-                                                                    "
-                                                                    target="_blank"
-                                                                    :download="
+                                                                    " target="_blank" :download="
                                                                         getAttachName(
                                                                             attach
                                                                         )
-                                                                    "
-                                                                >
-                                                                    <i
-                                                                        class="fa fa-paperclip font-medium-2 mr-50"
-                                                                    ></i>
-                                                                    <span
-                                                                        class="chip-text"
-                                                                        >{{
-                                                                            getAttachName(
-                                                                                attach
-                                                                            )
-                                                                        }}</span
-                                                                    >
+                                                                    ">
+                                                                    <i class="fa fa-paperclip font-medium-2 mr-50"></i>
+                                                                    <span class="chip-text">{{
+                                                                        getAttachName(
+                                                                        attach
+                                                                        )
+                                                                        }}</span>
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -2973,50 +1671,26 @@
                                             <div class="col-12">
                                                 <div class="card">
                                                     <div class="card-body">
-                                                        <div
-                                                            class="d-flex justify-content-between"
-                                                        >
-                                                            <span
-                                                                class="font-medium-1"
-                                                            >
+                                                        <div class="d-flex justify-content-between">
+                                                            <span class="font-medium-1">
                                                                 Haga clic para
-                                                                <span
-                                                                    class="primary cursor-pointer"
-                                                                >
-                                                                    <a
-                                                                        href="javascript:void(0)"
-                                                                        @click="
+                                                                <span class="primary cursor-pointer">
+                                                                    <a href="javascript:void(0)" @click="
                                                                             replyMessage()
-                                                                        "
-                                                                        data-toggle="modal"
-                                                                        data-target="#composeForm"
-                                                                    >
-                                                                        <strong
-                                                                            >Responser</strong
-                                                                        >
+                                                                        " data-toggle="modal" data-target="#composeForm">
+                                                                        <strong>Responser</strong>
                                                                     </a>
                                                                 </span>
                                                                 o
-                                                                <span
-                                                                    class="primary cursor-pointer"
-                                                                >
-                                                                    <a
-                                                                        href="javascript:void(0)"
-                                                                        @click="
+                                                                <span class="primary cursor-pointer">
+                                                                    <a href="javascript:void(0)" @click="
                                                                             forwardMessage()
-                                                                        "
-                                                                        data-toggle="modal"
-                                                                        data-target="#composeForm"
-                                                                    >
-                                                                        <strong
-                                                                            >Reenviar</strong
-                                                                        >
+                                                                        " data-toggle="modal" data-target="#composeForm">
+                                                                        <strong>Reenviar</strong>
                                                                     </a>
                                                                 </span>
                                                             </span>
-                                                            <i
-                                                                class="feather icon-paperclip font-medium-5 mr-50"
-                                                            ></i>
+                                                            <i class="feather icon-paperclip font-medium-5 mr-50"></i>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3138,8 +1812,7 @@ export default {
         setFolder(folder) {
             const vm = this;
             vm.getEmails();
-            if (folder === "inbox") {
-            }
+            if (folder === "inbox") {}
             vm.showFolder = folder;
             vm.selectedEmail = {};
             $(".go-back").click();
@@ -3228,11 +1901,11 @@ export default {
          * @return    {integer}     Número de mensajes sin leer dentro de la carpeta
          */
         countUnread(folder) {
-            return typeof folder !== "undefined"
-                ? folder.filter(function(msg) {
-                      return typeof msg.read !== "undefined" && !msg.read;
-                  }).length
-                : 0;
+            return typeof folder !== "undefined" ?
+                folder.filter(function(msg) {
+                    return typeof msg.read !== "undefined" && !msg.read;
+                }).length :
+                0;
         },
         /**
          * Obtiene un listado de mensajes del servidor de correos
@@ -3273,9 +1946,9 @@ export default {
         getAttachLink(attachmentPath) {
             const vm = this;
 
-            return !attachmentPath.startsWith("http")
-                ? `/attachment/${vm.getAttachName(attachmentPath)}`
-                : attachmentPath;
+            return !attachmentPath.startsWith("http") ?
+                `/attachment/${vm.getAttachName(attachmentPath)}` :
+                attachmentPath;
         },
         /**
          * Obtiene el nombre del archivo adjunto en un correo
@@ -3395,9 +2068,9 @@ export default {
          */
         deleteMessage() {
             const vm = this;
-            var message_id = vm.selectedEmail
-                ? vm.selectedEmail.message_id
-                : null;
+            var message_id = vm.selectedEmail ?
+                vm.selectedEmail.message_id :
+                null;
             if (message_id !== null && vm.selectedMessages.length === 0) {
                 toastr.warning(
                     "Debe seleccionar uno o mas mensajes a borrar",
@@ -3408,10 +2081,9 @@ export default {
 
             axios
                 .post("/email/messages/delete", {
-                    messages:
-                        vm.selectedMessages.length > 0
-                            ? vm.selectedMessages
-                            : [message_id]
+                    messages: vm.selectedMessages.length > 0 ?
+                        vm.selectedMessages :
+                        [message_id]
                 })
                 .then(response => {
                     if (response.data.result) {
@@ -3448,7 +2120,34 @@ export default {
                 })
                 .then(response => {
                     if (response.data.result) {
-                        vm.favorites.push(message_id);
+                        let msg = response.data.message;
+                        let isFavorite = msg.favorite;
+                        /** @type integer Determina si el mensaje ya se encuentra dentro de los mensajes favoritos */
+                        const index = vm.favorites.findIndex(x => x.message_id === message_id);
+
+                        if (index >= 0) {
+                            /** Elimina el mensaje del arreglod e favoritos */
+                            vm.favorites.splice(index, 1);
+                        }
+                        else {
+                            /** agrega el mensaje al arreglo de favoritos */
+                            vm.favorites.push(msg);
+                        }
+                        vm.emails.inbox.forEach(function(inbox) {
+                            if (inbox.message_id === message_id) {
+                                inbox.favorite = isFavorite;
+                            }
+                        });
+
+                        if (
+                            typeof(vm.selectedEmail.message_id) !== "undefined" &&
+                            vm.selectedEmail.message_id == message_id
+                        ) {
+                            vm.selectedEmail.favorite = isFavorite;
+                            toastr.success(
+                                (isFavorite) ? "Mensaje marcado como favorito" : "Mensaje desmarcado como favorito"
+                            );
+                        }
                     } else {
                         toastr.warning(response.data.message, "Alerta!");
                     }
@@ -3518,9 +2217,9 @@ export default {
             axios
                 .post("/email/set-tags", {
                     tag: tag,
-                    emails: vm.selectedEmail
-                        ? [vm.selectedEmail.message_id]
-                        : vm.selectedMessages
+                    emails: vm.selectedEmail ?
+                        [vm.selectedEmail.message_id] :
+                        vm.selectedMessages
                 })
                 .then(response => {
                     if (response.data.result) {
@@ -3565,12 +2264,11 @@ export default {
             const vm = this;
             axios
                 .post("/email/mark-as", {
-                    emails:
-                        vm.selectedMessages.length > 0
-                            ? vm.selectedMessages
-                            : typeof vm.selectedEmail.message_id !== null
-                            ? [vm.selectedEmail.message_id]
-                            : [],
+                    emails: vm.selectedMessages.length > 0 ?
+                        vm.selectedMessages :
+                        typeof vm.selectedEmail.message_id !== null ?
+                        [vm.selectedEmail.message_id] :
+                        [],
                     type: type
                 })
                 .then(response => {
@@ -3670,9 +2368,9 @@ export default {
             if (email !== null) {
                 vm.selectedEmail = email;
                 vm.selectedEmail.attachments =
-                    email.attachments !== null && email.attachments.length > 0
-                        ? JSON.parse(JSON.stringify(email.attachments))
-                        : [];
+                    email.attachments !== null && email.attachments.length > 0 ?
+                    JSON.parse(JSON.stringify(email.attachments)) :
+                    [];
                 $(".app-content .email-app-details").toggleClass("show");
             }
         },
@@ -3723,4 +2421,5 @@ export default {
         });
     }
 };
+
 </script>

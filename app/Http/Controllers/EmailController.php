@@ -324,6 +324,7 @@ class EmailController extends Controller
                         array_push($emails[$message->folder_type], [
                             'message_id' => $message->message_id,
                             'message_nro' => $message->message_nro,
+                            'favorite' => $message->favorite,
                             'subject' => $message->subject,
                             'references' => $message->references,
                             'message_at' => $message->message_at,
@@ -336,7 +337,7 @@ class EmailController extends Controller
                             'attachments' => json_decode($message->attachments),
                             'body' => $message->body,
                             'body_text' => $message->body_text,
-                            'read' => $message->read
+                            'read' => $message->read,
                         ]);
                     }
                 }
@@ -550,10 +551,9 @@ class EmailController extends Controller
         if (!$message) {
             return response()->json(['result' => false, 'message' => 'Mensage no encontrado'], 200);
         }
-
-        $message->favorite = true;
+        $message->favorite = !$message->favorite;
         $message->save();
-        return response()->json(['result' => true], 200);
+        return response()->json(['result' => true, 'message' => $message], 200);
     }
 
     /**

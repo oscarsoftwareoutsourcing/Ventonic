@@ -367,11 +367,14 @@ export default {
     $(".chat-menu-notifications").text("");
     $(".chat-menu-notifications").addClass("d-none");
     axios.get("/markAsRead/chat");
-    vm.$parent.$children[0].unreadNotifications = JSON.parse(JSON.stringify(
-        vm.$parent.$children[0].unreadNotifications.filter(notification => {
-            return notification.data.icon !== "icon-message-square";
-        })
-    ));
+
+    if (typeof(vm.$parent.$children[0].unreadNotifications) !== "undefined") {
+        vm.$parent.$children[0].unreadNotifications = JSON.parse(JSON.stringify(
+            vm.$parent.$children[0].unreadNotifications.filter(notification => {
+                return notification.data.icon !== "icon-message-square";
+            })
+        ));
+    }
     //console.log(vm.$parent.$children[0].unreadNotifications);
     /*var chatCount = vm.unreadNotifications.filter(notification => {
         return notification.data.icon === "icon-message-square";
