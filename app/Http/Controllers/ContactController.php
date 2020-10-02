@@ -258,10 +258,10 @@ class ContactController extends Controller
                         $gContact->setEmailAddresses($email);
                     }
                     $service->people->createContact($gContact);
+                } else {
+                    session()->put('returnUrl', 'contact.list');
+                    return redirect('/google-calendar/oauth');
                 }
-            } else {
-                session()->put('returnUrl', 'contact.list');
-                return redirect('/google-calendar/oauth');
             }
         }
 
@@ -364,10 +364,10 @@ class ContactController extends Controller
                     $gContact,
                     ['updatePersonFields' => 'names,phoneNumbers,emailAddresses']
                 );
+            } else {
+                session()->put('returnUrl', 'contact.list');
+                return redirect('/google-calendar/oauth');
             }
-        } else {
-            session()->put('returnUrl', 'contact.list');
-            return redirect('/google-calendar/oauth');
         }
 
         // if(isset($request['private']) && is_array($request['private'])){
