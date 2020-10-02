@@ -21,7 +21,10 @@
         <div class="content-body">
             <!-- Dashboard Analytics Start -->
             <section id="dashboard-analytics">
+                 <form action='{{ route('me.dash') }}' method="POST" enctype="multipart/form-data">
                 <div class="row mb-2">
+                   
+                        @csrf
                     <div class="col-12">
                         <div class="alert alert-info" role="alert">
                             <h2 class="alert-heading">Dash Demo</h2>
@@ -29,15 +32,33 @@
                                   Así es como puede mostrarse tu Dashboard cuando empieces a registrar tu actividad en Ventonic
                                 </p>
                         </div>
-
+                        <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
+                             <fieldset class="checkbox">
+                                <div class="vs-checkbox-con vs-checkbox-primary float-right">
+                                    <input type="checkbox" name="favorito" id="favorito">
+                                        <span class="vs-checkbox">
+                                            <span class="vs-checkbox--check">
+                                                <i class="vs-icon feather icon-check"></i>
+                                            </span>
+                                        </span>
+                                    <span class="">No volver a mostrar este mensaje</span>
+                                </div>
+                            </fieldset>
+                        </div>
                         <div class="mr-auto float-right bookmark-wrapper d-flex align-items-center">
+                            <button type="submit" class="btn bg-gradient-primary  mr-1 mb-1 waves-effect waves-light text-white">Ver Mi Dashboard</button>
+                            <!--
                             <a type="button" class="btn bg-gradient-primary  mr-1 mb-1 waves-effect waves-light text-white"
                             href="{{ route('me.dash') }}" title="Mi Dashboard">
                                 Ver Mi Dashboard
                             </a>
+                        -->
                         </div>
                     </div>
+                   
+
                 </div>
+                 </form>
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="card bg-analytics text-white">

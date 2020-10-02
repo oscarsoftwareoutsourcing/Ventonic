@@ -28,7 +28,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem3">
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('this week')">Esta semana</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('this month')">Este mes</a>
-                        <a class="dropdown-item" href="#" onclick="filterDashbaord('this year')">Este año</a>
+                        <!--<a class="dropdown-item" href="#" onclick="filterDashbaord('this year')">Este año</a>-->
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('7 days ago')">Últimos 7 Días</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('30 days ago')">Últimos 30 Días</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('90 days ago')">Últimos 90 Días</a>
