@@ -15,7 +15,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="card-body">
                                 Conecta tu dirección de correo electrónico para
                                 disfrutar de todo el potencial de Ventonic
@@ -23,13 +22,7 @@
                             <div class="card-footer">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <button
-                                            type="button"
-                                            class="btn bg-gradient-primary btn-md text-white float-right"
-                                            title="Pulse sobre el botón para iniciar el proceso de configuración"
-                                            data-toggle="tooltip"
-                                            @click="configStarted = true"
-                                        >
+                                        <button type="button" class="btn bg-gradient-primary btn-md text-white float-right" title="Pulse sobre el botón para iniciar el proceso de configuración" data-toggle="tooltip" @click="configStarted = true">
                                             Iniciar
                                         </button>
                                     </div>
@@ -37,70 +30,33 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="card-body">
-                                <div
-                                    class="alert alert-danger"
-                                    role="alert"
-                                    v-if="settingError"
-                                >
+                            <div class="card-body" v-if="!update">
+                                <div class="alert alert-danger" role="alert" v-if="settingError">
                                     <h4 class="alert-heading">Error</h4>
                                     <p class="mb-0">{{ settingError }}</p>
                                 </div>
-
-                                <form-wizard
-                                    title="Configuración de correo"
-                                    subtitle="Configura tu dirección de correo en nuestra plataforma"
-                                    nextButtonText="Siguiente"
-                                    backButtonText="Atrás"
-                                    finishButtonText="Configurar"
-                                    @on-complete="setSettings"
-                                >
-                                    <tab-content
-                                        title="Proveedor de correo"
-                                        :before-change="validateWizardFirst"
-                                    >
+                                <form-wizard title="Configuración de correo" subtitle="Configura tu dirección de correo en nuestra plataforma" nextButtonText="Siguiente" backButtonText="Atrás" finishButtonText="Continuar" @on-complete="setSettings">
+                                    <tab-content title="Proveedor de correo" :before-change="validateWizardFirst">
                                         <div class="row">
-                                            <div
-                                                class="col-3"
-                                                v-for="provider in providers"
-                                            >
-                                                <div
-                                                    class="custom-control custom-radio"
-                                                >
-                                                    <input
-                                                        type="radio"
-                                                        :id="
+                                            <div class="col-3" v-for="provider in providers">
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" :id="
                                                             'sel' +
                                                                 provider.name
-                                                        "
-                                                        name="providerSelected"
-                                                        :value="provider.name"
-                                                        class="custom-control-input"
-                                                        v-model="typeProvider"
-                                                    />
-                                                    <label
-                                                        class="custom-control-label"
-                                                        :for="
+                                                        " name="providerSelected" :value="provider.name" class="custom-control-input" v-model="typeProvider" />
+                                                    <label class="custom-control-label" :for="
                                                             'sel' +
                                                                 provider.name
-                                                        "
-                                                    >
-                                                        <img
-                                                            :src="
+                                                        ">
+                                                        <img :src="
                                                                 provider.image
-                                                            "
-                                                            :alt="provider.name"
-                                                            class="img-fluid"
-                                                        />
+                                                            " :alt="provider.name" class="img-fluid" />
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row" v-if="typeProvider">
-                                            <div
-                                                class="col-12"
-                                                v-if="typeProvider === 'google'"
-                                            >
+                                            <div class="col-12" v-if="typeProvider === 'google'">
                                                 <hr />
                                                 <p>
                                                     Gmail cuenta con una capa de
@@ -120,19 +76,15 @@
                                                         ubicado en la parte
                                                         superior derecha
                                                         Presione sobre el botón
-                                                        <strong
-                                                            >"Gestionar tu
+                                                        <strong>"Gestionar tu
                                                             cuenta de
-                                                            Google"</strong
-                                                        >
+                                                            Google"</strong>
                                                     </li>
                                                     <li>
                                                         En la siguiente página,
                                                         presionar sobre la
                                                         opción
-                                                        <strong
-                                                            >"Seguridad"</strong
-                                                        >
+                                                        <strong>"Seguridad"</strong>
                                                         del menú lateral
                                                         izquierdo
                                                     </li>
@@ -140,20 +92,15 @@
                                                         En el listado de
                                                         opciones presentado,
                                                         hacer clic en la opción
-                                                        <strong
-                                                            >"Acceso de apps
+                                                        <strong>"Acceso de apps
                                                             menos
-                                                            segura"</strong
-                                                        >
+                                                            segura"</strong>
                                                         y darle a la opción de
                                                         habilitar
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div
-                                                class="col-12"
-                                                v-if="typeProvider === 'yahoo'"
-                                            >
+                                            <div class="col-12" v-if="typeProvider === 'yahoo'">
                                                 <hr />
                                                 <p>
                                                     Yahoo / Aol, cuentan con una
@@ -215,13 +162,10 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div
-                                                class="col-12"
-                                                v-if="
+                                            <div class="col-12" v-if="
                                                     typeProvider === 'google' ||
                                                         typeProvider === 'yahoo'
-                                                "
-                                            >
+                                                ">
                                                 <p>
                                                     Una vez realizada esta
                                                     configuración en su cuenta
@@ -244,65 +188,38 @@
                                             </div>
                                         </div>
                                     </tab-content>
-                                    <tab-content
-                                        title="Información de acceso"
-                                        :before-change="validateWizardSecond"
-                                    >
+                                    <tab-content title="Información de acceso" :before-change="validateWizardSecond">
                                         <div class="row">
-                                            <div
-                                                class="col-lg-6 col-md-6 col-xs-12"
-                                            >
+                                            <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label for>Su nombre</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        v-model="name"
-                                                        :class="{
+                                                    <input type="text" class="form-control" v-model="name" :class="{
                                                             'has-error': hasErrors(
                                                                 'name'
                                                             )
-                                                        }"
-                                                    />
-                                                    <span
-                                                        class="invalid-feedback mb-3"
-                                                        role="alert"
-                                                        v-if="hasErrors('name')"
-                                                    >
+                                                        }" />
+                                                    <span class="invalid-feedback mb-3" role="alert" v-if="hasErrors('name')">
                                                         <strong>{{
                                                             errors.name
-                                                        }}</strong>
+                                                            }}</strong>
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="col-lg-6 col-md-6 col-xs-12"
-                                            >
+                                            <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for
-                                                        >Dirección de
-                                                        correo</label
-                                                    >
-                                                    <input
-                                                        type="email"
-                                                        class="form-control"
-                                                        v-model="email"
-                                                        :class="{
+                                                    <label for>Dirección de
+                                                        correo</label>
+                                                    <input type="email" class="form-control" v-model="email" :class="{
                                                             'has-error': hasErrors(
                                                                 'email'
                                                             )
-                                                        }"
-                                                    />
-                                                    <span
-                                                        class="invalid-feedback mb-3"
-                                                        role="alert"
-                                                        v-if="
+                                                        }" />
+                                                    <span class="invalid-feedback mb-3" role="alert" v-if="
                                                             hasErrors('email')
-                                                        "
-                                                    >
+                                                        ">
                                                         <strong>{{
                                                             errors.email
-                                                        }}</strong>
+                                                            }}</strong>
                                                     </span>
                                                 </div>
                                             </div>
@@ -312,76 +229,60 @@
                                             Información de inicio de sesión
                                         </h6>
                                         <div class="row">
-                                            <div
-                                                class="col-lg-6 col-md-6 col-xs-12"
-                                            >
+                                            <div class="col-lg-5 col-md-5 col-xs-11">
                                                 <div class="form-group">
-                                                    <label for
-                                                        >Nombre de
-                                                        usuario</label
-                                                    >
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        v-model="username"
-                                                        :class="{
+                                                    <label for>Nombre de
+                                                        usuario</label>
+                                                    <input type="text" class="form-control" v-model="username" :class="{
                                                             'has-error': hasErrors(
                                                                 'username'
                                                             )
-                                                        }"
-                                                    />
-                                                    <span
-                                                        class="invalid-feedback mb-3"
-                                                        role="alert"
-                                                        v-if="
+                                                        }" data-toogle="tooltip"
+                                                           title="Nombre del usuario con el que accede a la cuenta a ser vinculada" :readonly="disabledUsername"/>
+                                                    <span class="invalid-feedback mb-3" role="alert" v-if="
                                                             hasErrors(
                                                                 'username'
                                                             )
-                                                        "
-                                                    >
+                                                        ">
                                                         <strong>{{
                                                             errors.username
-                                                        }}</strong>
+                                                            }}</strong>
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="col-lg-6 col-md-6 col-xs-12"
-                                            >
+                                            <div class="col-xs-1">
                                                 <div class="form-group">
-                                                    <label for
-                                                        >Contraseña</label
-                                                    >
-                                                    <input
-                                                        type="password"
-                                                        class="form-control"
-                                                        v-model="password"
-                                                        :class="{
+                                                    <label for="">&#160;</label>
+                                                    <div class="custom-control custom-checkbox" data-toggle="tooltip"
+                                                         title="habilitar/deshabilitar la modificación del nombre de usuario de la cuenta a vincular">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                               id="enableUsername" @click="enableUserNameInput">
+                                                        <label class="custom-control-label" for="enableUsername"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <label for>Contraseña</label>
+                                                    <input type="password" class="form-control" v-model="password" :class="{
                                                             'has-error': hasErrors(
                                                                 'password'
                                                             )
-                                                        }"
-                                                    />
-                                                    <span
-                                                        class="invalid-feedback mb-3"
-                                                        role="alert"
-                                                        v-if="
+                                                        }" />
+                                                    <span class="invalid-feedback mb-3" role="alert" v-if="
                                                             hasErrors(
                                                                 'password'
                                                             )
-                                                        "
-                                                    >
+                                                        ">
                                                         <strong>{{
                                                             errors.password
-                                                        }}</strong>
+                                                            }}</strong>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
                                     </tab-content>
-                                    <tab-content
-                                        title="Información del servidor"
-                                    >
+                                    <tab-content title="Información del servidor">
                                         <div class="row">
                                             <!--<div class="col-lg-6 col-md-6 col-xs-12">
                                                     <div class="form-group">
@@ -391,187 +292,117 @@
                                                         </div>
                                                     </div>
                         </div>-->
-                                            <div
-                                                class="col-lg-6 col-md-6 col-xs-12"
-                                            >
+                                            <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for
-                                                        >Tipo de cuenta</label
-                                                    >
-                                                    <select
-                                                        class="custom-select"
-                                                        v-model="protocol"
-                                                        :class="{
+                                                    <label for>Tipo de cuenta</label>
+                                                    <select class="custom-select" v-model="protocol" :class="{
                                                             'has-error': hasErrors(
                                                                 'protocol'
                                                             )
-                                                        }"
-                                                        :disabled="autoConfig"
-                                                    >
-                                                        <option value="imap"
-                                                            >IMAP</option
-                                                        >
-                                                        <option value="pop3"
-                                                            >POP3</option
-                                                        >
+                                                        }" :disabled="autoConfig">
+                                                        <option value="imap">IMAP</option>
+                                                        <option value="pop3">POP3</option>
                                                     </select>
-                                                    <span
-                                                        class="invalid-feedback mb-3"
-                                                        role="alert"
-                                                        v-if="
+                                                    <span class="invalid-feedback mb-3" role="alert" v-if="
                                                             hasErrors(
                                                                 'protocol'
                                                             )
-                                                        "
-                                                    >
+                                                        ">
                                                         <strong>{{
                                                             errors.protocol
-                                                        }}</strong>
+                                                            }}</strong>
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="col-lg-4 col-md-4 col-xs-12"
-                                            >
+                                            <div class="col-lg-4 col-md-4 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for
-                                                        >Servidor de correo
-                                                        entrante</label
-                                                    >
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        v-model="
+                                                    <label for>Servidor de correo
+                                                        entrante</label>
+                                                    <input type="text" class="form-control" v-model="
                                                             incoming_server_host
-                                                        "
-                                                        :class="{
+                                                        " :class="{
                                                             'has-error': hasErrors(
                                                                 'incoming_server_host'
                                                             )
-                                                        }"
-                                                        :readonly="autoConfig"
-                                                    />
-                                                    <span
-                                                        class="invalid-feedback mb-3"
-                                                        role="alert"
-                                                        v-if="
+                                                        }" :readonly="autoConfig" />
+                                                    <span class="invalid-feedback mb-3" role="alert" v-if="
                                                             hasErrors(
                                                                 'incoming_server_host'
                                                             )
-                                                        "
-                                                    >
+                                                        ">
                                                         <strong>{{
                                                             errors.incoming_server_host
-                                                        }}</strong>
+                                                            }}</strong>
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="col-lg-2 col-md-2 col-xs-12"
-                                            >
+                                            <div class="col-lg-2 col-md-2 col-xs-12">
                                                 <div class="form-group">
                                                     <label for>Puerto</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        v-model="
+                                                    <input type="text" class="form-control" v-model="
                                                             incoming_server_port
-                                                        "
-                                                        :class="{
+                                                        " :class="{
                                                             'has-error': hasErrors(
                                                                 'incoming_server_port'
                                                             )
-                                                        }"
-                                                        :readonly="autoConfig"
-                                                    />
-                                                    <span
-                                                        class="invalid-feedback mb-3"
-                                                        role="alert"
-                                                        v-if="
+                                                        }" :readonly="autoConfig" />
+                                                    <span class="invalid-feedback mb-3" role="alert" v-if="
                                                             hasErrors(
                                                                 'incoming_server_port'
                                                             )
-                                                        "
-                                                    >
+                                                        ">
                                                         <strong>{{
                                                             errors.incoming_server_port
-                                                        }}</strong>
+                                                            }}</strong>
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="col-lg-4 col-md-4 col-xs-12"
-                                            >
+                                            <div class="col-lg-4 col-md-4 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for
-                                                        >Servidor de correo
-                                                        saliente (SMTP)</label
-                                                    >
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        v-model="
+                                                    <label for>Servidor de correo
+                                                        saliente (SMTP)</label>
+                                                    <input type="text" class="form-control" v-model="
                                                             outgoing_server_host
-                                                        "
-                                                        :class="{
+                                                        " :class="{
                                                             'has-error': hasErrors(
                                                                 'outgoing_server_host'
                                                             )
-                                                        }"
-                                                        :readonly="autoConfig"
-                                                    />
-                                                    <span
-                                                        class="invalid-feedback mb-3"
-                                                        role="alert"
-                                                        v-if="
+                                                        }" :readonly="autoConfig" />
+                                                    <span class="invalid-feedback mb-3" role="alert" v-if="
                                                             hasErrors(
                                                                 'outgoing_server_host'
                                                             )
-                                                        "
-                                                    >
+                                                        ">
                                                         <strong>{{
                                                             errors.outgoing_server_host
-                                                        }}</strong>
+                                                            }}</strong>
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="col-lg-2 col-md-2 col-xs-12"
-                                            >
+                                            <div class="col-lg-2 col-md-2 col-xs-12">
                                                 <div class="form-group">
                                                     <label for>Puerto</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        v-model="
+                                                    <input type="text" class="form-control" v-model="
                                                             outgoing_server_port
-                                                        "
-                                                        :class="{
+                                                        " :class="{
                                                             'has-error': hasErrors(
                                                                 'outgoing_server_port'
                                                             )
-                                                        }"
-                                                        :readonly="autoConfig"
-                                                    />
-                                                    <span
-                                                        class="invalid-feedback mb-3"
-                                                        role="alert"
-                                                        v-if="
+                                                        }" :readonly="autoConfig" />
+                                                    <span class="invalid-feedback mb-3" role="alert" v-if="
                                                             hasErrors(
                                                                 'outgoing_server_port'
                                                             )
-                                                        "
-                                                    >
+                                                        ">
                                                         <strong>{{
                                                             errors.outgoing_server_port
-                                                        }}</strong>
+                                                            }}</strong>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
                                     </tab-content>
                                 </form-wizard>
-
                                 <!--<h6 class="font-weight-bold">Información del usuario</h6>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-xs-12">
@@ -676,19 +507,20 @@
                                         </div>
                   </div>-->
                             </div>
+                            <div class="card-body text-center" v-else>
+                                <h4 class="wizard-title">Configuración de correo</h4>
+                                <p class="category">Configura tu dirección de correo en nuestra plataforma</p>
+                            </div>
                             <div class="card-footer" v-if="update">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <button
-                                            type="button"
-                                            class="btn btn-primary btn-sm float-left"
-                                            title="Pulse sobre el botón para desvincular la cuenta configurada"
-                                            data-toggle="tooltip"
-                                            @click="removeSettings"
-                                        >
-                                            Eliminar
+                                        <button type="button" class="btn btn-primary btn-sm float-left" title="Pulse sobre el botón para desvincular la cuenta configurada" data-toggle="tooltip" @click="removeSettings">
+                                            Desvincular Cuenta
                                         </button>
-                                        <!--<button type="button" class="btn btn-primary btn-sm float-right" title="Pulse sobre el botón para establecer la configuración" data-toggle="tooltip" @click="setSettings">Configurar</button>-->
+                                        <button type="button" class="btn btn-primary btn-sm float-right"
+                                                title="Pulse sobre el botón para actualizar la configuración de la cuenta de correo externa" data-toggle="tooltip" @click="update = false">
+                                            Actualizar
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -704,15 +536,8 @@
                             </h4>
                         </div>
                         <div class="card-content p-2">
-                            <div
-                                class="embed-responsive embed-responsive-item embed-responsive-16by9"
-                            >
-                                <video
-                                    id="sampleMovie"
-                                    width="100%"
-                                    preload
-                                    controls
-                                >
+                            <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
+                                <video id="sampleMovie" width="100%" preload controls>
                                     <source src="video/email.mp4" />
                                     <source src="video/email.mp4" />
                                     <source src="video/email.mp4" />
@@ -767,6 +592,7 @@ export default {
             outgoing_server_host: "",
             incoming_server_port: 993,
             outgoing_server_port: 465,
+            disabledUsername: true,
             username: "",
             password: "",
             settingError: "",
@@ -783,6 +609,9 @@ export default {
         };
     },
     watch: {
+        email: function() {
+            this.username = this.email;
+        },
         typeProvider: function() {
             const vm = this;
             vm.autoConfig =
@@ -843,6 +672,12 @@ export default {
         }
     },
     methods: {
+        enableUserNameInput() {
+            this.disabledUsername = !this.disabledUsername;
+            if (this.disabledUsername) {
+                this.username = this.email;
+            }
+        },
         validateWizardFirst() {
             const vm = this;
             let validate = vm.typeProvider !== "";
@@ -863,15 +698,15 @@ export default {
             if (!validate) {
                 vm.settingError = "Debe indicar los datos de acceso";
                 vm.errors.name = !vm.name ? "Indique su nombre" : "";
-                vm.errors.email = !vm.email
-                    ? "Indique su dirección de correo"
-                    : "";
-                vm.errors.username = !vm.username
-                    ? "Indique su usuario de acceso"
-                    : "";
-                vm.errors.password = !vm.password
-                    ? "Indique su contraseña de acceso"
-                    : "";
+                vm.errors.email = !vm.email ?
+                    "Indique su dirección de correo" :
+                    "";
+                vm.errors.username = !vm.username ?
+                    "Indique su usuario de acceso" :
+                    "";
+                vm.errors.password = !vm.password ?
+                    "Indique su contraseña de acceso" :
+                    "";
             } else {
                 vm.setAutoConfig();
             }
@@ -893,8 +728,7 @@ export default {
                             $("#autoConfig").click();
                             bootbox.alert({
                                 title: "Alerta!",
-                                message:
-                                    response.data.message ||
+                                message: response.data.message ||
                                     `No se ha podido obtener datos del servidor.
                                      Debe agregar manualmente la información`
                             });
@@ -1086,4 +920,5 @@ export default {
         }
     }
 };
+
 </script>
