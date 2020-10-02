@@ -514,12 +514,12 @@
                             <div class="card-footer" v-if="update">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <button type="button" class="btn btn-primary btn-sm float-left" title="Pulse sobre el botón para desvincular la cuenta configurada" data-toggle="tooltip" @click="removeSettings">
+                                        <button type="button" class="btn  bg-gradient-primary  float-left" title="Pulse sobre el botón para desvincular la cuenta configurada" data-toggle="tooltip" @click="removeSettings">
                                             Desvincular Cuenta
                                         </button>
-                                        <button type="button" class="btn btn-primary btn-sm float-right"
+                                        <button type="button" class="btn  bg-gradient-primary  float-right"
                                                 title="Pulse sobre el botón para actualizar la configuración de la cuenta de correo externa" data-toggle="tooltip" @click="update = false">
-                                            Actualizar
+                                            Actualizar conexión
                                         </button>
                                     </div>
                                 </div>

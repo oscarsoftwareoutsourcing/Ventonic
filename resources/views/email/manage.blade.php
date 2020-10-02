@@ -61,6 +61,7 @@
             <email-setting></email-setting>
         </div>
     </div>
+    </div>
     @else
         <div class="app-content content">
             <div class="content-overlay"></div>
