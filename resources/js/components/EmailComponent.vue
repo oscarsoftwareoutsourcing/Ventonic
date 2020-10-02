@@ -1528,12 +1528,16 @@
                                                 </li>
                                                 <li class="list-inline-item email-prev">
                                                     <span class="action-icon">
-                                                        <i class="feather icon-chevrons-left font-medium-5"></i>
+                                                        <i class="feather icon-chevrons-left font-medium-5"
+                                                           @click="selectedEmailPrevious(selectedEmail.message_id)"
+                                                           :style="selectedEmailHasPrevious(selectedEmail.message_id)"></i>
                                                     </span>
                                                 </li>
                                                 <li class="list-inline-item email-next">
                                                     <span class="action-icon">
-                                                        <i class="feather icon-chevrons-right font-medium-5"></i>
+                                                        <i class="feather icon-chevrons-right font-medium-5"
+                                                           @click="selectedEmailNext(selectedEmail.message_id)"
+                                                           :style="selectedEmailHasNext(selectedEmail.message_id)"></i>
                                                     </span>
                                                 </li>
                                             </ul>
@@ -2343,23 +2347,6 @@ export default {
                     console.error(error);
                 });
         },
-        /**
-         * Establece el contenido de la página seleccionada en el paginador de correos
-         *
-         * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-         *
-         * @param     {array}    mails    Arreglo con listado de correos
-         *
-         * @return    {array}    Arreglo con listado de correos de acuerdo a la página seleccionada
-         */
-        /*paginate (mails) {
-                const vm = this;
-                let page = vm.page;
-                let perPage = vm.perPage;
-                let from = (page * perPage) - perPage;
-                let to = (page * perPage);
-                return  mails.slice(from, to);
-            },*/
         showPagination(folder, elements) {
             return this.showFolder === folder && elements.length > 0;
         },
@@ -2393,10 +2380,81 @@ export default {
             $(".sidebar-left").removeClass("show");
             $(".app-content-overlay").removeClass("show");
         },
-
         openLabels: function() {
             $(".openLabels").toggleClass("show");
-        }
+        },
+        /**
+         * Determina si existe un mensage posterior del cual mostrar detalles
+         *
+         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+         *
+         * @param     {string}                message_id    Identificador del mensaje
+         *
+         * @return    {string}                Estilo de color para el elemento next
+         */
+        selectedEmailHasNext: function(message_id) {
+            const vm = this;
+            const index = vm.emails.inbox.findIndex(x => x.message_id === message_id);
+            if (index >= 0) {
+                const nextIndex = index + 1;
+                if (typeof(vm.emails.inbox[nextIndex]) === "undefined") {
+                    return 'color: rgba(0, 135, 255, .5)';
+                }
+            }
+        },
+        /**
+         * Determina si existe un mensage anterior del cual mostrar detalles
+         *
+         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+         *
+         * @param     {string}                message_id    Identificador del mensaje
+         *
+         * @return    {string}                Estilo de color para el elemento previo
+         */
+        selectedEmailHasPrevious: function(message_id) {
+            const vm = this;
+            const index = vm.emails.inbox.findIndex(x => x.message_id === message_id);
+            if (index >= 0) {
+                const previousIndex = index + 1;
+                if (typeof(vm.emails.inbox[previousIndex]) === "undefined") {
+                    return 'color: rgba(0, 135, 255, .5)';
+                }
+            }
+        },
+        /**
+         * Selecciona el pŕoximo correo para mostrar los detalles
+         *
+         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+         *
+         * @param     {string}             message_id    Identificador del mensaje
+         */
+        selectedEmailNext: function(message_id) {
+            const vm = this;
+            const index = vm.emails.inbox.findIndex(x => x.message_id === message_id);
+            if (index >= 0) {
+                const nextIndex = index + 1;
+                if (typeof(vm.emails.inbox[nextIndex]) !== "undefined") {
+                    vm.selectedEmail = vm.emails.inbox[nextIndex];
+                }
+            }
+        },
+        /**
+         * Selecciona el correo anterior para mostrar los detalles
+         *
+         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+         *
+         * @param     {string}             message_id    Identificador del mensaje
+         */
+        selectedEmailPrevious: function(message_id) {
+            const vm = this;
+            const index = vm.emails.inbox.findIndex(x => x.message_id === message_id);
+            if (index >= 0) {
+                const previousIndex = index - 1;
+                if (typeof(vm.emails.inbox[previousIndex]) !== "undefined") {
+                    vm.selectedEmail = vm.emails.inbox[previousIndex];
+                }
+            }
+        },
     },
     mounted() {
         const vm = this;
