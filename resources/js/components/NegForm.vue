@@ -105,7 +105,7 @@
                         name="cboContact"
                         id="cboContact"
                         class="form-control"
-                        v-model="contactId" @click="newContact"
+                        v-model="contactId"
                       >
                         <option value="null">- Ecoger un contacto -</option>
                         <option value="new">- Crear nuevo contacto -</option>
@@ -430,6 +430,13 @@ export default {
 
     return rules;
   },
+  watch: {
+    contactId: function() {
+        if (this.contactId === 'new') {
+             $('.btn-new-contact').click();
+        }
+    }
+  },
   methods: {
     ...mapMutations({
       resetNeg: "RESET_NEGOTIATION",
@@ -486,12 +493,6 @@ export default {
       this.toggleLists();
       this.resetNeg();
       this.$v.$reset();
-    },
-    newContact() {
-        console.log('entro')
-        if (this.getNegotiation.contact_id === 'new') {
-            $('.btn-new-contact').click();
-        }
     }
   },
   computed: {
