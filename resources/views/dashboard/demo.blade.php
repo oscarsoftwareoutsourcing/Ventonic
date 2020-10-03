@@ -156,7 +156,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8 col-12">
+                    <div class="col-md-6 col-12">
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-body">
@@ -217,6 +217,55 @@
                             </div>
                         </div>
                     </div>
+
+                   <div class="col-md-6 col-12">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between pb-0">
+                                    <h4 class="card-title">Negociaciones</h4>
+                                    <div class="dropdown chart-dropdown">
+                                        <button class="btn btn-sm border-0 dropdown-toggle p-0" type="button" id="dropdownItem4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Last 7 Days
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem4">
+                                            <a class="dropdown-item" href="#">Last 28 Days</a>
+                                            <a class="dropdown-item" href="#">Last Month</a>
+                                            <a class="dropdown-item" href="#">Last Year</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body pt-0">
+                                        <div class="row">
+                                            <div class="col-sm-2 col-12 d-flex flex-column flex-wrap text-center">
+                                                <h1 class="font-large-2 text-bold-700 mt-2 mb-0">163</h1>
+                                                <small>Negociaciones</small>
+                                            </div>
+                                            <div class="col-sm-10 col-12 d-flex justify-content-center">
+                                                <div id="support-tracker-chart"></div>
+                                            </div>
+                                        </div>
+                                        <div class="chart-info d-flex justify-content-between">
+                                            <div class="text-center">
+                                                <p class="mb-50">Exitosas</p>
+                                                <span class="font-large-1">63</span>
+                                            </div>
+                                            <div class="text-center">
+                                                <p class="mb-50">Perdidas</p>
+                                                <span class="font-large-1">29</span>
+                                            </div>
+                                            <div class="text-center">
+                                                <p class="mb-50">Tiempo Conversión</p>
+                                                <span class="font-large-1">1d</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="row match-height">
+
                     <div class="col-lg-4 col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between pb-0">
@@ -272,10 +321,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row match-height">
               
-                    <div class="col-lg-6 col-12">
+                    <div class="col-lg-4 col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-start">
                                 <div>
@@ -291,7 +338,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-12">
+                    <div class="col-lg-4 col-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Actividad Reciente</h4>
@@ -428,4 +475,86 @@
     <script src="{{ asset('js/scripts/pages/dashboard-analytics.min.js') }}"></script>
     <script src="{{ asset('/vendors/js/tables/ag-grid/ag-grid-community.min.noStyle.js') }}"></script>
     <script src="{{ asset('js/scripts/cards/card-customer-chart.js') }}"></script>
+
+    <script>
+
+     support_tracker = support_tracker_chart();
+     <?php $conersion_ratio = 38; ?>
+        support_tracker.series.push(<?php echo round($conersion_ratio, 1) ?>);
+     <?php  ?>
+     testChart = new ApexCharts(document.querySelector("#support_tracker_chart"), support_tracker).render();
+
+     $("#support_tracker_chart").html('');
+    let conversion_ratio = 38;
+    conversion_ratio = conversion_ratio ? conversion_ratio : 0;
+    support_tracker = support_tracker_chart();
+    support_tracker.series.push(conversion_ratio.toFixed(1));
+    testChart = new ApexCharts(document.querySelector("#support_tracker_chart"), support_tracker).render();
+
+    var $primary = '#0087FF';
+    var $danger = '#EA5455';
+    var $warning = '#FF9F43';
+    var $info = '#00cfe8';
+    var $success = '#00db89';
+    var $primary_light = '#9c8cfc';
+    var $warning_light = '#FFC085';
+    var $danger_light = '#f29292';
+
+    var e = "#0087FF",
+        t = "#EA5455",
+        a = "#FF9F43",
+        o = "#b9c3cd",
+        r = "#e7eef7";
+
+     function support_tracker_chart() {
+        const chart_data = {
+            chart: {
+                height: 270,
+                type: "radialBar"
+            },
+            plotOptions: {
+                radialBar: {
+                    size: 150,
+                    startAngle: -150,
+                    endAngle: 150,
+                    offsetY: 20,
+                    hollow: {
+                        size: "65%"
+                    },
+                    track: {
+                        background: "#fff",
+                        strokeWidth: "100%"
+                    },
+                    dataLabels: {
+                        value: {
+                            offsetY: 30,
+                            color: "#99a2ac",
+                            fontSize: "2rem"
+                        }
+                    }
+                }
+            },
+            colors: [t],
+            fill: {
+                type: "gradient",
+                gradient: {
+                    shade: "dark",
+                    type: "horizontal",
+                    shadeIntensity: .5,
+                    gradientToColors: [e],
+                    inverseColors: !0,
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100]
+                }
+            },
+            stroke: {
+                dashArray: 8
+            },
+            series: [],
+            labels: ["Ratio Conversión"]
+        }
+        return chart_data;
+    };
+    </script>
 @endsection

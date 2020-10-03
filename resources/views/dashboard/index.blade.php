@@ -541,7 +541,7 @@
                 }
                 new ApexCharts(document.querySelector("#orders_received_chart"), orders_received).render();
 
-                support_tracker_chart
+                //support_tracker_chart
 
                 $('#negotiation').html(response.negs.all.total);
                 $('#neg_won').html(response.negs.won.total);
