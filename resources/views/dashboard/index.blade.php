@@ -420,6 +420,7 @@
         });
 
         axios.get('/get-chat-users').then(function(response) {
+            console.log(response);
             var results = response.data.chatOrigins;
             var html = '';
 
@@ -495,6 +496,7 @@
     }
 
     function filterDashbaord(date) {
+        
         $.ajax({
             url: url + '/filterDashbaord',
             type: 'post',

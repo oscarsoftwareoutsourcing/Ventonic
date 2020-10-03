@@ -95,7 +95,7 @@
                                         <a class="dropdown-item" href="#">Esta semana</a>
                                         <a class="dropdown-item" href="#">Este mes</a>
                                         <a class="dropdown-item" href="#">Este Año</a>
-                                        <a class="dropdown-item" href="#">Últimos 7 Días</a>
+                                       <!-- <a class="dropdown-item" href="#">Últimos 7 Días</a> -->
                                         <a class="dropdown-item" href="#">Últimos 30 Días</a>
                                         <a class="dropdown-item" href="#">Últimos 90 Días</a>
                                         <a class="dropdown-item" href="#">Último Año</a>

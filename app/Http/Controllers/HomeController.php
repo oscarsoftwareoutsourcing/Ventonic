@@ -60,7 +60,7 @@ class HomeController extends Controller
     {
         //validamos si esta en demo
         $date_term = "7 days ago";
-           $contacts_data['all'] = self::getContacts($date_term);
+        $contacts_data['all'] = self::getContacts($date_term);
         $contacts_data['new'] = self::getContacts($date_term);
         $contacts_data['lost'] = self::getContacts($date_term, '5');
         $negs['all'] = self::getNegotiations($date_term);
