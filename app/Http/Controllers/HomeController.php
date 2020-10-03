@@ -60,7 +60,7 @@ class HomeController extends Controller
     {
         //validamos si esta en demo
         $date_term = "7 days ago";
-           $contacts_data['all'] = self::getContacts($date_term);
+        $contacts_data['all'] = self::getContacts($date_term);
         $contacts_data['new'] = self::getContacts($date_term);
         $contacts_data['lost'] = self::getContacts($date_term, '5');
         $negs['all'] = self::getNegotiations($date_term);
@@ -74,20 +74,20 @@ class HomeController extends Controller
          return view('dashboard.demo' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
     }
 
-         public function midash()
+         public function midash(Request $request)
     {
         //validamos si esta en demo
         $user_id = auth()->user()->id;
-
-        
         $user_up = User::where('id', $user_id)->first();
-        
+
+        if($request->get('favorito')){
+            $user_up->dash_demo = 1;
+            $user_up->save();
+        }
         //dd($user_up);
-        $user_up->dash_demo = 1;
-        $user_up->save();
 
         $date_term = "7 days ago";
-           $contacts_data['all'] = self::getContacts($date_term);
+        $contacts_data['all'] = self::getContacts($date_term);
         $contacts_data['new'] = self::getContacts($date_term);
         $contacts_data['lost'] = self::getContacts($date_term, '5');
         $negs['all'] = self::getNegotiations($date_term);
@@ -99,6 +99,7 @@ class HomeController extends Controller
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
          return view('dashboard.index' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
+
     }
 
     public function searchSeller()

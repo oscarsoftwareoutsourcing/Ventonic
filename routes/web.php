@@ -373,6 +373,8 @@ Route::post('filterDashbaord', 'HomeController@filterDashbaord')->middleware('ve
 Route::get('dashdemo', 'HomeController@demo')->name('dash.demo')->middleware('verified');
 Route::get('mi-dash', 'HomeController@midash')->name('me.dash')->middleware('verified');
 
+Route::post('mi-dash', 'HomeController@midash')->name('me.dash')->middleware('verified');
+
 
 
 Route::group(['middleware' => ['verified'], 'prefix' => 'google-calendar'], function () {

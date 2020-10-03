@@ -28,11 +28,12 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem3">
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('this week')">Esta semana</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('this month')">Este mes</a>
-                        <a class="dropdown-item" href="#" onclick="filterDashbaord('this year')">Este año</a>
+                        <!--<a class="dropdown-item" href="#" onclick="filterDashbaord('this year')">Este año</a>-->
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('7 days ago')">Últimos 7 Días</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('30 days ago')">Últimos 30 Días</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('90 days ago')">Últimos 90 Días</a>
-                        <a class="dropdown-item" href="#" onclick="filterDashbaord('last year')">Último Año</a>
+                        <!--<a class="dropdown-item" href="#" onclick="filterDashbaord('last year')">Último Año</a>-->
+                        <a class="dropdown-item" href="#" onclick="filterDashbaord('this year')">Último Año</a>
                     </div>
                 </div>
                 <div class="row">
@@ -420,6 +421,7 @@
         });
 
         axios.get('/get-chat-users').then(function(response) {
+            console.log(response);
             var results = response.data.chatOrigins;
             var html = '';
 
@@ -495,6 +497,7 @@
     }
 
     function filterDashbaord(date) {
+        
         $.ajax({
             url: url + '/filterDashbaord',
             type: 'post',
@@ -538,7 +541,7 @@
                 }
                 new ApexCharts(document.querySelector("#orders_received_chart"), orders_received).render();
 
-                support_tracker_chart
+                //support_tracker_chart
 
                 $('#negotiation').html(response.negs.all.total);
                 $('#neg_won').html(response.negs.won.total);

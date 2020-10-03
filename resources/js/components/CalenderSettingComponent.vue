@@ -3,10 +3,12 @@
     <div class="row">
       <div class="col-sm-4 offset-sm-6" v-if="showCalendars()">
         <fieldset class="form-group">
-          <select id="myCalendars" class="form-control" v-model="selectedCalendars">
-            <option value="0">
-              <i class="fas fa-square"></i>Ventonic
-            </option>
+          <select
+            id="myCalendars"
+            class="form-control"
+            v-model="selectedCalendars"
+          >
+            <option value="0"><i class="fas fa-square"></i>Ventonic</option>
             <option :value="calendar.google_id" v-for="calendar in calendars">
               <i class="fas fa-square"></i>
               {{ calendar.name }}
@@ -17,13 +19,20 @@
       <div
         class="col-sm-1 text-right"
         v-if="hasCalendars"
-        :class="{'offset-sm-10': !showCalendars}"
+        :class="{ 'offset-sm-10': !showCalendars }"
       >
-        <a href="/google-calendar/sync" title="Sincronizar calendario externo">
+        <a
+          href="/google-calendar/sync"
+          title="Sincronizar calendario externo"
+          style="display: none"
+        >
           <i class="feather icon-refresh-cw"></i>
         </a>
       </div>
-      <div class="col-sm-1 text-right" :class="{'offset-sm-11': !hasCalendars}">
+      <div
+        class="col-sm-1 text-right"
+        :class="{ 'offset-sm-11': !hasCalendars }"
+      >
         <a
           href="javascript:void(0)"
           data-toggle="modal"
@@ -39,7 +48,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">Configuración</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
               <span class="sr-only">Close</span>
             </button>
@@ -69,7 +83,9 @@
                     />
                     <div class="row" v-if="configuredCalendars.gCalendar">
                       <div class="col-12">
-                        <div class="alert alert-success" role="alert">Configurado</div>
+                        <div class="alert alert-success" role="alert">
+                          Configurado
+                        </div>
                       </div>
                     </div>
                   </label>
@@ -122,14 +138,24 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Cerrar
+            </button>
             <button
               type="button"
               class="btn btn-warning"
               @click="disconnectSetting"
               v-if="hasCalendars"
-            >Eliminar</button>
-            <button type="button" class="btn btn-primary" @click="setSetting">Guardar</button>
+            >
+              Eliminar
+            </button>
+            <button type="button" class="btn btn-primary" @click="setSetting">
+              Guardar
+            </button>
           </div>
         </div>
         <!-- /.modal-content -->
@@ -283,7 +309,6 @@ export default {
         console.error(error);
       });
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>

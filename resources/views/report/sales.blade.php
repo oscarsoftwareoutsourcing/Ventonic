@@ -36,9 +36,14 @@
                                     <option value="this month"  {{ request()->etiquetas=='this month'?'selected':'' }}>
                                         Este mes
                                     </option>
+                                    <!--
                                     <option value="this year"  {{ request()->etiquetas=='this year'?'selected':'' }}>
                                         Este Año
                                     </option>
+                                    <option value="last year"  {{ request()->etiquetas=='last year'?'selected':'' }}>
+                                        Último Año
+                                    </option>
+                                    -->
                                     <option value="7 days ago"  {{ request()->etiquetas=='7 days ago'?'selected':'' }}>
                                         Últimos 7 Días
                                     </option>
@@ -48,7 +53,7 @@
                                     <option value="90 days ago"  {{ request()->etiquetas=='90 days ago'?'selected':'' }}>
                                         Últimos 90 Días
                                     </option>
-                                    <option value="last year"  {{ request()->etiquetas=='last year'?'selected':'' }}>
+                                    <option value="this year"  {{ request()->etiquetas=='last year'?'selected':'' }}>
                                         Último Año
                                     </option>
                                 </select>
