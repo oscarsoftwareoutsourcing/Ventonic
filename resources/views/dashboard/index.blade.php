@@ -32,7 +32,8 @@
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('7 days ago')">Últimos 7 Días</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('30 days ago')">Últimos 30 Días</a>
                         <a class="dropdown-item" href="#" onclick="filterDashbaord('90 days ago')">Últimos 90 Días</a>
-                        <a class="dropdown-item" href="#" onclick="filterDashbaord('last year')">Último Año</a>
+                        <!--<a class="dropdown-item" href="#" onclick="filterDashbaord('last year')">Último Año</a>-->
+                        <a class="dropdown-item" href="#" onclick="filterDashbaord('this year')">Último Año</a>
                     </div>
                 </div>
                 <div class="row">
