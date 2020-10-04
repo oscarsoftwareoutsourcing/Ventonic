@@ -421,7 +421,7 @@
         });
 
         axios.get('/get-chat-users').then(function(response) {
-            console.log(response);
+            //console.table(response);
             var results = response.data.chatOrigins;
             var html = '';
 
