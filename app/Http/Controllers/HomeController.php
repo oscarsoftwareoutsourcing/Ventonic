@@ -7,6 +7,12 @@ use App\User;
 use App\Question;
 use App\Contact;
 use App\Negotiation;
+use App\Event;
+use App\Document;
+use App\Task;
+use App\Note;
+use App\Email;
+use App\CallEvent;
 use stdClass;
 use DB;
 
@@ -40,10 +46,11 @@ class HomeController extends Controller
         $contacts_data['all'] = self::getContacts($date_term);
         $contacts_data['new'] = self::getContacts($date_term);
         $contacts_data['lost'] = self::getContacts($date_term, '5');
+       // dd( $contacts_data['lost']);
         $negs['all'] = self::getNegotiations($date_term);
-        $negs['in_process'] = self::getNegotiations($date_term, 3);
-        $negs['won'] = self::getNegotiations($date_term, 1);
-        $negs['lost'] = self::getNegotiations($date_term, 2);
+        $negs['in_process'] = self::getNegotiations($date_term, 3, null);
+        $negs['won'] = self::getNegotiations($date_term, 1, null);
+        $negs['lost'] = self::getNegotiations($date_term, 2, null);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
@@ -64,9 +71,9 @@ class HomeController extends Controller
         $contacts_data['new'] = self::getContacts($date_term);
         $contacts_data['lost'] = self::getContacts($date_term, '5');
         $negs['all'] = self::getNegotiations($date_term);
-        $negs['in_process'] = self::getNegotiations($date_term, 3);
-        $negs['won'] = self::getNegotiations($date_term, 1);
-        $negs['lost'] = self::getNegotiations($date_term, 2);
+        $negs['in_process'] = self::getNegotiations($date_term, 3, null);
+        $negs['won'] = self::getNegotiations($date_term, 1, null);
+        $negs['lost'] = self::getNegotiations($date_term, 2, null);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
@@ -90,10 +97,10 @@ class HomeController extends Controller
         $contacts_data['all'] = self::getContacts($date_term);
         $contacts_data['new'] = self::getContacts($date_term);
         $contacts_data['lost'] = self::getContacts($date_term, '5');
-        $negs['all'] = self::getNegotiations($date_term);
-        $negs['in_process'] = self::getNegotiations($date_term, 3);
-        $negs['won'] = self::getNegotiations($date_term, 1);
-        $negs['lost'] = self::getNegotiations($date_term, 2);
+        $negs['all'] = self::getNegotiations($date_term, null, null);
+        $negs['in_process'] = self::getNegotiations($date_term, 3, null);
+        $negs['won'] = self::getNegotiations($date_term, 1, null);
+        $negs['lost'] = self::getNegotiations($date_term, 2, null);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
@@ -196,18 +203,23 @@ class HomeController extends Controller
     public static function getContacts($date, $type = null)
     {
         //dd(auth()->user()->id);
-        //DB::connection()->enableQueryLog();
+        DB::connection()->enableQueryLog();
         $date_range = self::getDateRange($date);
         $contacts = Contact::selectRaw("count(*) as total, DATE_FORMAT(created_at, '%Y-%m-%d') AS day_logged")
             ->where('user_id', auth()->user()->id)
             ->where('created_at', '>=', $date_range->from)
             ->where('created_at', '<=', $date_range->to);
-        if ($type) {
-            $contacts = $contacts->where('contact_type_id', $type);
-        }
-        $contacts = $contacts->groupBy('created_at')
+        if ($type>0) {
+            $contacts = $contacts->where('contact_type_id','=', $type)
+            ->groupBy('created_at')
             ->orderBy('day_logged')
             ->get()->toArray();
+        } else {
+             $contacts = $contacts->groupBy('created_at')
+            ->orderBy('day_logged')
+            ->get()->toArray();
+        }
+       
 
         $data['total'] = array_sum(array_column($contacts, 'total'));
         $data['contacts'] = $contacts;
@@ -223,15 +235,18 @@ class HomeController extends Controller
         $date_term = $request->date_range;
         $contacts_data['all'] = self::getContacts($date_term);
         $contacts_data['new'] = self::getContacts($date_term);
-        $contacts_data['lost'] = self::getContacts($date_term, '6');
+        $contacts_data['lost'] = self::getContacts($date_term, '5');
         $negs['all'] = self::getNegotiations($date_term);
-        $negs['in_process'] = self::getNegotiations($date_term, 3);
-        $negs['won'] = self::getNegotiations($date_term, 1);
-        $negs['lost'] = self::getNegotiations($date_term, 2);
+        $negs['in_process'] = self::getNegotiations($date_term, 3, null);
+        $negs['won'] = self::getNegotiations($date_term, 1, null);
+        $negs['lost'] = self::getNegotiations($date_term, 2, null);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0; //$daysCount/$negs['won']['total'];
         $negs['convDays'] = number_format($convDaysAvg);
+
+        $activites = self::getActivities($date_term);
+
 
         return json_encode(['contacts_data' => $contacts_data, 'negs' => $negs]);
     }
@@ -242,6 +257,7 @@ class HomeController extends Controller
 
         // Status_id => process = 3, won = 1,  lost = 2, FALSE = all;
         $date_range = self::getDateRange($date);
+        $user_id = auth()->user()->id;
 
         $negs = Negotiation::selectRaw("count(*) as total, SUM(amount) as amount, DATE_FORMAT(created_at, '%Y-%m-%d') AS day_logged");
         if ($status_id) {
@@ -252,6 +268,7 @@ class HomeController extends Controller
         }
         $negs = $negs->where('created_at', '>=', $date_range->from)
             ->where('created_at', '<=', $date_range->to)
+            ->where('user_id','=',  $user_id)
             ->groupBy('created_at')
             ->orderBy('day_logged')
             ->get()->toArray();
@@ -278,5 +295,82 @@ class HomeController extends Controller
 
 
         return $convDays->Diff;
+    }
+
+    public static function getActivities($date){
+        $date_range = self::getDateRange($date);
+        $user_id = auth()->user()->id;
+
+        $events = Event::select('id', 'title', 'notes','created_at','start_at')
+        ->where('user_id','=',  $user_id)
+        ->where('created_at', '>=', $date_range->from)
+        ->where('created_at', '<=', $date_range->to)
+        ->orderBy('id','DESC')->limit(2)->get();
+        $array = null;
+        $i = 0;
+        if($events->count()){
+        foreach ($events as $event) {
+            //dd($event);
+                   $data_event = [
+                    'id'    => $event->id,
+                    'title' => $event->title,
+                    'notes' => $event->notes,
+                    'date'  => $event->created_at,
+                    'type'  => 'event',
+                    'extra' => 'Nuevo evento'
+                   ];
+                   $array[$i] = $data_event;
+                   $i = $i + 1;
+                }
+        }
+
+        $notes = Note::select('id', 'description', 'created_at')
+        ->where('user_id','=',  $user_id)
+        ->where('created_at', '>=', $date_range->from)
+        ->where('created_at', '<=', $date_range->to)
+        ->orderBy('id','DESC')->limit(2)->get();
+
+         if($notes->count()){
+        foreach ($notes as $note) {
+            //dd($event);
+                   $data_note = [
+                    'id'    => $note->id,
+                    'title' => $note->description,
+                    'notes' => '',
+                    'date'  => $note->created_at,
+                    'type'  => 'note',
+                    'extra' => 'Nueva nota'
+                   ];
+                   $array[$i] = $data_note;
+                   $i = $i + 1;
+                }
+        }
+
+        $documents = Document::select('id', 'note', 'created_at')
+        ->where('user_id','=',  $user_id)
+        ->where('created_at', '>=', $date_range->from)
+        ->where('created_at', '<=', $date_range->to)
+        ->orderBy('id','DESC')->limit(2)->get();
+
+         if($documents->count()){
+        foreach ($documents as $doc) {
+            //dd($event);
+                   $data_doc = [
+                    'id'    => $doc->id,
+                    'title' => $doc->note,
+                    'notes' => '',
+                    'date'  => $doc->created_at,
+                    'type'  => 'doc',
+                    'extra' => 'Nuevo documento'
+                   ];
+                   $array[$i] = $data_doc;
+                   $i = $i + 1;
+                }
+        }
+
+
+
+       // dd($array);
+
     }
 }
