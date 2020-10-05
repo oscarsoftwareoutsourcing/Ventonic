@@ -48,15 +48,15 @@ class HomeController extends Controller
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
-        
-        if(auth()->user()->dash_demo==1) { 
+
+        if (auth()->user()->dash_demo==1) {
             return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs]);
-        } else { 
-         return view('dashboard.demo' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
+        } else {
+            return view('dashboard.demo', ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
         }
     }
 
-     public function demo()
+    public function demo()
     {
         //validamos si esta en demo
         $date_term = "7 days ago";
@@ -71,16 +71,16 @@ class HomeController extends Controller
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
-         return view('dashboard.demo' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
+        return view('dashboard.demo', ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
     }
 
-         public function midash(Request $request)
+    public function midash(Request $request)
     {
         //validamos si esta en demo
         $user_id = auth()->user()->id;
         $user_up = User::where('id', $user_id)->first();
 
-        if($request->get('favorito')){
+        if ($request->get('favorito')) {
             $user_up->dash_demo = 1;
             $user_up->save();
         }
@@ -98,8 +98,7 @@ class HomeController extends Controller
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
-         return view('dashboard.index' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
-
+        return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
     }
 
     public function searchSeller()
@@ -214,7 +213,7 @@ class HomeController extends Controller
         $data['contacts'] = $contacts;
         $data['percent'] = round(($data['total'] / Contact::count()) * 100, 2);
 
-        //$queries = DB::getQueryLog(); 
+        //$queries = DB::getQueryLog();
         //dd($queries);
         return $data;
     }
@@ -266,14 +265,13 @@ class HomeController extends Controller
 
     public static function getConvDays($date)
     {
-
         $date_range = self::getDateRange($date);
         //dd($date_range);
         $convDays = Negotiation::selectRaw('SUM(q1.Diff) as Diff')->fromSub(function ($query) use ($date_range) {
             $query->selectRaw("DATEDIFF( won_status_date, created_at ) AS Diff")
                 ->from('negotiations')
                 ->where('neg_status_id', '=', 1)
-                ->where('won_status_date', '!=', NULL)
+                ->where('won_status_date', '!=', null)
                 ->where('created_at', '>=', $date_range->from)
                 ->where('created_at', '<=', $date_range->to);
         }, 'q1')->first();

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
+use DB;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -391,9 +392,9 @@ class User extends Authenticatable implements MustVerifyEmail
             return $query;
         }
 
-        return $query->where('name', 'like', '%' . $text . '%')
-                     ->orWhere('name', 'like', '%' . $text)
-                     ->orWhere('name', 'like', $text . '%');
+        return $query->where(DB::raw('upper(name)'), 'like', '%' . strtoupper($text) . '%')
+                     ->orWhere(DB::raw('upper(name)'), 'like', '%' . strtoupper($text))
+                     ->orWhere(DB::raw('upper(name)'), 'like', strtoupper($text) . '%');
     }
 
     public function scopeOrByName($query, $text)
@@ -402,9 +403,9 @@ class User extends Authenticatable implements MustVerifyEmail
             return $query;
         }
 
-        return $query->orWhere('name', 'like', '%' . $text . '%')
-                     ->orWhere('name', 'like', '%' . $text)
-                     ->orWhere('name', 'like', $text . '%');
+        return $query->orWhere(DB::raw('upper(name)'), 'like', '%' . strtoupper($text) . '%')
+                     ->orWhere(DB::raw('upper(name)'), 'like', '%' . strtoupper($text))
+                     ->orWhere(DB::raw('upper(name)'), 'like', strtoupper($text) . '%');
     }
 
     /**
@@ -423,9 +424,9 @@ class User extends Authenticatable implements MustVerifyEmail
             return $query;
         }
 
-        return $query->where('last_name', 'like', '%' . $text . '%')
-                     ->orWhere('last_name', 'like', '%' . $text)
-                     ->orWhere('last_name', 'like', $text . '%');
+        return $query->where(DB::raw('upper(last_name)'), 'like', '%' . strtoupper($text) . '%')
+                     ->orWhere(DB::raw('upper(last_name)'), 'like', '%' . strtoupper($text))
+                     ->orWhere(DB::raw('upper(last_name)'), 'like', strtoupper($text) . '%');
     }
 
 
@@ -435,9 +436,9 @@ class User extends Authenticatable implements MustVerifyEmail
             return $query;
         }
 
-        return $query->orWhere('last_name', 'like', '%' . $text . '%')
-                     ->orWhere('last_name', 'like', '%' . $text)
-                     ->orWhere('last_name', 'like', $text . '%');
+        return $query->orWhere(DB::raw('upper(last_name)'), 'like', '%' . strtoupper($text) . '%')
+                     ->orWhere(DB::raw('upper(last_name)'), 'like', '%' . strtoupper($text))
+                     ->orWhere(DB::raw('upper(last_name)'), 'like', strtoupper($text) . '%');
     }
 
     /**
@@ -456,9 +457,9 @@ class User extends Authenticatable implements MustVerifyEmail
             return $query;
         }
 
-        return $query->where('email', 'like', '%' . $text . '%')
-                     ->orWhere('email', 'like', '%' . $text)
-                     ->orWhere('email', 'like', $text . '%');
+        return $query->where(DB::raw('upper(email)'), 'like', '%' . strtoupper($text) . '%')
+                     ->orWhere(DB::raw('upper(email)'), 'like', '%' . strtoupper($text))
+                     ->orWhere(DB::raw('upper(email)'), 'like', strtoupper($text) . '%');
     }
 
     public function scopeOrByEmail($query, $text)
@@ -467,9 +468,9 @@ class User extends Authenticatable implements MustVerifyEmail
             return $query;
         }
 
-        return $query->orWhere('email', 'like', '%' . $text . '%')
-                     ->orWhere('email', 'like', '%' . $text)
-                     ->orWhere('email', 'like', $text . '%');
+        return $query->orWhere(DB::raw('upper(email)'), 'like', '%' . strtoupper($text) . '%')
+                     ->orWhere(DB::raw('upper(email)'), 'like', '%' . strtoupper($text))
+                     ->orWhere(DB::raw('upper(email)'), 'like', strtoupper($text) . '%');
     }
 
     /**
