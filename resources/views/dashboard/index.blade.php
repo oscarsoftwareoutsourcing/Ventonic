@@ -255,7 +255,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <ul class="activity-timeline timeline-left list-unstyled">
+                            <ul class="activity-timeline timeline-left list-unstyled" id="myActivities">
                                 <li>
                                     <div class="timeline-icon bg-primary">
                                         <i class="feather icon-plus font-medium-2 align-middle"></i>
@@ -413,12 +413,18 @@
     var url = $(location).attr('origin');
     var testChart = '';
     $(document).ready(function() {
+
+        var myList = document.getElementById('myActivities');
+        myList.innerHTML = '';
+
         $('.dropdown-menu').on('click', 'a', function() {
             var text = $(this).html();
             var htmlText = text + ' <span class="caret"></span>';
             $(this).closest('.dropdown').find('.dropdown-toggle').html(htmlText);
             $('.selected_time').html('en ' + htmlText);
         });
+
+        createActivities(<?php echo $activity; ?>);
 
         axios.get('/get-chat-users').then(function(response) {
             //console.table(response);
@@ -489,6 +495,9 @@
         offers.series.push(<?php echo $negs['lost']['total']; ?>);
         <?php  ?>
         new ApexCharts(document.querySelector("#offers_chart"), offers).render();
+
+
+        
     });
 
     function moneyFormat(number) {
@@ -496,8 +505,82 @@
         return num;
     }
 
-    function filterDashbaord(date) {
+
+    function addLi(type, titulo, description, info, time) {
         
+        let icono = '';
+        let color = '';
+
+        switch(type) {
+            case "event":
+                icono = 'icon-calendar';
+                color = 'bg-warning';
+                break;
+            case "doc":
+                icono = 'icon-file-text';
+                color = 'bg-primary';
+                break;
+            case "note":
+                icono = 'icon-inbox';
+                color = 'bg-success';
+                break;
+            case "call":
+                icono = 'icon-phone';
+                color = 'bg-danger';
+                break;
+            case "email":
+                icono = 'icon-message-square';
+                color = 'bg-warning';
+                break;
+            case "task":
+                icono = 'icon-tag';
+                color = 'bg-primary';
+                break;
+        }        
+
+        let divIcon = document.createElement('div');
+        divIcon.classList = 'timeline-icon ' + color;
+        let i = document.createElement('i');
+        i.classList = 'feather ' + icono + ' font-medium-2 align-middle';
+        divIcon.appendChild(i);
+
+        let divInfo  = document.createElement('div');
+        let p = document.createElement('p');
+        p.classList = 'font-weight-bold mb-0';
+        p.innerHTML = titulo;
+
+        let span = document.createElement('span');
+        span.classList = 'font-small-3';
+        span.innerHTML = description;
+        divInfo.appendChild(p);
+        divInfo.appendChild(span);
+
+        let small = document.createElement('small');
+        small.classList = 'text-muted';
+        small.innerHTML = info; 
+        
+        let smallDate = document.createElement('small');
+        smallDate.classList = 'text-muted';
+        smallDate.innerHTML = time;
+
+        let br = document.createElement("br");
+        
+         const li = document.createElement('li');
+          li.appendChild(divIcon);
+          li.appendChild(divInfo);
+          li.appendChild(small);
+          li.appendChild(br);
+          li.appendChild(smallDate);
+        document.getElementById('myActivities').appendChild(li);
+        
+    }
+
+
+    function filterDashbaord(date) {
+         
+         var myList = document.getElementById('myActivities');
+         myList.innerHTML = '';
+
         $.ajax({
             url: url + '/filterDashbaord',
             type: 'post',
@@ -577,6 +660,13 @@
                 offers.series.push(response.negs.won.total);
                 offers.series.push(response.negs.lost.total);
                 new ApexCharts(document.querySelector("#offers_chart"), offers).render();
+
+                //console.log('*******************');
+                //console.log(response.activity);
+
+                createActivities(response.activity);
+
+
             }
         })
     }
@@ -594,6 +684,14 @@
         a = "#FF9F43",
         o = "#b9c3cd",
         r = "#e7eef7";
+
+
+    function createActivities(dt){
+        for (let i = 0; i < dt.length; i++) {
+                    let data =  dt[i];
+                    addLi(data.type, data.title, data.notes, data.extra, data.date);
+                }
+    }
 
     function subscribe_gain_chart() {
         const chart_data = {
