@@ -359,11 +359,18 @@ class ContactController extends Controller
                     $email->setValue($request->email);
                     $gContact->setEmailAddresses($email);
                 }
-                $service->people->updateContact(
-                    $contact->external_key,
-                    $gContact,
-                    ['updatePersonFields' => 'names,phoneNumbers,emailAddresses']
-                );
+
+                if ($service->people->get($contact->external_key)) {
+                    /** Si el contacto ya existe en google contacts */
+                    $service->people->updateContact(
+                        $contact->external_key,
+                        $gContact,
+                        ['updatePersonFields' => 'names,phoneNumbers,emailAddresses']
+                    );
+                } else {
+                    /** Si el contacto no existe en google contacts, se procede a la creación */
+                    $service->people->createContact($gContact);
+                }
             } else {
                 session()->put('returnUrl', 'contact.list');
                 return redirect('/google-calendar/oauth');
