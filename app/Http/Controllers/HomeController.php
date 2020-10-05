@@ -13,6 +13,7 @@ use App\Task;
 use App\Note;
 use App\Email;
 use App\CallEvent;
+use App\Helpers\FormatTime;
 use stdClass;
 use DB;
 
@@ -55,15 +56,20 @@ class HomeController extends Controller
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
+        
 
-        if (auth()->user()->dash_demo==1) {
-            return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs]);
-        } else {
-            return view('dashboard.demo', ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
+        $activities = json_encode(self::getActivities($date_term));
+        
+        //dd($activities);
+
+        if(auth()->user()->dash_demo==1) { 
+            return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs, 'activity' => $activities]);
+        } else { 
+         return view('dashboard.demo' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
         }
     }
 
-    public function demo()
+     public function demo()
     {
         //validamos si esta en demo
         $date_term = "7 days ago";
@@ -78,16 +84,16 @@ class HomeController extends Controller
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
-        return view('dashboard.demo', ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
+         return view('dashboard.demo' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
     }
 
-    public function midash(Request $request)
+         public function midash(Request $request)
     {
         //validamos si esta en demo
         $user_id = auth()->user()->id;
         $user_up = User::where('id', $user_id)->first();
 
-        if ($request->get('favorito')) {
+        if($request->get('favorito')){
             $user_up->dash_demo = 1;
             $user_up->save();
         }
@@ -105,7 +111,12 @@ class HomeController extends Controller
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
-        return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
+
+        $activities = self::getActivities($date_term);
+
+
+        return view('dashboard.index' , ['contacts_data' => $contacts_data, 'negs' => $negs, 'activity' => $activities]);  //home
+
     }
 
     public function searchSeller()
@@ -203,7 +214,7 @@ class HomeController extends Controller
     public static function getContacts($date, $type = null)
     {
         //dd(auth()->user()->id);
-        DB::connection()->enableQueryLog();
+        //DB::connection()->enableQueryLog();
         $date_range = self::getDateRange($date);
         $contacts = Contact::selectRaw("count(*) as total, DATE_FORMAT(created_at, '%Y-%m-%d') AS day_logged")
             ->where('user_id', auth()->user()->id)
@@ -225,7 +236,7 @@ class HomeController extends Controller
         $data['contacts'] = $contacts;
         $data['percent'] = round(($data['total'] / Contact::count()) * 100, 2);
 
-        //$queries = DB::getQueryLog();
+        //$queries = DB::getQueryLog(); 
         //dd($queries);
         return $data;
     }
@@ -245,10 +256,10 @@ class HomeController extends Controller
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0; //$daysCount/$negs['won']['total'];
         $negs['convDays'] = number_format($convDaysAvg);
 
-        $activites = self::getActivities($date_term);
+        $activities = self::getActivities($date_term);
 
 
-        return json_encode(['contacts_data' => $contacts_data, 'negs' => $negs]);
+        return json_encode(['contacts_data' => $contacts_data, 'negs' => $negs, 'activity' => $activities]);
     }
 
     public static function getNegotiations($date, $status_id = null, $process_id = null)
@@ -282,13 +293,14 @@ class HomeController extends Controller
 
     public static function getConvDays($date)
     {
+
         $date_range = self::getDateRange($date);
         //dd($date_range);
         $convDays = Negotiation::selectRaw('SUM(q1.Diff) as Diff')->fromSub(function ($query) use ($date_range) {
             $query->selectRaw("DATEDIFF( won_status_date, created_at ) AS Diff")
                 ->from('negotiations')
                 ->where('neg_status_id', '=', 1)
-                ->where('won_status_date', '!=', null)
+                ->where('won_status_date', '!=', NULL)
                 ->where('created_at', '>=', $date_range->from)
                 ->where('created_at', '<=', $date_range->to);
         }, 'q1')->first();
@@ -315,7 +327,7 @@ class HomeController extends Controller
                     'id'    => $event->id,
                     'title' => $event->title,
                     'notes' => $event->notes,
-                    'date'  => $event->created_at,
+                    'date'  => FormatTime::LongTimeFilter($event->created_at),
                     'type'  => 'event',
                     'extra' => 'Nuevo evento'
                    ];
@@ -337,7 +349,7 @@ class HomeController extends Controller
                     'id'    => $note->id,
                     'title' => $note->description,
                     'notes' => '',
-                    'date'  => $note->created_at,
+                    'date'  => FormatTime::LongTimeFilter($note->created_at),
                     'type'  => 'note',
                     'extra' => 'Nueva nota'
                    ];
@@ -359,7 +371,7 @@ class HomeController extends Controller
                     'id'    => $doc->id,
                     'title' => $doc->note,
                     'notes' => '',
-                    'date'  => $doc->created_at,
+                    'date'  => FormatTime::LongTimeFilter($doc->created_at),
                     'type'  => 'doc',
                     'extra' => 'Nuevo documento'
                    ];
@@ -367,10 +379,6 @@ class HomeController extends Controller
                    $i = $i + 1;
                 }
         }
-
-
-
-       // dd($array);
-
+       return $array;
     }
 }
