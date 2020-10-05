@@ -94,7 +94,7 @@
                           <fieldset class="form-group mb-2">
                             <textarea
                               class="form-control"
-                              id="labelHtml"
+                              id="basicLabelHtml"
                               rows="3"
                               :disabled="isDisabled"
                               placeholder="Textarea"
@@ -277,12 +277,10 @@
                       <div class="widget-vendedores" id="widget-vendedores"></div>
                       </textarea>
                     </fieldset>
-                    <input
-                      type="button"
-                      @click="copyScript"
-                      value="Copiar script"
-                      class="btn btn-outline-primary mr-1 mb-1 waves-effect waves-light float-right"
-                    />
+                    <input type="button" value="Copiar etiqueta" @click="copyTag"
+                           class="btn btn-outline-primary mr-1 mb-1 waves-effect waves-light float-right"/>
+                    <input type="button" @click="copyScript" value="Copiar script"
+                           class="btn btn-outline-primary mr-1 mb-1 waves-effect waves-light float-right"/>
                   </div>
                   <div class="col-12 text-center"></div>
                 </div>
@@ -473,6 +471,19 @@ export default {
       bootbox.confirm(
         `El script ha sido copiado al portapapeles.
             Guardelo en un lugar seguro y presione el botón aceptar`,
+        function (result) {
+          if (result) {
+            $("#modalWidget").click();
+            location.reload();
+          }
+        }
+      );
+    },
+    copyTag() {
+      var copyTagText = document.getElementById("labelHtml").select();
+      document.execCommand("copy");
+      bootbox.confirm(
+        `La etiqueta ha sido copiada al portapapeles. Guardela en un lugar seguro y presione el botón aceptar`,
         function (result) {
           if (result) {
             $("#modalWidget").click();
