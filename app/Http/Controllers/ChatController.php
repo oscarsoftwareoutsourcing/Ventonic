@@ -155,21 +155,35 @@ class ChatController extends Controller
     public function contactSeller($id)
     {
         $user = User::find($id);
-        $chatRoom = ChatRoom::create([
-            'type' => 'OT'
-        ]);
-        $userChatRoom = ChatRoomUser::create([
-            'chat_room_id' => $chatRoom->id,
-            'user_id' => $user->id
-        ], []);
+
+        Message::whereIn('user_id', []);
+        $messages = Message::whereIn(
+            'user_id',
+            [$user->id, auth()->user()->id]
+        )->groupBy('chat_room_id')->first('chat_room_id');
+
+        if ($messages) {
+            $chatRoom = ChatRoom::find($messages->chat_room_id);
+            $userChatRoom = ChatRoomUser::where(['chat_room_id' => $chatRoom->id, 'user_id' => $user->id])->first();
+        } else {
+            $chatRoom = ChatRoom::create([
+                'type' => 'OT'
+            ]);
+            $userChatRoom = ChatRoomUser::create([
+                'chat_room_id' => $chatRoom->id,
+                'user_id' => $user->id
+            ], []);
+        }
         /** @var object consulta el registro recién creado con la relación correspondiente a los usuarios */
         $userChatRoom = ChatRoomUser::with(['user'])->find($userChatRoom->id);
         session(['chat_room_id' => $chatRoom->id, 'chat_room_user' => $userChatRoom]);
 
-        ChatRoomUser::create([
-            'chat_room_id' => $chatRoom->id,
-            'user_id' => auth()->user()->id
-        ]);
+        if (!$messages) {
+            ChatRoomUser::create([
+                'chat_room_id' => $chatRoom->id,
+                'user_id' => auth()->user()->id
+            ]);
+        }
 
         return response()->json(['result' => true], 200);
     }
