@@ -256,56 +256,7 @@
                     <div class="card-content">
                         <div class="card-body">
                             <ul class="activity-timeline timeline-left list-unstyled" id="myActivities">
-                                <li>
-                                    <div class="timeline-icon bg-primary">
-                                        <i class="feather icon-plus font-medium-2 align-middle"></i>
-                                    </div>
-                                    <div class="timeline-info">
-                                        <p class="font-weight-bold mb-0">Reunión con el Cliente</p>
-                                        <span class="font-small-3">Reunión para deiscutir presupuesto de venta</span>
-                                    </div>
-                                    <small class="text-muted">Hace minutos 25 </small>
-                                </li>
-                                <li>
-                                    <div class="timeline-icon bg-warning">
-                                        <i class="feather icon-alert-circle font-medium-2 align-middle"></i>
-                                    </div>
-                                    <div class="timeline-info">
-                                        <p class="font-weight-bold mb-0">Enviar email con propuesta</p>
-                                        <span class="font-small-3">Enviar email al cliente con propuesta de ventas</span>
-                                    </div>
-                                    <small class="text-muted">Hace 15 días</small>
-                                </li>
-                                <li>
-                                    <div class="timeline-icon bg-danger">
-                                        <i class="feather icon-check font-medium-2 align-middle"></i>
-                                    </div>
-                                    <div class="timeline-info">
-                                        <p class="font-weight-bold mb-0">Planificación</p>
-                                        <span class="font-small-3">Crear plan de trabajo y estrategia de ventas</span>
-                                    </div>
-                                    <small class="text-muted">Hace 20 días</small>
-                                </li>
-                                <li>
-                                    <div class="timeline-icon bg-success">
-                                        <i class="feather icon-check font-medium-2 align-middle"></i>
-                                    </div>
-                                    <div class="timeline-info">
-                                        <p class="font-weight-bold mb-0">Puesta en producción de Website</p>
-                                        <span class="font-small-3">Puesta en linea del portal web de la empresa </span>
-                                    </div>
-                                    <small class="text-muted">HAce 25 días</small>
-                                </li>
-                                <li>
-                                    <div class="timeline-icon bg-primary">
-                                        <i class="feather icon-check font-medium-2 align-middle"></i>
-                                    </div>
-                                    <div class="timeline-info">
-                                        <p class="font-weight-bold mb-0">Marketing</p>
-                                        <span class="font-small-3">Reunión con el equipo de mercadeo.</span>
-                                    </div>
-                                    <small class="text-muted">Hace 28 dias</small>
-                                </li>
+                               
                             </ul>
                         </div>
                     </div>
