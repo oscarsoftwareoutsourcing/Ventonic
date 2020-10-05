@@ -32,7 +32,7 @@
                         <a href="#" class="list-group-item list-group-item-action border-0" :class="{'active':getFilters.starred}" @click.stop="toggleFilter('starred')"><i class="font-medium-5 feather icon-star mr-50"></i> Principal</a>
                         <a href="#" class="list-group-item list-group-item-action border-0" :class="{'active':getFilters.important}" @click.stop="toggleFilter('important')"><i class="font-medium-5 feather icon-info mr-50"></i> Importantes</a>
                         <a href="#" class="list-group-item list-group-item-action border-0" :class="{'active':getFilters.completed}" @click.stop="toggleFilter('completed')"><i class="font-medium-5 feather icon-check mr-50"></i> Completadas</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0" :class="{'active':getFilters.trashed}" @click.stop="toggleFilter('trashed')"><i class="font-medium-5 feather icon-trash mr-50"></i> Descartadas</a>
+                        <a href="#" id="todoDescartadas" class="list-group-item list-group-item-action border-0" :class="{'active':getFilters.trashed}" @click.stop="toggleFilter('trashed')"><i class="font-medium-5 feather icon-trash mr-50"></i> Descartadas</a>
                     </div>
                     <hr>
 

@@ -329,6 +329,8 @@ Route::group(['middleware' => ['verified']], function () use ($router) {
 
     // Notes module
     Route::get('todos', 'TodoController@index')->name('todos');
+    // Destroy todos
+    Route::post('todos/delete-todos', 'TodoController@destroy');
 
     // Email module
     Route::get('email', 'EmailController@index')->name('email');

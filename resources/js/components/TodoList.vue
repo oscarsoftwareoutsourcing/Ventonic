@@ -54,7 +54,10 @@
                                         <div class="float-right todo-item-action d-flex">
                                             <a class="todo-item-info" @click.stop="toggleFilter(todo.id, 'important')"><i class="feather icon-info" :class="todo.filters.important ? 'success' : ''"></i></a>
                                             <a class="todo-item-favorite" @click.stop="toggleFilter(todo.id, 'starred')"><i class="feather icon-star" :class="todo.filters.starred ? 'warning' : ''"></i></a>
-                                            <a class="todo-item-delete" @click.stop="toggleFilter(todo.id, 'trashed')"><i class="feather icon-trash" :class="{'danger':todo.filters.trashed}"></i></a>
+                                            <a class="todo-item-delete"
+                                               @click.stop="confirmDelete(todo.id, 'trashed', todo.filters.trashed)">
+                                                <i class="feather icon-trash" :class="{'danger':todo.filters.trashed}"></i>
+                                            </a>
                                         </div>
                                     </div>
 
@@ -82,11 +85,44 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['updateFilter']),
+        ...mapActions(['updateFilter', 'updateTodoList']),
         ...mapMutations({setTodo: 'SET_TODO', setId: 'SET_TODO_ID'}),
-        async toggleFilter(id, filter) {
-            this.setId(id);
-            await this.updateFilter(filter);
+        confirmDelete(id, filter, trashed) {
+            const vm = this;
+            const msgType = (trashed)?'Eliminar':'Descartar';
+            const finalMsg = (trashed)?' definitivamente':'';
+            bootbox.confirm({
+                title: `${msgType} nota`,
+                message: `¿Está seguro de querer ${msgType.toLowerCase()}${finalMsg} la nota?`,
+                buttons: {
+                    cancel: {
+                        label: "Cancelar",
+                        className: "btn-light float-left"
+                    },
+                    confirm: {
+                        label: "Continuar",
+                        className: "btn-primary float-right"
+                    }
+                },
+                callback: function(result) {
+                    if (result) {
+                        vm.toggleFilter(id, filter, trashed);
+                    }
+                }
+            });
+        },
+        async toggleFilter(id, filter, trashed) {
+            const vm = this;
+            if (!trashed) {
+                vm.setId(id);
+                await vm.updateFilter(filter);
+            } else {
+                const URL = window.api_url;
+                const response = await axios.post(`${URL}/todos/delete-todos`, {todo_id: id});
+                if (response.data.result) {
+                    await vm.updateTodoList(response.data.updatedTodos);
+                }
+            }
         },
         // async toggleCompleted(index) {
         //     this.getTodosCopy[index].filters.completed = !this.getTodosCopy[index].filters.completed;

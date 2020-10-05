@@ -15,12 +15,10 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-
-    
 });
-    
+
 // Todos routes
-$router->group(['prefix' => 'todos'], function() use ($router) {
+$router->group(['prefix' => 'todos'], function () use ($router) {
 
     // Save todo.
     $router->post('save-todo', ['uses' => 'TodoController@saveTodo']);
@@ -28,29 +26,29 @@ $router->group(['prefix' => 'todos'], function() use ($router) {
     // Update todos.
     $router->post('update-todos', ['uses' => 'TodoController@updateTodos']);
 });
-    
+
 // Negotiations routes
-$router->group(['prefix' => 'negotiations'], function() use ($router) {
+$router->group(['prefix' => 'negotiations'], function () use ($router) {
 
     // Save negotiation.
     $router->post('save-negotiation', ['uses' => 'NegotiationController@saveNegotiation']);
 
     // Update negotiation process.
     $router->put('change-negotiation-list/{id}', ['uses' => 'NegotiationController@updateList']);
-    
+
     // Toggle negotiation activation.
     $router->post('toggle-active-negotiation', ['uses' => 'NegotiationController@toggleActiveNegotiation']);
-    
-        // Update negotiation process.
-        $router->put('change-negotiation-status/{id}', ['uses' => 'NegotiationController@updateStatus']);
-    
+
+    // Update negotiation process.
+    $router->put('change-negotiation-status/{id}', ['uses' => 'NegotiationController@updateStatus']);
+
     // Update todos.
     // $router->post('update-todos', ['uses' => 'TodoController@updateTodos']);
 });
 
-$router->group(['prefix' => 'widget','middleware' => 'auth:api'], function() use ($router) {
-// Route::group(['prefix' => 'widget'], function () {
-    $router->post('generateWidget',['uses'=>'WidgetController@store']);
+$router->group(['prefix' => 'widget','middleware' => 'auth:api'], function () use ($router) {
+    // Route::group(['prefix' => 'widget'], function () {
+    $router->post('generateWidget', ['uses'=>'WidgetController@store']);
 });
 
 Route::post('/apps', 'AppsController@store');

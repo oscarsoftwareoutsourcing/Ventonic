@@ -11,10 +11,10 @@ use App\ModuleLabel;
 class TodoController extends Controller
 {
     // To load index of the module.
-    public function index() {
-
+    public function index()
+    {
         try {
-            
+
             // We query all the data for the module.
             $moduleLabels = ModuleLabel::find(1);
 
@@ -33,31 +33,29 @@ class TodoController extends Controller
         }
     }
 
-    public function saveTodo(Request $request) {
-
+    public function saveTodo(Request $request)
+    {
         try {
 
             // Create object.
             $todos = Todo::where('user_id', $request->uid)->first();
 
             // If found, it's an update
-            if($todos) {
+            if ($todos) {
                 $todos->todos = $request->todos;
-
             } else {
                 $todos = new Todo;
                 $todos->user_id = $request->uid;
                 $todos->todos = $request->todos;
             }
 
-            // Save 
+            // Save
             $todos->save();
 
             return response()->json([
                 'result' => true,
                 'updatedTodos' => $todos->todos
             ]);
-
         } catch (\Exception $ex) {
             return response()->json([
                 'result' => false
@@ -65,8 +63,8 @@ class TodoController extends Controller
         }
     }
 
-    public function updateTodos(Request $request) {
-
+    public function updateTodos(Request $request)
+    {
         try {
             $updated_todos = null;
 
@@ -75,7 +73,7 @@ class TodoController extends Controller
 
             $todos->todos = $request->todos;
 
-            // Save 
+            // Save
             $todos->save();
             $updated_todos = $todos->todos;
 
@@ -83,11 +81,33 @@ class TodoController extends Controller
                 'result' => true,
                 'updatedTodos' => $updated_todos
             ]);
-
         } catch (\Exception $ex) {
             return response()->json([
                 'result' => false
             ]);
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        try {
+            $todo = Todo::where('user_id', auth()->user()->id)->first();
+            if ($todo && $todo->todos !== null) {
+                $todos = json_decode($todo->todos);
+                $updatedTodos = [];
+                foreach ($todos as $key => $value) {
+                    if ($value->id === $request->todo_id) {
+                        unset($todos[$key]);
+                    } else {
+                        array_push($updatedTodos, $todos[$key]);
+                    }
+                }
+                $todo->todos = json_encode($updatedTodos);
+                $todo->save();
+            }
+            return response()->json(['result' => true, 'updatedTodos' => $todo->todos]);
+        } catch (\Exception $e) {
+            return response()->json(['result' => false]);
         }
     }
 }

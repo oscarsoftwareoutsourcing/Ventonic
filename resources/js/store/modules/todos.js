@@ -65,7 +65,7 @@ export const actions = {
 
                 /* Verify if it doesn't exist */
                 (copy.length > 0) ? copy.unshift(state.todo) : copy.push(state.todo);
-            
+
             /* Update todo */
             } else {
                 let index = state.todos.findIndex(todo => todo.id === state.todo.id);
@@ -79,10 +79,10 @@ export const actions = {
             const response = await axios.post(`${URL}/api/todos/save-todo`, {uid: state.user, todos:copy});
 
             if(response.data.result) {
-                
+
                 /* Change store todos */
                 commit('SET_TODOS', JSON.parse(response.data.updatedTodos));
-                
+
                 /* Reset todo */
                 commit('RESET_TODO');
             }
@@ -104,7 +104,7 @@ export const actions = {
 
             /* Find todo index */
             let index = copy.findIndex(tc => tc.id === state.id);
-            
+
             /* Update filter in todo */
             switch (filter) {
                 case 'starred': copy[index].filters.starred = !copy[index].filters.starred; break;
@@ -130,6 +130,9 @@ export const actions = {
             commit('SET_COPY', state.todos);
             if (!state.filters.all) { commit('FILTER_COPY'); }
         }
+    },
+    async updateTodoList({ state, commit }, todos) {
+        commit('SET_TODOS', JSON.parse(todos));
     }
 };
 
