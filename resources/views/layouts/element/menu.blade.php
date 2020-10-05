@@ -85,35 +85,21 @@
                 <li class=" nav-item {{ App\Helpers\General::setActiveMenu('oportunity.list') }}"><a href="{{ route('oportunity.list') }}"><i class="feather icon-list"></i><span class="menu-item">Oportunidades</span></a></li>
            @endif
 
-            {{-- No he tocado nada :) --}}
-
             {{-- Negociaciones Company --}}
-            
                 <li class=" nav-item {{ App\Helpers\General::setActiveMenu('negociaciones') }}">
                     <a href="{{route('negociaciones')}}">
                         <i class="feather icon-users"></i>
                         <span class="menu-title">Negociaciones</span>
                     </a>
                 </li>
-            
 
             {{-- Contactos --}}
-            
                 <li class="nav-item {{ App\Helpers\General::setActiveMenu(['contact.list', 'contact.detail']) }}">
                     <a href="{{route('contact.list')}}">
-                        <i class="feather icon-users"></i>
+                        <i class="fa fa-book"></i>
                         <span class="menu-title">Contactos</span>
                     </a>
-                    {{-- <ul class="menu-content">
-                        <li>
-                            <a href="{{ route('contact.list') }}">
-                                <i class="feather icon-user"></i>
-                                <span class="menu-item">Buscar Contacto</span>
-                            </a>
-                        </li>
-                    </ul> --}}
                 </li>
-            
 
             <li class=" nav-item {{ App\Helpers\General::setActiveMenu('todos') }}">
                 <a href="{{route('todos')}}">
@@ -131,14 +117,6 @@
                 </li>
             @endif
 
-            <!--
-            <li class=" nav-item {{ App\Helpers\General::setActiveMenu('widgets.data') }}">
-                <a href="{{route('widgets.data')}}">
-                    <i class="fa fa-tasks"></i>
-                    <span class="menu-title">Datos de Call Me</span>
-                </a>
-            </li>
-            -->
 
             @if (\Auth::user()->type=="E")
                 <li class=" nav-item {{ App\Helpers\General::setActiveMenu('search.init') }}">
@@ -149,24 +127,6 @@
                 </li>
             @endif
 
-
-
-            {{-- <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title">{{ Auth::user()->name }}</span></a>
-                <ul class="menu-content">
-                    @if (auth()->user()->email_verified_at !== null)
-                    <li><a href="{{ route('perfil.index') }}"><i class="feather icon-user"></i><span class="menu-item">Mi Perfil</span></a>
-                    </li>
-                    @endif
-                    @if (\Auth::user()->type=="E")
-                    <li><a href="{{ route('search.init') }}"><i class="feather icon-search"></i> <span class="menu-item">Buscar Vendedor</span></a>
-                    </li>
-                    @endif
-                    <li><a href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-power"></i> <span class="menu-item">{{ __('Salir') }}</span></a>
-                    </li>
-                </ul>
-            </li> --}}
-
              {{-- Oportunidades --}}
             @if(\Auth::user())
                 <li class=" nav-item {{ App\Helpers\General::setActiveMenu(['report.sales', 'oportunity.list'], true) }}">
@@ -175,22 +135,6 @@
                         <span class="menu-title">Informes</span>
                     </a>
                     <ul class="menu-content">
-                        <!--
-                        <li class="nav-item">
-                            <a href="#" >
-                                <i class="fa fa-cart-arrow-down"></i>
-                                <span class="menu-item">Ventas</span>
-                            </a>
-                            <ul class="menu-content">
-                                <li data-menu="">
-                                    <a href="#" >
-                                        <i class="fa fa-cart-arrow-down"></i>
-                                        <span class="menu-item">Actividad</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        -->
                         <li class="{{ App\Helpers\General::setActiveMenu('report.sales') }}">
                             <a href="{{ route('report.sales') }}">
                                 <i class="fa fa-cart-arrow-down"></i>
@@ -206,20 +150,15 @@
                     </ul>
                 </li>
             @endif
-
-
             {{-- Grupos de Usuarios --}}
             @if(\Auth::user())
                 <li class=" nav-item {{ App\Helpers\General::setActiveMenu('group.show') }}">
                     <a href="{{ route('group.show') }}">
-                        <i class="feather icon-users"></i>
+                        <i class="fa fa-users"></i>
                         <span class="menu-item">Grupo de Usuarios</span>
                     </a>
                 </li>
             @endif
-
-
-            
         </ul>
     </div>
 </div>

@@ -53,7 +53,7 @@
                                         <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Configuración</h4>
+                                                    <h4 class="modal-title">Vincular Contactos a cuenta de Google</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                         <span class="sr-only">Close</span>
@@ -85,17 +85,19 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                        Cerrar
-                                                    </button>
+                                                   
                                                     @if ($gContact)
-                                                        <button type="button" class="btn btn-warning"
+                                                        <button type="button" class="btn btn bg-gradient-primary waves-effect waves-light text-white"
                                                                 onclick="disconnectSetting()">
-                                                            Eliminar
+                                                            Desvincular contactos
                                                         </button>
                                                     @endif
-                                                    <button type="button" class="btn btn-primary" onclick="setSetting()">
-                                                        Guardar
+                                                    <button type="button" class="btn bg-gradient-primary waves-effect waves-light text-white" onclick="setSetting()">
+                                                        Vincular contactos con Google
+                                                    </button>
+
+                                                     <button type="button" class="btn btn-outline-warning waves-effect waves-light text-white" data-dismiss="modal">
+                                                        Cerrar
                                                     </button>
                                                 </div>
                                             </div>

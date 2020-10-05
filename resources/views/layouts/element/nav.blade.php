@@ -8,27 +8,22 @@
                     </ul>
                     <ul class="nav navbar-nav bookmark-icons">
 
-                        <!-- li.nav-item.mobile-menu.d-xl-none.mr-auto-->
-                        <!--   a.nav-link.nav-menu-main.menu-toggle.hidden-xs(href='#')-->
-                        <!--     i.ficon.feather.icon-menu-->
                         <li class="nav-item d-none d-lg-block">
-                            <a class="nav-link" href="{{route('todos')}}" data-toggle="tooltip" data-placement="top" title="Notas Personales"><i class="ficon feather icon-check-square"></i></a>
+                            <a class="nav-link" href="{{ route('chat') }}" data-toggle="tooltip" data-placement="top" title="Chat"><i class="ficon feather icon-message-square"></i></a>
                         </li>
 
                         <li class="nav-item d-none d-lg-block">
-                            <a class="nav-link" href="{{ route('chat') }}" data-toggle="tooltip" data-placement="top" title="Chat"><i class="ficon feather icon-message-square"></i></a>
+                            <a class="nav-link" href="calender" data-toggle="tooltip" data-placement="top" title="Calendario"><i class="ficon feather icon-calendar"></i></a>
                         </li>
 
                         <li class="nav-item d-none d-lg-block">
                             <a class="nav-link" href="{{ route('email') }}" data-toggle="tooltip" data-placement="top" title="Email"><i class="ficon feather icon-mail"></i></a>
                         </li>
 
-                        <li class="nav-item d-none d-lg-block">
-                            <a class="nav-link" href="calender" data-toggle="tooltip" data-placement="top" title="Calendario"><i class="ficon feather icon-calendar"></i></a></li>
 
                         @if(\Auth::user()->type=="E" || isset(auth()->user()->sellerProfile))
                         <li class="nav-item d-none d-lg-block">
-                            <a class="nav-link" href="{{ route('oportunity.list') }}" data-toggle="tooltip" data-placement="top" title="Oportunidades"><i class="ficon feather icon-star warning"></i></a>
+                            <a class="nav-link" href="{{ route('oportunity.list') }}" data-toggle="tooltip" data-placement="top" title="Oportunidades"><i class="ficon feather icon-star"></i></a>
                         </li>
                         @endif
 
@@ -38,40 +33,38 @@
                         </li>
                         @endif
 
+                        <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link" href="{{route('contact.list')}}" data-toggle="tooltip" data-placement="top" title="Contactos"><i class=" ficon fa fa-book"></i></a>
+                        </li>
+
+                        <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link" href="{{route('todos')}}" data-toggle="tooltip" data-placement="top" title="Notas Personales"><i class="ficon feather icon-check-square"></i></a>
+                        </li>
+                        @if (\Auth::user()->type=="E")
+                         <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link" href="{{route('apps')}}" data-toggle="tooltip" data-placement="top" title="Apps Gratis"><i class="ficon feather icon-server"></i></a>
+                        </li>
+
+                         <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link" href="{{route('search.init')}}" data-toggle="tooltip" data-placement="top" title="Buscar Vendedor"><i class="ficon feather icon-search"></i></a>
+                        </li>
+                        @endif
+
+                         <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link" href="{{route('report.sales')}}" data-toggle="tooltip" data-placement="top" title="Informe de Ventas"><i class="ficon feather icon-bar-chart"></i></a>
+                        </li>
+
+                        <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link" href="{{route('group.show')}}" data-toggle="tooltip" data-placement="top" title="Grupo de Usuarios"><i class="ficon fa fa-users"></i></a>
+                        </li>
+
                     </ul>
 
-                    {{-- <ul class="nav navbar-nav">
-                        <li class="nav-item d-none d-lg-block"><a class="nav-link bookmark-star"><i class="ficon feather icon-star warning"></i></a>
-                            <div class="bookmark-input search-input">
-                                <div class="bookmark-input-icon"><i class="feather icon-search primary"></i></div>
-                                <input class="form-control input" type="text" placeholder="Buscar en Ventonic..." tabindex="0" data-search="template-list">
-                                <ul class="search-list search-list-bookmark"></ul>
-                            </div>
-                            <!-- select.bookmark-select-->
-                            <!--   option Chat-->
-                            <!--   option email-->
-                            <!--   option todo-->
-                            <!--   option Calendar-->
-                        </li>
-                    </ul> --}}
                 </div>
                 <ul class="nav navbar-nav float-right">
-
-                    <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i class="ficon feather icon-maximize"></i></a></li>
-
-                    <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i class="ficon feather icon-search"></i></a>
-                        <div class="search-input">
-                            <div class="search-input-icon"><i class="feather icon-search primary"></i></div>
-                            <input class="input" type="text" placeholder="Buscar en Ventonic..." tabindex="-1" data-search="template-list">
-                            <div class="search-input-close"><i class="feather icon-x"></i></div>
-                            <ul class="search-list search-list-main"></ul>
-                        </div>
-                    </li>
                     <li>
                     {{-- Notificaciones --}}
-
                     @include('includes.notifications')
-
                     {{-- Fin notificaciones --}}
                     </li>
                     <li class="dropdown dropdown-user nav-item">
@@ -82,11 +75,11 @@
                             </div>
                             <span>
                                 @empty(Auth::user()->photo)
-                                    <img class="round" src="/images/anonymous-user.png" alt="{{ Auth::user()->name }} " height="40" width="40"></span>
+                                    <img class="round" src="/images/anonymous-user.png" alt="{{ Auth::user()->name }} " height="40" width="40">
                                 @else
-                                    <img class="round" src="/{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }} " height="40" width="40"></span>
+                                    <img class="round" src="/{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }} " height="40" width="40">
                                 @endempty
-
+                            </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" id="usermenu-nav">
 
@@ -95,10 +88,6 @@
                                 <a class="dropdown-item" href="{{ route('myaccount') }}">
                                     <i class="fa fa-id-card"></i> Mi Cuenta
                                 </a>
-                                <!--
-                                <a class="dropdown-item" href="#"><i class="feather icon-user"></i> Usuarios</a>
-                                <a class="dropdown-item" href="{{ route('group.show') }}"><i class="feather icon-users"></i> Grupo de Usuarios</a>
-                                -->
                             @endif
                             <div class="dropdown-divider"></div>
 

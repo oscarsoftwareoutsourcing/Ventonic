@@ -47,7 +47,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Configuración</h4>
+            <h4 class="modal-title">Vincular Calendario</h4>
             <button
               type="button"
               class="close"
@@ -94,6 +94,7 @@
                   class="custom-control custom-radio custom-control-inline"
                   data-toggle="tooltip"
                   title="iCal (próximamente)"
+                  style="display: none"
                 >
                   <input
                     type="radio"
@@ -103,8 +104,13 @@
                     v-model="appCalendar"
                     value="iCal"
                     disabled
+                    style="display: none"
                   />
-                  <label class="custom-control-label" for="iCal">
+                  <label
+                    class="custom-control-label"
+                    for="iCal"
+                    style="display: none"
+                  >
                     <img
                       src="/images/calendar/ical.png"
                       alt="iCal Calendar"
@@ -116,6 +122,7 @@
                   class="custom-control custom-radio custom-control-inline"
                   data-toggle="tooltip"
                   title="Outloock Calendar (próximamente)"
+                  style="display: none"
                 >
                   <input
                     type="radio"
@@ -125,8 +132,13 @@
                     v-model="appCalendar"
                     value="outlook"
                     disabled
+                    style="display: none"
                   />
-                  <label class="custom-control-label" for="outlookCalendar">
+                  <label
+                    class="custom-control-label"
+                    for="outlookCalendar"
+                    style="display: none"
+                  >
                     <img
                       src="/images/calendar/outlook-calendar.png"
                       alt="Outlook Calendar"
@@ -140,21 +152,26 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Cerrar
-            </button>
-            <button
-              type="button"
-              class="btn btn-warning"
+              class="btn bg-gradient-primary waves-effect waves-light text-white"
               @click="disconnectSetting"
               v-if="hasCalendars"
             >
-              Eliminar
+              Desvincular Calendario
             </button>
-            <button type="button" class="btn btn-primary" @click="setSetting">
-              Guardar
+            <button
+              type="button"
+              class="btn bg-gradient-primary waves-effect waves-light text-white"
+              @click="setSetting"
+            >
+              Vincular Calendario
+            </button>
+
+            <button
+              type="button"
+              class="btn bg-gradient-warning waves-effect waves-light text-white"
+              data-dismiss="modal"
+            >
+              Cerrar
             </button>
           </div>
         </div>
