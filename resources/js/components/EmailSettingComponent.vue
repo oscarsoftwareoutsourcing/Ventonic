@@ -269,6 +269,7 @@
                         <div class="form-group">
                           <label for>Contraseña</label>
                           <input
+                            autocomplete="off"
                             type="password"
                             class="form-control"
                             v-model="password"
