@@ -77,7 +77,7 @@
 
                                     <div class="form-row">
                                         <div class="col-md-8 col-12 mb-3">
-                                          <label for="validationTooltip01">Funcion laboral (añade hasta 3)<span class="obligatorio">*</span></label>
+                                          <label for="validationTooltip01">Función laboral (añade hasta 3)<span class="obligatorio">*</span></label>
                                           <input type="text" class="form-control @error('functions') is-invalid @enderror" name="functions" value="{{$oportunity->functions ?? ''}}"
                                           {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                           @error('functions')
