@@ -107,7 +107,7 @@
                                         </div>
 
                                         <div class="col-md-4 col-12 mb-3">
-                                          <label for="validationTooltip02">Nivel de antiguedad<span class="obligatorio">*</span></label>
+                                          <label for="validationTooltip02">Modalidad de Trabajo<span class="obligatorio">*</span></label>
                                           <select class="form-control" name="ubicationOportunity"
                                                   {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
                                             <option>Selecciona una opcion</option>

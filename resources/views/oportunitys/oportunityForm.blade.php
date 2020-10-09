@@ -123,7 +123,7 @@
                                         </div>
 
                                         <div class="col-md-4 col-12 mb-3">
-                                          <label for="validationTooltip02">Nivel de antiguedad<span class="obligatorio">*</span></label>
+                                          <label for="validationTooltip02">Modaliad de Trabajo<span class="obligatorio">*</span></label>
                                           <select class="form-control @error('ubicationOportunity') is-invalid @enderror" name="ubicationOportunity">
                                             @foreach($ubicationOportunitys as $ubicationOportunity)
                                               <option value="{{$ubicationOportunity->id}}" {{$oportunity && $ubicationOportunity->id==$oportunity->ubication_oportunity_id ? 'selected' : ''}}>{{$ubicationOportunity->description}}</option>
