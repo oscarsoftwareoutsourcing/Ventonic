@@ -1276,7 +1276,7 @@
                                                     }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"></paginate-links>
+                                                    }" :limit="3"></paginate-links>
                                             </nav>
                                             <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'sent'">
                                                 <paginate-links for="sent" :show-step-links="true" :async="true" :classes="{
@@ -1286,7 +1286,7 @@
                                                     }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"></paginate-links>
+                                                    }" :limit="3"></paginate-links>
                                             </nav>
                                             <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'draft'">
                                                 <paginate-links for="draft" :show-step-links="true" :async="true" :classes="{
@@ -1296,7 +1296,7 @@
                                                     }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"></paginate-links>
+                                                    }" :limit="3"></paginate-links>
                                             </nav>
                                             <nav class="mt-3" style="margin:0 auto;" v-if="
                                                     showFolder === 'favorites'
@@ -1308,7 +1308,7 @@
                                                     }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"></paginate-links>
+                                                    }" :limit="3"></paginate-links>
                                             </nav>
                                             <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'spam'">
                                                 <paginate-links for="spam" :show-step-links="true" :async="true" :classes="{
@@ -1318,7 +1318,7 @@
                                                     }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"></paginate-links>
+                                                    }" :limit="3"></paginate-links>
                                             </nav>
                                             <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'trash'">
                                                 <paginate-links for="trash" :show-step-links="true" :async="true" :classes="{
@@ -1328,7 +1328,7 @@
                                                     }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"></paginate-links>
+                                                    }" :limit="3"></paginate-links>
                                             </nav>
                                             <!-- Tag Personal -->
                                             <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'tag_pe'">
@@ -1339,7 +1339,7 @@
                                                     }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"></paginate-links>
+                                                    }" :limit="3"></paginate-links>
                                             </nav>
                                             <!-- Tag Compañía -->
                                             <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'tag_co'">
@@ -1350,7 +1350,7 @@
                                                     }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"></paginate-links>
+                                                    }" :limit="3"></paginate-links>
                                             </nav>
                                             <!-- Tag Importante -->
                                             <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'tag_im'">
@@ -1361,7 +1361,7 @@
                                                     }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"></paginate-links>
+                                                    }" :limit="3"></paginate-links>
                                             </nav>
                                             <!-- Tag Privado -->
                                             <nav class="mt-3" style="margin:0 auto;" v-if="showFolder === 'tag_pr'">
@@ -1372,7 +1372,7 @@
                                                     }" :step-links="{
                                                         next: '›',
                                                         prev: '‹'
-                                                    }"></paginate-links>
+                                                    }" :limit="3"></paginate-links>
                                             </nav>
                                             <!--<nav aria-label="Page navigation example">
                                             <ul class="pagination justify-content-center mt-2">
