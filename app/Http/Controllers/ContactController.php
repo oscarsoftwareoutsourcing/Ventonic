@@ -503,6 +503,22 @@ class ContactController extends Controller
     }
 
     /**
+     * Obtiene datos de contacto de acuerdo a su correo electrónico
+     *
+     * @method    getByEmail
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     object        $request    Objeto con datos de la petición
+     *
+     * @return    JsonResponse        Objeto JSON con los datos de respuesta a la petición
+     */
+    public function getByEmail(Request $request)
+    {
+        return response()->json(['result' => true, 'contact' => Contact::where('email', $request->email)->first()]);
+    }
+
+    /**
      * Ver detalles de contactos
      *
      * @method    detail
@@ -635,12 +651,24 @@ class ContactController extends Controller
         ]);
 
         $contactType = ($request->type === 'P') ? 'persona' : 'empresa';
-        $contact = Contact::create([
+        $data = [
             'name' => $request->name,
             'last_name' => $request->lastName ?? null,
             'user_id' =>  auth()->user()->id,
             'type_contact'=> $contactType,
-        ]);
+        ];
+        if ($request->email) {
+            $data['email'] = $request->email;
+        }
+        if ($request->image) {
+            $data['image'] = $request->image;
+        }
+        if ($request->phone) {
+            $data['phone'] = $request->phone;
+        }
+
+
+        $contact = Contact::create($data);
 
         return response()->json(['result' => true, 'contact' => $contact], 200);
     }

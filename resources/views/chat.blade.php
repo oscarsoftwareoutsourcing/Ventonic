@@ -34,7 +34,8 @@
     <div class="header-navbar-shadow"></div>
 
     {{-- Sección para chat --}}
-    <chat :user="{{ auth()->user() }}" :chat-room-user="{{ json_encode(session('chat_room_user', '')) }}"></chat>
+    <chat :user="{{ auth()->user() }}" :chat-room-user="{{ json_encode(session('chat_room_user', '')) }}"
+          :contacts="{{ auth()->user()->contact()->whereNotNull('email')->get('email') }}"></chat>
 
 </div>
 @endsection
