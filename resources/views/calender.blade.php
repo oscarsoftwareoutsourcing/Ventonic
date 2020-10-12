@@ -8,7 +8,14 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/pickers/pickadate/pickadate.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/plugins/calendars/fullcalendar.css') }}">
 
-
+    <style>
+        .list-group-my-calendars {
+            max-height: 90px;
+            margin-bottom: 10px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
 @endsection
 
 @section('content')
