@@ -159,14 +159,21 @@ export default {
             const vm = this;
             bootbox.confirm({
                 title: "Eliminar calendario",
-                message: "¿Esta seguro de eliminar el calendario configurado?",
+                message: `<p class='text-justify'>
+                              Al desvincular su cuenta de Google se eliminarán de Ventonic todos los eventos
+                              pertenecientes a sus calendarios de Google. Podrá seguir consultando esa información
+                              desde su cuenta de Google. Si quiere volver a administrar todos sus calendarios desde
+                              nuestra plataforma simplemente tendrá que volver a vincular su cuenta.
+                          </p>
+                          <p class='text-justify'>¿Está seguro que quiere desvincular su cuenta de Google Calendar?<p>`,
+                swapButtonOrder: true,
                 buttons: {
                     cancel: {
-                        label: "No",
+                        label: "Cancelar",
                         className: "btn-secondary",
                     },
                     confirm: {
-                        label: "Sí",
+                        label: "Desvincular",
                         className: "btn-warning",
                     },
                 },

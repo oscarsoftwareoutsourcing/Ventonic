@@ -440,7 +440,9 @@ class GoogleCalendarController extends Controller
         $calendarSetting = CalendarSetting::where(['user_id' => auth()->user()->id, 'appType' => 'gCalendar'])->first();
 
         if ($calendarSetting) {
-            if (session()->has('access_token') && session('access_token')) {
+            /** Elimina todos los eventos asociados al calendario a desconectar */
+            Event::where(['external_calendar' => 'gCalendar', 'user_id' => auth()->user()->id])->delete();
+            /*if (session()->has('access_token') && session('access_token')) {
                 $this->client->setAccessToken(session()->get('access_token'));
                 $service = new Google_Service_Calendar($this->client);
                 $results = $service->events->listEvents('primary');
@@ -456,10 +458,11 @@ class GoogleCalendarController extends Controller
                     ])->first();
 
                     if ($event) {
+
                         $event->delete();
                     }
                 }
-            }
+            }*/
 
             $calendarSetting->delete();
             session()->forget(['google-calendar-code', 'access_token']);
