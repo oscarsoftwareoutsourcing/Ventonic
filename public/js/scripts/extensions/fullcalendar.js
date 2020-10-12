@@ -1,5 +1,5 @@
 /* Set todays date */
-var calDate = moment(new Date).format('DD-MM-YYYY');
+var calDate = moment(new Date).format('DD-MM-YYYY hh:mm');
 
 /* Label bullets data. */
 var labelBullets = {
@@ -49,8 +49,8 @@ window.calendar = new FullCalendar.Calendar(calendarEl, {
                 $("#cal-end-date").val(calDate);
 
                 // Set actual time.
-                pickerSetStartsAt.set( 'select', moment(calDate).format('hh:mm a'));
-                pickerSetEndsAt.set( 'select', moment(calDate).format('hh:mm a'));
+                /*pickerSetStartsAt.set( 'select', moment(calDate).format('hh:mm a'));
+                pickerSetEndsAt.set( 'select', moment(calDate).format('hh:mm a'));*/
                 $("#modalForm").modal("show");
             }
         }
@@ -69,17 +69,17 @@ window.calendar = new FullCalendar.Calendar(calendarEl, {
         $('#saveBtn, #deleteBtn').removeClass('d-none');
         $('#updateBtn, #deleteBtn').addClass('d-none');
 
-        $("#calendarForm #cal-start-date").val(moment(info.dateStr).format('DD-MM-YYYY'));
-        $("#calendarForm #cal-end-date").val(moment(info.dateStr).format('DD-MM-YYYY'));
+        $("#calendarForm #cal-start-date").val(moment(info.dateStr).format('DD-MM-YYYY hh:mm'));
+        $("#calendarForm #cal-end-date").val(moment(info.dateStr).format('DD-MM-YYYY hh:mm'));
 
         // Set actual time.
-        if(info.view.type === 'dayGridMonth') {
+        /*if(info.view.type === 'dayGridMonth') {
             pickerSetStartsAt.set( 'select', moment(calDate).format('hh:mm a'));
             pickerSetEndsAt.set( 'select', moment(calDate).format('hh:mm a'));
         } else {
             pickerSetStartsAt.set( 'select', moment(info.dateStr).format('hh:mm a'));
             pickerSetEndsAt.set( 'select', moment(info.dateStr).format('hh:mm a'));
-        }
+        }*/
 
         $("#modalForm").modal("show");
     },
@@ -92,10 +92,10 @@ window.calendar = new FullCalendar.Calendar(calendarEl, {
 
         $('#cal-event-id').val(info.event.id);
         $('#cal-event-title').val(info.event.title);
-        $('#cal-start-date').val(moment(info.event.start).format('DD-MM-YYYY'));
-        pickerSetStartsAt.set( 'select', moment(info.event.start).format('hh:mm a'));
-        $('#cal-end-date').val(moment(info.event.end).format('DD-MM-YYYY'));
-        pickerSetEndsAt.set( 'select', moment(info.event.end).format('hh:mm a'));
+        $('#cal-start-date').val(moment(info.event.start).format('DD-MM-YYYY hh:mm'));
+        //pickerSetStartsAt.set( 'select', moment(info.event.start).format('hh:mm a'));
+        $('#cal-end-date').val(moment(info.event.end).format('DD-MM-YYYY hh:mm'));
+        //pickerSetEndsAt.set( 'select', moment(info.event.end).format('hh:mm a'));
         $('#cal-description').val(info.event.extendedProps.description);
         $('#cal-event-place').val(info.event.extendedProps.place);
 
@@ -131,15 +131,14 @@ $('#saveBtn').on('click', function() {
     axios.post('/events', {
         title: $('#cal-event-title').val(),
         start_at: $('#cal-start-date').val(),
-        start_time: $('#cal-start-time').val(),
+        //start_time: $('#cal-start-time').val(),
         end_at: $('#cal-end-date').val(),
-        end_time: $('#cal-end-time').val(),
+        //end_time: $('#cal-end-time').val(),
         notes: $('#cal-description').val(),
         place: $('#cal-event-place').val(),
         category: $('#categoriesContainer .selected').data('key')
     }).then(response => {
         if (response.data.result) {
-
             window.calendar.removeAllEvents();
             window.calendar.addEventSource(response.data.events);
             resetModal();
@@ -164,9 +163,9 @@ $("#updateBtn").on("click", function() {
     axios.put('/events/' + $('#cal-event-id').val(), {
         title: $('#cal-event-title').val(),
         start_at: $('#cal-start-date').val(),
-        start_time: $('#cal-start-time').val(),
+        //start_time: $('#cal-start-time').val(),
         end_at: $('#cal-end-date').val(),
-        end_time: $('#cal-end-time').val(),
+        //end_time: $('#cal-end-time').val(),
         notes: $('#cal-description').val(),
         place: $('#cal-event-place').val(),
         category: $('#categoriesContainer .selected').data('key')

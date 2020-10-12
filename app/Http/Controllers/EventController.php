@@ -55,25 +55,27 @@ class EventController extends Controller
     {
         $this->validate($request, [
             'title' => ['required'],
-            'start_at' => ['required', 'date'],
-            'start_time' => ['required'],
-            'end_at' => ['required', 'date', 'after_or_equal:start_at'],
-            'end_time' => ['required', 'after_or_equal:start_time']
+            'start_at' => ['required', 'date_format:"d-m-Y H:i"'],
+            //'start_time' => ['required'],
+            'end_at' => ['required', 'date_format:"d-m-Y H:i"', 'after_or_equal:start_at'],
+            //'end_time' => ['required', 'after_or_equal:start_time']
         ], [
             'title.required' => 'Dato requerido',
             'start_at.required' => 'Dato requerido',
-            'start_at.date' => 'Debe tener un formato válido',
-            'start_time.required' => 'Dato requerido',
+            'start_at.date_format' => 'Debe tener un formato válido',
+            //'start_time.required' => 'Dato requerido',
             'end_at.required' => 'Dato requerido',
-            'end_at.date' => 'Debe tener un formato válido',
+            'end_at.date_format' => 'Debe tener un formato válido',
             'end_at.after_or_equal' => 'Debe ser posterior a Fecha de Inicio',
-            'end_time.required' => 'Dato requerido',
-            'end_time.after_or_equal' => 'Debe ser posterior a Hora de Inicio'
+            /*'end_time.required' => 'Dato requerido',
+            'end_time.after_or_equal' => 'Debe ser posterior a Hora de Inicio'*/
         ]);
 
         try {
-            $start = strtotime($request->start_at. ' '.$request->start_time);
-            $end = strtotime($request->end_at. ' '.$request->end_time);
+            //$start = strtotime($request->start_at. ' '.$request->start_time);
+            $start = strtotime($request->start_at);
+            //$end = strtotime($request->end_at. ' '.$request->end_time);
+            $end = strtotime($request->end_at);
 
             $startDate = date("Y-m-d H:i:s", $start);
             $endDate = date("Y-m-d H:i:s", $end);
@@ -108,26 +110,28 @@ class EventController extends Controller
     {
         $this->validate($request, [
             'title' => ['required'],
-            'start_at' => ['required', 'date'],
-            'start_time' => ['required'],
-            'end_at' => ['required', 'date', 'after_or_equal:start_at'],
-            'end_time' => ['required', 'after_or_equal:start_time']
+            'start_at' => ['required', 'date_format:"d-m-Y H:i"'],
+            //'start_time' => ['required'],
+            'end_at' => ['required', 'date_format:"d-m-Y H:i"', 'after_or_equal:start_at'],
+            //'end_time' => ['required', 'after_or_equal:start_time']
         ], [
             'title.required' => 'Dato requerido',
             'start_at.required' => 'Dato requerido',
-            'start_at.date' => 'Debe tener un formato válido',
-            'start_time.required' => 'Dato requerido',
+            'start_at.date_format' => 'Debe tener un formato válido',
+            //'start_time.required' => 'Dato requerido',
             'end_at.required' => 'Dato requerido',
-            'end_at.date' => 'Debe tener un formato válido',
+            'end_at.date_format' => 'Debe tener un formato válido',
             'end_at.after_or_equal' => 'Debe ser posterior a Fecha de Inicio',
-            'end_time.required' => 'Dato requerido',
-            'end_time.after_or_equal' => 'Debe ser posterior a Hora de Inicio'
+            /*'end_time.required' => 'Dato requerido',
+            'end_time.after_or_equal' => 'Debe ser posterior a Hora de Inicio'*/
         ]);
 
         try {
             $event = Event::find($id);
-            $start = strtotime($request->start_at. ' '.$request->start_time);
-            $end = strtotime($request->end_at. ' '.$request->end_time);
+            //$start = strtotime($request->start_at. ' '.$request->start_time);
+            $start = strtotime($request->start_at);
+            //$end = strtotime($request->end_at. ' '.$request->end_time);
+            $end = strtotime($request->end_at);
 
             $startDate = date("Y-m-d H:i:s", $start);
             $endDate = date("Y-m-d H:i:s", $end);

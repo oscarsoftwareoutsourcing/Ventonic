@@ -126,6 +126,10 @@ Vue.mixin({
                     time_24hr: true,
                     defaultHour: 0,
                     minuteIncrement: 1
+                },
+                configDateTimePicker: {
+                    enableTime: true,
+                    dateFormat: 'd-m-Y H:i'
                 }
             }
         };

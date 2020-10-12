@@ -86,7 +86,7 @@
                     </div>
 
                     {{-- calendar Modal starts --}}
-                    <div id="modalForm" class="modal fade text-left modal-calendar" tabindex="-1" role="dialog"
+                    <div id="modalForm" class="modal fade text-left modal-calendar" role="dialog"
                          aria-labelledby="cal-modal" aria-modal="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm"
                              role="document">
@@ -147,25 +147,13 @@
                                                     <label for="">Fecha de Inicio</label>
                                                 </div>
                                                 <div class="col-sm-7">
-                                                    <input type="date" class="form-control pickadate" id="cal-start-date" placeholder="dd-mm-yyyy">
+                                                    <flat-pickr :config="flatPicker.configDateTimePicker"
+                                                                class="form-control" name="startDate" id="cal-start-date"
+                                                                placeholder="dd-mm-yyyy H:m" value=""></flat-pickr>
                                                 </div>
                                                 <article class="help-block" id="">
                                                 </article>
                                             </div>
-                                        </div>
-
-                                        {{-- Starts at time --}}
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    <label for="">Hora de Inicio</label>
-                                                </div>
-                                                <div class="col-sm-7">
-                                                    <input type="text" class="form-control pickatime" id="cal-start-time" placeholder="00:00">
-                                                </div>
-                                            </div>
-                                            <article class="help-block" id="">
-                                            </article>
                                         </div>
 
                                         {{-- Ends at date --}}
@@ -175,24 +163,12 @@
                                                     <label for="">Fecha Final</label>
                                                 </div>
                                                 <div class="col-sm-7">
-                                                    <input type="date" class="form-control pickadate" id="cal-end-date" placeholder="dd-mm-yyyyy">
+                                                    <flat-pickr :config="flatPicker.configDateTimePicker"
+                                                                class="form-control" name="finalDate" id="cal-end-date"
+                                                                placeholder="dd-mm-yyyy H:m" value=""></flat-pickr>
                                                 </div>
                                             </div>
                                             <article class="help-block" id="end_at-error">
-                                            </article>
-                                        </div>
-
-                                        {{-- Ends at time --}}
-                                        <div class="form-group">
-                                            <div class="row mt-1">
-                                                <div class="col-sm-4">
-                                                    <label for="">Hora Final</label>
-                                                </div>
-                                                <div class="col-sm-7">
-                                                    <input type="text" class="form-control pickatime" id="cal-end-time" placeholder="00:00">
-                                                </div>
-                                            </div>
-                                            <article class="help-block" id="end_time-error">
                                             </article>
                                         </div>
 
