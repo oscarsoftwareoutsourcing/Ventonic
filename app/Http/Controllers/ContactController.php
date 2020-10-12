@@ -77,6 +77,7 @@ class ContactController extends Controller
                                        ? $gContact->phoneNumbers[0]->canonicalForm : null
                         ];
                         if (property_exists($gContact, 'emailAddresses') && count($gContact->emailAddresses) > 0) {
+                            /** Filtra la creación o actualización de datos por el correo electrónico */
                             $filter['email'] = $gContact->emailAddresses[0]->value;
                         }
                         Contact::updateOrCreate($filter, $data);
