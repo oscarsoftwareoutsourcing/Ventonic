@@ -65,21 +65,21 @@ class ContactController extends Controller
                 $resultsPeople = $service1->people_connections->listPeopleConnections('people/me', $optParams);
                 foreach ($resultsPeople as $key => $gContact) {
                     if (property_exists($gContact, 'names') && $gContact->names[0]->givenName) {
-                        Contact::updateOrCreate(
-                            [
-                                'external_key' => $gContact->resourceName,
-                                'external_contact' => 'gContact',
-                                'user_id' => auth()->user()->id
-                            ],
-                            [
-                                'name' => $gContact->names[0]->givenName,
-                                'last_name' => $gContact->names[0]->familyName ?? null,
-                                'email' => (property_exists($gContact, 'emailAddresses') && count($gContact->emailAddresses) > 0)
-                                           ? $gContact->emailAddresses[0]->value : null,
-                                'phone' => (property_exists($gContact, 'phoneNumbers') && count($gContact->phoneNumbers) > 0)
-                                           ? $gContact->phoneNumbers[0]->canonicalForm : null
-                            ]
-                        );
+                        $filter = [
+                            'external_key' => $gContact->resourceName,
+                            'external_contact' => 'gContact',
+                            'user_id' => auth()->user()->id
+                        ];
+                        $data = [
+                            'name' => $gContact->names[0]->givenName,
+                            'last_name' => $gContact->names[0]->familyName ?? null,
+                            'phone' => (property_exists($gContact, 'phoneNumbers') && count($gContact->phoneNumbers) > 0)
+                                       ? $gContact->phoneNumbers[0]->canonicalForm : null
+                        ];
+                        if (property_exists($gContact, 'emailAddresses') && count($gContact->emailAddresses) > 0) {
+                            $filter['email'] = $gContact->emailAddresses[0]->value;
+                        }
+                        Contact::updateOrCreate($filter, $data);
                     }
                 }
             } else {
