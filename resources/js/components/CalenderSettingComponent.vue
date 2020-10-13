@@ -1,42 +1,12 @@
 <template>
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-sm-4 offset-sm-6" v-if="showCalendars()">
-                <fieldset class="form-group">
-                    <!--<select id="myCalendars" class="custom-select" v-model="selectedCalendars" multiple>
-                        <option value="0"><i class="fas fa-square"></i>Ventonic</option>
-                        <option :value="calendar.google_id" v-for="calendar in calendars">
-                            <i class="fas fa-square"></i>
-                            {{ calendar.name }}
-                        </option>
-                    </select>-->
-                    <h6>Mis Calendarios</h6>
-                    <ul class="list-group list-group-my-calendars">
-                        <li class="list-group-item">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input filter-calendar" id="checkVentonic"
-                                       @click="checkCalendar" value='0'>
-                                <label class="custom-control-label" for="checkVentonic">Ventonic</label>
-                            </div>
-                        </li>
-                        <li class="list-group-item" v-for="calendar in calendars">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input filter-calendar" :id="'check'+calendar.id"
-                                       @click="checkCalendar" :value='calendar.google_id'>
-                                <label class="custom-control-label" :for="'check'+calendar.id">
-                                    {{ calendar.name }}
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
-                </fieldset>
-            </div>
             <div class="col-sm-1 text-right" v-if="hasCalendars" :class="{ 'offset-sm-10': !showCalendars }">
                 <a href="/google-calendar/sync" title="Sincronizar calendario externo" style="display: none">
                     <i class="feather icon-refresh-cw"></i>
                 </a>
             </div>
-            <div class="col-sm-1 text-right" :class="{ 'offset-sm-11': !hasCalendars }">
+            <div class="col-sm-1 offset-sm-11 text-right">
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#modalSetting" title="Configuración de calendario externo">
                     <i class="feather icon-settings"></i>
                 </a>
@@ -203,6 +173,7 @@ export default {
                     .then((response) => {
                         if (response.data.result) {
                             vm.calendars = response.data.calendars;
+                            vm.$root.$refs.calendarFilters.calendars = response.data.calendars;
                         } else {
                             location.href = response.data.redirect;
                         }
@@ -246,7 +217,7 @@ export default {
         }
     },
     created() {
-        const vm = this;
+        /*const vm = this;
         axios
             .get("/has-calendars")
             .then((response) => {
@@ -261,7 +232,7 @@ export default {
             })
             .catch((error) => {
                 console.error(error);
-            });
+            });*/
     },
     mounted() {},
 };

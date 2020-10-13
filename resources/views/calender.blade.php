@@ -47,10 +47,11 @@
 
                     {{-- Bullets and cal container --}}
                     <div class="row">
-                        <div class="col-12">
+                        <calender-filters ref="calendarFilters"></calender-filters>
+                        <div class="col-12 col-calendar">
                             <div class="card">
                                 <div class="card-header">
-                                    <calender-setting></calender-setting>
+                                    <calender-setting ref="calendarSetting"></calender-setting>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">

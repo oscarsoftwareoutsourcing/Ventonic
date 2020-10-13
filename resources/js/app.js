@@ -84,6 +84,9 @@ Vue.component('my-account', () => import('./components/MyAccountComponent.vue'))
 /** Componente para la configuración de datos de conexión a calendario externo */
 Vue.component('calender-setting', () => import('./components/CalenderSettingComponent.vue'));
 
+/** Componente para filtrar calendarios */
+Vue.component('calender-filters', () => import('./components/CalenderFiltersComponent.vue'));
+
 Vue.mixin({
     components: {
         Datepicker
