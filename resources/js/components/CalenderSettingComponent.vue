@@ -58,7 +58,7 @@
                         <button type="button" class="btn bg-gradient-primary waves-effect waves-light text-white" @click="disconnectSetting" v-if="hasCalendars">
                             Desvincular Calendario
                         </button>
-                        <button type="button" class="btn bg-gradient-primary waves-effect waves-light text-white" @click="setSetting">
+                        <button type="button" class="text-white btn bg-gradient-primary waves-effect waves-light" @click="setSetting" v-if="!configuredCalendars.gCalendar">
                             Vincular Calendario
                         </button>
                         <button type="button" class="btn bg-gradient-warning waves-effect waves-light text-white" data-dismiss="modal">
