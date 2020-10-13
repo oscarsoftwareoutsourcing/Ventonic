@@ -1,15 +1,15 @@
  <!-- BEGIN: Main Menu-->
  <div class="main-menu menu-fixed {{ ($type_device=='mobile') ? 'menu-dark':'menu-light' }} menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
-        <ul class="nav navbar-nav flex-row">
+        <ul class="flex-row nav navbar-nav">
             <!-- <img src="{{ asset('images/logo/ventonic-logo.png') }}" alt="Ventonic"> -->
-            <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ route('home') }}">
+            <li class="mr-auto nav-item"><a class="navbar-brand" href="{{ route('home') }}">
                     <div class="brand-logo"></div>
-                    <h2 class="brand-text mb-0"><img src="{{ asset('images/logo/ventonic-logo-light.png') }}" class="img-ventonic" alt="Ventonic"></h2>
+                    <h2 class="mb-0 brand-text"><img src="{{ asset('images/logo/ventonic-logo-light.png') }}" class="img-ventonic" alt="Ventonic"></h2>
 
                 </a></li>
             <li class="nav-item nav-toggle">
-                <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse">
+                <a class="pr-0 nav-link modern-nav-toggle" data-toggle="collapse">
                     <i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i>
                     <!--
                     <i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" data-ticon="icon-disc"></i>
@@ -25,6 +25,7 @@
 
             <li class=" navigation-header"><span>Apps</span>
             </li>
+
 
             @if (auth()->user()->is_admin)
                 <li class=" nav-item">
@@ -43,11 +44,19 @@
                 </li>
             @endif
 
+            <li class="nav-item {{ App\Helpers\General::setActiveMenu('home') }}">
+                <a href="{{ route('home') }}">
+                    <i class="fa fa-home"></i>
+                    <span class="menu-title">Dashboard</span>
+                </a>
+            </li>
+
+
             <li class=" nav-item {{ App\Helpers\General::setActiveMenu('chat') }}">
                 <a href="{{ route('chat') }}">
                     <i class="feather icon-message-square"></i>
                     <span class="menu-title">Chat</span>
-                    <span class="badge badge badge-pill badge-primary float-right mr-2 chat-menu-notifications d-none"></span>
+                    <span class="float-right mr-2 badge badge-pill badge-primary chat-menu-notifications d-none"></span>
                 </a>
             </li>
 

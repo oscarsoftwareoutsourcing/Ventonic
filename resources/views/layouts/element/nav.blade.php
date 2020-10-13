@@ -2,11 +2,14 @@
     <div class="navbar-wrapper">
         <div class="navbar-container content">
             <div class="navbar-collapse" id="navbar-mobile">
-                <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
+                <div class="float-left mr-auto bookmark-wrapper d-flex align-items-center">
                     <ul class="nav navbar-nav">
-                        <li class="nav-item mobile-menu d-xl-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon feather icon-menu"></i></a></li>
+                        <li class="mr-auto nav-item mobile-menu d-xl-none"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon feather icon-menu"></i></a></li>
                     </ul>
                     <ul class="nav navbar-nav bookmark-icons">
+                         <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link" href="{{ route('home') }}" data-toggle="tooltip" data-placement="top" title="Dashboard"><i class="ficon fa fa-home"></i></a>
+                        </li>
 
                         <li class="nav-item d-none d-lg-block">
                             <a class="nav-link" href="{{ route('chat') }}" data-toggle="tooltip" data-placement="top" title="Chat"><i class="ficon feather icon-message-square"></i></a>
@@ -61,7 +64,7 @@
                     </ul>
 
                 </div>
-                <ul class="nav navbar-nav float-right">
+                <ul class="float-right nav navbar-nav">
                     <li>
                     {{-- Notificaciones --}}
                     @include('includes.notifications')
@@ -108,7 +111,7 @@
 </nav>
 
 <ul class="main-search-list-defaultlist-other-list d-none">
-    <li class="auto-suggestion d-flex align-items-center justify-content-between cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100 py-50">
+    <li class="cursor-pointer auto-suggestion d-flex align-items-center justify-content-between"><a class="d-flex align-items-center justify-content-between w-100 py-50">
             <div class="d-flex justify-content-start"><span class="mr-75 feather icon-alert-circle"></span><span>No results found.</span></div>
         </a></li>
 </ul>
