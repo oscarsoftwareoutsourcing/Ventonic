@@ -23,7 +23,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4 mt-2" v-for="emailResult in emailResults" v-if="emailResult.email">
+                                <div class="mt-2 col-sm-4" v-for="emailResult in emailResults" v-if="emailResult.email">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" :id="'result'+emailResult.id" name="result"
                                                class="custom-control-input" :value="emailResult.email"
@@ -85,14 +85,14 @@
                         <div class="panel-heading" role="tab" id="headingAccordionEmail">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <h6 class="panel-title text-left">
+                                    <h6 class="text-left panel-title">
                                         <a data-toggle="collapse" data-parent="#accordionEmail" href="#collapseAccordionEmail" aria-expanded="true" aria-controls="collapseAccordionEmail">
                                             Vista detallada
                                         </a>
                                     </h6>
                                 </div>
                                 <!--<div class="col-sm-6">
-                                    <h6 class="panel-title text-right">
+                                    <h6 class="text-right panel-title">
                                         <a href="javascript:void(0)">
                                             <i class="fa fa-cogs"></i> Más opciones
                                         </a>
@@ -101,7 +101,7 @@
                             </div>
                         </div>
                         <div id="collapseAccordionEmail"
-                             class="panel-collapse collapse in float-none collapse show"
+                             class="float-none panel-collapse collapse in show"
                              role="tabpanel" aria-labelledby="headingAccordionEmail">
                             <div class="media-list media-bordered">
                                 <div class="media" v-for="e in emails">
@@ -123,7 +123,7 @@
                                                                 aria-expanded="true" :aria-controls="'collapseMsg_'+e.id"
                                                                 style="padding:0;color:#FFFFFF;">
                                                             Mensaje
-                                                            <i aria-hidden="true" class="feather icon-chevron-down ml-3"
+                                                            <i aria-hidden="true" class="ml-3 feather icon-chevron-down"
                                                                style="color:#ffffff"></i>
                                                         </button>
                                                     </h2>
@@ -152,9 +152,9 @@
                 Para poder enviar emails desde Ventonic tiene que vincular su cuenta de Gmail.<br>
                 Abra la sección Email para iniciar el asistente de sincronización.
             </p>
-            <div class="row mt-2">
+            <div class="mt-2 row">
                 <div class="col-12">
-                    <a href="/email" class="float-right" data-toggle="tooltip"
+                    <a href="/email" class="float-right mb-1 mr-1 btn btn-ventonic waves-effect waves-light" data-toggle="tooltip"
                        title="Pulse sobre el enlace para ir a la configuración de la cuenta de correo">
                         Vincular cuenta
                     </a>
