@@ -157,6 +157,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('get-tagged-messages', 'EmailController@getTaggedMessages');
         Route::post('check-auto-config', 'EmailController@checkAutoConfig');
         Route::post('mark-as', 'EmailController@markMessagesAs');
+        Route::get('is-configured', 'EmailController@hasExternalEmail');
     });
 
     /** Rutas para la gestión del sistema */

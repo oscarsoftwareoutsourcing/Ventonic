@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Components;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Crypt;
 use App\Mail\Generic as GenericEmail;
 use App\User;
 use App\Email;
+use App\EmailSetting;
 
 class EmailAppController extends Controller
 {
@@ -30,39 +32,55 @@ class EmailAppController extends Controller
             'message' => ['required']
         ]);
 
-        $emails = explode(",", $request->email);
+        $emailSetting = EmailSetting::where('user_id', auth()->user()->id)->first();
 
-        foreach ($emails as $email) {
-            $user = User::where('email', trim($email))->first();
-            /*if (!$user) {
-                return response()->json(['result' => false, 'message' => 'El contacto no existe'], 200);
-            }*/
-            $model = "App\\" . ucfirst($request->modelRelationClass);
+        if ($emailSetting !== null) {
+            $emails = explode(",", $request->email);
 
-            Email::create([
-                'subject' => $request->subject,
-                'message' => $request->message,
-                'from_user_id' => auth()->user()->id,
-                'to_user_id' => ($user) ? $user->id : null,
-                'destination_email' => trim($email),
-                'emailable_type' => $model,
-                'emailable_id' => $request->modelRelationId
-            ]);
+            foreach ($emails as $email) {
+                $user = User::where('email', trim($email))->first();
+                /*if (!$user) {
+                    return response()->json(['result' => false, 'message' => 'El contacto no existe'], 200);
+                }*/
+                $model = "App\\" . ucfirst($request->modelRelationClass);
 
-            Mail::to(($user) ? $user : trim($email))->send(
-                new GenericEmail(
-                    trim($email),
-                    ($user) ? $user->name : '',
-                    $request->subject,
-                    $request->message,
-                    __($request->modelRelationClass)
-                )
-            );
+                Email::create([
+                    'subject' => $request->subject,
+                    'message' => $request->message,
+                    'from_user_id' => auth()->user()->id,
+                    'to_user_id' => ($user) ? $user->id : null,
+                    'destination_email' => trim($email),
+                    'emailable_type' => $model,
+                    'emailable_id' => $request->modelRelationId
+                ]);
+
+                /** Configura las variables necesarias para el envío de correo electronico mediante la cuenta externa */
+                config([
+                    'mail.host' => $emailSetting->outgoing_server_host,
+                    'mail.port' => $emailSetting->outgoing_server_port,
+                    'mail.from.address' => $emailSetting->email,
+                    'mail.from.name' => auth()->user()->name,
+                    'mail.encryption' => $emailSetting->encryption,
+                    'mail.username' => $emailSetting->username,
+                    'mail.password' => Crypt::decryptString($emailSetting->password)
+                ]);
+
+                /** Gestiona el envío de correo */
+                Mail::to(($user) ? $user : trim($email))->send(
+                    new GenericEmail(
+                        trim($email),
+                        ($user) ? $user->name : '',
+                        $request->subject,
+                        $request->message,
+                        __($request->modelRelationClass)
+                    )
+                );
+            }
+
+            return response()->json(['result' => true], 200);
         }
 
-
-
-        return response()->json(['result' => true], 200);
+        return response()->json(['result' => false], 200);
     }
 
     /**

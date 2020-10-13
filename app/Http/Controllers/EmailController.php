@@ -946,4 +946,21 @@ class EmailController extends Controller
             'emails' => $emails, 'emailList' => $emailList
         ], 200);
     }
+
+    /**
+     * Verifica si tiene configurada una cuenta externa para la gestión de correos
+     *
+     * @method    hasExternalEmail
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @return    boolean             Devuelve verdadero si el usuario ha configurado una cuenta externa,
+     *                                de lo contrario devuelve falso
+     */
+    public function hasExternalEmail()
+    {
+        $emailSetting = EmailSetting::where('user_id', auth()->user()->id)->first();
+
+        return response()->json(['result' => ($emailSetting !== null)]);
+    }
 }
