@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
 
-use App\Http\Controllers\Controller;
 use App\JobType;
 use App\TypeOportunity;
 use App\UbicationOportunity;

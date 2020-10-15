@@ -11,14 +11,21 @@
         <div class="row">
                 <div class="new-header mb-1">
                 <span  class="title">Oportunidades</span>
-                
+
                 </div>
         </div>
 
         <div class="">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                  <form method="POST" action="{{ route('oportunity.update') }}" enctype="multipart/form-data">
+                    @php
+                        $formAction = (
+                            \Auth::user()->type=="V" &&
+                            App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)==null
+                        ) ? route('oportunity.postulation') : route('oportunity.update');
+                    @endphp
+                  <form method="POST" action="{{ $formAction }}" enctype="multipart/form-data"
+                        id="oportunityForm">
                     <div class="card card-oportunity">
                         <div class="bg-gradient-primary">
                             <div class="card_vetonic-description">
@@ -26,7 +33,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            
+
                                 @csrf
                                   <span class="float-right mb-2">
                                    <a href="{{ url()->previous() }}" title="Cerrar" class="closed-view">
@@ -123,10 +130,10 @@
                                      <div class="form-row">
                                       <div class="col-md-4 col-12 mb-3">
                                           <label for="amount">Valor del producto/servicio</label>
-                                          <input type="number" id="userinput" pattern="[0-9]*" 
-                                          class="form-control @error('amount') is-invalid @enderror" 
-                                          name="amount" value="{{$oportunity->amount ?? '0'}}" 
-                                          placeholder="Valor del producto/servicio" 
+                                          <input type="number" id="userinput" pattern="[0-9]*"
+                                          class="form-control @error('amount') is-invalid @enderror"
+                                          name="amount" value="{{$oportunity->amount ?? '0'}}"
+                                          placeholder="Valor del producto/servicio"
                                           {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}
                                           value="{{$oportunity->amount ?? '0'}}"
                                           >
@@ -138,10 +145,10 @@
 
                                          <div class="col-md-4 col-12 mb-3 ">
                                           <label for="leads">Nº de Leads</label>
-                                          <input type="number" pattern="[0-9]"  min="0" 
-                                          class="form-control @error('leads') is-invalid @enderror" 
-                                          name="leads" value="{{$oportunity->leads ?? '0'}}" 
-                                          placeholder="Nº de Leads" 
+                                          <input type="number" pattern="[0-9]"  min="0"
+                                          class="form-control @error('leads') is-invalid @enderror"
+                                          name="leads" value="{{$oportunity->leads ?? '0'}}"
+                                          placeholder="Nº de Leads"
                                           {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}
                                           >
                                           @error('leads')
@@ -315,16 +322,23 @@
                                                               <div class="form-row">
                                                                 <div class="col-md-12 col-12 mt-1 mb-1">
                                                                   <label class="mb-1" for="validationTooltip01">Deja un mensaje a la empresa para tu postulacion<span class="obligatorio"></span></label>
-                                                                  <textarea class="form-control" name="message" rows="3"></textarea>
+                                                                  <textarea class="form-control" name="message" rows="3" required></textarea>
                                                                   <input type="text" name="oportunity_id" value="{{$oportunity->id}}" hidden>
                                                                   {{-- <input type="text" name="status" value="1" hidden> --}}
                                                                 </div>
                                                               </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="submit" name="contact-directo" value="mensaje-directo" class="btn btn-primary">Confirmar</button>
-                                                                @if($oportunity->user->status==1)
-                                                                <button name="sala-chat" value="sala-chat" class="btn btn-success float-right"><a href='{{url("contact-by/$oportunity->user_id/op/oportunity/$oportunity->id")}}'  class="text-white"> Chat <i class="text-white feather icon-message-circle"></i></a></button>
+                                                                <button type="submit" id="contact-directo" name="contact-directo" value="mensaje-directo" class="btn btn-primary">Confirmar</button>
+                                                                @if($oportunity->user->status==1 && auth()->user()->type==="E")
+                                                                    <button name="sala-chat" value="sala-chat"
+                                                                            class="btn btn-success float-right">
+                                                                        <a href='{{url("contact-by/$oportunity->user_id/op/oportunity/$oportunity->id")}}'
+                                                                           class="text-white">
+                                                                            Chat
+                                                                            <i class="text-white feather icon-message-circle ml-1"></i>
+                                                                        </a>
+                                                                    </button>
                                                                 @endif
                                                             </div>
                                                           </form>
@@ -337,9 +351,9 @@
                                       </div>
                                   </div>
                               </div>
-                   
+
                             </form>
-                      
+
                 </div>
             </div>
         </div>
@@ -350,14 +364,16 @@
 @endsection
 
 @section('extra-js')
-<script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script>
 
-<script>
-  $(document).ready(function(){
-    $(".select2").select2();
-  });
-</script>
-
+    <script>
+        $(document).ready(function(){
+            //$(".select2").select2();
+            /*$('#primary').on('shown.bs.modal', function () {
+                console.log("entro al abrir");
+            })*/
+        });
+    </script>
 @endsection
 
 @section('extra-js-app')
