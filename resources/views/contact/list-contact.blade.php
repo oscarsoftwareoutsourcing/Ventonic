@@ -17,33 +17,33 @@
         </div>
         <div class="">
             <div class="row">
-                <div class="new-header mb-1">
+                <div class="mb-1 new-header">
                 <span  class="title">Contactos</span>
-                <a href="{{ route('contact.create', ['contact'=>'persona']) }}" type="button" class="btn bg-gradient-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Persona</a>
-                <a href="{{ route('contact.create', ['contact'=>'empresa']) }}" type="button" class="btn bg-gradient-primary mr-1 mb-1 waves-effect waves-light"><i class="feather icon-plus text-white"></i> Empresa</a>
+                <a href="{{ route('contact.create', ['contact'=>'persona']) }}" type="button" class="mb-1 mr-1 btn bg-gradient-primary waves-effect waves-light"><i class="text-white feather icon-plus"></i> Persona</a>
+                <a href="{{ route('contact.create', ['contact'=>'empresa']) }}" type="button" class="mb-1 mr-1 btn bg-gradient-primary waves-effect waves-light"><i class="text-white feather icon-plus"></i> Empresa</a>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
 
-                    <div class="card card-oportunity mb-1">
+                    <div class="mb-1 card card-oportunity">
 
                         <div class="card-body">
                             @if(session('message'))
                                 <div class="alert alert-success">
-                                    <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                    <button type="button" class="text-white close" id="dismiss" data-dismiss="alert">&times;</button>
                                     {{session('message')}}
                                 </div>
                             @endif
 
                             @if(session('error'))
                                 <div class="alert alert-danger">
-                                    <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                    <button type="button" class="text-white close" id="dismiss" data-dismiss="alert">&times;</button>
                                     {{session('error')}}
                                 </div>
                             @endif
 
-                            <div class="row mb-2">
+                            <div class="mb-2 row">
                                 <div class="col-sm-1 offset-sm-11">
                                     <a href="javascript:void(0)" data-toggle="modal" data-target="#modalSetting"
                                        title="Configuración de contactos externos">
@@ -61,7 +61,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-12 text-center">
+                                                        <div class="text-center col-12">
                                                             <!-- Opción para seleccionar contactos de google -->
                                                             <div class="custom-control custom-radio custom-control-inline"
                                                                  data-toggle="tooltip" title="Contactos de Google">
@@ -87,16 +87,17 @@
                                                 <div class="modal-footer">
 
                                                     @if ($gContact)
-                                                        <button type="button" class="btn btn bg-gradient-primary waves-effect waves-light text-white"
+                                                        <button type="button" class="text-white btn bg-gradient-primary waves-effect waves-light"
                                                                 onclick="disconnectSetting()">
                                                             Desvincular contactos
                                                         </button>
                                                     @endif
-                                                    <button type="button" class="btn bg-gradient-primary waves-effect waves-light text-white" onclick="setSetting()">
+                                                    @if (!$gContact)
+                                                    <button type="button" class="text-white btn bg-gradient-primary waves-effect waves-light" onclick="setSetting()">
                                                         Vincular contactos con Google
                                                     </button>
-
-                                                     <button type="button" class="btn btn-outline-warning waves-effect waves-light text-white" data-dismiss="modal">
+                                                    @endif
+                                                     <button type="button" class="text-white btn btn-outline-warning waves-effect waves-light" data-dismiss="modal">
                                                         Cerrar
                                                     </button>
                                                 </div>
@@ -137,7 +138,7 @@
                                         </div>
                                     </div>
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-primary float-right">Buscar</button>
+                                        <button type="submit" class="float-right btn btn-primary">Buscar</button>
                                     </div>
                                 </div>
 
@@ -151,7 +152,7 @@
 
                 </div>
                 {{--BEGIN:Modal--}}
-                <div class="modal fade text-left" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+                <div class="text-left modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-primary white">
@@ -160,14 +161,14 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body text-white">
+                            <div class="text-white modal-body">
                                 Está a punto de eliminar un contacto ¿Esta seguro de continuar?
                                 <input id="user_id_modal" hidden>
                                 <input id="contact_id_modal" hidden>
 
                             </div>
                             <div class="modal-footer">
-                                <a class="btn btn-secondary float-right text-primary" data-dismiss="modal">Cancelar</a>
+                                <a class="float-right btn btn-secondary text-primary" data-dismiss="modal">Cancelar</a>
                                 <a id="buttonDelete" class="btn btn-primary" data-dismiss="modal">
                                     Confirmar
                                 </a>
