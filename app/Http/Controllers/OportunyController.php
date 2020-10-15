@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 use App\JobType;
+use App\JobFunction;
 use App\TypeOportunity;
 use App\UbicationOportunity;
 use App\Oportunity;
@@ -200,13 +201,14 @@ class OportunyController extends Controller
         $sectorsAll=SectorOportunity::all();
         $oportunity=isset($oportunity) ? Oportunity::find((int)$oportunity) : '';
         $aptitudes=Aptitud::all();
-
+        $jobFunctions=JobFunction::all();
 
         return view(
             'oportunitys.oportunityForm',
             compact(
                 'typeOportunitys',
                 'jobTypes',
+                'jobFunctions',
                 'ubicationOportunitys',
                 'statusOportunity',
                 'sectorsAll',
@@ -222,7 +224,7 @@ class OportunyController extends Controller
             'title' => 'required|string|max:255',
             'cargo' => 'required|string|max:255',
             'ubication' => 'required|string|max:255',
-            'functions' => 'required|string',
+            'functions' => 'required',
             'jobType' => 'required',
             'ubicationOportunity' => 'required',
             'description' => 'required|string',
@@ -233,6 +235,7 @@ class OportunyController extends Controller
 
         ]);
 
+        $functions=implode(',', $request->input('functions'));
         $sectors=implode(',', $request->input('sectors'));
         $skills=implode(',', $request->input('skills'));
 
@@ -264,7 +267,7 @@ class OportunyController extends Controller
                 'cargo' =>  $request->cargo,
                 'sectors' =>   $sectors,
                 'skills' =>   $skills,
-                'functions' =>   $request->functions,
+                'functions' =>   $functions,
                 'ubication' =>  $request->ubication,
                 'email_contact' =>   $request->email_contact,
                 'web' =>   $request->web,
@@ -288,6 +291,7 @@ class OportunyController extends Controller
         $oportunity=Oportunity::find($id);
         $typeOportunitys = TypeOportunity::all();
         $jobTypes = JobType::all();
+        $jobFunctions = JobFunction::all();
         $ubicationOportunitys = UbicationOportunity::all();
         $statusOportunity=StatusOportunity::all();
         $user=\Auth::user();
@@ -299,6 +303,7 @@ class OportunyController extends Controller
             [
                 'typeOportunitys'=>$typeOportunitys,
                 'jobTypes'=>$jobTypes,
+                'jobFunctions' => $jobFunctions,
                 'ubicationOportunitys'=>$ubicationOportunitys,
                 'statusOportunity'=> $statusOportunity,
                 'sectorsAll'=>$sectorsAll,
@@ -314,7 +319,7 @@ class OportunyController extends Controller
             'title' => 'required|string|max:255',
             'cargo' => 'required|string|max:255',
             'ubication' => 'required|string|max:255',
-            'functions' => 'required|string',
+            'functions' => 'required',
             'jobType' => 'required',
             'ubicationOportunity' => 'required',
             'description' => 'required|string',
@@ -324,6 +329,7 @@ class OportunyController extends Controller
             'leads' => 'numeric|min:0',
         ]);
 
+        $functions=implode(',', $request->input('functions'));
         $sectors=implode(',', $request->input('sectors'));
         $skills=implode(',', $request->input('skills'));
 
@@ -352,7 +358,7 @@ class OportunyController extends Controller
         $oportunity->cargo = $request->cargo;
         $oportunity->sectors = $sectors;
         $oportunity->skills = $skills;
-        $oportunity->functions = $request->functions;
+        $oportunity->functions = $functions;
         $oportunity->ubication = $request->ubication;
         $oportunity->email_contact = $request->email_contact;
         $oportunity->web = $request->web;

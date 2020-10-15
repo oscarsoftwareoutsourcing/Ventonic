@@ -37,9 +37,9 @@
                                     <div class="form-row">
                                       <div class="col-md-8 col-8 mb-3">
                                         <label for="validationTooltip01">Titulo<span class="obligatorio">*</span></label>
-                                        <input type="text" class="form-control  @error('title') is-invalid @enderror" 
-                                        name="title" id="title" placeholder="titulo" 
-                                        value="{{$oportunity->title ?? old('title')}}" 
+                                        <input type="text" class="form-control  @error('title') is-invalid @enderror"
+                                        name="title" id="title" placeholder="titulo"
+                                        value="{{$oportunity->title ?? old('title')}}"
                                         title="Titulo Requerido"
                                          >
                                           @error('title')
@@ -65,8 +65,8 @@
 
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="cargo">Cargo<span class="obligatorio">*</span></label>
-                                          <input type="text" class="form-control @error('cargo') is-invalid @enderror" 
-                                          name="cargo" value="{{$oportunity->cargo ??  old('cargo')}}" placeholder="Cargo" 
+                                          <input type="text" class="form-control @error('cargo') is-invalid @enderror"
+                                          name="cargo" value="{{$oportunity->cargo ??  old('cargo')}}" placeholder="Cargo"
                                           id="cargo" title="Cargo requerido">
                                           @error('cargo')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -75,7 +75,7 @@
 
                                         <div class="col-md-4 col-12 mb-3">
                                           <label for="validationTooltip03">Ubicación<span class="obligatorio">*</span></label>
-                                          <input type="text" class="form-control @error('ubication') is-invalid @enderror" name="ubication" placeholder="Ciudad, Provincia, Pais" 
+                                          <input type="text" class="form-control @error('ubication') is-invalid @enderror" name="ubication" placeholder="Ciudad, Provincia, Pais"
                                           value="{{$oportunity->ubication ??  old('ubication')}}"  id="ubication" title="La ubicación es requerida">
                                           @error('ubication')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -87,9 +87,14 @@
                                     <div class="form-row">
                                         <div class="col-md-8 col-12 mb-3">
                                           <label for="validationTooltip01">Función laboral (añade hasta 3)<span class="obligatorio">*</span></label>
-                                          <input type="text" class="form-control @error('functions') is-invalid @enderror" 
+                                          <select class="select2 form-control max-length @error('functions') is-invalid @enderror" name="functions[]" id="functions" multiple="multiple">
+                                            @foreach($jobFunctions as $jobFunction)
+                                              <option value="{{$jobFunction->id}}" {{$oportunity ? App\Oportunity::getFunction($oportunity->functions, $jobFunction->id) :''}}>{{$jobFunction->name}}</option>
+                                            @endforeach
+                                          </select>
+                                          <!--<input type="text" class="form-control @error('functions') is-invalid @enderror"
                                           name="functions" value="{{$oportunity->functions ?? old('functions')}}"
-                                           id="functions" title="Las funciones son requeridas">
+                                           id="functions" title="Las funciones son requeridas">-->
                                           @error('functions')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
@@ -140,7 +145,7 @@
                                         <div class="row">
                                           <div class="col-8">
                                             <label for="amount">Valor del producto/servicio</label>
-                                          <input type="number" id="userinput" pattern="[0-9]*" class="form-control @error('amount') is-invalid @enderror" 
+                                          <input type="number" id="userinput" pattern="[0-9]*" class="form-control @error('amount') is-invalid @enderror"
                                           name="amount" value="{{old('amount') ?? 0}}" placeholder="Valor del producto/servicio">
                                           @error('amount')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -159,7 +164,7 @@
                                           <div class="row">
                                             <div class="col-8">
                                               <label for="leads">Nº de Leads</label>
-                                                <input type="number" pattern="[0-9]"  min="0" class="form-control @error('leads') is-invalid @enderror" 
+                                                <input type="number" pattern="[0-9]"  min="0" class="form-control @error('leads') is-invalid @enderror"
                                                 name="leads" value="{{ old('leads') ?? 0 }}" placeholder="Nº de Leads">
                                                 @error('leads')
                                                   <div class="alert alert-danger">{{ $message }}</div>
@@ -298,7 +303,7 @@
                     </div>
                 </div>
             </div>
-        
+
 
     </div>
 </div>
@@ -307,7 +312,7 @@
 @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}"></script>
 @endsection
-@section('extra-js')   
+@section('extra-js')
  <script src="{{ asset('js/jquery/jquery.webui-popover.min.js') }}"></script>
  <script>
    $('#pop1').webuiPopover({style:'inverse'});

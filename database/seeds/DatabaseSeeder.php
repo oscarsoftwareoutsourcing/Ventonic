@@ -30,9 +30,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TaskQueueSeeder::class);
         $this->call(TaskTypesSeeder::class);
         $this->call(ContactTypesSeeder::class);
+        $this->call(JobFunctionSeeder::class);
         // $this->call(GroupSeeder::class);
         // $this->call(AplicantsTableSeeder::class);
     }
-
-
 }

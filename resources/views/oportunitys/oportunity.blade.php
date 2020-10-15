@@ -85,8 +85,14 @@
                                     <div class="form-row">
                                         <div class="col-md-8 col-12 mb-3">
                                           <label for="validationTooltip01">Función laboral (añade hasta 3)<span class="obligatorio">*</span></label>
-                                          <input type="text" class="form-control @error('functions') is-invalid @enderror" name="functions" value="{{$oportunity->functions ?? ''}}"
+                                          <select class="select2 form-control max-length @error('functions') is-invalid @enderror" name="functions[]" id="functions" multiple="multiple"
                                           {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>
+                                            @foreach($jobFunctions as $jobFunction)
+                                              <option value="{{$jobFunction->id}}" {{$oportunity ? App\Oportunity::getFunction($oportunity->functions, $jobFunction->id) :''}}>{{$jobFunction->name}}</option>
+                                            @endforeach
+                                          </select>
+                                          <!--<input type="text" class="form-control @error('functions') is-invalid @enderror" name="functions" value="{{$oportunity->functions ?? ''}}"
+                                          {{ $oportunity->user_id !== auth()->user()->id ? 'disabled' : '' }}>-->
                                           @error('functions')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
@@ -305,6 +311,9 @@
 
                                              </div>
                                               {{--BEGIN:Modal--}}
+                                              @if (\Auth::user()->type=="V" && App\Aplicant::verifyPostulation(\Auth::user()->id, $oportunity->id)==null)
+
+
                                                 <div class="modal fade text-left" id="primary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
                                                   <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                                                       <div class="modal-content">
@@ -345,6 +354,7 @@
                                                       </div>
                                                   </div>
                                                 </div>
+                                                @endif
 
                                                 {{--END: Modal--}}
                                           </div>

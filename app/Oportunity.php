@@ -2,9 +2,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
-use App\SectorOportunity;
-use App\Aptitud;
 
 class Oportunity extends Model
 {
@@ -111,6 +108,20 @@ class Oportunity extends Model
 
         foreach ($sectorArray as $i) {
             $arrayid = SectorOportunity::where('id', $i)->value('id');
+            if ($arrayid == $id) {
+                $selected='selected';
+            }
+        }
+        return $selected;
+    }
+
+    public static function getFunction($function, $id)
+    {
+        $functionArray=explode(",", $function);
+        $selected='';
+
+        foreach ($functionArray as $i) {
+            $arrayid = JobFunction::where('id', $i)->value('id');
             if ($arrayid == $id) {
                 $selected='selected';
             }
