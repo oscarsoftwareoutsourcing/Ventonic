@@ -85,7 +85,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                   
+
                                                     @if ($gContact)
                                                         <button type="button" class="btn btn bg-gradient-primary waves-effect waves-light text-white"
                                                                 onclick="disconnectSetting()">
@@ -202,5 +202,34 @@
         let type = $('#googleContact').val();
         location.href = `/contacto/set-external-contacts/${type}`;
     }
+
+    var disconnectSetting = function() {
+            bootbox.confirm({
+                title: "Eliminar contacto",
+                message: `<p class='text-justify'>¿Está seguro que quiere desvincular su cuenta de Google Contacts?<p>`,
+                swapButtonOrder: true,
+                buttons: {
+                    cancel: {
+                        label: "Cancelar",
+                        className: "btn-secondary",
+                    },
+                    confirm: {
+                        label: "Desvincular",
+                        className: "btn-warning",
+                    },
+                },
+                callback: function(result) {
+                    if (result) {
+                        axios.post("/contacto/disconnect").then((response) => {
+                            if (response.data.result) {
+                                location.reload();
+                            }
+                        }).catch((error) => {
+                            console.error(error);
+                        });
+                    }
+                },
+            });
+        };
 </script>
 @endsection

@@ -199,6 +199,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
             return redirect()->back();
         });
+        Route::post('disconnect', 'ContactController@disconnect');
     });
 
     /** Rutas de componentes generales de la aplicación */

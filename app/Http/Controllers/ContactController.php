@@ -673,4 +673,21 @@ class ContactController extends Controller
 
         return response()->json(['result' => true, 'contact' => $contact], 200);
     }
+
+    /**
+     * Desvincula una cuenta de google contact
+     *
+     * @method    disconnect
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @return    JsonResponse        Objeto con los datos de respuesta a la petición
+     */
+    public function disconnect()
+    {
+        $calendarSetting = CalendarSetting::where(['user_id' => auth()->user()->id, 'appType' => 'gContact'])->delete();
+        session()->forget(['google-calendar-code', 'access_token']);
+        session()->flash('message', 'Cuenta de Google Contact desvinculada con éxito');
+        return response()->json(['result' => true], 200);
+    }
 }
