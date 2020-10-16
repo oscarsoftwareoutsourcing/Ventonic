@@ -8,6 +8,11 @@ use App\User;
 use App\Event;
 use App\CalendarSetting;
 use Illuminate\Http\Request;
+use Google_Service_Calendar;
+use App\GoogleCalendar;
+use Google_Client;
+use GuzzleHttp\Client as GuzzleClient;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -21,6 +26,9 @@ class EventController extends Controller
         try {
             if (auth()->check()) {
                 session()->forget('returnUrl');
+
+                $this->syncCalendar();
+
                 $events = User::find(auth()->user()->id)->events;
 
                 /* Return data with view */
@@ -205,5 +213,81 @@ class EventController extends Controller
         return response()->json([
             'result' => true, 'hasCalendars' => $hasCalendars, 'gCalendar' => $gCalendar
         ], 200);
+    }
+
+    public function syncCalendar()
+    {
+        $now = Carbon::now();
+
+        if (session()->has('access_token') && session('access_token')) {
+            $client = new Google_Client();
+            $client->setAuthConfig(storage_path('app/google-calendar/client_id.json'));
+            $client->addScope(Google_Service_Calendar::CALENDAR);
+
+            $guzzleClient = new GuzzleClient([
+                'curl' => [CURLOPT_SSL_VERIFYPEER => false]
+            ]);
+            $client->setHttpClient($guzzleClient);
+            $client->setAccessToken(session()->get('access_token'));
+
+            //$this->client->authenticate(session('google-calendar-code'));
+            $service = new Google_Service_Calendar($client);
+            foreach ($service->calendarList->listCalendarList()->getItems() as $calendar) {
+                $results = $service->events->listEvents($calendar->getId());
+
+                $primaryCalendar = $calendar->getPrimary();
+                $calendarName = ($primaryCalendar === true) ? 'Primario' : $calendar->getSummary();
+
+                $gCalendar = GoogleCalendar::updateOrCreate(
+                    ['google_id' => $calendar->getId(), 'user_id' => auth()->user()->id],
+                    [
+                        'name' => $calendarName,
+                        'description' => $calendar->getDescription() ?? null,
+                        'color' => $calendar->getBackgroundColor()
+                    ]
+                );
+
+                /** agrega los eventos de google al calendario local */
+                foreach ($results->getItems() as $result) {
+                    $eventDate = (!empty($result->getStart()->dateTime))
+                                 ? Carbon::parse($result->getStart()->dateTime)->setTimezone('UTC') : null;
+                    if ($eventDate !== null && $eventDate->format("Y-m-d") >= $now->subDays(5)->format("Y-m-d")) {
+                        $startAt = str_replace("T", " ", $result->getStart()->dateTime);
+                        $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
+
+                        if (empty($startAt)) {
+                            $startAt = $result->getStart()->date . ' 00:00:00-00:00';
+                        }
+                        if (empty($endAt)) {
+                            $endAt = $result->getStart()->date . ' 23:59:59-00:00';
+                        }
+
+                        $event = Event::updateOrCreate(
+                            [
+                                'external_key' => $result->getId(),
+                                'external_calendar' => 'gCalendar',
+                                'eventable_type' => GoogleCalendar::class,
+                                'eventable_id' => $gCalendar->id
+                            ],
+                            [
+                                'title' => $result->getSummary(),
+                                'start_at' => substr($startAt, 0, -6),
+                                'end_at' => substr($endAt, 0, -6),
+                                'user_id' => auth()->user()->id,
+                                'category' => 'O',
+                                'notes' => $result->getDescription() ?? '',
+                                'place' => null,
+                            ]
+                        );
+                    }
+                }
+            }
+
+            session()->flash('message', 'Calendario sincronizado con éxito');
+
+            return true;
+        }
+
+        return redirect('/google-calendar/oauth');
     }
 }

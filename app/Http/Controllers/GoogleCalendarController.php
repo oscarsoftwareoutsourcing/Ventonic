@@ -69,7 +69,7 @@ class GoogleCalendarController extends Controller
 
                 foreach ($results->getItems() as $result) {
                     /** Condición para evaluar solamente eventos futuros */
-                    if (!empty($result->getStart()->dateTime) && Carbon::parse($result->getEnd()->dateTime) > Carbon::now()) {
+                    if (!empty($result->getStart()->dateTime) && Carbon::parse($result->getEnd()->dateTime) >= Carbon::now()) {
                         $startAt = str_replace("T", " ", $result->getStart()->dateTime);
                         $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
 
@@ -372,7 +372,7 @@ class GoogleCalendarController extends Controller
                 );
 
                 /** Agrega los eventos locales al calendario de google */
-                foreach (Event::all() as $evt) {
+                /*foreach (Event::all() as $evt) {
                     $googleEvent = new Google_Service_Calendar_Event([
                         'summary' => $evt->title,
                         'description' => $evt->notes ?? '',
@@ -382,7 +382,7 @@ class GoogleCalendarController extends Controller
                     ]);
 
                     $service->events->insert('primary', $googleEvent);
-                }
+                }*/
 
                 /** agrega los eventos de google al calendario local */
                 foreach ($results->getItems() as $result) {
