@@ -218,7 +218,6 @@ class EventController extends Controller
     public function syncCalendar()
     {
         $now = Carbon::now();
-
         if (session()->has('access_token') && session('access_token')) {
             $client = new Google_Client();
             $client->setAuthConfig(storage_path('app/google-calendar/client_id.json'));
@@ -229,9 +228,13 @@ class EventController extends Controller
             ]);
             $client->setHttpClient($guzzleClient);
             $client->setAccessToken(session()->get('access_token'));
+            if ($client->isAccessTokenExpired()) {
+                return redirect('/google-calendar/oauth');
+            }
 
             //$this->client->authenticate(session('google-calendar-code'));
             $service = new Google_Service_Calendar($client);
+
             foreach ($service->calendarList->listCalendarList()->getItems() as $calendar) {
                 $results = $service->events->listEvents($calendar->getId());
 
@@ -249,9 +252,12 @@ class EventController extends Controller
 
                 /** agrega los eventos de google al calendario local */
                 foreach ($results->getItems() as $result) {
-                    $eventDate = (!empty($result->getStart()->dateTime))
+                    $dateTime = ($result->getStart()->dateTime !== null)
+                                ? $result->getStart()->dateTime
+                                : (($result->getStart()->date !== null) ? $result->getStart()->date : '');
+                    $eventDate = (!empty($dateTime))
                                  ? Carbon::parse($result->getStart()->dateTime)->setTimezone('UTC') : null;
-                    if ($eventDate !== null && $eventDate->format("Y-m-d") >= $now->subDays(5)->format("Y-m-d")) {
+                    if ($eventDate !== null && $eventDate->diff($now)->days <= 5) {
                         $startAt = str_replace("T", " ", $result->getStart()->dateTime);
                         $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
 
@@ -270,7 +276,7 @@ class EventController extends Controller
                                 'eventable_id' => $gCalendar->id
                             ],
                             [
-                                'title' => $result->getSummary(),
+                                'title' => $result->getSummary() ?? 'Recordatorio',
                                 'start_at' => substr($startAt, 0, -6),
                                 'end_at' => substr($endAt, 0, -6),
                                 'user_id' => auth()->user()->id,
