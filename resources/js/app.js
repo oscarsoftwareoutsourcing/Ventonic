@@ -132,7 +132,8 @@ Vue.mixin({
                 },
                 configDateTimePicker: {
                     enableTime: true,
-                    dateFormat: 'd-m-Y H:i'
+                    dateFormat: 'd-m-Y H:i',
+                    locale: Spanish
                 }
             }
         };
