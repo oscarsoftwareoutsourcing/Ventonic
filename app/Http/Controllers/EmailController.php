@@ -272,104 +272,103 @@ class EmailController extends Controller
 
                     $emails = [];
                     $emailFolders = $emailClient->getFolders();
-
+                    //dd($emailFolders[5]);
                     foreach ($emailFolders as $folder) {
-                        $messages = $folder->messages()->all()->get();
-                        /** @var integer Número total de mensajes de la bandeja */
-                        $totalMessages = $messages->count();
-                        /** @var integer Contador para los mensajes a mostrar. Por defecto se evalúan los últimos 10 */
-                        $countMessage = 0;
-                        /**
-                         * Indice del mensaje que se va a recorrer en el foreach para determinar si corresponde a los
-                         * últimos 10 mensajes
-                         *
-                         * @var    integer
-                         */
-                        $indexMessage = 0;
-                        $lastMessages = $totalMessages  - 10;
-                        $emails[strtolower($folder->name)] = [];
+                        if (strpos($emailSetting->email, 'gmail') !== false && strpos(strtolower($folder->name), 'gmail') !== false) {
+                            foreach ($folder->children as $subFolder) {
+                                if (strtolower($subFolder->name) === 'spam') {
+                                    $folderName = 'spam';
+                                } elseif (strtolower($subFolder->name) === 'drafts' || strtolower($subFolder->name) === 'borradores') {
+                                    $folderName = 'drafts';
+                                } elseif (strtolower($subFolder->name) === 'featured' || strtolower($subFolder->name) === 'destacados' || strtolower($subFolder->name) === 'importantes') {
+                                    $folderName = 'starred';
+                                } elseif (strtolower($subFolder->name) === 'sent' || strtolower($subFolder->name) === 'enviados') {
+                                    $folderName = 'sent';
+                                } elseif (strtolower($subFolder->name) === 'trash' || strtolower($subFolder->name) === 'papelera') {
+                                    $folderName = 'trash';
+                                }
+                            }
+                        }
+                        $messages = $folder->messages()->all()->get()->take(10);
+                        $folderName = strtolower($folder->name);
+                        $emails[$folderName] = [];
                         foreach ($messages as $message) {
-                            if ($countMessage < 10 && $indexMessage >= $lastMessages) {
-                                $aAttachment = $message->getAttachments();
-                                $attachments = [];
-                                $aAttachment->each(function ($oAttachment) {
+                            $aAttachment = $message->getAttachments();
+                            $attachments = [];
+                            $aAttachment->each(function ($oAttachment) {
 
                                     /** Si no esta configurado el servicio de AWS */
-                                    $path = config('filesystems.disks.attachments.root');
-                                    /** @var \Webklex\IMAP\Attachment $oAttachment */
-                                    $oAttachment->save($path);
-                                    /** Si esta configurado el servicio de AWS */
-                                    if (!empty(env('AWS_BUCKET', ''))) {
-                                        $upload = Storage::disk('s3')->put(
-                                            auth()->user()->uuid . '/' . $oAttachment->getName(),
-                                            File::get($path . '/' . $oAttachment->getName())
-                                        );
-                                        $file = Storage::disk('s3')->url($oAttachment->getName());
-                                        return $file;
-                                    }
-                                    return $path . '/' . $oAttachment->getName();
-                                });
-
-                                foreach ($message->getAttachments() as $attachFile) {
-                                    if (empty(env('AWS_BUCKET', ''))) {
-                                        $path = config('filesystems.disks.attachments.root');
-                                        $file = $path . '/' . $attachFile->getName();
-                                    } else {
-                                        $file = Storage::disk('s3')->url(
-                                            auth()->user()->uuid . '/' . $attachFile->getName()
-                                        );
-                                    }
-                                    array_push($attachments, $file);
+                                $path = config('filesystems.disks.attachments.root');
+                                /** @var \Webklex\IMAP\Attachment $oAttachment */
+                                $oAttachment->save($path);
+                                /** Si esta configurado el servicio de AWS */
+                                if (!empty(env('AWS_BUCKET', ''))) {
+                                    $upload = Storage::disk('s3')->put(
+                                        auth()->user()->uuid . '/' . $oAttachment->getName(),
+                                        File::get($path . '/' . $oAttachment->getName())
+                                    );
+                                    $file = Storage::disk('s3')->url($oAttachment->getName());
+                                    return $file;
                                 }
+                                return $path . '/' . $oAttachment->getName();
+                            });
 
-                                $alreadyMessage = EmailMessage::where('message_id', $message->message_id)->first();
+                            foreach ($message->getAttachments() as $attachFile) {
+                                if (empty(env('AWS_BUCKET', ''))) {
+                                    $path = config('filesystems.disks.attachments.root');
+                                    $file = $path . '/' . $attachFile->getName();
+                                } else {
+                                    $file = Storage::disk('s3')->url(
+                                        auth()->user()->uuid . '/' . $attachFile->getName()
+                                    );
+                                }
+                                array_push($attachments, $file);
+                            }
 
+                            $alreadyMessage = EmailMessage::where('message_id', $message->message_id)->first();
 
-                                $emailMessage = EmailMessage::updateOrCreate(
-                                    ['message_id' => $message->message_id],
-                                    [
-                                        'message_nro' => $message->getMessageNo(),
-                                        'folder_type' => strtolower($folder->name),
-                                        'subject' => $message->getSubject(),
-                                        'references' => $message->getReferences(),
-                                        'message_at' => $message->getDate(),
-                                        'from' => json_encode($message->getFrom()),
-                                        'to' => json_encode($message->getTo()),
-                                        'cc' => ($message->getCc()) ? json_encode($message->getCc()) : null,
-                                        'bcc' => ($message->getBcc()) ? json_encode($message->getBcc()) : null,
-                                        'reply_to' => json_encode($message->getReplyTo()),
-                                        'sender' => json_encode($message->getSender()),
-                                        'attachments' => (count($attachments) > 0) ? json_encode($attachments) : null,
-                                        'body' => ($message->hasHTMLBody())
-                                                  ? $message->getHTMLBody()
-                                                  : (($message->hasTextBody()) ? $message->getTextBody() : null),
-                                        'body_text' => $message->getTextBody() ?? '',
-                                        'email_setting_id' => $emailSetting->id,
-                                        'read' => ($alreadyMessage)?$alreadyMessage->read:false
-                                    ]
-                                );
-                                array_push($emails[strtolower($folder->name)], [
-                                    'message_id' => $message->message_id,
+                            $emailMessage = EmailMessage::updateOrCreate(
+                                ['message_id' => $message->message_id],
+                                [
                                     'message_nro' => $message->getMessageNo(),
+                                    'folder_type' => $folderName,
                                     'subject' => $message->getSubject(),
                                     'references' => $message->getReferences(),
                                     'message_at' => $message->getDate(),
-                                    'from' => $message->getFrom(),
-                                    'to' => $message->getTo(),
-                                    'cc' => $message->getCc(),
-                                    'bcc' => $message->getBcc(),
-                                    'reply_to' => $message->getReplyTo(),
-                                    'sender' => $message->getSender(),
-                                    'attachments' => (count($attachments) > 0) ? json_encode($attachments) : [],
+                                    'from' => json_encode($message->getFrom()),
+                                    'to' => json_encode($message->getTo()),
+                                    'cc' => ($message->getCc()) ? json_encode($message->getCc()) : null,
+                                    'bcc' => ($message->getBcc()) ? json_encode($message->getBcc()) : null,
+                                    'reply_to' => json_encode($message->getReplyTo()),
+                                    'sender' => json_encode($message->getSender()),
+                                    'attachments' => (count($attachments) > 0) ? json_encode($attachments) : null,
                                     'body' => ($message->hasHTMLBody())
                                               ? $message->getHTMLBody()
                                               : (($message->hasTextBody()) ? $message->getTextBody() : null),
                                     'body_text' => $message->getTextBody() ?? '',
-                                    'read' => ($alreadyMessage)?$alreadyMessage->read:false,
-                                ]);
-                                $countMessage++;
-                            }
-                            $indexMessage++;
+                                    'email_setting_id' => $emailSetting->id,
+                                    'read' => ($alreadyMessage)?$alreadyMessage->read:false
+                                ]
+                            );
+                            array_push($emails[$folderName], [
+                                'message_id' => $message->message_id,
+                                'message_nro' => $message->getMessageNo(),
+                                'subject' => $message->getSubject(),
+                                'references' => $message->getReferences(),
+                                'message_at' => $message->getDate(),
+                                'from' => $message->getFrom(),
+                                'to' => $message->getTo(),
+                                'cc' => $message->getCc(),
+                                'bcc' => $message->getBcc(),
+                                'reply_to' => $message->getReplyTo(),
+                                'sender' => $message->getSender(),
+                                'attachments' => (count($attachments) > 0) ? json_encode($attachments) : [],
+                                'body' => ($message->hasHTMLBody())
+                                          ? $message->getHTMLBody()
+                                          : (($message->hasTextBody()) ? $message->getTextBody() : null),
+                                'body_text' => $message->getTextBody() ?? '',
+                                'read' => ($alreadyMessage)?$alreadyMessage->read:false,
+                            ]);
                         }
                     }
                 } else {

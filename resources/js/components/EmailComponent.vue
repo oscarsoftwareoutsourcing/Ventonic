@@ -440,9 +440,9 @@
                                                             <div class="mail-items">
                                                                 <h5 class="list-group-item-heading text-bold-600 mb-25">
                                                                     {{
-                                                                    email
-                                                                    .from[0]
-                                                                    .personal
+                                                                        (email.from[0].personal===false)
+                                                                        ? email.from[0].full :
+                                                                        email.from[0].personal
                                                                     }}
                                                                 </h5>
                                                                 <span class="list-group-item-text text-truncate">
