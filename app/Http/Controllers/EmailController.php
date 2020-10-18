@@ -56,13 +56,10 @@ class EmailController extends Controller
             'protocol' => ['required'],
             'email' => ['required', 'email'],
             'username' => ['required'],
-            'password' => ['required']
+            'password' => ['required'],
+            'download_time' => ['required', 'integer']
         ]);
         $user = auth()->user();
-
-        if ($request->autoConfig !== null) {
-            //realizar proceso de configuración automática
-        }
 
         try {
             //Verificar conexión con el servidor para determinar si todo esta correcto y es posible establecer
@@ -115,7 +112,8 @@ class EmailController extends Controller
                 'validate_cert' => $request->validate_cert ?? true,
                 'email' => $request->email,
                 'username' => $request->username,
-                'password' => Crypt::encryptString($request->password)
+                'password' => Crypt::encryptString($request->password),
+                'download_time' => $request->download_time
             ]
         );
 
@@ -860,9 +858,9 @@ class EmailController extends Controller
                 'out_port' => 465,
             ],
             'gmail' => [
-                'host' => 'pop.gmail.com',
-                'port' => 995,
-                'protocol' => 'pop3',
+                'host' => 'imap.gmail.com',
+                'port' => 993,
+                'protocol' => 'imap',
                 'encryption' => 'ssl',
                 'validate_cert' => true,
                 'username' => $username,

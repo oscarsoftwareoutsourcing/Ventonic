@@ -8,7 +8,7 @@ class EmailSetting extends Model
 {
     protected $fillable = [
         'name', 'incoming_server_host', 'incoming_server_port', 'outgoing_server_host', 'outgoing_server_port',
-        'protocol', 'encryption', 'validate_cert', 'email', 'username', 'password', 'user_id'
+        'protocol', 'encryption', 'validate_cert', 'email', 'username', 'password', 'download_time', 'user_id'
     ];
 
     protected $hidden = ['created_at', 'updated_at'];
