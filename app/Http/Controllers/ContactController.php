@@ -15,6 +15,7 @@ use App\ContactType;
 use App\Group;
 use App\ContactGroup;
 use App\GroupUser;
+use App\SectorOportunity;
 use Carbon\Carbon;
 
 use Google_Client;
@@ -157,7 +158,8 @@ class ContactController extends Controller
         $groups=Group::where('user_id', auth()->user()->id)->get();
         //$users=User::orderBy('name', 'desc')->get();
         $contactTypes = ContactType::all();
-        return view('contact.form', compact('contact', 'groups', 'contactTypes'));
+        $sectors=SectorOportunity::all();
+        return view('contact.form', compact('contact', 'groups', 'contactTypes', 'sectors'));
     }
 
     /**
@@ -441,7 +443,8 @@ class ContactController extends Controller
         $groups=Group::where('user_id', auth()->user()->id)->get();
         $users=User::orderBy('name', 'desc')->get();
         $contactTypes = ContactType::all();
-        return view('contact.form-edit', compact('countrys', 'contact', 'groups', 'users', 'contactTypes'));
+        $sectors=SectorOportunity::all();
+        return view('contact.form-edit', compact('countrys', 'contact', 'groups', 'users', 'contactTypes', 'sectors'));
     }
 
     /**

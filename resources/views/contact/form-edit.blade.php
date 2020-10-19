@@ -10,7 +10,7 @@
     <div class="content-wrapper">
         <div class="content-header row">
         </div>
-        <div class="new-header mb-1">
+        <div class="mb-1 new-header">
             <span  class="title"> Contacto</span>
         </div>
 
@@ -34,13 +34,13 @@
                                             @if(!is_string($contact) && isset($contact->image))
                                                 <div class="col-md-6 col-12">
                                                     <div class="users-view-image contact-image">
-                                                        <img src="{{route('contact.image', ['filename'=>$contact->image])}}" class="contact-image mb-1 pr-2 ml-1" width="180" height="120" alt="avatar">
+                                                        <img src="{{route('contact.image', ['filename'=>$contact->image])}}" class="pr-2 mb-1 ml-1 contact-image" width="180" height="120" alt="avatar">
                                                     </div>
                                                 </div>
                                             @endif
                                             <div class="form-group col-12">
                                                 <fieldset class="checkbox">
-                                                    <div class="vs-checkbox-con vs-checkbox-primary float-right">
+                                                    <div class="float-right vs-checkbox-con vs-checkbox-primary">
                                                         <input type="checkbox" name="favorite" id="favorite" {{App\Contact::checkedFavorite($contact) ?? ''}}>
                                                         <span class="vs-checkbox">
                                                             <span class="vs-checkbox--check">
@@ -146,11 +146,24 @@
                                                 @enderror
                                             </div>
                                             <div class="col-md-6 col-12">
+                                                <!--
                                                 <div class="form-label-group">
                                                     <input type="text" id="sector2-column" class="form-control @error('sector') is-invalid @enderror"
                                                     name="sector" placeholder="Sector" value="{{$contact->sector ?? ''}}">
                                                     <label for="email-id-column">Sector</label>
-                                                </div>
+                                                </div> -->
+
+                                                 <select class="form-control @error('etiquetas') is-invalid @enderror" id="etiqueta-column" name="sector">
+                                                        <option value="">Sector</option>
+                                                        @foreach($sectors as $sector)
+                                                            <option value="{{$sector->id}}"
+                                                                        {{ $contact->sector==$sector->id?'selected':'' }}>
+                                                                    {{$sector->description}}
+                                                            </option>
+                                                        @endforeach
+                                                </select>
+                                                    
+
                                                 @error('sector')
                                                 <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
@@ -241,8 +254,8 @@
                                             {{-- END Mapa --}}
 
                                             <div class="col-12">
-                                                <button type="submit" class="btn bg-gradient-primary mr-1 mb-1 float-right">Guardar</button>
-                                                <a href="{{ URL::previous() }}" class="btn btn-outline-warning mr-1 mb-1">Cancelar</a>
+                                                <a href="{{ URL::previous() }}" class="float-right mb-1 mr-1 btn btn-outline-warning">Cancelar</a>
+                                                <button type="submit" class="mb-1 mr-1 btn bg-gradient-primary">Guardar</button>
                                             </div>
                                         </div>
                                     </div>

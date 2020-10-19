@@ -11,7 +11,7 @@
         <div class="content-wrapper">
             <div class="content-header row"></div>
 
-            <div class="new-header mb-1">
+            <div class="mb-1 new-header">
                 <span  class="title"> Contacto</span>
             </div>
 
@@ -42,14 +42,14 @@
                                                                 $filename = ['filename'=>$contact->image];
                                                             @endphp
                                                             <img src="{{route('contact.image', $filename)}}"
-                                                                 class="contact-image mb-1 pr-2 ml-1" alt="avatar"
+                                                                 class="pr-2 mb-1 ml-1 contact-image" alt="avatar"
                                                                  width="180" height="120" >
                                                         </div>
                                                     </div>
                                                 @endif
                                                 <div class="form-group col-12">
                                                     <fieldset class="checkbox">
-                                                        <div class="vs-checkbox-con vs-checkbox-primary float-right">
+                                                        <div class="float-right vs-checkbox-con vs-checkbox-primary">
                                                             <input type="checkbox" name="favorito" id="favorito"
                                                                    {{App\Contact::checkedFavorite($contact) ?? ''}}>
                                                             <span class="vs-checkbox">
@@ -211,9 +211,21 @@
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-label-group">
-                                                        <input type="text" id="sector-column" class="form-control @error('sector') is-invalid @enderror"
+                                                       <!-- <input type="text" id="sector-column" class="form-control @error('sector') is-invalid @enderror"
                                                         name="sector" placeholder="Sector" value="{{$contact->sector ?? ''}}" {{$contact =='persona' || $contact =='empresa' ? '' : 'disabled'}}>
-                                                        <label for="email-id-column">Sector</label>
+                                                        <label for="email-id-column">Sector</label> -->
+
+                                                         <select class="form-control @error('etiquetas') is-invalid @enderror" id="sector-column" name="sector" {{$contact =='persona' || $contact =='empresa' ? '' : 'disabled'}}>
+                                                            <option value="">Sector</option>
+                                                            @foreach($sectors as $sector)
+                                                                <option value="{{$sector->id}}"
+                                                                        {{ request()->sector==$sector->id?'selected':'' }}>
+                                                                    {{$sector->description}}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <label for="type-id-column">Sector</label>
+                                                        
                                                     </div>
                                                     @error('sector')
                                                     <div class="alert alert-danger">{{ $message }}</div>
@@ -250,7 +262,7 @@
                                                 @if(is_string($contact))
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-label-group">
-                                                    {{-- <label for="validationTooltip01">Contacto visible para...</label> --}}
+                                                    <label for="validationTooltip01">Contacto visible para...</label> 
                                                     <select class="select2 form-control" multiple="multiple" name="private[]">
                                                         <option class="text-white" value="para mi"><strong>Solo para mi</strong></option>
                                                         <optgroup label="Para mi y un grupo especifico">
@@ -314,11 +326,9 @@
 
                                                 <div class="col-12">
                                                     @if(!isset($contact->id))
-                                                    <button type="reset" class="btn btn-outline-warning mr-1 mb-1"
+                                                        <button type="submit" class="mb-1 mr-1 btn bg-gradient-primary">Guardar</button>
+                                                        <button type="reset" class="float-right mb-1 mr-1 btn btn-outline-warning"
                                                             onclick="window.history.back()">Cancelar</button>
-
-                                                    <button type="submit" class="btn bg-gradient-primary mr-1 mb-1 float-right">Guardar</button>
-                                                    
                                                     @endif
                                                 </div>
                                             </div>
