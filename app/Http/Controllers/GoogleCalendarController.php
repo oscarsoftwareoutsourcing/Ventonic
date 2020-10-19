@@ -442,30 +442,8 @@ class GoogleCalendarController extends Controller
         if ($calendarSetting) {
             /** Elimina todos los eventos asociados al calendario a desconectar */
             Event::where(['external_calendar' => 'gCalendar', 'user_id' => auth()->user()->id])->delete();
-            /*if (session()->has('access_token') && session('access_token')) {
-                $this->client->setAccessToken(session()->get('access_token'));
-                $service = new Google_Service_Calendar($this->client);
-                $results = $service->events->listEvents('primary');
-                foreach ($results->getItems() as $result) {
-                    $startAt = str_replace("T", " ", $result->getStart()->dateTime);
-                    $endAt = str_replace("T", " ", $result->getEnd()->dateTime);
-
-                    $event = Event::where([
-                        'title' => $result->getSummary(),
-                        'start_at' => substr($startAt, 0, -6),
-                        'end_at' => substr($endAt, 0, -6),
-                        'user_id' => auth()->user()->id
-                    ])->first();
-
-                    if ($event) {
-
-                        $event->delete();
-                    }
-                }
-            }*/
-
             $calendarSetting->delete();
-            session()->forget(['google-calendar-code', 'access_token']);
+            session()->forget(['google-calendar-code', 'access_token', 'returnUrl']);
             session()->flash('message', 'Calendario de Google eliminado con éxito');
             return response()->json(['result' => true], 200);
         }
