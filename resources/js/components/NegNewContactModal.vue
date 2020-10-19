@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -88,6 +89,19 @@ export default {
         lastName: "",
       },
     };
+  },
+  computed: {
+    ...mapGetters([
+      "getNegotiation",
+    ]),
+    contactId: {
+      get() {
+        return this.getNegotiation.contact_id;
+      },
+      set(val) {
+        this.getNegotiation.contact_id = val;
+      },
+    },
   },
   methods: {
     resetForm: function () {
@@ -124,6 +138,8 @@ export default {
               }
                             </option>`
             );
+            /** @type {string} Asigna el ID del contacto creado al elemento padre */
+            vm.contactId = contact.id;
             /** cierra la ventana modal */
             $("#newContactModal").find(".close").click();
           }
