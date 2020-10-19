@@ -9,15 +9,15 @@
       <i class="feather icon-settings fa fa-spin fa-fw white"></i>
     </a>
       -->
-            <div class="customizer-content p-2 ps ps--active-y">
-                <h4 class="text-uppercase mb-0">Filtros</h4>
+            <div class="p-2 customizer-content ps ps--active-y">
+                <h4 class="mb-0 text-uppercase">Filtros</h4>
                 <small>Negociaciones</small>
                 <hr />
                 <div id="lgFiltersBar" class="col-lg-auto d-none d-lg-block filtros">
                     <!-- Filters -->
                     <perfect-scrollbar>
                         <div class="row">
-                            <div class="col-12 mb-4">
+                            <div class="mb-4 col-12">
                                 <h4>Estado de conexión</h4>
                                 <div class="row">
                                     <div class="col-12">
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-12 mb-4" v-for="survey in surveys">
+                            <div class="mb-4 col-12" v-for="survey in surveys">
                                 <h4>{{ survey.name }}</h4>
                                 <div class="row" v-for="(question, index) in getOptions(survey.options)">
                                     <div class="col-12">
@@ -52,16 +52,16 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="row bg-gradient-primary mb-2">
+                <div class="mb-2 row bg-gradient-primary">
                     <div class="col-3">
-                        <div class="title-sales my-1">
-                            <div class="avatar mr-1">
+                        <div class="my-1 title-sales">
+                            <div class="mr-1 avatar">
                                 <div class="avatar-content">{{ sellers.length }}</div>
                             </div>Vendedores
                         </div>
                     </div>
                     <div class="col-7">
-                        <fieldset class="form-group position-relative has-icon-left my-1">
+                        <fieldset class="my-1 form-group position-relative has-icon-left">
                             <input type="text" class="form-control" id="iconLeft1" placeholder="Buscar por Nombre, Apellido" v-model="searchSeller" />
                             <div class="form-control-position">
                                 <i class="ficon feather icon-search"></i>
@@ -69,8 +69,8 @@
                         </fieldset>
                     </div>
                     <div class="col-2">
-                        <div class="mr-auto float-right bookmark-wrapper d-flex align-items-center my-1">
-                            <button type="button" class="btn btn-dark btn btn-block waves-effect waves-light" @click="openFilter">
+                        <div class="float-right my-1 mr-auto bookmark-wrapper d-flex align-items-center">
+                            <button type="button" class="btn btn-dark btn-block waves-effect waves-light" @click="openFilter">
                                 <i class="feather icon-settings fa fa-spin fa-fw white"></i>
                             </button>
                         </div>
@@ -83,8 +83,8 @@
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="avatar avatar-xl">
-                                            <img :src="seller.photo" :alt="seller.name" class="img-fluid" v-if="seller.photo" height="40" width="40" />
-                                            <img src="/images/anonymous-user.png" class="media-object rounded-circle" :alt="seller.name" height="40" width="40" v-else />
+                                            <img :src="seller.photo" :alt="seller.name" class="img-fluid" v-if="seller.photo" height="40" width="40" :title="seller.status ? 'Conectado' : 'Desconectado'" />
+                                            <img src="/images/anonymous-user.png" class="media-object rounded-circle" :alt="seller.name" height="40" width="40" :title="seller.status ? 'Conectado' : 'Desconectado'" v-else />
                                             <div v-if="seller.seller_profile">
                                                 <span :class="seller.status ? 'avatar-status-online' :'avatar-status-busy'" :title="seller.status ? 'Conectado' : 'Desconectado'"></span>
                                             </div>
@@ -106,15 +106,15 @@
                                             </div>
                                             <div v-else>
                                                 <button type="button" :class="seller.status ? 'btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light' : 'btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light'" data-toggle="tooltip" :title="seller.status ? 'Contactar a este vendedor' : 'Dejar un mensaje al vendedor'" @click="contactSeller(seller.id)">
-                                                    <i :class="seller.status ? 'ficon feather icon-message-square' : 'ficon feather icon-mail'"></i>
+                                                    <i :class="seller.status ? 'ficon feather icon-message-square' : 'ficon feather  icon-message-square'"></i>
                                                 </button>
                                             </div>
                                         </span>
                                         <h3>{{ seller.name }} {{ seller.last_name }}</h3>
                                         <div class="email-sales">{{ seller.email }}</div>
-                                        <p class="card-text mb-1">Última Conexión {{ seller.last_login }}</p>
+                                        <p class="mb-1 card-text">Última Conexión {{ seller.last_login }}</p>
                                         <div v-if="seller.seller_profile">
-                                            <a class="byn bg-gradient-primary waves-effect waves-light text-white btn-sm" :href="'profile/aplicant/'+ seller.id ">Ver perfil</a>
+                                            <a class="text-white byn bg-gradient-primary waves-effect waves-light btn-sm" :href="'profile/aplicant/'+ seller.id ">Ver perfil</a>
                                         </div>
                                         <div v-else>Perfil No Disponible</div>
                                     </div>
