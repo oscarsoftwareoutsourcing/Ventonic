@@ -144,6 +144,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/', 'EmailController@index')->name('email');
         Route::get('settings', 'EmailController@getSetting');
         Route::post('settings', 'EmailController@setSetting');
+        Route::get('has-setting', 'EmailController@hasSetting');
         Route::post('remove-settings', 'EmailController@destroySetting');
         Route::get('messages/{download?}', 'EmailController@getMessages')->name('email.get-messages');
         Route::post('sent', 'EmailController@sentMessage')->name('email.sent-message');

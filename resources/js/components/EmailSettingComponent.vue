@@ -202,10 +202,7 @@
                                                     <label for>Contraseña</label>
                                                     <input autocomplete="off" type="password" class="form-control"
                                                            :class="{'has-error': hasErrors('password')}"
-                                                           v-model="password" aria-describedby="passwordHelpBlock" />
-                                                    <small id="passwordHelpBlock" class="form-text text-muted">
-                                                        Contraseña del email a vincular
-                                                    </small>
+                                                           v-model="password" placeholder="Contraseña del email a vincular" />
                                                     <span class="invalid-feedback mb-3" role="alert"
                                                           v-if="hasErrors('password')">
                                                         <strong>{{ errors.password }}</strong>
@@ -559,10 +556,12 @@
          * Establece la configuración del servidor de correos del usuario
          *
          * @author     <roldandvg@gmail.com>
+         *
+         * @param {boolean} showLoading Establece si se muestra o no un mensaje de espera
          */
-        setSettings() {
+        setSettings(showLoading = true) {
             const vm = this;
-            vm.$loading(true);
+            vm.$loading(showLoading);
             axios
                 .post("/email/settings", {
                     name: vm.name,

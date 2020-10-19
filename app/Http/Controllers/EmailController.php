@@ -28,6 +28,12 @@ class EmailController extends Controller
         }
     }
 
+    public function hasSetting()
+    {
+        $emailSetting = EmailSetting::where('user_id', auth()->user()->id)->first();
+        return response()->json(['result' => ($emailSetting !== null), 'setting' => $emailSetting]);
+    }
+
     public function getSetting(Request $request)
     {
         $emailSetting = EmailSetting::with('emailMessage')->where('user_id', auth()->user()->id)->first();
@@ -41,7 +47,8 @@ class EmailController extends Controller
             'incoming_server_port' => $emailSetting->incoming_server_port,
             'outgoing_server_host' => $emailSetting->outgoing_server_host,
             'outgoing_server_port' => $emailSetting->outgoing_server_port,
-            'username' => $emailSetting->username
+            'username' => $emailSetting->username,
+            'download_time' => $emailSetting->download_time
         ], 200);
     }
 
