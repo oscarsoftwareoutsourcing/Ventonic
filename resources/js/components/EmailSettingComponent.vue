@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="card-body" v-if="!update">
+                            <div class="card-body" v-if="!isUpdate">
                                 <div class="alert alert-danger" role="alert" v-if="settingError">
                                     <h4 class="alert-heading">Error</h4>
                                     <p class="mb-0">{{ settingError }}</p>
@@ -317,7 +317,7 @@
                                     Configura tu dirección de correo en nuestra plataforma
                                 </p>
                             </div>
-                            <div class="card-footer" v-if="update">
+                            <div class="card-footer" v-if="isUpdate">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         <button type="button"  data-toggle="tooltip" @click="removeSettings"
@@ -325,7 +325,7 @@
                                                 title="Pulse sobre el botón para desvincular la cuenta configurada">
                                             Desvincular Cuenta
                                         </button>
-                                        <button type="button" data-toggle="tooltip" @click="update = false"
+                                        <button type="button" data-toggle="tooltip" @click="isUpdate = false"
                                                 class="btn bg-gradient-primary float-right waves-effect waves-light text-white"
                                                 title="Haz clic para actualizar la configuración de la cuenta de correo externa">
                                             Actualizar conexión
