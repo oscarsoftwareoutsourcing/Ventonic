@@ -632,6 +632,7 @@
                             .then((response) => {
                                 if (response.data.result) {
                                     vm.configStarted = false;
+                                    vm.isUpdate = false;
                                 }
                                 vm.$loading(false);
                             })

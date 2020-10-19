@@ -128,70 +128,77 @@ class EmailController extends Controller
         $emailFolders = $emailClient->getFolders();
 
         foreach ($emailFolders as $folder) {
-            $messages = $folder->messages()->all()->get();
-            /** @var integer Número total de mensajes de la bandeja */
-            $totalMessages = $messages->count();
-            /** @var integer Contador para los mensajes a mostrar. Por defecto se evalúan los últimos 10 */
-            $countMessage = 0;
-            /**
-             * Indice del mensaje que se va a recorrer en el foreach para determinar si corresponde a los
-             * últimos 10 mensajes
-             *
-             * @var    integer
-             */
-            $indexMessage = 0;
-            $lastMessages = $totalMessages  - 10;
-            $emails[strtolower($folder->name)] = [];
-            foreach ($messages as $message) {
-                if ($countMessage < 10 && $indexMessage >= $lastMessages) {
-                    EmailMessage::updateOrCreate(
-                        ['message_id' => $message->message_id],
-                        [
-                        'message_nro' => $message->getMessageNo(),
-                        'folder_type' => strtolower($folder->name),
-                        'subject' => $message->getSubject(),
-                        'references' => $message->getReferences(),
-                        'message_at' => $message->getDate(),
-                        'from' => json_encode($message->getFrom()),
-                        'to' => json_encode($message->getTo()),
-                        'cc' => ($message->getCc()) ? json_encode($message->getCc()) : null,
-                        'bcc' => ($message->getBcc()) ? json_encode($message->getBcc()) : null,
-                        'reply_to' => json_encode($message->getReplyTo()),
-                        'sender' => json_encode($message->getSender()),
-                        'attachments' => ($message->getAttachments()) ? json_encode($message->getAttachments()) : null,
-                        'body' => ($message->hasHTMLBody())
-                                  ? $message->getHTMLBody()
-                                  : (($message->hasTextBody()) ? $message->getTextBody() : null),
-                        'body_text' => $message->getTextBody() ?? '',
-                        'email_setting_id' => $emailSetting->id
-                    ]
-                    );
-                    array_push($emails[strtolower($folder->name)], [
-                        'message_id' => $message->message_id,
-                        'message_nro' => $message->getMessageNo(),
-                        'subject' => $message->getSubject(),
-                        'references' => $message->getReferences(),
-                        'message_at' => $message->getDate(),
-                        'from' => $message->getFrom(),
-                        'to' => $message->getTo(),
-                        'cc' => $message->getCc(),
-                        'bcc' => $message->getBcc(),
-                        'reply_to' => $message->getReplyTo(),
-                        'sender' => $message->getSender(),
-                        'attachments' => $message->getAttachments(),
-                        'body' => ($message->hasHTMLBody())
-                                  ? $message->getHTMLBody()
-                                  : (($message->hasTextBody()) ? $message->getTextBody() : null),
-                        'body_text' => $message->getTextBody() ?? '',
-                        'read' => false
-                    ]);
-                    $countMessage++;
+            if (strpos($emailSetting->email, 'gmail') !== false && strpos(strtolower($folder->name), 'gmail') !== false) {
+                foreach ($folder->children as $subFolder) {
+                    if (strtolower($subFolder->name) === 'spam') {
+                        $folderName = 'spam';
+                    } elseif (strtolower($subFolder->name) === 'drafts' || strtolower($subFolder->name) === 'borradores') {
+                        $folderName = 'drafts';
+                    } elseif (strtolower($subFolder->name) === 'featured' || strtolower($subFolder->name) === 'destacados' || strtolower($subFolder->name) === 'importantes') {
+                        $folderName = 'starred';
+                    } elseif (strtolower($subFolder->name) === 'sent' || strtolower($subFolder->name) === 'enviados') {
+                        $folderName = 'sent';
+                    } elseif (strtolower($subFolder->name) === 'trash' || strtolower($subFolder->name) === 'papelera') {
+                        $folderName = 'trash';
+                    }
                 }
-                $indexMessage++;
+            }
+            $messages = $folder->messages()->all()->get()->take(10);
+            $folderName = strtolower($folder->name);
+            $emails[$folderName] = [];
+            foreach ($messages as $message) {
+                EmailMessage::updateOrCreate(
+                    ['message_id' => $message->message_id],
+                    [
+                    'message_nro' => $message->getMessageNo(),
+                    'folder_type' => $folderName,
+                    'subject' => $message->getSubject(),
+                    'references' => $message->getReferences(),
+                    'message_at' => $message->getDate(),
+                    'from' => json_encode($message->getFrom()),
+                    'to' => json_encode($message->getTo()),
+                    'cc' => ($message->getCc()) ? json_encode($message->getCc()) : null,
+                    'bcc' => ($message->getBcc()) ? json_encode($message->getBcc()) : null,
+                    'reply_to' => json_encode($message->getReplyTo()),
+                    'sender' => json_encode($message->getSender()),
+                    'attachments' => ($message->getAttachments()) ? json_encode($message->getAttachments()) : null,
+                    'body' => ($message->hasHTMLBody())
+                              ? $message->getHTMLBody()
+                              : (($message->hasTextBody()) ? $message->getTextBody() : null),
+                    'body_text' => $message->getTextBody() ?? '',
+                    'email_setting_id' => $emailSetting->id
+                ]
+                );
+                array_push($emails[strtolower($folder->name)], [
+                    'message_id' => $message->message_id,
+                    'message_nro' => $message->getMessageNo(),
+                    'subject' => $message->getSubject(),
+                    'references' => $message->getReferences(),
+                    'message_at' => $message->getDate(),
+                    'from' => $message->getFrom(),
+                    'to' => $message->getTo(),
+                    'cc' => $message->getCc(),
+                    'bcc' => $message->getBcc(),
+                    'reply_to' => $message->getReplyTo(),
+                    'sender' => $message->getSender(),
+                    'attachments' => $message->getAttachments(),
+                    'body' => ($message->hasHTMLBody())
+                              ? $message->getHTMLBody()
+                              : (($message->hasTextBody()) ? $message->getTextBody() : null),
+                    'body_text' => $message->getTextBody() ?? '',
+                    'read' => false
+                ]);
             }
         }
 
-        return response()->json(['result' => true, 'emails_list' => $emails], 200);
+        $trashed = $emailSetting->emailMessage()->onlyTrashed()->get();
+        $favorites = $emailSetting->emailMessage()->where('favorite', true)->get();
+        $sends = $emailSetting->emailMessage()->where('folder_type', 'sent')->get();
+
+        return response()->json([
+            'result' => true, 'emails_list' => $emails, 'trashed' => $trashed, 'favorites' => $favorites,
+            'messages_send' => $sends
+        ], 200);
     }
 
     /**
