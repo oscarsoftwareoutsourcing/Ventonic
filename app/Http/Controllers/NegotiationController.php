@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 // use App\SellerProfile;
 use Carbon\Carbon;
 use App\Http\Resources\NegotiationsResource;
-use App\Mail\Negotiation as NegotiationEmail;
 use App\User;
 use App\UserModuleLabel;
 use App\NegotiationType;
@@ -15,11 +13,6 @@ use App\NegotiationStatus;
 use App\NegotiationProcess;
 use App\Negotiation;
 use App\Group;
-use App\Note;
-use App\Event;
-use App\Email;
-use App\Document;
-use App\Repositories\UploadRepository;
 
 class NegotiationController extends Controller
 {
@@ -172,10 +165,10 @@ class NegotiationController extends Controller
             $negotiation = Negotiation::find($id);
             $negotiation->neg_status_id = $request->statusId;
 
-            if ($request->statusId === 1) {
+            /*if ($request->statusId === 1) {
                 $negotiation->neg_process_id = 6;
                 $negotiation->negotiationProcessHistories()->sync($negotiation->neg_process_id);
-            }
+            }*/
 
             $negotiation->save();
 
@@ -209,7 +202,7 @@ class NegotiationController extends Controller
 
     private function getIdsInGroup($arr)
     {
-        $userIds = array();
+        $userIds = [];
 
         foreach ($arr as $group_id) {
             $usersArr = Group::find($group_id['id'])->groupUser;
