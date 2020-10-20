@@ -7,14 +7,14 @@
         <div class="content-wrapper">
             <div class="content-header row">
             </div>
-            <div class="new-header mb-1">
+            <div class="mb-1 new-header">
                 <span  class="title"> Gestion de grupos de usuarios</span>
             </div>
             <div class="">
                 <div class="row justify-content-center">
                     <div class="col-lg-12 col-md-12 col-sm-12">
 
-                        <div class="card mb-2">
+                        <div class="mb-2 card">
                             <div class="bg-gradient-primary">
                                 <div class="card_vetonic-description">
                                     <div class="text_vetonic-description1"> Editar grupo de usuarios</div>
@@ -25,13 +25,13 @@
                                 <div class="card-body">
                                 @if(session('message'))
                                     <div class="alert alert-success">
-                                        <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                        <button type="button" class="text-white close" id="dismiss" data-dismiss="alert">&times;</button>
                                         {{session('message')}}
                                     </div>
                                 @endif
                                 @if(session('error'))
                                     <div class="alert alert-danger">
-                                        <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                        <button type="button" class="text-white close" id="dismiss" data-dismiss="alert">&times;</button>
                                         {{session('error')}}
                                     </div>
                                 @endif
@@ -77,8 +77,9 @@
 
                                                      <div class="col-12">
                                                     @if($group->user_id == auth()->user()->id)
-                                                    <button type="submit" class="btn bg-gradient-primary mr-1 mb-1 float-right">Invitar al Grupo</button>
-                                                    <a href="{{route('group.show')}}" class="btn btn-outline-warning mr-1 mb-1 float-left">Cancelar</a>
+                                                    <a href="{{route('group.show')}}" class="float-right mb-1 mr-1 btn btn-outline-warning">Cancelar</a>
+
+                                                    <button type="submit" class="float-left mb-1 mr-1 btn bg-gradient-primary">Invitar al Grupo</button>
                                                     @endif
                                                     </div>
                                                 @endif
@@ -108,7 +109,7 @@
                                                     <div class="form-group">
                                                         <!-- DataTable starts -->
                                                         {{-- <div class="table-responsive"> --}}
-                                                            <table id="datatable" class="table data-list-view mt-2" width="100%">
+                                                            <table id="datatable" class="table mt-2 data-list-view" width="100%">
                                                                 <thead>
                                                                     <tr>
                                                                         <th></th><!-- columna para la imagen -->
@@ -139,7 +140,7 @@
                                                                                 <a data-toggle="modal" data-target="#deleteModalUser"
                                                                                    onclick="setDeleteUser({{ $group->id }},{{ $groupUsr->user->id }})"
                                                                                    class="float-left">
-                                                                                    <i class="feather icon-trash-2 text-white"></i>
+                                                                                    <i class="text-white feather icon-trash-2"></i>
                                                                                 </a>
                                                                             </td>
                                                                         </tr>
@@ -175,7 +176,7 @@
                                                     <div class="form-group">
                                                          <!-- DataTable starts -->
                                                         {{-- <div class="table-responsive"> --}}
-                                                            <table id="datatable" class="table data-list-view mt-2" width="100%">
+                                                            <table id="datatable" class="table mt-2 data-list-view" width="100%">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Email</th>
@@ -197,9 +198,11 @@
                                                 <!-- DataTable ends -->
                                                 <div class="col-12">
                                                     @if($group->user_id == auth()->user()->id)
-                                                    <a href="{{route('group.show')}}" class="btn btn-outline-warning mr-1 mb-1 float-left">Cancelar</a>
+                                                    <a href="{{route('group.show')}}" class="float-left mb-1 mr-1 btn btn-outline-primary">Regresar</a>
+                                                    
+                                                    <a href="{{route('group.show')}}" class="float-left mb-1 mr-1 btn btn-outline-warning">Cancelar</a>
                                                     @else
-                                                    <a href="{{route('group.show')}}" class="btn btn-outline-warning mr-1 mb-1 float-left">Regresar</a>
+                                                    
                                                     @endif
                                                 </div>
                                             </div>
@@ -213,7 +216,7 @@
             </div>
         </div>
 
-        <div class="modal fade text-left" id="deleteModalUser" tabindex="-1" role="dialog"
+        <div class="text-left modal fade" id="deleteModalUser" tabindex="-1" role="dialog"
              aria-labelledby="myModalLabel160" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
@@ -223,16 +226,17 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body text-white">
+                    <div class="text-white modal-body">
                         Está a punto de eliminar un usuario de este grupo ¿Esta seguro de continuar?
                         <input type="hidden" id="group_id_modal">
                         <input type="hidden" id="user_id_modal">
                     </div>
                     <div class="modal-footer">
-                        <a class="btn btn-secondary float-right text-primary" data-dismiss="modal">Cancelar</a>
-                        <a class="btn btn-primary" onclick="deleteUser()">
+                        <a class="float-right btn btn-primary" onclick="deleteUser()">
                             Confirmar
                         </a>
+                        <a class="btn btn-secondary text-primary" data-dismiss="modal">Cancelar</a>
+                        
                     </div>
                 </div>
             </div>

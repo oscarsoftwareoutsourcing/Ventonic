@@ -7,7 +7,7 @@
         <div class="content-header row">
         </div>
 
-        <div class="new-header mb-1">
+        <div class="mb-1 new-header">
                 <span  class="title"> Grupos de usuarios</span>
             </div>
         <div class="">
@@ -63,9 +63,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <button type="submit" class="btn bg-gradient-primary mr-1 mb-1 float-right">Guardar Cambios</button>
-                                                <a href="{{route('group.show')}}" type="button" class="btn btn-outline-warning mr-1 mb-1 float-left">Cancelar</a>
-                                            </div>
+                                                 <a href="{{route('group.show')}}" type="button" class="float-right mb-1 mr-1 btn btn-outline-warning ">Cancelar</a>
+                                            
+                                                <button type="submit" class="float-left mb-1 mr-1 btn bg-gradient-primary">Guardar Cambios</button>
+                                               </div>
                                         </div>
                                     </div>
                                 </form>
