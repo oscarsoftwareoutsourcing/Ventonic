@@ -21,7 +21,7 @@
                         <div class="card-header">Filtros</div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-12 mb-4">
+                                <div class="mb-4 col-12">
                                     <b>Datos Personales</b>
                                     <div class="row">
                                         <div class="col-12">
@@ -80,7 +80,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 mb-4">
+                                <div class="mb-4 col-12">
                                     <b>Años de experiencia en venta</b>
                                     @foreach($anios as $i=>$anio)
                                     <fieldset>
@@ -98,7 +98,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 mb-4">
+                                <div class="mb-4 col-12">
                                     <b>Experiencia demostrable</b>
                                     @foreach($experiencia as $i=>$anio)
                                     <fieldset>
@@ -116,7 +116,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 mb-4">
+                                <div class="mb-4 col-12">
                                     <b>Disponibilidad</b>
                                     @foreach($disponibilidad as $i=>$anio)
                                     <fieldset>
@@ -135,7 +135,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-12 mb-4">
+                                <div class="mb-4 col-12">
                                     <b>Tipo de colaboración</b>
                                     @foreach($colaboracion as $i=>$anio)
                                     <fieldset>
@@ -163,7 +163,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="alert alert-success" style="display:none">
-                                        <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                        <button type="button" class="text-white close" id="dismiss" data-dismiss="alert">&times;</button>
                                         <span>Estatus modificado exitosamente</span>
                                     </div>
                                     <div class="input-group">
@@ -173,7 +173,7 @@
                             <section id="data-list-view" class="data-list-view-header">
                                 <!-- DataTable starts -->
                                 <div class="table-responsive">
-                                    <table id="datatable" class="table data-list-view mt-2">
+                                    <table id="datatable" class="table mt-2 data-list-view">
                                         <thead>
                                             <tr>
 
@@ -192,11 +192,17 @@
 
                                                 <td class="product-name" style="text-align:center;">
                                                     <div class="avatar">
-                                                        <img  src="/{{$aplicant->user->sellerProfile->photo}}" height="40" width="40">
+                                                        <img  src="/{{$aplicant->user->sellerProfile->photo}}" height="40" width="40"
                                                         @if($aplicant->user->status==1)
-                                                            <span class="avatar-status-online"></span>
+                                                            title="Conectado"
                                                         @else
-                                                            <span class="avatar-status-busy"></span>
+                                                            title="Desconectado"
+                                                        @endif
+                                                        >
+                                                        @if($aplicant->user->status==1)
+                                                            <span class="avatar-status-online" title="Conectado"></span>
+                                                        @else
+                                                            <span class="avatar-status-busy" title="Desconectado"></span>
                                                         </div>
                                                 @endif
                                                 </td>
@@ -214,7 +220,7 @@
                                                 </td>
 
                                                 <td class="product-category">{{$aplicant->user->last_name}}</td>
-                                                <td class="product-category" style="text-align:center;"><a class="btn btn-primary btn-md text-white" href="{{route('oportunity.profile', ['id'=>$aplicant->user_id])}}">Ver</a></td>
+                                                <td class="product-category" style="text-align:center;"><a class="text-white btn btn-primary btn-md" href="{{route('oportunity.profile', ['id'=>$aplicant->user_id])}}">Ver</a></td>
                                                 <td class="product-category" style="text-align:center;">
                                                 <select class="form-control status_postulation" name="estatus_postulation" id="status_postulation" data-id="{{$aplicant->id}}" style="text-align:center;">
                                                     @foreach($status_postulation as $status)
@@ -226,9 +232,9 @@
 
                                                 <td class="product-price" style="text-align:center;">
                                                     @if($aplicant->user->status==1)
-                                                       <a  href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light"><i class="feather icon-message-square"></i></a>
+                                                       <a  href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'ot']) }}" class="mb-1 mr-1 btn btn-icon rounded-circle btn-success waves-effect waves-light"><i class="feather icon-message-square"></i></a>
                                                     @else
-                                                    <a href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light"><i class="ficon feather icon-mail"></i></a>
+                                                    <a href="{{ route('contact-by', ['user_id' => $aplicant->user_id, 'type' => 'ot']) }}" class="mb-1 mr-1 btn btn-icon rounded-circle btn-warning waves-effect waves-light"><i class="feather icon-message-square"></i></a>
                                                     @endif
                                                 </td>
                                             </tr>
