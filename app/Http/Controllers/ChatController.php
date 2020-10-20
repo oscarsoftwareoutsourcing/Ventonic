@@ -156,15 +156,34 @@ class ChatController extends Controller
     {
         $user = User::find($id);
 
-        Message::whereIn('user_id', []);
-        $messages = Message::whereIn(
-            'user_id',
-            [$user->id, auth()->user()->id]
-        )->groupBy('chat_room_id')->first('chat_room_id');
+        /** @var object Determina la sala de chat a usar */
+        $userChatRoom = ChatRoomUser::with(['user'])->where('user_id', $user->id)->whereHas('chatRoom', function ($query) {
+            $query->whereHas('chatRoomUsers', function ($q) {
+                $q->where('user_id', auth()->user()->id);
+            });
+        })->first();
 
+        if ($userChatRoom === null) {
+            // Crea la sala de chat si no existe una conversación previa con el vendedor
+            $chatRoom = ChatRoom::create(['type' => 'OT']);
+            /** @var object Crea la relación entre el vendedor contactado y la sala de chat */
+            $userChatRoom = ChatRoomUser::create(['chat_room_id' => $chatRoom->id, 'user_id' => $user->id]);
+            $userChatRoom = ChatRoomUser::with(['user'])->find($userChatRoom->id);
+            /** Crea la relación entre la empresa que realiza el contacto y la sala de chat */
+            ChatRoomUser::create(['chat_room_id' => $chatRoom->id, 'user_id' => auth()->user()->id]);
+        }
+
+        /*$messages = Message::whereIn('user_id', [$user->id, auth()->user()->id])
+                           ->groupBy('chat_room_id')->first('chat_room_id');
         if ($messages) {
             $chatRoom = ChatRoom::find($messages->chat_room_id);
             $userChatRoom = ChatRoomUser::where(['chat_room_id' => $chatRoom->id, 'user_id' => $user->id])->first();
+            if ($userChatRoom === null) {
+                $userChatRoom = ChatRoomUser::create([
+                    'chat_room_id' => $chatRoom->id,
+                    'user_id' => $user->id
+                ]);
+            }
         } else {
             $chatRoom = ChatRoom::create([
                 'type' => 'OT'
@@ -172,18 +191,22 @@ class ChatController extends Controller
             $userChatRoom = ChatRoomUser::create([
                 'chat_room_id' => $chatRoom->id,
                 'user_id' => $user->id
-            ], []);
-        }
-        /** @var object consulta el registro recién creado con la relación correspondiente a los usuarios */
-        $userChatRoom = ChatRoomUser::with(['user'])->find($userChatRoom->id);
-        session(['chat_room_id' => $chatRoom->id, 'chat_room_user' => $userChatRoom]);
+            ]);
+        }*/
 
-        if (!$messages) {
+        /** @var object consulta el registro recién creado con la relación correspondiente a los usuarios */
+        //$userChatRoom = ChatRoomUser::with(['user'])->find($userChatRoom->id);
+        //session(['chat_room_id' => $chatRoom->id, 'chat_room_user' => $userChatRoom]);
+        session([
+            'chat_room_id' => $userChatRoom->chat_room_id, 'chat_room_user' => $userChatRoom
+        ]);
+
+        /*if (!$messages) {
             ChatRoomUser::create([
                 'chat_room_id' => $chatRoom->id,
                 'user_id' => auth()->user()->id
             ]);
-        }
+        }*/
 
         return response()->json(['result' => true], 200);
     }
