@@ -152,7 +152,7 @@ class ChatController extends Controller
      *
      * @return    JSONResponse             Objeto con la respuesta
      */
-    public function contactSeller($id)
+    public function contactSeller($id, $is_js = true)
     {
         $user = User::find($id);
 
@@ -207,6 +207,9 @@ class ChatController extends Controller
                 'user_id' => auth()->user()->id
             ]);
         }*/
+        if ($is_js !== true) {
+            return redirect()->route('chat');
+        }
 
         return response()->json(['result' => true], 200);
     }
@@ -227,7 +230,10 @@ class ChatController extends Controller
      */
     public function contactBy($user_id, $type, $origin_type = null, $origin_id = null)
     {
-        $user = User::find($user_id);
+        return redirect()->route('contact-seller', ['id' => $user_id]);
+
+        /*$user = User::find($user_id);
+
         $model = ($origin_type !== null) ? "App\\" . ucfirst(Str::camel($origin_type)) : null;
         $chatRoom = ChatRoom::create([
             'type' => strtoupper($type),
@@ -243,15 +249,15 @@ class ChatController extends Controller
                 'chat_room_id' => $chatRoom->id, 'user_id' => auth()->user()->id,
                 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')
             ]
-        ]);
+        ]);*/
 
         /** @var object consulta el registro recién creado con la relación correspondiente a los usuarios */
-        $userChatRoom = ChatRoomUser::with(['user'])->where([
+        /*$userChatRoom = ChatRoomUser::with(['user'])->where([
             'chat_room_id' => $chatRoom->id, 'user_id' => $user->id
         ])->first();
         session(['chat_room_id' => $chatRoom->id, 'chat_room_user' => $userChatRoom]);
 
-        return redirect()->route('chat');
+        return redirect()->route('chat');*/
     }
 
     /**

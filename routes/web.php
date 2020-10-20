@@ -123,7 +123,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('has-calendars', 'EventController@hasExternalCalendars');
     Route::get('ultimos-eventos', 'EventController@lastEvents')->name('events.list');
     Route::post('get-country-flag', 'ProfileController@getCountryFlag')->name('get-country-flag');
-    Route::get('contact-seller/{id}', 'ChatController@contactSeller');
+    Route::get('contact-seller/{id}/{is_js?}', 'ChatController@contactSeller')->name('contact-seller');
     Route::get(
         'contact-by/{user_id}/{type}/{origin_type?}/{origin_id?}',
         'ChatController@contactBy'

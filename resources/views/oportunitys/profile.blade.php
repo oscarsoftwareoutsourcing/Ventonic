@@ -23,7 +23,7 @@
                                     <div class="text_vetonic-description1">Datos Generales</div>
                                 </div>
                             </div>
-                           
+
                             <div class="card-body">
                                 <div class="row">
                                     <div class="users-view-image">
@@ -51,9 +51,11 @@
                                                 <td class="font-weight-bold">Chat</td>
                                                 <td>
                                                     @if (App\Aplicant::getStatus((int)$seller_profile->user_id)==1)
-                                                       <a  href="{{ route('contact-by', ['user_id' => $seller_profile->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light" alt="Contactar al vendedor"><i class="feather icon-message-square"></i></a>
-                                                    @else  
-                                                    <a href="{{ route('contact-by', ['user_id' => $seller_profile->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light"  alt="Dejar un mensaje al vendedor"><i class="ficon feather icon-mail"></i></a>
+                                                       {{-- <a  href="{{ route('contact-by', ['user_id' => $seller_profile->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light" alt="Contactar al vendedor"><i class="feather icon-message-square"></i></a> --}}
+                                                       <a  href="{{ route('contact-seller', ['id' => $seller_profile->user_id, 'is_js' => 'no']) }}" class="btn btn-icon btn-icon rounded-circle btn-success mr-1 mb-1 waves-effect waves-light" alt="Contactar al vendedor"><i class="feather icon-message-square"></i></a>
+                                                    @else
+                                                        {{-- <a href="{{ route('contact-by', ['user_id' => $seller_profile->user_id, 'type' => 'ot']) }}" class="btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light"  alt="Dejar un mensaje al vendedor"><i class="ficon feather icon-mail"></i></a> --}}
+                                                        <a href="{{ route('contact-seller', ['id' => $seller_profile->user_id, 'is_js' => 'no']) }}" class="btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light"  alt="Dejar un mensaje al vendedor"><i class="ficon feather icon-mail"></i></a>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -148,7 +150,7 @@
                                         <source src="/{{ $seller_profile->video }}" />
                                      </video>
                                 @endif
-    
+
                             </div>
                         </div>
                     </div>
@@ -184,5 +186,5 @@
 @endsection
 
 @section('extra-js-app')
-     <script src="{{ asset('js/app.js') }}"></script> 
+     <script src="{{ asset('js/app.js') }}"></script>
 @endsection
