@@ -367,6 +367,7 @@ export default {
       }).format(i);
     },
     formatDate(d) {
+        d = new Date(d);
       return (
         d.getDate() +
         " de " +
