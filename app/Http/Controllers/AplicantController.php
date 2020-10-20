@@ -17,6 +17,7 @@ use App\Helpers\FormatTime;
 use App\JobType;
 use App\UbicationOportunity;
 use App\SectorOportunity;
+use App\Repositories\UploadRepository;
 
 class AplicantController extends Controller
 {

@@ -398,14 +398,32 @@
 @section('extra-js')
     <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script>
 
-    <script>
-        $(document).ready(function(){
-            //$(".select2").select2();
-            /*$('#primary').on('shown.bs.modal', function () {
-                console.log("entro al abrir");
-            })*/
-        });
+     <script type='text/javascript'> 
+
+     Filevalidation = () => { 
+       console.log('validacion');
+        const fi = document.getElementById('video'); 
+        // Check if any file is selected. 
+        if (fi.files.length > 0) { 
+            for (let i = 0; i <= fi.files.length - 1; i++) { 
+  
+                const fsize = fi.files.item(i).size; 
+                const file = Math.round((fsize / 1024)); 
+                // The size of the file. 
+                if (file >= 10096) { 
+                    alert( 
+                      "El tamaño del vídeo debe ser como máximo 10MB.");
+                      document.getElementById('video').value = null; 
+                } else { 
+                    document.getElementById('size').innerHTML = '<b>'
+                    + file + '</b> KB'; 
+                } 
+            } 
+        } 
+    } 
     </script>
+
+   
 @endsection
 
 @section('extra-js-app')
