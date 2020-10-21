@@ -13,7 +13,6 @@ class CallController extends Controller
      *
      * @method    setCall
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Request    $request    Datos de respuesta a la petición
      */
@@ -57,7 +56,6 @@ class CallController extends Controller
      *
      * @method    getCalls
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     string      $class    Nombre de la clase a la cual relacionar el registro
      * @param     integer     $id       Identificadregistro a relacionar

@@ -114,7 +114,6 @@ class GoogleCalendarController extends Controller
      *
      * @method    oauth
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return    Response    Redirecciona de acuerdo a la petición solicitada
      */
@@ -151,7 +150,6 @@ class GoogleCalendarController extends Controller
      *
      * @method    updateOauth
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      */
     public function updateOauth()
     {
@@ -301,7 +299,6 @@ class GoogleCalendarController extends Controller
      *
      * @method    getAllCalendarList
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return    JsonResponse                Listado de calendarios
      */
@@ -345,7 +342,6 @@ class GoogleCalendarController extends Controller
      *
      * @method    syncGoogleCalendar
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return    Response                Redirecciona a la página solicitada
      */
@@ -431,7 +427,6 @@ class GoogleCalendarController extends Controller
      *
      * @method    disconnect
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return    JsonResponse        Json con los datos de respuesta
      */
@@ -456,7 +451,6 @@ class GoogleCalendarController extends Controller
      *
      * @method    filterEvents
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request         $request    Objeto con información de la petición
      *

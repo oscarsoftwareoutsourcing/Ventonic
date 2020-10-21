@@ -16,7 +16,6 @@ class TaskController extends Controller
      *
      * @method    getTaskTypes
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @return    JsonResponse          Objeto JSON con datos de respuesta a la petición
      */
@@ -30,7 +29,6 @@ class TaskController extends Controller
      *
      * @method    getTaskPriorities
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @return    JsonResponse          Objeto JSON con datos de respuesta a la petición
      */
@@ -44,7 +42,6 @@ class TaskController extends Controller
      *
      * @method    getTaskQueues
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @return    JsonResponse          Objeto JSON con datos de respuesta a la petición
      */
@@ -58,7 +55,6 @@ class TaskController extends Controller
      *
      * @method    setTask
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     JsonResponse          Objeto JSON con datos de respuesta a la petición
      */
@@ -111,7 +107,6 @@ class TaskController extends Controller
      *
      * @method    getTasks
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     string      $class    Nombre d ela clase con la cual relacionar el registro
      * @param     integer     $id       Identificador del registro a asociar

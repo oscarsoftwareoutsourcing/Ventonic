@@ -118,7 +118,6 @@ export default {
      *
      * @method    createContact
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      */
     createContact: function () {
       const vm = this;

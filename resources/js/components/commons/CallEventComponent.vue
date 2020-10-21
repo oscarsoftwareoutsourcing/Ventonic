@@ -192,7 +192,6 @@
             /**
              * Permite registrar una llamada
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             setCall() {
                 const vm = this;
@@ -238,7 +237,6 @@
             /**
              * Obtiene un listado de llamadas
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             getCalls() {
                 const vm = this;
@@ -254,7 +252,6 @@
             /**
              * Obtiene un listado de contactos
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             getContacts() {
                 const vm = this;
@@ -270,7 +267,6 @@
             /**
              * Obtiene un listado de resultados de llamadas
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              *
              * @return    {[type]}          [description]
              */

@@ -13,7 +13,6 @@ class EventController extends Controller
      *
      * @method    setEvent
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Request     $request    Objeto con información de la petición
      *
@@ -67,7 +66,6 @@ class EventController extends Controller
      *
      * @method    getEvents
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Negotiation    $negotiation    Objeto con datos de la negociación
      *

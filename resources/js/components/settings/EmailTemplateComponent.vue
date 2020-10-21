@@ -150,7 +150,6 @@
             /**
              * Obtiene un listado de objetos mailable (tipo de plantilla de correo)
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             /*getMailables() {
                 const vm = this;
@@ -163,7 +162,6 @@
             /**
              * Establece las variables a mostrar para su incorporación en la plantilla
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {array}        variables    Arreglo con información de las variables
              */
@@ -173,7 +171,6 @@
             /**
              * Obtiene un listado de variables asociadas al tipo de plantilla seleccionada
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             /*getVariables() {
                 const vm = this;
@@ -190,7 +187,6 @@
             /**
              * Obtiene un listado de módulos u opciones del sistema
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             /*getModules() {
                 const vm = this;
@@ -201,7 +197,6 @@
             /**
              * Registra la información de la plantila
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             setTemplate() {
                 const vm = this;

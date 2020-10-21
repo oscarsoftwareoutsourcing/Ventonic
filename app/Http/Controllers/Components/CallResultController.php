@@ -13,7 +13,6 @@ class CallResultController extends Controller
      *
      * @method    getCallResults
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @return    JsonResponse  Objeto JSON con datos de respuesta a la petición
      */

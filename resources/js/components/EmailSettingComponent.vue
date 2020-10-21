@@ -555,7 +555,6 @@
         /**
          * Establece la configuración del servidor de correos del usuario
          *
-         * @author     <roldandvg@gmail.com>
          *
          * @param {boolean} showLoading Establece si se muestra o no un mensaje de espera
          */
@@ -605,7 +604,6 @@
         /**
          * Remueve y desvincula la cuenta de correo electrónico
          *
-         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
          */
         removeSettings() {
             const vm = this;
@@ -647,7 +645,6 @@
         /**
          * Mensajes sobre consideraciones a tomar en cuenta para algunas cuentas de correo
          *
-         * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
          *
          * @return    {string}            Mensaje al usuario con las consideraciones a realizar en la respectiva
          *                                cuenta de correo

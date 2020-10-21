@@ -489,8 +489,6 @@ class ContactController extends Controller
      *
      * @method    getContacts
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-     *
      * @param     integer|null         $contact_id    Identificador del contacto. Opcional
      *
      * @return    JsonResponse         Objeto JSON con los datos de respuesta a la petición
@@ -511,8 +509,6 @@ class ContactController extends Controller
      *
      * @method    getByEmail
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-     *
      * @param     object        $request    Objeto con datos de la petición
      *
      * @return    JsonResponse        Objeto JSON con los datos de respuesta a la petición
@@ -527,8 +523,6 @@ class ContactController extends Controller
      *
      * @method    detail
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-     *
      * @param     Contact    $contact    Objeto con información del contacto
      *
      * @return    View       Vista con detalles del contacto
@@ -542,8 +536,6 @@ class ContactController extends Controller
      * Elimina el contacto desde la vista de detalles
      *
      * @method    destroyContact
-     *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Contact           $contact    Objeto con datos del contacto
      *
@@ -592,8 +584,6 @@ class ContactController extends Controller
      *
      * @method    changePicture
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
-     *
      * @param     Request             $request    Objeto con datos de la petición
      * @param     UploadRepository    $up         Objeto con instrucciones para la carga de archivo en el servidor
      *
@@ -620,7 +610,6 @@ class ContactController extends Controller
      *
      * @method    removePicture
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request          $request    Objeto con datos de la petición
      *
@@ -641,7 +630,6 @@ class ContactController extends Controller
      *
      * @method    simpleStore
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request        $request    Datos de la petición
      *
@@ -682,7 +670,6 @@ class ContactController extends Controller
      *
      * @method    disconnect
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return    JsonResponse        Objeto con los datos de respuesta a la petición
      */

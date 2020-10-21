@@ -190,7 +190,6 @@ class GroupController extends Controller
      *
      * @method    destroy
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Request    $request    Objeto con la petición
      *

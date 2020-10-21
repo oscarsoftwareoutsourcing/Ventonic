@@ -6,10 +6,10 @@
           <div class="row">
             <div class="col">
               <!--<span class="float-left">
-                <h5 class="card-title mb-2">Datos Generales</h5>
+                <h5 class="mb-2 card-title">Datos Generales</h5>
               </span>-->
-              <div class="mr-auto float-right bookmark-wrapper d-flex align-items-center">
-                <ul class="list-inline m-0">
+              <div class="float-right mr-auto bookmark-wrapper d-flex align-items-center">
+                <ul class="m-0 list-inline">
                   <!--<li class="list-inline-item">
                                     <a @click="editContact()">
                                         <i class="feather icon-edit controls"></i>
@@ -32,7 +32,7 @@
 
           <div class="row">
             <div class="col-sm-2">
-              <div class="avatar mr-1 avatar-xxl">
+              <div class="mr-1 avatar avatar-xxl">
                 <img :src="picture" alt="imagen de perfil" class="img-fluid" />
                 <span class="avatar-status-info" v-if="contact.allow_change_image">
                   <input type="file" id="contactPicture" class="d-none" @change="setPicture" />
@@ -54,10 +54,10 @@
               </div>
             </div>
             <div class="col-sm-5">
-              <div class="form-row mb-1">
+              <div class="mb-1 form-row">
                 <div class="col-12">
                   <span
-                    class="font-weight-bold capitalize text-display-5"
+                    class="capitalize font-weight-bold text-display-5"
                   >{{ contact.name }} {{ contact.last_name }}</span>
                   <a
                     href="javascript:void(0)"
@@ -65,26 +65,26 @@
                     data-toggle="tooltip"
                     title="Modificar contacto"
                   >
-                    <i class="feather icon-edit-2 font-medium-4 ml-2"></i>
+                    <i class="ml-2 feather icon-edit-2 font-medium-4"></i>
                   </a>
                 </div>
               </div>
-              <!--<div class="form-row mb-1">
+              <!--<div class="mb-1 form-row">
                             <div class="col-12">{{ contact.address }}</div>
               </div>-->
-              <div class="form-row mb-1">
+              <div class="mb-1 form-row">
                 <div class="col-12">
                   <a :href="'mailto:'+contact.user.email">{{ contact.user.email }}</a>
                 </div>
               </div>
               <!--
-                        <div class="form-row mb-1">
+                        <div class="mb-1 form-row">
                             <div class="col-sm-4">
                                 <label for="" class="label-font">Chat</label>
                             </div>
                             <div class="col-sm-8">
                                 <button type="button"
-                                        class="btn btn-icon btn-icon rounded-circle btn-warning mr-1 mb-1 waves-effect waves-light">
+                                        class="mb-1 mr-1 btn btn-icon rounded-circle btn-warning waves-effect waves-light">
                                     <i class="feather icon-mail"></i>
                                 </button>
                             </div>
@@ -92,19 +92,19 @@
               -->
             </div>
             <div class="col-sm-5">
-              <div class="form-row mb-1">
+              <div class="mb-1 form-row">
                 <div class="col-12">
                   <label class="label-font" for>Fecha de Registro:</label>
                   <span>{{ getCreatedAt() }}</span>
                 </div>
               </div>
-              <div class="form-row mb-1">
+              <div class="mb-1 form-row">
                 <div class="col-12">
                   <label class="label-font" for>Dirección:</label>
                   <span>{{ contact.address }}</span>
                 </div>
               </div>
-              <div class="form-row mb-1">
+              <div class="mb-1 form-row">
                 <div class="col-12">
                   <a
                     href="javascript:void(0)"
@@ -193,9 +193,9 @@
     <div class="card">
       <div class="card-content">
         <div class="card-body">
-          <div class="tab-content pt-1">
+          <div class="pt-1 tab-content">
             <div
-              class="tab-pane pb-3 active"
+              class="pb-3 tab-pane active"
               id="profile-just"
               role="tabpanel"
               aria-labelledby="profile-tab-justified"
@@ -208,7 +208,7 @@
               ></note>
             </div>
             <div
-              class="tab-pane pb-3"
+              class="pb-3 tab-pane"
               id="messages-just"
               aria-labelledby="messages-tab-justified"
               role="tabpanel"
@@ -221,7 +221,7 @@
               ></event>
             </div>
             <div
-              class="tab-pane pb-3"
+              class="pb-3 tab-pane"
               id="settings-just"
               aria-labelledby="settings-tab-justified"
               role="tabpanel"
@@ -234,7 +234,7 @@
               ></media-file>
             </div>
             <div
-              class="tab-pane pb-3"
+              class="pb-3 tab-pane"
               id="home-just"
               aria-labelledby="home-tab-justified"
               role="tabpanel"
@@ -248,7 +248,7 @@
               ></email-app>
             </div>
             <div
-              class="tab-pane pb-3"
+              class="pb-3 tab-pane"
               id="calls-just"
               aria-labelledby="calls-tab-justified"
               role="tabpanel"
@@ -261,7 +261,7 @@
               ></call-event>
             </div>
             <div
-              class="tab-pane pb-3"
+              class="pb-3 tab-pane"
               id="tasks-just"
               aria-labelledby="tasks-tab-justified"
               role="tabpanel"
@@ -293,7 +293,7 @@
                   <div style="width: 100%; height: 100%" id="address-map"></div>
                 </div>
                 <div
-                  class="form-group mt-2 font-weight-bold"
+                  class="mt-2 form-group font-weight-bold"
                   v-if="distance"
                   style="font-size:1.8rem"
                 >
@@ -379,7 +379,6 @@ export default {
     /**
      * Elimina el contacto
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      */
     deleteContact() {
       const vm = this;
@@ -409,7 +408,6 @@ export default {
     /**
      * Muestra la ventana de dialogo para seleccionar la imagen
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      */
     selectPicture() {
       $("#contactPicture").click();
@@ -417,7 +415,6 @@ export default {
     /**
      * Establece la imagen seleccionada
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      */
     setPicture() {
       const vm = this;
@@ -445,7 +442,6 @@ export default {
     /**
      * Elimina la imagen actual
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      */
     removePicture() {
       const vm = this;
