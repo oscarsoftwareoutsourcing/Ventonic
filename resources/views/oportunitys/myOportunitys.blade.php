@@ -13,14 +13,25 @@
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
-        <div class="content-wrapper pt-1">
+
+        <div class="content-help">
+            <div class="link-help">
+            <button type="button" class=" btn btn-primary btn-sm waves-effect waves-light"
+            data-toggle="modal"
+            data-target="#primary"
+            id="postularseBtn"
+            >Ver ayuda</button>
+            </div>
+        </div>
+
+        <div class="pt-1 content-wrapper">
             <div class="content-header row"></div>
 
             <div class="row">
-                <div class="new-header mb-1">
+                <div class="mb-1 new-header">
                 <span  class="title">Mis Oportunidades</span>
                 <a href="{{ route('oportunity.form') }}"  
-                type="button" class="btn bg-gradient-primary mr-1 mb-1 waves-effect waves-light">
+                type="button" class="mb-1 mr-1 btn bg-gradient-primary waves-effect waves-light">
                 Crear nueva oportunidad</a>
                 </div>
             </div>
@@ -46,7 +57,7 @@
                             <form action="{{ route('oportunity.saved') }}" method="GET">
                                 @csrf
                                 {{-- BEGIN Filltros --}}
-                                <div class="row mb-2">
+                                <div class="mb-2 row">
                                     <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-6' }}">
                                         <div class="input-group">
                                             <input type="text" id="textSearch" name="oportunitySearch"
@@ -138,8 +149,8 @@
                                     @endif
                                 </div>
                                 <div class="row">
-                                    <div class="col-12 text-center">
-                                        <button type="submit" class="btn bg-gradient-primary btn-lg mr-1 mb-1 waves-effect waves-light">Buscar</button>
+                                    <div class="text-center col-12">
+                                        <button type="submit" class="mb-1 mr-1 btn bg-gradient-primary btn-lg waves-effect waves-light">Buscar</button>
                                     </div>
                                 </div>
                             </form>
@@ -153,6 +164,36 @@
             </div>
         </div>
 
+        <div class="text-left modal fade" id="primary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-primary white">
+                        <h5 class="modal-title" id="myModalLabel160">Chat</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeVideo">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
+                            <!-- <div v-html="callme.iframe"></div> -->
+                            <video id="videoContainer" width="100%" preload controls>
+                            @if(\Auth::user()->type=="V")
+                                <source src="{{ asset('video/Oportunidades-Perfil-Vendedor.mp4') }}" />
+                                <source src="{{ asset('video/Oportunidades-Perfil-Vendedor.mp4') }}" />
+                                <source src="{{ asset('video/Oportunidades-Perfil-Vendedor.mp4') }}" />
+                            @else
+                                <source src="{{ asset('video/Oportunidades-MisOportunidades-Perfil-Empresa.mp4') }}" />
+                                <source src="{{ asset('video/Oportunidades-MisOportunidades-Perfil-Empresa.mp4') }}" />
+                                <source src="{{ asset('video/Oportunidades-MisOportunidades-Perfil-Empresa.mp4') }}" />
+                            @endif
+                            </video>
+
+                            
+                        </div>
+                     
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -160,6 +201,14 @@
 
 @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        const boton = document.querySelector("#closeVideo");
+        boton.addEventListener("click", function(evento){
+            const video = document.getElementById("videoContainer");
+            video.pause();
+            return false;
+        });
+    </script>
 @endsection
 
 @section('extra-js')
