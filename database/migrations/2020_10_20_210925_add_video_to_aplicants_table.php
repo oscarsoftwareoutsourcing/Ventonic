@@ -26,7 +26,7 @@ class AddVideoToAplicantsTable extends Migration
     public function down()
     {
         Schema::table('aplicants', function (Blueprint $table) {
-             $table->dropColumn('aplicants');
+            $table->dropColumn('video');
         });
     }
 }
