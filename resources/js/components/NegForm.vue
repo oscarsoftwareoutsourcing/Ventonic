@@ -618,7 +618,8 @@ export default {
     },
     commission_amount: {
       get() {
-        return this.getNegotiation.commission_amount.toString().replace(".", ",");
+        return (typeof(this.getNegotiation.commission_amount) !== "undefined")
+               ? this.getNegotiation.commission_amount.toString().replace(".", ",") : 0;
       },
       set(val) {
         this.getNegotiation.commission_amount = val;
