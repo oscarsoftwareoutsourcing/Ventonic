@@ -317,6 +317,39 @@
                     </div>
                   </div>
                 </div>
+
+                <!-- Commissions -->
+                <div class="col-lg-6">
+                  <div class="form-group row">
+                    <div class="col-md-3">
+                      <span>Comisión:</span>
+                    </div>
+                    <div class="col-md-5">
+                      <input
+                        name="txtCommission"
+                        id="txtCommission"
+                        type="number" step="0.01"
+                        placeholder="Comisión"
+                        class="form-control"
+                        v-model="commission_amount"
+                      />
+
+                      <!-- Validation messages -->
+                      <article class="help-block" v-if="$v.commission_amount.$error">
+                        <i class="text-danger" v-if="!$v.commission_amount.required">Dato requerido</i>
+                        <i class="text-danger" v-if="!$v.commission_amount.decimal">Comisión inválida</i>
+                      </article>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="cboNegCommissionType" name="cboNegCommissionType" class="form-control"
+                                v-model="commission_type">
+                          <option value="">- Tipo comisión -</option>
+                          <option value="P">Porcentaje</option>
+                          <option value="M">Monto</option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </form>
@@ -404,6 +437,9 @@ export default {
       },
       amount: {
         required,
+        decimal,
+      },
+      commission_amount: {
         decimal,
       },
     };
@@ -570,6 +606,22 @@ export default {
       },
       set(val) {
         this.getNegotiation.amount = val;
+      },
+    },
+    commission_type: {
+      get() {
+        return this.getNegotiation.commission_type;
+      },
+      set(val) {
+        this.getNegotiation.commission_type = val;
+      },
+    },
+    commission_amount: {
+      get() {
+        return this.getNegotiation.commission_amount.toString().replace(".", ",");
+      },
+      set(val) {
+        this.getNegotiation.commission_amount = val;
       },
     },
     deadline: {

@@ -299,6 +299,19 @@
             <hr />
           </div>
 
+          <!-- Commission -->
+          <!--<div class="mt-1" v-if="commisionAmount !== 0">
+            <strong>Comisión:</strong>
+            <span>{{ (commissionType=='P') ? (amount * commissionAmount / 100) : commissionAmount }}</span>
+            <hr />
+          </div>
+
+          <div class="mt-1" v-if="commisionAmount !== 0">
+            <strong>Total Importe + Comisión:</strong>
+            <span>{{ (commissionType=='P') ? ((amount * commissionAmount / 100)+amount) : (commissionAmount+amount) }}</span>
+            <hr />
+          </div>-->
+
           <!-- Deadline -->
           <div class="mt-1">
             <strong>Fecha de cierre:</strong>
@@ -460,6 +473,13 @@ export default {
     amount() {
       return this.formatImp(this.getDetailedNeg.amount);
     },
+    /*commissionType() {
+      return (typeof(this.getDetailedNeg.commission_type) !== "undefined") ? this.getDetailedNeg.commission_type : '';
+    },
+    commissionAmount() {
+      return (typeof(this.getDetailedNeg.commission_amount) !== "undefined")
+             ? this.formatImp(this.getDetailedNeg.commission_amount) : 0;
+    },*/
     deadline() {
       return this.getDetailedNeg.deadline !== null
         ? this.formatDate(this.getDetailedNeg.deadline)

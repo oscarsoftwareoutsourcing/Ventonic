@@ -111,6 +111,12 @@ class NegotiationController extends Controller
             $negotiation->amount = str_replace(',', '.', $request->amount);
             $negotiation->active = $request->active;
             $negotiation->deadline = Carbon::parse($request->deadline)->toDateTimeString();
+            if ($request->commission_type && $request->commission_amount) {
+                /** @var char Define el tipo de comisión a aplicar */
+                $negotiation->commission_type = $request->commission_type;
+                /** @var float Define el monto de la comisión */
+                $negotiation->commission_amount = $request->commission_amount;
+            }
             /*$negotiation->created_at = date('Y-m-d H:i:s');
             $negotiation->updated_at = null;*/
 

@@ -66,6 +66,8 @@ const initialState = () => ({
         title: '',
         description: '',
         amount: '',
+        commission_type: '',
+        commission_amount: '',
         active: true,
     }
 });
@@ -257,6 +259,8 @@ export const mutations = {
         state.negotiation.title = n.title;
         state.negotiation.description = n.description;
         state.negotiation.amount = n.amount;
+        state.negotiation.commission_type = n.commission_type;
+        state.negotiation.commission_amount = n.commission_amount;
         state.negotiation.active = n.active;
     },
     UPDATE_NEGOTIATION: (state, un) => {
@@ -298,6 +302,8 @@ export const mutations = {
             title: '',
             description: '',
             amount: '',
+            commission_type: '',
+            commission_amount: '',
             active: true,
         };
     }
