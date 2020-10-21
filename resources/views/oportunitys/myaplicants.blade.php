@@ -281,8 +281,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p class="text-justify aplicant-message"></p>
-                <div class="row aplicant-video">
+                <p class="text-justify" id="aplicantMessage"></p>
+                <div class="row">
                     <div class="col-12">
                         <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
                             <video id="aplicantVideo" width="100%" preload controls>
@@ -324,8 +324,9 @@
      * @param     {object}            aplicant    Datos del vendedor postulado
      */
     var loadAplicantData = function(aplicant) {
+        console.log(aplicant)
         if (aplicant.message) {
-            $("#openVideo").find('.aplicant-message').text();
+            $("#openVideo").find('#aplicantMessage').text(aplicant.message);
         }
         if (aplicant.video) {
             $("#aplicantVideo").find('source').attr('src', aplicant.video);
