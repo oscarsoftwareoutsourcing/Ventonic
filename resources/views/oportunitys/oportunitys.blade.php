@@ -18,7 +18,7 @@
         data-toggle="modal"
         data-target="#primary"
         id="postularseBtn"
-        >Ver ayuda</button>
+        ><i class="text-white feather icon-video"></i> Ver ayuda </button>
         </div>
     </div>
     <div class="pt-1 content-wrapper">

@@ -119,8 +119,8 @@ class QuestionsTableSeeder extends Seeder
                     'options' => [
                         '< 25.000€',
                         '25.000€ - 250.000€',
-                        'A tiempo completo',
                         '250.000€ - 1.000.000€',
+                        '> 1.000.000€',
                     ]
                 ],
                 [
