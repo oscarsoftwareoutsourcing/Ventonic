@@ -22,7 +22,7 @@
             <!-- Dashboard Analytics Start -->
             <section id="dashboard-analytics">
                  <form action='{{ route('me.dash') }}' method="POST" enctype="multipart/form-data">
-                <div class="row mb-2">
+                <div class="mb-2 row">
                    
                         @csrf
                     <div class="col-12">
@@ -32,9 +32,9 @@
                                   Así es como puede mostrarse tu Dashboard cuando empieces a registrar tu actividad en Ventonic
                                 </p>
                         </div>
-                        <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
+                        <div class="float-left mr-auto bookmark-wrapper d-flex align-items-center">
                              <fieldset class="checkbox">
-                                <div class="vs-checkbox-con vs-checkbox-primary float-right">
+                                <div class="float-right vs-checkbox-con vs-checkbox-primary">
                                     <input type="checkbox" name="favorito" id="favorito">
                                         <span class="vs-checkbox">
                                             <span class="vs-checkbox--check">
@@ -45,10 +45,10 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="mr-auto float-right bookmark-wrapper d-flex align-items-center">
-                            <button type="submit" class="btn bg-gradient-primary  mr-1 mb-1 waves-effect waves-light text-white">Ver Mi Dashboard</button>
+                        <div class="float-right mr-auto bookmark-wrapper d-flex align-items-center">
+                            <button type="submit" class="mb-1 mr-1 text-white btn bg-gradient-primary waves-effect waves-light">Ver Mi Dashboard</button>
                             <!--
-                            <a type="button" class="btn bg-gradient-primary  mr-1 mb-1 waves-effect waves-light text-white"
+                            <a type="button" class="mb-1 mr-1 text-white btn bg-gradient-primary waves-effect waves-light"
                             href="{{ route('me.dash') }}" title="Mi Dashboard">
                                 Ver Mi Dashboard
                             </a>
@@ -61,14 +61,14 @@
                  </form>
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12">
-                        <div class="card bg-analytics text-white">
+                        <div class="text-white card bg-analytics">
                             <div class="card-content">
-                                <div class="card-body text-center">
+                                <div class="text-center card-body">
                                     <img src="{{ asset('images/elements/decore-left.png') }}" class="img-left" alt="
         card-img-left">
                                     <img src="{{ asset('images/elements/decore-right.png') }}" class="img-right" alt="
         card-img-right">
-                                    <div class="  mt-0">
+                                    <div class="mt-0 ">
                                         <img src="{{ asset('web/images/logo.png') }}" alt="
                                         Ventonic">
                                     </div>
@@ -85,10 +85,10 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         
                         <div class="card">
-                             <div class="card-header d-flex justify-content-between pb-0">
+                             <div class="pb-0 card-header d-flex justify-content-between">
                                 <h4 class="card-title"></h4>
                                 <div class="dropdown chart-dropdown">
-                                    <button class="btn btn-sm border-0 dropdown-toggle px-0" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="px-0 border-0 btn btn-sm dropdown-toggle" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Últimos 7 Días
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem3">
@@ -103,13 +103,13 @@
                                 </div>
                             </div>
                             <a href="{{route('contact.list')}}" alt="Contactos">
-                            <div class="card-header d-flex flex-column align-items-start pb-0">
-                                <div class="avatar bg-rgba-primary p-50 m-0">
+                            <div class="pb-0 card-header d-flex flex-column align-items-start">
+                                <div class="m-0 avatar bg-rgba-primary p-50">
                                     <div class="avatar-content">
                                         <i class="feather icon-users text-primary font-medium-5"></i>
                                     </div>
                                 </div>
-                                <h2 class="text-bold-700 mt-1 mb-25">92.6k</h2>
+                                <h2 class="mt-1 text-bold-700 mb-25">92.6k</h2>
                                 <p class="mb-0">Nuevos Contactos este mes</p>
                             </div>
                             <div class="card-content">
@@ -121,10 +121,10 @@
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
                         <div class="card">
-                            <div class="card-header d-flex justify-content-between pb-0">
+                            <div class="pb-0 card-header d-flex justify-content-between">
                                 <h4 class="card-title"></h4>
                                 <div class="dropdown chart-dropdown">
-                                    <button class="btn btn-sm border-0 dropdown-toggle px-0" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="px-0 border-0 btn btn-sm dropdown-toggle" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Últimos 7 Días
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem3">
@@ -139,13 +139,13 @@
                                 </div>
                             </div>
                              <a href="{{route('negociaciones')}}" alt="Negociaciones">
-                            <div class="card-header d-flex flex-column align-items-start pb-0">
-                                <div class="avatar bg-rgba-warning p-50 m-0">
+                            <div class="pb-0 card-header d-flex flex-column align-items-start">
+                                <div class="m-0 avatar bg-rgba-warning p-50">
                                     <div class="avatar-content">
                                         <i class="feather icon-package text-warning font-medium-5"></i>
                                     </div>
                                 </div>
-                                <h2 class="text-bold-700 mt-1 mb-25">97.5K</h2>
+                                <h2 class="mt-1 text-bold-700 mb-25">97.5K</h2>
                                 <p class="mb-0">Facturacion Total</p>
                             </div>
                             <div class="card-content">
@@ -161,7 +161,7 @@
                             <div class="card-content">
                                 <div class="card-body">
                                     <div class="row pb-50">
-                                        <div class="col-lg-6 col-12 d-flex justify-content-between flex-column order-lg-1 order-2 mt-lg-0 mt-2">
+                                        <div class="order-2 mt-2 col-lg-6 col-12 d-flex justify-content-between flex-column order-lg-1 mt-lg-0">
                                             <div>
                                                 <h2 class="text-bold-700 mb-25">29</h2>
                                                 <p class="text-bold-500 mb-75"><strong>Nuevos Contactos</strong></p>
@@ -170,11 +170,11 @@
                                                     <span>en los últimos 7 días</span>
                                                 </h5>
                                             </div>
-                                            <a href="#" class="btn btn-primary shadow">Ver Detalles <i class="feather icon-chevrons-right"></i></a>
+                                            <a href="#" class="shadow btn btn-primary">Ver Detalles <i class="feather icon-chevrons-right"></i></a>
                                         </div>
-                                        <div class="col-lg-6 col-12 d-flex justify-content-between flex-column text-right order-lg-2 order-1">
+                                        <div class="order-1 text-right col-lg-6 col-12 d-flex justify-content-between flex-column order-lg-2">
                                             <div class="dropdown chart-dropdown">
-                                                <button class="btn btn-sm border-0 dropdown-toggle p-0" type="button" id="dropdownItem5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="p-0 border-0 btn btn-sm dropdown-toggle" type="button" id="dropdownItem5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Últimos 7 Días
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem5">
@@ -201,17 +201,30 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <p class="mb-0">Clientes Perdidos: 25</p>
+                                            <p class="mb-0">En Negociación: 15</p>
                                             <div class="progress progress-bar-danger mt-25">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="90" aria-valuemax="100" style="width:90%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="mb-0">Comisiones: 1.230€</p>
+                                            <div class="progress progress-bar-warning mt-25">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="60" aria-valuemax="100" style="width:60%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="mb-0">Clientes Perdidos: 14</p>
+                                            <div class="progress progress-bar-success mt-25">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="70" aria-valuemax="100" style="width:70%"></div>
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <p class="mb-0">En Negociación: 74</p>
+                                            <p class="mb-0">Cerradas: 7</p>
                                             <div class="progress progress-bar-success mt-25">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="90" aria-valuemax="100" style="width:90%"></div>
                                             </div>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -220,10 +233,10 @@
 
                    <div class="col-md-6 col-12">
                             <div class="card">
-                                <div class="card-header d-flex justify-content-between pb-0">
+                                <div class="pb-0 card-header d-flex justify-content-between">
                                     <h4 class="card-title">Negociaciones</h4>
                                     <div class="dropdown chart-dropdown">
-                                        <button class="btn btn-sm border-0 dropdown-toggle p-0" type="button" id="dropdownItem4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button class="p-0 border-0 btn btn-sm dropdown-toggle" type="button" id="dropdownItem4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Last 7 Days
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem4">
@@ -234,10 +247,10 @@
                                     </div>
                                 </div>
                                 <div class="card-content">
-                                    <div class="card-body pt-0">
+                                    <div class="pt-0 card-body">
                                         <div class="row">
-                                            <div class="col-sm-2 col-12 d-flex flex-column flex-wrap text-center">
-                                                <h1 class="font-large-2 text-bold-700 mt-2 mb-0">163</h1>
+                                            <div class="flex-wrap text-center col-sm-2 col-12 d-flex flex-column">
+                                                <h1 class="mt-2 mb-0 font-large-2 text-bold-700">163</h1>
                                                 <small>Negociaciones</small>
                                             </div>
                                             <div class="col-sm-10 col-12 d-flex justify-content-center">
@@ -268,10 +281,10 @@
 
                     <div class="col-lg-4 col-12">
                         <div class="card">
-                            <div class="card-header d-flex justify-content-between pb-0">
+                            <div class="pb-0 card-header d-flex justify-content-between">
                                 <h4 class="card-title">Contactos</h4>
                                 <div class="dropdown chart-dropdown">
-                                    <button class="btn btn-sm border-0 dropdown-toggle px-0" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="px-0 border-0 btn btn-sm dropdown-toggle" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Últimos 7 Días
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem3">
@@ -286,7 +299,7 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <div class="card-body py-0">
+                                <div class="py-0 card-body">
                                     <div id="customer-chart"></div>
                                 </div>
                                 <ul class="list-group list-group-flush customer-info">
@@ -327,12 +340,12 @@
                             <div class="card-header d-flex justify-content-between align-items-start">
                                 <div>
                                     <h4 class="card-title">Estadisticas de Ventas</h4>
-                                    <p class="text-muted mt-25 mb-0">Últimos 3 Meses</p>
+                                    <p class="mb-0 text-muted mt-25">Últimos 3 Meses</p>
                                 </div>
-                                <p class="mb-0"><i class="feather icon-more-vertical font-medium-3 text-muted cursor-pointer"></i></p>
+                                <p class="mb-0"><i class="cursor-pointer feather icon-more-vertical font-medium-3 text-muted"></i></p>
                             </div>
                             <div class="card-content">
-                                <div class="card-body px-0">
+                                <div class="px-0 card-body">
                                     <div id="sales-chart"></div>
                                 </div>
                             </div>
@@ -348,50 +361,50 @@
                                     <ul class="activity-timeline timeline-left list-unstyled">
                                         <li>
                                             <div class="timeline-icon bg-primary">
-                                                <i class="feather icon-plus font-medium-2 align-middle"></i>
+                                                <i class="align-middle feather icon-plus font-medium-2"></i>
                                             </div>
                                             <div class="timeline-info">
-                                                <p class="font-weight-bold mb-0">Reunión con el Cliente</p>
+                                                <p class="mb-0 font-weight-bold">Reunión con el Cliente</p>
                                                 <span class="font-small-3">Reunión para deiscutir presupuesto de venta</span>
                                             </div>
                                             <small class="text-muted">Hace minutos 25 </small>
                                         </li>
                                         <li>
                                             <div class="timeline-icon bg-warning">
-                                                <i class="feather icon-alert-circle font-medium-2 align-middle"></i>
+                                                <i class="align-middle feather icon-alert-circle font-medium-2"></i>
                                             </div>
                                             <div class="timeline-info">
-                                                <p class="font-weight-bold mb-0">Enviar email con propuesta</p>
+                                                <p class="mb-0 font-weight-bold">Enviar email con propuesta</p>
                                                 <span class="font-small-3">Enviar email al cliente con propuesta de ventas</span>
                                             </div>
                                             <small class="text-muted">Hace 15 días</small>
                                         </li>
                                         <li>
                                             <div class="timeline-icon bg-danger">
-                                                <i class="feather icon-check font-medium-2 align-middle"></i>
+                                                <i class="align-middle feather icon-check font-medium-2"></i>
                                             </div>
                                             <div class="timeline-info">
-                                                <p class="font-weight-bold mb-0">Planificación</p>
+                                                <p class="mb-0 font-weight-bold">Planificación</p>
                                                 <span class="font-small-3">Crear plan de trabajo y estrategia de ventas</span>
                                             </div>
                                             <small class="text-muted">Hace 20 días</small>
                                         </li>
                                         <li>
                                             <div class="timeline-icon bg-success">
-                                                <i class="feather icon-check font-medium-2 align-middle"></i>
+                                                <i class="align-middle feather icon-check font-medium-2"></i>
                                             </div>
                                             <div class="timeline-info">
-                                                <p class="font-weight-bold mb-0">Puesta en producción de Website</p>
+                                                <p class="mb-0 font-weight-bold">Puesta en producción de Website</p>
                                                 <span class="font-small-3">Puesta en linea del portal web de la empresa </span>
                                             </div>
                                             <small class="text-muted">HAce 25 días</small>
                                         </li>
                                         <li>
                                             <div class="timeline-icon bg-primary">
-                                                <i class="feather icon-check font-medium-2 align-middle"></i>
+                                                <i class="align-middle feather icon-check font-medium-2"></i>
                                             </div>
                                             <div class="timeline-info">
-                                                <p class="font-weight-bold mb-0">Marketing</p>
+                                                <p class="mb-0 font-weight-bold">Marketing</p>
                                                 <span class="font-small-3">Reunión con el equipo de mercadeo.</span>
                                             </div>
                                             <small class="text-muted">Hace 28 dias</small>
@@ -411,9 +424,9 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-12">
-                                                <div class="ag-grid-btns d-flex justify-content-between flex-wrap mb-1">
-                                                    <div class="dropdown sort-dropdown mb-1 mb-sm-0">
-                                                        <button class="btn btn-white filter-btn dropdown-toggle border text-dark" type="button" id="dropdownMenuButton6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <div class="flex-wrap mb-1 ag-grid-btns d-flex justify-content-between">
+                                                    <div class="mb-1 dropdown sort-dropdown mb-sm-0">
+                                                        <button class="border btn btn-white filter-btn dropdown-toggle text-dark" type="button" id="dropdownMenuButton6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             1 - 20 of 50
                                                         </button>
                                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton6">
@@ -421,12 +434,12 @@
                                                             <a class="dropdown-item" href="#">50</a>
                                                         </div>
                                                     </div>
-                                                    <div class="ag-btns d-flex flex-wrap">
-                                                        <input type="text" class="ag-grid-filter form-control w-50 mr-1 mb-1 mb-sm-0" id="filter-text-box" placeholder="Buscar...." />
+                                                    <div class="flex-wrap ag-btns d-flex">
+                                                        <input type="text" class="mb-1 mr-1 ag-grid-filter form-control w-50 mb-sm-0" id="filter-text-box" placeholder="Buscar...." />
                                                         <div class="action-btns">
                                                             <div class="btn-dropdown ">
                                                                 <div class="btn-group dropdown actions-dropodown">
-                                                                    <button type="button" class="btn btn-white px-2 py-75 dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <button type="button" class="px-2 btn btn-white py-75 dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                         Actiones
                                                                     </button>
                                                                     <div class="dropdown-menu">

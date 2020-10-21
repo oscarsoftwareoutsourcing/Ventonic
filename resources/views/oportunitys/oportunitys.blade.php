@@ -12,16 +12,25 @@
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
-    <div class="content-wrapper pt-1">
+    <div class="content-help">
+        <div class="link-help">
+        <button type="button" class=" btn btn-primary btn-sm waves-effect waves-light"
+        data-toggle="modal"
+        data-target="#primary"
+        id="postularseBtn"
+        >Ver ayuda</button>
+        </div>
+    </div>
+    <div class="pt-1 content-wrapper">
         <div class="content-header row">
         </div>
 
         <div class="row">
-                <div class="new-header mb-1">
+                <div class="mb-1 new-header">
                 <span  class="title">Oportunidades</span>
                 @if(Auth::user()->typeuser=="E")
                     <a href="{{ route('oportunity.form') }}"  
-                    type="button" class="btn bg-gradient-primary  mr-1 mb-1 waves-effect waves-light">
+                    type="button" class="mb-1 mr-1 btn bg-gradient-primary waves-effect waves-light">
                     Crear nueva oportunidad</a>
                 @endif
                 </div>
@@ -48,7 +57,7 @@
                             @endif
                             <form action="{{ route('oportunity.list') }}" method="GET">
                                 @csrf
-                                <div class="row mb-2">
+                                <div class="mb-2 row">
                                     <div class="{{Auth::user()->typeuser=="E" ? 'col-lg-4' : 'col-lg-6' }}">
                                         <div class="input-group">
                                             <input type="text" id="textSearch" name="oportunitySearch"
@@ -135,8 +144,8 @@
 
                                 </div>
                                 <div class="row">
-                                     <div class="col-12 text-center">
-                                        <button type="submit" class="btn bg-gradient-primary btn-lg mr-1 mb-1 waves-effect waves-light">Buscar</button>
+                                     <div class="text-center col-12">
+                                        <button type="submit" class="mb-1 mr-1 btn bg-gradient-primary btn-lg waves-effect waves-light">Buscar</button>
                                     </div>
                                 </div>
                             </form>
@@ -161,39 +170,39 @@
                                                 </div>
                                              
                                          </div>
-                                         <div class="col-lg-9 col-md-9 col-sm-9 divide-white" >
+                                         <div class="divide-white col-lg-9 col-md-9 col-sm-9" >
                                              <div class="card-body">
                                                 <h3>{{$oportunity->title}}</h3>
                                                 <input type="text" class="jobType" value="{{$oportunity->job_type_id}}" data-id="{{$oportunity->id}}" hidden>
                                                 <input type="text" class="antiguedad" value="{{$oportunity->ubication_oportunity_id}}" data-id="{{$oportunity->id}}" hidden>
                                                 <input type="text" class="sector" value="{{$oportunity->sectors}}" data-id="{{$oportunity->id}}" hidden>
-                                                <p class="card-text  mb-0"><span class="flag-icon flag-icon-es"></span> {{$oportunity->user->name}}</p>
+                                                <p class="mb-0 card-text"><span class="flag-icon flag-icon-es"></span> {{$oportunity->user->name}}</p>
                                                 <span class="card-text">{{$oportunity->cargo}}</span>
                                                 <!--
-                                                <p class="card-text  mb-0">{{App\JobType::getType((int)$oportunity->job_type_id)}}</p>
+                                                <p class="mb-0 card-text">{{App\JobType::getType((int)$oportunity->job_type_id)}}</p>
                                                 -->
-                                                <p class="card-text  mb-0">{{App\Oportunity::listSectors($oportunity->sectors)}}</p>
+                                                <p class="mb-0 card-text">{{App\Oportunity::listSectors($oportunity->sectors)}}</p>
 
-                                             <div class="card-btns justify-content-between mt-2">
+                                             <div class="mt-2 card-btns justify-content-between">
                                             <a href="#" ></a>
                                             @if((\Auth::user()->typeuser)=="V")
                                                  @if(App\Aplicant::postulationTrue(\Auth::user()->id, $oportunity->id))
                                                     <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
-                                                    class="btn bg-gradient-dark btn-lg mr-1 mb-1 waves-effect waves-light">
+                                                    class="mb-1 mr-1 btn bg-gradient-dark btn-lg waves-effect waves-light">
                                                         Postulado<br>
                                                         <span class="small">{{App\Aplicant::datePostulation(\Auth::user()->id, $oportunity->id)}}</span>
                                                     </a>
                                                     <input type="text" class="postulado" value="postulado" data-id="{{$oportunity->id}}" hidden>
                                                 @else
                                                     <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
-                                                    class="btn bg-gradient-primary btn-lg mr-1 mb-1 waves-effect waves-light">
+                                                    class="mb-1 mr-1 btn bg-gradient-primary btn-lg waves-effect waves-light">
                                                         Ver
                                                     </a>
                                                 <input type="text" class="postulado" value="no postulado" data-id="{{$oportunity->id}}" hidden>
                                                 @endif
                                             @else
                                                     <a href="{{route('oportunity', ['id'=>$oportunity->id])}}" id="fila{{$oportunity->id}}"
-                                                    class="btn bg-gradient-primary mr-1 mb-1 waves-effect waves-light">
+                                                    class="mb-1 mr-1 btn bg-gradient-primary waves-effect waves-light">
                                                         Ver<br>
                                                     </a>
                                             @endif
@@ -227,7 +236,7 @@
                             <section id="data-list-view" class="data-list-view-header">
 
                                 <div class="table-responsive">
-                                    <table id="datatable" class="table data-list-view mt-2">
+                                    <table id="datatable" class="table mt-2 data-list-view">
                                         <thead>
                                             <tr>
                                                 <th></th>
@@ -261,7 +270,7 @@
                                                 <td class="product-action" width="12%">
                                                     @if(App\Aplicant::postulationTrue(\Auth::user()->id, $oportunity->id))
                                                     <div class="chip chip-success" style="width:100%">
-                                                        <div class="chip-body text-center">
+                                                        <div class="text-center chip-body">
                                                             <div class="chip-text">
                                                             Postulado<br>
                                                             <span class="small">{{App\Aplicant::datePostulation(\Auth::user()->id, $oportunity->id)}}</span>
@@ -272,7 +281,7 @@
                                                     @else
                                                     <div class="chip chip-danger" style="width:100%">
                                                         <div class="chip-body">
-                                                            <div class="chip-text text-center">No postulado</div>
+                                                            <div class="text-center chip-text">No postulado</div>
                                                         </div>
                                                     </div>
                                                     <input type="text" class="postulado" value="no postulado" data-id="{{$oportunity->id}}" hidden>
@@ -296,23 +305,57 @@
             </div>
         </div>
     </div>
+
+    <div class="text-left modal fade" id="primary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-primary white">
+                        <h5 class="modal-title" id="myModalLabel160">Chat</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeVideo">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
+                            <!-- <div v-html="callme.iframe"></div> -->
+                            <video id="videoContainer" width="100%" preload controls>
+                            @if(\Auth::user()->type=="V")
+                                <source src="{{ asset('video/Oportunidades-Perfil-Vendedor.mp4') }}" />
+                                <source src="{{ asset('video/Oportunidades-Perfil-Vendedor.mp4') }}" />
+                                <source src="{{ asset('video/Oportunidades-Perfil-Vendedor.mp4') }}" />
+                            @else
+                                <source src="{{ asset('video/Oportunidades-MisOportunidades-Perfil-Empresa.mp4') }}" />
+                                <source src="{{ asset('video/Oportunidades-MisOportunidades-Perfil-Empresa.mp4') }}" />
+                                <source src="{{ asset('video/Oportunidades-MisOportunidades-Perfil-Empresa.mp4') }}" />
+                            @endif
+                            </video>
+
+                            
+                        </div>
+                     
+                </div>
+            </div>
+        </div>
+
 </div>
 @endsection
 
 @section('extra-js-app')
     <script src="{{ asset('js/app.js') }}"></script>
+
+    <script>
+        const boton = document.querySelector("#closeVideo");
+        boton.addEventListener("click", function(evento){
+            const video = document.getElementById("videoContainer");
+            video.pause();
+            return false;
+        });
+    </script>
 @endsection
 
 @section('extra-js')
 <script src="{{ asset('js/oportunitys/oportunitys.js') }}"></script>
-<script src="{{ asset('vendors/js/tables/datatable/datatables.min.js') }}"></script>
-<script src="{{ asset('vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
-<script src="{{ asset('vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('vendors/js/tables/datatable/buttons.bootstrap.min.js') }}"></script>
-<script src="{{ asset('vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
-<script src="{{ asset('vendors/js/tables/datatable/datatables.checkboxes.min.js') }}"></script>
-<script src="{{ asset('js/scripts/ui/data-list-view.js') }}"></script>
-<script>$("#datatable").DataTable();</script>
+
+
 
 @endsection
 
