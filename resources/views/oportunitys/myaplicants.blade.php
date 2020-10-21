@@ -226,52 +226,10 @@
                                                     @if ($aplicant->message || $aplicant->video !== null)
                                                         <!-- Button trigger modal -->
                                                         <button type="button" class="text-white btn btn-info btn-md"
-                                                                data-toggle="modal" data-target="#openVideo">
+                                                                data-toggle="modal" data-target="#openVideo"
+                                                                onclick="loadAplicantData({{ json_encode($aplicant) }})">
                                                             Abrir
                                                         </button>
-
-                                                        <!-- Modal -->
-                                                        <div class="modal fade" id="openVideo" role="dialog" style="z-index:9999"
-                                                             aria-labelledby="openVideoTitle" aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-centered modal-lg"
-                                                                 role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="openVideoTitle">
-                                                                            Comentario / Vídeo
-                                                                        </h5>
-                                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                                aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        @if ($aplicant->message)
-                                                                            <p class="text-justify">
-                                                                                {{ $aplicant->message }}
-                                                                            </p>
-                                                                        @endif
-                                                                        @if ($aplicant->video !== null)
-                                                                            <div class="row">
-                                                                                <div class="col-12">
-                                                                                    <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
-                                                                                        <video id="sampleMovie" width="100%" preload controls>
-                                                                                            <source src="/{{ $aplicant->video }}" />
-                                                                                            <source src="/{{ $aplicant->video }}" />
-                                                                                            <source src="/{{ $aplicant->video }}" />
-                                                                                        </video>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endif
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-primary"
-                                                                                data-dismiss="modal">Cerrar</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     @else
                                                         SIN COMENTARIO / VIDEO
                                                     @endif
@@ -307,6 +265,42 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="openVideo" role="dialog" style="z-index:9999"
+     aria-labelledby="openVideoTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="openVideoTitle">
+                    Comentario / Vídeo
+                </h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-justify aplicant-message"></p>
+                <div class="row aplicant-video">
+                    <div class="col-12">
+                        <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
+                            <video id="aplicantVideo" width="100%" preload controls>
+                                <source src="/{{ $aplicant->video }}" />
+                                <source src="/{{ $aplicant->video }}" />
+                                <source src="/{{ $aplicant->video }}" />
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"
+                        data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('extra-js-app')
@@ -321,4 +315,21 @@
 <script src="{{ asset('vendors/js/tables/datatable/datatables.checkboxes.min.js') }}"></script>
 <script src="{{ asset('js/scripts/ui/data-list-view.js') }}"></script>
 <script>$("#datatable").DataTable();</script>
+<script>
+    /**
+     * Asigna los datos al modal de los detalles de postulación (comentario y vídeo)
+     *
+     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
+     *
+     * @param     {object}            aplicant    Datos del vendedor postulado
+     */
+    var loadAplicantData = function(aplicant) {
+        if (aplicant.message) {
+            $("#openVideo").find('.aplicant-message').text();
+        }
+        if (aplicant.video) {
+            $("#aplicantVideo").find('source').attr('src', aplicant.video);
+        }
+    }
+</script>
 @endsection
