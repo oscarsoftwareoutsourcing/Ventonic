@@ -111,6 +111,19 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         return $response;
     });
+    Route::get('storage/oportunitys/{file}', function ($file) {
+        $path = storage_path('app/oportunitys/' . $file);
+        if (!File::exists($path)) {
+            abort(404);
+        }
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
+    });
     Route::get('inicio', 'HomeController@index')->name('home');
     Route::get('buscar-vendedores', 'HomeController@searchSeller')->name('search.init');
     Route::post('filtro', 'HomeController@filterSearch')->name('filter.search');

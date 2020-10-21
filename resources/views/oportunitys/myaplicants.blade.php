@@ -181,6 +181,7 @@
                                                 <th>NOMBRE</th>
                                                 <th>APELLIDO</th>
                                                 <th>PERFIL</th>
+                                                <th>COMENTARIO/VIDEO</th>
                                                 <th>CAMBIAR ESTADO</th>
                                                 <th>CHAT</th>
                                             </tr>
@@ -221,6 +222,60 @@
 
                                                 <td class="product-category">{{$aplicant->user->last_name}}</td>
                                                 <td class="product-category" style="text-align:center;"><a class="text-white btn btn-primary btn-md" href="{{route('oportunity.profile', ['id'=>$aplicant->user_id])}}">Ver</a></td>
+                                                <td class="product-category">
+                                                    @if ($aplicant->message || $aplicant->video !== null)
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="text-white btn btn-info btn-md"
+                                                                data-toggle="modal" data-target="#openVideo">
+                                                            Abrir
+                                                        </button>
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="openVideo" role="dialog" style="z-index:9999"
+                                                             aria-labelledby="openVideoTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered modal-lg"
+                                                                 role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="openVideoTitle">
+                                                                            Comentario / Vídeo
+                                                                        </h5>
+                                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                                aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        @if ($aplicant->message)
+                                                                            <p class="text-justify">
+                                                                                {{ $aplicant->message }}
+                                                                            </p>
+                                                                        @endif
+                                                                        @if ($aplicant->video !== null)
+                                                                            <div class="row">
+                                                                                <div class="col-12">
+                                                                                    <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
+                                                                                        <video id="sampleMovie" width="100%" preload controls>
+                                                                                            <source src="/{{ $aplicant->video }}" />
+                                                                                            <source src="/{{ $aplicant->video }}" />
+                                                                                            <source src="/{{ $aplicant->video }}" />
+                                                                                        </video>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-primary"
+                                                                                data-dismiss="modal">Cerrar</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        SIN COMENTARIO / VIDEO
+                                                    @endif
+                                                </td>
                                                 <td class="product-category" style="text-align:center;">
                                                 <select class="form-control status_postulation" name="estatus_postulation" id="status_postulation" data-id="{{$aplicant->id}}" style="text-align:center;">
                                                     @foreach($status_postulation as $status)
