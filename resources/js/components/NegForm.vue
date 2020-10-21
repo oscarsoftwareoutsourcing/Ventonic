@@ -225,8 +225,8 @@
                       <span>Grupos:</span>
                     </div>
                     <div class="col-md-9">
-                      <ul class="list-unstyled mb-1">
-                        <li class="d-inline-block mr-2">
+                      <ul class="mb-1 list-unstyled">
+                        <li class="mr-2 d-inline-block">
                           <fieldset>
                             <div class="custom-control custom-radio">
                               <input
@@ -242,7 +242,7 @@
                             </div>
                           </fieldset>
                         </li>
-                        <li class="d-inline-block mr-2">
+                        <li class="mr-2 d-inline-block">
                           <fieldset>
                             <div class="custom-control custom-radio">
                               <input
@@ -258,7 +258,7 @@
                           </fieldset>
                         </li>
                         <li
-                          class="d-inline-block mr-2"
+                          class="mr-2 d-inline-block"
                           v-if="isShared && groupIds.length < getUserGroups.length"
                         >
                           <button
@@ -266,14 +266,14 @@
                             class="btn btn-icon btn-success waves-effect waves-light"
                             @click="addGroup"
                           >
-                            <i class="fa fa-plus mr-1"></i>Agregar
+                            <i class="mr-1 fa fa-plus"></i>Agregar
                           </button>
                         </li>
                       </ul>
 
                       <div v-if="isShared">
                         <div
-                          class="form-group row mb-1"
+                          class="mb-1 form-group row"
                           v-for="(gi, index) in groupIds"
                           :key="index"
                         >
@@ -292,7 +292,7 @@
                           <button
                             v-if="groupIds.length > 1"
                             type="button"
-                            class="btn btn-danger ml-1 col-1"
+                            class="ml-1 btn btn-danger col-1"
                             @click="removeGroup(index)"
                           >
                             <i class="fa fa-minus" style="margin: 0px -5px;"></i>
@@ -344,8 +344,8 @@
                         <select id="cboNegCommissionType" name="cboNegCommissionType" class="form-control"
                                 v-model="commission_type">
                           <option value="">- Tipo comisión -</option>
-                          <option value="P">Porcentaje</option>
-                          <option value="M">Monto</option>
+                          <option value="P">%</option>
+                          <option value="M">Fijo</option>
                         </select>
                     </div>
                   </div>
@@ -357,17 +357,17 @@
       </div>
     </div>
     <!-- Buttons -->
-    <div class="card-footer text-center">
+    <div class="text-center card-footer">
       <button
         type="button"
-        class="btn bg-gradient-primary waves-effect waves-light mr-1 btn-lg"
+        class="mr-1 btn bg-gradient-primary waves-effect waves-light btn-lg"
         @click="check()"
         :disabled="isDisabled"
       >Guardar</button>
       <button
         v-if="negId !== null"
         type="button"
-        class="btn bg-gradient-warning waves-effect waves-light mr-1 btn-lg"
+        class="mr-1 btn bg-gradient-warning waves-effect waves-light btn-lg"
         @click.stop="archiveModal()"
       >Archivar</button>
       <button
