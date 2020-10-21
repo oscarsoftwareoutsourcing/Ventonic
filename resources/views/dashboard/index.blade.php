@@ -130,7 +130,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <p class="mb-0">Comisiones: <span id="contact_clients">{{$contacts_data['new']['total']}}€</span></p>
+                                            <p class="mb-0">Comisiones: <span id="contact_comisiones">@money($negs['comisiones'])€</span></p>
                                             <div class="progress progress-bar-warning mt-25">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="60" aria-valuemax="100" style="width:60%"></div>
                                             </div>
@@ -154,7 +154,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <p class="mb-0">Cerradas: <span id="contact_lost">{{$contacts_data['lost']['total']}}</span></p>
+                                            <p class="mb-0">Cerradas: <span id="contact_cerradas">{{$negs['closed']['total']}}</span></p>
                                             <div class="progress progress-bar-success mt-25">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="70" aria-valuemax="100" style="width:70%"></div>
                                             </div>
@@ -564,8 +564,12 @@
                 new ApexCharts(document.querySelector("#subscribe_gain_chart"), subscribe_gain).render();
 
                 let contactBilling = moneyFormat(response.negs.closed.amount)+'€';
+                let contactComisiones = moneyFormat(response.negs.comisiones)+'€';
+                let contactCerradas = moneyFormat(response.negs.closed.total);
                 let contactNegotiation = moneyFormat(response.negs.in_process.amount)+'€';
                 $('#contact_billing').html(contactBilling);
+                $('#contact_cerradas').html(contactCerradas);
+                $('#contact_comisiones').html(contactComisiones);
                 $('#contacts_percent').html(response.contacts_data.all.percent);
                 $('#contact_clients').html(response.contacts_data.new.total);
                 $('#contact_lost').html(response.contacts_data.lost.total);
