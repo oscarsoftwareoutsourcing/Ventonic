@@ -395,3 +395,6 @@ Route::group(['middleware' => ['verified'], 'prefix' => 'google-calendar'], func
     Route::post('disconnect', 'GoogleCalendarController@disconnect');
     Route::post('filter-events', 'GoogleCalendarController@filterEvents');
 });
+Route::get('/valoracion', function () {
+    return view('assessment.index');
+});
