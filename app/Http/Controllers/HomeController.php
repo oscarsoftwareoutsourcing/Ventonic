@@ -9,10 +9,7 @@ use App\Contact;
 use App\Negotiation;
 use App\Event;
 use App\Document;
-use App\Task;
 use App\Note;
-use App\Email;
-use App\CallEvent;
 use App\Helpers\FormatTime;
 use stdClass;
 use DB;
@@ -47,7 +44,7 @@ class HomeController extends Controller
         $contacts_data['all'] = self::getContacts($date_term);
         $contacts_data['new'] = self::getContacts($date_term);
         $contacts_data['lost'] = self::getContacts($date_term, '5');
-       // dd( $contacts_data['lost']);
+        // dd( $contacts_data['lost']);
         $negs['all'] = self::getNegotiations($date_term);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);
         $negs['won'] = self::getNegotiations($date_term, 1, null);
@@ -56,20 +53,20 @@ class HomeController extends Controller
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
-        
+
 
         $activities = json_encode(self::getActivities($date_term));
-        
+
         //dd($activities);
 
-        if(auth()->user()->dash_demo==1) { 
+        if (auth()->user()->dash_demo==1) {
             return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs, 'activity' => $activities]);
-        } else { 
-         return view('dashboard.demo' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
+        } else {
+            return view('dashboard.demo', ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
         }
     }
 
-     public function demo()
+    public function demo()
     {
         //validamos si esta en demo
         $date_term = "7 days ago";
@@ -84,16 +81,16 @@ class HomeController extends Controller
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
-         return view('dashboard.demo' , ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
+        return view('dashboard.demo', ['contacts_data' => $contacts_data, 'negs' => $negs]);  //home
     }
 
-         public function midash(Request $request)
+    public function midash(Request $request)
     {
         //validamos si esta en demo
         $user_id = auth()->user()->id;
         $user_up = User::where('id', $user_id)->first();
 
-        if($request->get('favorito')){
+        if ($request->get('favorito')) {
             $user_up->dash_demo = 1;
             $user_up->save();
         }
@@ -115,8 +112,7 @@ class HomeController extends Controller
         $activities = self::getActivities($date_term);
 
 
-        return view('dashboard.index' , ['contacts_data' => $contacts_data, 'negs' => $negs, 'activity' => $activities]);  //home
-
+        return view('dashboard.index', ['contacts_data' => $contacts_data, 'negs' => $negs, 'activity' => $activities]);  //home
     }
 
     public function searchSeller()
@@ -162,7 +158,7 @@ class HomeController extends Controller
 
     public function getUsers($take = 20)
     {
-        return response()->json(User::where('type', 'V')->take($take)->get());
+        return response()->json(User::where('type', 'V')->get());
     }
 
     public function filterSearch(Request $request)
@@ -221,22 +217,22 @@ class HomeController extends Controller
             ->where('created_at', '>=', $date_range->from)
             ->where('created_at', '<=', $date_range->to);
         if ($type>0) {
-            $contacts = $contacts->where('contact_type_id','=', $type)
+            $contacts = $contacts->where('contact_type_id', '=', $type)
             ->groupBy('created_at')
             ->orderBy('day_logged')
             ->get()->toArray();
         } else {
-             $contacts = $contacts->groupBy('created_at')
+            $contacts = $contacts->groupBy('created_at')
             ->orderBy('day_logged')
             ->get()->toArray();
         }
-       
+
 
         $data['total'] = array_sum(array_column($contacts, 'total'));
         $data['contacts'] = $contacts;
         $data['percent'] = round(($data['total'] / Contact::count()) * 100, 2);
 
-        //$queries = DB::getQueryLog(); 
+        //$queries = DB::getQueryLog();
         //dd($queries);
         return $data;
     }
@@ -279,7 +275,7 @@ class HomeController extends Controller
         }
         $negs = $negs->where('created_at', '>=', $date_range->from)
             ->where('created_at', '<=', $date_range->to)
-            ->where('user_id','=',  $user_id)
+            ->where('user_id', '=', $user_id)
             ->groupBy('created_at')
             ->orderBy('day_logged')
             ->get()->toArray();
@@ -293,14 +289,13 @@ class HomeController extends Controller
 
     public static function getConvDays($date)
     {
-
         $date_range = self::getDateRange($date);
         //dd($date_range);
         $convDays = Negotiation::selectRaw('SUM(q1.Diff) as Diff')->fromSub(function ($query) use ($date_range) {
             $query->selectRaw("DATEDIFF( won_status_date, created_at ) AS Diff")
                 ->from('negotiations')
                 ->where('neg_status_id', '=', 1)
-                ->where('won_status_date', '!=', NULL)
+                ->where('won_status_date', '!=', null)
                 ->where('created_at', '>=', $date_range->from)
                 ->where('created_at', '<=', $date_range->to);
         }, 'q1')->first();
@@ -309,21 +304,22 @@ class HomeController extends Controller
         return $convDays->Diff;
     }
 
-    public static function getActivities($date){
+    public static function getActivities($date)
+    {
         $date_range = self::getDateRange($date);
         $user_id = auth()->user()->id;
 
-        $events = Event::select('id', 'title', 'notes','created_at','start_at')
-        ->where('user_id','=',  $user_id)
+        $events = Event::select('id', 'title', 'notes', 'created_at', 'start_at')
+        ->where('user_id', '=', $user_id)
         ->where('created_at', '>=', $date_range->from)
         ->where('created_at', '<=', $date_range->to)
-        ->orderBy('id','DESC')->limit(2)->get();
+        ->orderBy('id', 'DESC')->limit(2)->get();
         $array = null;
         $i = 0;
-        if($events->count()){
-        foreach ($events as $event) {
-            //dd($event);
-                   $data_event = [
+        if ($events->count()) {
+            foreach ($events as $event) {
+                //dd($event);
+                $data_event = [
                     'id'    => $event->id,
                     'title' => $event->title,
                     'notes' => $event->notes,
@@ -331,21 +327,21 @@ class HomeController extends Controller
                     'type'  => 'event',
                     'extra' => 'Nuevo evento'
                    ];
-                   $array[$i] = $data_event;
-                   $i = $i + 1;
-                }
+                $array[$i] = $data_event;
+                $i = $i + 1;
+            }
         }
 
         $notes = Note::select('id', 'description', 'created_at')
-        ->where('user_id','=',  $user_id)
+        ->where('user_id', '=', $user_id)
         ->where('created_at', '>=', $date_range->from)
         ->where('created_at', '<=', $date_range->to)
-        ->orderBy('id','DESC')->limit(2)->get();
+        ->orderBy('id', 'DESC')->limit(2)->get();
 
-         if($notes->count()){
-        foreach ($notes as $note) {
-            //dd($event);
-                   $data_note = [
+        if ($notes->count()) {
+            foreach ($notes as $note) {
+                //dd($event);
+                $data_note = [
                     'id'    => $note->id,
                     'title' => $note->description,
                     'notes' => '',
@@ -353,21 +349,21 @@ class HomeController extends Controller
                     'type'  => 'note',
                     'extra' => 'Nueva nota'
                    ];
-                   $array[$i] = $data_note;
-                   $i = $i + 1;
-                }
+                $array[$i] = $data_note;
+                $i = $i + 1;
+            }
         }
 
         $documents = Document::select('id', 'note', 'created_at')
-        ->where('user_id','=',  $user_id)
+        ->where('user_id', '=', $user_id)
         ->where('created_at', '>=', $date_range->from)
         ->where('created_at', '<=', $date_range->to)
-        ->orderBy('id','DESC')->limit(2)->get();
+        ->orderBy('id', 'DESC')->limit(2)->get();
 
-         if($documents->count()){
-        foreach ($documents as $doc) {
-            //dd($event);
-                   $data_doc = [
+        if ($documents->count()) {
+            foreach ($documents as $doc) {
+                //dd($event);
+                $data_doc = [
                     'id'    => $doc->id,
                     'title' => $doc->note,
                     'notes' => '',
@@ -375,10 +371,10 @@ class HomeController extends Controller
                     'type'  => 'doc',
                     'extra' => 'Nuevo documento'
                    ];
-                   $array[$i] = $data_doc;
-                   $i = $i + 1;
-                }
+                $array[$i] = $data_doc;
+                $i = $i + 1;
+            }
         }
-       return $array;
+        return $array;
     }
 }

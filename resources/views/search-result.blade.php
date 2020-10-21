@@ -1,5 +1,13 @@
 @extends('layouts.app-dashboard')
 
+@section('extra-css')
+    <style>
+        .pagination {
+            padding: 0
+        }
+    </style>
+@endsection
+
 @section('content')
 
 <div class="app-content content">
@@ -14,7 +22,7 @@
             </div>
         </div>
 
-        
+
             <search-sellers></search-sellers>
             {{-- <div class="row justify-content-center">
                 <div class="col-md-4">
@@ -106,8 +114,8 @@
                     </div>
                 </div>
             </div> --}}
-        
-        
+
+
     </div>
 
 </div>

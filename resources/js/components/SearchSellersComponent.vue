@@ -76,8 +76,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div v-for="seller in sellers" class="col-lg-4 col-md-4 col-sm-16 col-xs-12">
+                <!--<div class="row">-->
+                    <paginate name="sellersList" :list="sellers" :per="20" tag="div" class="row">
+                    <div v-for="seller in paginated('sellersList')" class="col-lg-4 col-md-4 col-sm-16 col-xs-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
@@ -122,6 +123,16 @@
                             </div>
                         </div>
                     </div>
+                    </paginate>
+                <!--</div>-->
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 offset-sm-3 offset-md-4 offset-lg-4">
+                        <nav class="mt-3" style="margin:0 auto;">
+                            <paginate-links for="sellersList" :show-step-links="true" :async="true"
+                                            :classes="{ul: 'pagination',li: 'page-item',a: 'page-link'}"
+                                            :step-links="{next: '›',prev: '‹'}" :limit="3"></paginate-links>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
@@ -140,6 +151,7 @@ export default {
             filters: [],
             sellers: [],
             token: csrf_token,
+            paginate: ['sellersList']
         };
     },
     watch: {

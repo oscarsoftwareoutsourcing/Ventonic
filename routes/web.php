@@ -116,7 +116,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('filtro', 'HomeController@filterSearch')->name('filter.search');
     Route::resource('perfil', 'ProfileController');
     //Route::resource('questions', 'QuestionController');
-    Route::get('get-users', 'HomeController@getUsers')->name('get-users');
+    Route::get('get-users/{take?}', 'HomeController@getUsers')->name('get-users');
     Route::get('get-surveys', 'HomeController@getSurveys')->name('get-surveys');
 
     Route::resource('events', 'EventController');
