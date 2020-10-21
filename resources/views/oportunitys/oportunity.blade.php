@@ -324,7 +324,8 @@
                                                               </button>
                                                           </div>
 
-                                                          <form method="POST" action="{{ route('oportunity.postulation') }}" id="formPostular">
+                                                          <form method="POST" action="{{ route('oportunity.postulation') }}"
+                                                                id="formPostular" enctype="multipart/form-data">
                                                               @csrf
                                                             <div class="modal-body">
                                                             Está a punto de enviar su candidatura a la oportunidad <span id="nameOportunity">{{$oportunity->title}}</span>
@@ -343,13 +344,13 @@
                                                                   </label>
 
                                                                     <div class="col-md-12">
-                                                                    
+
                                                                         <input id="video" type="file" class="form-control @error('video') is-invalid @enderror" name="video" value="" autocomplete="video" onchange="Filevalidation()">
                                                                         <small id="videoHelpBlock" class="form-text text-muted">
                                                                             El tamaño del vídeo debe ser como máximo 10MB.<br>
                                                                             Los formatos soportados son: .avi, .mpeg, .mp4 y .wmv
                                                                         </small>
-                                                                        <p id="size"></p> 
+                                                                        <p id="size"></p>
                                                                         @error('video')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
@@ -357,7 +358,7 @@
                                                                         @enderror
                                                                     </div>
                                                                 </div>
-                                                            
+
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="submit" id="contact-directo" name="contact-directo" value="mensaje-directo" class="btn btn-primary">Confirmar</button>
@@ -398,32 +399,32 @@
 @section('extra-js')
     <script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script>
 
-     <script type='text/javascript'> 
+     <script type='text/javascript'>
 
-     Filevalidation = () => { 
+     Filevalidation = () => {
        console.log('validacion');
-        const fi = document.getElementById('video'); 
-        // Check if any file is selected. 
-        if (fi.files.length > 0) { 
-            for (let i = 0; i <= fi.files.length - 1; i++) { 
-  
-                const fsize = fi.files.item(i).size; 
-                const file = Math.round((fsize / 1024)); 
-                // The size of the file. 
-                if (file >= 10096) { 
-                    alert( 
+        const fi = document.getElementById('video');
+        // Check if any file is selected.
+        if (fi.files.length > 0) {
+            for (let i = 0; i <= fi.files.length - 1; i++) {
+
+                const fsize = fi.files.item(i).size;
+                const file = Math.round((fsize / 1024));
+                // The size of the file.
+                if (file >= 10096) {
+                    alert(
                       "El tamaño del vídeo debe ser como máximo 10MB.");
-                      document.getElementById('video').value = null; 
-                } else { 
+                      document.getElementById('video').value = null;
+                } else {
                     document.getElementById('size').innerHTML = '<b>'
-                    + file + '</b> KB'; 
-                } 
-            } 
-        } 
-    } 
+                    + file + '</b> KB';
+                }
+            }
+        }
+    }
     </script>
 
-   
+
 @endsection
 
 @section('extra-js-app')

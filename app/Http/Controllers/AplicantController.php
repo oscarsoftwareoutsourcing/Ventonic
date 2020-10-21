@@ -21,7 +21,7 @@ use App\Repositories\UploadRepository;
 
 class AplicantController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, UploadRepository $up)
     {
         $id_oportunity=$request->input('oportunity_id');
         $oportunity=Oportunity::find($id_oportunity);
@@ -42,13 +42,24 @@ class AplicantController extends Controller
             $type_message='sala chat';
         }
 
+        $video = null;
+        if ($request->file('video')) {
+            if ($up->upload($request->file('video'), 'oportunitys', false, false, false, true)) {
+                $video = $up->getStored();
+            }
+        }
+
         $postulation = Aplicant::updateOrCreate(
-            ['user_id' => $seller,
-             'oportunity_id'=>$request->oportunity_id],
-            ['type-message' =>  $type_message,
-             'message' =>  $request->message !== null ? $request->message : null,
-             'status_postulations_id' => $status,
-             'favorite' => false
+            [
+                'user_id' => $seller,
+                'oportunity_id'=>$request->oportunity_id
+            ],
+            [
+                'type-message' =>  $type_message,
+                'message' =>  $request->message !== null ? $request->message : null,
+                'status_postulations_id' => $status,
+                'favorite' => false,
+                'video' => $video
             ]
         );
 
@@ -67,6 +78,9 @@ class AplicantController extends Controller
         $sectors=SectorOportunity::all();
         $antiguedad=UbicationOportunity::all();
         $jobType=JobType::all();
+
+        session()->flash('message', 'Postulación aplicada con éxito');
+
         return view('oportunitys.oportunitys', ['oportunitys'=> $oportunitys,
                                                'sectors'=>$sectors ,
                                                'antiguedad'=>$antiguedad,
