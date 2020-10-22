@@ -279,7 +279,6 @@
             /**
              * Realiza el proceso para registrar un evento
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             setEvent() {
                 const vm = this;
@@ -347,7 +346,6 @@
             /**
              * Obtiene un listado de eventos
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             getEvents() {
                 const vm = this;

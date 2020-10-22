@@ -67,7 +67,6 @@
             /**
              * Obtiene un listado de colas de tareas
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             getTaskQueues() {
                 const vm = this;

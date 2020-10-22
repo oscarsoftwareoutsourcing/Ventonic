@@ -1316,7 +1316,6 @@
             /**
              * Monitorea cuando se selecciona un correo electrónico para ejecutar las acciones asociadas
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             selectedEmail: function() {
                 const vm = this;
@@ -1338,7 +1337,6 @@
             /**
              * Verifica si tiene una configuración vinculada
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             hasSetting: function() {
                 const vm = this;
@@ -1359,7 +1357,6 @@
             /**
              * Establece la carpeta o bandeja de correo a mostrar
              *
-             * @author     Ing. Roldan Vargas <rolvar@sogtwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             setFolder(folder) {
                 const vm = this;
@@ -1372,7 +1369,6 @@
             /**
              * Almacena los archivos a adjuntar para un nuevo correo
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             uploadAttachment: function() {
                 if (!$("#emailAttach").val()) {
@@ -1407,7 +1403,6 @@
             /**
              * Elimina un archivo adjunto
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}        attach    Ubicación del archivo a eliminar
              */
@@ -1434,7 +1429,6 @@
             /**
              * Muestra el número de mensajes en una carpeta
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              *
              * @param     {array}         folder    Arreglo con el contenido de una carpeta
              *
@@ -1446,7 +1440,6 @@
             /**
              * Muestra el número de mensaje sin leer dentro de una carpeta
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              *
              * @param     {array}       folder    Arreglo con el contenido de la carpeta
              *
@@ -1462,7 +1455,6 @@
             /**
              * Obtiene un listado de mensajes del servidor de correos
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param {integer|boolean} download    Indica si los mensajes a obtener se van a descargar del servidor del
              *                                      gestor de correo vinculado. El valor por defecto es 0.
@@ -1494,7 +1486,6 @@
             /**
              * Obtiene el enlace de descarga del archivo adjunto
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}         attachmentPath    Ruta en donde se ubica el archivo
              *
@@ -1510,7 +1501,6 @@
             /**
              * Obtiene el nombre del archivo adjunto en un correo
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              *
              * @param     {string}         attachmentPath    Ruta del archivo adjunto
              *
@@ -1523,7 +1513,6 @@
             /**
              * Ejecuta la acción para enviar un mensaje de correo electrónico
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             sentMessage() {
                 const vm = this;
@@ -1577,7 +1566,6 @@
             /**
              * Guardar mensaje en borradores
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             saveDraft() {
                 const vm = this;
@@ -1585,7 +1573,6 @@
             /**
              * Ejecuta la acción para reiniciar los campos para el envio de correo electrónico
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             resetMessage() {
                 this.sent = {
@@ -1609,7 +1596,6 @@
             /**
              * Marca el o los mensajes como leídos
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string|array}      message_id    identificador del(los) mensaje(s)
              */
@@ -1617,7 +1603,6 @@
             /**
              * Elimina uno o mas mensajes
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}    message_id    Identificador del mensaje a eliminar,
              *                                      si no se especifica busca en un listado de mensajes a eliminar,
@@ -1656,7 +1641,6 @@
             /**
              * Bandera que permite mostrar nuevamente el formulario de configuración
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             setting() {
                 this.settingUpdate = true;
@@ -1664,7 +1648,6 @@
             /**
              * Establece un correo como favorito
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {integer}       message_id    Identificador del correo a marcar como favorito
              */
@@ -1714,7 +1697,6 @@
             /**
              * Responder mensaje
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             replyMessage() {
                 const vm = this;
@@ -1726,7 +1708,6 @@
             /**
              * Reenviar mensaje
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             forwardMessage() {
                 const vm = this;
@@ -1736,7 +1717,6 @@
             /**
              * Crea el listado de páginas a mostrar en el paginador de correos
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             setPages(mails) {
                 const vm = this;
@@ -1748,7 +1728,6 @@
             /**
              * Establecer etiquetas de mensajes
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}      tag    Etiqueta a establecer
              */
@@ -1788,7 +1767,6 @@
             /**
              * Obtiene listados de mensajes etiquetados
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              */
             getTaggedMessages() {
                 const vm = this;
@@ -1808,7 +1786,6 @@
             /**
              * Marca un mensaje de acuerdo a la opción indicada por el usuario
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}    type    Tipo de acción para marcar el mensaje. Las opciones son:
              *                                draft, spam, trash, readed o unreaded
@@ -1931,7 +1908,6 @@
             /**
              * Determina si existe un mensage posterior del cual mostrar detalles
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}                message_id    Identificador del mensaje
              *
@@ -1950,7 +1926,6 @@
             /**
              * Determina si existe un mensage anterior del cual mostrar detalles
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}                message_id    Identificador del mensaje
              *
@@ -1969,7 +1944,6 @@
             /**
              * Selecciona el pŕoximo correo para mostrar los detalles
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}             message_id    Identificador del mensaje
              */
@@ -1986,7 +1960,6 @@
             /**
              * Selecciona el correo anterior para mostrar los detalles
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @param     {string}             message_id    Identificador del mensaje
              */

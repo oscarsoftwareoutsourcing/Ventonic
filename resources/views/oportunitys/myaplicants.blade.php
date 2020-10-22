@@ -286,9 +286,9 @@
                     <div class="col-12">
                         <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
                             <video id="aplicantVideo" width="100%" preload controls>
-                                <source src="/{{ $aplicant->video }}" />
-                                <source src="/{{ $aplicant->video }}" />
-                                <source src="/{{ $aplicant->video }}" />
+                                <source src="{{ $aplicant->video }}" />
+                                <source src="{{ $aplicant->video }}" />
+                                <source src="{{ $aplicant->video }}" />
                             </video>
                         </div>
                     </div>

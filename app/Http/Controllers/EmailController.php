@@ -206,7 +206,6 @@ class EmailController extends Controller
      *
      * @method    destroySetting
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request           $request    Objeto con datos de la petición
      *
@@ -247,7 +246,6 @@ class EmailController extends Controller
      *
      * @method    getMessages
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     [integer]     $download   Establece si se descarga o no los mensajes desde el servidor de correo
      *
@@ -436,7 +434,6 @@ class EmailController extends Controller
      *
      * @method    sentMessage
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request        $request    Objeto con la petición
      *
@@ -577,7 +574,6 @@ class EmailController extends Controller
      *
      * @method    destroyMessages
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request            $request    [description]
      *
@@ -606,7 +602,6 @@ class EmailController extends Controller
      *
      * @method    setFavorite
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request        $request    Objeto con la petición
      */
@@ -627,7 +622,6 @@ class EmailController extends Controller
      *
      * @method    saveDraft
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request      $request    Objeto con los datos de la petición
      *
@@ -670,7 +664,6 @@ class EmailController extends Controller
      *
      * @method    markRead
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Request     $request    Objeto con información de la petición
      *
@@ -691,7 +684,6 @@ class EmailController extends Controller
      *
      * @method    uploadAttachment
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Request             $request    Objeto con datos de la petición
      *
@@ -714,7 +706,6 @@ class EmailController extends Controller
      *
      * @method    destroyAttachment
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request              $request    Objeto con datos de la petición
      *
@@ -737,7 +728,6 @@ class EmailController extends Controller
      *
      * @method    setTags
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request    $request    Objeto con datos de la petición
      *
@@ -759,7 +749,6 @@ class EmailController extends Controller
      *
      * @method    getTaggedMessages
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return    JsonResponse               Objeto con datos de respuesta a la petición
      */
@@ -789,7 +778,6 @@ class EmailController extends Controller
      *
      * @method    checkAutoConfig
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request            $request    Objeto con datos de la petición
      *
@@ -837,7 +825,6 @@ class EmailController extends Controller
      *
      * @method    typeAccounts
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     string          $email       Dirección de correo electrónico
      * @param     string          $username    Nombre de usuario con acceso a la cuenta de correo electrónico
@@ -925,7 +912,6 @@ class EmailController extends Controller
      *
      * @method    markMessagesAs
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @param     Request           $request    Objeto con datos de la petición
      *
@@ -963,7 +949,6 @@ class EmailController extends Controller
      *
      * @method    hasExternalEmail
      *
-     * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
      *
      * @return    boolean             Devuelve verdadero si el usuario ha configurado una cuenta externa,
      *                                de lo contrario devuelve falso

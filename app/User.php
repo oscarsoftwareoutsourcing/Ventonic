@@ -298,8 +298,6 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @method    getTypeAttribute
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-     *
      * @return    string              Devuelve el tipo de usuario, si es vendedor o empresa
      */
     //public function getTypeAttribute()

@@ -205,7 +205,6 @@ export default {
     /**
      * Evento que se genera después de una carga correcta de documentos
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     {object}                file        Objeto con información del archivo
      * @param     {object}                response    Objeto con información de respuesta
@@ -223,7 +222,6 @@ export default {
     /**
      * Evento que se ejecuta cuando un archivo es eliminado
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     {string}                file     Nombre del archivo a eliminar
      * @param     {string}                error    Mensaje de error

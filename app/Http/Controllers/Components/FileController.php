@@ -15,7 +15,6 @@ class FileController extends Controller
      *
      * @method    uploadDocument
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Request             $request    Objeto con datos de la petición
      * @param     UploadRepository    $up         Objeto con información del archivo a subir
@@ -42,7 +41,6 @@ class FileController extends Controller
      *
      * @method    setDocument
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Request        $request    Objeto con información de la petición
      *
@@ -77,7 +75,6 @@ class FileController extends Controller
      *
      * @method    getDocuments
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Negotiation     $negotiation    Objeto con información de la negociación
      *
@@ -110,7 +107,6 @@ class FileController extends Controller
      *
      * @method    deleteDocument
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Request           $request    Objeto con información de la petición
      *

@@ -50,6 +50,7 @@ class HomeController extends Controller
         $negs['won'] = self::getNegotiations($date_term, 1, null);
         $negs['lost'] = self::getNegotiations($date_term, 2, null);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
+        $negs['comisiones'] = self::getNegotiationsComision($date_term, 1, 6);
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
@@ -78,6 +79,7 @@ class HomeController extends Controller
         $negs['won'] = self::getNegotiations($date_term, 1, null);
         $negs['lost'] = self::getNegotiations($date_term, 2, null);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
+        $negs['comisiones'] = self::getNegotiationsComision($date_term, 1, 6);
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
@@ -105,6 +107,7 @@ class HomeController extends Controller
         $negs['won'] = self::getNegotiations($date_term, 1, null);
         $negs['lost'] = self::getNegotiations($date_term, 2, null);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
+        $negs['comisiones'] = self::getNegotiationsComision($date_term, 1, 6);
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0;
         $negs['convDays'] = number_format($convDaysAvg);
@@ -248,6 +251,7 @@ class HomeController extends Controller
         $negs['won'] = self::getNegotiations($date_term, 1, null);
         $negs['lost'] = self::getNegotiations($date_term, 2, null);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
+        $negs['comisiones'] = self::getNegotiationsComision($date_term, 1, 6);
         $daysCount = self::getConvDays($date_term);
         $convDaysAvg = ($negs['won']['total'] > 0) ? $daysCount / $negs['won']['total'] : 0; //$daysCount/$negs['won']['total'];
         $negs['convDays'] = number_format($convDaysAvg);
@@ -263,6 +267,7 @@ class HomeController extends Controller
 
 
         // Status_id => process = 3, won = 1,  lost = 2, FALSE = all;
+        
         $date_range = self::getDateRange($date);
         $user_id = auth()->user()->id;
 
@@ -280,11 +285,55 @@ class HomeController extends Controller
             ->orderBy('day_logged')
             ->get()->toArray();
 
+            //if($process_id==6 && $date=='90 days ago') {
+            //    dd($negs);
+            //}
         $data['total'] = array_sum(array_column($negs, 'total'));
         $data['amount'] = array_sum(array_column($negs, 'amount'));
         $data['negs'] = $negs;
 
         return $data;
+    }
+
+    public static function getNegotiationsComision($date, $status_id = null, $process_id = null) {
+        $date_range = self::getDateRange($date);
+        $user_id = auth()->user()->id;
+
+        //DB::connection()->enableQueryLog();
+
+        $negs = Negotiation::selectRaw("commission_type as type ,commission_amount as amount, amount as total, DATE_FORMAT(created_at, '%Y-%m-%d') AS day_logged");
+        if ($status_id) {
+            $negs = $negs->where('neg_status_id', $status_id);
+        }
+        if ($process_id) {
+            $negs = $negs->where('neg_process_id', $process_id);
+        }
+        $negs = $negs->where('created_at', '>=', $date_range->from)
+            ->where('created_at', '<=', $date_range->to)
+            ->where('user_id', '=', $user_id)
+            ->get();
+        //$queries = DB::getQueryLog();
+        //dd($queries);
+        //dd($negs);
+        $comision = 0;
+        if ($negs->count()) {
+            foreach ($negs as $neg) {
+                $type = '';
+                $type = $neg->type;
+                $amount = 0;
+                $amount = $neg->amount;
+                $total = 0;
+                $total = $neg->total;
+                if($type=='M') {
+                    $comision +=$amount;
+                } else {
+                    $comision += ($amount * $total)/100;
+                }
+            }
+        }
+        //dd($comision);
+        return $comision;
+
     }
 
     public static function getConvDays($date)

@@ -58,7 +58,6 @@
             /**
              * Obtiene los registros a mostrar en la lista de detalles
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             getRecords() {
                 const vm = this;

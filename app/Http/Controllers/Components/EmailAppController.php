@@ -18,7 +18,6 @@ class EmailAppController extends Controller
      *
      * @method    setEmail
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Request     $request    Objeto con datos de la petición
      *
@@ -88,7 +87,6 @@ class EmailAppController extends Controller
      *
      * @method    getEmails
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Negotiation    $negotiation    Objeto con información de la negociación
      *
@@ -113,7 +111,6 @@ class EmailAppController extends Controller
      *
      * @method    getContactEmails
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Request             $request    Objeto con datos de la petición
      *

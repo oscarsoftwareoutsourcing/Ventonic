@@ -224,7 +224,6 @@
             /**
              * Registra una nueva tarea
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             setTask() {
                 const vm = this;
@@ -263,7 +262,6 @@
             /**
              * Obtiene un listado de tareas
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             getTasks() {
                 const vm = this;
@@ -279,7 +277,6 @@
             /**
              * Obtiene un listado de contactos
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             getContacts() {
                 const vm = this;
@@ -295,7 +292,6 @@
             /**
              * Obtiene un listado de tipos de tareas
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             getTaskTypes() {
                 const vm = this;
@@ -311,7 +307,6 @@
             /**
              * Obtiene un listado de prioridades de tareas
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             getTaskPriorities() {
                 const vm = this;

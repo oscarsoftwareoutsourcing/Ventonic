@@ -233,7 +233,6 @@
             /**
              * Realiza el procedimiento de consulta de correos de acuerdo a lo indicado por el usuario
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             searchEmail() {
                 const vm = this;
@@ -252,7 +251,6 @@
             /**
              * Agrega el correo electrónico seleccionado por el usuario
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             addEmail() {
                 const vm = this;
@@ -273,7 +271,6 @@
             /**
              * Realiza las acciones necesarias para registrar y enviar un correo electrónico
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             setEmail() {
                 const vm = this;
@@ -315,7 +312,6 @@
             /**
              * Obtiene un listado de correos enviados desde algún módulo de la aplicación
              *
-             * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
              */
             getEmails() {
                 const vm = this;
@@ -330,7 +326,6 @@
             /**
              * Determina si se ha configurado una cuenta externa para la gestión de correos
              *
-             * @author     Ing. Roldan Vargas <roldandvg@gmail.com>
              *
              * @return    {Boolean}    Devuelve verdadero si tiene una cuenta configurada, de lo contrario retorna falso
              */

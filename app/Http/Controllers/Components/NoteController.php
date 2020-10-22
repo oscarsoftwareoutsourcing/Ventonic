@@ -13,7 +13,6 @@ class NoteController extends Controller
      *
      * @method    setNote
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Request    $request    Objeto con la respuesta a la petición
      *
@@ -44,7 +43,6 @@ class NoteController extends Controller
      *
      * @method    getNotes
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
      *
      * @param     Negotiation      $negotiation    Objeto con datos de la negociación
      *
