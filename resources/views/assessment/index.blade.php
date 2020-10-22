@@ -137,7 +137,11 @@
             </div>
 
             <div class="text-center comment-box">
+                @if (auth()->check() && auth()->user()->id === $user->id)
+                    <h4>Usted no se puede valorar a sí mismo</h4>
+                @else
                     <rating-score :to-rate="true" :star-size="50" :inactive-color="'#CFD2E1'" :border-width="3" :border-color="'#FFFFFF'" :active-color="'#FFFFFF'" :user="{{ $user }}" :from-email="'{{ $from }}'"></rating-score>
+                @endif
                     <!--<div class="rating">
                         <input type="radio" name="rating" value="5" id="5"><label for="5" class="mr-1">☆</label>
                         <input type="radio" name="rating" value="4" id="4"><label for="4"  class="mr-1">☆</label>

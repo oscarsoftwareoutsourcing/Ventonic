@@ -1,6 +1,6 @@
 <template>
     <div class="form-row">
-        <div class="col-12" :class="{'col-sm-2 offset-sm-10 col-md-2 offset-md-10': !isDetail}" v-if="!toRate">
+        <div class="col-12" :class="{'col-sm-3 offset-sm-9 col-md-3 offset-md-9': !isDetail}" v-if="!toRate">
             <star-rating :increment="0.01" :fixed-points="2" :star-size="starSize" :active-color="activeColor"
                          :read-only="true" class="float-left" v-model="ratingScore"
                          :border-width="borderWidth" :inactive-color="inactiveColor"

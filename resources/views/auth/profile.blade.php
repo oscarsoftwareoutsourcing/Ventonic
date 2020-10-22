@@ -2,8 +2,12 @@
 
 @section('extra-css')
     <style>
-        .wizard-header {
-            color: #ffffff;
+        .vue-form-wizard .wizard-title {
+            color: #ffffff !important;
+        }
+        .vue-form-wizard .wizard-tab-content .wizard-container-contacts {
+            padding-top: 10px;
+            padding-bottom: 40px;
         }
     </style>
 @endsection
@@ -50,9 +54,11 @@
                                     </div>
                                 @endif
                             @endif
-                            <div class="alert alert-success alert-request" role="alert" style="display:none"></div>
+
                             @if ($type === 'V')
-                                <rating-score :to-rate="false" :user="{{ auth()->user() }}"></rating-score>
+                                <rating-score :to-rate="false" :user="{{ auth()->user() }}"
+                                              :inactive-color="'#10163A'" :active-color="'#0086FA'"
+                                              :border-width="2" :border-color="'#0086FA'"></rating-score>
                             @endif
                             {{-- Formulario de actualización de datos de perfil --}}
                             <form method="POST" action="{{ route('perfil.store') }}" enctype="multipart/form-data">
@@ -65,7 +71,7 @@
                                         <div class="progress progress-lg progress-bar-primary">
                                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ $status }}%;"
                                                 aria-valuenow="{{ $status }}" aria-valuemin="0" aria-valuemax="100">
-                                                {{ $status }}%
+                                                {{ ($status<100)?number_format($status, 2, ",", "."):$status }}%
                                             </div>
                                         </div>
                                         <input type="hidden" name="status" value="{{ $status }}">
@@ -343,7 +349,8 @@
 
                                 <hr class="mt-5 mb-5">
                                 <h6 class="display-6 text-center mt-3 mb-3">Valoraciones</h6>
-
+                                <div class="alert alert-success alert-request" role="alert"
+                                     style="display:none"></div>
                                 @if (auth()->user()->ratings->isEmpty())
                                     <rating-request :user="{{ auth()->user() }}"></rating-request>
                                 @else

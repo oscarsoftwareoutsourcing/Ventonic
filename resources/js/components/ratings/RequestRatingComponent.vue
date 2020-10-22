@@ -1,10 +1,10 @@
 <template>
-    <div class="form-group row ml-4 mr-4">
+    <div class="form-group row ml-4 mr-4" v-if="showRequestRating">
         <p>
             No hay valoraciones disponibles
             <button type="button" class="btn btn-primary btn-sm ml-2"
                     data-toggle="modal" data-target="#requestRatings"
-                    @click="listContacts">
+                    @click="searchContact">
                 Solicitar Valoraciones
             </button>
 
@@ -24,26 +24,68 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form-wizard title="Solicitud de valoración" @on-complete="sendRequest" subtitle=""
-                                         nextButtonText="Siguiente" backButtonText="Atrás"
-                                         finishButtonText="Enviar Solicitud">
+                            <div class="alert alert-danger" role="alert" v-if="requestRatingError">
+                                <h4 class="alert-heading">Error</h4>
+                                <p class="mb-0">{{ requestRatingError }}</p>
+                            </div>
+                            <form-wizard title="Solicitud de valoración" @on-complete="sendRequest"
+                                         nextButtonText="Siguiente" backButtonText="Atrás" step-size="sm"
+                                         finishButtonText="Enviar Solicitud" subtitle="">
                                 <tab-content title="Inicio">
                                     <p>
                                         A través de este asistente podrás solicitar a clientes con los que has trabajado que publiquen una valoración sobre tus servicios
                                     </p>
                                 </tab-content>
-                                <tab-content title="Contactos">
-                                    <div class="row" v-if="contacts">
-                                        <div class="mt-2 col-sm-4" v-for="contact in contacts">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" :id="'contact'+contact.id" name="contact"
-                                                       class="custom-control-input"
-                                                       :value="(contact.email)?contact.email:contact.id"
-                                                       v-model="selectedContacts" @click="verifyEmail(contact)">
-                                                <label class="custom-control-label" :for="'contact'+contact.id">
-                                                    {{ contact.name }} {{ contact.last_name }}<br>
-                                                    {{ contact.email }}
-                                                </label>
+                                <tab-content title="Contactos" :before-change="hasSelectedContacts">
+                                    <div class="row wizard-container-contacts" v-if="contacts">
+                                        <div class="col-12">
+                                            <article class="help-block" v-if="searchContactError">
+                                                <i class="text-danger">{{ searchContactError }}</i>
+                                            </article>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" v-model="searchText"
+                                                       placeholder="buscar contactos...">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="mt-2 col-sm-4" v-for="(contact, index) in paginate(contacts)">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" :id="'contact'+contact.id"
+                                                               name="contact" class="custom-control-input"
+                                                               :value="(contact.email)?contact.email:contact.id"
+                                                               v-model="selectedContacts"
+                                                               @click="verifyEmail(contact, index)">
+                                                        <label class="custom-control-label" :for="'contact'+contact.id">
+                                                            {{ contact.name }} {{ contact.last_name }}<br>
+                                                            {{ contact.email }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <nav class="mt-3">
+                                                        <ul class="paginate-links pagination d-flex justify-content-center">
+                                                            <li class="left-arrow page-item"
+                                                                :class="{'disabled': page_number===1}">
+                                                                <a class="page-link" @click="page_number-=1">‹</a>
+                                                            </li>
+                                                            <li class="number page-item"
+                                                                :class="{'active': index===page_number-1}"
+                                                                v-for="(page, index) in paginateLinks(contacts)">
+                                                                <a href="javascript:void(0)" class="page-link"
+                                                                   @click="page_number=page">
+                                                                    {{ page }}
+                                                                </a>
+                                                            </li>
+                                                            <li class="right-arrow page-item"
+                                                                :class="{'disabled': page_number===page_total}">
+                                                                <a class="page-link" @click="page_number+=1">›</a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -79,9 +121,16 @@
     export default {
         data() {
             return {
+                showRequestRating: true,
+                requestRatingError: '',
                 ratings: [],
                 contacts: [],
-                selectedContacts: []
+                selectedContacts: [],
+                searchContactError: '',
+                searchText: '',
+                page_size: 10,
+                page_number: 1,
+                page_total: 1
             }
         },
         props: {
@@ -91,10 +140,30 @@
             }
         },
         watch: {
-            //
+            searchText: function() {
+                const vm = this;
+                vm.searchContact();
+            },
+            page_number() {
+                const vm = this;
+                vm.paginate;
+            },
         },
         methods: {
-            listContacts() {
+            searchContact() {
+                const vm = this;
+                vm.searchContactError = '';
+                axios.post('/components/get-contacts-emails', {
+                    searchText: vm.searchText
+                }).then(response => {
+                    if (response.data.result) {
+                        vm.contacts = response.data.contacts;
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
+            },
+            /*searchContact() {
                 const vm = this;
                 axios.get('/contacto/get-company-contacts').then(response => {
                     if (response.data.result) {
@@ -103,8 +172,8 @@
                 }).catch(error => {
                     console.error(error);
                 });
-            },
-            verifyEmail(contact) {
+            },*/
+            verifyEmail(contact, index) {
                 const vm = this;
                 const contactId = contact.id;
                 if (!contact.email && $(`#contact${contact.id}`).is(':checked')) {
@@ -113,7 +182,7 @@
                         Si quieres enviarle una solicitud tienes que ir a la sección "Contactos"
                         y añadir su correo electrónico`
                     );
-                    // Agregar instrucciones para desmarcar el contacto
+                    $(`#contact${contact.id}`).prop("checked", false);
                 }
             },
             sendRequest() {
@@ -122,17 +191,49 @@
                     contacts: vm.selectedContacts
                 }).then(response => {
                     if (response.data.result) {
+                        $("#requestRatings").find('.close').click();
                         $(".alert-request").text('Solicitud enviada');
                         $(".alert-request").show();
+                        vm.showRequestRating = false;
+                        vm.selectedContacts = [];
                     }
                 }).catch(error => {
                     console.error(error);
                 })
+            },
+            paginate(array) {
+                const vm = this;
+                var index = Math.abs(parseInt(vm.page_number));
+                index = index > 0 ? index - 1 : index;
+                size = parseInt(vm.page_size);
+                size = size < 1 ? 1 : size;
+                return [...(array.filter((value, n) => {
+                    return (n >= (index * size)) && (n < ((index+1) * size));
+                }))];
+            },
+            paginateLinks(array) {
+                const vm = this;
+                var numbers = Math.round(array.length / vm.page_size);
+
+                if (numbers.length === 0) {
+                    return [1];
+                }
+                var pages = Array.from({ length: numbers - 1 + 1 }, (_, i) => i+1);
+                vm.page_total = pages.length;
+                return pages;
+            },
+            hasSelectedContacts() {
+                const vm = this;
+                vm.requestRatingError = '';
+                if (vm.selectedContacts.length === 0) {
+                    vm.requestRatingError = 'Debe seleccionar al menos un contacto para poder enviar la solicitud';
+                }
+                return vm.requestRatingError === "";
             }
         },
         created() {
             const vm = this;
-            vm.listContacts();
+            vm.searchContact();
         }
     };
 </script>

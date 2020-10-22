@@ -420,6 +420,6 @@ Route::group(['middleware' => ['verified']], function () {
     Route::get('has-ratings/{user}', 'RatingController@hasRatings');
     Route::post('already-rate', 'RatingController@alreadyRate');
     Route::post('send-rating-request', 'RatingController@sendRequest');
+});
     Route::get('valorar/{user}/{from}', 'RatingController@createRate')->name('valorar');
     Route::post('valorar', 'RatingController@storeRate');
-});
