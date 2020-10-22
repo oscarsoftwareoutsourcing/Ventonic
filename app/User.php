@@ -276,6 +276,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Widget::class);
     }
 
+    /**
+     * User has many Ratings.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
     public function getPhotoAttribute()
     {
         return ($this->sellerProfile!==null)

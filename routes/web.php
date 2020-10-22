@@ -200,6 +200,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('editar/{contact_id}', 'ContactController@edit')->name('contact.editForm');
         Route::post('update', 'ContactController@update')->name('contact.update');
         Route::get('get-contacts/{contact_id?}', 'ContactController@getContacts');
+        Route::get('get-company-contacts/{contact_id?}', 'ContactController@getCompanyContacts');
         Route::get('detalles/{contact}', 'ContactController@detail')->name('contact.detail');
         Route::delete('{contact}/delete', 'ContactController@destroyContact');
         Route::post('change-picture', 'ContactController@changePicture');
@@ -410,4 +411,15 @@ Route::group(['middleware' => ['verified'], 'prefix' => 'google-calendar'], func
 });
 Route::get('/valoracion', function () {
     return view('assessment.index');
+});
+
+
+Route::group(['middleware' => ['verified']], function () {
+    Route::resource('rating', 'RatingController');
+    Route::get('get-seller-rating/{user}', 'RatingController@getSellerRating');
+    Route::get('has-ratings/{user}', 'RatingController@hasRatings');
+    Route::post('already-rate', 'RatingController@alreadyRate');
+    Route::post('send-rating-request', 'RatingController@sendRequest');
+    Route::get('valorar/{user}/{from}', 'RatingController@createRate')->name('valorar');
+    Route::post('valorar', 'RatingController@storeRate');
 });

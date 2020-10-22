@@ -14,6 +14,7 @@ use App\SellerProfile;
 use App\Question;
 use App\User;
 use App\Invitation;
+use Cache;
 
 class ProfileController extends Controller
 {
@@ -46,7 +47,7 @@ class ProfileController extends Controller
             ->where('status', 'pendiente')
             ->value('id');
         if ($verify != null && $verify > 0) {
-            return redirect()->route('group.confirmInvitation',['invitacion_id'=>$verify]);
+            return redirect()->route('group.confirmInvitation', ['invitacion_id'=>$verify]);
         }
         // Fin confirmar invitacion a grupo
 
@@ -73,13 +74,13 @@ class ProfileController extends Controller
     public function store(Request $request, UploadRepository $up)
     {
         // Modificar nombre y apellido
-            $name=$request->input('name') ? $request->input('name') : auth()->user()->name;
-            $last_name=$request->input('last_name') ? $request->input('last_name') : null;
-            $user_id=auth()->user()->id;
-            $user=User::find($user_id);
-            $user->name=$name;
-            $user->last_name=$last_name;
-            $user->update();
+        $name=$request->input('name') ? $request->input('name') : auth()->user()->name;
+        $last_name=$request->input('last_name') ? $request->input('last_name') : null;
+        $user_id=auth()->user()->id;
+        $user=User::find($user_id);
+        $user->name=$name;
+        $user->last_name=$last_name;
+        $user->update();
         // End modificar nombre y apellido
 
         $answered = [];
@@ -350,7 +351,7 @@ class ProfileController extends Controller
 
     public function getCountryFlag(Request $request)
     {
-       // dd($request);
+        // dd($request);
         $countryFlag = ($request->country_code) ? $this->setCountryFlag($request->country_code) : '';
         //dd($request);
         return response()->json(['country_flag' => $countryFlag], 200);

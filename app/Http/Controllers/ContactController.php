@@ -489,8 +489,6 @@ class ContactController extends Controller
      *
      * @method    getContacts
      *
-     * @author     Ing. Roldan Vargas <rolvar@softwareoutsourcing.es> | <roldandvg@gmail.com>
-     *
      * @param     integer|null         $contact_id    Identificador del contacto. Opcional
      *
      * @return    JsonResponse         Objeto JSON con los datos de respuesta a la petición
@@ -503,6 +501,23 @@ class ContactController extends Controller
 
         return response()->json([
             'result' => true, 'contacts' => auth()->user()->contact()->orderBy('name', 'asc')->get()
+        ], 200);
+    }
+
+    public function getCompanyContacts($contact_id = null)
+    {
+        if ($contact_id !== null) {
+            return response()->json(['result' => true, 'contacts' => Contact::where([
+                'type_contact' => 'empresa', 'id' => $contact_id
+            ])->get()], 200);
+        }
+
+        return response()->json([
+            'result' => true,
+            'contacts' => auth()->user()->contact()->where(
+                'type_contact',
+                'empresa'
+            )->orderBy('name', 'asc')->get()
         ], 200);
     }
 

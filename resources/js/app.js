@@ -14,7 +14,7 @@ import VueFlatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 import {Spanish} from 'flatpickr/dist/l10n/es.js';
 import VuePaginate from 'vue-paginate';
-
+import StarRating from 'vue-star-rating';
 
 require("./bootstrap");
 
@@ -25,6 +25,7 @@ Vue.use(PerfectScrollbar);
 Vue.use(CKEditor);
 Vue.use(VueFlatPickr);
 Vue.use(VuePaginate);
+Vue.component('star-rating', StarRating);
 
 Vue.component("search-sellers", () =>
     import("./components/SearchSellersComponent.vue")
@@ -86,6 +87,10 @@ Vue.component('calender-setting', () => import('./components/CalenderSettingComp
 
 /** Componente para filtrar calendarios */
 Vue.component('calender-filters', () => import('./components/CalenderFiltersComponent.vue'));
+
+Vue.component('rating-score', () => import('./components/ratings/RatingScoreComponent.vue'));
+Vue.component('rating-request', () => import('./components/ratings/RequestRatingComponent.vue'));
+Vue.component('rating-list', () => import('./components/ratings/ListRatesComponent.vue'));
 
 Vue.mixin({
     components: {

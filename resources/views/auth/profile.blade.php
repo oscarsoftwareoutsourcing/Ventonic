@@ -1,5 +1,13 @@
 @extends('layouts.app-dashboard')
 
+@section('extra-css')
+    <style>
+        .wizard-header {
+            color: #ffffff;
+        }
+    </style>
+@endsection
+
 @section('content')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -17,21 +25,20 @@
         <div class="">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    
+
                     <div class="card">
                      <div class="bg-gradient-primary">
                             <div class="card_vetonic-description">
                                 <div class="text_vetonic-description1">Actualizar Perfil</div>
                             </div>
                         </div>
-                         
-                        
+
+
                         <div class="card-body">
-                        
-                                <div class="alert alert-success" style="display:none">
-                                        <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
-                                        <span>El PIN ha sigo copiado al portapaeles</span>
-                                </div>
+                            <div class="alert alert-success" style="display:none">
+                                    <button type="button" class="close text-white" id="dismiss" data-dismiss="alert">&times;</button>
+                                    <span>El PIN ha sigo copiado al portapaeles</span>
+                            </div>
                             @if (session('status'))
                                 <div class="alert alert-success" role="alert">
                                     {{ session('status') }}
@@ -42,6 +49,10 @@
                                         {{ __('El correo fue verificado, ahora puedes completar tu perfil') }}
                                     </div>
                                 @endif
+                            @endif
+                            <div class="alert alert-success alert-request" role="alert" style="display:none"></div>
+                            @if ($type === 'V')
+                                <rating-score :to-rate="false" :user="{{ auth()->user() }}"></rating-score>
                             @endif
                             {{-- Formulario de actualización de datos de perfil --}}
                             <form method="POST" action="{{ route('perfil.store') }}" enctype="multipart/form-data">
@@ -60,8 +71,8 @@
                                         <input type="hidden" name="status" value="{{ $status }}">
                                     </div>
                                 </div>
-                                
-                               
+
+
                                 {{-- BEGIN Nombres y apellidos --}}
                                 <div class="form-group row">
                                     <label for="dni_rif" class="col-md-4 col-form-label text-md-right">
@@ -290,7 +301,7 @@
                                                 El tamaño del vídeo debe ser como máximo 10MB.<br>
                                                 Los formatos soportados son: .avi, .mpeg, .mp4 y .wmv
                                             </small>
-                                            <p id="size"></p> 
+                                            <p id="size"></p>
                                             @error('video')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -325,10 +336,20 @@
                                         <div class="col-md-2">
                                             <input id="copyBtn" type="button" class="btn btn-outline-primary mr-1 mb-1 waves-effect waves-light" onclick="copyPin()" name="copyBtn" value="Copiar mi PIN" >
                                         </div>
-                                        
-                                        
+
+
                                     </div>
                                 @endif
+
+                                <hr class="mt-5 mb-5">
+                                <h6 class="display-6 text-center mt-3 mb-3">Valoraciones</h6>
+
+                                @if (auth()->user()->ratings->isEmpty())
+                                    <rating-request :user="{{ auth()->user() }}"></rating-request>
+                                @else
+                                    <rating-list :user="{{ auth()->user() }}"></rating-list>
+                                @endif
+
 
                                 @if (!$questions->isEmpty())
                                     <hr class="mt-5 mb-5">
@@ -396,32 +417,32 @@
 @section('extra-js')
     @parent
 
-     <script type='text/javascript'> 
-     Filevalidation = () => { 
-        const fi = document.getElementById('video'); 
-        // Check if any file is selected. 
-        if (fi.files.length > 0) { 
-            for (let i = 0; i <= fi.files.length - 1; i++) { 
-  
-                const fsize = fi.files.item(i).size; 
-                const file = Math.round((fsize / 1024)); 
-                // The size of the file. 
-                if (file >= 10096) { 
-                    alert( 
+     <script type='text/javascript'>
+     Filevalidation = () => {
+        const fi = document.getElementById('video');
+        // Check if any file is selected.
+        if (fi.files.length > 0) {
+            for (let i = 0; i <= fi.files.length - 1; i++) {
+
+                const fsize = fi.files.item(i).size;
+                const file = Math.round((fsize / 1024));
+                // The size of the file.
+                if (file >= 10096) {
+                    alert(
                       "El tamaño del vídeo debe ser como máximo 10MB.");
-                      document.getElementById('video').value = null; 
-                } else { 
+                      document.getElementById('video').value = null;
+                } else {
                     document.getElementById('size').innerHTML = '<b>'
-                    + file + '</b> KB'; 
-                } 
-            } 
-        } 
-    } 
+                    + file + '</b> KB';
+                }
+            }
+        }
+    }
     </script>
 
     <script>
         function copyPin(){
-           
+
             var copyPinText = document.getElementById('pin').select();
             document.execCommand("copy");
             alert("El PIN ha sigo copiado al portapaeles");
@@ -445,7 +466,7 @@
         }
     </script>
 
-    
 
-   
+
+
 @endsection
