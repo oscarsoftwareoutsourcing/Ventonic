@@ -192,6 +192,9 @@
         .img-sel {
             max-width: 120px;
         }
+        .card-list {
+            border:solid 1px;
+        }
     </style>
 </head>
 

@@ -163,7 +163,8 @@ class RatingController extends Controller
     public function getRatings(Request $request)
     {
         $user = User::find($request->user_id);
-        $ratings = ($request->take) ? $user->ratings()->take($request->take)->get() : $user->ratings;
-        return response()->json(['result' => true, 'ratings' => $ratings, 'allRatings' => $user->ratings], 200);
+        //$ratings = ($request->take) ? $user->ratings()->take($request->take)->get() : $user->ratings;
+        $ratings = $user->ratings()->orderBy('id', 'desc')->get();
+        return response()->json(['result' => true, 'ratings' => $ratings], 200);
     }
 }

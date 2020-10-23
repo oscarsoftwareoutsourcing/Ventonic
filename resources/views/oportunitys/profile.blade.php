@@ -79,6 +79,17 @@
                                                 <td class="font-weight-bold">Fecha de Registro</td>
                                                 <td>{{App\Aplicant::getDate((int)$seller_profile->user_id)}}</td>
                                             </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">Valoración</td>
+                                                <td>
+                                                    <rating-score :to-rate="false" :is-detail="true"
+                                                                  :user="{{ $seller_profile->user }}"
+                                                                  :inactive-color="'#10163A'"
+                                                                  :active-color="'#0086FA'"
+                                                                  :border-width="2" :star-size="16"
+                                                                  :border-color="'#0086FA'"></rating-score>
+                                                </td>
+                                            </tr>
                                         </table>
                                     </div>
                                     {{-- <div class="col-12">
@@ -178,6 +189,22 @@
                         </div>
                     </div>
                     <!-- permissions end -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="bg-gradient-primary">
+                                <div class="card_vetonic-description">
+                                    <div class="text_vetonic-description1">
+                                        <i class="feather icon-user "></i>Comentarios
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body px-75">
+                                <rating-show :user="{{ $seller_profile->user }}" :inactive-color="'#10163A'"
+                                                 :active-color="'#0086FA'" :border-width="2"
+                                                 :border-color="'#0086FA'"></rating-show>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
