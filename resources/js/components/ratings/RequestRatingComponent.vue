@@ -2,7 +2,7 @@
     <div class="form-group row ml-4 mr-4" v-if="showRequestRating">
         <p>
             No hay valoraciones disponibles
-            <button type="button" class="btn btn-primary btn-sm ml-2"
+            <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ml-2"
                     data-toggle="modal" data-target="#requestRatings"
                     @click="searchContact">
                 Solicitar Valoraciones
@@ -194,7 +194,7 @@
                         $("#requestRatings").find('.close').click();
                         $(".alert-request").text('Solicitud enviada');
                         $(".alert-request").show();
-                        vm.showRequestRating = false;
+                        //vm.showRequestRating = false;
                         vm.selectedContacts = [];
                     }
                 }).catch(error => {
@@ -221,6 +221,9 @@
                 var pages = Array.from({ length: numbers - 1 + 1 }, (_, i) => i+1);
                 vm.page_total = pages.length;
                 return pages;
+            },
+            paginateNumber(array, page, index) {
+
             },
             hasSelectedContacts() {
                 const vm = this;
