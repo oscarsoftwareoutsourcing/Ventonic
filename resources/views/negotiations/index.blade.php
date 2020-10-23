@@ -32,6 +32,7 @@
     <negotiations-module :types="{{ $negTypes }}" :statuses="{{ $negStatuses }}" :processes="{{ $negProcesses }}"
                          :negotiations="{{ $negotiations }}" :user="{{ $userId }}" :contacts="{{ $userContacts }}"
                          :a="{{ $userGroups }}" />
+
 @endsection
 
 

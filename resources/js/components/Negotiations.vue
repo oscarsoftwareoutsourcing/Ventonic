@@ -2,7 +2,26 @@
   <div id="negotiationsModule" class="app-content content">
     <div class="content-overlay"></div>
     <div id="headerNavbarShadow" class="header-navbar-shadow"></div>
-    <div id="contentWrapper" class="content-wrapper pt-1">
+    <div class="content-help" v-if="getShowLists">
+        <div class="link-help">
+        <button type="button" class=" btn btn-primary btn-sm waves-effect waves-light"
+        data-toggle="modal"
+        data-target="#primary"
+        id="postularseBtn"
+        ><i class="text-white feather icon-video"></i> Ver ayuda </button>
+        </div>
+    </div>
+
+    <div class="content-help" v-if="getShowDetails">
+        <div class="link-help">
+        <button type="button" class=" btn btn-primary btn-sm waves-effect waves-light"
+        data-toggle="modal"
+        data-target="#detailsModal"
+        id="postularseBtn"
+        ><i class="text-white feather icon-video"></i> Ver ayuda </button>
+        </div>
+    </div>
+    <div id="contentWrapper" class="content-wrapper pt-3">
       <!-- Module control -->
       <negotiations-controls v-if="!getShowForm && !getShowDetails" />
       <div class="new-header1" v-else>
@@ -119,6 +138,54 @@
       <negotiation-confirm-modal v-if="getShowConfirm" />
       <div class="modal-backdrop fade show" v-if="getShowConfirm"></div>
     </div>
+
+      <div class="text-left modal fade" id="primary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true" v-if="getShowLists">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-primary white">
+                        <h5 class="modal-title" id="myModalLabel160">Chat</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeVideo" @click="closeVideo" >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
+                            
+        
+
+                            <video id="videoContainer" width="100%" preload controls >
+                           
+                                <source src="video/Negociaciones-Principal.mp4" />
+                                <source src="video/Negociaciones-Principal.mp4" />
+                                <source src="video/Negociaciones-Principal.mp4" />
+                            
+                            </video>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-left modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true" v-else>
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-primary white">
+                        <h5 class="modal-title" id="myModalLabel160">Negociaciones</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeVideo" @click="closeVideo" >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
+                            <!-- <div v-html="callme.iframe"></div> -->
+                            <video id="videoContainer" width="100%" preload controls>
+                           
+                                <source src="video/Negociacion-Detalle.mp4" />
+                                <source src="video/Negociacion-Detalle.mp4" />
+                                <source src="video/Negociacion-Detalle.mp4" />
+                            
+                            </video>
+                        </div>
+                </div>
+            </div>
+        </div>
   </div>
 </template>
 <script>
@@ -182,6 +249,10 @@ export default {
       separateNegotiations: "SEPARATE_NEGOTIATIONS",
       setSearch: "SET_SEARCH",
     }),
+    closeVideo(){
+            const video = document.getElementById("videoContainer");
+            video.pause();
+    },
     handleResize() {},
     updateModuleSizes() {},
     setFooterStyles() {},

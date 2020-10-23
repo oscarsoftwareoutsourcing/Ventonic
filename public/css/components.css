@@ -52,7 +52,7 @@ html body .content.app-content .content-overlay {
 }
 html body .content.app-content .content-area-wrapper {
   height : calc(100% - 5rem);
-  margin : calc(5rem + 3.2rem) 2.2rem 0;
+  margin : calc(5rem + 3.8rem) 2.2rem 0;
   display : -webkit-box;
   display : -webkit-flex;
   display : -ms-flexbox;
@@ -63,7 +63,7 @@ html body .content.app-content .content-area-wrapper {
 html body .content.app-content .content-help {
     /*height: calc(100% - 5rem);*/
     width : calc(100% - 5rem);
-    margin: calc(5rem + 1.1rem) 2.2rem 0;
+    margin: calc(5rem + 1.3rem) 2.2rem 0;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -75,6 +75,27 @@ html body .content.app-content .content-help {
    margin-left: auto;
    z-index: 100;
 }
+
+
+html body .content.app-content .content-help2 {
+    /*height: calc(100% - 5rem);*/
+    width: calc(100% - 5rem);
+    margin: calc(5rem + 1.1rem) 2.2rem 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    z-index: 100;
+    position: absolute;
+}
+
+.link-help2 {
+    margin-left: auto;
+    z-index: 100;
+}
+
+
+
 html body .content.app-content .content-area-wrapper .content-wrapper {
   margin-top : 0;
   height : calc(100vh - 13rem);
