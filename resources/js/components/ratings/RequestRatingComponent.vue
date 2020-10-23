@@ -2,7 +2,7 @@
     <div class="form-group row ml-4 mr-4" v-if="showRequestRating">
         <p>
             No hay valoraciones disponibles
-            <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ml-2"
+            <button type="button" class="btn bg-gradient-primary btn-lg waves-effect waves-light ml-2"
                     data-toggle="modal" data-target="#requestRatings"
                     @click="searchContact">
                 Solicitar Valoraciones
@@ -114,9 +114,16 @@
 </template>
 
 <script>
+    import VueLoading from "vuejs-loading-plugin";
     import VueFormWizard from "vue-form-wizard";
     import "vue-form-wizard/dist/vue-form-wizard.min.css";
     Vue.use(VueFormWizard);
+    Vue.use(VueLoading, {
+        dark: true,
+        text: "Enviando solicitud",
+        loading: false,
+        background: "rgba(16, 22, 58, .5)"
+    });
 
     export default {
         data() {
@@ -187,6 +194,7 @@
             },
             sendRequest() {
                 const vm = this;
+                vm.$loading(true);
                 axios.post('/send-rating-request', {
                     contacts: vm.selectedContacts
                 }).then(response => {
@@ -197,8 +205,10 @@
                         //vm.showRequestRating = false;
                         vm.selectedContacts = [];
                     }
+                    vm.$loading(false);
                 }).catch(error => {
                     console.error(error);
+                    vm.$loading(false);
                 })
             },
             paginate(array) {

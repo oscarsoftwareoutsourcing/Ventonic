@@ -5,5 +5,8 @@
     </head>
     <body>
         {{ $msg }}
+        @if (isset($url))
+            <a href="{{ $url }}">$urlText</a>
+        @endif
     </body>
 </html>

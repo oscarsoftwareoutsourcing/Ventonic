@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Rating;
 use App\User;
 use App\Notifications\RatingNotification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RateRequestMail;
+use Illuminate\Support\Facades\URL;
 
 class RatingController extends Controller
 {
@@ -115,12 +118,20 @@ class RatingController extends Controller
         ]);
 
         foreach ($request->contacts as $contact) {
-            //$user = User::where('email', $contact)->first();
-            $contact = 'empresa1@ventonic.com';
             $user = User::where('email', $contact)->first();
 
-            if ($user) {
+            if ($user !== null) {
                 $user->notify(new RatingNotification(auth()->user(), $contact));
+            } else {
+                $subject = 'Valora a ' . auth()->user()->name;
+                $url = URL::signedRoute('valorar', ['user' => auth()->user()->id, 'from' => $contact]);
+                $urlText = "Valorar";
+                $msg = '<p>Deja un comentario de tu experiencia. Valora la profesionalidad, amabilidad,
+                        disponibilidad del vendedor con el que has trabajado, así como cualquier otro
+                        aspecto que quieras compartir para que el resto de Empresas que accedan a su
+                        perfil puedan conocer.</p>
+                        <p>Valora tú experiencia en Ventonic con ' . auth()->user()->name . '</p>';
+                Mail::to($contact)->send(new RateRequestMail($subject, $url, $urlText, $msg, auth()->user()->name));
             }
         }
 

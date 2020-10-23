@@ -194,7 +194,7 @@
                             <div class="bg-gradient-primary">
                                 <div class="card_vetonic-description">
                                     <div class="text_vetonic-description1">
-                                        <i class="feather icon-user "></i>Comentarios
+                                        <i class="feather icon-user "></i>Valoraciones
                                     </div>
                                 </div>
                             </div>
