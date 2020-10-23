@@ -1,4 +1,4 @@
-@extends('layouts.app-errors')
+@extends('layouts.app-assessment')
 
 @section('extra-css')
 <style>
