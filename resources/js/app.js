@@ -91,6 +91,7 @@ Vue.component('calender-filters', () => import('./components/CalenderFiltersComp
 Vue.component('rating-score', () => import('./components/ratings/RatingScoreComponent.vue'));
 Vue.component('rating-request', () => import('./components/ratings/RequestRatingComponent.vue'));
 Vue.component('rating-list', () => import('./components/ratings/ListRatesComponent.vue'));
+Vue.component('rating-show', () => import('./components/ratings/RateUserComponent.vue'));
 
 Vue.mixin({
     components: {

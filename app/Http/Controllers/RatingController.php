@@ -159,4 +159,11 @@ class RatingController extends Controller
 
         return response()->json(['rating' => ($rating!==null)], 200);
     }
+
+    public function getRatings(Request $request)
+    {
+        $user = User::find($request->user_id);
+        $ratings = ($request->take) ? $user->ratings()->take($request->take)->get() : $user->ratings;
+        return response()->json(['result' => true, 'ratings' => $ratings, 'allRatings' => $user->ratings], 200);
+    }
 }

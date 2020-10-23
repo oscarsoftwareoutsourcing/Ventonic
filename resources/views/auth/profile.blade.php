@@ -354,7 +354,9 @@
                                 @if (auth()->user()->ratings->isEmpty())
                                     <rating-request :user="{{ auth()->user() }}"></rating-request>
                                 @else
-                                    <rating-list :user="{{ auth()->user() }}"></rating-list>
+                                    <rating-show :user="{{ auth()->user() }}" :inactive-color="'#10163A'"
+                                                 :active-color="'#0086FA'" :border-width="2"
+                                                 :border-color="'#0086FA'"></rating-show>
                                 @endif
 
 
