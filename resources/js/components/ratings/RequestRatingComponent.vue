@@ -205,7 +205,7 @@
                 const vm = this;
                 var index = Math.abs(parseInt(vm.page_number));
                 index = index > 0 ? index - 1 : index;
-                size = parseInt(vm.page_size);
+                var size = parseInt(vm.page_size);
                 size = size < 1 ? 1 : size;
                 return [...(array.filter((value, n) => {
                     return (n >= (index * size)) && (n < ((index+1) * size));
