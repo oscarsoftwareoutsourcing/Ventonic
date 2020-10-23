@@ -351,12 +351,17 @@
                                 <h6 class="display-6 text-center mt-3 mb-3">Valoraciones</h6>
                                 <div class="alert alert-success alert-request" role="alert"
                                      style="display:none"></div>
-                                @if (auth()->user()->ratings->isEmpty())
-                                    <rating-request :user="{{ auth()->user() }}"></rating-request>
+                                @php
+                                    $user = auth()->user();
+                                @endphp
+                                @if ($user->ratings->isEmpty())
+                                    <rating-request :user="{{ $user }}"></rating-request>
                                 @else
-                                    <rating-show :user="{{ auth()->user() }}" :inactive-color="'#10163A'"
+                                    <rating-show :user="{{ $user }}" :inactive-color="'#10163A'"
                                                  :active-color="'#0086FA'" :border-width="2"
                                                  :border-color="'#0086FA'"></rating-show>
+                                    <rating-request :user="{{ $user }}"
+                                                    :has-ratings="{{ ($user->ratings->isEmpty())?'false':'true' }}"></rating-request>
                                 @endif
 
 

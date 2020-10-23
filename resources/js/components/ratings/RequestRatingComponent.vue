@@ -1,7 +1,7 @@
 <template>
-    <div class="form-group row ml-4 mr-4" v-if="showRequestRating">
+    <div class="form-group row ml-4 mr-4">
         <p>
-            No hay valoraciones disponibles
+            <span v-if="!hasRatings">No hay valoraciones disponibles</span>
             <button type="button" class="btn bg-gradient-primary btn-lg waves-effect waves-light ml-2"
                     data-toggle="modal" data-target="#requestRatings"
                     @click="searchContact">
@@ -145,7 +145,6 @@
     export default {
         data() {
             return {
-                showRequestRating: true,
                 requestRatingError: '',
                 ratings: [],
                 contacts: [],
@@ -161,6 +160,11 @@
             user: {
                 type: Object,
                 required: true
+            },
+            hasRatings: {
+                type: Boolean,
+                required: false,
+                default: false
             }
         },
         watch: {
@@ -219,7 +223,6 @@
                         $("#requestRatings").find('.close').click();
                         $(".alert-request").text('Solicitud enviada');
                         $(".alert-request").show();
-                        //vm.showRequestRating = false;
                         vm.selectedContacts = [];
                     }
                     vm.$loading(false);
