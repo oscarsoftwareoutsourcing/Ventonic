@@ -131,7 +131,9 @@ class RatingController extends Controller
                         aspecto que quieras compartir para que el resto de Empresas que accedan a su
                         perfil puedan conocer.</p>
                         <p>Valora tú experiencia en Ventonic con ' . auth()->user()->name . '</p>';
-                Mail::to($contact)->send(new RateRequestMail($subject, $url, $urlText, $msg, auth()->user()->name));
+                $full_name = auth()->user()->name . (auth()->user()->last_name !== null)
+                                                    ? (' ' . auth()->user()->last_name) : '';
+                Mail::to($contact)->send(new RateRequestMail($subject, $url, $urlText, $msg, $full_name));
             }
         }
 

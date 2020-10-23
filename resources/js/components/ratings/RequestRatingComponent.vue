@@ -71,14 +71,31 @@
                                                                 :class="{'disabled': page_number===1}">
                                                                 <a class="page-link" @click="page_number-=1">‹</a>
                                                             </li>
+                                                            <li class="number page-item active">
+                                                                <a href="javascript:void(0)" class="page-link">
+                                                                    {{ page_number }}
+                                                                </a>
+                                                            </li>
+                                                            <li class="number page-item disabled"
+                                                                v-if="paginateLinks(contacts).length > page_number">
+                                                                <a href="javascript:void(0)" class="page-link">
+                                                                    /
+                                                                </a>
+                                                            </li>
                                                             <li class="number page-item"
+                                                                v-if="paginateLinks(contacts).length > page_number">
+                                                                <a href="javascript:void(0)" class="page-link">
+                                                                    {{ paginateLinks(contacts).length }}
+                                                                </a>
+                                                            </li>
+                                                            <!--<li class="number page-item"
                                                                 :class="{'active': index===page_number-1}"
                                                                 v-for="(page, index) in paginateLinks(contacts)">
                                                                 <a href="javascript:void(0)" class="page-link"
                                                                    @click="page_number=page">
                                                                     {{ page }}
                                                                 </a>
-                                                            </li>
+                                                            </li>-->
                                                             <li class="right-arrow page-item"
                                                                 :class="{'disabled': page_number===page_total}">
                                                                 <a class="page-link" @click="page_number+=1">›</a>
@@ -153,7 +170,7 @@
             },
             page_number() {
                 const vm = this;
-                vm.paginate;
+                //vm.paginate;
             },
         },
         methods: {
@@ -233,7 +250,7 @@
                 return pages;
             },
             paginateNumber(array, page, index) {
-
+                //
             },
             hasSelectedContacts() {
                 const vm = this;
