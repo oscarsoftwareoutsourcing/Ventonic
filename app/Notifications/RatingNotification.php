@@ -55,6 +55,8 @@ class RatingNotification extends Notification
                         perfil puedan conocer.'
                     )
                     ->line('Valora tu experiencia en Ventonic con ' . $this->rateUser->name)
+                    ->line('Es necesario rellenar el campo "N.I.F." en la sección "Mi perfil" para poder 
+                    realizar valoraciones a vendedores')
                     ->action('Valorar', $url);
     }
 
