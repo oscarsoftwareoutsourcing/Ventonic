@@ -9,6 +9,7 @@ use App\Notifications\RatingNotification;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RateRequestMail;
 use Illuminate\Support\Facades\URL;
+use App\CompanyProfile;
 
 class RatingController extends Controller
 {
@@ -144,6 +145,20 @@ class RatingController extends Controller
     {
         if (! $request->hasValidSignature()) {
             abort(401);
+        }
+        
+        $user_empre = User::where('email',$from)->first();
+        if ($user->type == "E") {
+            if ($user_empre->type == "E") {
+                $empre_profile = CompanyProfile::where('user_id',$user_empre->id)->first();
+                if ($empre_profile->dni_rif == null) {
+                $request->session()->flash('status', 'Es necesario rellenar el campo "N.I.F." en la sección "Mi perfil" para poder realizar valoraciones a vendedores');
+                return redirect()->route('perfil.index');
+                }
+            }
+        } else {
+            $request->session()->flash('status', 'Solo las empresas pueden realizar valoraciones a los vendedores');
+                return redirect()->route('perfil.index');
         }
 
         return view('assessment.index', compact('user', 'from'));

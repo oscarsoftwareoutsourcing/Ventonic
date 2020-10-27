@@ -34,6 +34,31 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="mb-4 col-12">
+                                <h4>Valoración</h4>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="5" v-model="rating"  />
+                                            <label class="form-check-label">5 estrellas</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="4" v-model="rating" />
+                                            <label class="form-check-label">4 o más de 4 estrellas</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="3" v-model="rating" />
+                                            <label class="form-check-label">3 o más de 3 estrellas</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="2" v-model="rating" />
+                                            <label class="form-check-label">Menos de 2 estrellas</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="mb-4 col-12" v-for="survey in surveys">
                                 <h4>{{ survey.name }}</h4>
                                 <div class="row" v-for="(question, index) in getOptions(survey.options)">
@@ -111,13 +136,18 @@
                                                 </button>
                                             </div>
                                         </span>
-                                        <h3>{{ seller.name }} {{ seller.last_name }}</h3>
+                                        <h3>{{ seller.name }} {{ seller.last_name }} </h3>
                                         <div class="email-sales">{{ seller.email }}</div>
                                         <p class="mb-1 card-text">Última Conexión {{ seller.last_login }}</p>
                                         <div v-if="seller.seller_profile">
                                             <a class="text-white byn bg-gradient-primary waves-effect waves-light btn-sm" :href="'profile/aplicant/'+ seller.id ">Ver perfil</a>
                                         </div>
                                         <div v-else>Perfil No Disponible</div>
+                                        <div class="float-right my-1 mr-auto">
+                                        <rating-score :to-rate="false" :user="seller.id" :is-detail="true"
+                                              :inactive-color="'#10163A'" :active-color="'#0086FA'" :star-size="16"
+                                              :border-width="2" :border-color="'#0086FA'"></rating-score>
+                                        </div>      
                                     </div>
                                 </div>
                             </div>
