@@ -129,6 +129,7 @@ $('#saveBtn').on('click', function() {
 
     var errors = {};
     axios.post('/events', {
+        calendar: $('#cal-calendar').val(),
         title: $('#cal-event-title').val(),
         start_at: $('#cal-start-date').val(),
         //start_time: $('#cal-start-time').val(),
@@ -161,6 +162,7 @@ $('#saveBtn').on('click', function() {
 // calendar update event
 $("#updateBtn").on("click", function() {
     axios.put('/events/' + $('#cal-event-id').val(), {
+        calendar: $('#cal-calendar').val(),
         title: $('#cal-event-title').val(),
         start_at: $('#cal-start-date').val(),
         //start_time: $('#cal-start-time').val(),

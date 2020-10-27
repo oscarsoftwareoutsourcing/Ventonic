@@ -9,6 +9,7 @@ use App\Event;
 use App\CalendarSetting;
 use Illuminate\Http\Request;
 use Google_Service_Calendar;
+use Google_Service_Calendar_Event;
 use App\GoogleCalendar;
 use Google_Client;
 use GuzzleHttp\Client as GuzzleClient;
@@ -88,6 +89,7 @@ class EventController extends Controller
             $startDate = date("Y-m-d H:i:s", $start);
             $endDate = date("Y-m-d H:i:s", $end);
 
+
             $event = new Event;
             $event->category = $request->category ?? 'O';
             $event->title = $request->title;
@@ -96,6 +98,43 @@ class EventController extends Controller
             $event->notes = $request->notes;
             $event->place = $request->place ?? null;
             $event->user_id = auth()->user()->id;
+
+            if ($request->calendar) {
+                $client = new Google_Client();
+                $client->setAuthConfig(storage_path('app/google-calendar/client_id.json'));
+                $client->addScope(Google_Service_Calendar::CALENDAR);
+
+                $guzzleClient = new GuzzleClient([
+                    'curl' => [CURLOPT_SSL_VERIFYPEER => false]
+                ]);
+                $client->setHttpClient($guzzleClient);
+                $client->setAccessToken(session()->get('access_token'));
+                if ($client->isAccessTokenExpired()) {
+                    return redirect('/google-calendar/oauth');
+                }
+
+                $service = new Google_Service_Calendar($client);
+                $data = [
+                    'summary' => $request->title,
+                    'description' => $request->notes,
+                    'start' => [
+                        'dateTime' => str_replace(" ", "T", $startDate),
+                        'timeZone' => 'Europe/Madrid'
+                    ],
+                    'end' => [
+                        'dateTime' => str_replace(" ", "T", $endDate),
+                        'timeZone' => 'Europe/Madrid'
+                    ]
+                ];
+                if ($request->place) {
+                    $data['location'] = $request->place;
+                }
+                $googleEvent = new Google_Service_Calendar_Event($data);
+                $calendarId = (strpos("@gmail.com", $request->calendar) !== false) ? 'primary' : $request->calendar;
+                $evt = $service->events->insert($calendarId, $googleEvent);
+                $event->external_calendar = 'gCalendar';
+                $event->external_key = $evt->getId();
+            }
 
             $event->save();
 

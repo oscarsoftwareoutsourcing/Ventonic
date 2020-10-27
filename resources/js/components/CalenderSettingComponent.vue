@@ -167,6 +167,7 @@ export default {
         },
         getCalendars() {
             const vm = this;
+            $('#cal-calendar').html('<option value="">Ventonic</option>');
             if (vm.appCalendar === "gCalendar") {
                 axios
                     .get("/google-calendar/get-calendars")
@@ -174,6 +175,11 @@ export default {
                         if (response.data.result) {
                             vm.calendars = response.data.calendars;
                             vm.$root.$refs.calendarFilters.calendars = response.data.calendars;
+                            if (vm.calendars.length > 0) {
+                                vm.calendars.forEach(calendar => {
+                                    $('#cal-calendar').append(`<option value="${calendar.google_id}">${calendar.name}</option>`);
+                                });
+                            }
                         } else {
                             location.href = response.data.redirect;
                         }

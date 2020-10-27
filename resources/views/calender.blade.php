@@ -102,32 +102,46 @@
                                 </div>
 
                                 <div class="modal-body">
-
-                                    {{-- Labels Dropdown --}}
-                                    <div class="d-flex justify-content-between align-items-center add-category">
-                                        <div id="labelBullet" class="chip-wrapper"></div>
-                                        <div class="label-icon pt-1 pb-2 dropdown calendar-dropdown">
-                                            <i class="feather icon-tag dropdown-toggle" id="labelsBtn" data-toggle="dropdown"></i>
-                                            <div id="categoriesContainer" class="dropdown-menu dropdown-menu-right" aria-labelledby="cal-event-category">
-                                                <span class="dropdown-item bulletOpt" data-key="B">
-                                                    <span class="bullet bullet-success bullet-sm mr-25"></span>
-                                                    Eventos
-                                                </span>
-                                                <span class="dropdown-item bulletOpt" data-key="W">
-                                                    <span class="bullet bullet-warning bullet-sm mr-25"></span>
-                                                    Recordatorios
-                                                </span>
-                                                <span class="dropdown-item bulletOpt" data-key="P">
-                                                    <span class="bullet bullet-danger bullet-sm mr-25"></span>
-                                                    Tareas
-                                                </span>
-                                                <span class="dropdown-item bulletOpt" data-key="O">
-                                                    <span class="bullet bullet-primary bullet-sm mr-25"></span>
-                                                    Otros
-                                                </span>
+                                    <div class="row">
+                                        <div class="col-12 col-sm-10">
+                                            <div class="form-group">
+                                                <label for="">Calendario</label>
+                                                <select id="cal-calendar" class="form-control">
+                                                    <option value="">Ventonic</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-2">
+                                            {{-- Labels Dropdown --}}
+                                            <div class="d-flex justify-content-between align-items-center add-category">
+                                                <div id="labelBullet" class="chip-wrapper"></div>
+                                                <div class="label-icon pt-1 pb-2 dropdown calendar-dropdown">
+                                                    <i class="feather icon-tag dropdown-toggle" id="labelsBtn"
+                                                       data-toggle="dropdown"></i>
+                                                    <div id="categoriesContainer" aria-labelledby="cal-event-category"
+                                                         class="dropdown-menu dropdown-menu-right">
+                                                        <span class="dropdown-item bulletOpt" data-key="B">
+                                                            <span class="bullet bullet-success bullet-sm mr-25"></span>
+                                                            Eventos
+                                                        </span>
+                                                        <span class="dropdown-item bulletOpt" data-key="W">
+                                                            <span class="bullet bullet-warning bullet-sm mr-25"></span>
+                                                            Recordatorios
+                                                        </span>
+                                                        <span class="dropdown-item bulletOpt" data-key="P">
+                                                            <span class="bullet bullet-danger bullet-sm mr-25"></span>
+                                                            Tareas
+                                                        </span>
+                                                        <span class="dropdown-item bulletOpt" data-key="O">
+                                                            <span class="bullet bullet-primary bullet-sm mr-25"></span>
+                                                            Otros
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
 
                                     {{-- Calendar form --}}
                                     <form id="calendarForm">
