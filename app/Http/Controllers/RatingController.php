@@ -148,14 +148,15 @@ class RatingController extends Controller
         }
         
         $user_empre = User::where('email',$from)->first();
-        if ($user->type == "E") {
-            if ($user_empre->type == "E") {
+        //dd($user);
+        //if ($user->type == "E") {
+        if ($user_empre->type == "E") {
                 $empre_profile = CompanyProfile::where('user_id',$user_empre->id)->first();
                 if ($empre_profile->dni_rif == null) {
                 $request->session()->flash('status', 'Es necesario rellenar el campo "N.I.F." en la sección "Mi perfil" para poder realizar valoraciones a vendedores');
                 return redirect()->route('perfil.index');
                 }
-            }
+            
         } else {
             $request->session()->flash('status', 'Solo las empresas pueden realizar valoraciones a los vendedores');
                 return redirect()->route('perfil.index');
