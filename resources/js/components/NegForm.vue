@@ -331,7 +331,11 @@
                         type="number" step="0.01"
                         placeholder="Comisión"
                         class="form-control"
-                        v-model="commission_amount"
+                        v-model="commission_amount" v-input-mask
+                                                                   data-inputmask="
+                                                                       'alias': 'numeric',
+                                                                       'allowMinus': 'false',
+                                                                       'digits': '2'"
                       />
 
                       <!-- Validation messages -->

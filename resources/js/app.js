@@ -15,7 +15,7 @@ import 'flatpickr/dist/flatpickr.css';
 import {Spanish} from 'flatpickr/dist/l10n/es.js';
 import VuePaginate from 'vue-paginate';
 import StarRating from 'vue-star-rating';
-
+import Inputmask from "inputmask";
 require("./bootstrap");
 
 window.Vue = require("vue");
@@ -26,6 +26,12 @@ Vue.use(CKEditor);
 Vue.use(VueFlatPickr);
 Vue.use(VuePaginate);
 Vue.component('star-rating', StarRating);
+
+Vue.directive('input-mask', {
+    bind: function(el) {
+        new Inputmask().mask(el);
+    },
+});
 
 Vue.component("search-sellers", () =>
     import("./components/SearchSellersComponent.vue")
