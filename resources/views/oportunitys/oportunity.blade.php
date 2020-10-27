@@ -280,7 +280,14 @@
                                                         class="mx-auto btn btn-flat-primary border-primary text-primary waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Cambiar Status
                                                 </button>
+                                                
                                                 <div class="dropdown-menu" aria-labelledby="btnActionStatus">
+                                                 
+                                                  @if($oportunity->status_id !==2) 
+                                                  <a class="dropdown-item" href="{{ route('oportunity.change_status', [
+                                                    'oportunity' => $oportunity->id, 'statusType' => 'activa'
+                                                  ]) }}">Publicar</a>
+                                                  @endif
                                                   <a class="dropdown-item" href="{{ route('oportunity.change_status', [
                                                     'oportunity' => $oportunity->id, 'statusType' => 'cerrada'
                                                   ]) }}">Cerrar Oportunidad</a>
@@ -290,6 +297,7 @@
                                                     <a class="dropdown-item" href="{{ route('oportunity.change_status', [
                                                     'oportunity' => $oportunity->id, 'statusType' => 'no+publicada'
                                                   ]) }}">No publicada</a>
+
                                                 </div>
                                               </div>
 

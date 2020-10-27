@@ -180,6 +180,7 @@
         methods: {
             searchContact() {
                 const vm = this;
+                vm.requestRatingError = '';
                 vm.searchContactError = '';
                 axios.post('/components/get-contacts-emails', {
                     searchText: vm.searchText

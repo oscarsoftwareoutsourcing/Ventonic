@@ -58,6 +58,7 @@
                                                 <p class="card-text  mb-0">{{App\JobType::getType((int)$oportunity->job_type_id)}}</p>
                                                 -->
                                                 <p class="card-text  mb-0">{{App\Oportunity::listSectors($oportunity->sectors)}}</p>
+                                                <p class="card-text  mb-0 float-right"><strong>{{Str::ucfirst($oportunity->statusOportunity->description)}}</strong></p>
 
                                              <div class="card-btns justify-content-between mt-2">
                                             <a href="#" ></a>
