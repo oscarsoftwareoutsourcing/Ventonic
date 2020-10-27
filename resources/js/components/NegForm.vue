@@ -212,7 +212,7 @@
                       <!-- Validation messages -->
                       <article class="help-block" v-if="$v.amount.$error">
                         <i class="text-danger" v-if="!$v.amount.required">Dato requerido</i>
-                        <i class="text-danger" v-if="!$v.amount.decimal">Importe inválido</i>
+                        <!--<i class="text-danger" v-if="!$v.amount.decimal">Importe inválido</i>-->
                       </article>
                     </div>
                   </div>
@@ -328,21 +328,17 @@
                       <input
                         name="txtCommission"
                         id="txtCommission"
-                        type="number" step="0.01"
+                        type="text"
                         placeholder="Comisión"
                         class="form-control"
-                        v-model="commission_amount" v-input-mask
-                                                                   data-inputmask="
-                                                                       'alias': 'numeric',
-                                                                       'allowMinus': 'false',
-                                                                       'digits': '2'"
+                        v-model="commission_amount"
                       />
 
                       <!-- Validation messages -->
-                      <article class="help-block" v-if="$v.commission_amount.$error">
+                      <!--<article class="help-block" v-if="$v.commission_amount.$error">
                         <i class="text-danger" v-if="!$v.commission_amount.required">Dato requerido</i>
                         <i class="text-danger" v-if="!$v.commission_amount.decimal">Comisión inválida</i>
-                      </article>
+                      </article>-->
                     </div>
                     <div class="col-md-4">
                         <select id="cboNegCommissionType" name="cboNegCommissionType" class="form-control"
@@ -441,11 +437,11 @@ export default {
       },
       amount: {
         required,
-        decimal,
+        //decimal,
       },
-      commission_amount: {
+      /*commission_amount: {
         decimal,
-      },
+      },*/
     };
 
     if (this.isShared) {
@@ -606,7 +602,7 @@ export default {
     },
     amount: {
       get() {
-        return this.getNegotiation.amount.toString().replace(".", ",");
+        return this.getNegotiation.amount.toString().replace(/[^0-9,.]/, '').replace(".", ",");
       },
       set(val) {
         this.getNegotiation.amount = val;
@@ -623,7 +619,7 @@ export default {
     commission_amount: {
       get() {
         return (typeof(this.getNegotiation.commission_amount) !== "undefined")
-               ? this.getNegotiation.commission_amount.toString().replace(".", ",") : 0;
+               ? this.getNegotiation.commission_amount.toString().replace(/[^0-9,.]/, '').replace(".", ",") : 0;
       },
       set(val) {
         this.getNegotiation.commission_amount = val;
