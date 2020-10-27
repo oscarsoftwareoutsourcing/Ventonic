@@ -40,8 +40,8 @@
                                     <!-- Selección del proveedor de correo a configurar -->
                                     <tab-content title="Proveedor de correo" :before-change="validateWizardFirst">
                                         <div class="row">
-                                            <div class="col-3" v-for="provider in providers">
-                                                <div class="custom-control custom-radio">
+                                            <div class="col-12" v-for="provider in providers">
+                                                <div class="custom-control custom-radio text-center">
                                                     <input type="radio" :id="'sel' + provider.name"
                                                            name="providerSelected" :value="provider.name"
                                                            class="custom-control-input" v-model="typeProvider" />
@@ -408,9 +408,9 @@
                 emails_list: [],
                 providers: [
                     { name: "google", image: "/images/email/gmail.jpg" },
-                    { name: "yahoo", image: "/images/email/yahoo.jpg" },
-                    { name: "outlook", image: "/images/email/outlook.png" },
-                    { name: "others", image: "/images/email/otros.jpg" },
+                    //{ name: "yahoo", image: "/images/email/yahoo.jpg" },
+                    //{ name: "outlook", image: "/images/email/outlook.png" },
+                   // { name: "others", image: "/images/email/otros.jpg" },
 
             ],
             typeProvider: "", // tipo de proveedor seleccionado

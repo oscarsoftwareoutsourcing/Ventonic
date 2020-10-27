@@ -137,7 +137,7 @@
                                         </div>
                                         <div class="col-6">
                                             <p class="mb-0">Clientes: <span id="contact_clients">{{$contacts_data['new']['total']}}</span></p>
-                                            <div class="progress progress-bar-danger mt-25">
+                                            <div class="progress progress-bar-secondary mt-25">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="60" aria-valuemax="100" style="width:60%"></div>
                                             </div>
                                         </div>
@@ -155,7 +155,7 @@
                                         </div>
                                         <div class="col-6">
                                             <p class="mb-0">Cerradas: <span id="contact_cerradas">{{$negs['closed']['total']}}</span></p>
-                                            <div class="progress progress-bar-success mt-25">
+                                            <div class="progress progress-bar-info mt-25">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="70" aria-valuemax="100" style="width:70%"></div>
                                             </div>
                                         </div>

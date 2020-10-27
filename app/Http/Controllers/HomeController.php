@@ -43,12 +43,12 @@ class HomeController extends Controller
         // return view('search-result');
         $contacts_data['all'] = self::getContacts($date_term);
         $contacts_data['new'] = self::getContacts($date_term);
-        $contacts_data['lost'] = self::getContacts($date_term, '5');
+        $contacts_data['lost'] = self::getContacts($date_term, '5',true);
         // dd( $contacts_data['lost']);
         $negs['all'] = self::getNegotiations($date_term);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);
         $negs['won'] = self::getNegotiations($date_term, 1, null);
-        $negs['lost'] = self::getNegotiations($date_term, 2, null);
+        $negs['lost'] = self::getNegotiations($date_term, 2, null, true);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
         $negs['comisiones'] = self::getNegotiationsComision($date_term, 1, 6);
         $daysCount = self::getConvDays($date_term);
@@ -73,7 +73,7 @@ class HomeController extends Controller
         $date_term = "7 days ago";
         $contacts_data['all'] = self::getContacts($date_term);
         $contacts_data['new'] = self::getContacts($date_term);
-        $contacts_data['lost'] = self::getContacts($date_term, '5');
+        $contacts_data['lost'] = self::getContacts($date_term, '5', true);
         $negs['all'] = self::getNegotiations($date_term);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);
         $negs['won'] = self::getNegotiations($date_term, 1, null);
@@ -101,11 +101,11 @@ class HomeController extends Controller
         $date_term = "7 days ago";
         $contacts_data['all'] = self::getContacts($date_term);
         $contacts_data['new'] = self::getContacts($date_term);
-        $contacts_data['lost'] = self::getContacts($date_term, '5');
+        $contacts_data['lost'] = self::getContacts($date_term, '5', true);
         $negs['all'] = self::getNegotiations($date_term, null, null);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);
         $negs['won'] = self::getNegotiations($date_term, 1, null);
-        $negs['lost'] = self::getNegotiations($date_term, 2, null);
+        $negs['lost'] = self::getNegotiations($date_term, 2, null,true);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
         $negs['comisiones'] = self::getNegotiationsComision($date_term, 1, 6);
         $daysCount = self::getConvDays($date_term);
@@ -210,22 +210,26 @@ class HomeController extends Controller
         return $date_range;
     }
 
-    public static function getContacts($date, $type = null)
+    public static function getContacts($date, $type = null, $update = null)
     {
         //dd(auth()->user()->id);
         //DB::connection()->enableQueryLog();
+        $date_op = 'created_at';
+        if($update){
+            $date_op = 'updated_at';
+        }
         $date_range = self::getDateRange($date);
-        $contacts = Contact::selectRaw("count(*) as total, DATE_FORMAT(created_at, '%Y-%m-%d') AS day_logged")
+        $contacts = Contact::selectRaw("count(*) as total, DATE_FORMAT(".$date_op.", '%Y-%m-%d') AS day_logged")
             ->where('user_id', auth()->user()->id)
-            ->where('created_at', '>=', $date_range->from)
-            ->where('created_at', '<=', $date_range->to);
+            ->where($date_op, '>=', $date_range->from)
+            ->where($date_op, '<=', $date_range->to);
         if ($type>0) {
             $contacts = $contacts->where('contact_type_id', '=', $type)
-            ->groupBy('created_at')
+            ->groupBy($date_op)
             ->orderBy('day_logged')
             ->get()->toArray();
         } else {
-            $contacts = $contacts->groupBy('created_at')
+            $contacts = $contacts->groupBy($date_op)
             ->orderBy('day_logged')
             ->get()->toArray();
         }
@@ -245,11 +249,11 @@ class HomeController extends Controller
         $date_term = $request->date_range;
         $contacts_data['all'] = self::getContacts($date_term);
         $contacts_data['new'] = self::getContacts($date_term);
-        $contacts_data['lost'] = self::getContacts($date_term, '5');
+        $contacts_data['lost'] = self::getContacts($date_term, '5',true);
         $negs['all'] = self::getNegotiations($date_term);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);
         $negs['won'] = self::getNegotiations($date_term, 1, null);
-        $negs['lost'] = self::getNegotiations($date_term, 2, null);
+        $negs['lost'] = self::getNegotiations($date_term, 2, null, true);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
         $negs['comisiones'] = self::getNegotiationsComision($date_term, 1, 6);
         $daysCount = self::getConvDays($date_term);
@@ -262,26 +266,29 @@ class HomeController extends Controller
         return json_encode(['contacts_data' => $contacts_data, 'negs' => $negs, 'activity' => $activities]);
     }
 
-    public static function getNegotiations($date, $status_id = null, $process_id = null)
+    public static function getNegotiations($date, $status_id = null, $process_id = null, $update = null)
     {
-
-
         // Status_id => process = 3, won = 1,  lost = 2, FALSE = all;
-        
+
+        $date_op = 'created_at';
+        if($update){
+            $date_op = 'updated_at';
+        }
+
         $date_range = self::getDateRange($date);
         $user_id = auth()->user()->id;
 
-        $negs = Negotiation::selectRaw("count(*) as total, SUM(amount) as amount, DATE_FORMAT(created_at, '%Y-%m-%d') AS day_logged");
+        $negs = Negotiation::selectRaw("count(*) as total, SUM(amount) as amount, DATE_FORMAT(".$date_op.", '%Y-%m-%d') AS day_logged");
         if ($status_id) {
             $negs = $negs->where('neg_status_id', $status_id);
         }
         if ($process_id) {
             $negs = $negs->where('neg_process_id', $process_id);
         }
-        $negs = $negs->where('created_at', '>=', $date_range->from)
-            ->where('created_at', '<=', $date_range->to)
+        $negs = $negs->where($date_op, '>=', $date_range->from)
+            ->where($date_op, '<=', $date_range->to)
             ->where('user_id', '=', $user_id)
-            ->groupBy('created_at')
+            ->groupBy($date_op)
             ->orderBy('day_logged')
             ->get()->toArray();
 
@@ -292,6 +299,9 @@ class HomeController extends Controller
         $data['amount'] = array_sum(array_column($negs, 'amount'));
         $data['negs'] = $negs;
 
+         if($update){
+           // dd($data);
+        }
         return $data;
     }
 

@@ -208,7 +208,7 @@
                                         </div>
                                         <div class="col-6">
                                             <p class="mb-0">Comisiones: 1.230€</p>
-                                            <div class="progress progress-bar-warning mt-25">
+                                            <div class="progress progress-bar-info mt-25">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="60" aria-valuemax="100" style="width:60%"></div>
                                             </div>
                                         </div>
@@ -220,7 +220,7 @@
                                         </div>
                                         <div class="col-6">
                                             <p class="mb-0">Cerradas: 7</p>
-                                            <div class="progress progress-bar-success mt-25">
+                                            <div class="progress progress-bar-secondary mt-25">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="90" aria-valuemax="100" style="width:90%"></div>
                                             </div>
                                         </div>
