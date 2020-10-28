@@ -71,20 +71,19 @@
                                                                 :class="{'disabled': page_number===1}">
                                                                 <a class="page-link" @click="page_number-=1">‹</a>
                                                             </li>
-                                                            <li class="number page-item active">
+                                                            <li class="number page-item">
                                                                 <a href="javascript:void(0)" class="page-link">
                                                                     {{ page_number }}
                                                                 </a>
                                                             </li>
-                                                            <li class="number page-item disabled"
-                                                                v-if="paginateLinks(contacts).length > page_number">
+                                                            <li class="number page-item disabled">
                                                                 <a href="javascript:void(0)" class="page-link">
-                                                                    /
+                                                                    de
                                                                 </a>
                                                             </li>
-                                                            <li class="number page-item"
-                                                                v-if="paginateLinks(contacts).length > page_number">
-                                                                <a href="javascript:void(0)" class="page-link">
+                                                            <li class="number page-item">
+                                                                <a href="javascript:void(0)" class="page-link"
+                                                                   @click="page_number=paginateLinks(contacts).length">
                                                                     {{ paginateLinks(contacts).length }}
                                                                 </a>
                                                             </li>
@@ -151,9 +150,11 @@
                 selectedContacts: [],
                 searchContactError: '',
                 searchText: '',
-                page_size: 10,
+                //page_size: 10,
+                page_size: 2,
                 page_number: 1,
-                page_total: 1
+                page_total: 1,
+                hasEllipsis: false,
             }
         },
         props: {
@@ -255,7 +256,9 @@
                 return pages;
             },
             paginateNumber(array, page, index) {
-                //
+                const vm = this;
+
+                vm.hasEllipsis = true;
             },
             hasSelectedContacts() {
                 const vm = this;
