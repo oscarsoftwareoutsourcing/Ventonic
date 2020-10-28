@@ -32,7 +32,7 @@
                 </div>
             </div>
             <h4 v-else>
-                gracias pero ya fue realizada la valoración
+                <span v-if="hasRatedMessage">gracias pero ya fue realizada la valoración</span>
             </h4>
         </div>
     </div>
@@ -44,7 +44,8 @@
             return {
                 ratingScore: 0,
                 comment: '',
-                hasRated: false
+                hasRated: false,
+                hasRatedMessage: true,
             }
         },
         props: {
@@ -137,6 +138,8 @@
                             </p>`
                         );
                         $(".alert-rate").show();
+                        vm.hasRated = true;
+                        vm.hasRatedMessage = false;
                     }
                 });
             }

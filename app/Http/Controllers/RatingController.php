@@ -146,21 +146,20 @@ class RatingController extends Controller
         if (! $request->hasValidSignature()) {
             abort(401);
         }
-        
-        $user_empre = User::where('email',$from)->first();
+
+        $user_empre = User::where('email', $from)->first();
         //dd($user);
         //if ($user->type == "E") {
-        if($user_empre->count()){
+        if ($user_empre) {
             if ($user_empre->type == "E") {
-                    $empre_profile = CompanyProfile::where('user_id',$user_empre->id)->first();
-                    if ($empre_profile->dni_rif == null) {
+                $empre_profile = CompanyProfile::where('user_id', $user_empre->id)->first();
+                if ($empre_profile->dni_rif == null) {
                     $request->session()->flash('status', 'Es necesario rellenar el campo "N.I.F." en la sección "Mi perfil" para poder realizar valoraciones a vendedores');
                     return redirect()->route('perfil.index');
-                    }
-                
+                }
             } else {
                 $request->session()->flash('status', 'Solo las empresas pueden realizar valoraciones a los vendedores');
-                    return redirect()->route('perfil.index');
+                return redirect()->route('perfil.index');
             }
         } else {
             abort(401);
@@ -172,22 +171,22 @@ class RatingController extends Controller
     public function storeRate(Request $request)
     {
         //valido si existe la votacion
-        $isRating = Rating::where('from_rate_email',$request->from_rate_email)
+        $isRating = Rating::where('from_rate_email', $request->from_rate_email)
                         ->where('user_id', $request->user_id)->get();
 
-                        
-        if($isRating->count())  {
+
+        if ($isRating->count()) {
             //dd($isRating);
-        }  else {
+        } else {
             Rating::create([
             'from_rate_email' => $request->from_rate_email,
             'comment' => $request->comment,
             'score' => $request->rating_score,
             'user_id' => $request->user_id
             ]);
-        }               
-        
-        
+        }
+
+
         $redirectUrl = route('login', ['type' => 'empresa']);
         if (auth()->check()) {
             $redirectUrl = route('home');
