@@ -150,7 +150,7 @@
         <div v-else>
             <p class="text-center">
                 Para poder enviar emails desde Ventonic tiene que vincular su cuenta de Gmail.<br>
-                Abra la sección Email para iniciar el asistente de sincronización.
+               
             </p>
             <div class="mt-2 row">
                 <div class="col-12">
