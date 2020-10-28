@@ -39,19 +39,23 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" value="5" v-model="rating"  />
+                                            <input class="form-check-input" type="checkbox" value="5" v-model="ratings"  />
                                             <label class="form-check-label">5 estrellas</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" value="4" v-model="rating" />
+                                            <input class="form-check-input" type="checkbox" value="4" v-model="ratings" />
                                             <label class="form-check-label">4 o más de 4 estrellas</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" value="3" v-model="rating" />
+                                            <input class="form-check-input" type="checkbox" value="3" v-model="ratings" />
                                             <label class="form-check-label">3 o más de 3 estrellas</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" value="2" v-model="rating" />
+                                            <input class="form-check-input" type="checkbox" value="2" v-model="ratings" />
+                                            <label class="form-check-label">2 o más de 2 estrellas</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="1" v-model="ratings" />
                                             <label class="form-check-label">Menos de 2 estrellas</label>
                                         </div>
                                     </div>
@@ -180,6 +184,7 @@ export default {
             surveys: [], //Encuesta
             filters: [],
             sellers: [],
+            ratings: [],
             token: csrf_token,
             paginate: ['sellersList']
         };
@@ -202,12 +207,17 @@ export default {
             if (vm.searchSeller) {
                 vm.getUsers();
             }
+        },
+        ratings: function() {
+            const vm = this;
+            vm.getUsers();
         }
     },
     methods: {
         async search(data) {
             const vm = this;
-            if (vm.filters.length > 0 || vm.searchSeller || vm.status || vm.statusDisconnected) {
+            vm.sellers = data;
+            if (vm.filters.length > 0 || vm.ratings.length > 0 || vm.searchSeller || vm.status || vm.statusDisconnected) {
                 if (vm.filters.length > 0) {
                     /** Si se ha filtrado por respuestas en encuesta */
                     var filteredSellers = await axios.post("/filtro", {
@@ -216,6 +226,30 @@ export default {
                         vm.sellers = response.data;
                     }).catch((error) => {
                         console.error(error);
+                    });
+                }
+                if (vm.ratings.length > 0) {
+                    let dataSeller = (vm.sellers.length > 0) ? vm.sellers : data;
+                    vm.sellers = dataSeller.filter(function(seller) {
+                        let score = 0, countRatings = 0, totalScore = 0;
+                        if (seller.ratings !== null && seller.ratings.length > 0) {
+                            seller.ratings.forEach(function(rate) {
+                                /** Sumatoria de valoraciones */
+                                score += rate.score;
+                                /** número de valoraciones */
+                                countRatings++;
+                            });
+                            /** @type {float} Promedio de valoraciones */
+                            totalScore = score / countRatings;
+                        }
+
+                        return (
+                            (vm.ratings.includes("5") && totalScore >= 5) ||
+                            (vm.ratings.includes("4") && totalScore >= 4 && totalScore <= 4.99) ||
+                            (vm.ratings.includes("3") && totalScore >= 3 && totalScore <= 3.99) ||
+                            (vm.ratings.includes("2") && totalScore >= 2 && totalScore <= 2.99) ||
+                            (vm.ratings.includes("1") && totalScore <= 1.99)
+                        );
                     });
                 }
                 if (vm.searchSeller) {
@@ -245,8 +279,8 @@ export default {
                     });
                 }
             }
-            else {
-                vm.sellers = data;
+            if (vm.sellers.length > 0) {
+                vm.paginate.sellersList.page = 0;
             }
         },
         getOptions(options) {

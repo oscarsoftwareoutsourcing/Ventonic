@@ -42,8 +42,8 @@ class HomeController extends Controller
         //$questions = $this->getQuestions();
         // return view('search-result');
         $contacts_data['all'] = self::getContacts($date_term);
-        $contacts_data['new'] = self::getContacts($date_term,'1',true);
-        $contacts_data['lost'] = self::getContacts($date_term, '5',true);
+        $contacts_data['new'] = self::getContacts($date_term, '1', true);
+        $contacts_data['lost'] = self::getContacts($date_term, '5', true);
         // dd( $contacts_data['lost']);
         $negs['all'] = self::getNegotiations($date_term);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);
@@ -72,7 +72,7 @@ class HomeController extends Controller
         //validamos si esta en demo
         $date_term = "7 days ago";
         $contacts_data['all'] = self::getContacts($date_term);
-        $contacts_data['new'] = self::getContacts($date_term,'1',true);
+        $contacts_data['new'] = self::getContacts($date_term, '1', true);
         $contacts_data['lost'] = self::getContacts($date_term, '5', true);
         $negs['all'] = self::getNegotiations($date_term);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);
@@ -100,12 +100,12 @@ class HomeController extends Controller
 
         $date_term = "7 days ago";
         $contacts_data['all'] = self::getContacts($date_term);
-        $contacts_data['new'] = self::getContacts($date_term,'1',true);
+        $contacts_data['new'] = self::getContacts($date_term, '1', true);
         $contacts_data['lost'] = self::getContacts($date_term, '5', true);
         $negs['all'] = self::getNegotiations($date_term, null, null);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);
         $negs['won'] = self::getNegotiations($date_term, 1, null);
-        $negs['lost'] = self::getNegotiations($date_term, 2, null,true);
+        $negs['lost'] = self::getNegotiations($date_term, 2, null, true);
         $negs['closed'] = self::getNegotiations($date_term, null, 6);
         $negs['comisiones'] = self::getNegotiationsComision($date_term, 1, 6);
         $daysCount = self::getConvDays($date_term);
@@ -161,7 +161,7 @@ class HomeController extends Controller
 
     public function getUsers($take = 20)
     {
-        return response()->json(User::where('type', 'V')->get());
+        return response()->json(User::with('ratings')->where('type', 'V')->get());
     }
 
     public function filterSearch(Request $request)
@@ -215,7 +215,7 @@ class HomeController extends Controller
         //dd(auth()->user()->id);
         //DB::connection()->enableQueryLog();
         $date_op = 'created_at';
-        if($update){
+        if ($update) {
             $date_op = 'updated_at';
         }
         $date_range = self::getDateRange($date);
@@ -248,8 +248,8 @@ class HomeController extends Controller
     {
         $date_term = $request->date_range;
         $contacts_data['all'] = self::getContacts($date_term);
-        $contacts_data['new'] = self::getContacts($date_term,'1',true);
-        $contacts_data['lost'] = self::getContacts($date_term, '5',true);
+        $contacts_data['new'] = self::getContacts($date_term, '1', true);
+        $contacts_data['lost'] = self::getContacts($date_term, '5', true);
         $negs['all'] = self::getNegotiations($date_term);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);
         $negs['won'] = self::getNegotiations($date_term, 1, null);
@@ -271,7 +271,7 @@ class HomeController extends Controller
         // Status_id => process = 3, won = 1,  lost = 2, FALSE = all;
 
         $date_op = 'created_at';
-        if($update){
+        if ($update) {
             $date_op = 'updated_at';
         }
 
@@ -292,20 +292,21 @@ class HomeController extends Controller
             ->orderBy('day_logged')
             ->get()->toArray();
 
-            //if($process_id==6 && $date=='90 days ago') {
-            //    dd($negs);
-            //}
+        //if($process_id==6 && $date=='90 days ago') {
+        //    dd($negs);
+        //}
         $data['total'] = array_sum(array_column($negs, 'total'));
         $data['amount'] = array_sum(array_column($negs, 'amount'));
         $data['negs'] = $negs;
 
-         if($update){
-           // dd($data);
+        if ($update) {
+            // dd($data);
         }
         return $data;
     }
 
-    public static function getNegotiationsComision($date, $status_id = null, $process_id = null) {
+    public static function getNegotiationsComision($date, $status_id = null, $process_id = null)
+    {
         $date_range = self::getDateRange($date);
         $user_id = auth()->user()->id;
 
@@ -334,7 +335,7 @@ class HomeController extends Controller
                 $amount = $neg->amount;
                 $total = 0;
                 $total = $neg->total;
-                if($type=='M') {
+                if ($type=='M') {
                     $comision +=$amount;
                 } else {
                     $comision += ($amount * $total)/100;
@@ -343,7 +344,6 @@ class HomeController extends Controller
         }
         //dd($comision);
         return $comision;
-
     }
 
     public static function getConvDays($date)
