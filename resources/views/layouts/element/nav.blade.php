@@ -84,7 +84,7 @@
                                 @endempty
                             </span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" id="usermenu-nav">
+                        <div class="dropdown-menu dropdown-menu-right superior" id="usermenu-nav">
 
                             <a class="dropdown-item" href="{{ route('perfil.index') }}"><i class="fa fa-id-badge"></i> Mi Perfil</a>
                              @if (auth()->user()->email_verified_at !== null)

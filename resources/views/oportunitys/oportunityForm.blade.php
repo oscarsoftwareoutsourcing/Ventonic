@@ -12,7 +12,7 @@
         </div>
 
         <div class="row">
-          <div class="new-header mb-1">
+          <div class="mb-1 new-header">
             <span  class="title">Mis Oportunidades</span>
           </div>
         </div>
@@ -35,7 +35,7 @@
                                   </a>
                                 </span>
                                     <div class="form-row">
-                                      <div class="col-md-8 col-8 mb-3">
+                                      <div class="mb-3 col-md-8 col-8">
                                         <label for="validationTooltip01">Titulo<span class="obligatorio">*</span></label>
                                         <input type="text" class="form-control  @error('title') is-invalid @enderror"
                                         name="title" id="title" placeholder="titulo"
@@ -57,13 +57,13 @@
                                     </div>
 
                                     <div class="form-row">
-                                        <div class="col-md-4 col-12 mb-3">
+                                        <div class="mb-3 col-md-4 col-12">
                                           <label for="validationTooltip01">Empresa<span class="obligatorio">*</span></label>
                                           <input type="text" class="form-control" name="oportunity_id" placeholder="oportunity_id" value="{{$oportunity->id ?? ''}}" hidden>
                                           <input type="text" class="form-control" name="empresa" placeholder="Empresa" value="{{\Auth::user()->name}}" required disabled>
                                         </div>
 
-                                        <div class="col-md-4 col-12 mb-3">
+                                        <div class="mb-3 col-md-4 col-12">
                                           <label for="cargo">Cargo<span class="obligatorio">*</span></label>
                                           <input type="text" class="form-control @error('cargo') is-invalid @enderror"
                                           name="cargo" value="{{$oportunity->cargo ??  old('cargo')}}" placeholder="Cargo"
@@ -73,7 +73,7 @@
                                           @enderror
                                         </div>
 
-                                        <div class="col-md-4 col-12 mb-3">
+                                        <div class="mb-3 col-md-4 col-12">
                                           <label for="validationTooltip03">Ubicación<span class="obligatorio">*</span></label>
                                           <input type="text" class="form-control @error('ubication') is-invalid @enderror" name="ubication" placeholder="Ciudad, Provincia, Pais"
                                           value="{{$oportunity->ubication ??  old('ubication')}}"  id="ubication" title="La ubicación es requerida">
@@ -85,7 +85,7 @@
                                     </div>
 
                                     <div class="form-row">
-                                        <div class="col-md-8 col-12 mb-3">
+                                        <div class="mb-3 col-md-8 col-12">
                                           <label for="validationTooltip01">Función laboral (añade hasta 3)<span class="obligatorio">*</span></label>
                                           <select class="select2 form-control max-length @error('functions') is-invalid @enderror" name="functions[]" id="functions" multiple="multiple">
                                             @foreach($jobFunctions as $jobFunction)
@@ -100,7 +100,7 @@
                                           @enderror
                                         </div>
 
-                                        <div class="col-md-4 col-12 mb-3">
+                                        <div class="mb-3 col-md-4 col-12">
                                           <label for="validationTooltip02">Tipo de Empleo<span class="obligatorio">*</span></label>
                                           <select class="form-control  @error('jobType') is-invalid @enderror" id="jobType" name="jobType">
                                             @foreach($jobTypes as $jobType)
@@ -114,7 +114,7 @@
                                     </div>
 
                                     <div class="form-row">
-                                        <div class="col-md-8 col-12 mb-3">
+                                        <div class="mb-3 col-md-8 col-12">
                                           <label for="validationTooltip01">Sector de la empresa (selecciona hasta 3)<span class="obligatorio">*</span></label>
                                           <select class="select2 form-control max-length @error('sectors') is-invalid @enderror" name="sectors[]" id="sectors" multiple="multiple">
                                             @foreach($sectorsAll as $sector)
@@ -127,7 +127,7 @@
 
                                         </div>
 
-                                        <div class="col-md-4 col-12 mb-3">
+                                        <div class="mb-3 col-md-4 col-12">
                                           <label for="validationTooltip02">Modaliad de Trabajo<span class="obligatorio">*</span></label>
                                           <select class="form-control @error('ubicationOportunity') is-invalid @enderror" name="ubicationOportunity">
                                             @foreach($ubicationOportunitys as $ubicationOportunity)
@@ -141,7 +141,7 @@
 
                                     </div>
                                     <div class="form-row">
-                                      <div class="col-md-4 col-12 mb-3">
+                                      <div class="mb-3 col-md-4 col-12">
                                         <div class="row">
                                           <div class="col-8">
                                             <label for="amount">Valor del producto/servicio</label>
@@ -151,7 +151,7 @@
                                             <div class="alert alert-danger">{{ $message }}</div>
                                           @enderror
                                           </div>
-                                          <div class="col-2 my-2">
+                                          <div class="my-2 col-2">
                                             <a href="#" data-title="Valor" data-content="Importe de los productos/servicios que se quieren vender" data-placement="top" id="pop1">
                                                     <i class="feather icon-info mr-50 font-medium-3"></i>
                                                   </a>
@@ -160,7 +160,7 @@
                                       </div>
 
 
-                                      <div class="col-md-4 col-12 mb-3">
+                                      <div class="mb-3 col-md-4 col-12">
                                           <div class="row">
                                             <div class="col-8">
                                               <label for="leads">Nº de Leads</label>
@@ -170,7 +170,7 @@
                                                   <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="col-2 my-2">
+                                            <div class="my-2 col-2">
                                               <a href="#" data-title="Leads" data-content="Número de Leads generados por la empresa para este producto/servicio." data-placement="top" id="pop2">
                                                     <i class="feather icon-info mr-50 font-medium-3"></i>
                                               </a>
@@ -178,7 +178,7 @@
                                           </div>
                                       </div>
 
-                                         <div class="col-md-4 col-12 mb-3 my-2">
+                                         <div class="my-2 mb-3 col-md-4 col-12">
                                            <div class="row">
                                             <div class="col-6">
                                               <fieldset class="checkbox">
@@ -204,7 +204,7 @@
                                     </div>
 
                                     <div class="form-row">
-                                        <div class="col-md-12 col-12 mb-3">
+                                        <div class="mb-3 col-md-12 col-12">
                                           <label for="validationTooltip01">Descripcion del empleo<span class="obligatorio">*</span></label>
                                           <textarea class="form-control ckeditor @error('description') is-invalid @enderror" name="description" rows="3">{{$oportunity->description ?? old('description')}}</textarea>
                                           @error('description')
@@ -215,7 +215,7 @@
 
                                     <div class="form-row">
                                       {{-- Esperando me indiquen el flujo parar programarlo --}}
-                                      <div class="col-md-12 col-12 mb-3">
+                                      <div class="mb-3 col-md-12 col-12">
                                         <label for="validationTooltip01">Añade actitudes como palabras claves para que tu oportunidad llegue a los vendedores adecuados</label>
                                         <select class="select2 form-control @error('skills') is-invalid @enderror" name="skills[]" multiple="multiple">
                                           @foreach($aptitudes as $aptitud)
@@ -229,7 +229,7 @@
                                     </div>
 
                                 <div class="form-row">
-                                  <div class="col-md-12 col-12 mb-3">
+                                  <div class="mb-3 col-md-12 col-12">
                                     <label for="validationTooltip01">¿Cómo quieres recibir las solicitudes?</label>
                                     <div class="vs-radio-con vs-radio-primary">
                                       <input type="radio" {{$oportunity ? 'checked' : ''}}>
@@ -243,8 +243,8 @@
                                   </div>
                                 </div>
 
-                                <div class="form-row">
-                                  <div class="col-md-12 col-12 mb-3">
+                                <div class="form-row" style="display: none;">
+                                  <div class="mb-3 col-md-12 col-12">
                                     <label for="validationTooltip01"></label>
                                     <div class="vs-radio-con vs-radio-primary">
                                       <input type="radio" {{$oportunity ? 'checked':''}}>
@@ -260,9 +260,9 @@
 
                                 @if($oportunity!=NULL)
                                 <div class="form-row">
-                                  <div class="col-md-12 col-12 mb-3 rounded border border-secondary">
+                                  <div class="mb-3 border rounded col-md-12 col-12 border-secondary">
                                     <label class="mb-1" for="validationTooltip01">Elige un nuevo estatus para tu publicacion</label>
-                                    <select class="form-control mb-2" name="statusOportunity">
+                                    <select class="mb-2 form-control" name="statusOportunity">
                                       @foreach($statusOportunity as $status)
                                         <option value="{{$status->id}}" {{$oportunity && $status->id==$oportunity->status_id ? 'selected' : ''}}>{{App\StatusOportunity::getStatus((int)$status->id)}}</option>
                                       @endforeach
@@ -287,11 +287,11 @@
 
                                           <div class="" id="botonera">
 
-                                          <button type="submit" class="btn bg-gradient-primary mb-1 waves-effect waves-light actions" name="{{$oportunity ? 'newstatus' : 'borrador'}}" value="{{$oportunity ? 'newstatus' : 'borrador'}}">{{$oportunity ? 'GUARDAR' : 'BORRADOR'}}</button>
+                                          <button type="submit" class="mb-1 btn bg-gradient-primary waves-effect waves-light actions" name="{{$oportunity ? 'newstatus' : 'borrador'}}" value="{{$oportunity ? 'newstatus' : 'borrador'}}">{{$oportunity ? 'GUARDAR' : 'BORRADOR'}}</button>
 
                                           @if(!isset($oportunity->id))
-                                          <button type="submit" class="btn bg-gradient-primary mb-1 waves-effect waves-light actions" name="previa" value="previa">VISTA PREVIA</button>
-                                          <button type="submit" class="btn bg-gradient-primary mb-1 waves-effect waves-light actions" name="publicar" value="publicar">PUBLICAR</button>
+                                          <button type="submit" class="mb-1 btn bg-gradient-primary waves-effect waves-light actions" name="previa" value="previa">VISTA PREVIA</button>
+                                          <button type="submit" class="mb-1 btn bg-gradient-primary waves-effect waves-light actions" name="publicar" value="publicar">PUBLICAR</button>
 
                                           @endif
                                         </div>
