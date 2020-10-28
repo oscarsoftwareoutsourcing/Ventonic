@@ -156,6 +156,10 @@ class ChatController extends Controller
     {
         $user = User::find($id);
 
+        if (!request()->ajax()) {
+            $is_js = false;
+        }
+
         /** @var object Determina la sala de chat a usar */
         $userChatRoom = ChatRoomUser::with(['user'])->where('user_id', $user->id)->whereHas('chatRoom', function ($query) {
             $query->whereHas('chatRoomUsers', function ($q) {
