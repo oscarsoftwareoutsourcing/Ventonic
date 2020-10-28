@@ -30,7 +30,7 @@
                             </div>
                             <form-wizard title="Solicitud de valoración" @on-complete="sendRequest"
                                          nextButtonText="Siguiente" backButtonText="Atrás" step-size="sm"
-                                         finishButtonText="Enviar Solicitud" subtitle="">
+                                         finishButtonText="Enviar Solicitud" subtitle="" ref="wizardRequest">
                                 <tab-content title="Inicio">
                                     <p>
                                         A través de este asistente podrás solicitar a clientes con los que has trabajado que publiquen una valoración sobre tus servicios
@@ -230,7 +230,8 @@
                 }).catch(error => {
                     console.error(error);
                     vm.$loading(false);
-                })
+                });
+                vm.$refs.wizardRequest.reset();
             },
             paginate(array) {
                 const vm = this;

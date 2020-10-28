@@ -144,10 +144,10 @@
                                         </div>
                                         <div v-else>Perfil No Disponible</div>
                                         <div class="float-right my-1 mr-auto">
-                                        <rating-score :to-rate="false" :user="seller.id" :is-detail="true"
+                                        <rating-score :to-rate="false" :user="seller" :is-detail="true"
                                               :inactive-color="'#10163A'" :active-color="'#0086FA'" :star-size="16"
                                               :border-width="2" :border-color="'#0086FA'"></rating-score>
-                                        </div>      
+                                        </div>
                                     </div>
                                 </div>
                             </div>
