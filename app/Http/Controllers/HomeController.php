@@ -42,7 +42,7 @@ class HomeController extends Controller
         //$questions = $this->getQuestions();
         // return view('search-result');
         $contacts_data['all'] = self::getContacts($date_term);
-        $contacts_data['new'] = self::getContacts($date_term);
+        $contacts_data['new'] = self::getContacts($date_term,'1',true);
         $contacts_data['lost'] = self::getContacts($date_term, '5',true);
         // dd( $contacts_data['lost']);
         $negs['all'] = self::getNegotiations($date_term);
@@ -72,7 +72,7 @@ class HomeController extends Controller
         //validamos si esta en demo
         $date_term = "7 days ago";
         $contacts_data['all'] = self::getContacts($date_term);
-        $contacts_data['new'] = self::getContacts($date_term);
+        $contacts_data['new'] = self::getContacts($date_term,'1',true);
         $contacts_data['lost'] = self::getContacts($date_term, '5', true);
         $negs['all'] = self::getNegotiations($date_term);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);
@@ -100,7 +100,7 @@ class HomeController extends Controller
 
         $date_term = "7 days ago";
         $contacts_data['all'] = self::getContacts($date_term);
-        $contacts_data['new'] = self::getContacts($date_term);
+        $contacts_data['new'] = self::getContacts($date_term,'1',true);
         $contacts_data['lost'] = self::getContacts($date_term, '5', true);
         $negs['all'] = self::getNegotiations($date_term, null, null);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);
@@ -248,7 +248,7 @@ class HomeController extends Controller
     {
         $date_term = $request->date_range;
         $contacts_data['all'] = self::getContacts($date_term);
-        $contacts_data['new'] = self::getContacts($date_term);
+        $contacts_data['new'] = self::getContacts($date_term,'1',true);
         $contacts_data['lost'] = self::getContacts($date_term, '5',true);
         $negs['all'] = self::getNegotiations($date_term);
         $negs['in_process'] = self::getNegotiations($date_term, 3, null);

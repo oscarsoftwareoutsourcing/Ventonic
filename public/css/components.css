@@ -68,12 +68,12 @@ html body .content.app-content .content-help {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    z-index: 100;
+    /*z-index: 100;*/
     position: absolute;
 }
 .link-help{
    margin-left: auto;
-   z-index: 100;
+   /*z-index: 100;*/
 }
 
 
@@ -92,6 +92,10 @@ html body .content.app-content .content-help2 {
 .link-help2 {
     margin-left: auto;
     z-index: 100;
+}
+
+.superior {
+  z-index: 100 !important;
 }
 
 

@@ -220,6 +220,8 @@ class OportunyController extends Controller
 
     public function store(Request $request)
     {
+         
+
         $request->validate([
             'title' => 'required|string|max:255',
             'cargo' => 'required|string|max:255',
@@ -228,16 +230,23 @@ class OportunyController extends Controller
             'jobType' => 'required',
             'ubicationOportunity' => 'required',
             'description' => 'required|string',
-            'skills' => 'required',
+            //'skills' => 'required',
             'sectors' => 'required',
             'amount' => 'numeric|min:0',
             'leads' => 'numeric|min:0',
 
         ]);
-
+           
         $functions=implode(',', $request->input('functions'));
         $sectors=implode(',', $request->input('sectors'));
-        $skills=implode(',', $request->input('skills'));
+        //dd($request);
+        if($request->input('skills')){
+            $skills=implode(',', $request->input('skills'));
+         } else {
+            $skills='1';
+         }
+
+        
 
         if ($request->has('publicar')) {
             $estatus=2;
@@ -323,7 +332,7 @@ class OportunyController extends Controller
             'jobType' => 'required',
             'ubicationOportunity' => 'required',
             'description' => 'required|string',
-            'skills' => 'required',
+            //'skills' => 'required',
             'sectors' => 'required',
             'amount' => 'numeric|min:0',
             'leads' => 'numeric|min:0',
@@ -331,7 +340,12 @@ class OportunyController extends Controller
 
         $functions=implode(',', $request->input('functions'));
         $sectors=implode(',', $request->input('sectors'));
-        $skills=implode(',', $request->input('skills'));
+        //$skills=implode(',', $request->input('skills'));
+        if($request->input('skills')){
+            $skills=implode(',', $request->input('skills'));
+         } else {
+            $skills='1';
+         }
 
         if ($request->has('publicar')) {
             $estatus=2;
