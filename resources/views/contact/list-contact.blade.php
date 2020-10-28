@@ -78,7 +78,7 @@
                                                                        class="custom-control-input" value="gContact" checked/>
                                                                 <label class="custom-control-label" for="googleContact">
                                                                     <img src="/images/contact/google-contacts.png"
-                                                                         alt="Google Contacts" class="img-sel img-fluid"/>
+                                                                         alt="Google Contacts" class="img-fluid"/>
                                                                     @if ($gContact)
                                                                         <div class="row">
                                                                             <div class="col-12">
