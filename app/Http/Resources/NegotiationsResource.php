@@ -34,16 +34,17 @@ class NegotiationsResource extends JsonResource
                 'sharedWith' => getSharedUsers($this->related_users),
             ],
             'owner' => $this->user,
+            'commission_type' => $this->commission_type,
+            'commission_amount' => $this->commission_amount,
         ];
     }
-
 }
 
-function getSharedUsers($arr) {
-
-    $finalArr = array();
+function getSharedUsers($arr)
+{
+    $finalArr = [];
     foreach ($arr as $a) {
-        $newArr = array();
+        $newArr = [];
         $newArr['id'] = $a['id'];
         $newArr['email'] = $a['email'];
         $newArr['name'] = $a['name'];
@@ -56,9 +57,9 @@ function getSharedUsers($arr) {
     return $finalArr;
 }
 
-function getGroups($arr) {
-
-    $finalArr = array();
+function getGroups($arr)
+{
+    $finalArr = [];
     foreach ($arr as $a) {
         foreach ($a['related_groups'] as $g) {
             array_push($finalArr, $g['group_id']);

@@ -282,7 +282,7 @@
                             class="form-control col-10"
                             v-model="groupIds[index].id"
                           >
-                            <option :value="null">- Ecoger un contacto -</option>
+                            <option :value="null">- Ecoger un grupo -</option>
                             <option
                               v-for="(group, index) in getUserGroups"
                               :key="index"
