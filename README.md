@@ -91,11 +91,6 @@ Se debe tener en cuenta las siguientes dependencias
 
 You might also want to check `phpinfo()` if the extension is enabled.
 
-2. Now install the Laravel IMAP package by running the following command:
-
-```shell
-composer require webklex/laravel-imap
-```
 
 ## Para la configuracion del chat se debe tener en cuenta
 
