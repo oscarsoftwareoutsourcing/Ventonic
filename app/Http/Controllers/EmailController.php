@@ -632,6 +632,8 @@ class EmailController extends Controller
         $emailSetting = EmailSetting::where('user_id', $user->id)->first();
 
         /** Guarda el mensaje en la carpeta de borradores */
+
+        
         /*EmailMessage::create([
             'message_id' => Crypt::encryptString((string)$user->id . $now),
             'message_nro' => ($messagesSend) ? ((int)$messagesSend->mesage_nro + 1) : 1,
