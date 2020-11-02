@@ -470,7 +470,7 @@ class EmailController extends Controller
                 'smtp_port'    => $emailSetting->outgoing_server_port,
                 'smtp_username'  => $emailSetting->username,
                 'smtp_password'  => Crypt::decryptString($emailSetting->password),
-                'smtp_encryption'  => 'ssl',
+                'smtp_encryption'  => 'tls',
                 'from_email'    => $emailSetting->email,
                 'from_name'    => $user->name,
             ];
