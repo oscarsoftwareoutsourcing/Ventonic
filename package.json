@@ -34,7 +34,7 @@
         "emojionearea": "^3.4.2",
         "es6-promise": "^4.2.8",
         "inputmask": "^5.0.5",
-        "moment": "^2.27.0",
+        "moment": "^2.29.4",
         "select2": "^4.0.13",
         "toastr": "^2.1.4",
         "vue-chat-scroll": "^1.4.0",
